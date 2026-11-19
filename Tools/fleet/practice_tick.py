@@ -126,6 +126,68 @@ def refresh_screen(note=""):
 LANE_ORDER = ("lora", "4b")     # 训好的本地适配器优先，基座兜底；模型名一源在 social_comment_gen.LANES
 
 
+PERSONAS = os.path.join(ROOT, "cph4", "fleet", "social", "SEGMENT-PERSONAS-v1.json")
+
+
+def persona_line(sid):
+    """把"这群人怎么说话"压成一行提示词（来自实测画像 + 规格的语义约束）。
+
+    只给可执行的硬约束与禁忌，不写形容词堆砌：实测告诉我们长度和 emoji 密度，
+    规格告诉我们称呼与雷区，两边各取所长。
+    """
+    if not sid:
+        return ""
+    try:
+        doc = json.load(open(PERSONAS, encoding="utf-8"))
+        p = (doc.get("segments") or {}).get(sid) or {}
+        g = p.get("gen") or {}
+        bits = []
+        if g.get("tone"):
+            bits.append("语气：%s" % g.get("tone"))
+        if g.get("address"):
+            bits.append("称呼：%s" % g.get("address"))
+        if int(g.get("emoji_max") or 0) == 0:
+            bits.append("不要 emoji")
+        if p.get("dont"):
+            bits.append("别做：%s" % "、".join(p["dont"][:2]))
+        return ("（你是%s：%s）" % (p.get("name") or sid, "；".join(bits))) if bits else ""
+    except Exception:
+        return ""
+
+
+def pick_persona(title, desc="", k=0):
+    """选"这条评论是谁说的"，返回 (段id, 字数带)。段必须 n>=60（不足就是拿噪声当习惯）。
+
+    选择顺序：① 视频标题/简介命中的段（谁在这条视频下说话最可能）→
+              ② 轮转其他够料的段（避免每条都用同一副面孔）。
+    带子取实测 P10-P90 并夹到 [8, 90]：太窄模型永远不过、太宽等于没约束。
+    """
+    try:
+        doc = json.load(open(PERSONAS, encoding="utf-8"))
+    except Exception:
+        return "", (10, 20)
+    segs = {k: v for k, v in (doc.get("segments") or {}).items()
+            if v and not v.get("insufficient") and (v.get("n") or 0) >= 60}
+    if not segs:
+        return "", (10, 20)
+    hit = ""
+    try:
+        import segments as sg
+        r = sg.classify((title or "") + " " + (desc or ""), sg.load_spec())
+        for cand in [r.get("primary")] + list(r.get("secondary") or []):
+            if cand in segs:
+                hit = cand
+                break
+    except Exception:
+        pass
+    sid = hit or sorted(segs, key=lambda x: -(segs[x].get("n") or 0))[k % max(1, len(segs))]
+    g = (segs[sid].get("gen") or {}).get("len") or [10, 20]
+    lo, hi = max(8, int(g[0] or 10)), min(90, int(g[1] or 20))
+    if hi <= lo:
+        lo, hi = 10, 20
+    return sid, (lo, hi)
+
+
 def serving_adapter():
     """8788 当前声明在跑什么：适配器路径，或 "base"（ACTIVE mode=base）。
 
@@ -210,21 +272,25 @@ def main():
         return 0
     url, meta = cand[0]
     title = meta["title"]
+    # 4 生成：先定"这条评论是谁说的"（人群画像），再按那群的实测习惯出稿。
+    #   2026-11-19 CEO「分足够多的人群画像和习惯，能应对自如」：全局统一字数带
+    #   等于对所有人说同一种话；而规格里的带子本身也失真（玩梗党实测中位 33 字、
+    #   规格只写 6-18，覆盖率 17%），所以参数一律取 SEGMENT-PERSONAS 的实测值。
+    seg, band = pick_persona(title, meta.get("desc") or "", n)
+    lo, hi = band
     arm = ARMS[n % len(ARMS)]
-
-    # 4 生成（按臂字数带）
-    lo, hi = (10, 20) if arm in ("A", "B", "C") else (25, 90)
     import llm_client as lc
     import comment_taste as ct
     import social_practice as sp
     text, lane_used = "", ""
     for k in range(8):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k)
+        p += persona_line(seg)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
         t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
             continue
-        if ct.score(t)["verdict"] != "PASS":
+        if ct.score(t, seg=seg or None)["verdict"] != "PASS":
             continue
         if not sp.safe_to_send(t, title)[0]:
             continue
@@ -245,7 +311,7 @@ def main():
         return 0
     # 车道落这一行：事后要能回答"这条评论是适配器说的还是基座说的"
     log({"action": "lane", "lane": lane_used, "serving": serving_adapter(),
-         "rpid": res.get("rpid"), "arm": arm})
+         "rpid": res.get("rpid"), "arm": arm, "persona": seg})
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
     print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
           % (res.get("rpid"), res.get("visible"), lane_used))

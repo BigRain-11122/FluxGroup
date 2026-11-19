@@ -424,11 +424,26 @@ def one_cycle(st, dry=False):
         o2, tot, time.time() - start, note)
 
 
+def persona_gap_line():
+    """画像可用段与缺口——采集要知道"该去哪种视频下捞人"，不能只报总量。"""
+    try:
+        d = json.load(open(os.path.join(SOCIAL, "SEGMENT-PERSONAS-v1.json"), encoding="utf-8"))
+        segs = d.get("segments") or {}
+        ok = [k for k, v in segs.items() if v and not v.get("insufficient")]
+        short = sorted(((v.get("n") or 0), k) for k, v in segs.items()
+                       if v and v.get("insufficient"))
+        tail = "；缺料段：" + ", ".join("%s(%d)" % (k, n) for n, k in short[:4]) if short else ""
+        return "%d/%d 段可用（n≥%d）%s" % (len(ok), len(segs), (d.get("min_n") or 60), tail)
+    except Exception:
+        return "画像件缺失（跑 segment_personas.py）"
+
+
 def write_screen(last, st, cnt, tot):
     L = ["# 养号线 24x7 自驱循环 %s" % now(), "",
          "- 上轮动作：**%s** — %s" % last,
+         "- 画像：%s",
          "- 语料：%d 条过品味闸；各段（门槛 %d）：%s"
-         % (tot, SEG_TARGET, ", ".join("%s=%d" % (k, v) for k, v in
+         % (persona_gap_line(), tot, SEG_TARGET, ", ".join("%s=%d" % (k, v) for k, v in
                                        sorted(cnt.items(), key=lambda x: -x[1])[:8])),
          "- 距上次训练：%.1f 小时（冷却 %.0f 小时）" % (hours_since_train(),
                                               TRAIN_COOLDOWN_S / 3600),
