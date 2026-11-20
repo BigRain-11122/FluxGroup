@@ -47,3 +47,5 @@
 {"ts": "2026-11-20T18:32:04", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
 {"ts": "2026-11-20T18:37:07", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "距上次采集 3 分钟（需 ≥10），错峰避免抢同一个 profile", "secs": 0, "tail": ""}
 {"ts": "2026-11-20T18:37:07", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
+{"ts": "2026-11-20T18:42:09", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "距上次采集 4 分钟（需 ≥10），错峰避免抢同一个 profile", "secs": 0, "tail": ""}
+{"ts": "2026-11-20T18:42:09", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
