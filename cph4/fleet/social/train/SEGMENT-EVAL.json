@@ -1,37 +1,38 @@
 {
- "ts": "2026-11-20T15:47:09",
+ "ts": "2026-11-20T15:50:46",
  "base": [
   {
    "n": 10,
-   "avg": 53.0,
-   "pass_rate": 10,
-   "avg_logic": 7.0,
-   "avg_human": 6.0,
+   "avg": 51.8,
+   "pass_rate": 0,
+   "avg_logic": 6.0,
+   "avg_human": 5.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "peer_pro",
    "sample": [
-    "同行看了就懂，2025 烂歌现象本质是流量算法下工序取舍失衡，当年我们踩的坑都在这点。",
-    "既然火到配位，就别纠结烂好与否，这正是我们剪辑时反复踩过的工序取舍坑。"
-   ]
+    "懂了，2025 版“烂歌”本质就是过度包装掩盖的格调缺失。制作时我们常纠结简单旋律与复杂编曲的取舍，去年某热歌因堆砌失真音色被全网黑，这次你们会侧重哪类作品的工艺优化？",
+    "2025 选歌时，我比你们更纠结工序取舍，踩过的坑也能分享，聊聊具体环节吧。"
+   ],
+   "seg": "peer_pro",
+   "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 73.6,
-   "pass_rate": 70,
-   "avg_logic": 28.0,
-   "avg_human": 8.0,
-   "avg_natural": 20.0,
+   "avg": 55.9,
+   "pass_rate": 20,
+   "avg_logic": 11.5,
+   "avg_human": 7.0,
+   "avg_natural": 19.6,
    "reject": 0,
    "seg": "peer_pro",
    "sample": [
-    "好期待，在b站搞音乐制作和后期剪辑，求pr安装包、素材包和LUT",
-    "老师，这不就是“非专业歌手+专业编曲”的最简单粗暴的套路吗？"
+    "我喜欢你的视频，但是好难听啊",
+    "这个视频出来我就去b站三连上了 有pr素材 有混音师联系方式 有文案素材 总之对直出"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-152218/ckpt300"
+ "adapter": "cph4/fleet/social/train/RUNS/20261120-152218/ckpt300"
 }

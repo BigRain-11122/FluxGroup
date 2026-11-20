@@ -7,12 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV1XETT6ZE2p/",
-        "https://www.bilibili.com/video/BV1GnbpzuExu/",
-        "https://www.bilibili.com/video/BV1YkNT6xEUK/",
-        "https://www.bilibili.com/video/BV1SYp96fEKj/",
-        "https://www.bilibili.com/video/BV1oQsz6TELv/",
-        "https://www.bilibili.com/video/BV1Tg7kztEbt/",
         "https://www.bilibili.com/video/BV1Tesr6tEY4/",
         "https://www.bilibili.com/video/BV1ghsC6MEkG/",
         "https://www.bilibili.com/video/BV1t4Tj65Eng/",
@@ -126,7 +120,13 @@
         "https://www.bilibili.com/video/BV1dmsZ6XE9C/",
         "https://www.bilibili.com/video/BV1cFpi6bEas/",
         "https://www.bilibili.com/video/BV1At421V7Ec/",
-        "https://www.bilibili.com/video/BV1yKWXzaELV/"
+        "https://www.bilibili.com/video/BV1yKWXzaELV/",
+        "https://www.bilibili.com/video/BV1cU421o7oi/",
+        "https://www.bilibili.com/video/BV1114y1x7TX/",
+        "https://www.bilibili.com/video/BV11q4y1B7Xv/",
+        "https://www.bilibili.com/video/BV1XETT6ZE2p/",
+        "https://www.bilibili.com/video/BV1GnbpzuExu/",
+        "https://www.bilibili.com/video/BV1YkNT6xEUK/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
