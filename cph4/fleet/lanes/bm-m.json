@@ -1,14 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-20T12:11:10",
+ "ts": "2026-11-20T12:16:03",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGMONEY-BMM-20261120",
-   "title": "BigMoney·量化 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-m --out cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261120.md",
+   "id": "R-TRIAGE-FLEETOPS-BMM-20261120",
+   "title": "机队运维·端到端自检（平台服务线） 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line fleet-ops --node bm-m --out cph4/fleet/queue-receipts/triage-fleet-ops-bm-m-20261120.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-m-20261120.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-bm-m-20261120.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -19,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 12.1/1.0 GB"
+ "capacity_note": "ram 11.9/1.0 GB"
 }

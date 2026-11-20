@@ -373,7 +373,69 @@ def verify_comment(aid, rpid, wait_s=900, step_s=60):
     return False, "%ds 内评论区查不到（多为送审/静默）" % wait_s
 
 
-def browse_video(url, seconds=None, rng=None):
+HARVEST_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))), "cph4", "fleet", "social", "raw", "session")
+
+
+def _harvest(url, title, items):
+    """把这一趟"读页面"顺手读到的评论落盘，供语料链复用。
+
+    CEO 2026-11-20「刷视频的同时也在积累训练素材」：浏览和采集本来就是同一个页面、
+    同一次停留，分开跑等于把同一份流量花两遍，还互相抢 profile。
+    """
+    if not items:
+        return 0
+    os.makedirs(HARVEST_DIR, exist_ok=True)
+    day = datetime.now().strftime("%Y%m%d")
+    p = os.path.join(HARVEST_DIR, "session-%s.jsonl" % day)
+    n, seen = 0, set()
+    try:
+        for line in open(p, encoding="utf-8"):
+            try:
+                seen.add(json.loads(line).get("text") or "")
+            except Exception:
+                pass
+    except FileNotFoundError:
+        pass
+    with open(p, "a", encoding="utf-8") as f:
+        for i, it in enumerate(items):
+            t = str(it[0] if isinstance(it, (list, tuple)) else it).strip()
+            if len(t) < 4 or t in seen:
+                continue
+            seen.add(t)
+            f.write(json.dumps({"id": "s%s-%d" % (datetime.now().strftime("%H%M%S"), i),
+                                "author": (it[1] if isinstance(it, (list, tuple)) and len(it) > 1 else ""),
+                                "text": t[:200], "thread": url, "ts": datetime.now().isoformat(timespec="seconds")},
+                               ensure_ascii=False) + "\n")
+            n += 1
+    return n
+
+
+def ingest_harvest(timeout=900):
+    """把本次会话采到的评论并入语料链（own_collected → QUALITY-PASS）。
+
+    只并入、不重建：human_corpus 自带去重；comment_taste 重算可训练集。
+    返回 (新增行数, 说明)。
+    """
+    import subprocess
+    py = "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    own = os.path.join(root, "cph4", "fleet", "social", "corpus", "human", "own_collected.jsonl")
+    qp = os.path.join(root, "cph4", "fleet", "social", "corpus", "human", "QUALITY-PASS.jsonl")
+    before = sum(1 for _ in open(own, encoding="utf-8", errors="replace")) if os.path.exists(own) else 0
+    r1 = subprocess.run([py, os.path.join(root, "Tools/fleet/human_corpus.py"),
+                         "--from-dir", HARVEST_DIR, "--use", "train"],
+                        cwd=root, capture_output=True, text=True, timeout=timeout)
+    if r1.returncode != 0:
+        return 0, "入库失败：%s" % ((r1.stdout or r1.stderr or "").strip().splitlines()[-1][:80])
+    after = sum(1 for _ in open(own, encoding="utf-8", errors="replace"))
+    subprocess.run([py, os.path.join(root, "Tools/fleet/comment_taste.py"),
+                    "--corpus", own, "--out", qp], cwd=root, capture_output=True, text=True,
+                   timeout=timeout)
+    return max(0, after - before), "own %d→%d" % (before, after)
+
+
+def browse_video(url, seconds=None, rng=None, harvest=True):
     """真的把视频页打开、停留、滚动一段再关掉（不调接口、不互动）。
 
     为什么要有这一步：真人的轨迹是"进来先刷几条"，只在少数几条上动手。
@@ -389,7 +451,15 @@ def browse_video(url, seconds=None, rng=None):
                 pg.goto(url, wait_until="domcontentloaded", timeout=60000)
                 human_read(pg, seconds=seconds)
                 title = (pg.title() or "")[:40]
-                return True, title
+                got = 0
+                if harvest:
+                    try:
+                        import social_collect as _sc4
+                        items = _sc4.extract(pg, "bilibili", limit=40) or []
+                        got = _harvest(url, title, items)
+                    except Exception:
+                        got = 0
+                return True, "%s|%d" % (title, got)
             finally:
                 try:
                     ctx.close()

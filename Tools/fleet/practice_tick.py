@@ -325,12 +325,24 @@ def main():
                 return 0
             row0 = pick()
             if row0:
-                okb, tit = sc.browse_video(row0["video"],
-                                           seconds=rng.uniform(25, 110), rng=rng)
+                okb, info = sc.browse_video(row0["video"],
+                                            seconds=rng.uniform(25, 110), rng=rng)
+                tit, got = (info.rsplit("|", 1) + [""])[:2] if info else ("", "")
+                try:
+                    got = int(got)
+                except Exception:
+                    got = 0
                 sess.bump(s_now["start"], "browsed")
                 log({"action": "browse", "ok": okb, "video": row0.get("video"),
-                     "note": tit if okb else tit})
-                print("[tick] 刷到《%s》→ %s" % ((tit or "")[:24], "看了" if okb else "打开失败"))
+                     "note": tit if okb else info, "harvested": got})
+                # 这一趟顺手采到的评论并入语料（每场会话只并一次，避免反复重算）
+                if got and not (s_now.get("progress") or {}).get("ingested"):
+                    n_new, note = sc.ingest_harvest()
+                    sess.bump(s_now["start"], "ingested")
+                    log({"action": "ingest", "added": n_new, "note": note})
+                    print("[tick] 顺手采到 %d 条评论 → 入库新增 %d 行（%s）" % (got, n_new, note))
+                print("[tick] 刷到《%s》→ %s" % ((tit or "")[:24],
+                                               "看了" if okb else "打开失败"))
             return 0
 
     # 3 挑目标（同领域优先、未用过）
