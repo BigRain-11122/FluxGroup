@@ -92,6 +92,8 @@ namespace FoldSpike
         IPointerSource _pointer;
 
         bool _dragging;
+        bool _dragPending;
+        Vector2 _pendingPress;
         int _dragCandidate = -1;
         FoldLine _dragLine;
         int _dragSide = 1;
@@ -107,6 +109,7 @@ namespace FoldSpike
 
         public FoldMesh Paper { get { return _paper; } }
         public bool IsDragging { get { return _dragging; } }
+        public int LastFoldCandidate { get; private set; }
         public double DragAngle { get { return _dragAngle; } }
         public int FoldCount { get { return _paper == null ? 0 : _paper.FoldCount; } }
 
@@ -174,30 +177,53 @@ namespace FoldSpike
             }
         }
 
-        // Solution lines get a score bonus so an equidistant distractor cannot steal the
-        // grab: the prototype hit exactly this and reported it as bug 1.
+        // Creases cross at the middle of the sheet, so "nearest line to the press" picks the
+        // wrong one exactly where players press. The drag direction decides instead: press is
+        // remembered, and the first clear movement picks the crease it is perpendicular to.
         public bool BeginDrag(Vector2 world)
         {
             if (_paper == null || _paper.HasPreview) return false;
 
-            double snap = SnapRadiusWorld();
+            Bounds2D bounds = _paper.RestBounds;
+            Vec2d press = Vec2d.From(world);
+            if (press.x < bounds.Min.x || press.x > bounds.Max.x ||
+                press.y < bounds.Min.y || press.y > bounds.Max.y) return false;
+            if (Candidates.Count == 0) return false;
+
+            _dragPending = true;
+            _pendingPress = world;
+            _dragging = false;
+            return true;
+        }
+
+        void ResolvePending(Vector2 world)
+        {
+            Vector2 mv = world - _pendingPress;
+            if (mv.sqrMagnitude < 0.0004f) return;   // under 0.02 world: still deciding
+
+            Vec2d dir = new Vec2d(mv.x, mv.y).Normalized;
             int best = -1;
-            double bestScore = double.MaxValue;
+            double bestScore = -1e9;
             for (int i = 0; i < Candidates.Count; i++)
             {
                 FoldLine line = Candidates[i].ToFoldLine();
                 if (!line.IsValid) continue;
-                double dist = DistanceToSegment(world, line);
-                if (dist > snap) continue;
-                double score = dist - (Candidates[i].isSolution ? snap * 0.35 : 0.0);
-                if (score < bestScore)
-                {
-                    bestScore = score;
-                    best = i;
-                }
+                double align = Math.Abs(Vec2d.Dot(dir, line.Normal));
+                if (align < 0.30) continue;           // not perpendicular enough to be this crease
+                double dist = DistanceToSegment(_pendingPress, line);
+                if (dist > 0.45) continue;            // too far from the press to intend it
+                double score = align * 2.0 - dist;
+                if (Candidates[i].isSolution) score += 0.05;
+                if (score > bestScore) { bestScore = score; best = i; }
             }
-            if (best < 0) return false;
+            if (best < 0) { _dragPending = false; return; }
 
+            _dragPending = false;
+            StartDrag(best, _pendingPress);
+        }
+
+        void StartDrag(int best, Vector2 world)
+        {
             FoldLine chosen = Candidates[best].ToFoldLine();
             double signed = chosen.SignedDistance(Vec2d.From(world));
 
@@ -208,7 +234,7 @@ namespace FoldSpike
                 // beats aborting the gesture under the player's finger.
                 double plus = _paper.MaxSignedDistance(chosen, 1);
                 double minus = _paper.MaxSignedDistance(chosen, -1);
-                if (plus < 1e-4 && minus < 1e-4) return false;
+                if (plus < 1e-4 && minus < 1e-4) return;
                 side = plus >= minus ? 1 : -1;
             }
             else
@@ -217,7 +243,7 @@ namespace FoldSpike
             }
 
             double flapWidth = _paper.MaxSignedDistance(chosen, side);
-            if (flapWidth < 1e-4) return false;
+            if (flapWidth < 1e-4) return;
 
             // Grabbing on the crease itself would otherwise start at 0 travel and need a full
             // paper width of drag; treat it as a mid-flap grab instead.
@@ -233,11 +259,20 @@ namespace FoldSpike
             _dragAngle = 0.0;
             _paper.BeginPreview(chosen, 0.0, side);
             Render();
-            return true;
+            if (TraceFolds)
+            {
+                Debug.Log("[Fold] begin idx=" + best + " side=" + side
+                          + " signed=" + signed.ToString("0.000")
+                          + " startAbs=" + startAbs.ToString("0.000")
+                          + " flap=" + flapWidth.ToString("0.000"));
+            }
         }
+
+        public bool TraceFolds = false;
 
         public void DragTo(Vector2 world)
         {
+            if (_dragPending) { ResolvePending(world); if (_dragPending) return; }
             if (!_dragging) return;
 
             // Measured in the flap's own frame so a finger that starts mid-flap still maps
@@ -255,6 +290,7 @@ namespace FoldSpike
 
         public void EndDrag()
         {
+            if (_dragPending) { _dragPending = false; return; }
             if (!_dragging) return;
             _dragging = false;
 
@@ -267,6 +303,7 @@ namespace FoldSpike
         public void CancelDrag()
         {
             _dragging = false;
+            _dragPending = false;
             if (_paper != null) _paper.ClearPreview();
             _dragAngle = 0.0;
             Render();
@@ -316,6 +353,8 @@ namespace FoldSpike
 
             if (cmd != null)
             {
+                // The game removes a used crease from Candidates; it needs to know which one.
+                LastFoldCandidate = _dragCandidate;
                 InputEvent e = new InputEvent();
                 e.kind = InputKind.Fold;
                 e.candidateIndex = _dragCandidate;
@@ -345,6 +384,7 @@ namespace FoldSpike
         public void ResetPaper()
         {
             _dragging = false;
+            _dragPending = false;
             _tweenActive = false;
             _dragCandidate = -1;
             _dragAngle = 0.0;
@@ -368,6 +408,7 @@ namespace FoldSpike
         public void ResetForReplay()
         {
             _dragging = false;
+            _dragPending = false;
             _tweenActive = false;
             _dragCandidate = -1;
             _dragAngle = 0.0;
@@ -421,6 +462,12 @@ namespace FoldSpike
         {
             if (_mesh == null || _paper == null) return;
             _paper.ApplyToUnityMesh(_mesh, _paper.HasPreview);
+        }
+
+        // Redraw after geometry was changed from outside (benchmark pre-fold, scripted play).
+        public void Refresh()
+        {
+            Render();
         }
 
         void OnDrawGizmos()

@@ -5,7 +5,7 @@ panel: greenlight
 phase: "G-B"
 contract_file: "cph4/fleet/game-v2/contracts/fold-001.yaml"
 contract_hash: "2071576133e55bd4"
-run_at: "2026-11-20T22:20:00+08:00"
+run_at: "2026-11-21T01:10:00+08:00"
 max_age_days: 60
 signed_by: "制作人"
 
@@ -191,12 +191,15 @@ seats:
             at: "2026-11-20"
       - id: S5.5
         rule_ref: GB-02
-        score: null
-        note: 手势未验：吸附半径、0–180° 映射、25° 提交阈值、150ms 补间。
+        score: 4
+        note: 手势链路跑通并被自动通关覆盖：按下记录→首次移动按方向选折线→拖到 180°→25° 提交阈值→150ms 补间。顺带修掉三个玩法级 bug（交点选线、松手后提交检测、换件延迟误判）。人类手感（吸附是否顺手）仍需真人。
         evidence:
-          - level: E3
-            path: cph4/fleet/game-v2/projects/fold-001/unity/UNITY-RUN-RESULT.md
-            at: "2026-11-20"
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/game/Logs/player_ap10.log
+            at: "2026-11-21"
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/game/Assets/Scripts/FoldSpike/FoldController.cs
+            at: "2026-11-21"
       - id: S5.6
         rule_ref: GB-02
         score: 4
@@ -333,6 +336,9 @@ findings:
   - id: F6
     severity: 中
     text: 单位经济脚本默认假设比宪法乐观 42%（已修为 C-12 口径并加自检）。
+  - id: F7
+    severity: 信息
+    text: 可玩 demo 已立（Windows exe）：6/6 件自动通关、每件 IoU=1.000、数据驱动 100 件。三个玩法级 bug 在打通时修掉。仍未验：人类盲看、人类耗时、1080p 帧率（自动化会话无渲染设备）。
 
 actions:
   - id: A1
