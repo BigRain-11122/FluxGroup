@@ -234,3 +234,4 @@
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.1, "ts": "2026-11-20T17:01:18", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
 {"rc": 0, "note": "  - bilibili     NO_NEW", "secs": 20.9, "ts": "2026-11-20T17:04:39", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1795165479, "lines": 176}}}
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.1, "ts": "2026-11-20T17:31:43", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
+{"rc": 0, "note": "  - bilibili     BLOCKED 只抽到 8 条（<10），页面评论结构=['#commentapp', '#bili-comments-global-s", "secs": 90.0, "ts": "2026-11-20T17:46:15", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1795167974, "lines": 177}}}
