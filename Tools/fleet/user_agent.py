@@ -378,8 +378,16 @@ def pick_account():
         d = _load_json(os.path.expanduser("~/.fluxgroup/bili-accounts.json"), {})
     except Exception:
         return {}
-    acts = {k: v for k, v in (d.get("accounts") or {}).items()
-            if isinstance(v, dict) and v.get("mid") and not k.startswith("_")}
+    # 同一 mid 只保留一个主 profile：同一个号在两个 profile 间来回切，
+    # 等于给同一账号制造两套设备指纹，反而更像"多设备同号"。
+    by_mid = {}
+    for k, v in (d.get("accounts") or {}).items():
+        if not isinstance(v, dict) or not v.get("mid") or k.startswith("_"):
+            continue
+        cur = by_mid.get(v["mid"])
+        if cur is None or (v.get("primary") and not cur.get("primary")):
+            by_mid[v["mid"]] = v
+    acts = {str(v["mid"]): v for v in by_mid.values()}
     if not acts:
         return {}
     today = datetime.now().strftime("%Y-%m-%d")
@@ -453,6 +461,45 @@ def session_due():
     return True, cur, "该开一场"
 
 
+
+def login_state(headless=True):
+    """用当前 profile 轻量核验登录态（bili_jct + nav.isLogin）。
+
+    为什么要每场核验：登录态失效时如果不先发现，会变成"点赞全失败、弹幕发不出、
+    评论被静默吞"，看起来像账号被限流，实际只是没登录。
+    核验失败只报 NEED-LOGIN，不开窗口、不反复试——人工登一次即可，之后复用 profile。
+    """
+    import social_comment as sc
+    mod, _ = sc._pw()
+    with mod.sync_playwright() as p:
+        ctx = sc._launch(p, headless=headless)
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=60000)
+            cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+            if not cookies.get("bili_jct"):
+                return False, None, None
+            nav = pg.evaluate("""async()=>{const r=await fetch(
+                'https://api.bilibili.com/x/web-interface/nav',{credentials:'include'});
+                const j=await r.json();const d=j.data||{};
+                return {isLogin:d.isLogin, mid:d.mid, uname:d.uname};}""")
+            if nav.get("isLogin"):
+                return True, nav.get("mid"), nav.get("uname")
+            return False, None, None
+        except Exception:
+            return False, None, None
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+            try:
+                import social_collect as _sc
+                _sc.release_profile_lock(sc.PROF)
+            except Exception:
+                pass
+
+
 def run_session(minutes=18, dry=False, force=False):
     """按计划执行一次会话：看 → 偶尔赞 → 偶尔弹幕 → 极偶尔评论。
 
@@ -470,6 +517,13 @@ def run_session(minutes=18, dry=False, force=False):
     if not cur and not force:
         _mid_unlock(lock)
         return {"ok": False, "why": "不在会话时段（一天 3-6 次）"}
+    logged, mid2, uname2 = (False, None, None) if dry else login_state()
+    if not dry and not logged:
+        log({"action": "need_login", "account": acct.get("uname") or acct.get("mid"),
+             "profile": acct.get("profile")})
+        print("[session] %s 登录态失效：本轮只看不动手；请人工登录一次："
+              "python3 Tools/fleet/bili_login.py --account %s"
+              % (acct.get("alias") or "acct?", acct.get("alias") or "acct1"))
     plan = plan_session(minutes, rng=random.Random())
     vids = pick_videos(plan["videos"])
     if not vids:
@@ -480,6 +534,9 @@ def run_session(minutes=18, dry=False, force=False):
     vi = 0
     for st in plan["steps"]:
         act = st["act"]
+        if act in ("like", "danmaku", "comment") and not dry and not logged:
+            out["steps"].append({"act": act, "ok": False, "why": "未登录，跳过动手"})
+            continue
         if act == "end":
             break
         if vi >= len(vids):
