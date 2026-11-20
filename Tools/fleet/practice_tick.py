@@ -492,6 +492,10 @@ def main():
     #   等于对所有人说同一种话；而规格里的带子本身也失真（玩梗党实测中位 33 字、
     #   规格只写 6-18，覆盖率 17%），所以参数一律取 SEGMENT-PERSONAS 的实测值。
     seg, band = pick_persona(title, meta.get("desc") or "", n)
+    # 账号级人设：由 user_agent 传入，保证"这两个号是不同的人"
+    force = (os.environ.get("FLUX_FORCE_SEG") or "").strip()
+    if force:
+        seg = force
     arm = ARMS[n % len(ARMS)]
     # 人群带子与臂带子取交集：人群说这类人写 9-63 字，而 C 臂形态上限是 20 字，
     # 直接用人群体会把文案发到 32 字被 arm_probe 判"不在 10-20"（2026-11-19 实锚）。

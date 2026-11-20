@@ -249,8 +249,11 @@ def today_count(kind, account=None):
     return n
 
 
+_CAPS = {}
+
+
 def quota_ok(kind, account=None):
-    cap = AGENT_LIMITS.get(kind)
+    cap = (_CAPS.get(kind) or AGENT_LIMITS.get(kind))
     if not cap:
         return True, ""
     n = today_count(kind, account)
@@ -335,13 +338,19 @@ def _mark_seen(url):
         pass
 
 
-def pick_videos(n, rng=None):
-    """从已采视频里挑几条没看过的；不重复刷同一条。"""
+def pick_videos(n, rng=None, topics=None):
+    """从已采视频里挑几条没看过的；按人设话题优先，不重复刷同一条。"""
     rng = rng or random.Random()
     vids = _load_json(os.path.join(SOCIAL, "VIDEO-TITLES.json"), {})
     seen = _seen()
     cand = [(u, v) for u, v in vids.items() if (v or {}).get("title") and u not in seen]
-    rng.shuffle(cand)
+    if topics:
+        def score(kv):
+            t = (kv[1].get("title") or "")
+            return -sum(1 for w in topics if w in t)
+        cand.sort(key=score)
+    else:
+        rng.shuffle(cand)
     return cand[:n]
 
 
@@ -386,6 +395,23 @@ def warmup_stage(acct):
     if age < WARMUP_DAYS:
         return False, False, "新号第 %d 天（< %d 天养护期）：只浏览+点赞" % (age, WARMUP_DAYS)
     return True, True, ""
+
+
+
+PERSONAS = os.path.join(SOCIAL, "ACCOUNT-PERSONAS.json")
+
+
+def persona_of(acct):
+    """账号级人设：两个号必须是不同的人（人群段/话题/口吻/字数/配额各不同）。"""
+    d = _load_json(PERSONAS, {})
+    alias = (acct or {}).get("alias") or ""
+    if alias and alias in d:
+        return d[alias]
+    name = (acct or {}).get("uname") or ""
+    for v in d.values():
+        if isinstance(v, dict) and v.get("name") == name:
+            return v
+    return {}
 
 
 def pick_account():
@@ -561,8 +587,10 @@ def run_session(minutes=18, dry=False, force=False):
     can_comment, can_danmaku, warm_why = warmup_stage(acct)
     if warm_why:
         print("[session] %s" % warm_why)
-    plan = plan_session(minutes, rng=random.Random())
-    vids = pick_videos(plan["videos"])
+    per = persona_of(acct)
+    _CAPS.update(per.get("caps") or {})
+    plan = plan_session(minutes, seg=per.get("seg") or "generic", rng=random.Random())
+    vids = pick_videos(plan["videos"], topics=per.get("topics"))
     if not vids:
         return {"ok": False, "why": "没有未看过的视频可挑"}
     import social_comment as sc
@@ -640,8 +668,10 @@ def run_session(minutes=18, dry=False, force=False):
                 out["steps"].append({"act": "comment", "dry": True})
             else:
                 import subprocess
+                env = dict(os.environ, FLUX_FORCE_SEG=per.get("seg") or "")
                 r = subprocess.run([sys.executable, os.path.join(HERE, "practice_tick.py")],
-                                   cwd=ROOT, capture_output=True, text=True, timeout=1800)
+                                   cwd=ROOT, capture_output=True, text=True,
+                                   timeout=1800, env=env)
                 tail = ((r.stdout or "") + (r.stderr or "")).strip()[-120:]
                 out["steps"].append({"act": "comment", "ok": r.returncode == 0, "note": tail})
     log({"action": "session", "minutes": minutes, "dry": dry,
