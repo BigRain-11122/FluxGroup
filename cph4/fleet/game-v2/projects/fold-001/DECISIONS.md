@@ -86,3 +86,8 @@
 ## D-021 周期标注
 - **裁决**：所有 Fold 文档统一写"试验 6 周上限 / 量产 4.3 周"，避免 6 周与 4.3 周被读成矛盾。
 - 依据：D-002；9b 点审第 3 条。
+
+## D-022 形状判定用 IoU + 常驻三态负控
+- **裁决**：`CoverageJudge` 的通过判据从 `covered/target` 改为 IoU（0.92）；`ReplayHarness` 每轮自动跑 folded/unfolded/wrongside 三态，`live=NO` 时编辑器侧抛错退出。`coverage` 字段保留仅作对照，不再参与判定。
+- 依据：目标=纸的左半边，分母为目标面积 → 未折的整张纸同样 100% 覆盖，实测 `unfolded cov=1.0000`，与正确折叠同分；改后 `folded iou=1.0000 / unfolded 0.5000 / wrongside 0.0000`。原 D-015/D-018 的 92% 数字继续有效，只是分母改为并集。
+
