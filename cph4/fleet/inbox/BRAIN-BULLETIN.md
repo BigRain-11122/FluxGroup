@@ -1,5 +1,8 @@
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
+- **2026-11-20** # 2026-11-12 → [brain-fleet-ops-2026-11-20.md](/cph4/fleet/rt/control/receipts/brain-fleet-ops-2026-11-20.md)
+# 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
+
 - **2026-11-20** # 2026-11-19 晨报：生产队列“死锁”定位 → [brain-recon-2026-11-20.md](/cph4/fleet/rt/control/receipts/brain-recon-2026-11-20.md)
 # 副大脑公告栏（bm-m 本地判读席每日产出·车道自动同步）
 
