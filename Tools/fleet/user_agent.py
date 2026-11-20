@@ -289,8 +289,10 @@ def dup_recent(text, days=7, thresh=0.6):
     return False, ""
 
 
-def cross_gap_ok(account=None, minutes=CROSS_GAP_MIN):
+def cross_gap_ok(account=None, minutes=0):
     """两个号不许在同一时间动手：最近 N 分钟若有别号动作，就等。"""
+    if minutes <= 0:
+        return True, ""   # 2026-11-20 CEO「像两个人」：不再按时间硬错峰，改由"不同兴趣+不同视频"隔离
     cut = (datetime.now() - timedelta(minutes=minutes)).isoformat(timespec="seconds")
     for r in reversed(_rows(200)):
         ts = str(r.get("ts") or "")
@@ -304,19 +306,46 @@ def cross_gap_ok(account=None, minutes=CROSS_GAP_MIN):
 
 
 # ---------------- 弹幕文本：必须从这条视频推出来 ----------------
-DM_PATTERNS = ["这个{kw}绝了", "{kw}这段我回看了三遍", "刚看到{kw}这里", "被{kw}戳到了啊",
-               "{kw}这操作学到了", "看到{kw}我笑了"]
+DM_STYLES = {
+    # 技术流：点评手法/细节
+    "point": ["这个{kw}处理得干净", "{kw}这里卡点挺准", "{kw}这段我想试试", "{kw}的节奏稳",
+              "刚看到{kw}，学到了"],
+    # 感受流：说自己的感受，不评价技术
+    "feel": ["{kw}这段听着心里一动", "看到{kw}我笑了", "{kw}好有画面感啊",
+             "被{kw}这一段戳到了", "{kw}这里我看了两遍"],
+}
 
 
-def danmaku_line(title, rng=None):
+_DM_USED = {}
+
+
+def danmaku_line(title, rng=None, style="point"):
     """从标题抽关键词拼一条 ≤20 字弹幕。抽不出关键词就不发（宁可不发）。"""
     rng = rng or random.Random()
     t = re.sub(r"[【】\[\]（）()《》!！?？|/、,，.。\s]", " ", title or "")
     words = [w for w in t.split() if 2 <= len(w) <= 6 and not w.isdigit()]
-    if not words:
-        return None
-    kw = rng.choice(words)[:6]
-    line = rng.choice(DM_PATTERNS).format(kw=kw)
+    if words:
+        kw = rng.choice(words)[:6]
+    else:
+        # 兜底：中文标题常常没有分隔符（"AI短视频工作流"），直接取片段当关键词。
+        # 抽不出就整条不发会让弹幕几乎发不出来，等于把"会发弹幕"写成了摆设。
+        # 取最长的中文连续片段（"电影最TOP生化危机" → "生化危机"），避免截出"电影最T"这种半个词
+        runs = re.findall(r"[\u4e00-\u9fff]{2,}", t)
+        if runs:
+            kw = max(runs, key=len)[:6]
+        else:
+            core = re.sub(r"\s+", "", t)
+            if len(core) < 3:
+                return None
+            kw = core[:5]
+    pats = list(DM_STYLES.get(style) or DM_STYLES["point"])
+    used = _DM_USED.setdefault(style, [])
+    fresh = [x for x in pats if x not in used] or pats
+    if not [x for x in pats if x not in used]:
+        _DM_USED[style] = []      # 全用过了就重置，不永久封死
+    pat = rng.choice(fresh)
+    _DM_USED[style].append(pat)
+    line = pat.format(kw=kw)
     ok, _ = guard(line)
     return line[:20] if ok else None
 
@@ -392,8 +421,14 @@ def warmup_stage(acct):
         age = (datetime.now() - datetime.fromisoformat(ts)).days
     except Exception:
         return True, True, ""
-    if age < WARMUP_DAYS:
-        return False, False, "新号第 %d 天（< %d 天养护期）：只浏览+点赞" % (age, WARMUP_DAYS)
+    # 柔性分级（不是一刀切"三天不许说话"，真人新号第一天也会发两条弹幕）：
+    #   第 0–1 天：可弹幕（配额再压一半），不评论
+    #   第 2–3 天：可评论 1 条/天
+    #   第 4 天起：按人设配额
+    if age <= 1:
+        return False, True, "新号第 %d 天：只弹幕+点赞，不评论" % age
+    if age <= 3:
+        return True, True, "新号第 %d 天：可评论 1 条/天" % age
     return True, True, ""
 
 
@@ -608,6 +643,13 @@ def run_session(minutes=18, dry=False, force=False):
         print("[session] %s" % warm_why)
     per = persona_of(acct)
     _CAPS.update(per.get("caps") or {})
+    if (per.get("caps") or {}).get("danmaku") and (acct.get("created_at") or ""):
+        try:
+            from datetime import datetime as _dt
+            if (_dt.now() - _dt.fromisoformat(acct["created_at"])).days <= 1:
+                _CAPS["danmaku"] = max(2, int(_CAPS["danmaku"] // 2))
+        except Exception:
+            pass
     plan = plan_session(minutes, seg=per.get("seg") or "generic", rng=random.Random())
     vids = pick_videos(plan["videos"], topics=per.get("topics"))
     if not vids:
@@ -665,7 +707,7 @@ def run_session(minutes=18, dry=False, force=False):
         elif act == "danmaku":
             if not aid:
                 continue
-            line = danmaku_line(title)
+            line = danmaku_line(title, style=per.get("danmaku_style") or "point")
             if not line:
                 out["steps"].append({"act": "danmaku", "ok": False, "why": "抽不出关键词"})
                 continue
