@@ -35,7 +35,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SENT = os.path.join(ROOT, "cph4", "fleet", "social", "comments-sent.jsonl")
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "social", "reply-queue.jsonl")
-PROF = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili")
+PROF = (os.environ.get("FLUX_BILI_PROFILE")
+        or os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili"))
+# 多号不同时：切换账号时由调用方设置 FLUX_BILI_PROFILE，登录态、锁、补采全跟着这个目录走。
 
 
 def merge_queue_done(mark):
