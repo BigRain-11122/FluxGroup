@@ -233,12 +233,50 @@ def make_text(prompt):
     return "", ""
 
 
+def recent_post_outcomes(n=5):
+    """最近 n 条**已回验的投递**各自是否可见（每条投递只算一次）。
+
+    2026-11-20 实锚：旧判据数的是"verify 行"，同一条评论 30/60 分钟各查一次会被算成两条，
+    于是 1/6 可见这种明摆着的降权也能绕过熔断继续发。判据必须落在"投递"上，不是"检查次数"。
+    """
+    posts, ver = [], {}
+    try:
+        for line in open(LEDGER, encoding="utf-8"):
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            rp = str(r.get("rpid") or "")
+            if not rp:
+                continue
+            if r.get("action") == "post":
+                posts.append(rp)
+            elif r.get("action") == "verify":
+                ver.setdefault(rp, []).append(r.get("visible"))
+    except FileNotFoundError:
+        pass
+    out = []
+    for rp in posts:
+        vs = [v for v in ver.get(rp, []) if v is not None]
+        if vs:
+            out.append(any(vs))
+    return out[-n:]
+
+
 def main():
     # 1 止损闸
     b = blocked()
     if b:
         refresh_screen("止损中，不发帖")
         print("[tick] 已止损：%s" % b["why"])
+        return 0
+    # 先看"投递级"可见率：最近 5 条投递里 ≤1 条可见就停（账号已降权，继续发只会更深）
+    po = recent_post_outcomes(5)
+    if len(po) >= 3 and sum(po) <= 1:
+        why = "最近 %d 条投递只有 %d 条公开可见 → 停止发帖，先查账号状态" % (len(po), sum(po))
+        set_blocked(why)
+        log({"action": "blocked", "why": why})
+        refresh_screen(why)
+        print("[tick] 止损：%s" % why)
         return 0
     rv = recent_visibility()
     if len(rv) >= STOP_AFTER and not any(rv):
@@ -306,7 +344,10 @@ def main():
     import llm_client as lc
     import comment_taste as ct
     import social_practice as sp
-    text, lane_used = "", ""
+    # 2026-11-20：原来是"第一条过闸就发"，于是发出去的都是第一版平淡句。
+    # 改成 best-of-8：语感+人味优先，总分次之；并且生硬的语气词（塞在词中间）直接拒稿——
+    # 那是为了刷分硬塞的，发出去比不发更伤账号。
+    best = None
     for k in range(8):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k)
         p += persona_line(seg)
@@ -314,12 +355,18 @@ def main():
         t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
             continue
-        if ct.score(t, seg=seg or None)["verdict"] != "PASS":
+        s = ct.score(t, seg=seg or None)
+        if s["verdict"] != "PASS":
+            continue
+        if ct.awkward_particles(t):
             continue
         if not sp.safe_to_send(t, title)[0]:
             continue
-        text, lane_used = t, lane
-        break
+        key = (s["voice"] + s["human"], s["total"])
+        if best is None or key > best[0]:
+            best = (key, t, lane)
+    if best:
+        text, lane_used = best[1], best[2]
     if not text:
         refresh_screen("本拍无文案过闸（不硬发）")
         log({"action": "skip", "why": "no text passed gates", "arm": arm, "video": url})
