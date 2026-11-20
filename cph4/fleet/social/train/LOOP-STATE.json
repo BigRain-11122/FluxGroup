@@ -57,7 +57,13 @@
    "val_min": null
   },
   "feeler": {
-   "last_rc": "POWER"
+   "last_ts": 1795186410.987438,
+   "last_rc": "REJECT",
+   "recipe": "v3-natural-dist",
+   "rows": 460,
+   "run": "20261120-220135",
+   "step": 200,
+   "val_min": 3.449
   }
  },
  "runs": [
@@ -381,6 +387,25 @@
    "eval_n": 30,
    "adapter": "cph4/fleet/social/train/RUNS/20261120-152218/ckpt300",
    "note": "re-verify(n=30)：均分 +7.1 / 人味 +1.0"
+  },
+  {
+   "ts": "2026-11-20T22:53:30",
+   "seg": "feeler",
+   "rows": 460,
+   "built": 192,
+   "eval_n": 10,
+   "run": "20261120-220135",
+   "step": 200,
+   "val_step": 250,
+   "val_min": 3.449,
+   "base_avg": 56.5,
+   "lora_avg": 59.4,
+   "base_human": 10.0,
+   "lora_human": 3.0,
+   "human_delta": -7.0,
+   "verdict": "REJECT",
+   "why": "均分只 +2.9（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261120-220135/ckpt200"
   }
  ]
 }
