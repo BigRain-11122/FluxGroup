@@ -1,0 +1,364 @@
+schema: fluxgame/panel
+version: 1
+project_id: "FOLD-001"
+panel: greenlight
+phase: "G-B"
+contract_file: "cph4/fleet/game-v2/contracts/fold-001.yaml"
+contract_hash: "2071576133e55bd4"
+run_at: "2026-11-20T22:20:00+08:00"
+max_age_days: 60
+signed_by: "制作人"
+
+# 预注册权重（GREENLIGHT-PANEL-v1 §一）；改动必须升版并重跑全部项目
+weights:
+  S1: 0.15
+  S2: 0.15
+  S3: 0.10
+  S4: 0.15
+  S5: 0.20
+  S6: 0.15
+  S7: 0.10
+
+seats:
+  S1:
+    name: 市场
+    author: 市场情报席
+    criteria:
+      - id: S1.1
+        rule_ref: GB-01
+        score: 2
+        note: 只有 2026-11-20 单日快照；G-A 要求主源持续 7 天，未满足。
+        evidence:
+          - level: E2
+            path: cph4/fleet/game-v2/market/COMPETITORS-20261120.json
+            at: "2026-11-20"
+      - id: S1.2
+        rule_ref: GB-04
+        score: 2
+        note: 市场扫描扫的是「折/纸」14 款，不是「折衣/收纳」；代审把母类数据当成折衣的市场验证，属证据错配。独立 9b 市场席在只给事实的情况下同样判 2.5/5 并点出同一处错配（local/panel-S1-market-9b.md，旁证不进 evidence）。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/PIVOT-DECISION.md
+            at: "2026-11-20"
+          - level: E2
+            path: cph4/fleet/game-v2/market/COMPETITORS-20261120.md
+            at: "2026-11-20"
+      - id: S1.3
+        rule_ref: GB-01
+        score: 3
+        note: 母类长青有多年评/天支撑（Unpacking 19.24、ALTTL 11.76），但只能证明「整理」有人买。
+        evidence:
+          - level: E2
+            path: cph4/fleet/game-v2/market/COMPETITOR-BRIEF-20261120.md
+            at: "2026-11-20"
+      - id: S1.4
+        rule_ref: GB-01
+        score: 3
+        note: 14 款全 0–2 万拥有是硬数据；「缺口还是天花板」已明确标为未决，未编造结论。
+        evidence:
+          - level: E2
+            path: cph4/fleet/game-v2/projects/fold-001/OPPORTUNITY-CARD.md
+            at: "2026-11-20"
+
+  S2:
+    name: 竞品/差异化
+    author: 竞品席
+    criteria:
+      - id: S2.1
+        rule_ref: GB-03
+        score: 3
+        note: 反向测试是设计推演（去掉折→45 件作废），无人测；结论方向可信、强度不足。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/OPPORTUNITY-CARD.md
+            at: "2026-11-20"
+      - id: S2.2
+        rule_ref: GB-04
+        score: 3
+        note: 三条机制差异（不可逆形变/层级/连续质量）可判定，但均未做成可玩对比。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/G-A-REVIEW.md
+            at: "2026-11-20"
+      - id: S2.3
+        rule_ref: GB-01
+        score: 3
+        note: 非换皮成立（动词不同、循环不同），但「折衣 vs 整理母类」的用户感知差异未经测试。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/GAMEPLAY-DESIGN.md
+            at: "2026-11-20"
+
+  S3:
+    name: 受众
+    author: 受众席
+    criteria:
+      - id: S3.1
+        rule_ref: PANEL-§2
+        score: null
+        note: 5 人盲看未做；机会卡自己标了【设】，不得当证据。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/G-A-REVIEW.md
+            at: "2026-11-20"
+      - id: S3.2
+        rule_ref: PANEL-§2
+        score: null
+        note: 首次上手 10 秒计时未做（batchmode 跑不了 Input）。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/OPPORTUNITY-CARD.md
+            at: "2026-11-20"
+      - id: S3.3
+        rule_ref: PANEL-§2
+        score: null
+        note: 「是否自发折下一件」未测。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/OPPORTUNITY-CARD.md
+            at: "2026-11-20"
+
+  S4:
+    name: 设计/内容
+    author: 设计席
+    criteria:
+      - id: S4.1
+        rule_ref: C-04
+        score: 4
+        note: 契约字段齐且落在 C-04 区间：75s 单局 / 12min 会话 / 最强一秒 8s / 无失败态。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/contracts/fold-001.yaml
+            at: "2026-11-20"
+      - id: S4.2
+        rule_ref: AR-11
+        score: 1
+        note: 内容算术有两个互斥版本：机会卡 100 件×25s≈42min，内容包 25×4×76s=127min；两者都是 E3，无法判定。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/OPPORTUNITY-CARD.md
+            at: "2026-11-20"
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/WARDROBE-CONTENT.md
+            at: "2026-11-20"
+      - id: S4.3
+        rule_ref: GB-02
+        score: null
+        note: 单件/单格计时未测，60–90 秒闭环仍是设计声称。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/G-A-REVIEW.md
+            at: "2026-11-20"
+
+  S5:
+    name: 工程
+    author: 工程席
+    criteria:
+      - id: S5.1
+        rule_ref: GB-02
+        score: 5
+        note: 几何与判定确定性：团结 batchmode 编译 0 error，20 次重放哈希一致 0x41B025C7E3A201E3，IoU 判定三态可分（1.0/0.5/0.0）。只覆盖合成单折，不含真实拖拽。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/game/Logs/replay_result.json
+            at: "2026-11-20"
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/unity/UNITY-RUN-RESULT.md
+            at: "2026-11-20"
+      - id: S5.2
+        rule_ref: GB-02
+        score: null
+        note: ≥3 层遮挡未测（batchmode 无渲染）。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/unity/UNITY-RUN-RESULT.md
+            at: "2026-11-20"
+      - id: S5.3
+        rule_ref: GB-02
+        score: null
+        note: 折 180° 视觉穿模未验（只验了顶点几何，没验画面）。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/unity/PERF-NOTES.md
+            at: "2026-11-20"
+      - id: S5.4
+        rule_ref: GB-02
+        score: null
+        note: 1080p 帧率 / 1% low / DrawCall 未测（无渲染批处理量不到）。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/unity/PERF-NOTES.md
+            at: "2026-11-20"
+      - id: S5.5
+        rule_ref: GB-02
+        score: null
+        note: 手势未验：吸附半径、0–180° 映射、25° 提交阈值、150ms 补间。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/unity/UNITY-RUN-RESULT.md
+            at: "2026-11-20"
+      - id: S5.6
+        rule_ref: GB-02
+        score: 4
+        note: 槽位契约成立（6 件放下、第 7 件被拒不丢失、可回取复填、occ=6）；物理挤占未验。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/game/Logs/replay_result.json
+            at: "2026-11-20"
+
+  S6:
+    name: 商业
+    author: 商业席
+    criteria:
+      - id: S6.1
+        rule_ref: C-12
+        score: 5
+        note: 复算与宪法一致：$14.99 折后 15%、区域 0.75、税 20%、退款 15% → 每份净 ¥32.52，月净 3 万需 923 份。原脚本默认值（10%/5%/0.85）已修正并加自检。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/market/UNIT-ECONOMICS-20261120.json
+            at: "2026-11-20"
+          - level: E1
+            path: Tools/gds/unit_econ.py
+            at: "2026-11-20"
+      - id: S6.2
+        rule_ref: C-11
+        score: 3
+        note: Steam 2 小时退款窗口 × 2–4 小时内容已识别为 P0 风险，但退款率仍是假设（15% 基线），无本品数据。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/market/RISK-GAPS-20261120.md
+            at: "2026-11-20"
+      - id: S6.3
+        rule_ref: C-12
+        score: 3
+        note: 单款 ≤¥11,000 已进宪法；Fold 实际成本未结算，3 天 spike 的 ¥2,000 上限未核销。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/market/COST-BREAKDOWN-20261120.md
+            at: "2026-11-20"
+      - id: S6.4
+        rule_ref: C-10
+        score: 4
+        note: 量产门已预注册在宪法里（≥500 份/退款≤12%/成本≤1.1 万/转化≥10%），事后不得改。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/constitution.yaml
+            at: "2026-11-20"
+
+  S7:
+    name: 独立审计
+    author: 独立审计席
+    criteria:
+      - id: S7.1
+        rule_ref: C-05
+        score: 4
+        note: 本轮抓出并修掉一处假绿：覆盖率单侧判据让「没折」也拿 1.0000；已改 IoU 并常驻三态负控（folded/unfolded/wrongside）。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/unity/UNITY-RUN-RESULT.md
+            at: "2026-11-20"
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/game/Logs/replay_result.json
+            at: "2026-11-20"
+      - id: S7.2
+        rule_ref: GB-01
+        score: 1
+        note: 证据错配：代审用「折纸」市场扫描给「折衣」打 25/30；折衣没有自己的同类扫描。独立 9b 审计席在不看本卡结论的情况下也把它列为第一条（local/panel-S7-audit-9b.md）。
+        evidence:
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/G-A-REVIEW.md
+            at: "2026-11-20"
+          - level: E3
+            path: cph4/fleet/game-v2/projects/fold-001/PIVOT-DECISION.md
+            at: "2026-11-20"
+      - id: S7.3
+        rule_ref: C-02
+        score: 1
+        note: 8 闸回执全 NOT_RUN/FAIL（G8 明确 FAIL：缺图标/隐私/源码/截图 0<4）；契约与产品叙述也不一致（scene 仍写折纸/折布）。独立 9b 审计席同判「IoU=1.0 但层遮挡/帧率/手势未测」。
+        evidence:
+          - level: E1
+            path: cph4/fleet/game-v2/receipts/FOLD-001/G8.json
+            at: "2026-11-20"
+          - level: E1
+            path: cph4/fleet/game-v2/receipts/FOLD-001/G1.json
+            at: "2026-11-20"
+      - id: S7.4
+        rule_ref: RPB-§1
+        score: 4
+        note: 本评审团有消费者：panel_lint.py 每次校验权重/证据/否决/覆盖率，负控 12/12 全抓；无证据的分数进不了 GO。
+        evidence:
+          - level: E1
+            path: Tools/gds/panel_lint.py
+            at: "2026-11-20"
+
+veto:
+  - id: V1
+    rule_ref: V1
+    checked: true
+    triggered: false
+    note: 无外部 IP、无真人肖像；素材未建，建时走 compliance-guard。
+  - id: V2
+    rule_ref: C-09
+    checked: true
+    triggered: false
+    note: 契约 server:false；无联网依赖。
+  - id: V3
+    rule_ref: GB-01
+    checked: true
+    triggered: false
+    note: 动词与循环均不同，非换皮；变体/壳的界定见 GREENLIGHT §三 判例 1/4/6。
+  - id: V4
+    rule_ref: C-05
+    checked: true
+    triggered: false
+    note: 本轮抓到一处假绿但已修并常驻负控，未发现伪造证据；若后续 E4 冒充 E1 即触发并作废本次评审。
+
+findings:
+  - id: F1
+    severity: 高
+    text: 折衣变体没有自己的市场扫描——25/30 里的「市场验证 4/5」用的是折纸数据 + 母类迁移推断。
+  - id: F2
+    severity: 高
+    text: 内容算术两版互斥（42min vs 127min），都未实测；这直接决定 $14.99 的退款风险。
+  - id: F3
+    severity: 高
+    text: G-A 硬条件「主源持续 7 天」未满足，只有单日快照。
+  - id: F4
+    severity: 中
+    text: 契约 scene 仍写「折纸/折布」，与已 PIVOT 的折衣产品叙述不一致（C-14 应由制作人升版）。
+  - id: F5
+    severity: 中
+    text: 8 闸全 NOT_RUN/FAIL，G-B 只能证明几何与判定，不能证明交付。
+  - id: F6
+    severity: 中
+    text: 单位经济脚本默认假设比宪法乐观 42%（已修为 C-12 口径并加自检）。
+
+actions:
+  - id: A1
+    text: 补折衣/收纳同类扫描（至少 8 款，Steam 实拉，连续 3 天）
+    owner: 市场情报席
+    due: "2026-11-23"
+    covers: [S1.1, S1.2]
+  - id: A2
+    text: 5 人盲看：3 秒认出「在折衣服」+ 10 秒首爽计时 + 是否自发继续
+    owner: 受众席
+    due: "2026-11-23"
+    covers: [S3.1, S3.2, S3.3]
+  - id: A3
+    text: 单件/单格计时 30 次，定死首通是 42 还是 127 分钟
+    owner: 设计席
+    due: "2026-11-23"
+    covers: [S4.3]
+  - id: A4
+    text: Play 模式实测：1080p ≥58fps / 1% low ≥50 / DrawCall ≤12 / ≥3 层遮挡 / 手势四阈值
+    owner: 工程席
+    due: "2026-11-24"
+    covers: [S5.2, S5.3, S5.4, S5.5]
+  - id: A5
+    text: 契约升版把 scene 改成折衣收纳，并重发 8 闸回执
+    owner: 制作人
+    due: "2026-11-24"
+    covers: []
+
+decision: CONDITIONAL
