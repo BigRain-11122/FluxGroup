@@ -13,3 +13,5 @@
 {"ts": "2026-11-20T16:39:12", "phase": "verify", "seg": "craft_learner", "status": "OK", "why": "判 KEEP 只用了 n=10，功率不足（目标 30）", "secs": 72.2, "eval_n": 30, "tail": "[verify] REJECT（n=30）：均分只 -3.2（需 ≥5.0）"}
 {"ts": "2026-11-20T16:40:06", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "会话时段（养号出稿用浏览器），采集让路", "secs": 0, "tail": ""}
 {"ts": "2026-11-20T16:41:05", "phase": "verify", "seg": "memer", "status": "OK", "why": "判 KEEP 只用了 n=10，功率不足（目标 30）", "secs": 58.8, "eval_n": 30, "tail": "[verify] KEEP（n=30）：均分 +27.5 / 人味 +7.6"}
+{"ts": "2026-11-20T16:46:08", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "会话时段（养号出稿用浏览器），采集让路", "secs": 0, "tail": ""}
+{"ts": "2026-11-20T16:46:08", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
