@@ -86,7 +86,13 @@ def _save(path, data):
 
 
 def segment_rows():
-    """每段可用行数：按 QUALITY-PASS 现场分类，读不到才退回 personas 快照。"""
+    """每段可用行数：优先读烘焙产物（BAKED-v1.jsonl，带 seg/verdict），
+    读不到才退回 QUALITY-PASS 现场分类，再退回 personas 快照。
+
+    2026-11-20 实锚：QUALITY-PASS.jsonl 自 16:11 起全仓无人再写，而真实产物是
+    own_collected → corpus_bake → BAKED-v1.jsonl。读旧文件会把 shallow 从 2294 行
+    报成 720 行，于是"语料未涨 10%"永远成立 → 该段永远排不上 → GPU 空转两小时。
+    """
     sys.path.insert(0, HERE)
     try:
         import segments as sgm
@@ -94,6 +100,22 @@ def segment_rows():
     except Exception:
         spec = None
     rows = {}
+    baked = os.path.join(SOCIAL, "corpus", "human", "BAKED-v1.jsonl")
+    if os.path.isfile(baked):
+        for line in open(baked, encoding="utf-8", errors="replace"):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                r = json.loads(line)
+            except Exception:
+                continue
+            if (r.get("verdict") or "PASS") != "PASS":
+                continue
+            seg = r.get("seg") or "generic"
+            if seg != "generic":
+                rows[seg] = rows.get(seg, 0) + 1
+        return rows
     if spec and os.path.isfile(QUALITY):
         for line in open(QUALITY, encoding="utf-8", errors="replace"):
             line = line.strip()
@@ -132,8 +154,10 @@ def eligible(seg, rows, st, rejects, now=None):
     grown = last_rows and n >= last_rows * 1.10
     # 配方变了（话语配比/开头配额）也是重训理由：同一批语料换个喂法就是新的一课
     rj0 = rejects.get(seg) or {}
-    if rec.get("recipe") and rec["recipe"] != RECIPE_V and not (
-            int(rj0.get("n") or 0) >= 3 and n < int(rj0.get("rows") or 0) * GROWTH_GATE):
+    # 状态里没有 recipe 字段 = 无法证明这件是用当前配方训的（状态丢失/重建都会这样）。
+    # 这种情况按"配方更新"处理：宁可多训一轮，也不要拿状态缺失当"已经训过了"永久空转。
+    if (not rec.get("recipe")) or (rec["recipe"] != RECIPE_V and not (
+            int(rj0.get("n") or 0) >= 3 and n < int(rj0.get("rows") or 0) * GROWTH_GATE)):
         return True, "配方更新 %s（%d 行）" % (RECIPE_V, n)
     if now - last < COOLDOWN_S and not grown:
         return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (

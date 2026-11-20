@@ -301,14 +301,24 @@ def _empty_active_in(d, seg, days=7):
         return False
 
 
-def decide(m, backoff=None, empty=None):
+def training_active():
+    """GPU 是否正在训练（哨兵在则训练独占 GPU）。训练期间本器只派 CPU 活，
+    验证/评测也吃 GPU，硬抢只会两边都慢（实测训练中生成 2.1 vs 空闲 25.7 tok/s）。"""
+    return os.path.exists(os.path.join(STATE, "TRAIN-EXCLUSIVE"))
+
+
+def decide(m, backoff=None, empty=None, training=None):
     backoff = backoff or {}
     empty = load_empty() if empty is None else empty
+    training = training_active() if training is None else training
     segs = [s for s in m["segs"] if s.get("need") not in ("-", None)
             and not _empty_active_in(empty, s["seg"])]
     # 缺料优先（按缺口降序），其次功率不足，最后才是调参
     for need in ("collect", "verify", "train"):
         cand = [s for s in segs if s["need"] == need and (need, s["seg"]) not in backoff]
+        if need == "verify" and training:
+            # GPU 被训练占着：验证延后，先做 CPU 活（采集/调参），别两头都慢
+            continue
         if cand:
             if need == "collect":
                 # 有已知视频的段优先（能真定向），其次按缺口大小
@@ -337,15 +347,23 @@ def session_active():
 
 
 def last_collect_min():
-    """距上一次采集（social_learn 常驻或本器）多少分钟——两条采集线必须错峰，
-    否则同一个浏览器 profile 互相打断，还白耗带宽。"""
-    best = None
-    for p in (os.path.join(STATE, "social-learn.log"),
-              os.path.join(SOCIAL, "LEARNING-LEDGER.jsonl")):
-        if os.path.exists(p):
-            m = (time.time() - os.path.getmtime(p)) / 60.0
-            best = m if best is None else min(best, m)
-    return best
+    """距**本器自己**上次真正采集多少分钟。
+
+    2026-11-20 实锚：原判据看 social_learn 的日志 mtime，而它几分钟就跑一次，
+    定向采集被永久判"刚采过"→ 每拍只做 WATCH，环路白跑（台账连 3 条 DEFER）。
+    social_learn 采总榜、本器按段定向，是两件事不能互相代表；
+    真正的资源冲突由 social_collect 的 profile pid 锁排队处理。
+    """
+    last = None
+    for r in read_jsonl(LEDGER, limit=200):
+        if r.get("phase") == "collect" and r.get("status") in ("OK", "NOPROGRESS"):
+            try:
+                last = time.mktime(time.strptime(r["ts"], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                continue
+    return None if last is None else (time.time() - last) / 60.0
+
+
 
 
 # ---------- ACT ----------
@@ -515,11 +533,13 @@ def self_test():
         dict(seg="B", rows=700, target=600, gap=0.0, verdict="KEEP", eval_n=10, need="verify"),
         dict(seg="C", rows=700, target=600, gap=0.0, verdict="KEEP", eval_n=40, need="-"),
     ])
-    t = decide(fake)
+    t = decide(fake, training=False)
     cases.append(("缺料优先于功率不足", t["phase"] == "collect" and t["seg"] == "A"))
-    t2 = decide(dict(fake, segs=[fake["segs"][1], fake["segs"][2]]))
+    t2 = decide(dict(fake, segs=[fake["segs"][1], fake["segs"][2]]), training=False)
     cases.append(("无缺料时才去验功率", t2["phase"] == "verify" and t2["seg"] == "B"))
-    t3 = decide(dict(fake, segs=[fake["segs"][2]]))
+    t3 = decide(dict(fake, segs=[fake["segs"][2]]), training=False)
+    t4 = decide(dict(fake, segs=[fake["segs"][1]]), training=True)
+    cases.append(("训练占 GPU 时不派验证", t4["phase"] != "verify"))
     cases.append(("都满足时只做调参", t3["phase"] == "tune"))
 
     # 退避：同任务连续两次 FAIL 后 24h 内不再被选
