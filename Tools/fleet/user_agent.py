@@ -615,6 +615,12 @@ def run_session(minutes=18, dry=False, force=False):
     force=True 只跳过"时段"这一条时序闸，护栏（合规闸/配额/刷脸上限）照旧。
     """
     acct = _active_account()
+    plat = (acct.get("platform") or "bilibili").lower()
+    if plat != "bilibili":
+        # 多平台扩展点：新平台要有自己的 browse/like/talk/comment/login 原语才允许跑，
+        # 否则宁可不跑，也不许把 B 站的动作套到别的平台上（那是假活）。
+        return {"ok": False, "why": "平台 %s 尚未实现动作原语" % plat,
+                "account": acct.get("uname") or acct.get("mid")}
     lock = _mid_lock(acct.get("mid"))   # 只防同一号重复开；两号允许并行（不同 profile）
     glock = None
     if lock is None and not dry:
