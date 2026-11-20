@@ -163,6 +163,60 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
+RECIPE = "v2-kind-opening"     # 造集配方版本：变了就该重训（train_forever 认这个）
+
+KIND_SHARE = {"question": 0.25, "critique": 0.20, "experience": 0.30, "praise": 0.25}
+
+
+def _kind(text):
+    t = text or ""
+    if "？" in t or "?" in t:
+        return "question"
+    praise_only = any(w in t for w in ("感谢", "已三连", "太干货", "收藏", "学到了"))
+    if any(w in t for w in ("不", "没", "别", "差", "烂", "难", "踩", "浪费", "没必要")) and not praise_only:
+        return "critique"
+    if "我" in t and any(w in t for w in ("剪过", "试过", "看了", "做过", "学了", "用过", "卡在", "搞不懂")):
+        return "experience"
+    return "praise"
+
+
+def balance_kinds(rows, rnd):
+    """按话语类型重新配比，并给"开头"设配额。
+
+    2026-11-20 实测：语料 5720 条里提问只有 8%，而"已三连/老师/感谢"这类开头占 16%
+    ——模型照着学，输出就变成"礼貌水军"。培训集必须先把比例调正，否则再怎么调参
+    也只是把水军腔练得更顺。
+    """
+    pools = {}
+    for r in rows:
+        pools.setdefault(_kind(r["text"]), []).append(r)
+    total = len(rows)
+    out, leftover = [], []
+    for kind, share in KIND_SHARE.items():
+        pool = pools.get(kind) or []
+        rnd.shuffle(pool)
+        quota = int(total * share)
+        take = min(quota, len(pool))
+        out.extend(pool[:take])
+        leftover.extend(pool[take:])
+    slots = total - len(out)
+    if slots > 0:
+        rnd.shuffle(leftover)
+        out.extend(leftover[:slots])
+
+    # 开头配额：任何"前两个字"不得超过 2%（上限 8 条），否则满屏"那个/这个"
+    cap = max(8, int(total * 0.02))
+    seen, kept = {}, []
+    rnd.shuffle(out)
+    for r in out:
+        k = re.sub(r"[^\u4e00-\u9fff]", "", r["text"])[:2]
+        if seen.get(k, 0) >= cap:
+            continue
+        seen[k] = seen.get(k, 0) + 1
+        kept.append(r)
+    rnd.shuffle(kept)
+    return kept
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
@@ -341,6 +395,15 @@ def main():
         return 2
 
     rnd = random.Random(a.seed)
+    if os.environ.get("FLUX_BUILD_NO_BALANCE") != "1":
+        rows = balance_kinds(rows, rnd)
+        kinds = {}
+        for r in rows:
+            kinds[_kind(r["text"])] = kinds.get(_kind(r["text"]), 0) + 1
+        print("[build] 配比：%s（共 %d 行）" % (
+            " ".join("%s %.0f%%" % (k, 100.0 * v / max(len(rows), 1)) for k, v in
+                     sorted(kinds.items(), key=lambda x: -x[1])), len(rows)))
+
     # 按句长分桶后层内切分，valid 的长度分布跟着 train 走
     buckets = {}
     for r in rows:

@@ -48,6 +48,12 @@ QUALITY = os.path.join(SOCIAL, "corpus", "human", "QUALITY-PASS.jsonl")
 ARCHIVE = os.path.join(os.path.expanduser("~"), ".fluxgroup", "lora-archive")
 PY = "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
 
+try:
+    import train_build as _tb
+    RECIPE_V = getattr(_tb, "RECIPE", "v1")
+except Exception:
+    RECIPE_V = "v1"
+
 GENERIC = "__all__"     # 全量语料卡：段都进冷却时用它顶上，吃的是"所有段的合集 + 新采数据"
 GENERIC_COOLDOWN_S = 8 * 3600
 GENERIC_MIN_ROWS = 1000
@@ -124,6 +130,11 @@ def eligible(seg, rows, st, rejects, now=None):
     # 训练节奏跟着**数据**走，不跟时钟走：语料涨够 10% 就是新的一课，
     # 比"每 6 小时再来一遍同样的数据"科学（那只会过拟合）。
     grown = last_rows and n >= last_rows * 1.10
+    # 配方变了（话语配比/开头配额）也是重训理由：同一批语料换个喂法就是新的一课
+    rj0 = rejects.get(seg) or {}
+    if rec.get("recipe") and rec["recipe"] != RECIPE_V and not (
+            int(rj0.get("n") or 0) >= 3 and n < int(rj0.get("rows") or 0) * GROWTH_GATE):
+        return True, "配方更新 %s（%d 行）" % (RECIPE_V, n)
     if now - last < COOLDOWN_S and not grown:
         return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (
             (now - last) / 3600.0, last_rows, n)
@@ -504,7 +515,7 @@ def run_one(a):
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",
            "why": why, "adapter": os.path.relpath(ck, ROOT) if ck else None}
     st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
-                               last_rc=verdict, rows=task["rows"],
+                               last_rc=verdict, recipe=RECIPE_V, rows=task["rows"],
                                run=rec["run"], step=real_step, val_min=val)
     st["runs"].append(rec)
     _save(LOOP_STATE, st)
@@ -539,14 +550,15 @@ def self_test():
     cases.append(("语料够且没训过 → 可训", ok))
     ok2, why2 = eligible("b", rows, st, rj)
     cases.append(("语料不足 → 不可训", not ok2 and "200" in why2))
-    st2 = {"segments": {"a": {"last_ts": time.time() - 600}}}
+    st2 = {"segments": {"a": {"last_ts": time.time() - 600, "recipe": RECIPE_V}}}
     ok3, why3 = eligible("a", rows, st2, rj)
     cases.append(("冷却中 → 不可训", not ok3 and "冷却" in why3))
+    st3 = {"segments": {"a": {"last_ts": 0, "recipe": RECIPE_V}}}
     rj2 = {"a": {"rows": 300}}
-    ok4, why4 = eligible("a", rows, st, rj2)
+    ok4, why4 = eligible("a", rows, st3, rj2)
     cases.append(("被否且语料未涨 15% → 不可训", not ok4 and "未涨" in why4))
     rows2 = {"a": 400}
-    ok5, _ = eligible("a", rows2, st, rj2)
+    ok5, _ = eligible("a", rows2, st3, rj2)
     cases.append(("被否但语料涨够 → 可训", ok5))
     B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
     keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
