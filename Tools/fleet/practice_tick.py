@@ -389,6 +389,18 @@ def main():
     # 2026-11-20：原来是"第一条过闸就发"，于是发出去的都是第一版平淡句。
     # 改成 best-of-8：语感+人味优先，总分次之；并且生硬的语气词（塞在词中间）直接拒稿——
     # 那是为了刷分硬塞的，发出去比不发更伤账号。
+    # 按人设切到该段的适配器（训好的件不用=白训）；进程退出时自动切回基座。
+    # 切换要重启 8788（约 20–30 秒），正好被"发前先读一会儿"的停留吸收。
+    try:
+        import adapter_router as ar
+        import atexit
+        rok, rnote, rsecs = ar.ensure(seg)
+        log({"action": "route", "seg": seg, "ok": rok, "secs": rsecs, "note": rnote})
+        if rok:
+            atexit.register(ar.restore)
+    except Exception as e:
+        log({"action": "route", "seg": seg, "ok": False, "note": str(e)[:80]})
+
     best = None
     for k in range(8):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k)

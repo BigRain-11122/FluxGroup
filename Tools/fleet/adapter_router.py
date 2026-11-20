@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""adapter_router.py — 按人群段切 LoRA 适配器，用完切回。
+
+问题：五个段件（tech_nerd/peer_pro/music_seeker/craft_learner/memer）都判为有效、
+都归档了，但线上一直跑基座——**训出来的权重一次没用过**，这是最大的算力浪费。
+
+为什么必须"切"而不是"并发挂"：8788 一次只加载一个适配器；再开一个进程就是
+再吃 2.9GB，而本机 GPU 只有一个（2026-11-20 实测：训练中生成从 25.7 掉到 2.1 tok/s）。
+所以正确形态是**按需切换**：写一条评论前切到该段的件，写完切回基座。
+
+代价：每次切换要重启 8788 并等它就绪（实测约 20–30 秒）。会话里一条评论本来就要
+停留 25–110 秒，切换时间被这段时间吸收，不额外占用算力。
+
+用法：
+  python3 Tools/fleet/adapter_router.py --list
+  python3 Tools/fleet/adapter_router.py --ensure peer_pro
+  python3 Tools/fleet/adapter_router.py --restore
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import time
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(HERE))
+TRAIN = os.path.join(ROOT, "cph4", "fleet", "social", "train")
+LEDGER = os.path.join(TRAIN, "TRAIN-LOOP-LEDGER.jsonl")
+ACTIVE = os.path.join(TRAIN, "ACTIVE.json")
+SWITCH = os.path.join(HERE, "lora_switch.sh")
+STATE = os.path.join(ROOT, ".codely-cli", "state")
+LOG = os.path.join(STATE, "adapter-router.jsonl")
+
+
+def best_adapters():
+    """每个段当前最优的适配器（取台账里最后一次判为 KEEP 且文件还在的）。"""
+    out = {}
+    try:
+        for line in open(LEDGER, encoding="utf-8", errors="replace"):
+            line = line.strip()
+            if not line:
+                continue
+            r = json.loads(line)
+            if r.get("verdict") != "KEEP" or not r.get("adapter"):
+                continue
+            p = os.path.join(ROOT, r["adapter"], "adapters.safetensors")
+            if os.path.exists(p):
+                out[r["seg"]] = {"adapter": r["adapter"], "gain": round(
+                    float(r.get("lora_avg") or 0) - float(r.get("base_avg") or 0), 1),
+                    "n": r.get("eval_n")}
+    except FileNotFoundError:
+        pass
+    return out
+
+
+def current():
+    try:
+        d = json.load(open(ACTIVE, encoding="utf-8"))
+    except Exception:
+        d = {}
+    return d.get("adapter") if d.get("mode") != "base" else None
+
+
+def _switch(target, why, timeout=180):
+    t0 = time.time()
+    p = subprocess.run(["/bin/bash", SWITCH, target, why], cwd=ROOT,
+                       capture_output=True, text=True, timeout=timeout)
+    secs = round(time.time() - t0, 1)
+    ok = p.returncode == 0
+    rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "target": target,
+           "ok": ok, "secs": secs, "why": why,
+           "tail": ((p.stdout or "") + (p.stderr or "")).strip().splitlines()[-1][:120]
+           if ((p.stdout or "") + (p.stderr or "")).strip() else ""}
+    os.makedirs(STATE, exist_ok=True)
+    with open(LOG, "a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    return ok, secs, rec["tail"]
+
+
+def ensure(seg, timeout=180):
+    """切到该段最优件。返回 (是否已就位, 说明, 切换耗时秒)。"""
+    best = best_adapters().get(seg)
+    if not best:
+        return False, "该段没有可用件（用基座）", 0.0
+    if current() == best["adapter"]:
+        return True, "已在位", 0.0
+    ok, secs, tail = _switch(best["adapter"],
+                             "段 %s 出稿：%+0.1f 分（n=%s）" % (
+                                 seg, best["gain"], best["n"]), timeout=timeout)
+    return ok, ("%s（%s）" % (tail, best["adapter"]) if ok else "切换失败：" + tail), secs
+
+
+def restore(timeout=180):
+    """切回基座：别把段件留在线上影响别的消费者。"""
+    if current() is None:
+        return True, "已是基座", 0.0
+    ok, secs, tail = _switch("base", "出稿完成，切回基座", timeout=timeout)
+    return ok, tail, secs
+
+
+def self_test():
+    cases = []
+    b = best_adapters()
+    cases.append(("能从台账读出至少一个段件", isinstance(b, dict) and len(b) >= 1))
+    cases.append(("读出的件文件真实存在",
+                  all(os.path.exists(os.path.join(ROOT, v["adapter"], "adapters.safetensors"))
+                      for v in b.values()) if b else False))
+    cases.append(("增益字段是数字", all(isinstance(v["gain"], float) for v in b.values()) if b else False))
+    ok = 0
+    for n, c in cases:
+        print("  [%s] %s" % ("PASS" if c else "FAIL", n))
+        ok += 1 if c else 0
+    print("[self-test] %d/%d" % (ok, len(cases)))
+    return 0 if ok == len(cases) else 1
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--list", action="store_true")
+    ap.add_argument("--ensure", default=None)
+    ap.add_argument("--restore", action="store_true")
+    ap.add_argument("--self-test", action="store_true")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        return self_test()
+    if a.list:
+        print(json.dumps(best_adapters(), ensure_ascii=False, indent=1))
+        print("当前线上:", current() or "base")
+        return 0
+    if a.ensure:
+        ok, note, secs = ensure(a.ensure)
+        print("[router] %s → %s%s" % (a.ensure, "就位" if ok else "未就位", note))
+        return 0 if ok else 1
+    if a.restore:
+        ok, note, secs = restore()
+        print("[router] 切回基座 %s（%s）" % ("完成" if ok else "失败", note))
+        return 0 if ok else 1
+    ap.print_help()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

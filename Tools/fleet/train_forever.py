@@ -374,7 +374,11 @@ def run_one(a):
     rejects = _load(REJECTS, {})
     st.setdefault("segments", {})
     st.setdefault("runs", [])
-    task, _cands = pick(rows, st, rejects)
+    if a.seg:
+        n_rows = int(rows.get(a.seg, 0))
+        task, _cands = ({"seg": a.seg, "rows": n_rows, "why": "手动指定"}, [])
+    else:
+        task, _cands = pick(rows, st, rejects)
     if not task:
         board(st, rows, rejects)
         why_not = []
@@ -414,7 +418,7 @@ def run_one(a):
 
     rc, out = sh(["/bin/bash", os.path.join(HERE, "train_run.sh"),
                   "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
-                  "--max-seq-length", "224", "--steps-per-eval", "50",
+                  "--max-seq-length", "320", "--steps-per-eval", "50",
                   "--grad-checkpoint"], timeout=8 * 3600)
     if rc != 0:
         skip = "SKIP-ALREADY-TRAINING" in out
@@ -569,6 +573,8 @@ def main(argv=None):
     ap.add_argument("--iters", type=int, default=500)
     ap.add_argument("--samples", type=int, default=10,
                     help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")
+    ap.add_argument("--seg", default=None,
+                    help="手动指定这一段（跳过队列与冷却，运维复核用；仍照常落台账）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:

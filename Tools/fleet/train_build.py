@@ -40,11 +40,8 @@ MIN_LEN, MAX_LEN = 4, 60
 _LEN = "8-35 字，一到两句话"
 # 2026-11-20：实测实投文案语感 0.5/20（闸按"口语助词种类"计分）、人味 10.6/20。
 # 问题不在模型，在指令从没要求过这两件事。训练与推理共用这份文本，改这里等于同时改两边。
-_HUMAN = ("像随口说话：自然带一两个口语词（吧/啊/呀/呢/嘛/啦/哈），"
-          "它们只能落在句尾或逗号前，不许塞在词中间，也别每条都用同一个字；"
-          "用「我」讲一句自己的经历或反应；"
-          "点到一个具体的东西（镜头/剪辑/台词/配乐/结尾/开头）；"
-          "不要用「真的/必须/超级/简直/特别/非常/瞬间」这类空夸词。")
+_HUMAN = ("像随口说话：带一两个语气词（吧/啊/呢/嘛/啦，放句尾），"
+          "用「我」+一个具体细节（镜头/剪辑/台词/配乐），别用空夸词。")
 INSTRUCTIONS = [
     "视频《{title}》{hint}。你在 B 站这条视频下面留评论。只写评论本身，" + _LEN + "。" + _HUMAN,
     "用 B 站观众的口吻，给《{title}》{hint}写一句真实评论，" + _LEN + "。" + _HUMAN,
@@ -389,6 +386,20 @@ def main():
                             pass
                 else:
                     ins = INSTRUCTIONS_NOCTX[i % len(INSTRUCTIONS_NOCTX)]
+                # 224 的序列上限里，user 太长会把 assistant 整个挤掉；
+                # 配合 --mask-prompt 就是"没有可学的 token"→ loss nan（2026-11-20 实锚）。
+                MAX_USER = 240   # 训练侧 max-seq-length 已提到 320；这里留出 assistant 的空间
+                if len(ins) > MAX_USER:
+                    ins = INSTRUCTIONS[i % len(INSTRUCTIONS)].format(
+                        title=title[:20], hint="")
+                    if r.get("seg"):
+                        try:
+                            import segments as _sg
+                            ins += " " + _sg.style_block(r["seg"])
+                        except Exception:
+                            pass
+                if len(ins) > MAX_USER:
+                    ins = "视频《%s》。写一句真人评论：带一个语气词、用「我」+具体细节，8-35 字。" % title[:20]
                 msg = {"messages": [
                     {"role": "user", "content": ins},
                     {"role": "assistant", "content": r["text"]},
