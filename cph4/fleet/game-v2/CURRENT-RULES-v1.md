@@ -62,6 +62,7 @@
 - **体系雷达：`SYSTEM-RADAR-v1.md` / `SYSTEM-INVENTORY-v1.md`**
 - **智能体运营：`AGENT-OPERATIONS-v1.md` / `agents.registry.json`**
 - **资源排产：`RESOURCE-SCHEDULER-v1.md` / `Tools/gds/resource_snapshot.py`**
+- **CPU 车道（审计/审阅排队）：`Tools/gds/cpu_lane.py`**；结果落 `audits/`；双车道口径见 `LOCAL-POOL-v1.md` §五·五
 - **双轨制（创新 vs 守成）：`DUAL-TRACK-v1.md`**
 - 执行映射（谁做/证据/频率）：`EXECUTION-MAP-v1.md`
 - 成本拆解与周转：`market/COST-BREAKDOWN-20261120.md`
