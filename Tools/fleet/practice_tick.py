@@ -413,6 +413,17 @@ def main():
     except Exception as e:
         log({"action": "route", "seg": seg, "ok": False, "note": str(e)[:80]})
 
+    # 连发同款开头的检查：读最近 20 条投出去的文案，开头两个字重复的扣优先级。
+    # 单条看不出问题，连着发就是模板（2026-11-20 实测 12 条里 9 条是"那个/那"）。
+    recent_ops = {}
+    try:
+        for r in rows_today()[-40:] + []:
+            if r.get("action") == "post" and r.get("text"):
+                op = ct.opening_key(r["text"])
+                recent_ops[op] = recent_ops.get(op, 0) + 1
+    except Exception:
+        pass
+
     best = None
     for k in range(8):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k)
@@ -426,9 +437,14 @@ def main():
             continue
         if ct.awkward_particles(t):
             continue
+        if ct.hard_block(t):
+            log({"action": "skip", "why": "hard-block:" + ct.hard_block(t), "arm": arm})
+            continue
         if not sp.safe_to_send(t, title)[0]:
             continue
         key = (s["voice"] + s["human"], s["total"])
+        if recent_ops.get(ct.opening_key(t)):
+            key = (key[0] - 3, key[1])   # 开头撞车：让位给别的候选
         if best is None or key > best[0]:
             best = (key, t, lane)
     text, lane_used = "", ""

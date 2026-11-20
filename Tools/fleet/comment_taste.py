@@ -134,6 +134,32 @@ def awkward_particles(text):
     return bad
 
 
+def hard_block(text):
+    """硬拒（不扣分，直接不收）：这三类是"发出去就露馅"的，不该靠总分盖过去。
+
+    2026-11-20 读样本实锚：
+      · 「那配乐一响我瞬间泪目…」——"泪目"在 CLICHE 表里却拿了 84 分（只扣分不拒稿）；
+      · 「我完全没听出 CONTENT。」——4-bit 模型幻觉出英文占位符；
+      · 12 条里有 9 条用"那个/那"开头——单条看不出，连着发就是模板。
+    """
+    t = strip_reply_prefix(text or "")
+    cli = [w for w in CLICHE if w in t]
+    if cli:
+        return "烂梗：%s" % "/".join(cli[:2])
+    latin = re.findall(r"[A-Za-z]{3,}", t)
+    ok_latin = {"BGM", "bgm", "MV", "mv", "UP", "up", "B站", "PR", "AI", "Vlog", "vlog"}
+    bad = [w for w in latin if w not in ok_latin]
+    if bad:
+        return "英文幻觉：%s" % "/".join(bad[:2])
+    return ""
+
+
+def opening_key(text, n=2):
+    """开头两个字：用来做"连发同款开头"的多样性检查（那个/那配/镜头…）。"""
+    t = re.sub(r"[^\u4e00-\u9fff]", "", strip_reply_prefix(text or ""))
+    return t[:n]
+
+
 def score(text, seg=None):
     t = strip_reply_prefix(text)
     d = {"len": len(t), "logic": 0, "voice": 0, "human": 0, "taste": 0, "natural": 0,
