@@ -414,8 +414,8 @@ def persona_of(acct):
     return {}
 
 
-def pick_account():
-    """两个号都养、但不同时：每场只挑一个号，挑"今天跑得最少"的那个。
+def pick_account(force_alias=None):
+    """挑本场用哪个号。force_alias 由常驻智能体传入（一个 agent 只养一个号）。
 
     依据：同一台机器、同一个 IP 上两个号同时活跃是典型关联特征；
     轮流开、每场只动一个号，才像"一个人分别用两个账号刷"。
@@ -435,6 +435,10 @@ def pick_account():
         if cur is None or (v.get("primary") and not cur.get("primary")):
             by_mid[v["mid"]] = v
     acts = {str(v["mid"]): v for v in by_mid.values()}
+    if force_alias:
+        want = (d.get("accounts") or {}).get(force_alias)
+        if isinstance(want, dict) and want.get("mid"):
+            acts = {str(want["mid"]): want}
     if not acts:
         return {}
     today = datetime.now().strftime("%Y-%m-%d")
@@ -478,7 +482,7 @@ def pick_account():
 
 
 def _active_account():
-    return pick_account()
+    return pick_account(os.environ.get("FLUX_ACCOUNT") or None)
 
 
 def _mid_lock(mid):
@@ -573,10 +577,8 @@ def run_session(minutes=18, dry=False, force=False):
     force=True 只跳过"时段"这一条时序闸，护栏（合规闸/配额/刷脸上限）照旧。
     """
     acct = _active_account()
-    glock = _mid_lock("global")      # 全局：两号也不许同时开（防 launchd 与手动撞车）
-    if glock is None and not dry:
-        return {"ok": False, "why": "已有会话在跑（全局单实例）"}
-    lock = _mid_lock(acct.get("mid"))
+    lock = _mid_lock(acct.get("mid"))   # 只防同一号重复开；两号允许并行（不同 profile）
+    glock = None
     if lock is None and not dry:
         return {"ok": False, "why": "同一个号已有会话在跑（按 mid 互斥）",
                 "account": acct.get("uname") or acct.get("mid")}
@@ -585,7 +587,16 @@ def run_session(minutes=18, dry=False, force=False):
     if not cur and not force:
         _mid_unlock(lock); _mid_unlock(glock)
         return {"ok": False, "why": "不在会话时段（一天 3-6 次）"}
-    logged, mid2, uname2 = (False, None, None) if dry else login_state()
+    try:
+        logged, mid2, uname2 = (False, None, None) if dry else login_state()
+    except Exception as e:
+        # profile 被另一个进程占着不是故障：记一笔、本轮让路，别抛栈把 daemon 打成异常
+        why = str(e).strip().splitlines()[0][:80]
+        _mid_unlock(lock)
+        log({"action": "profile_busy", "account": acct.get("uname") or acct.get("mid"),
+             "why": why})
+        return {"ok": False, "why": "profile 被占用：%s" % why,
+                "account": acct.get("uname") or acct.get("mid")}
     if not dry and not logged:
         log({"action": "need_login", "account": acct.get("uname") or acct.get("mid"),
              "profile": acct.get("profile")})
