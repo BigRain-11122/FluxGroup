@@ -1,9 +1,9 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-19T15:28:30｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-20T15:33:14｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 86.9 / 100**（验证 24.4/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-19T15:20:23）；外部阻塞 3 项
+> **综合评分 86.7 / 100**（验证 24.2/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-20T11:03:06）；外部阻塞 3 项
 
 ## 一、速查表
 
@@ -227,7 +227,7 @@
 | OS-6 | 系统专属命令不算通用 | sysctl / getloadavg / launchctl / os.fork 只在 POSIX；schtasks / Get-CimInstance / powershell 只在 Windows。失真判据一律双实现或显式拒绝。 |
 | OS-7 | 未验证 OS 不得排卡 | os=unverified 的机器不得作为任何卡的落点（除非卡本身就是装机/验机卡）。 |
 
-队列与存储：分片 `cph4/fleet/rt/<工位>/`（一机一写者，主控只读 origin 快照）；素材字节留产出机，素材库落点 `—`（status=EMPTY；重建目标 传家宝:K:/FluxAssets）。
+队列与存储：分片 `cph4/fleet/rt/<工位>/`（一机一写者，主控只读 origin 快照）；素材字节留产出机，素材库落点 `/Users/junsheng.sun/FluxAssets`（status=ACTIVE；重建目标 传家宝:K:/FluxAssets）。
 
 ## 四、模型端点阶梯
 
@@ -244,8 +244,8 @@
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
 | control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.0h | — |
-| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 122.7h | 探针已 122.7h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
-| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 136.0h | 探针已 136.0h 未更新（阈值 24h）；python 3.13.15 不满足 <3.13（等 6 项） |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 146.8h | 探针已 146.8h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
+| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 160.1h | 探针已 160.1h 未更新（阈值 24h）；python 3.13.15 不满足 <3.13（等 6 项） |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
 
@@ -257,7 +257,6 @@
 
 1. brain：系统未核实（待定（未装机/未入网））——入网时二选一：Ubuntu（CUDA/驱动省事，工具多为 py）或 Windows（与另外三台一致，可复用 .ps1）。选前不得按任何一方排卡。
 2. 算力大脑：端点未装备（未入网：tailnet IP 未分配。装备完成后在此填 http://<brain-tailnet>:11434，order 保持 1。）
-3. 素材库为空（已按 CEO 令清空），重建落点 K:/FluxAssets
 
 ## 七、配置一致性校验
 
