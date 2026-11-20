@@ -1,0 +1,5 @@
+CHAIN EP002 stages=plan,kf,i2v-plan,i2v,assembly,qc dry=False
+[plan]
+  $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_kf_plan.py --eps 2
+[kf]
+  $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_kf_batch.py --ep 2

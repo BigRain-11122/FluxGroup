@@ -32,6 +32,11 @@
 | IdleWatch 机队防闲置哨 | 在线/监听/队列/心跳新鲜度探测+连 3 次复闲报警 | `Tools/fleet-idle-watch.ps1` | PT15M |
 | 哨兵族（bm-b-Sentinel v3.0 等） | 各机自愈哨兵：ollama/心跳/队列静默/自驱工件池认领 | `C:\Fluxgroup\.codely-cli\sentinel\`（bm-b 侧） | PT5M |
 | OS 循环班族（各司） | 各司 10min 自迭代：MiniGameEngineTick / Bigmoney-IterationLoop / BigStream-OSLoop / BigLife-OSLoop | 各司仓 mandate | PT10M |
+| **bm-c 生产四席**（2026-11-21 立·承 CEO「7×24 不间断自动化生产」令） | 生产链=生产者→收口员→自省员→审稿员；见下四行 | `cph4/fleet/production/` + `Tools/fleet/bmc_prod.py` | 见各行 |
+| └ 生产者席 BmcIdleGuard | 闲置≥10min → 从 `work-bank/bm-c-gpu-bank.json` 认领 pending 活 → 隐链点火（**既有件**，本次仅启用+供料） | `cph4/fleet/idle-guard-kit/bmc_idleguard.py` | PT10M |
+| └ 收口员席 Bmc-ProdFinalize | 对账 claimed→done / pending（≤3 次重试）/ blocked；写 `production/LEDGER.jsonl` | `Tools/fleet/bmc_prod.py finalize` | PT10M |
+| └ 自省员席 Bmc-ProdIterate | 夜间读台账：单集耗时/产能估算/失败聚类/迭代建议（**只建议不立法**） | `Tools/fleet/bmc_prod.py iterate` | 日 05:07 |
+| └ 审稿员席 drama_prompt_critic | 本地 LLM（num_gpu=0 纯 CPU）提示词初筛，与 GPU 烧片并行不抢卡 | `Tools/fleet/drama_prompt_critic.py` | 按批调用 |
 | W 波回测自滚引擎 | 量化波链席位/冻结/自燃全链 | bigmoney 仓 fleet/ | 连续滚动 |
 | 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/15:07 · 周日 |
 | 交付哨 delivery-watch | 交付物落地守望+min_duration 质量闸+告警 | `cph4/fleet/dispatcher/delivery-watch/` | 常驻 |

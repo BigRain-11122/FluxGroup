@@ -44,6 +44,52 @@ def sh(cmd, dry):
     return p.returncode
 
 
+PIPER = r"K:\Fluxgroup\.tools\tts-venv\Scripts\piper.exe"
+PIPER_MODEL = r"K:\Fluxgroup\.tools\piper-voices\zh_CN-huayan-medium.onnx"
+
+
+def voice_all(ep, a, dry=False):
+    """逐镜配音：对每个有 sub 的镜出一句 wav（SKIP 已存在 >10KB）。
+
+    单音色（piper zh_CN-huayan）是当前本机能跑的诚实上限；多角色需 IndexTTS/GPT-SoVITS。
+    """
+    import json as _json
+    base = os.path.join(ROOT, "cph4", "fleet", "out", "drama", "EP%03d" % ep)
+    plan = os.path.join(base, "kf_prompts.json")
+    if not os.path.isfile(plan):
+        print("  AUDIO ABORT 缺 kf_prompts.json")
+        return 2
+    rows = _json.load(open(plan, encoding="utf-8"))
+    vo = os.path.join(base, "vo")
+    os.makedirs(vo, exist_ok=True)
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    made = skipped = failed = 0
+    for r in rows:
+        sub = (r.get("sub") or "").strip()
+        if not sub:
+            continue
+        wav = os.path.join(vo, r["id"] + ".wav")
+        if os.path.isfile(wav) and os.path.getsize(wav) > 10000:
+            skipped += 1
+            continue
+        if dry:
+            print("  DRY voice " + r["id"])
+            made += 1
+            continue
+        txt = os.path.join(vo, r["id"] + ".txt")
+        open(txt, "w", encoding="utf-8").write(sub)
+        p = subprocess.run([PIPER, "--model", PIPER_MODEL, "--output_file", wav, "--input_file", txt],
+                           env=env, creationflags=NO_WIN, capture_output=True)
+        if p.returncode == 0 and os.path.getsize(wav) > 1000:
+            made += 1
+        else:
+            failed += 1
+            print("  VOICE FAIL " + r["id"])
+    print("  AUDIO made=%d skipped=%d failed=%d" % (made, skipped, failed))
+    return 0 if failed == 0 else 1
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--ep", type=int, required=True)
@@ -96,9 +142,24 @@ def main(argv=None):
                      "--out", "cph4/fleet/out/drama/EP%03d/i2v" % ep,
                      "--wf", os.path.relpath(a.wf, ROOT).replace("\\", "/")], a.dry_run)
             out = "i2v/"
-        elif st in ("audio", "assembly", "qc"):
-            rc, out = 0, None
-            print("  SKIP %s：未接线（drama_assemble 需要 clip+voice+subs 三件齐）" % st)
+        elif st == "audio":
+            # 逐镜配音（piper 单音色）→ 见 tools 侧 _voice_all
+            rc = voice_all(ep, a, dry=a.dry_run)
+            out = "vo/"
+        elif st == "assembly":
+            rc = sh([PY, os.path.join(HERE, "drama_av_manifest.py"), "--ep", str(ep), "--mix"], a.dry_run)
+            if rc == 0:
+                rc = sh([PY, os.path.join(ROOT, "Tools", "fleet", "drama_assemble.py"),
+                         "--manifest", "cph4/fleet/out/drama/EP%03d/assemble_manifest.json" % ep,
+                         "--out", "cph4/fleet/out/drama/EP%03d/ep%03d.mp4" % (ep, ep),
+                         "--qa", "cph4/fleet/out/drama/EP%03d/ep%03d-qa.json" % (ep, ep)], a.dry_run)
+            out = "ep%03d.mp4" % ep
+        elif st == "qc":
+            rc = sh([PY, os.path.join(ROOT, "Tools", "fleet", "drama_quality_gate.py"),
+                     "--in", "cph4/fleet/out/drama/EP%03d/ep%03d.mp4" % (ep, ep),
+                     "--subs-burned",
+                     "--out", "cph4/fleet/out/drama/EP%03d/ep%03d-gate.json" % (ep, ep)], a.dry_run)
+            out = "ep%03d-gate.json" % ep
         else:
             rc, out = 2, None
             print("  UNKNOWN STAGE %s" % st)
