@@ -373,6 +373,37 @@ def verify_comment(aid, rpid, wait_s=900, step_s=60):
     return False, "%ds 内评论区查不到（多为送审/静默）" % wait_s
 
 
+def browse_video(url, seconds=None, rng=None):
+    """真的把视频页打开、停留、滚动一段再关掉（不调接口、不互动）。
+
+    为什么要有这一步：真人的轨迹是"进来先刷几条"，只在少数几条上动手。
+    只发不看的账号，行为序列里没有任何阅读停留，本身就是异常信号。
+    """
+    import random as _r
+    mod, _st = _pw()
+    try:
+        with mod.sync_playwright() as p:
+            ctx = _launch(p)
+            try:
+                pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+                pg.goto(url, wait_until="domcontentloaded", timeout=60000)
+                human_read(pg, seconds=seconds)
+                title = (pg.title() or "")[:40]
+                return True, title
+            finally:
+                try:
+                    ctx.close()
+                except Exception:
+                    pass
+                try:
+                    import social_collect as _sc3
+                    _sc3.release_profile_lock(PROF)
+                except Exception:
+                    pass
+    except Exception as e:
+        return False, str(e).strip().splitlines()[0][:80]
+
+
 def human_read(pg, seconds=None):
     """像一个在看评论的人：下滚、停留、再下滚。
 

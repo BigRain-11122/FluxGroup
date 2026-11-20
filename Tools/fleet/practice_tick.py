@@ -301,17 +301,37 @@ def main():
 
     # 2.5 拟人节律：不在线时段不发（CEO「模拟人类操作习惯就好」——
     #     真风险不是次数多，而是机械均匀与零互动；夜里准点发帖比多发更假）。
-    import human_rhythm as hr
+    # 2.5 会话节律：一天 3-6 次"进来刷一会儿"，而不是每 20 分钟拍一次决定发不发。
+    #     会话内按预算动手（多数会话只看不动手），没预算就做一次真实浏览。
+    import social_session as sess
     rng = random.Random()
-    # 人工放行：CEO 明确要求"现在就发"时用（FLUX_PRACTICE_FORCE=1）。
-    # 只跳过作息这一道，工具闸/风控闸/字数闸照旧——放行不等于免检。
-    if os.environ.get("FLUX_PRACTICE_FORCE") == "1":
-        log({"action": "skip", "why": "作息闸人工放行"})
-    elif not hr.awake(rng=rng):
-        refresh_screen("不在线时段（作息模型），本拍不发")
-        log({"action": "skip", "why": "asleep"})
-        print("[tick] 跳过：不在线时段")
+    forced = os.environ.get("FLUX_PRACTICE_FORCE") == "1"
+    s_now = sess.current(rng=rng)
+    if forced:
+        log({"action": "skip", "why": "会话闸人工放行"})
+    elif not s_now:
+        log({"action": "skip", "why": "off-session"})
+        print("[tick] 不在会话时段（一天 3-6 次，见 social_session --plan）")
         return 0
+    if s_now:
+        prog = s_now.get("progress") or {}
+        budget = int(s_now.get("social", 0))
+        used = int(prog.get("posted", 0))
+        browsed = int(prog.get("browsed", 0))
+        # 预算用完了（或这条会话本来就不动手）：浏览一条就收工，别硬凑评论
+        if used >= budget:
+            if browsed >= int(s_now.get("passive", 6)):
+                print("[tick] 本次会话已刷满（看 %d 条、发 %d 条），离开" % (browsed, used))
+                return 0
+            row0 = pick()
+            if row0:
+                okb, tit = sc.browse_video(row0["video"],
+                                           seconds=rng.uniform(25, 110), rng=rng)
+                sess.bump(s_now["start"], "browsed")
+                log({"action": "browse", "ok": okb, "video": row0.get("video"),
+                     "note": tit if okb else tit})
+                print("[tick] 刷到《%s》→ %s" % ((tit or "")[:24], "看了" if okb else "打开失败"))
+            return 0
 
     # 3 挑目标（同领域优先、未用过）
     try:
@@ -371,6 +391,11 @@ def main():
             best = (key, t, lane)
     if best:
         text, lane_used = best[1], best[2]
+    if s_now:
+        try:
+            sess.bump(s_now["start"], "posted")
+        except Exception:
+            pass
     if not text:
         refresh_screen("本拍无文案过闸（不硬发）")
         log({"action": "skip", "why": "no text passed gates", "arm": arm, "video": url})
