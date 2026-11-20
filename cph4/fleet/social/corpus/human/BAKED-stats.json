@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-20T20:40:10",
- "rows": 53280,
+ "ts": "2026-11-20T20:52:30",
+ "rows": 53291,
  "workers": 7,
- "bake_sec": 0.3,
- "rows_per_sec": 154972.1,
- "near_dup": 1040,
+ "bake_sec": 0.5,
+ "rows_per_sec": 117818.1,
+ "near_dup": 1041,
  "segments": {
-  "generic": 38787,
+  "generic": 38790,
   "memer": 3995,
-  "shallow": 3356,
-  "craft_learner": 1582,
-  "feeler": 1545,
+  "shallow": 3358,
+  "craft_learner": 1586,
+  "feeler": 1546,
   "peer_pro": 1183,
   "tech_nerd": 724,
   "student": 579,
   "music_seeker": 478,
   "critic": 283,
   "family": 233,
-  "beginner": 219,
+  "beginner": 220,
   "ai_creator": 205,
   "requester": 71,
   "traditional": 40
  },
  "verdicts": {
-  "RISKY": 35375,
-  "PASS": 9641,
-  "REJECT": 8264
+  "RISKY": 35378,
+  "PASS": 9647,
+  "REJECT": 8266
  }
 }
