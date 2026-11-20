@@ -1,0 +1,25 @@
+{
+ "policy": "v731 E05 石碑特写替换镜（真楔文，锁机位微动）",
+ "gate": "v730 文字席唯一未过项",
+ "wave": "mv0001-v731-e05",
+ "total": 1,
+ "total_win_s": 3.0,
+ "units": [
+  {
+   "id": "V731_E05",
+   "shot": "E05",
+   "track": "mv0001",
+   "win_s": 3.0,
+   "src_s": 3.0,
+   "speed": 1.0,
+   "width": 864,
+   "height": 480,
+   "light": "torch",
+   "frame": "media/mv0001-handover/v731/KF-E05-stele.png",
+   "note": "石碑楔文特写",
+   "frame_bytes": 1162637,
+   "prompt_words": 40,
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Locked-off camera with only a faint handheld drift; a warm torch flame to the left of frame breathes and its light flickers slowly across the carved cuneiform wedges; dust motes drift in the beam. The stone stays completely still. Restrained cinematic motion, no text rendering changes, no logos."
+  }
+ ]
+}
