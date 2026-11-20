@@ -1,0 +1,45 @@
+{
+ "clips": [
+  "cph4/fleet/out/drama/EP001/i2v/EP001_01.mp4",
+  "cph4/fleet/out/drama/EP001/i2v/EP001_02.mp4",
+  "cph4/fleet/out/drama/EP001/i2v/EP001_03.mp4",
+  "cph4/fleet/out/drama/EP001/i2v/EP001_05.mp4"
+ ],
+ "voice": "cph4/fleet/out/drama/EP001/vo/_mixed.wav",
+ "voice_at": 0.0,
+ "voices": [
+  {
+   "file": "cph4/fleet/out/drama/EP001/vo/EP001_01.wav",
+   "at": 0.15
+  },
+  {
+   "file": "cph4/fleet/out/drama/EP001/vo/EP001_02.wav",
+   "at": 3.15
+  },
+  {
+   "file": "cph4/fleet/out/drama/EP001/vo/EP001_05.wav",
+   "at": 10.15
+  }
+ ],
+ "music": "",
+ "music_gain": 0.28,
+ "subs": [
+  {
+   "text": "1993 年 6 月 17 日，我父亲教了我最后一课。",
+   "from": 0.1,
+   "to": 2.9
+  },
+  {
+   "text": "长虹，记住——牛市没有眼泪。",
+   "from": 3.1,
+   "to": 6.9
+  },
+  {
+   "text": "十年，我背熟了这座城市的每一根 K 线。",
+   "from": 10.1,
+   "to": 13.9
+  }
+ ],
+ "font": "",
+ "note": "由 drama_av_manifest.py 生成；voice=_mixed.wav 时 voice_at=0（已按时间线对齐）"
+}

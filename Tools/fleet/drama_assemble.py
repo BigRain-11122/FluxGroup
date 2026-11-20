@@ -215,8 +215,13 @@ def main(argv):
             for s in subs:
                 st, en = float(s.get("from", 0)), float(s.get("to", dur))
                 f.write("Dialogue: 0,%s,%s,D,,0,0,0,,%s\n" % (ts(st), ts(min(en, dur)), s.get("text", "")))
-        vf = "ass=%s:fontsdir=%s" % (ass.replace("\\", "/").replace(":", "\\:"),
-                                     os.path.dirname(font).replace("\\", "/").replace(":", "\\:"))
+        # 2026-11-20 bm-c（Windows 实锚）：不加引号时 ffmpeg 报
+        #   No option name near '/Windows/Fonts'
+        # 卡在 ass=C\:/...:fontsdir=C\:/Windows/Fonts。正法=选项值整体单引号包裹
+        # （跨平台同样成立），盘符冒号仍转义。
+        vf = "ass=filename='%s':fontsdir='%s'" % (
+            ass.replace("\\", "/").replace(":", "\\:"),
+            os.path.dirname(font).replace("\\", "/").replace(":", "\\:"))
     voice = man.get("voice")
     music = man.get("music")
     inputs = ["-i", silent]

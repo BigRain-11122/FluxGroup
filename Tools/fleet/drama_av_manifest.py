@@ -69,7 +69,7 @@ def main(argv=None):
         if have_a:
             voices.append({"file": os.path.relpath(wav, ROOT).replace("\\", "/"), "at": round(t + a.voice_at, 2)})
         sub = (r.get("sub") or "").strip()
-        if sub:
+        if sub and have_v:            # 没有片段的镜不入时间线，也就不出字幕（否则字幕全挤在 0s）
             subs.append({"text": sub, "from": round(t + 0.1, 2), "to": round(t + dur - 0.1, 2)})
         t += dur if have_v else 0.0   # 无片段不计入时间线（避免字幕错位）
 
