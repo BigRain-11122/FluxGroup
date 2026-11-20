@@ -61,6 +61,7 @@ PARAMS = os.path.join(SOCIAL, "TUNE-PARAMS.json")
 TARGETS = os.path.join(SOCIAL, "SUPPLY-TARGETS.json")
 TRAIN_LEDGER = os.path.join(TRAIN, "TRAIN-LOOP-LEDGER.jsonl")
 LEDGER = os.path.join(SOCIAL, "SOCIAL-LOOP-LEDGER.jsonl")
+EMPTY_F = os.path.join(SOCIAL, "SUPPLY-EMPTY.json")
 SCREEN = os.path.join(SOCIAL, "SOCIAL-LOOP.md")
 LOCK = os.path.join(STATE, "SOCIAL-LOOP.lock")
 RAW = os.path.join(SOCIAL, "raw")
@@ -267,9 +268,44 @@ def backoff_map():
 
 # ---------- DECIDE：一拍只派一件事 ----------
 
-def decide(m, backoff=None):
+def load_empty():
+    """供给空清单 {seg: ts}：探过一次、源里确实没有这类视频，就别再让它天天挂红。
+
+    判据不许绑一个可能不存在的对象——traditional/family 若采不到，正确状态是
+    "已探测·供给空·7 天后复探"，不是永远 100% 缺口、每天重采一遍白耗。
+    """
+    return load_json(EMPTY_F, {})
+
+
+def mark_empty(seg):
+    d = load_empty()
+    d[seg] = now()
+    try:
+        os.makedirs(os.path.dirname(EMPTY_F), exist_ok=True)
+        json.dump(d, open(EMPTY_F, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+
+def empty_active(seg, days=7):
+    return _empty_active_in(load_empty(), seg, days)
+
+
+def _empty_active_in(d, seg, days=7):
+    ts = (d or {}).get(seg)
+    if not ts:
+        return False
+    try:
+        return (time.time() - time.mktime(time.strptime(ts, "%Y-%m-%dT%H:%M:%S"))) < days * 86400
+    except Exception:
+        return False
+
+
+def decide(m, backoff=None, empty=None):
     backoff = backoff or {}
-    segs = [s for s in m["segs"] if s.get("need") not in ("-", None)]
+    empty = load_empty() if empty is None else empty
+    segs = [s for s in m["segs"] if s.get("need") not in ("-", None)
+            and not _empty_active_in(empty, s["seg"])]
     # 缺料优先（按缺口降序），其次功率不足，最后才是调参
     for need in ("collect", "verify", "train"):
         cand = [s for s in segs if s["need"] == need and (need, s["seg"]) not in backoff]
@@ -446,11 +482,12 @@ def board(m, task=None, rec=None):
              "| 段 | 可用行 | 目标 | 缺口 | 最近判词 | n | 龄期(h) | 下一步 |",
              "|---|---|---|---|---|---|---|---|"]
     for s in sorted(m["segs"], key=lambda x: -x["gap"]):
+        nxt = "供给空（7 天后复探）" if empty_active(s["seg"]) else s["need"]
         lines.append("| %s | %d | %d | %.0f%% | %s | %d | %s | %s |" % (
             s["seg"], s["rows"], s["target"], s["gap"] * 100,
             s["verdict"] or "-", s["eval_n"],
             "-" if s["age_h"] is None else "%.1f" % s["age_h"],
-            s["need"]))
+            nxt))
     lines.append("")
     if task:
         lines.append("**本拍派工**：`%s` / `%s` —— %s" % (task["phase"], task["seg"], task["why"]))
@@ -500,6 +537,12 @@ def self_test():
     # 采集"成功但零增长"必须算失败：否则永远在一段上打转还全绿
     rows2 = [dict(ts=now(), phase="collect", seg="Z", status="NOPROGRESS")] * 2
     cases.append(("零增长两次进入退避", ("collect", "Z") in blocked_pairs(rows2)))
+
+    # 供给空：探过两次仍零增长的稀薄段不许天天挂红
+    seg_e = dict(seg="E", rows=1, target=300, gap=1.0, verdict=None, eval_n=0,
+                 need="collect", known=0)
+    cases.append(("供给空的段不再派采集",
+                  decide(dict(fake, segs=[seg_e]), empty={"E": now()})["seg"] != "E"))
 
     ok = 0
     for n, c in cases:
@@ -551,6 +594,15 @@ def main(argv=None):
             board(m, task)
             return 0
         rec = act(task)
+        # 探过两次、既无已知视频又零增长 → 记"供给空"，7 天后复探，不再天天挂红
+        if rec.get("status") == "NOPROGRESS" and rec.get("phase") == "collect":
+            prev = [r for r in read_jsonl(LEDGER, limit=100)
+                    if r.get("phase") == "collect" and r.get("seg") == rec.get("seg")
+                    and r.get("status") == "NOPROGRESS"]
+            known = next((s.get("known") for s in m["segs"] if s["seg"] == rec.get("seg")), 0)
+            if len(prev) >= 2 and not known:
+                mark_empty(rec.get("seg"))
+                rec["tail"] = (rec.get("tail") or "") + "\n[loop] 连续零增长且无已知视频 → 记供给空，7 天后复探"
         append_jsonl(LEDGER, rec)
         # 产物校验：OK 必须有盘上事实，否则降级为 FAIL（假绿比空转更糟）
         board(m, task, rec)

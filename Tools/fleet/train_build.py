@@ -180,6 +180,20 @@ def _kind(text):
     return "praise"
 
 
+def _ask_floor():
+    """提问+挑刺的下限，来自 TUNE-PARAMS.json（单源），取不到用 0.20。
+
+    CEO 令是"每 10 条要 2-3 条提问或挑刺"；真实语料本身 27.4%，
+    所以这只是下限保护，不是重配比目标——默认仍复刻真实分布。
+    """
+    try:
+        p = json.load(open(os.path.join(ROOT, "cph4", "fleet", "social", "TUNE-PARAMS.json"),
+                           encoding="utf-8"))
+        return float((p.get("ask_floor") or {}).get("value") or 0.20)
+    except Exception:
+        return 0.20
+
+
 def balance_kinds(rows, rnd, quota=False):
     """话语类型配比 + "开头"配额。
 
@@ -417,8 +431,10 @@ def main():
             " ".join("%s %.0f%%" % (k, 100.0 * v / tot) for k, v in
                      sorted(kinds.items(), key=lambda x: -x[1])), len(rows)))
         ask = 100.0 * (kinds.get("提问", 0) + kinds.get("挑刺", 0)) / tot
-        if ask < 20:
-            print("[build] ⚠ 提问+挑刺只占 %.0f%%（CEO 门槛 ≥20%%），这批训出来会偏泛夸" % ask)
+        floor = _ask_floor() * 100
+        if ask < floor:
+            print("[build] ⚠ 提问+挑刺只占 %.0f%%（CEO 门槛 ≥%.0f%%），这批训出来会偏泛夸"
+                  % (ask, floor))
 
     # 按句长分桶后层内切分，valid 的长度分布跟着 train 走
     buckets = {}
