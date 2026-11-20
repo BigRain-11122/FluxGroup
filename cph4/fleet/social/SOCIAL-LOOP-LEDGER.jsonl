@@ -21,3 +21,7 @@
 {"ts": "2026-11-20T16:56:13", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
 {"ts": "2026-11-20T17:01:15", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "会话时段（养号出稿用浏览器），采集让路", "secs": 0, "tail": ""}
 {"ts": "2026-11-20T17:01:15", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
+{"ts": "2026-11-20T17:06:18", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "距上次采集 2 分钟（需 ≥10），错峰避免抢同一个 profile", "secs": 0, "tail": ""}
+{"ts": "2026-11-20T17:06:18", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
+{"ts": "2026-11-20T17:11:20", "phase": "collect", "seg": "ai_creator", "status": "DEFER", "why": "距上次采集 1 分钟（需 ≥10），错峰避免抢同一个 profile", "secs": 0, "tail": ""}
+{"ts": "2026-11-20T17:11:20", "phase": "watch", "seg": "shallow", "status": "WATCH", "why": "从未训过", "secs": 0, "tail": "训练归 train_forever，本器只报不改"}
