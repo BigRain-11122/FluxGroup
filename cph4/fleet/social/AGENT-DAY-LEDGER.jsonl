@@ -230,3 +230,6 @@
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.2, "ts": "2026-11-20T16:00:26", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
 {"rc": 0, "note": "  - bilibili     OK", "secs": 40.2, "ts": "2026-11-20T16:24:11", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1795163049, "lines": 175}}}
 {"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.2, "ts": "2026-11-20T16:31:12", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
+{"rc": 2, "note": "[mon] → cph4/fleet/social/SOCIAL-AGENT-BOARD.md", "secs": 0.2, "ts": "2026-11-20T16:59:17", "id": "monitor_board", "mem": "none", "evidence": {"cph4/fleet/social/SOCIAL-AGENT-BOARD.md": {"mtime": 1795165157, "lines": 83}}}
+{"rc": 0, "note": "[thread] 唤醒 0 · 超时未回 0 []", "secs": 0.1, "ts": "2026-11-20T17:01:18", "id": "threads_tick", "mem": "none", "evidence": {"cph4/fleet/social/threads-events.jsonl": {"mtime": 1794911098, "lines": 4}}}
+{"rc": 0, "note": "  - bilibili     NO_NEW", "secs": 20.9, "ts": "2026-11-20T17:04:39", "id": "learn_cycle", "mem": "collect", "evidence": {"cph4/fleet/social/LEARNING-LEDGER.jsonl": {"mtime": 1795165479, "lines": 176}}}
