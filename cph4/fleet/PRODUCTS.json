@@ -89,9 +89,9 @@
    },
    "owner_station": "visual",
    "support": [
-    "delivery",
     "audio"
    ],
+   "delivery_note": "2026-11-20 内容线移交后，交付工厂不再承接 mv-cut/mv-gate（见 cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md）",
    "priority": "T0",
    "cadence": "3-4 天一支出片",
    "blocked_by": [],
@@ -143,8 +143,7 @@
    },
    "owner_station": "visual",
    "support": [
-    "audio",
-    "delivery"
+    "audio"
    ],
    "priority": "T0",
    "cadence": "每周 1 个可用包",
@@ -626,8 +625,7 @@
    },
    "owner_station": "visual",
    "support": [
-    "audio",
-    "delivery"
+    "audio"
    ],
    "priority": "T1",
    "cadence": "先 1 集验证，再谈日更",

@@ -10,7 +10,7 @@
   {
    "id": "delivery",
    "name": "交付工厂",
-   "role": "游戏产线主业（CEO 2026-11-11）：Biggame 与车机游戏的全部提审/图标/截图/构建/适配/准入材料都在这里；不再接视频与对外物料。",
+   "role": "城市+游戏主业（CEO 2026-11-20 收窄）：硅基城市（FluxVerse/City3D/BigLife/BigHouse）与游戏公司（Biggame/车机游戏/提审/构建/图标/截图）全部在此；自媒体/AI 漫剧/短剧/短视频/MV/账号运营全线已移交传家宝，正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md。",
    "blocked_scope": "all",
    "local_model": {
     "model": "qwen3.5:8b 级（Q4）",
@@ -71,7 +71,9 @@
    "forbidden_work": [
     "视频剪辑与字幕",
     "画面生成",
-    "声音"
+    "声音",
+    "自媒体/漫剧/短剧/短视频/MV 生产（2026-11-20 全线移交传家宝）",
+    "账号侧动作（养号/评论/私信/发布准备，归传家宝且启用须 CEO 令）"
    ],
    "daily_capacity": {
     "游戏提审四件套": "20 套/天",
@@ -93,21 +95,21 @@
      "unity_build",
      "packaging",
      "icon_render",
-     "material_fill",
-     "mv_cut"
+     "material_fill"
     ],
     "never": [
      "gpu_comfyui",
      "llm_resident"
     ]
    },
+   "handover_20261120": "内容线（自媒体/漫剧/短剧/短视频/MV/账号运营）全线移交传家宝；本机 media/BigStream 等资产冻结待迁，正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md",
    "min_free_gb": 20,
    "status_note": "2026-11-14 12:29 已就地收口并推送（closeout 回执在 rt/delivery/receipts/），自驱在跑"
   },
   {
    "id": "visual",
    "name": "视觉工位",
-   "role": "全视频主责（CEO 2026-11-11）：MV/漫剧/短剧/短视频的画面+剪辑+字幕+装配；声音仍由声音工位做。",
+   "role": "内容线全责（CEO 2026-11-20）：自媒体/AI 漫剧/短剧/短视频/MV 全线生产（关键帧、i2v、剪辑、字幕、装配、剧本与选题、选角与 LoRA、账号侧草稿）都在此机；账号对外发布仍归 CEO。声音仍由声音工位做。正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md。",
    "blocked_scope": "gpu",
    "local_model": {
     "model": "qwen3.5:8b 级（Q4）",
@@ -163,7 +165,9 @@
     "视觉一致性机检",
     "剪辑",
     "字幕",
-    "成片装配"
+    "成片装配",
+    "自媒体/漫剧/短剧/短视频全链（2026-11-20 接手）",
+    "账号侧草稿与养号流水线（对外发布仍归 CEO）"
    ],
    "forbidden_work": [
     "声音制作",
