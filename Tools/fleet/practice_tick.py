@@ -360,18 +360,35 @@ def main():
             refresh_screen("止损中，不发帖")
             print("[tick] 已止损：%s" % b["why"])
             return 0
-    # 先看"投递级"可见率：最近 5 条投递里 ≤1 条可见就停（账号已降权，继续发只会更深）
-    po = recent_post_outcomes(5)
-    if len(po) >= 3 and sum(po) <= 1:
-        why = "最近 %d 条投递只有 %d 条公开可见 → 停止发帖，先查账号状态" % (len(po), sum(po))
-        set_blocked(why)
-        log({"action": "blocked", "why": why})
-        refresh_screen(why)
-        print("[tick] 止损：%s" % why)
-        return 0
-    rv = recent_visibility()
-    if len(rv) >= STOP_AFTER and not any(rv):
-        why = "最近 %d 条全部公开不可见，判定账号被静默扣留，停止刷帖" % len(rv)
+    # 2026-11-20 CEO「评论在不在显示不重要，按规则好好评论、像真实用户就行」：
+    # 可见率只做记录与屏显，**不再作为停发依据**——B 站有 AI 复审（平均 7 分钟）与
+    # 折叠机制（2025-03 起被折叠的挪到最末页），"前几页查不到"既可能是折叠也可能是
+    # 仅自己可见，拿它当账号判决会误停。
+    # 仍然保留一条硬闸：**真的发不出去**（发送失败连续出现）才停。
+    # 只有"真发不出去"才停：节律拒绝（距上帖太近）、内容闸拒稿都不算账号问题。
+    # 2026-11-20 实锚：把 fail 全算成发送失败，会把"距上帖仅 8 分钟"这种自家节律
+    # 也算成账号被封，属误判——判据必须认原因，不能只认动作名。
+    def _send_fail(rec):
+        w = rec.get("why")
+        w = json.dumps(w, ensure_ascii=False) if not isinstance(w, str) else w
+        if "距上帖" in w or "下限" in w:
+            return False
+        if any(k in w for k in ("指控", "品味", "无关", "太长", "RISKY", "红线", "重复", "闸")):
+            return False
+        return any(k in w for k in ("code=", "风控", "-412", "12002", "发送失败", "reply/add"))
+
+    recent = []
+    try:
+        rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
+        recent = [r for r in rows if r.get("action") in ("post", "fail", "send_fail")][-10:]
+    except Exception:
+        pass
+    bad_send = sum(1 for r in recent
+                   if r.get("action") == "send_fail" or
+                   (r.get("action") == "fail" and _send_fail(r)))
+    if len(recent) >= 5 and bad_send >= 2:
+        why = "最近 %d 次投递里 %d 次真发送失败（风控/接口拒绝）→ 停止发帖" % (
+            len(recent), bad_send)
         set_blocked(why)
         log({"action": "blocked", "why": why})
         refresh_screen(why)
@@ -641,15 +658,28 @@ def self_test():
             return 0
 
     try:
-        # A 七连不可见 → 必须止损，且不发帖
+        # A 2026-11-20 新口径：七连不可见**不再停发**（可见性只记录，不判决）。
+        #   为了不触发真发帖，这里把日限占满，走政策闸跳过。
+        import freq_policy as fp
+        mxA = int(fp.load_policy().get("max_per_day", 2))
         write([{"action": "verify", "rpid": str(i), "visible": False, "ts": now}
-               for i in range(STOP_AFTER)])
+               for i in range(STOP_AFTER)]
+              + [{"action": "post", "rpid": "x%d" % i, "ts": now} for i in range(mxA)])
         rc = main()
-        check("A 七连不可见→止损且零发帖", rc == 0 and blocked() and posts() == 0)
+        check("A 七连不可见→不再止损（只记录）", rc == 0 and blocked() is None)
+
+        # A2 真发不出去（连续 fail）→ 必须止损
+        write([{"action": "fail", "why": "code=-412", "ts": now} for _ in range(3)]
+              + [{"action": "post", "rpid": "y%d" % i, "ts": now} for i in range(3)])
+        p_before = posts()
+        rc = main()
+        check("A2 连续发送失败→止损且不再发帖",
+              rc == 0 and blocked() and posts() == p_before)
 
         # B 已止损 → 再跑也不发帖（幂等）
+        p_before = posts()
         rc = main()
-        check("B 止损后静默不重复发", rc == 0 and posts() == 0)
+        check("B 止损后静默不重复发", rc == 0 and posts() == p_before)
 
         # C 解除止损 → 状态回到未触发
         unblock()

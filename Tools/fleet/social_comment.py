@@ -888,5 +888,72 @@ def main():
     return 2
 
 
+def send_danmaku(aid, text, progress_ms=None, dry=False):
+    """发一条弹幕（真实用户会做的动作之一）。
+
+    2026-11-20 CEO「弹幕什么，像一个真实的用户操作习惯就好」。
+    纪律（都是为"像人"而不是"能发"）：
+    · 短：≤20 字，长了不像弹幕；
+    · 低频：由调用方控制（tools 里按"看过几条视频才发一条"配比）；
+    · 贴视频：文本必须从该视频标题/简介推出来，不许泛夸；
+    · 时间点随机：progress 落在前 90 秒内随机，避免每条都同一时刻。
+    接口：/x/v2/dm/post，需 csrf(bili_jct) 与 cid（由 view 接口取）。
+    """
+    import random as _r
+    _mod, _stealth = _pw()
+    with _mod.sync_playwright() as p:
+        ctx = _launch(p)
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                    wait_until="domcontentloaded", timeout=60000)
+            time.sleep(3)
+            info = pg.evaluate("""async(a)=>{const r=await fetch(
+                'https://api.bilibili.com/x/web-interface/view?aid='+a,
+                {credentials:'include'});const j=await r.json();
+                const d=j.data||{}; return {code:j.code, cid:(d.pages&&d.pages[0]||{}).cid||d.cid,
+                bvid:d.bvid, dur:d.duration, isLogin:true};}""", aid)
+            cid, bvid = info.get("cid"), info.get("bvid")
+            if not cid:
+                return False, "取不到 cid（code=%s）" % info.get("code")
+            cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+            csrf = cookies.get("bili_jct", "")
+            if not csrf:
+                return False, "缺 csrf（bili_jct）——登录态不完整"
+            dur = int(info.get("dur") or 120)
+            if progress_ms is None:
+                progress_ms = _r.randint(3000, max(4000, min(90000, dur * 1000)))
+            body = urllib.parse.urlencode({
+                "type": 1, "oid": cid, "msg": text[:20], "bvid": bvid,
+                "progress": int(progress_ms), "mode": 1, "fontsize": 25,
+                "color": 16777215, "pool": 0, "plat": 1, "csrf": csrf})
+            if dry:
+                return True, {"dry": True, "cid": cid, "bvid": bvid,
+                              "progress": progress_ms, "msg": text[:20]}
+            res = pg.evaluate("""async (body)=>{
+                const r=await fetch('https://api.bilibili.com/x/v2/dm/post',
+                  {method:'POST',credentials:'include',
+                   headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                   body:body});
+                return {status:r.status, text:await r.text()};}""", body)
+            try:
+                j = json.loads(res.get("text") or "{}")
+            except Exception:
+                j = {}
+            ok = res.get("status") == 200 and j.get("code") == 0
+            return ok, {"code": j.get("code"), "message": j.get("message"),
+                        "cid": cid, "progress": progress_ms}
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+            try:
+                import social_collect as _sc
+                _sc.release_profile_lock(PROF)
+            except Exception:
+                pass
+
+
 if __name__ == "__main__":
     sys.exit(main())
