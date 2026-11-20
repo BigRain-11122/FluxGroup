@@ -7,11 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV1bDsM6qE8b/",
-        "https://www.bilibili.com/video/BV194421S73L/",
-        "https://www.bilibili.com/video/BV1X84y1F7nB/",
-        "https://www.bilibili.com/video/BV14KoYB2EYe/",
-        "https://www.bilibili.com/video/BV1ukVwzzEn4/",
         "https://www.bilibili.com/video/BV1JdNy63EJL/",
         "https://www.bilibili.com/video/BV1Lysc6bEai/",
         "https://www.bilibili.com/video/BV1avsP6wE8R/",
@@ -126,7 +121,12 @@
         "https://www.bilibili.com/video/BV1k94y1q7yk/",
         "https://www.bilibili.com/video/BV1EeQ4BiEC6/",
         "https://www.bilibili.com/video/BV13Xty6XEkX/",
-        "https://www.bilibili.com/video/BV1xw41147r1/"
+        "https://www.bilibili.com/video/BV1xw41147r1/",
+        "https://www.bilibili.com/video/BV1cF411z7NJ/",
+        "https://www.bilibili.com/video/BV1Tz4y1x7xj/",
+        "https://www.bilibili.com/video/BV1Y3eK6fEzu/",
+        "https://www.bilibili.com/video/BV1c1nU6bEX1/",
+        "https://www.bilibili.com/video/BV14KoYB2EYe/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
@@ -150,7 +150,8 @@
         "剪輯教學 台灣",
         "一家人生活记录视频",
         "剪得太乱 吐槽",
-        "剪辑工程文件 求"
+        "剪辑工程文件 求",
+        "繁體 剪片 教學"
       ]
     },
     "douyin": {
