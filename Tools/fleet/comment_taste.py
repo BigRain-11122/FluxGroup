@@ -134,6 +134,57 @@ def awkward_particles(text):
     return bad
 
 
+def _ai_smell_words():
+    """我们自己**真发出去过、被 CEO 判 AI 味**的词骨架（单一源=BAN-PHRASES-v1.json）。
+
+    2026-11-20 实锚：「教程太干货了，必须三连支持！」「保姆级教程太实用了，已收藏！」
+    这类句子 CLICHE 一个都不命中（它们不是烂梗而是"营销腔"），于是 8 条候选里能过闸
+    的全是这个形状。所以把骨架收进硬拒表：空夸（干货/保姆级/三连）、文案腔
+    （氛围感/质感/很到位）、作文腔（不仅/综上/展现了）、客服腔（宝子/同学/感谢支持）。
+    表在文件里不在代码里：以后发现新的坏句子，改 JSON 不用改代码。
+    """
+    p = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "cph4", "fleet", "social", "BAN-PHRASES-v1.json")
+    try:
+        d = json.load(open(p, encoding="utf-8"))
+        words = []
+        for v in (d.get("words") or {}).values():
+            words.extend([w for w in v if w and len(w) >= 2])
+        if words:
+            return sorted(set(words), key=len, reverse=True)
+    except Exception:
+        pass
+    return ["干货", "保姆级", "三连", "已收藏", "氛围感", "质感", "很到位",
+            "不仅", "综上", "值得一提", "展现了", "赋能", "维度", "宝子", "同学", "感谢支持"]
+
+
+AI_SMELL = _ai_smell_words()
+
+
+def copied_sample(text, n=5):
+    """是否整句抄了提示词里的亲笔样句。
+
+    2026-11-20 实锚：把 6 条亲笔样句放进提示词后，模型直接吐出「封面是范伟老师是吧」——
+    和样句一字不差。抄得越像越糟：老号的朋友一眼认出来这是自己说过的话。
+    判据：与任一样句的最长公共子串 ≥ n 个汉字。
+    """
+    t = re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", strip_reply_prefix(text or ""))
+    if len(t) < n:
+        return ""
+    p = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "cph4", "fleet", "social", "HUMAN-PERSONA-v1.json")
+    try:
+        few = json.load(open(p, encoding="utf-8")).get("fewshot") or []
+    except Exception:
+        return ""
+    for s in few:
+        s2 = re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", s)
+        for i in range(len(t) - n + 1):
+            if t[i:i + n] in s2:
+                return "抄样句：%s" % t[i:i + n]
+    return ""
+
+
 def hard_block(text):
     """硬拒（不扣分，直接不收）：这三类是"发出去就露馅"的，不该靠总分盖过去。
 
@@ -146,11 +197,26 @@ def hard_block(text):
     cli = [w for w in CLICHE if w in t]
     if cli:
         return "烂梗：%s" % "/".join(cli[:2])
+    smell = [w for w in AI_SMELL if w in t]
+    if smell:
+        return "AI 腔：%s" % "/".join(smell[:2])
+    # 引号包裹：2026-11-20 实测把样句放进提示词后，模型连「」一起抄出来
+    # （「突然「我」发现这段配乐…」）。真人不会给自己的评论打引号。
+    if re.search(r"[「」“”\"]", t):
+        return "引号包裹/抄格式"
     latin = re.findall(r"[A-Za-z]{3,}", t)
     ok_latin = {"BGM", "bgm", "MV", "mv", "UP", "up", "B站", "PR", "AI", "Vlog", "vlog"}
     bad = [w for w in latin if w not in ok_latin]
     if bad:
         return "英文幻觉：%s" % "/".join(bad[:2])
+    # 非中文字符混入：2026-11-20 实测「镜头构图虽 Европы 但配乐还挺带感嘛」过了闸——
+    # 拉丁字母检查只管 [A-Za-z]，西里尔/希腊/阿拉伯整段漏过去。
+    foreign = re.findall(r"[\u0400-\u04FF\u0370-\u03FF\u0600-\u06FF\u0590-\u05FF]", t)
+    if foreign:
+        return "外文幻觉：%s" % "".join(foreign[:3])
+    cp = copied_sample(t)
+    if cp:
+        return cp
     return ""
 
 

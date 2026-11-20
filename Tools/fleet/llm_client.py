@@ -138,13 +138,21 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
     cls 用来选座位（与 LOCAL-MODEL-POLICY.duties 对齐），未知 cls 走主力档，
     **绝不默认拉大的**（35B 一驻留就 swap）。
     """
+    # 缺料判定必须排在训练独占之前（2026-11-20 RG-33 实锚）：没有令牌是配置缺料，
+    # 跟训练在不在跑无关；先判训练独占会把"缺料"报成 5，调用方以为稍后能重试，
+    # 实际永远拿不到模型。顺序=先算缺料，再算资源占用。
+    url = base_for(endpoint)
+    tok = token()
+    if not tok and _needs_token(url):
+        # 缺料就地判死：不发请求、不进熔断、不计故障
+        return {"ok": False, "rc": 3, "text": "",
+                "why": "本机没有令牌（%s 或 FLUX_LLM_TOKEN），不走网关" % TOKEN_FILE}
     # FLUX_ALLOW_DURING_TRAIN=1 是"显式声明：我用的模型在 TRAIN-LANE-OK 白名单里"。
     # 2026-11-18 实锚：不加这条，清扫器放行车道但客户端照样拒绝，并行出稿 10 条全 0 可用。
     _allow = os.environ.get("FLUX_IGNORE_TRAIN_LOCK") or os.environ.get("FLUX_ALLOW_DURING_TRAIN")
     if os.path.exists(TRAIN_SENTINEL) and not _allow:
         return {"ok": False, "rc": 5, "text": "",
                 "why": "训练独占中（%s），本轮不装载模型" % os.path.basename(TRAIN_SENTINEL)}
-    url = base_for(endpoint)
     if not model:
         model = _model_for(cls)
         if any(h in url for h in LOOPBACK):
@@ -156,11 +164,6 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
         return {"ok": False, "rc": 4, "text": "",
                 "why": "熔断中：%ds 后再试（避免空打网关）" % int(_COOLDOWN[url] - now)}
 
-    tok = token()
-    if not tok and _needs_token(url):
-        # 缺料就地判死：不发请求、不进熔断、不计故障
-        return {"ok": False, "rc": 3, "text": "",
-                "why": "本机没有令牌（%s 或 FLUX_LLM_TOKEN），不走网关" % TOKEN_FILE}
 
     body = {"model": model, "prompt": prompt, "stream": False, "think": bool(think)}
     if keep_alive:                      # 不传就吃服务端 10m，档位"常驻"会静默失效
@@ -264,6 +267,45 @@ def generate_lora(prompt, timeout=120, max_tokens=60, temperature=0.8, endpoint=
                 "why": "%s: %s" % (type(e).__name__, str(e)[:80])}
 
 
+HUMAN_PERSONA = os.path.join(ROOT, "cph4", "fleet", "social", "HUMAN-PERSONA-v1.json")
+
+# 8 条候选各自换一个"从哪儿说"，避免候选之间只是换词。
+_ANGLE = [
+    "\n这条就从画面里的东西说起。",
+    "\n这条只说你自己的感受，别描述画面。",
+    "\n这条挑一个不完美的地方，口气放轻。",
+    "\n这条短一点，像随手一评，别写完整句。",
+    "\n这条说说你想起的另一件事。",
+    "\n这条只提一个小细节，别的都不说。",
+    "\n这条像跟人接话，口语一点。",
+    "\n这条结尾带一个表情。",
+]
+
+
+def human_persona_block(acct=None):
+    """把**本人亲笔**的评论样句拼进提示词（只有有亲笔语料的号才加）。
+
+    2026-11-20 CEO「学习老号真人评论人设」：光写"带一两个语气词"教不出来——
+    4B 会把语气词硬塞在词中间（实测「结尾那声鸣叫哈挺带感的」）。样本比形容词管用：
+    直接给他自己的 6 句原话，并明说"不要更整齐、不要更夸张、不要抄原句"。
+    """
+    acct = acct if acct is not None else (os.environ.get("FLUX_ACCOUNT") or "")
+    if acct not in ("acct1",):
+        return ""
+    try:
+        d = json.load(open(HUMAN_PERSONA, encoding="utf-8"))
+    except Exception:
+        return ""
+    few = [s for s in (d.get("fewshot") or []) if s][:6]
+    if not few:
+        return ""
+    # 样句不加引号：2026-11-20 实测加了「」以后模型把引号一起抄出来
+    # （「突然「我」发现这段配乐…」），看着就像模板。
+    return ("\n我平时在评论区就是这么写的（每条一行）：\n" +
+            "\n".join("- %s" % s for s in few) +
+            "\n照这个口气写：不要更整齐、更完整、更夸张，不要加引号，也不要照抄这几句。")
+
+
 def lora_comment_prompt(title, desc="", i=0, seg=None):
     """按**训练时用的同一批指令模板**拼提示词。
 
@@ -271,6 +313,9 @@ def lora_comment_prompt(title, desc="", i=0, seg=None):
     「这里有一条既符合B站用户调性的评论，供你选择：**选项一**…」。
     原因是训练样本的 user 轮全是 train_build.INSTRUCTIONS 那三句，
     提示词不对版等于没触发微调。口径单源，不在生产侧另发明模板。
+
+    唯一在推理侧追加的是**本次说话的角度**：不改训练口径，只让 8 条候选别长一个样。
+    2026-11-20 实测：不加这句，18 条里 19 条以"镜头/配乐"开头（占满，等于模板）。
     """
     import train_build as tb
     hint = ("（简介：%s）" % (desc or "")[:50]) if desc else ""
@@ -281,6 +326,8 @@ def lora_comment_prompt(title, desc="", i=0, seg=None):
             ins += " " + _sg.style_block(seg)
         except Exception:
             pass
+    ins += human_persona_block()
+    ins += _ANGLE[i % len(_ANGLE)]
     return ins
 
 
