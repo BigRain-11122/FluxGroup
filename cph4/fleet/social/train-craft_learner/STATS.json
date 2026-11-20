@@ -1,25 +1,25 @@
 {
  "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
- "src_sha": "d64fc3dc545f87fc",
- "train": 791,
- "valid": 40,
- "avg_len": 21.5,
+ "src_sha": "e512e658625c52fc",
+ "train": 731,
+ "valid": 36,
+ "avg_len": 21.8,
  "dropped": {
   "dup": 0,
   "len": 3171,
   "bad": 62,
   "use": 0,
-  "human": 34750,
+  "human": 34758,
   "taste": 7177,
   "near_dup": 45,
   "phrase_dull": 0,
-  "seg_over": 762
+  "seg_over": 761
  },
  "seed": 20261117,
  "valid_ratio": 0.05,
  "by_len": {
-  "l": 248,
-  "m": 519,
-  "s": 64
+  "m": 475,
+  "l": 238,
+  "s": 54
  }
 }
