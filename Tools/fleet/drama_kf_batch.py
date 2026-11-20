@@ -32,6 +32,8 @@ import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
+sys.path.insert(0, os.path.join(ROOT, "Tools"))
+import preflight_gate as G  # noqa: E402  与 MV 同一道闸，profile="drama" 换词表
 
 MIN_BYTES = 10 * 1024
 
@@ -153,11 +155,26 @@ def main(argv=None):
 
     made = skipped = 0
     fails = []
+    gated = 0
     t0 = time.time()
     for i, row in enumerate(rows, 1):
         dst = os.path.join(a.out, row["id"] + ".png")
         if os.path.isfile(dst) and os.path.getsize(dst) > MIN_BYTES:
             skipped += 1
+            continue
+        # 预检闸（PREFLIGHT-GATE-v1 §三：绕过＝违规）。本批是文生图 KF，无源帧，
+        # 与 mv_kf_batch 同口径：kf_verified=True + 显式记录豁免理由。
+        gate_fails = G.guard(
+            row["id"], row.get("prompt", ""),
+            {k: row.get(k) for k in ("shot", "angle", "move", "grade", "texture", "scene", "light")},
+            kf_verified=True,
+            kf_note="text-to-image KF：无源帧可核（同 mv_kf_batch 口径）",
+            profile="drama")
+        if gate_fails:
+            gated += 1
+            fails.append({"id": row["id"], "err": "GATE", "why": gate_fails})
+            print("[%d/%d] GATE-FAIL %s :: %s" % (i, len(rows), row["id"], " ; ".join(gate_fails)[:220]),
+                  flush=True)
             continue
         raw, sec, err = run_one(row, a)
         if err or not raw:
@@ -178,12 +195,12 @@ def main(argv=None):
         "out": os.path.relpath(a.out, ROOT).replace("\\", "/"),
         "ckpt": a.ckpt, "w": a.width, "h": a.height, "steps": a.steps, "cfg": a.cfg,
         "total": len(rows), "made": made, "skipped": skipped, "failed": len(fails),
-        "fails": fails[:20], "elapsed_s": round(time.time() - t0, 1),
+        "gate_failed": gated, "fails": fails[:20], "elapsed_s": round(time.time() - t0, 1),
     }
     rp = a.receipt or os.path.join(os.path.dirname(a.out), "kf-receipt.json")
     json.dump(receipt, open(rp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print("BATCH DONE made=%d skipped=%d failed=%d receipt=%s" % (
-        made, skipped, len(fails), os.path.relpath(rp, ROOT)))
+    print("BATCH DONE made=%d skipped=%d gate_failed=%d failed=%d receipt=%s" % (
+        made, skipped, gated, len(fails), os.path.relpath(rp, ROOT)))
     return 0 if not fails else 1
 
 

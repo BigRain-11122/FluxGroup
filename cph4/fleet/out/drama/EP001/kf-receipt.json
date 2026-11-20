@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-20T22:57:36",
+ "ts": "2026-11-21T00:41:46",
  "prompts": "cph4/fleet/out/drama/EP001/kf_prompts.json",
  "out": "cph4/fleet/out/drama/EP001/kf",
  "ckpt": "animagine-xl-4.0.safetensors",
@@ -7,10 +7,11 @@
  "h": 1472,
  "steps": 28,
  "cfg": 6.0,
- "total": 21,
- "made": 19,
- "skipped": 2,
+ "total": 1,
+ "made": 1,
+ "skipped": 0,
  "failed": 0,
+ "gate_failed": 0,
  "fails": [],
- "elapsed_s": 396.9
+ "elapsed_s": 34.2
 }
