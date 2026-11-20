@@ -1,16 +1,16 @@
-# 养号线智能体监控（2026-11-20T19:08:50）
+# 养号线智能体监控（2026-11-20T20:15:42）
 
 整体：**RED**
 
 | 任务 | 负责人 | 周期 | 状态 | 说明 |
 |---|---|---|---|---|
-| threads_tick | 养号席·会话 | 0.5h | OK | 事件驱动：本次 0 条待处理（产出 72.7h 未涨属正常） |
-| learn_cycle | 养号席·采集 | 0.7h | OK | 产出 0.7h 前更新 · LEARNING-LEDGER.jsonl=178行 |
-| audit_surface | 养号席·体检 | 12.0h | OK | 产出 8.2h 前更新 · SURFACE-REPORT.md=103行 |
-| corpus_refresh | 语料席 | 12.0h | OK | 产出 21.9h 前更新 · 无行数 |
-| taste_filter | 语料席 | 12.0h | OK | 产出 8.2h 前更新 · QUALITY-PASS.jsonl=5716行 |
-| segment_report | 语料席 | 12.0h | OK | 产出 8.2h 前更新 · QUALITY-PASS.jsonl=5716行 |
-| sweep_targeted | 养号席·补采 | 24.0h | OK | 产出 23.1h 前更新 · bilibili.comment.jsonl=5244行 |
+| threads_tick | 养号席·会话 | 0.5h | OK | 事件驱动：本次 0 条待处理（产出 73.8h 未涨属正常） |
+| learn_cycle | 养号席·采集 | 0.7h | FAIL | 上次 rc=1（允许 [0]）profile 起不来 → browser-bilibili: TimeoutError: Brow |
+| audit_surface | 养号席·体检 | 12.0h | OK | 产出 9.3h 前更新 · SURFACE-REPORT.md=103行 |
+| corpus_refresh | 语料席 | 12.0h | OK | 产出 23.0h 前更新 · 无行数 |
+| taste_filter | 语料席 | 12.0h | OK | 产出 9.3h 前更新 · QUALITY-PASS.jsonl=5716行 |
+| segment_report | 语料席 | 12.0h | OK | 产出 9.3h 前更新 · QUALITY-PASS.jsonl=5716行 |
+| sweep_targeted | 养号席·补采 | 24.0h | OK | 产出 24.2h 前更新 · bilibili.comment.jsonl=5244行 |
 | train_weekly | 训练席 | 24.0h | FAIL | 上次 rc=1（允许 [0, 2, 3]）[pipe] 训练失败，停止。 |
 | monitor_board | 主控·监控席 | 1.0h | OK | 产出 1.1h 前更新 · SOCIAL-AGENT-BOARD.md=83行 |
 
@@ -44,7 +44,7 @@
    "exit": "0"
   },
   "com.fluxgroup.corpusbake": {
-   "pid": "51911",
+   "pid": "-",
    "exit": "0"
   },
   "com.fluxgroup.acceptrun": {
@@ -69,7 +69,7 @@
   },
   "com.fluxgroup.socialloop": {
    "pid": "-",
-   "exit": "0"
+   "exit": "1"
   },
   "com.fluxgroup.trainlock": {
    "pid": "50444",

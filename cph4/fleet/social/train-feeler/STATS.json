@@ -1,0 +1,25 @@
+{
+ "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
+ "src_sha": "d426543eab2f99e5",
+ "train": 192,
+ "valid": 10,
+ "avg_len": 26.5,
+ "dropped": {
+  "dup": 0,
+  "len": 3405,
+  "bad": 72,
+  "use": 0,
+  "human": 36555,
+  "taste": 7902,
+  "near_dup": 53,
+  "phrase_dull": 0,
+  "seg_over": 813
+ },
+ "seed": 20261117,
+ "valid_ratio": 0.05,
+ "by_len": {
+  "m": 105,
+  "l": 95,
+  "s": 2
+ }
+}

@@ -17,3 +17,5 @@
 {"ts": "2026-11-20T16:41:05", "seg": "memer", "verdict": "KEEP", "lora_avg": 76.5, "base_avg": 49.0, "eval_n": 30, "adapter": "cph4/fleet/social/train/RUNS/20261120-115009/ckpt300", "note": "re-verify(n=30)：均分 +27.5 / 人味 +7.6"}
 {"ts": "2026-11-20T18:21:36", "seg": "tech_nerd", "rows": 471, "built": 0, "eval_n": 0, "verdict": "TRAIN-FAIL", "why": "FileNotFoundError: [Errno 2] No such file or directory: '/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/2026", "adapter": null}
 {"ts": "2026-11-20T18:26:47", "seg": "music_seeker", "rows": 386, "built": 176, "eval_n": 0, "verdict": "SUPPLY", "why": "造集不足 176 条", "adapter": null}
+{"ts": "2026-11-20T20:33:02", "seg": "shallow", "rows": 2294, "built": 0, "eval_n": 0, "verdict": "TRAIN-FAIL", "why": "/Users/junsheng.sun/FluxGroup/Tools/fleet/train_run.sh: line 86: 50493 Terminated: 15          \"$PY\" -u \"$ROOT/Tools/fle", "adapter": null}
+{"ts": "2026-11-20T20:34:31", "seg": "peer_pro", "verdict": "KEEP", "lora_avg": 57.4, "base_avg": 50.3, "eval_n": 30, "adapter": "cph4/fleet/social/train/RUNS/20261120-152218/ckpt300", "note": "re-verify(n=30)：均分 +7.1 / 人味 +1.0"}

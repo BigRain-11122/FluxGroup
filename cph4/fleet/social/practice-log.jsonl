@@ -155,3 +155,9 @@
 {"action": "verify", "arm": "D", "aid": 117616622439632, "rpid": "324572409376", "root": 323989745376, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-20T16:45:09"}
 {"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261119-200531/ckpt200", "rpid": "324572409376", "arm": "D", "persona": "tech_nerd", "ts": "2026-11-20T16:45:09"}
 {"action": "blocked", "why": "最近 5 条投递只有 1 条公开可见 → 停止发帖，先查账号状态", "ts": "2026-11-20T16:50:27"}
+{"action": "verify", "rpid": "324548766368", "visible": true, "mature": true, "age_min": 514, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:36:55"}
+{"action": "verify", "rpid": "324552685648", "visible": false, "mature": true, "age_min": 475, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-20T20:37:01"}
+{"action": "verify", "rpid": "324572409376", "visible": false, "mature": true, "age_min": 232, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-20T20:37:07"}
+{"action": "verify", "rpid": "324548766368", "visible": true, "mature": true, "age_min": 514, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:37:34"}
+{"action": "verify", "rpid": "324552685648", "visible": false, "mature": true, "age_min": 475, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-20T20:37:40"}
+{"action": "verify", "rpid": "324572409376", "visible": false, "mature": true, "age_min": 233, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-20T20:37:46"}
