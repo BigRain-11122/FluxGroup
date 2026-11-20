@@ -36,25 +36,45 @@ STATE = os.path.join(ROOT, ".codely-cli", "state")
 LOG = os.path.join(STATE, "adapter-router.jsonl")
 
 
+def pick_best(rows, exists=None):
+    """从台账行里挑每段最优件：**按增益取最大，不是取最后一次 KEEP**。
+
+    2026-11-20 实锚：peer_pro 先后两件都判 KEEP（87.3 与 73.6），
+    旧的"后写覆盖"会让差件静默顶掉好件——重训一次就等于降级，且不报错。
+    n<10 的结论是抽样运气（见 topics/training-verdict-noise-and-power.md），一律不收。
+    """
+    exists = exists or (lambda p: os.path.exists(p))
+    best = {}
+    for r in rows:
+        if r.get("verdict") != "KEEP" or not r.get("adapter"):
+            continue
+        n = int(r.get("eval_n") or 0)
+        if n < 10:
+            continue
+        if not exists(os.path.join(ROOT, r["adapter"], "adapters.safetensors")):
+            continue
+        gain = round(float(r.get("lora_avg") or 0) - float(r.get("base_avg") or 0), 1)
+        cur = best.get(r["seg"])
+        if cur is None or gain > cur["gain"] or (gain == cur["gain"] and n > cur["n"]):
+            best[r["seg"]] = {"adapter": r["adapter"], "gain": gain, "n": n}
+    return best
+
+
 def best_adapters():
-    """每个段当前最优的适配器（取台账里最后一次判为 KEEP 且文件还在的）。"""
-    out = {}
+    """每个段当前最优的适配器（判据见 pick_best）。"""
+    rows = []
     try:
         for line in open(LEDGER, encoding="utf-8", errors="replace"):
             line = line.strip()
             if not line:
                 continue
-            r = json.loads(line)
-            if r.get("verdict") != "KEEP" or not r.get("adapter"):
+            try:
+                rows.append(json.loads(line))
+            except Exception:
                 continue
-            p = os.path.join(ROOT, r["adapter"], "adapters.safetensors")
-            if os.path.exists(p):
-                out[r["seg"]] = {"adapter": r["adapter"], "gain": round(
-                    float(r.get("lora_avg") or 0) - float(r.get("base_avg") or 0), 1),
-                    "n": r.get("eval_n")}
     except FileNotFoundError:
         pass
-    return out
+    return pick_best(rows)
 
 
 def current():
@@ -144,6 +164,19 @@ def self_test():
                   all(os.path.exists(os.path.join(ROOT, v["adapter"], "adapters.safetensors"))
                       for v in b.values()) if b else False))
     cases.append(("增益字段是数字", all(isinstance(v["gain"], float) for v in b.values()) if b else False))
+
+    # 负控：合成的台账行，不碰真实文件与真实台账
+    fake = [
+        {"seg": "X", "verdict": "KEEP", "adapter": "a", "lora_avg": 87.3, "base_avg": 47.6, "eval_n": 10},
+        {"seg": "X", "verdict": "KEEP", "adapter": "b", "lora_avg": 73.6, "base_avg": 53.0, "eval_n": 10},
+        {"seg": "Y", "verdict": "KEEP", "adapter": "c", "lora_avg": 99.0, "base_avg": 10.0, "eval_n": 3},
+        {"seg": "Z", "verdict": "REJECT", "adapter": "d", "lora_avg": 99.0, "base_avg": 10.0, "eval_n": 20},
+    ]
+    picked = pick_best(fake, exists=lambda p: True)
+    cases.append(("后写的差件不能顶掉好件（应取 +39.7 的 a）",
+                  (picked.get("X") or {}).get("adapter") == "a"))
+    cases.append(("n<10 的 KEEP 一律不采", "Y" not in picked))
+    cases.append(("REJECT 不采", "Z" not in picked))
     ok = 0
     for n, c in cases:
         print("  [%s] %s" % ("PASS" if c else "FAIL", n))
