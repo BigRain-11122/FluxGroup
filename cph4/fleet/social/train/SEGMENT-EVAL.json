@@ -1,37 +1,37 @@
 {
- "ts": "2026-11-20T11:10:29",
+ "ts": "2026-11-20T12:39:50",
  "base": [
   {
    "n": 10,
-   "avg": 60.0,
-   "pass_rate": 20,
-   "avg_logic": 14.0,
-   "avg_human": 6.0,
-   "avg_natural": 20.0,
+   "avg": 48.8,
+   "pass_rate": 70,
+   "avg_logic": 6.0,
+   "avg_human": 4.0,
+   "avg_natural": 19.2,
    "reject": 0,
-   "seg": "peer_pro",
+   "seg": "memer",
    "sample": [
-    "同行你好，今年那些火到不配位的歌，制作人阶段就敢砍掉旋律逻辑做堆料，后期反而不敢救，这工序取舍踩的坑我们 Year 2 都还在堵。",
-    "业内老手，今年热歌失控多是剪辑堆情绪，混响过度和洗脑 BGM 直接毁段，剪辑时如何取舍？"
+    "那就让那些德不配位的神曲烂尾吧，毕竟我最讨厌听。",
+    "只有我还在为那些被火出来的神曲流泪吧"
    ]
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 69.9,
-   "pass_rate": 80,
-   "avg_logic": 25.5,
-   "avg_human": 9.0,
-   "avg_natural": 19.6,
+   "avg": 78.5,
+   "pass_rate": 100,
+   "avg_logic": 29.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
-   "seg": "peer_pro",
+   "seg": "memer",
    "sample": [
-    "老师，请问这2000的剪辑师费是否包含后期配乐呢",
-    "日常的素材剪辑师，请问您的dh会达到多少？[表情]"
+    "我支持这个视频笑死我了[脱单doge] 毕竟现在全是哈机密音乐",
+    "应该没人比这还高级的剪辑了吧，下个月出个最经典top10吧"
    ]
   }
  ],
  "samples": 10,
- "adapter": "cph4/fleet/social/train/RUNS/20261119-203050/ckpt200"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-115009/ckpt300"
 }
