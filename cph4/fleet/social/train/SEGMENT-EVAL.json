@@ -1,65 +1,37 @@
 {
- "ts": "2026-11-20T14:16:43",
+ "ts": "2026-11-20T15:47:09",
  "base": [
   {
    "n": 10,
-   "avg": 54.5,
-   "pass_rate": 0,
-   "avg_logic": 10.0,
-   "avg_human": 5.0,
-   "avg_natural": 20.0,
-   "reject": 0,
-   "seg": "tech_nerd",
-   "sample": [
-    "我也正在实测新耳机，参数测了分贝曲线，待出结果再发。",
-    "你用的哪款设备监测了分贝？我实测的阈值是多少？"
-   ]
-  },
-  {
-   "n": 10,
-   "avg": 44.0,
+   "avg": 53.0,
    "pass_rate": 10,
-   "avg_logic": 4.5,
-   "avg_human": 1.0,
+   "avg_logic": 7.0,
+   "avg_human": 6.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "music_seeker",
+   "seg": "peer_pro",
    "sample": [
-    "建议听听斯柯达经典配乐。",
-    "第一首是《孤勇者》，第二首是《武汉》，第三首是《光年之外》。"
+    "同行看了就懂，2025 烂歌现象本质是流量算法下工序取舍失衡，当年我们踩的坑都在这点。",
+    "既然火到配位，就别纠结烂好与否，这正是我们剪辑时反复踩过的工序取舍坑。"
    ]
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 77.0,
+   "avg": 73.6,
    "pass_rate": 70,
-   "avg_logic": 26.0,
-   "avg_human": 15.0,
+   "avg_logic": 28.0,
+   "avg_human": 8.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "tech_nerd",
+   "seg": "peer_pro",
    "sample": [
-    "我居然没看这个视频，本来我是拿这个视频去剪辑歌单的",
-    "这个视频不是我剪辑的，请😭"
-   ]
-  },
-  {
-   "n": 10,
-   "avg": 63.1,
-   "pass_rate": 60,
-   "avg_logic": 16.5,
-   "avg_human": 8.0,
-   "avg_natural": 19.6,
-   "reject": 0,
-   "seg": "music_seeker",
-   "sample": [
-    "老师这个我记住了，感谢分享",
-    "剪辑师应该拿爱剪辑去剪辑"
+    "好期待，在b站搞音乐制作和后期剪辑，求pr安装包、素材包和LUT",
+    "老师，这不就是“非专业歌手+专业编曲”的最简单粗暴的套路吗？"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-134941/ckpt100"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-152218/ckpt300"
 }
