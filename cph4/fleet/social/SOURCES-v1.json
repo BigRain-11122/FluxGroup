@@ -7,7 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV1JdNy63EJL/",
         "https://www.bilibili.com/video/BV1Lysc6bEai/",
         "https://www.bilibili.com/video/BV1avsP6wE8R/",
         "https://www.bilibili.com/video/BV1nGWq6AE5v/",
@@ -126,7 +125,8 @@
         "https://www.bilibili.com/video/BV1Tz4y1x7xj/",
         "https://www.bilibili.com/video/BV1Y3eK6fEzu/",
         "https://www.bilibili.com/video/BV1c1nU6bEX1/",
-        "https://www.bilibili.com/video/BV14KoYB2EYe/"
+        "https://www.bilibili.com/video/BV14KoYB2EYe/",
+        "https://www.bilibili.com/video/BV194421S73L/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",

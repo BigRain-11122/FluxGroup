@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-20T11:39:18",
+ "ts": "2026-11-20T11:46:07",
  "jobs": [
   {
    "id": "R-TRIAGE-BIGMONEY-BMB-20261120",
@@ -45,12 +45,12 @@
    "timeout_s": null
   },
   {
-   "id": "R-TRIAGE-BIGSTREAMMV-BMB-20261120",
-   "title": "BigStream·MV 41 曲 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-mv --node bm-b --out cph4/fleet/queue-receipts/triage-bigstream-mv-bm-b-20261120.md",
+   "id": "R-TRIAGE-RECON-BMM-20261120",
+   "title": "RECON·竞品拆解 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-m --out cph4/fleet/queue-receipts/triage-recon-bm-m-20261120.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-bm-b-20261120.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-m-20261120.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -61,5 +61,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.9/1.0 GB"
+ "capacity_note": "ram 18.7/1.0 GB"
 }
