@@ -424,6 +424,12 @@ def run_one(a):
         print("[loop] 无料可训：%s" % "；".join(why_not))
         return 0
     seg = task["seg"]
+    ok_power, why_power = power_ok()
+    if not ok_power:
+        print("[loop] 暂停开训：%s" % why_power)
+        st["segments"].setdefault(seg, {})["last_rc"] = "POWER"
+        _save(LOOP_STATE, st)
+        return 0
     print("[loop] 选中段 %s（%d 行）" % (seg, task["rows"]), flush=True)
     if a.dry:
         board(st, rows, rejects)
@@ -596,11 +602,40 @@ def self_test():
     cases.append(("只有 3 条样本 → 不判（噪声 ±30 分）",
                   (not keep4) and "样本不足" in why7))
     okc = 0
+    cases.append(("电池供电→拒绝开训", power_verdict(False, False)[0] is False))
+    cases.append(("低功耗模式→拒绝开训", power_verdict(True, True)[0] is False))
+    cases.append(("接电且非低功耗→放行", power_verdict(True, False)[0] is True))
     for name, cond in cases:
         print("  [%s] %s" % ("PASS" if cond else "FAIL", name))
         okc += 1 if cond else 0
     print("[self-test] %d/%d" % (okc, len(cases)))
     return 0 if okc == len(cases) else 1
+
+
+def power_verdict(on_ac, lowpowermode):
+    """能不能开训（纯函数，可自检）。
+
+    2026-11-20 实锚：电池 + 低功耗模式下同一段训练实测 **18.6 秒/步**，
+    接电时 4 秒/步 —— GPU 被系统限速近 5 倍，而且电量一小时见底，
+    跑到一半断电等于整轮白烧。这不是"保守"，是硬件上限。
+    """
+    if not on_ac:
+        return False, "电池供电：GPU 被限速（实测 18.6s/步 vs 接电 4s/步），且会在一小时内耗尽电量"
+    if lowpowermode:
+        return False, "低功耗模式开着：GPU 被限速，等关掉再训"
+    return True, ""
+
+
+def power_ok():
+    try:
+        batt = subprocess.run(["pmset", "-g", "batt"], capture_output=True, text=True,
+                              timeout=10).stdout
+        cfg = subprocess.run(["pmset", "-g"], capture_output=True, text=True, timeout=10).stdout
+        on_ac = "AC Power" in batt
+        low = re.search(r"lowpowermode\s+(\d)", cfg)
+        return power_verdict(on_ac, bool(low and low.group(1) == "1"))
+    except Exception:
+        return True, ""    # 读不到就别拦，避免把"读不到"当"不能训"
 
 
 def main(argv=None):
