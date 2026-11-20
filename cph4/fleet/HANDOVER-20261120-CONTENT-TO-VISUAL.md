@@ -34,6 +34,8 @@
 
 内容线合计约 **54.7 GB / 315,000+ 文件**。
 
+> 口径修正（2026-11-21 实测）：其中 `BigStream\data\assets\models`（CosyVoice/whisper 等权重 ≈7 GB）与 `drama-tools\repos\index-tts\.venv`（torch CUDA ≈8 GB）是**环境**不是资产，重装即可，**不进移交包**。真正要搬的资产 = **≈33 GB**（P1≈0.3 + P2≈0.65 + P3≈2.2 + P4≈3.2 + faces≈26）。
+
 ## 三、本机现役内容任务（实测）
 
 | 计划任务 | 状态 | 说明 |
@@ -56,11 +58,38 @@
 - 车道文件 `cph4/fleet/lanes/bm-c.json` = `OFFLINE`，最近回执停在 2026-11-12
 
 接管五步：
-1. `git -C K:\Fluxgroup\FluxGroup pull origin main` —— 本移交书与清单已随仓下发。
+1. `git clone git@github.com:BigRain-11122/Bigmedia.git`（或已有仓 `git pull`）—— **内容线代码/文档/订单全套在独立仓 `Bigmedia`**（3258 文件 / 208 MB；本机 2026-11-21 实测 `HEAD...origin/main` = 0/0，已全部推送）。这一段**不需要从本机搬任何字节**。
 2. 起自己的自驱：注册/启动 station_agent（或 FleetLink `:8790`），让 `lanes/bm-c.json` 从 OFFLINE 变回有活。
-3. 拉内容资产：从公司生产力机 `\\100.110.185.62\C$\Users\sjs20\Desktop\FluxGroup\media\<目录>` → `K:\Fluxgroup\FluxGroup\media\<目录>`（需一次性 SMB 凭据；**全量 54.7 GB**，建议先 `BigStream`+`MV`+`drama-tools`+`faces` 四件，`MUSIC` 按需）。
+3. 取资产包：本机已封好**可校验档案**（`D:\handover-content-20261120`，6.3 GB / 6,877 文件），同目录 `MANIFEST.json` 带逐包 sha256：
+
+   | 包 | 内容 | 体积 | 文件数 |
+   |---|---|---:|---:|
+   | `content-p1-20261120.zip` | LoRA 权重 + 关键小件（mv-test/kf-ab/mv-album-001-jay/meme） | 300 MB | 154 |
+   | `content-p2-20261120.zip` | 内容线状态（src/orders/docs/research/tests/tools/data） | 650 MB | 4,342 |
+   | `content-p3-20261120.zip` | 成品（MV/drama-pilot/covers） | 2.2 GB | 1,970 |
+   | `content-p4-20261120.zip` | 音源 + 漫剧工具（MUSIC/drama-tools，已剔 venv） | 3.2 GB | 411 |
+   | P5 人脸语料 | `media\faces` 69,200 文件 / 26 GB | 按需现打 | — |
+
+   P5 现场生成（约 30-60 分钟）：`BUILD-PAYLOAD.ps1 -Group P5`；不预打是**不留半成品**（今晚一次打包曾到 5.97 GB 被中止，已删）。
+   落地校验：`INSTALL-ON-FLUXGROUP.ps1` 逐包核 sha256 再展开到 `K:\Fluxgroup\FluxGroup`，并写回执。
 4. 在传家宝注册自驱任务：`media\BigStream\src\os\register_loop_task.ps1`（脚本纯 ASCII，路径无关）。
 5. 写回执 `cph4/fleet/queue-receipts/HANDOVER-content-bm-c.json`（含各目录落地文件数/字节数、任务状态、首轮心跳时间）。
+
+**通道实测（2026-11-21 00:0x–00:2x，我逐条实测，不是推断）**
+
+| 通道 | 结果 |
+|---|---|
+| tailnet 在线状态 | `Online=True`、`Active=True`、`TaildropTarget=1` |
+| Taildrop 吞吐 | 经 DERP(sfo) 中继：**5 MB 349 秒未完成、85.6 MB 8.7 分钟未完成 ⇒ <14 KB/s**；33 GB 需 ≈27 天 → 不可用 |
+| SMB 445 / RPC 135 / RDP 3389 | 端口开；本机当前凭据被拒（`net use` = 用户名或密码无效），无其它可用凭据 |
+| SSH | 22 端口不通；`tailscale ssh` 落到 TCP 22 直拨同样超时 |
+| FleetLink 8790 | 未监听 |
+| GitHub | **可用**（代码 208 MB 已全部推送） |
+
+结论与处置（自己搞定，不等 CEO）：
+- **代码与文档面 = 已彻底移交**：走 GitHub，不依赖任何本机直连。
+- **资产面 = 已封包+哈希，就位待运**：4 包 6.3 GB 已生成并逐个列目录验过完整性；26 GB 人脸语料一条命令现打。
+- **物理瓶颈不在凭据，而在这条链路本身**（<14 KB/s）。解除方式只有两种：传家宝恢复自身通道（它自己的自驱职责），或换直连/物理介质。此结论已写进 §七，不再把「等 CEO 给凭据」当成前置。
 
 > 未完成上述步骤前，内容线处于「本机已冻结、传家宝未接」的空窗态 —— 这是本令下的已知代价，不是故障，也不回滚到本机生产。
 
@@ -77,10 +106,11 @@
 2. 游戏公司：Biggame 全系、车机游戏、提审四件套、构建打包、图标截图。
 3. BigMoney 的只读支撑件（账本、面板读取），不接内容产出。
 
-## 七、物理件（零催办，等 CEO 有空）
+## 七、物理件（已降级，不再阻塞执行）
 
-1. 传家宝 SMB 凭据或远程桌面一次 —— 否则 54.7 GB 无法过网。
+1. **33 GB 资产过网**：链路实测 <14 KB/s，靠凭据解决不了。解除=传家宝恢复自身通道（其自驱职责），或换直连/物理盘。档案已就位，届时一条命令即可。
 2. `recon/` 14.7 GB 的内容/游戏分拣（含 17.8 万文件），分拣后各自归属。
+3. `media\faces` 26 GB 按需打包（`BUILD-PAYLOAD.ps1 -Group P5`）—— 平时不占额外空间。
 
 ---
 
