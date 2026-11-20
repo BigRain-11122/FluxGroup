@@ -114,7 +114,21 @@ def main(argv=None):
             log({"event": "session", "account": a.account, "minutes": minutes,
                  "ok": bool(r.get("ok")), "why": r.get("why"),
                  "steps": len(r.get("steps") or []), "cost_s": int(time.time() - t0)})
-            gap = rng.randint(a.min_gap, a.max_gap) * 60
+            # 效能：今天场次没达标就缩短间隔补场；达标后拉长，别把"多"做成"密"。
+            try:
+                import user_agent as _ua
+                name = acct.get("uname") or acct.get("mid")
+                done_today = _ua.today_count("session", name)
+            except Exception:
+                done_today = 99
+            target = 4
+            if done_today < target:
+                lo = max(5, a.min_gap // 2)
+                gap = rng.randint(lo, max(lo, a.min_gap)) * 60
+                print("[daemon] %s 今日 %d/%d 场 → 缩短歇息补场"
+                      % (a.account, done_today, target), flush=True)
+            else:
+                gap = rng.randint(a.min_gap, a.max_gap) * 60
             # 深夜更长的歇（2-6 点基本不动）
             if datetime.now().hour in (2, 3, 4, 5):
                 gap = max(gap, 3 * 3600)
