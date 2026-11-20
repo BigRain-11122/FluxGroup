@@ -1,12 +1,12 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795170096.306378,
+   "last_ts": 1795170096.0,
    "last_rc": "TRAIN-FAIL",
-   "rows": 462,
-   "run": "20261119-200531",
-   "step": 250,
-   "val_min": 3.14
+   "rows": 471,
+   "run": null,
+   "step": null,
+   "val_min": null
   },
   "peer_pro": {
    "last_ts": 1795160829.0,
@@ -17,12 +17,13 @@
    "val_min": 3.338
   },
   "music_seeker": {
-   "last_ts": 1795144374.0,
-   "last_rc": "KEEP",
+   "last_ts": 1795170407.702207,
+   "last_rc": "SUPPLY",
    "rows": 382,
    "run": "20261119-211618",
    "step": 200,
-   "val_min": 3.827
+   "val_min": 3.827,
+   "built": 176
   },
   "craft_learner": {
    "last_ts": 1795163952.0,
@@ -330,6 +331,16 @@
    "eval_n": 30,
    "adapter": "cph4/fleet/social/train/RUNS/20261120-115009/ckpt300",
    "note": "re-verify(n=30)：均分 +27.5 / 人味 +7.6"
+  },
+  {
+   "ts": "2026-11-20T18:21:36",
+   "seg": "tech_nerd",
+   "rows": 471,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "TRAIN-FAIL",
+   "why": "FileNotFoundError: [Errno 2] No such file or directory: '/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/2026",
+   "adapter": null
   }
  ]
 }

@@ -16,3 +16,4 @@
 {"ts": "2026-11-20T16:39:12", "seg": "craft_learner", "verdict": "REJECT", "lora_avg": 78.2, "base_avg": 81.4, "eval_n": 30, "adapter": "cph4/fleet/social/train/RUNS/20261120-110449/ckpt300", "note": "re-verify(n=30)：均分只 -3.2（需 ≥5.0）"}
 {"ts": "2026-11-20T16:41:05", "seg": "memer", "verdict": "KEEP", "lora_avg": 76.5, "base_avg": 49.0, "eval_n": 30, "adapter": "cph4/fleet/social/train/RUNS/20261120-115009/ckpt300", "note": "re-verify(n=30)：均分 +27.5 / 人味 +7.6"}
 {"ts": "2026-11-20T18:21:36", "seg": "tech_nerd", "rows": 471, "built": 0, "eval_n": 0, "verdict": "TRAIN-FAIL", "why": "FileNotFoundError: [Errno 2] No such file or directory: '/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/2026", "adapter": null}
+{"ts": "2026-11-20T18:26:47", "seg": "music_seeker", "rows": 386, "built": 176, "eval_n": 0, "verdict": "SUPPLY", "why": "造集不足 176 条", "adapter": null}
