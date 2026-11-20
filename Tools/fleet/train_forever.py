@@ -120,8 +120,13 @@ def eligible(seg, rows, st, rejects, now=None):
     if n < MIN_ROWS:
         return False, "语料 %d < %d" % (n, MIN_ROWS)
     last = rec.get("last_ts") or 0
-    if now - last < COOLDOWN_S:
-        return False, "冷却中（%.1fh 前刚训过）" % ((now - last) / 3600.0)
+    last_rows = int(rec.get("rows") or 0)
+    # 训练节奏跟着**数据**走，不跟时钟走：语料涨够 10% 就是新的一课，
+    # 比"每 6 小时再来一遍同样的数据"科学（那只会过拟合）。
+    grown = last_rows and n >= last_rows * 1.10
+    if now - last < COOLDOWN_S and not grown:
+        return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (
+            (now - last) / 3600.0, last_rows, n)
     rj = rejects.get(seg) or {}
     if rj and n < int(rj.get("rows") or 0) * GROWTH_GATE:
         return False, "上次被否（%d 行）且语料只到 %d，未涨 %.0f%%" % (
