@@ -48,6 +48,11 @@ QUALITY = os.path.join(SOCIAL, "corpus", "human", "QUALITY-PASS.jsonl")
 ARCHIVE = os.path.join(os.path.expanduser("~"), ".fluxgroup", "lora-archive")
 PY = "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
 
+GENERIC = "__all__"     # 全量语料卡：段都进冷却时用它顶上，吃的是"所有段的合集 + 新采数据"
+GENERIC_COOLDOWN_S = 8 * 3600
+GENERIC_MIN_ROWS = 1000
+GENERIC_EVAL_SEGS = ("tech_nerd", "music_seeker")   # 全量件在两组代表段上验，任一段退步就不采用
+
 MIN_ROWS = 200          # 段内可用语料下限：低于这个数只学会抄碎片
 MIN_BUILD = 180         # 造集后训练样本下限
 COOLDOWN_S = 6 * 3600   # 同段冷却：一天最多训 4 次，避免对着同一批语料反复过拟合
@@ -134,6 +139,11 @@ def pick(rows, st, rejects, now=None):
             last = ((st.get("segments") or {}).get(seg) or {}).get("last_ts") or 0
             cands.append((last, -rows[seg], seg, why))
     if not cands:
+        g = (st.get("segments") or {}).get(GENERIC) or {}
+        total = sum(int(v) for k, v in rows.items() if k != "generic")
+        if total >= GENERIC_MIN_ROWS and now - (g.get("last_ts") or 0) > GENERIC_COOLDOWN_S:
+            return ({"seg": GENERIC, "rows": total,
+                     "why": "全量 %d 行（各段都在冷却）" % total}, [])
         return None, []
     cands.sort()
     last, negn, seg, why = cands[0]
@@ -323,6 +333,17 @@ def reconcile(st):
     return st
 
 
+def record_fail(seg, rows, kind, why, built=0):
+    """失败也要进台账：状态是从台账重建的，不写台账等于"这次失败不存在"，
+    于是同一段会被无限重试（2026-11-20 实锚：memer 连续两次被选中）。
+    """
+    rec = {"ts": now_iso(), "seg": seg, "rows": rows, "built": built,
+           "eval_n": 0, "verdict": kind, "why": why, "adapter": None}
+    with open(LEDGER, "a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    return rec
+
+
 def run_one(a):
     holder = busy_holder()
     if holder:
@@ -355,12 +376,16 @@ def run_one(a):
         before_runs, before_latest = set(), None
 
     ds = os.path.join(SOCIAL, "train-%s" % seg)
-    rc, out = sh([PY, os.path.join(HERE, "train_build.py"), "--out", ds,
-                  "--seg", seg, "--min-human", "5"], timeout=1200)
+    build_cmd = [PY, os.path.join(HERE, "train_build.py"), "--out", ds,
+                 "--min-human", "5"]
+    if seg != GENERIC:
+        build_cmd += ["--seg", seg]
+    rc, out = sh(build_cmd, timeout=1200)
     m = re.search(r"train\.jsonl (\d+) 条", out)
     built = int(m.group(1)) if m else 0
     if rc != 0 or built < MIN_BUILD:
         print("[loop] 造集不足（rc=%d, %d 条）：%s" % (rc, built, out.strip()[-160:]))
+        record_fail(seg, task["rows"], "SUPPLY", "造集不足 %d 条" % built, built)
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc="SUPPLY", built=built)
         _save(LOOP_STATE, st)
@@ -375,8 +400,11 @@ def run_one(a):
         skip = "SKIP-ALREADY-TRAINING" in out
         print("[loop] 训练%s（rc=%d）：%s" % ("被让路" if skip else "失败", rc,
                                              out.strip().splitlines()[-1][:160] if out.strip() else ""))
+        kind = "BLOCKED" if skip else "TRAIN-FAIL"
+        record_fail(seg, task["rows"], kind,
+                    "被让路" if skip else (out.strip().splitlines()[-1][:120] if out.strip() else "rc=%d" % rc))
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
-                                   last_rc="BLOCKED" if skip else "TRAIN-FAIL")
+                                   last_rc=kind)
         _save(LOOP_STATE, st)
         board(st, rows, rejects)
         return 0 if skip else 1
@@ -392,13 +420,31 @@ def run_one(a):
         print("[loop] val 最低在 %s 步，权重实际取最近已存点 %s 步" % (step, real_step))
     base = lora = {}
     if ck:
+        segs = list(GENERIC_EVAL_SEGS) if seg == GENERIC else [seg]
         rc, out = sh([PY, os.path.join(HERE, "train_eval.py"), "--run", run,
-                      "--per-segment", "--segs", seg, "--samples", str(a.samples),
-                      "--adapter", ck], timeout=3600)
+                      "--per-segment", "--segs", ",".join(segs),
+                      "--samples", str(a.samples), "--adapter", ck], timeout=3600)
         ev = _load(os.path.join(TRAIN, "SEGMENT-EVAL.json"), {}) or {}
-        b = (ev.get("base") or [{}])[0]
-        l = (ev.get("lora") or [{}])[0]
-        base, lora = b, l
+        bs = ev.get("base") or []
+        ls = ev.get("lora") or []
+        if not bs or not ls:
+            base, lora = {}, {}
+        else:
+            # 全量卡：取各段的均值；任一段掉超过 2 分就在 judge 里被否（human_delta 记最差段）
+            base = {"n": min(int(x.get("n") or 0) for x in bs),
+                    "avg": round(sum(float(x.get("avg") or 0) for x in bs) / len(bs), 1),
+                    "pass_rate": round(sum(int(x.get("pass_rate") or 0) for x in bs) / len(bs)),
+                    "avg_human": round(sum(float(x.get("avg_human") or 0) for x in bs) / len(bs), 1)}
+            lora = {"n": min(int(x.get("n") or 0) for x in ls),
+                    "avg": round(sum(float(x.get("avg") or 0) for x in ls) / len(ls), 1),
+                    "pass_rate": round(sum(int(x.get("pass_rate") or 0) for x in ls) / len(ls)),
+                    "avg_human": round(sum(float(x.get("avg_human") or 0) for x in ls) / len(ls), 1)}
+            if seg == GENERIC:
+                worst = min((float(l.get("avg") or 0) - float(b.get("avg") or 0))
+                            for b, l in zip(bs, ls))
+                if worst < -2:
+                    base["avg"] = lora["avg"] + KEEP_GAIN + 1   # 强制判否：任一段明显退步
+
     if not ck or not base or not lora:
         # 评测没跑成本身是工具故障，不是"模型不行"：不许写进被否记忆去堵这个段。
         print("[loop] 评测缺失（ck=%s base=%s lora=%s）→ 记 EVAL-MISSING，不动被否记忆"

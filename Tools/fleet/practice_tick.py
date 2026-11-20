@@ -389,13 +389,9 @@ def main():
         key = (s["voice"] + s["human"], s["total"])
         if best is None or key > best[0]:
             best = (key, t, lane)
+    text, lane_used = "", ""
     if best:
         text, lane_used = best[1], best[2]
-    if s_now:
-        try:
-            sess.bump(s_now["start"], "posted")
-        except Exception:
-            pass
     if not text:
         refresh_screen("本拍无文案过闸（不硬发）")
         log({"action": "skip", "why": "no text passed gates", "arm": arm, "video": url})
@@ -435,6 +431,11 @@ def main():
     # 车道落这一行：事后要能回答"这条评论是适配器说的还是基座说的"
     log({"action": "lane", "lane": lane_used, "serving": serving_adapter(),
          "rpid": res.get("rpid"), "arm": arm, "persona": seg})
+    if s_now:
+        try:
+            sess.bump(s_now["start"], "posted")   # 只有真发出去才消耗预算
+        except Exception:
+            pass
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
     print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
           % (res.get("rpid"), res.get("visible"), lane_used))
