@@ -456,8 +456,13 @@ def pick_account():
     for alias, v in acts.items():
         name = v.get("uname") or str(v.get("mid"))
         n = used.get(name, 0)
+        per = persona_of(dict(v, alias=alias))
+        hrs = per.get("hours") or []
+        hour = datetime.now().hour
+        # 时段偏好：当前小时落在该号活跃时段（含前后 1 小时）优先 —— 两个号像两个作息不同的人
+        in_hour = 0 if any(abs(hour - h) <= 1 or abs(hour - h) >= 23 for h in hrs) else 1
         # 上一场刚跑过的号排后面 → 保证两号真交替，而不是同一个连跑
-        key = (n, 1 if name == last_acct else 0, last.get(name, "") or "0")
+        key = (n, in_hour, 1 if name == last_acct else 0, last.get(name, "") or "0")
         if best is None or key < best[0]:
             best = (key, alias, v)
     alias, acct = best[1], best[2]
