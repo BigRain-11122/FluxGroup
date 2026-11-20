@@ -163,7 +163,7 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
-RECIPE = "v2-kind-opening"     # 造集配方版本：变了就该重训（train_forever 认这个）
+RECIPE = "v3-natural-dist"     # 造集配方版本：变了就该重训（train_forever 认这个）
 
 KIND_SHARE = {"question": 0.25, "critique": 0.20, "experience": 0.30, "praise": 0.25}
 
@@ -180,29 +180,36 @@ def _kind(text):
     return "praise"
 
 
-def balance_kinds(rows, rnd):
-    """按话语类型重新配比，并给"开头"设配额。
+def balance_kinds(rows, rnd, quota=False):
+    """话语类型配比 + "开头"配额。
 
-    2026-11-20 实测：语料 5720 条里提问只有 8%，而"已三连/老师/感谢"这类开头占 16%
-    ——模型照着学，输出就变成"礼貌水军"。培训集必须先把比例调正，否则再怎么调参
-    也只是把水军腔练得更顺。
+    2026-11-20 决策：**默认不再人工重配比**（只做开头配额）。实测真实语料
+    提问 25.1% / 挑刺 2.3% / 夸奖 15.1%，而旧的重配比把训练集做成
+    提问 9% / 挑刺 36% / 夸奖 55% —— 模型"只会泛夸"是我们自己喂出来的，
+    不是模型能力问题。训练分布必须复刻真实分布，否则越训越像水军。
+    只保留 CEO 定的一条下限：提问+挑刺合计 ≥20%，低于就吼出来。
+    quota=True 时恢复旧的按配额重配（仅供对照实验，不是默认路径）。
     """
-    pools = {}
-    for r in rows:
-        pools.setdefault(_kind(r["text"]), []).append(r)
-    total = len(rows)
-    out, leftover = [], []
-    for kind, share in KIND_SHARE.items():
-        pool = pools.get(kind) or []
-        rnd.shuffle(pool)
-        quota = int(total * share)
-        take = min(quota, len(pool))
-        out.extend(pool[:take])
-        leftover.extend(pool[take:])
-    slots = total - len(out)
-    if slots > 0:
-        rnd.shuffle(leftover)
-        out.extend(leftover[:slots])
+    if quota:
+        pools = {}
+        for r in rows:
+            pools.setdefault(_kind(r["text"]), []).append(r)
+        total = len(rows)
+        out, leftover = [], []
+        for kind, share in KIND_SHARE.items():
+            pool = pools.get(kind) or []
+            rnd.shuffle(pool)
+            quota_n = int(total * share)
+            take = min(quota_n, len(pool))
+            out.extend(pool[:take])
+            leftover.extend(pool[take:])
+        slots = total - len(out)
+        if slots > 0:
+            rnd.shuffle(leftover)
+            out.extend(leftover[:slots])
+    else:
+        out = list(rows)
+    total = len(out)
 
     # 开头配额：任何"前两个字"不得超过 2%（上限 8 条），否则满屏"那个/这个"
     cap = max(8, int(total * 0.02))
@@ -395,14 +402,23 @@ def main():
         return 2
 
     rnd = random.Random(a.seed)
+    quota = (os.environ.get("FLUX_BUILD_KIND_QUOTA") == "1"
+             and os.environ.get("FLUX_BUILD_NO_BALANCE") != "1")
     if os.environ.get("FLUX_BUILD_NO_BALANCE") != "1":
-        rows = balance_kinds(rows, rnd)
+        rows = balance_kinds(rows, rnd, quota=quota)
         kinds = {}
         for r in rows:
-            kinds[_kind(r["text"])] = kinds.get(_kind(r["text"]), 0) + 1
-        print("[build] 配比：%s（共 %d 行）" % (
-            " ".join("%s %.0f%%" % (k, 100.0 * v / max(len(rows), 1)) for k, v in
+            # 优先用烘焙侧的 kind（8 类，单一事实来源）；没有才退回本文件的 4 分类
+            k = r.get("kind") or _kind(r["text"])
+            kinds[k] = kinds.get(k, 0) + 1
+        tot = max(len(rows), 1)
+        print("[build] 配比（%s）：%s（共 %d 行）" % (
+            "配额重配" if quota else "复刻真实",
+            " ".join("%s %.0f%%" % (k, 100.0 * v / tot) for k, v in
                      sorted(kinds.items(), key=lambda x: -x[1])), len(rows)))
+        ask = 100.0 * (kinds.get("提问", 0) + kinds.get("挑刺", 0)) / tot
+        if ask < 20:
+            print("[build] ⚠ 提问+挑刺只占 %.0f%%（CEO 门槛 ≥20%%），这批训出来会偏泛夸" % ask)
 
     # 按句长分桶后层内切分，valid 的长度分布跟着 train 走
     buckets = {}
