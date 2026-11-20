@@ -1,37 +1,37 @@
 {
- "ts": "2026-11-20T22:53:28",
+ "ts": "2026-11-20T23:32:46",
  "base": [
   {
    "n": 10,
-   "avg": 56.5,
-   "pass_rate": 20,
-   "avg_logic": 6.5,
-   "avg_human": 10.0,
+   "avg": 85.5,
+   "pass_rate": 100,
+   "avg_logic": 34.5,
+   "avg_human": 11.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "feeler",
+   "seg": "craft_learner",
    "sample": [
-    "你总说被讨厌的歌里藏着太多往事，连我也想起那晚耳机里的余音了。",
-    "我也总想起某次深夜在车里单曲循环，后来才发现那首歌火到不配听。"
+    "我想学剪辑做视频，用的什么软件？具体做法能分享下教程吗？",
+    "想学剪辑，有没有针对 Vlog 和短视频的实操教程和推荐软件？"
    ]
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 59.4,
-   "pass_rate": 40,
-   "avg_logic": 20.5,
-   "avg_human": 3.0,
-   "avg_natural": 19.6,
+   "avg": 77.8,
+   "pass_rate": 100,
+   "avg_logic": 30.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
-   "seg": "feeler",
+   "seg": "craft_learner",
    "sample": [
-    "当年卫兰的歌就是火到这种地步也有很多人骂我说她听不懂歌[笑哭]",
-    "好歌还是好歌，但是被混进这个榜单了，剧本虽然是剧，但是好像没法再叫剧本了吧[笑哭]"
+    "老师，能不能给剪辑教程呢？",
+    "如何学剪辑软件，哪位老师可以分享？剪刀手阿拉伯语翻译"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-220135/ckpt200"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-225900/ckpt500"
 }
