@@ -154,3 +154,4 @@
 {"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV15es76gEgL", "aid": 117616622439632, "root": 323989745376, "text": "镜头没给到那个转身的表情呢，配乐突然卡顿了吧，花絮剪辑里这场高光总得补全嘛。", "rpid": "324572409376", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 100, "verdict": "PASS"}, "cap": "今日 2/8 条，间隔 OK", "ts": "2026-11-20T16:44:28"}
 {"action": "verify", "arm": "D", "aid": 117616622439632, "rpid": "324572409376", "root": 323989745376, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-20T16:45:09"}
 {"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261119-200531/ckpt200", "rpid": "324572409376", "arm": "D", "persona": "tech_nerd", "ts": "2026-11-20T16:45:09"}
+{"action": "blocked", "why": "最近 5 条投递只有 1 条公开可见 → 停止发帖，先查账号状态", "ts": "2026-11-20T16:50:27"}
