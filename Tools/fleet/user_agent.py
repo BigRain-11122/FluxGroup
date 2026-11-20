@@ -367,6 +367,27 @@ def video_owned_by_other(aid, account):
     return False, ""
 
 
+
+WARMUP_DAYS = 3
+
+
+def warmup_stage(acct):
+    """新号前 3 天只浏览+点赞：新号评论最容易被吞，弹幕更容易被判刷。
+
+    返回 (允许评论, 允许弹幕, 说明)。日期取账号表 created_at（登录当天算第 0 天）。
+    """
+    ts = (acct or {}).get("created_at")
+    if not ts:
+        return True, True, ""
+    try:
+        age = (datetime.now() - datetime.fromisoformat(ts)).days
+    except Exception:
+        return True, True, ""
+    if age < WARMUP_DAYS:
+        return False, False, "新号第 %d 天（< %d 天养护期）：只浏览+点赞" % (age, WARMUP_DAYS)
+    return True, True, ""
+
+
 def pick_account():
     """两个号都养、但不同时：每场只挑一个号，挑"今天跑得最少"的那个。
 
@@ -393,21 +414,34 @@ def pick_account():
     today = datetime.now().strftime("%Y-%m-%d")
     used, last = {}, {}
     for r in _rows():
-        if r.get("action") != "session" or not str(r.get("ts", "")).startswith(today):
+        if r.get("action") != "session":
             continue
         who = r.get("account")
-        used[who] = used.get(who, 0) + 1
-        last[who] = max(last.get(who, ""), str(r.get("ts")))
+        ts = str(r.get("ts") or "")
+        if ts.startswith(today):
+            used[who] = used.get(who, 0) + 1
+        last[who] = max(last.get(who, ""), ts)   # 跨天也算：越久没跑越先上
+    last_acct = ""
+    for r in reversed(_rows(300)):
+        if r.get("action") == "session" and r.get("account"):
+            last_acct = r["account"]
+            break
     best = None
     for alias, v in acts.items():
         name = v.get("uname") or str(v.get("mid"))
         n = used.get(name, 0)
-        key = (n, last.get(name, "") or "0")
+        # 上一场刚跑过的号排后面 → 保证两号真交替，而不是同一个连跑
+        key = (n, 1 if name == last_acct else 0, last.get(name, "") or "0")
         if best is None or key < best[0]:
             best = (key, alias, v)
     alias, acct = best[1], best[2]
     if acct.get("profile"):
         os.environ["FLUX_BILI_PROFILE"] = acct["profile"]
+        try:
+            import social_comment as _scm
+            _scm.PROF = acct["profile"]     # 已导入的模块不会重读 env，必须显式同步
+        except Exception:
+            pass
         acct = dict(acct, alias=alias)
     return acct
 
@@ -524,6 +558,9 @@ def run_session(minutes=18, dry=False, force=False):
         print("[session] %s 登录态失效：本轮只看不动手；请人工登录一次："
               "python3 Tools/fleet/bili_login.py --account %s"
               % (acct.get("alias") or "acct?", acct.get("alias") or "acct1"))
+    can_comment, can_danmaku, warm_why = warmup_stage(acct)
+    if warm_why:
+        print("[session] %s" % warm_why)
     plan = plan_session(minutes, rng=random.Random())
     vids = pick_videos(plan["videos"])
     if not vids:
@@ -534,6 +571,12 @@ def run_session(minutes=18, dry=False, force=False):
     vi = 0
     for st in plan["steps"]:
         act = st["act"]
+        if act in ("danmaku",) and not can_danmaku:
+            out["steps"].append({"act": act, "ok": False, "why": warm_why})
+            continue
+        if act in ("comment",) and not can_comment:
+            out["steps"].append({"act": act, "ok": False, "why": warm_why})
+            continue
         if act in ("like", "danmaku", "comment") and not dry and not logged:
             out["steps"].append({"act": act, "ok": False, "why": "未登录，跳过动手"})
             continue
