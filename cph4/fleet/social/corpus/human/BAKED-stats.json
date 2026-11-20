@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-20T22:08:27",
- "rows": 53291,
+ "ts": "2026-11-20T22:14:10",
+ "rows": 53294,
  "workers": 7,
  "bake_sec": 0.3,
- "rows_per_sec": 153141.5,
+ "rows_per_sec": 156748.1,
  "near_dup": 1041,
  "segments": {
-  "generic": 38790,
+  "generic": 38791,
   "memer": 3995,
   "shallow": 3358,
-  "craft_learner": 1586,
+  "craft_learner": 1588,
   "feeler": 1546,
   "peer_pro": 1183,
   "tech_nerd": 724,
@@ -24,7 +24,7 @@
  },
  "verdicts": {
   "RISKY": 35378,
-  "PASS": 9647,
-  "REJECT": 8266
+  "PASS": 9649,
+  "REJECT": 8267
  }
 }
