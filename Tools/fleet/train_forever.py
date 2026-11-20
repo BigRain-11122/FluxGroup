@@ -389,6 +389,18 @@ def social_session_active():
     训练这时候开跑会把生成从 26 tok/s 压到 2 tok/s（2026-11-20 实测 12 倍），
     两边都做不好——所以短的让长的没有意义，应该按时间片轮流独占。
     """
+    # 2026-11-20：两个号改由 agent_daemon 驱动，不再走 social_session 的时间窗。
+    # 所以除了旧判据，还要看 agent 会话哨兵（state/AGENT-SESSION-<alias>）。
+    try:
+        sd = os.path.join(ROOT, ".codely-cli", "state")
+        for f in os.listdir(sd):
+            if f.startswith("AGENT-SESSION-"):
+                pth = os.path.join(sd, f)
+                age = time.time() - os.path.getmtime(pth)
+                if age < 3 * 3600:      # 3 小时内的哨兵算活跃；防止崩溃留下的僵尸哨兵永久拦训
+                    return True
+    except Exception:
+        pass
     try:
         import social_session as ss
         return bool(ss.current())

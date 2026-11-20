@@ -690,6 +690,8 @@ def run_session(minutes=18, dry=False, force=False):
                 ok, note = sc.browse_video(url, seconds=int(st["dwell_min"] * 60))
                 out["steps"].append({"act": "watch", "ok": ok, "note": str(note)[:60]})
                 _mark_seen(url)
+                log({"action": "watch", "aid": aid, "sec": int(st["dwell_min"] * 60),
+                     "ok": ok, "account": acct.get("uname") or acct.get("mid")})
             vi += 1
         elif act == "like":
             if not aid:
@@ -743,6 +745,40 @@ def run_session(minutes=18, dry=False, force=False):
          "account": acct.get("uname") or acct.get("mid")})
     _mid_unlock(lock); _mid_unlock(glock)
     return out
+
+
+
+def board():
+    """一屏：今天各号的场次/动作/失败率——反馈回路的入口（规划文件 §五）。"""
+    today = datetime.now().strftime("%Y-%m-%d")
+    rows = [r for r in _rows() if str(r.get("ts", "")).startswith(today)]
+    per = {}
+    for r in rows:
+        who = r.get("account") or "(未标注)"
+        d = per.setdefault(who, {"session": 0, "like": 0, "danmaku": 0, "comment": 0,
+                                 "fail": 0, "watch": 0})
+        act = r.get("action")
+        if act in d:
+            d[act] += 1
+    lines = ["# 养号看板（%s）" % today, "",
+             "| 号 | 场次 | 浏览 | 点赞 | 点赞率 | 弹幕 | 评论 | 发送失败 |",
+             "|---|---|---|---|---|---|---|---|"]
+    for who, d in per.items():
+        fails = today_count("send_fail", who)
+        rate = ("%.0f%%" % (100.0 * d["like"] / d["watch"])) if d["watch"] else "-"
+        lines.append("| %s | %d | %d | %d | %s | %d | %d | %d |"
+                     % (who, d["session"], d["watch"], d["like"], rate,
+                        d["danmaku"], d["comment"], fails))
+    if not per:
+        lines.append("| - | 0 | 0 | 0 | 0 | 0 |")
+    lines += ["", "> 目标：场次 4–8、点赞率 20–60%、弹幕 3–20、评论 0–8、失败率 <10%"]
+    out = "\n".join(lines)
+    print(out)
+    try:
+        open(os.path.join(SOCIAL, "AGENT-BOARD.md"), "w", encoding="utf-8").write(out + "\n")
+    except Exception:
+        pass
+    return 0
 
 
 def self_test():
@@ -822,8 +858,11 @@ def main(argv=None):
                     help="只跳时段闸（验证用），护栏不漏")
     ap.add_argument("--minutes", type=int, default=18)
     ap.add_argument("--seg", default="generic")
+    ap.add_argument("--board", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
+    if a.board:
+        return board()
     if a.self_test:
         return self_test()
     if a.plan:

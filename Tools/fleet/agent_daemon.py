@@ -98,8 +98,19 @@ def main(argv=None):
                 continue
             minutes = rng.randint(8, 35)
             t0 = time.time()
+            sent = os.path.join(STATE, "AGENT-SESSION-%s" % a.account)
+            try:
+                open(sent, "w", encoding="utf-8").write(str(os.getpid()))
+            except Exception:
+                pass
             print("[daemon] %s 开一场 %d 分钟" % (a.account, minutes), flush=True)
-            r = ua.run_session(minutes, dry=a.dry, force=True)
+            try:
+                r = ua.run_session(minutes, dry=a.dry, force=True)
+            finally:
+                try:
+                    os.remove(sent)
+                except Exception:
+                    pass
             log({"event": "session", "account": a.account, "minutes": minutes,
                  "ok": bool(r.get("ok")), "why": r.get("why"),
                  "steps": len(r.get("steps") or []), "cost_s": int(time.time() - t0)})
