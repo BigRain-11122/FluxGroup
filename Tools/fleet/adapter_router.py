@@ -45,11 +45,20 @@ def pick_best(rows, exists=None):
     """
     exists = exists or (lambda p: os.path.exists(p))
     best = {}
+    # 高功率的否必须能推翻低功率的"留"：2026-11-20 实测 craft_learner 的 n=10 KEEP
+    # 在 n=30 重验下是 -3.2 分。只看 KEEP，那条已被推翻的件会永远当最优。
+    rejected = {}
+    for r in rows:
+        if r.get("verdict") == "REJECT" and r.get("adapter"):
+            rejected[r["adapter"]] = max(rejected.get(r["adapter"], 0),
+                                         int(r.get("eval_n") or 0))
     for r in rows:
         if r.get("verdict") != "KEEP" or not r.get("adapter"):
             continue
         n = int(r.get("eval_n") or 0)
         if n < 10:
+            continue
+        if rejected.get(r["adapter"], 0) >= n:
             continue
         if not exists(os.path.join(ROOT, r["adapter"], "adapters.safetensors")):
             continue
@@ -177,6 +186,14 @@ def self_test():
                   (picked.get("X") or {}).get("adapter") == "a"))
     cases.append(("n<10 的 KEEP 一律不采", "Y" not in picked))
     cases.append(("REJECT 不采", "Z" not in picked))
+
+    # 负控：同件先 n=10 KEEP、后 n=30 REJECT —— 必须被推翻，不许继续当最优
+    fake2 = [
+        {"seg": "W", "verdict": "KEEP", "adapter": "k", "lora_avg": 70.0, "base_avg": 50.0, "eval_n": 10},
+        {"seg": "W", "verdict": "REJECT", "adapter": "k", "lora_avg": 46.8, "base_avg": 50.0, "eval_n": 30},
+    ]
+    picked2 = pick_best(fake2, exists=lambda p: True)
+    cases.append(("高功率 REJECT 推翻低功率 KEEP", "W" not in picked2))
     ok = 0
     for n, c in cases:
         print("  [%s] %s" % ("PASS" if c else "FAIL", n))

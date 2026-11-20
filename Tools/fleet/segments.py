@@ -60,10 +60,17 @@ def style_block(seg, spec=None):
         g = spec["generic"]
         return "未识别人群：用平实口吻，%d-%d 字，不用梗。" % tuple(g["lang"]["len"])
     l = row["lang"]
-    return ("对方属于「%s」：%d-%d 字，%s，称呼=%s，emoji≤%d，%s。该做：%s；不该做：%s"
+    # 段规格不保证都写 do/dont（craft_learner 用的是 note）：
+    # 直接取键会让那一整段的评测/出稿崩掉，而崩的是"某一段"，很不容易被发现。
+    do = [x for x in (row.get("do") or []) if x]
+    dont = [x for x in (row.get("dont") or []) if x]
+    if do or dont:
+        tail = "该做：%s；不该做：%s" % ("、".join(do) or "-", "、".join(dont) or "-")
+    else:
+        tail = "要点：%s" % (row.get("note") or "-")
+    return ("对方属于「%s」：%d-%d 字，%s，称呼=%s，emoji≤%d，%s。%s"
             % (row["name"], l["len"][0], l["len"][1], l["tone"], l["address"], l["emoji_max"],
-               "可用网络梗" if l["slang"] else "不用网络梗",
-               "、".join(row["do"]), "、".join(row["dont"])))
+               "可用网络梗" if l["slang"] else "不用网络梗", tail))
 
 
 def main():
@@ -104,8 +111,22 @@ def main():
                 s["signals"] = []
         got = classify("学生党宿舍里剪的", broken)["primary"]
         ok += 1 if got != "student" else 0
-        print("[self-test] %d/%d %s" % (ok, len(cases) + 1, "PASS" if ok == len(cases) + 1 else "FAIL"))
-        return 0 if ok == len(cases) + 1 else 1
+        # 全段可出样式块：任何一段缺 do/dont（craft_learner 用 note）都会让
+        # 该段的评测与出稿整段崩掉，而只崩一段极难发现 —— 2026-11-20 实锚。
+        bad = []
+        for s in spec["segments"]:
+            try:
+                b = style_block(s["id"], spec)
+                if not b or len(b) < 10:
+                    bad.append(s["id"])
+            except Exception as e:
+                bad.append("%s(%s)" % (s["id"], e))
+        ok += 1 if not bad else 0
+        if bad:
+            print("  FAIL 样式块缺失：%s" % ", ".join(bad))
+        total = len(cases) + 2
+        print("[self-test] %d/%d %s" % (ok, total, "PASS" if ok == total else "FAIL"))
+        return 0 if ok == total else 1
 
     if a.text:
         r = classify(a.text, spec)
