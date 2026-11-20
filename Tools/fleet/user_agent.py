@@ -263,6 +263,26 @@ def pick_videos(n, rng=None):
     return cand[:n]
 
 
+
+def session_due():
+    """这一场该不该跑：在会话窗口内 + 本窗口还没跑过（一天 3-6 场，不重复）。"""
+    import social_session as ss
+    cur = ss.current()
+    if not cur:
+        return False, None, "不在会话窗口"
+    start = cur.get("start") or ""
+    try:
+        for line in open(LEDGER, encoding="utf-8"):
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            if r.get("action") == "session" and str(r.get("ts") or "") >= start:
+                return False, cur, "本窗口已跑过（%s）" % r.get("ts")
+    except FileNotFoundError:
+        pass
+    return True, cur, "该开一场"
+
+
 def run_session(minutes=18, dry=False, force=False):
     """按计划执行一次会话：看 → 偶尔赞 → 偶尔弹幕 → 极偶尔评论。
 
@@ -380,6 +400,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--run", action="store_true")
+    ap.add_argument("--session", action="store_true", help="常驻入口：该开一场就跑完整一场")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--force", action="store_true",
                     help="只跳时段闸（验证用），护栏不漏")
@@ -398,6 +419,16 @@ def main(argv=None):
                                              ("停留 %.1f 分钟" % s["dwell_min"]) if s.get("dwell_min") else ""))
         print("[plan] 违反'看多动少'：%s" % plan_violates(pl))
         return 0
+    if a.session:
+        due, cur, why = session_due()
+        if not due and not a.force:
+            print("[session] 跳过：%s" % why)
+            return 0
+        minutes = int((cur or {}).get("dur_min") or a.minutes)
+        print("[session] 开一场 %s 分钟（%s）" % (minutes, (cur or {}).get("start") or "force"))
+        r = run_session(minutes, dry=a.dry, force=True)
+        print(json.dumps(r, ensure_ascii=False, indent=1)[:1200])
+        return 0 if r.get("ok") else 1
     if a.run:
         r = run_session(a.minutes, dry=a.dry, force=a.force)
         print(json.dumps(r, ensure_ascii=False, indent=1)[:1500])
