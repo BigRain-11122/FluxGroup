@@ -433,6 +433,16 @@ def main():
     rng = random.Random()
     forced = os.environ.get("FLUX_PRACTICE_FORCE") == "1"
     s_now = sess.current(rng=rng)
+    # 2026-11-20：两个号改由 agent_daemon 驱动，不再走 social_session 的时间窗。
+    # 哨兵在 = 此刻确实有一场"人"的会话在进行，出稿应当被允许；
+    # 否则评论会永远被判 off-session，产出恒为 0（实锚：今晚 8 条全 skip）。
+    try:
+        sd = os.path.join(ROOT, ".codely-cli", "state")
+        if not s_now and any(f.startswith("AGENT-SESSION-") for f in os.listdir(sd)):
+            s_now = {"start": "agent", "dur_min": 20, "social": 2, "passive": 6,
+                     "progress": {"posted": 0, "browsed": 0}}
+    except Exception:
+        pass
     if forced:
         log({"action": "skip", "why": "会话闸人工放行"})
     elif not s_now:

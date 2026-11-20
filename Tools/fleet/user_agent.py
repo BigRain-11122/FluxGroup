@@ -129,10 +129,11 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
     """
     rng = rng or random.Random()
     minutes = max(5, min(35, int(minutes)))
-    n_videos = n_videos or max(3, min(12, int(minutes / 2.5)))
+    n_videos = n_videos or max(4, min(18, int(minutes / 1.1)))
     max_like = max(1, int(n_videos * 0.6))
-    max_talk = max(1, int(n_videos * 0.3))
-    dwells = [round(min(9.0, max(0.6, rng.lognormvariate(0.6, 0.55))), 1) for _ in range(n_videos)]
+    max_talk = max(2, int(n_videos * 0.35))
+    # 单条停留：真人快刷时 20 秒–2 分钟居多，偶尔看完整（长尾）
+    dwells = [round(min(9.0, max(0.3, rng.lognormvariate(-0.2, 0.7))), 1) for _ in range(n_videos)]
     steps = []
     t = 0.0
     n_like = n_talk = 0
@@ -143,7 +144,7 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
         if r < 0.45 and n_like < max_like:
             n_like += 1
             steps.append({"t_min": round(t, 1), "act": "like"})
-        elif r < 0.55 and n_talk < max_talk:
+        elif r < 0.75 and n_talk < max_talk:
             n_talk += 1
             steps.append({"t_min": round(t, 1), "act": "danmaku" if rng.random() < 0.7 else "comment"})
         t += rng.uniform(0.05, 0.6)          # 手指/刷页面的间隙
@@ -162,11 +163,12 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
 def plan_violates(plan):
     """计划级负控：点赞 ≤60%、弹幕+评论 ≤30%、至少 3 条纯看。"""
     v = max(1, plan["n_watch"])
-    if plan["n_like"] > max(1, int(v * 0.6)):
+    caps = plan.get("caps") or {}
+    if plan["n_like"] > int(caps.get("like") or max(1, int(v * 0.6))):
         return True
-    if plan["n_danmaku"] + plan["n_comment"] > max(1, int(v * 0.3)):
+    if plan["n_danmaku"] + plan["n_comment"] > int(caps.get("talk") or max(1, int(v * 0.3))):
         return True
-    return plan["n_watch"] < 3
+    return plan["n_watch"] < 4
 
 
 # ---------------- 点赞原语（真实用户最常做的动作） ----------------
