@@ -101,6 +101,60 @@ def _normalize(text):
     return out
 
 
+# 零否定律（PREFLIGHT-GATE-v1 ③）：否定词会把目标"叫出来"，命中即拒烧。
+# 剧本 detail_en 里天然会出现 "with no person in frame" 这类写法，所以在**生成阶段**
+# 就换成正向说法，而不是让闸去拒——闸是兜底，不是日常返工的理由。
+_NEG_REWRITE = [
+    ("with no person in frame", "the frame holding the object alone"),
+    ("no person in frame", "the frame holding the object alone"),
+    ("no person enters the frame", "the frame stays empty of people"),
+    ("nothing else in frame", "the frame holding only this"),
+    ("without any people", "the setting standing empty"),
+]
+_NEG_TOKENS = ("no ", "not ", "never ", "without", "avoid", "don't", "doesn't", "won't", "non-")
+
+
+def de_negate(text):
+    """把否定句改写成正向句（③零否定）。先走短语表，再走兜底切句。"""
+    out = text or ''
+    low = out.lower()
+    for src, dst in _NEG_REWRITE:
+        if src in low:
+            out = out.replace(src, dst).replace(src.capitalize(), dst)
+            low = out.lower()
+    # 兜底：把 "no/not/never/without..." 起到下一个逗号/句号之间的一小段整段删掉
+    for tok in _NEG_TOKENS:
+        while tok in out.lower():
+            i = out.lower().find(tok)
+            j = len(out)
+            for sep in (',', '.', ';'):
+                k = out.find(sep, i)
+                if k != -1:
+                    j = min(j, k)
+            out = (out[:i].rstrip(' ,') + out[j:]).strip()
+            out = out.replace('  ', ' ').replace(' ,', ',').replace(' ,', ',')
+    return out.strip().rstrip(',')
+
+
+def scene_token(detail_en):
+    """把镜描述映射成预检闸的场景 token（④场景锚）。"""
+    t = (detail_en or '').lower()
+    if 'rooftop' in t:
+        return 'drama_rooftop'
+    if any(k in t for k in ('trading hall', 'hall', 'office', 'room', 'indoor', 'inside')):
+        return 'drama_hall'
+    if any(k in t for k in ('street', 'alley', 'road', 'sidewalk', 'corridor')):
+        return 'drama_street'
+    if any(k in t for k in ('skyline', 'aerial', 'city', 'mountain', 'field')):
+        return 'drama_exterior'
+    return 'drama_interior'
+
+
+def move_token(detail_en):
+    """KF 是静态首帧，运镜归 i2v 段；这里一律 static（禁在 KF 描述里命令镜头运动）。"""
+    return 'static'
+
+
 def expand(detail_en, ids, compact=False, budget_words=None, style=None, total_budget=None):
     """detail_en + 角色锚 → 最终正向提示词。
 
@@ -110,7 +164,7 @@ def expand(detail_en, ids, compact=False, budget_words=None, style=None, total_b
     调色/颗粒——2026-10-17 画风漂移判例的成因，所以宁可裁场景尾也不裁 STYLE。
     """
     st = style if style is not None else (STYLE_C if compact else STYLE)
-    scene = _normalize(detail_en)
+    scene = de_negate(_normalize(detail_en))
     import re
     scene = re.sub(r"\s+", " ", scene).strip()
     ids = ids or []

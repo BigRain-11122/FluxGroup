@@ -1,5 +1,12 @@
 # MV 本地闭环运行手册 v1（bm-c · 2026-11-20）
 
+> **位次：本件是操作速查，不是新法。** 工艺正典仍是 `mv0001-handover/canon/PRODUCTION.md` /
+> `AI-EDITING-SPEC-v1.md` / `PERFORMANCE-SPEC-v1.md` 与 `mv-album-001-jay/prompt-writing-spec-v1/`；
+> 烧片闸仍是 `PREFLIGHT-GATE-v1.md`（本件的 `drama_kf_batch` 走同一道闸，profile="drama"）；
+> 装配质检仍是 `drama_assemble.py` / `drama_quality_gate.py` / `subs_qc.py`。
+> 本件只把「在哪台机器上、用什么路径、按什么命令、多快」写清楚，供换班/换机时照抄——
+> **它不改变任何工艺判据**（CEO 2026-11-21：之前的规则工作流不要推翻，能用就用）。
+>
 > 目的：一台机器、零云端，从剧本到成片全链自己跑。
 > 全部命令均在本机实测过；未实测的项显式标注「未验」。
 > 适用：MV / 漫剧 / 短剧共用同一骨架（D3 关键帧 → D4 i2v → D6 配音 → D7 装配 → D8 闸）。

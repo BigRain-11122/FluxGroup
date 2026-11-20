@@ -1,12 +1,14 @@
 # BigStream 自媒体产线总图 v3 — 五线 × D0-D9 九站 × 实测接线
 
 > 制=bm-c（漫剧/短剧专职机）· 2026-11-20 · 全部条目以**本机盘上实测**为证，不抄记忆。
+> **本件是"体检读数"，不是新法**——既有正典一条不废、一条不改（CEO 2026-11-21 令「之前的规则工作流不要推翻，能用就用」）。
 > 位次（查重律·只补缺不重立）：
-> - 公司顶层设计 v1 = `company/bigstream/TOP-DESIGN-v1.md`（**§8 现状差距表由本件 §四 取代**）
-> - 漫剧工作流正典 v1 = `drama-dept-v1/DRAMA-PRODUCTION-SYSTEM-v1.md`（十站链/精度阶梯/QC 闸，**结构保留不动**）
-> - 漫剧改造案 v2 = `drama-dept-v1/REBUILD-PLAN-v2.md`（双轨换轨：仿真人短线 / Blender 3D 长线）
+> - 公司顶层设计 v1 = `company/bigstream/TOP-DESIGN-v1.md`（**继续有效**；本件 §四 只是它的最新读数更新）
+> - 漫剧工作流正典 v1 = `drama-dept-v1/DRAMA-PRODUCTION-SYSTEM-v1.md`（十站链/精度阶梯/QC 闸，**原样执行**）
+> - 漫剧改造案 v2 = `drama-dept-v1/REBUILD-PLAN-v2.md`（双轨换轨：仿真人短线 / Blender 3D 长线，**原样执行**）
 > - 机队链体检 = `CHAIN-BLUEPRINT-v1.md`（供给→领取→执行→验证→交接→回收）
-> - 产品工序注册 = `PRODUCTS.json`（PROD-DRAMA-EP / PROD-DRAMA-AUDIO / PROD-DUANJU-AUDIO）
+> - 产品工序注册 = `PRODUCTS.json`（**唯一权威，本件不改它**）
+> - 烧片前闸 = `mv-album-001-jay/prompt-writing-spec-v1/PREFLIGHT-GATE-v1.md`（**唯一闸，漫剧经同闸 profile="drama" 进入**）
 > 本件回答三个问题：**这条产线由哪几条线组成、每站现在真的能跑吗、素材在哪。**
 
 ---
@@ -66,27 +68,27 @@
 | D0 IP | `drama-001-stockera/BIBLE.md`+`GUARDRAILS.md` 在盘 | 两件在位 | ✅（静态） |
 | D1 剧本 | `episodes/EP001..060.json` 60 集全在盘（schema=`ep/title/shots[n,dur,kind,ids,detail_en,sub,speaker,fx,card]`） | 目录 123 件 | ✅ |
 | D2 分镜 | 分镜卡=EP json 内的 `detail_en`+`dur`（无独立工序） | 同上 | ✅（内嵌） |
-| D3 关键帧 | `job_kf_batch.py`→`mv_kf_batch.py` 在盘，但输入 `cph4/fleet/out/drama/kf_prompts.json` **不存在**，全仓无该文件生成器 | `out/drama/` 整目录不存在 | ❌ **断点#1** |
-| D4 i2v | `local-i2v/h3_i2v_album.py` 有 `--manifest/--out/--width/--height/--wf`（可泛化）；但 manifest 生成器只服务 MV 专辑 | 无 drama manifest | ⚠️ 缺 manifest 桥 |
+| D3 关键帧 | `drama_kf_plan.py`（剧本→prompt 表）→ `drama_kf_batch.py`（animagine 832×1472），**经 `preflight_gate` profile="drama"** | EP001 21/21 出图·20s/张·闸 21/21 PASS | ✅ **已补（2026-11-21）** |
+| D4 i2v | `drama_i2v_plan.py`（KF→manifest）→ `h3_i2v_album.py`（`--manifest/--out/--wf` 可泛化） | EP001 21/21 出片·155s/镜 | ✅ **已补（2026-11-21）** |
 | D5 口型 | LatentSync 本机在册（media/latentsync*） | 目录在位 | ⚠️ 未接 drama |
 | D6 配音 | 本机 `piper`+`zh_CN-huayan-medium.onnx`+`edge_tts`+`faster_whisper` 全可用；GPT-SoVITS 只在 bm-b | `K:\Fluxgroup\.tools\piper-voices\` | ⚠️ 单音色可跑 |
 | D7 装配 | `Tools/fleet/drama_assemble.py`（1080×1920/30fps+loudnorm -14+烧字幕） | argparse 三参齐 | ✅ |
 | D8 QC | `Tools/fleet/drama_quality_gate.py`（七条硬指标） | 在位 | ✅ |
 | D9 发布 | 无账号/无授权（CEO 保留面） | — | ❌（合规封存） |
 
-**产线物理足迹**：`cph4/fleet/out/drama/` **整目录不存在**——PRODUCTS.json 里 9 站的 outputs 全部落空。这不是「跑得慢」，是**工序注册了但没有第一次点火**。
+**产线物理足迹（2026-11-21 更新）**：`cph4/fleet/out/drama/EP001/` 已成链落盘（kf 21 张 / kf_prompts.json / i2v_manifest.json / i2v 21 段 / assemble_manifest.json / ep001-72s.mp4 + qa）。本条原判「整目录不存在」已由 EP001 全链产出结清。
 
 ---
 
 ## 五、断点清单（按阻断严重度）
 
-| # | 断点 | 根因 | 处置 |
-|---|---|---|---|
-| 1 | **D3 无 prompts 生成器** | 剧本→KF prompt 这一步从来没有工序；每集靠人工/一次性脚本 | 建 `drama_kf_plan.py`（EP json→kf_prompts.json，含 77-token 预算压缩与结构化 token） |
-| 2 | **D4 无 drama manifest 桥** | i2v runner 吃 MV 专辑的 manifest 格式，drama 没有生成器 | 建 drama manifest（kf png+win_s+i2v_prompt→units） |
-| 3 | **三条线共用一组输出目录** | PROD-DRAMA-EP outputs 写死 `out/drama/*`，60 集与样片同树 | 按 `out/drama/<episode>/` 分集建树 |
-| 4 | **素材无大件通道** | git 禁大件、FleetLink /sync ≤256KB、bm-a 仅 8790 开放、bm-b 离线 9 天 | 见 §六 |
-| 5 | **D6 音色库单薄** | 本机只 piper 单音色；多角色配音依赖 bm-b GPT-SoVITS（离线） | 先用 piper 多参数+edge_tts 兜底，多角色排期等 bm-b |
+| # | 断点 | 状态 |
+|---|---|---|
+| 1 | **D3 无 prompts 生成器** | ✅ 已补：`drama_kf_plan.py` + `drama_kf_batch.py`（经既有预检闸 drama 档） |
+| 2 | **D4 无 drama manifest 桥** | ✅ 已补：`drama_i2v_plan.py` |
+| 3 | **三条线共用一组输出目录** | ✅ 已改：按 `out/drama/EP<nnn>/` 分集建树 |
+| 4 | **素材无大件通道** | ⚠️ 仍在（见 §六·结构性事实） |
+| 5 | **D6 音色库单薄** | ⚠️ 仍在（本机 piper 单音色；多角色需 bm-b GPT-SoVITS 或本机自建） |
 
 ---
 
@@ -175,4 +177,19 @@
 - bm-c 的定位因此明确：**接管"长集"的重活**（KF+i2v，单集 20+ 镜），主控侧继续跑样片/字幕/发布链。
 - 字幕闸现成可用：`subs_qc.py` 可直接接进本机 D7（我的 `drama_av_manifest.py` 出字幕 → `subs_qc` 校验 → `drama_assemble` 烧制）。
 
-—— bm-c · 2026-11-20
+## 十二、复用与增量的账（2026-11-21 · 承 CEO「不要推翻，能用就用」）
+
+本窗新增的东西，逐条标明**是复用、是扩展、还是新件**——不让产线长出两套并行机制。
+
+| 件 | 性质 | 说明 |
+|---|---|---|
+| `preflight_gate.py` 的 `profile` 参数 | **扩展（默认行为不变）** | 同一道闸加 drama 词表；`profile="mv"` 是默认值，MV 全链行为零变化（已回归：MV 正常件过 / 否定句拒 / 非法 grade 拒） |
+| `drama_kf_batch.py` | 新件 | 因 MV 闸词表不含漫剧画风轴；**但它必须过同一道闸**（profile="drama"），不是第二道闸 |
+| `drama_kf_plan.py` / `drama_i2v_plan.py` / `drama_av_manifest.py` / `drama_ep_chain.py` | 新件（补缺口） | 对应 PRODUCTS.json 里缺失的四道工序；`PRODUCTS.json` 本身**未改**（补丁见 §十，等合批窗执行） |
+| `drama_canon.py` | **镜像件** | 内容来自 `drama-dept-v1/epburn-handover/drama_ep_burn.py`（bm-b 60 集量产线）；改 canon 仍以 epburn 源为准 |
+| `mv_cuneiform_texture.py` / `mv_cuneiform_shot.py` | 新件 | 只服务 v731 文字项，不改变既有 KF 工艺 |
+| `drama_prompt_critic.py` | 新件（初筛） | 本地 LLM 提示词预筛；**不替代** `PREFLIGHT-GATE`（闸是硬门，critic 是软提示） |
+| `drama_assemble.py` / `drama_quality_gate.py` / `subs_qc.py` / `h3_i2v_album.py` / `mv_kf_batch.py` | **原样复用** | 仅一处 Windows 兼容修复（`ass=...fontsdir` 引号），不涉判据 |
+| `PRODUCTS.json` / `STATIONS.json` / `DRAMA-PRODUCTION-SYSTEM-v1` / `REBUILD-PLAN-v2` / `TOP-DESIGN-v1` / `PRODUCTION.md` | **一律未动** | 工序接线补丁写在 §十，等合批窗统一执行 |
+
+—— bm-c · 2026-11-20（§十二 2026-11-21 补）
