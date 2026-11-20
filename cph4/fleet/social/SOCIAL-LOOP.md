@@ -1,6 +1,6 @@
 # 养号自驱环路（SOCIAL-LOOP）
 
-> 更新时间 2026-11-20T18:47:12 ｜ 语料 8893 行 ｜ 每段评测目标 n=30
+> 更新时间 2026-11-20T18:52:14 ｜ 语料 8893 行 ｜ 每段评测目标 n=30
 
 | 段 | 可用行 | 目标 | 缺口 | 最近判词 | n | 龄期(h) | 下一步 |
 |---|---|---|---|---|---|---|---|
@@ -11,12 +11,12 @@
 | ai_creator | 64 | 400 | 84% | - | 0 | - | collect |
 | critic | 94 | 400 | 76% | - | 0 | - | collect |
 | beginner | 113 | 400 | 72% | - | 0 | - | collect |
-| music_seeker | 397 | 600 | 34% | SUPPLY | 0 | 0.3 | collect |
+| music_seeker | 397 | 600 | 34% | SUPPLY | 0 | 0.4 | collect |
 | feeler | 417 | 600 | 30% | - | 0 | - | collect |
-| tech_nerd | 471 | 600 | 22% | TRAIN-FAIL | 0 | 0.4 | collect |
-| peer_pro | 493 | 600 | 18% | KEEP | 10 | 3.0 | collect |
-| craft_learner | 1308 | 800 | 0% | REJECT | 30 | 2.1 | - |
-| memer | 1521 | 600 | 0% | KEEP | 30 | 2.1 | - |
+| tech_nerd | 471 | 600 | 22% | TRAIN-FAIL | 0 | 0.5 | collect |
+| peer_pro | 493 | 600 | 18% | KEEP | 10 | 3.1 | collect |
+| craft_learner | 1308 | 800 | 0% | REJECT | 30 | 2.2 | - |
+| memer | 1521 | 600 | 0% | KEEP | 30 | 2.2 | - |
 | shallow | 2294 | 600 | 0% | - | 0 | - | train |
 
 **本拍派工**：`watch` / `shallow` —— 从未训过
