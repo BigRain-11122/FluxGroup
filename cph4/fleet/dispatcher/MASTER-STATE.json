@@ -1,32 +1,32 @@
 {
- "ts": "2026-11-20T12:16:53",
- "cycle": 3403,
+ "ts": "2026-11-20T12:22:25",
+ "cycle": 3406,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-20T12:16:53",
+ "master_tick_ts": "2026-11-20T12:22:25",
  "queue": {
-  "total": 384,
+  "total": 385,
   "open": 14,
-  "running": 3,
-  "done": 227,
-  "failed": 6
+  "running": 1,
+  "done": 228,
+  "failed": 7
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 28.5,
-   "cpu_load_pct": 76,
-   "ram_free_gb": 57,
+   "hb_age_s": 5.4,
+   "cpu_load_pct": 7,
+   "ram_free_gb": 53.7,
    "gpu_util_pct": 0,
-   "job": "biggame-pack-scan-2026-11-20",
+   "job": "R-TRIAGE-BIGSTREAMDRAMA-BMB-20261120",
    "last_result": {
     "job": "asset-lib-voice-corpus-2026-11-20",
-    "state": "BUSY",
-    "rc": null,
-    "ts": "2026-11-20T12:16:39",
+    "state": "DONE",
+    "rc": 0,
+    "ts": "2026-11-20T12:22:09",
     "reason": null,
-    "out_bytes": 0,
-    "elapsed_s": 49
+    "out_bytes": null,
+    "elapsed_s": null
    },
    "idle_confirmed": false,
    "idle_reason": "",
@@ -58,16 +58,16 @@
   },
   "bm-m": {
    "online": true,
-   "hb_age_s": 54.6,
-   "cpu_load_pct": 22,
-   "ram_free_gb": 11.9,
+   "hb_age_s": 85.4,
+   "cpu_load_pct": 30,
+   "ram_free_gb": 11.7,
    "gpu_util_pct": null,
    "job": null,
    "last_result": {
-    "job": "R-TRIAGE-FLEETOPS-BMM-20261120",
+    "job": "R-TRIAGE-ASSETLIB-BMM-20261120",
     "state": "DONE",
     "rc": 0,
-    "ts": "2026-11-20T12:16:04",
+    "ts": "2026-11-20T12:21:23",
     "reason": null,
     "out_bytes": null,
     "elapsed_s": null
@@ -143,10 +143,8 @@
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "游戏席",
-   "jobs": [
-    "biggame-pack-scan-2026-11-20"
-   ],
-   "no_supply": false,
+   "jobs": [],
+   "no_supply": true,
    "blockers": [],
    "note": null,
    "stuck_stage": "game-design",
@@ -283,7 +281,6 @@
     "asset-lib-face-dataset-2026-11-19",
     "asset-lib-asset-gen-2026-11-19",
     "asset-lib-asset-gen-scenes-2026-11-19",
-    "asset-lib-voice-corpus-2026-11-20",
     "asset-lib-face-dataset-2026-11-20",
     "asset-lib-asset-gen-2026-11-20"
    ],
@@ -303,7 +300,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 143.3,
+    "age_h": 143.5,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -315,7 +312,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 143.3,
+     "age_h": 143.5,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -326,7 +323,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 121.7,
+     "age_h": 121.8,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -348,7 +345,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 118.0,
+     "age_h": 118.1,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -370,7 +367,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 143.3,
+     "age_h": 143.5,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -386,7 +383,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.0,
+     "age_h": 1.2,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -435,7 +432,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 497.5,
+     "age_h": 497.6,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -446,7 +443,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 497.5,
+     "age_h": 497.6,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -462,7 +459,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 431.0,
+     "age_h": 431.2,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -473,7 +470,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 497.5,
+     "age_h": 497.6,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -487,7 +484,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 402.9,
+    "age_h": 403.0,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -499,7 +496,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 402.9,
+     "age_h": 403.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -573,7 +570,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 384.1,
+    "age_h": 384.3,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -585,7 +582,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 384.1,
+     "age_h": 384.3,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -720,7 +717,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 424.3,
+     "age_h": 424.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -745,7 +742,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 311.5,
+    "age_h": 311.7,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -757,7 +754,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 311.5,
+     "age_h": 311.7,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -768,7 +765,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 311.5,
+     "age_h": 311.7,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -784,7 +781,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 1.1,
+     "age_h": 0.0,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -798,7 +795,7 @@
     "model": "rule",
     "lane": "bm-c",
     "verdict": "STALLED",
-    "age_h": 117.4,
+    "age_h": 117.5,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -810,7 +807,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 117.4,
+     "age_h": 117.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -832,7 +829,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 117.4,
+     "age_h": 117.5,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -862,7 +859,7 @@
  },
  "supply_added": [],
  "events": [
-  "R-TRIAGE-FLEETOPS-BMM-20261120 DONE via bm-m"
+  "R-TRIAGE-ASSETLIB-BMM-20261120 DONE via bm-m"
  ],
  "violations": [
   "bm-c OFFLINE",
