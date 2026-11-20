@@ -1,17 +1,17 @@
-# 7×24 训练循环（2026-11-20T15:08:58）
+# 7×24 训练循环（2026-11-20T15:16:01）
 
-> 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
+> 调度：`com.fluxgroup.trainloop` 每 300s · 当前 not
 
 ## 队列
 
 | 段 | 可用行数 | 可训 | 判据 |
 |---|---|---|---|
-| craft_learner | 1308 | 否 | 冷却中（3.5h 前刚训过，语料 1306→1308 未涨 10%） |
-| shallow | 719 | 否 | 上次被否（629 行）且语料只到 719，未涨 15% |
-| peer_pro | 493 | 否 | 冷却中（1.3h 前刚训过，语料 493→493 未涨 10%） |
-| tech_nerd | 471 | 否 | 冷却中（3.9h 前刚训过，语料 462→471 未涨 10%） |
-| music_seeker | 386 | 否 | 冷却中（3.9h 前刚训过，语料 382→386 未涨 10%） |
-| memer | 266 | 否 | 冷却中（2.5h 前刚训过，语料 266→266 未涨 10%） |
+| craft_learner | 1308 | 是 | 配方更新 v2-kind-opening（1308 行） |
+| shallow | 719 | 是 | 配方更新 v2-kind-opening（719 行） |
+| peer_pro | 493 | 是 | 配方更新 v2-kind-opening（493 行） |
+| tech_nerd | 471 | 是 | 配方更新 v2-kind-opening（471 行） |
+| music_seeker | 386 | 是 | 配方更新 v2-kind-opening（386 行） |
+| memer | 266 | 是 | 配方更新 v2-kind-opening（266 行） |
 | feeler | 188 | 否 | 语料 188 < 200 |
 | beginner | 70 | 否 | 语料 70 < 200 |
 | ai_creator | 64 | 否 | 语料 64 < 200 |
