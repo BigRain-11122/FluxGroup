@@ -97,6 +97,65 @@ def set_blocked(why):
               open(BLOCKED, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 
+def clear_blocked(why):
+    try:
+        json.dump({"active": False, "why": why,
+                   "since": datetime.now().isoformat(timespec="seconds")},
+                  open(BLOCKED, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+
+def mature_verify(n=5, min_age_s=600, limit=3):
+    """对"发帖后只验过一次就再没验"的投递补一次成熟回验。
+
+    2026-11-20 实锚：回验在发帖后 ~40 秒就做，B 站评论过审/进列表常要几分钟，
+    于是 40 秒时的 False 永久留在账上，止损据此停发——判据用的是"婴儿期"证据。
+    现在补一条：投递满 min_age_s 且没有成熟结论的，重新验一次并落账。
+    返回本轮补验的条数。
+    """
+    try:
+        import social_comment as sc
+    except Exception:
+        return 0
+    posts, mature = {}, {}
+    try:
+        for line in open(LEDGER, encoding="utf-8"):
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            rp = str(r.get("rpid") or "")
+            if not rp:
+                continue
+            if r.get("action") == "post":
+                posts[rp] = r
+            elif r.get("action") == "verify" and r.get("mature"):
+                mature[rp] = r.get("visible")
+    except FileNotFoundError:
+        return 0
+    todo = [rp for rp in list(posts) if rp not in mature][-limit:]
+    done = 0
+    for rp in todo:
+        p = posts[rp]
+        try:
+            age = (datetime.now() - datetime.fromisoformat(p.get("ts"))).total_seconds()
+        except Exception:
+            age = 0
+        if age < min_age_s:
+            continue
+        aid = p.get("aid") or p.get("oid")
+        try:
+            v, why = sc.verify_comment_browser(aid, rp)
+        except Exception as e:
+            log({"action": "verify", "rpid": rp, "visible": None, "mature": True,
+                 "why": "复核异常 %s" % type(e).__name__})
+            continue
+        log({"action": "verify", "rpid": rp, "visible": v, "mature": True,
+             "age_min": int(age / 60), "why": why})
+        done += 1
+    return done
+
+
 def log(rec):
     rec.setdefault("ts", datetime.now().isoformat(timespec="seconds"))
     with open(LEDGER, "a", encoding="utf-8") as f:
@@ -263,12 +322,44 @@ def recent_post_outcomes(n=5):
 
 
 def main():
+    # 0 成熟回验：止损/发帖前先补"过了几分钟才准"的结论，别用婴儿期证据下判决
+    try:
+        n_fix = mature_verify()
+        if n_fix:
+            print("[tick] 补做成熟回验 %d 条" % n_fix)
+    except Exception as e:
+        print("[tick] 成熟回验失败：%s" % e)
     # 1 止损闸
     b = blocked()
     if b:
-        refresh_screen("止损中，不发帖")
-        print("[tick] 已止损：%s" % b["why"])
-        return 0
+        # 有成熟证据翻转时可以自动解除：最近 5 条投递里 ≥2 条成熟可见，说明限流已缓解
+        mv = []
+        try:
+            posts, mat = [], {}
+            for line in open(LEDGER, encoding="utf-8"):
+                if not line.strip():
+                    continue
+                r = json.loads(line)
+                rp = str(r.get("rpid") or "")
+                if not rp:
+                    continue
+                if r.get("action") == "post":
+                    posts.append(rp)
+                elif r.get("action") == "verify" and r.get("mature"):
+                    mat[rp] = r.get("visible")
+            mv = [mat[rp] for rp in posts[-5:] if rp in mat]
+        except FileNotFoundError:
+            pass
+        if len(mv) >= 3 and sum(bool(x) for x in mv) >= 2:
+            clear_blocked("成熟回验显示最近 %d 条中 %d 条可见，限流缓解，恢复发帖"
+                          % (len(mv), sum(bool(x) for x in mv)))
+            log({"action": "unblocked", "mature_visible": sum(bool(x) for x in mv),
+                 "mature_n": len(mv)})
+            b = None
+        else:
+            refresh_screen("止损中，不发帖")
+            print("[tick] 已止损：%s" % b["why"])
+            return 0
     # 先看"投递级"可见率：最近 5 条投递里 ≤1 条可见就停（账号已降权，继续发只会更深）
     po = recent_post_outcomes(5)
     if len(po) >= 3 and sum(po) <= 1:
