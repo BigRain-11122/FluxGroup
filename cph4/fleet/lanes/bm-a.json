@@ -1,21 +1,7 @@
 {
  "node": "bm-a",
- "ts": "2026-11-20T13:08:22",
+ "ts": "2026-11-20T13:23:51",
  "jobs": [
-  {
-   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMB-20261120",
-   "title": "BigStream·漫剧 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigstream-drama --node bm-b --out cph4/fleet/queue-receipts/triage-bigstream-drama-bm-b-20261120.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-bm-b-20261120.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
   {
    "id": "asset-lib-voice-dataset-2026-11-20",
    "title": "[资产储备（角色 LoRA / 音色库）] 音色数据集准入（反播音腔的第一道门）",
