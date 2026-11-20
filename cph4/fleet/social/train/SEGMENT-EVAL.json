@@ -1,37 +1,37 @@
 {
- "ts": "2026-11-20T10:59:53",
+ "ts": "2026-11-20T11:10:29",
  "base": [
   {
-   "n": 3,
-   "avg": 36.7,
-   "pass_rate": 0,
-   "avg_logic": 0.0,
-   "avg_human": 0.0,
+   "n": 10,
+   "avg": 60.0,
+   "pass_rate": 20,
+   "avg_logic": 14.0,
+   "avg_human": 6.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "music_seeker",
+   "seg": "peer_pro",
    "sample": [
-    "推荐《Crying》来自 2023 年度最烦歌曲",
-    "《2025 年度最令人讨厌歌曲 TOP10》"
+    "同行你好，今年那些火到不配位的歌，制作人阶段就敢砍掉旋律逻辑做堆料，后期反而不敢救，这工序取舍踩的坑我们 Year 2 都还在堵。",
+    "业内老手，今年热歌失控多是剪辑堆情绪，混响过度和洗脑 BGM 直接毁段，剪辑时如何取舍？"
    ]
   }
  ],
  "lora": [
   {
-   "n": 3,
-   "avg": 53.3,
-   "pass_rate": 67,
-   "avg_logic": 20.0,
-   "avg_human": 10.0,
-   "avg_natural": 13.3,
-   "reject": 1,
-   "seg": "music_seeker",
+   "n": 10,
+   "avg": 69.9,
+   "pass_rate": 80,
+   "avg_logic": 25.5,
+   "avg_human": 9.0,
+   "avg_natural": 19.6,
+   "reject": 0,
+   "seg": "peer_pro",
    "sample": [
-    "这个BGM一出我就想掏出我的生理学论文抄一遍",
-    "这不是指某个bgm或者up主做的视频吗"
+    "老师，请问这2000的剪辑师费是否包含后期配乐呢",
+    "日常的素材剪辑师，请问您的dh会达到多少？[表情]"
    ]
   }
  ],
- "samples": 3,
- "adapter": "cph4/fleet/social/train/RUNS/20261119-211618/ckpt200"
+ "samples": 10,
+ "adapter": "cph4/fleet/social/train/RUNS/20261119-203050/ckpt200"
 }
