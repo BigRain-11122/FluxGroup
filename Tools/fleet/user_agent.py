@@ -241,7 +241,7 @@ def today_count(kind, account=None):
     today = datetime.now().strftime("%Y-%m-%d")
     n = 0
     for r in _rows():
-        if r.get("action") != kind or not str(r.get("ts", "")).startswith(today):
+        if r.get("dry_demo") or r.get("action") != kind or not str(r.get("ts", "")).startswith(today):
             continue
         if account and r.get("account") and r.get("account") != account:
             continue
@@ -440,7 +440,7 @@ def pick_account():
     today = datetime.now().strftime("%Y-%m-%d")
     used, last = {}, {}
     for r in _rows():
-        if r.get("action") != "session":
+        if r.get("action") != "session" or r.get("dry_demo"):
             continue
         who = r.get("account")
         ts = str(r.get("ts") or "")
@@ -568,6 +568,9 @@ def run_session(minutes=18, dry=False, force=False):
     force=True 只跳过"时段"这一条时序闸，护栏（合规闸/配额/刷脸上限）照旧。
     """
     acct = _active_account()
+    glock = _mid_lock("global")      # 全局：两号也不许同时开（防 launchd 与手动撞车）
+    if glock is None and not dry:
+        return {"ok": False, "why": "已有会话在跑（全局单实例）"}
     lock = _mid_lock(acct.get("mid"))
     if lock is None and not dry:
         return {"ok": False, "why": "同一个号已有会话在跑（按 mid 互斥）",
@@ -575,7 +578,7 @@ def run_session(minutes=18, dry=False, force=False):
     import social_session as ss
     cur = ss.current()
     if not cur and not force:
-        _mid_unlock(lock)
+        _mid_unlock(lock); _mid_unlock(glock)
         return {"ok": False, "why": "不在会话时段（一天 3-6 次）"}
     logged, mid2, uname2 = (False, None, None) if dry else login_state()
     if not dry and not logged:
@@ -677,7 +680,7 @@ def run_session(minutes=18, dry=False, force=False):
     log({"action": "session", "minutes": minutes, "dry": dry,
          "n_steps": len(out["steps"]), "seg": plan["seg"],
          "account": acct.get("uname") or acct.get("mid")})
-    _mid_unlock(lock)
+    _mid_unlock(lock); _mid_unlock(glock)
     return out
 
 
