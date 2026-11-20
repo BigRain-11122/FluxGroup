@@ -321,3 +321,9 @@ cph4/fleet/state/lane-trust.json
 # git 里出现过 C:/Fluxgroup/.../bm-b-local-llm-probe.md 与 K:/.../bm-c-local-llm-probe.md，
 # macOS 上于是真建出名为 "C:" 和 "K:" 的目录。内容是"无法回答"的降级输出，无保留价值。
 /[A-Za-z]:/
+
+# 2026-11-20 bm-c: 漫剧 D3/D4 大件留在本地（CEO 2026-10-08 交付裁决 + U187 95MB 红线）
+#   只忽略图/片本身；kf_prompts.json / i2v_manifest.json / 回执仍入仓（小件即证据）
+cph4/fleet/out/drama/**/kf/
+cph4/fleet/out/drama/**/i2v/
+cph4/fleet/out/drama/**/*.mp4
