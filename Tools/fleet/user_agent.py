@@ -218,6 +218,122 @@ def log(rec):
 
 
 # ---------------- 自检 ----------------
+# ---------------- 弹幕文本：必须从这条视频推出来 ----------------
+DM_PATTERNS = ["这个{kw}绝了", "{kw}这段我回看了三遍", "刚看到{kw}这里", "被{kw}戳到了啊",
+               "{kw}这操作学到了", "看到{kw}我笑了"]
+
+
+def danmaku_line(title, rng=None):
+    """从标题抽关键词拼一条 ≤20 字弹幕。抽不出关键词就不发（宁可不发）。"""
+    rng = rng or random.Random()
+    t = re.sub(r"[【】\[\]（）()《》!！?？|/、,，.。\s]", " ", title or "")
+    words = [w for w in t.split() if 2 <= len(w) <= 6 and not w.isdigit()]
+    if not words:
+        return None
+    kw = rng.choice(words)[:6]
+    line = rng.choice(DM_PATTERNS).format(kw=kw)
+    ok, _ = guard(line)
+    return line[:20] if ok else None
+
+
+# ---------------- 会话执行器：把计划真的跑一遍 ----------------
+SEEN = os.path.join(SOCIAL, "SEEN-VIDEOS.json")
+
+
+def _seen():
+    return _load_json(SEEN, {})
+
+
+def _mark_seen(url):
+    d = _seen()
+    d[url] = datetime.now().isoformat(timespec="seconds")
+    try:
+        json.dump(d, open(SEEN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+
+def pick_videos(n, rng=None):
+    """从已采视频里挑几条没看过的；不重复刷同一条。"""
+    rng = rng or random.Random()
+    vids = _load_json(os.path.join(SOCIAL, "VIDEO-TITLES.json"), {})
+    seen = _seen()
+    cand = [(u, v) for u, v in vids.items() if (v or {}).get("title") and u not in seen]
+    rng.shuffle(cand)
+    return cand[:n]
+
+
+def run_session(minutes=18, dry=False, force=False):
+    """按计划执行一次会话：看 → 偶尔赞 → 偶尔弹幕 → 极偶尔评论。
+
+    纪律：任何一步失败都不中断整场（人也不会因为一条视频加载失败就关电脑），
+    但失败要落账；不在会话时段一律不跑（节律本身就是"像人"的一部分）。
+    force=True 只跳过"时段"这一条时序闸，护栏（合规闸/配额/刷脸上限）照旧。
+    """
+    import social_session as ss
+    cur = ss.current()
+    if not cur and not force:
+        return {"ok": False, "why": "不在会话时段（一天 3-6 次）"}
+    plan = plan_session(minutes, rng=random.Random())
+    vids = pick_videos(plan["videos"])
+    if not vids:
+        return {"ok": False, "why": "没有未看过的视频可挑"}
+    import social_comment as sc
+    out = {"ok": True, "dry": dry, "plan": {k: v for k, v in plan.items() if k != "steps"},
+           "steps": [], "videos": len(vids)}
+    vi = 0
+    for st in plan["steps"]:
+        act = st["act"]
+        if act == "end":
+            break
+        if vi >= len(vids):
+            break
+        url, meta = vids[vi]
+        title = (meta.get("title") or "")[:60]
+        aid = None
+        try:
+            aid = sc.bv_to_aid(meta.get("bvid") or meta.get("title") or "")
+        except Exception:
+            aid = None
+        if act == "watch":
+            if dry:
+                out["steps"].append({"act": "watch", "title": title, "sec": int(st["dwell_min"] * 60)})
+            else:
+                ok, note = sc.browse_video(url, seconds=int(st["dwell_min"] * 60))
+                out["steps"].append({"act": "watch", "ok": ok, "note": str(note)[:60]})
+                _mark_seen(url)
+            vi += 1
+        elif act == "like":
+            if not aid:
+                out["steps"].append({"act": "like", "ok": False, "why": "无 aid"})
+                continue
+            ok, res = (True, {"dry": True}) if dry else like(aid)
+            out["steps"].append({"act": "like", "ok": ok, "aid": aid})
+            log({"action": "like", "aid": aid, "ok": ok, "seg": plan["seg"]})
+        elif act == "danmaku":
+            if not aid:
+                continue
+            line = danmaku_line(title)
+            if not line:
+                out["steps"].append({"act": "danmaku", "ok": False, "why": "抽不出关键词"})
+                continue
+            ok, res = (True, {"dry": True}) if dry else sc.send_danmaku(aid, line)
+            out["steps"].append({"act": "danmaku", "ok": ok, "text": line})
+            log({"action": "danmaku", "aid": aid, "text": line, "ok": ok, "seg": plan["seg"]})
+        elif act == "comment":
+            if dry:
+                out["steps"].append({"act": "comment", "dry": True})
+            else:
+                import subprocess
+                r = subprocess.run([sys.executable, os.path.join(HERE, "practice_tick.py")],
+                                   cwd=ROOT, capture_output=True, text=True, timeout=1800)
+                tail = ((r.stdout or "") + (r.stderr or "")).strip()[-120:]
+                out["steps"].append({"act": "comment", "ok": r.returncode == 0, "note": tail})
+    log({"action": "session", "minutes": minutes, "dry": dry,
+         "n_steps": len(out["steps"]), "seg": plan["seg"]})
+    return out
+
+
 def self_test():
     cases = []
     for bad in ("主页有惊喜，懂的都懂", "加V领取素材", "求三连", "垃圾up", "www.abc.com"):
@@ -241,6 +357,13 @@ def self_test():
     else:
         cases.append(("20 个随机计划都满足'看多动少'", True))
 
+    # 弹幕：必须贴标题、≤20 字、且过合规闸；标题里没有可用词就不发
+    line = danmaku_line("【吊打付费】剪映蒙版教程")
+    cases.append(("弹幕从标题抽词", bool(line) and len(line) <= 20))
+    cases.append(("标题没词就不发", danmaku_line("2024") is None))
+    cases.append(("弹幕必过合规闸", all(guard(danmaku_line(t) or "x")[0]
+                                     for t in ("用PR剪片", "调色翻车现场", "转场被玩坏了"))))
+
     # 刷脸上限：同一 UP 主 7 天 ≤2
     mid = "test-up"
     d = up_visits()
@@ -256,6 +379,10 @@ def self_test():
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--plan", action="store_true")
+    ap.add_argument("--run", action="store_true")
+    ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--force", action="store_true",
+                    help="只跳时段闸（验证用），护栏不漏")
     ap.add_argument("--minutes", type=int, default=18)
     ap.add_argument("--seg", default="generic")
     ap.add_argument("--self-test", action="store_true")
@@ -271,6 +398,10 @@ def main(argv=None):
                                              ("停留 %.1f 分钟" % s["dwell_min"]) if s.get("dwell_min") else ""))
         print("[plan] 违反'看多动少'：%s" % plan_violates(pl))
         return 0
+    if a.run:
+        r = run_session(a.minutes, dry=a.dry, force=a.force)
+        print(json.dumps(r, ensure_ascii=False, indent=1)[:1500])
+        return 0 if r.get("ok") else 1
     print("用法：--plan / --self-test")
     return 2
 
