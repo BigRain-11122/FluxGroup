@@ -1,38 +1,37 @@
-# 7×24 训练循环（2026-11-20T18:51:53）
+# 7×24 训练循环（2026-11-20T18:56:36）
 
-> 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
+> 调度：`com.fluxgroup.trainloop` 每 300s · 当前 not
 
 ## 队列
 
 | 段 | 可用行数 | 可训 | 判据 |
 |---|---|---|---|
-| craft_learner | 1308 | 否 | 冷却中（2.2h 前刚训过，语料 0→1308 未涨 10%） |
-| shallow | 720 | 否 | 上次被否（629 行）且语料只到 720，未涨 15% |
-| peer_pro | 493 | 否 | 冷却中（3.1h 前刚训过，语料 493→493 未涨 10%） |
-| tech_nerd | 471 | 否 | 冷却中（0.5h 前刚训过，语料 471→471 未涨 10%） |
-| music_seeker | 386 | 否 | 冷却中（0.4h 前刚训过，语料 386→386 未涨 10%） |
-| memer | 266 | 否 | 冷却中（2.2h 前刚训过，语料 0→266 未涨 10%） |
-| feeler | 188 | 否 | 语料 188 < 200 |
-| beginner | 70 | 否 | 语料 70 < 200 |
+| shallow | 2294 | 是 | 配方更新 v3-natural-dist（2294 行） |
+| memer | 1521 | 是 | 配方更新 v3-natural-dist（1521 行） |
+| craft_learner | 1308 | 是 | 配方更新 v3-natural-dist（1308 行） |
+| peer_pro | 493 | 是 | 配方更新 v3-natural-dist（493 行） |
+| tech_nerd | 471 | 是 | 配方更新 v3-natural-dist（471 行） |
+| feeler | 417 | 是 | 配方更新 v3-natural-dist（417 行） |
+| music_seeker | 397 | 是 | 配方更新 v3-natural-dist（397 行） |
+| beginner | 113 | 否 | 语料 113 < 200 |
+| critic | 94 | 否 | 语料 94 < 200 |
 | ai_creator | 64 | 否 | 语料 64 < 200 |
 | requester | 57 | 否 | 语料 57 < 200 |
 | student | 56 | 否 | 语料 56 < 200 |
-| critic | 34 | 否 | 语料 34 < 200 |
 | family | 9 | 否 | 语料 9 < 200 |
 | traditional | 1 | 否 | 语料 1 < 200 |
 
 ## 补料清单（训练线的真实瓶颈）
 
-有 8 个段低于 200 行，合计还差 **1121 行**才够开训：
+有 7 个段低于 200 行，合计还差 **1006 行**才够开训：
 
 | 段 | 现有 | 差 |
 |---|---|---|
-| feeler | 188 | 12 |
-| beginner | 70 | 130 |
+| beginner | 113 | 87 |
+| critic | 94 | 106 |
 | ai_creator | 64 | 136 |
 | requester | 57 | 143 |
 | student | 56 | 144 |
-| critic | 34 | 166 |
 | family | 9 | 191 |
 | traditional | 1 | 199 |
 
