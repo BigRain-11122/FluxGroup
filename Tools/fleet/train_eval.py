@@ -81,9 +81,36 @@ def eval_ckpt(base_model, adapter_path, prompts, samples, max_tokens, temp):
     return score_texts(texts), texts
 
 
+BASE_CACHE = os.path.join(ROOT, "cph4", "fleet", "social", "train", "BASE-CACHE.json")
+
+
+def _base_key(base_model, seg, samples, max_tokens, temp):
+    return "|".join([os.path.basename(base_model.rstrip("/")), seg,
+                     str(samples), str(max_tokens), str(temp)])
+
+
+def _load_base_cache():
+    try:
+        return json.load(open(BASE_CACHE, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _save_base_cache(d):
+    try:
+        json.dump(d, open(BASE_CACHE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+
 def per_segment(base_model, adapter_path, samples, max_tokens, temp, segs=None, videos=1):
     """按人群段出题评测：同一批视频，每个段位用该段自己的语言参数出题。
     这才是"迎合不同人群的口味"的可量化面——总分会被多数段拉平，分段才看得见短板。
+
+    2026-11-20：**基座分数必须复用，不能每次重采样**。同题同件四次评测里基座均分
+    在 44.1/47.6/53.0/54.1 之间摆，而判据是"候选比基座高 5 分"——±5 的基座噪声
+    会直接把 +6 的真改进判成 REJECT，也会把 +0 判成 KEEP，且两次结论互相矛盾。
+    缓存键含模型名/段/条数/温度，换基座请换路径或删 BASE-CACHE.json。
     """
     import segments as sgm
     spec = sgm.load_spec()
@@ -91,15 +118,28 @@ def per_segment(base_model, adapter_path, samples, max_tokens, temp, segs=None, 
     base_q = title_row
     rows = []
     with_lora = adapter_path is not None
+    cache = {} if with_lora else _load_base_cache()
+    dirty = False
     from mlx_lm import load
     import train_sample as ts
     model, tok = load(base_model, adapter_path=adapter_path)
     for seg in (segs or [s["id"] for s in spec["segments"]]):
+        if not with_lora:
+            k = _base_key(base_model, seg, samples, max_tokens, temp)
+            if k in cache:
+                rows.append(dict(cache[k], seg=seg, cached=True))
+                continue
         block = sgm.style_block(seg, spec)
         prompt = base_q + " " + block
         texts = ts.gen(model, tok, prompt, max_tokens=max_tokens, temp=temp, n=samples)
-        rows.append(dict(score_texts(texts, seg=seg), seg=seg, sample=texts[:2]))
+        row = dict(score_texts(texts, seg=seg), seg=seg, sample=texts[:2])
+        rows.append(row)
+        if not with_lora:
+            cache[k] = {kk: vv for kk, vv in row.items() if kk not in ("seg", "cached")}
+            dirty = True
     del model
+    if dirty:
+        _save_base_cache(cache)
     return rows
 
 
@@ -151,6 +191,10 @@ def main():
         lora_rows = per_segment(a.model, a.adapter, a.samples, a.max_tokens, a.temp, segs) \
             if a.adapter else []
         lmap = {r["seg"]: r for r in lora_rows}
+        reused = [r["seg"] for r in base_rows if r.get("cached")]
+        if reused:
+            print("[eval] 基座参照复用缓存（%s）——同题同配置的基座不重采样" % ",".join(reused),
+                  flush=True)
         print("%-13s %-16s %-16s" % ("segment", "base 均分/PASS", "lora 均分/PASS"))
         for r in base_rows:
             l = lmap.get(r["seg"])
