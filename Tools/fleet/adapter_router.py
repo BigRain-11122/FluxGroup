@@ -83,14 +83,20 @@ def _switch(target, why, timeout=180):
 
 def ensure(seg, timeout=180):
     """切到该段最优件。返回 (是否已就位, 说明, 切换耗时秒)。"""
-    best = best_adapters().get(seg)
+    allb = best_adapters()
+    best = allb.get(seg)
+    if not best and allb.get("__all__"):
+        # 该段没练出专属件：退到全量件（比基座强，且是同一套语料风格）
+        best = dict(allb["__all__"], fallback=True)
     if not best:
         return False, "该段没有可用件（用基座）", 0.0
     if current() == best["adapter"]:
         return True, "已在位", 0.0
     ok, secs, tail = _switch(best["adapter"],
-                             "段 %s 出稿：%+0.1f 分（n=%s）" % (
-                                 seg, best["gain"], best["n"]), timeout=timeout)
+                             "段 %s 出稿：%+0.1f 分（n=%s）%s" % (
+                                 seg, best["gain"], best["n"],
+                                 "·全量件兜底" if best.get("fallback") else ""),
+                             timeout=timeout)
     return ok, ("%s（%s）" % (tail, best["adapter"]) if ok else "切换失败：" + tail), secs
 
 

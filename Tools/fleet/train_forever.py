@@ -375,7 +375,8 @@ def run_one(a):
     st.setdefault("segments", {})
     st.setdefault("runs", [])
     if a.seg:
-        n_rows = int(rows.get(a.seg, 0))
+        n_rows = (sum(int(v) for k, v in rows.items() if k != "generic")
+                  if a.seg == GENERIC else int(rows.get(a.seg, 0)))
         task, _cands = ({"seg": a.seg, "rows": n_rows, "why": "手动指定"}, [])
     else:
         task, _cands = pick(rows, st, rejects)
