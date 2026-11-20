@@ -200,7 +200,7 @@ def main():
     t0 = time.time()
     proc = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     log_path = os.path.join(run_dir, "train.log")
-    train_losses, val_losses = [], []
+    train_losses, val_losses, nan_hit = [], [], False
     # mlx_lm 的进度条带 ANSI 颜色码（"\x1b[1m5.072 ▼\x1b[0m"），不先剥掉正则就抓不到，
     # 运行卡里会静默留 None——看着像"训练没产出损失"，其实只是没剥色。
     ansi = re.compile(r"\x1b\[[0-9;]*m")
@@ -216,10 +216,22 @@ def main():
                 m = re.search(r"\d+\s+([\d.]+)\s*[▲▼]", line)
             if m:
                 train_losses.append(float(m.group(1)))
+            # nan/inf 急停：2026-11-20 实锚，跑到 260 步 loss 变 nan 后仍在空转 20 分钟，
+            # 最后两边算力都白烧。既然已经学不动了，立刻杀掉并如实记 rc=4。
+            if re.search(r"\b(nan|inf)\b", line, re.I) and ("▲" in line or "▼" in line or "loss" in line.lower()):
+                print("[train] loss 出现 nan/inf（%s）→ 立刻停止" % line.strip()[:60], flush=True)
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+                nan_hit = True
+                break
             m = re.search(r"Val loss ([\d.]+)", line) or re.search(r"\bval\s+([\d.]+)", line)
             if m:
                 val_losses.append(float(m.group(1)))
     rc = proc.wait()
+    if nan_hit:
+        rc = 4          # 4 = 训练发散（nan/inf），与"环境失败"区分开
     wall = round(time.time() - t0, 1)
 
     card = {

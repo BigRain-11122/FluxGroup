@@ -278,6 +278,12 @@ def main():
         refresh_screen(why)
         print("[tick] 止损：%s" % why)
         return 0
+    # GPU 独占：训练在跑时出稿会拿到 2 tok/s 的烂产出（实测），不如等它训完
+    sent = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE")
+    if os.path.exists(sent) and os.environ.get("FLUX_PRACTICE_FORCE") != "1":
+        log({"action": "skip", "why": "training-gpu"})
+        print("[tick] 训练占用 GPU，本轮延后（会话时段会照常发）")
+        return 0
     rv = recent_visibility()
     if len(rv) >= STOP_AFTER and not any(rv):
         why = "最近 %d 条全部公开不可见，判定账号被静默扣留，停止刷帖" % len(rv)

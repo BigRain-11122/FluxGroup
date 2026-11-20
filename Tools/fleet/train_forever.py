@@ -344,10 +344,25 @@ def record_fail(seg, rows, kind, why, built=0):
     return rec
 
 
+def social_session_active():
+    """现在是否在"刷 B 站"的会话里。会话里出稿要用 GPU，
+    训练这时候开跑会把生成从 26 tok/s 压到 2 tok/s（2026-11-20 实测 12 倍），
+    两边都做不好——所以短的让长的没有意义，应该按时间片轮流独占。
+    """
+    try:
+        import social_session as ss
+        return bool(ss.current())
+    except Exception:
+        return False
+
+
 def run_one(a):
     holder = busy_holder()
     if holder:
         print("[loop] 训练进行中（pid %d），本次跳过" % holder)
+        return 0
+    if social_session_active() and os.environ.get("FLUX_TRAIN_FORCE") != "1":
+        print("[loop] 会话时段（养号出稿用 GPU），训练让路 5 分钟后再看")
         return 0
     rows = segment_rows()
     st = reconcile(_load(LOOP_STATE, {"segments": {}, "runs": []}))
