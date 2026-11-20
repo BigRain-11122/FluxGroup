@@ -9,8 +9,8 @@
    "val_min": 3.14
   },
   "peer_pro": {
-   "last_ts": 1795144367.0,
-   "last_rc": "KEEP",
+   "last_ts": 1795152062.0788999,
+   "last_rc": "TRAIN-FAIL",
    "rows": 388,
    "run": "20261119-203050",
    "step": 200,
@@ -33,12 +33,20 @@
    "val_min": 3.875
   },
   "memer": {
-   "last_ts": 1795149592.058903,
+   "last_ts": 1795149592.0,
    "last_rc": "KEEP",
    "rows": 266,
    "run": "20261120-115009",
    "step": 300,
    "val_min": 3.478
+  },
+  "__all__": {
+   "last_ts": 1795151923.0,
+   "last_rc": "TRAIN-FAIL",
+   "rows": 4122,
+   "run": null,
+   "step": null,
+   "val_min": null
   }
  },
  "runs": [
@@ -225,6 +233,16 @@
    "verdict": "KEEP",
    "why": "均分 +29.7 / 人味 +6.0",
    "adapter": "cph4/fleet/social/train/RUNS/20261120-115009/ckpt300"
+  },
+  {
+   "ts": "2026-11-20T13:18:43",
+   "seg": "__all__",
+   "rows": 4122,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "TRAIN-FAIL",
+   "why": "[train] 结束 13:18:43",
+   "adapter": null
   }
  ]
 }
