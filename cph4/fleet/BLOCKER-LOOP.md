@@ -1,7 +1,7 @@
-# 堵/坏/卡点闭环 2026-11-20T18:25:38
+# 堵/坏/卡点闭环 2026-11-20T19:25:52
 
 分类表：`cph4/fleet/BLOCKER-TAXONOMY-v1.json`（每类四件套：判据/解法/周期/升级轮次）。
-本轮命中 8 项 · 已解 8 · 待升级 0 · 未到周期跳过 7 类
+本轮命中 8 项 · 已解 8 · 待升级 0 · 未到周期跳过 6 类
 
 ## DECL-UNDISPATCHED（2）
 
@@ -14,14 +14,14 @@
 
 ## QUEUE-DRIFT（4）
 
-- `R-PLAN-BIGCOMPUTE-20261120` 队列=CANCELLED 备队列=READY ✅对齐 4 行
-- `R-PLAN-BIGDOMAIN-20261120` 队列=CANCELLED 备队列=READY ✅对齐 4 行
 - `R-NEXT-BIGSTREAMM-REBUILD-20261120` 队列=FAILED 备队列=READY ✅对齐 4 行
 - `R-NEXT-BIGGAME-SUBMIT-P-20261120` 队列=CANCELLED 备队列=READY ✅对齐 4 行
+- `R-PLAN-BIGCOMPUTE-20261120` 队列=CANCELLED 备队列=READY ✅对齐 4 行
+- `R-PLAN-BIGDOMAIN-20261120` 队列=CANCELLED 备队列=READY ✅对齐 4 行
 
-## NODE-REPO-DIVERGED（1）
+## VOLUME-MISSING（1）
 
-- `bm-a` bm-a 仓库已分叉（head 93d684472 非 origin/main 祖先），/poke 只会假受理，新卡与产出归集到不了；解=在 ✅已定性为不需行动（1 项），不重复报
+- `移动硬盘` 台账有引用但卷未挂载 ✅vault rebuild rc=0 重建 0 条（已可达跳过 677，历史快照 0，无法重建 0）
 
 ---
 _自动解只做确定性动作；解不了的按轮次升级，不许静默留着_

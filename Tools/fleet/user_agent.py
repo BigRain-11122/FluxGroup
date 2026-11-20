@@ -218,6 +218,88 @@ def log(rec):
 
 
 # ---------------- 自检 ----------------
+
+# ---------------- 风控：日配额 + 重复内容 + 跨号错峰 ----------------
+# 依据（2026-11 平台规则/社区实锚）：评论最敏感（折叠/仅自己可见都从它开始），
+# 弹幕次之（单条可见度高、易被判刷），点赞最轻。所以配额按这个顺序收紧。
+AGENT_LIMITS = {"like": 20, "danmaku": 5, "comment": 3}
+CROSS_GAP_MIN = 10          # 两个号的动作至少错开 10 分钟
+
+
+def _rows(limit=None):
+    rows = []
+    try:
+        for line in open(LEDGER, encoding="utf-8"):
+            if line.strip():
+                rows.append(json.loads(line))
+    except FileNotFoundError:
+        pass
+    return rows[-limit:] if limit else rows
+
+
+def today_count(kind, account=None):
+    today = datetime.now().strftime("%Y-%m-%d")
+    n = 0
+    for r in _rows():
+        if r.get("action") != kind or not str(r.get("ts", "")).startswith(today):
+            continue
+        if account and r.get("account") and r.get("account") != account:
+            continue
+        n += 1
+    return n
+
+
+def quota_ok(kind, account=None):
+    cap = AGENT_LIMITS.get(kind)
+    if not cap:
+        return True, ""
+    n = today_count(kind, account)
+    if n >= cap:
+        return False, "%s 今日已 %d 次（上限 %d）" % (kind, n, cap)
+    return True, ""
+
+
+def _norm(t):
+    return re.sub(r"[^\u4e00-\u9fff0-9A-Za-z]", "", t or "")
+
+
+def _grams(t, n=6):
+    t = _norm(t)
+    return {t[i:i + n] for i in range(max(0, len(t) - n + 1))} or ({t} if t else set())
+
+
+def dup_recent(text, days=7, thresh=0.6):
+    """同账号近 N 天说过近似的话就算重复——重复内容是官方明写的折叠原因之一。"""
+    mine = _grams(text)
+    if not mine:
+        return True, "空文本"
+    cut = (datetime.now() - timedelta(days=days)).isoformat(timespec="seconds")
+    for r in _rows():
+        if r.get("action") not in ("comment", "danmaku") or str(r.get("ts", "")) < cut:
+            continue
+        other = _grams(r.get("text") or r.get("message") or "")
+        if not other:
+            continue
+        inter = len(mine & other)
+        if inter / max(1, min(len(mine), len(other))) >= thresh:
+            return True, "与 %s 那条太像（%s）" % (str(r.get("ts"))[5:16], (r.get("text") or "")[:12])
+    return False, ""
+
+
+def cross_gap_ok(account=None, minutes=CROSS_GAP_MIN):
+    """两个号不许在同一时间动手：最近 N 分钟若有别号动作，就等。"""
+    cut = (datetime.now() - timedelta(minutes=minutes)).isoformat(timespec="seconds")
+    for r in reversed(_rows(200)):
+        ts = str(r.get("ts") or "")
+        if ts < cut:
+            continue
+        other = r.get("account")
+        if other and account and other != account and r.get("action") in ("like", "danmaku", "comment"):
+            return False, "别号 %s 刚在 %s 动过手（%s 分钟内要错峰）" % (
+                other, ts[11:16], minutes)
+    return True, ""
+
+
 # ---------------- 弹幕文本：必须从这条视频推出来 ----------------
 DM_PATTERNS = ["这个{kw}绝了", "{kw}这段我回看了三遍", "刚看到{kw}这里", "被{kw}戳到了啊",
                "{kw}这操作学到了", "看到{kw}我笑了"]
@@ -264,6 +346,94 @@ def pick_videos(n, rng=None):
 
 
 
+
+
+def video_owned_by_other(aid, account):
+    """同一条视频今天已被别的号互动过（赞/弹幕/评论）→ 本号不再动手。
+
+    两个号在同一视频下同时出现，是最容易被串起来的关联特征；看没关系，别同时动手。
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+    for r in _rows():
+        if str(r.get("ts", ""))[:10] != today:
+            continue
+        if r.get("action") not in ("like", "danmaku", "comment"):
+            continue
+        if str(r.get("aid")) != str(aid):
+            continue
+        other = r.get("account")
+        if other and account and other != account:
+            return True, "这条视频今天已被 %s 互动过" % other
+    return False, ""
+
+
+def pick_account():
+    """两个号都养、但不同时：每场只挑一个号，挑"今天跑得最少"的那个。
+
+    依据：同一台机器、同一个 IP 上两个号同时活跃是典型关联特征；
+    轮流开、每场只动一个号，才像"一个人分别用两个账号刷"。
+    没有 mid 的账号（未登录）不参与轮转。
+    """
+    try:
+        d = _load_json(os.path.expanduser("~/.fluxgroup/bili-accounts.json"), {})
+    except Exception:
+        return {}
+    acts = {k: v for k, v in (d.get("accounts") or {}).items()
+            if isinstance(v, dict) and v.get("mid") and not k.startswith("_")}
+    if not acts:
+        return {}
+    today = datetime.now().strftime("%Y-%m-%d")
+    used, last = {}, {}
+    for r in _rows():
+        if r.get("action") != "session" or not str(r.get("ts", "")).startswith(today):
+            continue
+        who = r.get("account")
+        used[who] = used.get(who, 0) + 1
+        last[who] = max(last.get(who, ""), str(r.get("ts")))
+    best = None
+    for alias, v in acts.items():
+        name = v.get("uname") or str(v.get("mid"))
+        n = used.get(name, 0)
+        key = (n, last.get(name, "") or "0")
+        if best is None or key < best[0]:
+            best = (key, alias, v)
+    alias, acct = best[1], best[2]
+    if acct.get("profile"):
+        os.environ["FLUX_BILI_PROFILE"] = acct["profile"]
+        acct = dict(acct, alias=alias)
+    return acct
+
+
+def _active_account():
+    return pick_account()
+
+
+def _mid_lock(mid):
+    """按 mid 的单实例锁：同一个号同一时刻只许一场会话（哪怕挂了两个 profile）。"""
+    p = os.path.join(ROOT, ".codely-cli", "state", "BILI-MID-%s.lock" % (mid or "unknown"))
+    try:
+        if os.path.exists(p):
+            old = int(open(p, encoding="utf-8").read().strip() or 0)
+            try:
+                os.kill(old, 0)
+                return None
+            except Exception:
+                pass
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        open(p, "w", encoding="utf-8").write(str(os.getpid()))
+        return p
+    except Exception:
+        return None
+
+
+def _mid_unlock(p):
+    try:
+        if p and int(open(p, encoding="utf-8").read().strip() or 0) == os.getpid():
+            os.remove(p)
+    except Exception:
+        pass
+
+
 def session_due():
     """这一场该不该跑：在会话窗口内 + 本窗口还没跑过（一天 3-6 场，不重复）。"""
     import social_session as ss
@@ -290,9 +460,15 @@ def run_session(minutes=18, dry=False, force=False):
     但失败要落账；不在会话时段一律不跑（节律本身就是"像人"的一部分）。
     force=True 只跳过"时段"这一条时序闸，护栏（合规闸/配额/刷脸上限）照旧。
     """
+    acct = _active_account()
+    lock = _mid_lock(acct.get("mid"))
+    if lock is None and not dry:
+        return {"ok": False, "why": "同一个号已有会话在跑（按 mid 互斥）",
+                "account": acct.get("uname") or acct.get("mid")}
     import social_session as ss
     cur = ss.current()
     if not cur and not force:
+        _mid_unlock(lock)
         return {"ok": False, "why": "不在会话时段（一天 3-6 次）"}
     plan = plan_session(minutes, rng=random.Random())
     vids = pick_videos(plan["videos"])
@@ -327,9 +503,18 @@ def run_session(minutes=18, dry=False, force=False):
             if not aid:
                 out["steps"].append({"act": "like", "ok": False, "why": "无 aid"})
                 continue
+            acct_name = acct.get("uname") or acct.get("mid")
+            q_ok, q_why = quota_ok("like", acct_name)
+            c_ok, c_why = cross_gap_ok(acct_name)
+            v_ok, v_why = video_owned_by_other(aid, acct_name)
+            if not (q_ok and c_ok) or v_ok:
+                out["steps"].append({"act": "like", "ok": False,
+                                     "why": q_why or c_why or v_why})
+                continue
             ok, res = (True, {"dry": True}) if dry else like(aid)
             out["steps"].append({"act": "like", "ok": ok, "aid": aid})
-            log({"action": "like", "aid": aid, "ok": ok, "seg": plan["seg"]})
+            log({"action": "like", "aid": aid, "ok": ok, "seg": plan["seg"],
+                 "account": acct.get("uname") or acct.get("mid")})
         elif act == "danmaku":
             if not aid:
                 continue
@@ -337,9 +522,19 @@ def run_session(minutes=18, dry=False, force=False):
             if not line:
                 out["steps"].append({"act": "danmaku", "ok": False, "why": "抽不出关键词"})
                 continue
+            acct_name = acct.get("uname") or acct.get("mid")
+            q_ok, q_why = quota_ok("danmaku", acct_name)
+            c_ok, c_why = cross_gap_ok(acct_name)
+            d_ok, d_why = dup_recent(line)
+            v_ok, v_why = video_owned_by_other(aid, acct_name)
+            if not (q_ok and c_ok) or d_ok or v_ok:
+                out["steps"].append({"act": "danmaku", "ok": False,
+                                     "why": q_why or c_why or d_why or v_why})
+                continue
             ok, res = (True, {"dry": True}) if dry else sc.send_danmaku(aid, line)
             out["steps"].append({"act": "danmaku", "ok": ok, "text": line})
-            log({"action": "danmaku", "aid": aid, "text": line, "ok": ok, "seg": plan["seg"]})
+            log({"action": "danmaku", "aid": aid, "text": line, "ok": ok, "seg": plan["seg"],
+                 "account": acct.get("uname") or acct.get("mid")})
         elif act == "comment":
             if dry:
                 out["steps"].append({"act": "comment", "dry": True})
@@ -350,7 +545,9 @@ def run_session(minutes=18, dry=False, force=False):
                 tail = ((r.stdout or "") + (r.stderr or "")).strip()[-120:]
                 out["steps"].append({"act": "comment", "ok": r.returncode == 0, "note": tail})
     log({"action": "session", "minutes": minutes, "dry": dry,
-         "n_steps": len(out["steps"]), "seg": plan["seg"]})
+         "n_steps": len(out["steps"]), "seg": plan["seg"],
+         "account": acct.get("uname") or acct.get("mid")})
+    _mid_unlock(lock)
     return out
 
 
@@ -383,6 +580,31 @@ def self_test():
     cases.append(("标题没词就不发", danmaku_line("2024") is None))
     cases.append(("弹幕必过合规闸", all(guard(danmaku_line(t) or "x")[0]
                                      for t in ("用PR剪片", "调色翻车现场", "转场被玩坏了"))))
+
+
+    # 风控三闸（用假台账，不碰真账）
+    real_rows = globals()["_rows"]
+    now_iso = datetime.now().isoformat(timespec="seconds")
+    try:
+        globals()["_rows"] = lambda limit=None: [
+            {"action": "comment", "ts": now_iso, "account": "A",
+             "text": "这个转场我看了三遍还是没看懂"},
+            {"action": "comment", "ts": now_iso, "account": "A", "text": "x"},
+            {"action": "comment", "ts": now_iso, "account": "A", "text": "y"},
+        ]
+        cases.append(("评论日配额 3 次封顶", quota_ok("comment", "A")[0] is False))
+        cases.append(("重复内容被拦",
+                      dup_recent("这个转场我看了三遍还是没看懂啊")[0] is True))
+        cases.append(("不相似内容放行",
+                      dup_recent("调色偏青了，皮肤没血色")[0] is False))
+        globals()["_rows"] = lambda limit=None: [
+            {"action": "like", "ts": now_iso, "account": "B"}]
+        cases.append(("别号刚动手→错峰拦",
+                      cross_gap_ok("A", minutes=10)[0] is False))
+        cases.append(("同号自己动手不算错峰",
+                      cross_gap_ok("B", minutes=10)[0] is True))
+    finally:
+        globals()["_rows"] = real_rows
 
     # 刷脸上限：同一 UP 主 7 天 ≤2
     mid = "test-up"

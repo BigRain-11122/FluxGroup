@@ -127,6 +127,9 @@ def _launch(p, headless=True, wait_s=None):
     if wait_s is None:
         import os as _os
         wait_s = float(_os.environ.get("FLUX_PROFILE_WAIT", "180"))
+    # 新号第一次用时 profile 目录还不存在，而锁文件是写在 profile 目录里的
+    # （2026-11-20 实锚：第二个号首次登录直接 FileNotFoundError）。
+    os.makedirs(PROF, exist_ok=True)
     try:
         import social_collect as _sc
         if _sc._acquire_profile_lock(PROF, wait_s=wait_s) is None:

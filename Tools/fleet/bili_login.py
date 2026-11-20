@@ -61,10 +61,23 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--account", default="acct1")
     ap.add_argument("--check", action="store_true", help="只核验已有登录，不开登录页")
+    ap.add_argument("--new", default=None, help="登记一个新账号别名并建独立 profile（不登录）")
     ap.add_argument("--wait", type=int, default=600, help="等手动登录的秒数")
     a = ap.parse_args(argv)
 
     d = load_accounts()
+    if a.new:
+        d.setdefault("accounts", {})
+        if a.new in d["accounts"]:
+            print("已存在：%s" % a.new)
+            return 2
+        prof = os.path.expanduser("~/.fluxgroup/browser-%s" % a.new)
+        d["accounts"][a.new] = {"profile": prof, "note": "新建于 %s" %
+                               time.strftime("%Y-%m-%d %H:%M")}
+        save_accounts(d)
+        print("已登记 %s → profile=%s" % (a.new, prof))
+        print("下一步：python3 Tools/fleet/bili_login.py --account %s  （窗口里手动登录）" % a.new)
+        return 0
     acct = (d.get("accounts") or {}).get(a.account)
     if not acct:
         print("未登记该账号：%s（先写进 %s）" % (a.account, ACC))
