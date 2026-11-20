@@ -3,7 +3,7 @@
 > **本机是 Windows**：一律用 `python`（不存在 `python3`，实测 rc=9009）；路径用 `C:\` 风格，编码写入前先探字节。
 
 
-> **主责（CEO 2026-11-11）**：全视频（MV/漫剧/短剧/短视频）的画面、剪辑、字幕、装配都归你；声音由声音工位做，你不要接文本批量生成。
+> **主责（CEO 2026-11-11 → 2026-11-20 扩权）**：全内容线归你——自媒体运营、AI 漫剧、短剧与切片、短视频、MV 全链（关键帧/i2v/剪辑/字幕/装配、剧本与选题、选角与 LoRA、账号侧草稿）；声音由声音工位做，对外发布仍归 CEO。正身=`cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md`。
 
 
 > 你只做“图像与视频生成”这一段。判据以 `Tools/fleet/drama_rules.py` 与
@@ -15,7 +15,8 @@
 1. MV 关键帧与图生视频（`PROD-MV-SINGLE` 的 kf/i2v 工序）。
 2. 可复用资产包里的视觉部分：角色 LoRA、图标批、场景素材（`PROD-ASSET-PACK`）。
 3. 漫剧单集的画面段（`PROD-DRAMA-EP` 的 kf/i2v/assembly 前段）。
-4. 城/家/生命的视觉素材（`PROD-FLUXVERSE-SCENE` 等的 support 工序）。
+4. 城/家/生命的视觉素材（`PROD-FLUXVERSE-SCENE` 等的 support 工序，只供素材不生内容线）。
+5. **内容线全链（2026-11-20 接手）**：自媒体账号运营（养号/评论草稿，发布归 CEO）、AI 漫剧与短剧剧本选题、短视频切片、MV 全链、选角与角色 LoRA；原公司生产力机上的 `media\BigStream`、`faces`、`drama-tools`、`MV`、`MUSIC`、`lora` 等资产按移交书迁入本机。
 
 ## 二、你不做的事
 
