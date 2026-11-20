@@ -140,10 +140,16 @@ def pick(rows, st, rejects, now=None):
     return {"seg": seg, "rows": -negn, "why": why}, cands
 
 
+MIN_EVAL_N = 8          # 少于这个条数，判词是在评噪声不是评权重
+
+
 def judge_keep(base, lora):
-    """留档判据：均分 +5、PASS 不降、人味不降 2。"""
+    """留档判据：均分 +5、PASS 不降、人味不降 2。样本不足时一律不判。"""
     if not base or not lora:
         return False, "缺评测数据"
+    n = min(int(base.get("n") or 0), int(lora.get("n") or 0))
+    if n < MIN_EVAL_N:
+        return False, "样本不足（n=%d < %d），不判" % (n, MIN_EVAL_N)
     gain = float(lora.get("avg") or 0) - float(base.get("avg") or 0)
     if gain < KEEP_GAIN:
         return False, "均分只 %+.1f（需 ≥%.1f）" % (gain, KEEP_GAIN)
@@ -279,13 +285,43 @@ def busy_holder():
         return None
 
 
+def reconcile(st):
+    """状态文件以**台账**为准重建：台账是追加写的事实，状态只是缓存。
+
+    2026-11-19 实锚：两个实例（launchd + 手动）各自读旧状态、各自写回，
+    tech_nerd 的 KEEP 被一次陈旧写覆盖成 REJECT，还顺带把它挡进"需补语料"。
+    根因不是谁写错，而是"多处读改写同一个文件"。所以每次进循环先按台账重建。
+    """
+    rows = []
+    try:
+        for line in open(LEDGER, encoding="utf-8", errors="replace"):
+            line = line.strip()
+            if line:
+                rows.append(json.loads(line))
+    except Exception:
+        return st
+    segs = {}
+    for r in rows:
+        seg = r.get("seg")
+        if not seg:
+            continue
+        segs[seg] = {"last_ts": r.get("ts") and time.mktime(
+                         time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time(),
+                     "last_rc": r.get("verdict"), "rows": r.get("rows"),
+                     "run": r.get("run"), "step": r.get("step"),
+                     "val_min": r.get("val_min")}
+    st["segments"] = segs
+    st["runs"] = rows[-40:]
+    return st
+
+
 def run_one(a):
     holder = busy_holder()
     if holder:
         print("[loop] 训练进行中（pid %d），本次跳过" % holder)
         return 0
     rows = segment_rows()
-    st = _load(LOOP_STATE, {"segments": {}, "runs": []})
+    st = reconcile(_load(LOOP_STATE, {"segments": {}, "runs": []}))
     rejects = _load(REJECTS, {})
     st.setdefault("segments", {})
     st.setdefault("runs", [])
@@ -349,7 +385,7 @@ def run_one(a):
     base = lora = {}
     if ck:
         rc, out = sh([PY, os.path.join(HERE, "train_eval.py"), "--run", run,
-                      "--per-segment", "--segs", seg, "--samples", "3",
+                      "--per-segment", "--segs", seg, "--samples", str(a.samples),
                       "--adapter", ck], timeout=3600)
         ev = _load(os.path.join(TRAIN, "SEGMENT-EVAL.json"), {}) or {}
         b = (ev.get("base") or [{}])[0]
@@ -360,7 +396,8 @@ def run_one(a):
         print("[loop] 评测缺失（ck=%s base=%s lora=%s）→ 记 EVAL-MISSING，不动被否记忆"
               % (bool(ck), bool(base), bool(lora)))
         rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built,
-               "run": os.path.basename(run), "step": step, "val_min": val,
+               "run": os.path.basename(run), "step": real_step, "val_step": step,
+               "val_min": val, "eval_n": 0,
                "verdict": "EVAL-MISSING", "why": "找不到 checkpoint 或评测没产出",
                "adapter": os.path.relpath(ck, ROOT) if ck else None}
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
@@ -372,9 +409,15 @@ def run_one(a):
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
         board(st, rows, rejects)
         return 1
+
     keep, why = judge_keep(base, lora)
     human_delta = round(float(lora.get("avg_human") or 0) - float(base.get("avg_human") or 0), 1)
-    rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built,
+    eval_n = min(int(base.get("n") or 0), int(lora.get("n") or 0))
+    verdict = ("INSUFFICIENT" if eval_n < MIN_EVAL_N
+               else ("KEEP" if keep else "REJECT"))
+    if eval_n < MIN_EVAL_N:
+        keep = False
+    rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built, "eval_n": eval_n,
            "run": os.path.basename(run), "step": real_step, "val_step": step,
            "val_min": val,
            "base_avg": base.get("avg"), "lora_avg": lora.get("avg"),
@@ -382,14 +425,16 @@ def run_one(a):
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",
            "why": why, "adapter": os.path.relpath(ck, ROOT) if ck else None}
     st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
-                               last_rc="KEEP" if keep else "REJECT", rows=task["rows"],
+                               last_rc=verdict, rows=task["rows"],
                                run=rec["run"], step=real_step, val_min=val)
     st["runs"].append(rec)
     _save(LOOP_STATE, st)
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-    if keep and ck:
+    if verdict == "INSUFFICIENT":
+        print("[loop] 段 %s 样本不足（n=%d），既不归档也不记被否——先加大评测条数" % (seg, eval_n))
+    elif keep and ck:
         dst = os.path.join(ARCHIVE, "%s-%s-ckpt%s" % (time.strftime("%Y%m%d-%H%M%S"), seg, step))
         os.makedirs(dst, exist_ok=True)
         for fn in ("adapters.safetensors", "adapter_config.json"):
@@ -424,15 +469,17 @@ def self_test():
     rows2 = {"a": 400}
     ok5, _ = eligible("a", rows2, st, rj2)
     cases.append(("被否但语料涨够 → 可训", ok5))
-    keep, _ = judge_keep({"avg": 50, "pass_rate": 60, "avg_human": 20},
-                         {"avg": 56, "pass_rate": 60, "avg_human": 20})
+    B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
+    keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
     cases.append(("均分 +6 且人味不退 → KEEP", keep))
-    keep2, why6 = judge_keep({"avg": 50, "pass_rate": 60, "avg_human": 20},
-                             {"avg": 60, "pass_rate": 60, "avg_human": 17})
+    keep2, why6 = judge_keep(B, {"n": 10, "avg": 60, "pass_rate": 60, "avg_human": 17})
     cases.append(("总分涨但人味掉 3 → 不采用", (not keep2) and "人味" in why6))
-    keep3, _ = judge_keep({"avg": 50, "pass_rate": 60, "avg_human": 20},
-                          {"avg": 52, "pass_rate": 70, "avg_human": 20})
+    keep3, _ = judge_keep(B, {"n": 10, "avg": 52, "pass_rate": 70, "avg_human": 20})
     cases.append(("均分只 +2 → 不采用", not keep3))
+    keep4, why7 = judge_keep({"n": 3, "avg": 30, "pass_rate": 0, "avg_human": 0},
+                             {"n": 3, "avg": 90, "pass_rate": 100, "avg_human": 30})
+    cases.append(("只有 3 条样本 → 不判（噪声 ±30 分）",
+                  (not keep4) and "样本不足" in why7))
     okc = 0
     for name, cond in cases:
         print("  [%s] %s" % ("PASS" if cond else "FAIL", name))
@@ -446,6 +493,8 @@ def main(argv=None):
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--iters", type=int, default=500)
+    ap.add_argument("--samples", type=int, default=10,
+                    help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:

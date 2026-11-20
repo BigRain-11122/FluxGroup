@@ -15,6 +15,14 @@
    "run": "20261119-203050",
    "step": 200,
    "val_min": 3.143
+  },
+  "music_seeker": {
+   "last_ts": 1795143563.949066,
+   "last_rc": "KEEP",
+   "rows": 382,
+   "run": "20261119-211618",
+   "step": 200,
+   "val_min": 3.827
   }
  },
  "runs": [
@@ -52,6 +60,24 @@
    "verdict": "REJECT",
    "why": "均分只 +3.3（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261119-203050/ckpt200"
+  },
+  {
+   "ts": "2026-11-20T10:59:23",
+   "seg": "music_seeker",
+   "rows": 382,
+   "built": 185,
+   "run": "20261119-211618",
+   "step": 200,
+   "val_step": 200,
+   "val_min": 3.827,
+   "base_avg": 45.0,
+   "lora_avg": 91.7,
+   "base_human": 0.0,
+   "lora_human": 16.7,
+   "human_delta": 16.7,
+   "verdict": "KEEP",
+   "why": "均分 +46.7 / 人味 +16.7",
+   "adapter": "cph4/fleet/social/train/RUNS/20261119-211618/ckpt200"
   }
  ]
 }

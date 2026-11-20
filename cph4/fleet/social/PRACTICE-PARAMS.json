@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-19T18:56:26",
- "judged_n": 13,
- "overall_rate": 0.54,
+ "ts": "2026-11-20T10:58:01",
+ "judged_n": 15,
+ "overall_rate": 0.47,
  "by_persona": {
   "-": {
    "visible": 6,
@@ -10,8 +10,8 @@
   },
   "craft_learner": {
    "visible": 1,
-   "n": 4,
-   "rate": 0.25
+   "n": 6,
+   "rate": 0.17
   }
  },
  "by_band": {
@@ -22,10 +22,15 @@
   },
   "16-20": {
    "visible": 5,
-   "n": 8,
-   "rate": 0.62
+   "n": 9,
+   "rate": 0.56
   },
   "21-30": {
+   "visible": 0,
+   "n": 1,
+   "rate": 0.0
+  },
+  "31-50": {
    "visible": 0,
    "n": 1,
    "rate": 0.0
@@ -39,15 +44,16 @@
   },
   "lora": {
    "visible": 1,
-   "n": 4,
-   "rate": 0.25
+   "n": 6,
+   "rate": 0.17
   }
  },
  "reject_reasons": {
-  "asleep": 5,
+  "no text passed gates": 6,
+  "asleep": 6,
   "C 臂字数 32 不在 10-20": 1,
-  "no text passed gates": 1,
-  "profile busy": 1
+  "profile busy": 1,
+  "{'safe_to_send': [True, ''],": 1
  },
  "enough": true,
  "prefer_persona": "-",

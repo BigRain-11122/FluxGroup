@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "updated": "2026-11-19T00:03:53",
+ "updated": "2026-11-20T11:02:45",
  "runs": [
   {
    "date": "2026-11-04",
@@ -106,6 +106,13 @@
    "seen": 22,
    "added": 0,
    "errors": []
+  },
+  {
+   "date": "2026-11-20",
+   "queries": 3,
+   "seen": 21,
+   "added": 1,
+   "errors": []
   }
  ],
  "items": {
@@ -113,15 +120,15 @@
    "full_name": "crewAIInc/crewAI",
    "url": "https://github.com/crewAIInc/crewAI",
    "desc": "Framework for orchestrating role-playing, autonomous AI agents. By fostering collaborative intelligence, CrewAI empowers agents to work together seamlessly, tackling complex tasks.",
-   "stars": 61071,
+   "stars": 61109,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 1d)；许可 mit；非新星；可落线：fleet",
+   "why": "不活跃(pushed 0d)；许可 mit；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -138,15 +145,15 @@
    "full_name": "deepset-ai/haystack",
    "url": "https://github.com/deepset-ai/haystack",
    "desc": "Open-source AI orchestration framework for building context-engineered, production-ready LLM applications. Design modular pipelines and agent workflows with explicit control over retrieval, routing, memory, and generation. Built for scalable agents, RAG, multimodal applications, semantic search, and",
-   "stars": 27043,
+   "stars": 27055,
    "license": "apache-2.0",
    "lines": [
     "fleet"
    ],
    "grade": "WATCH",
-   "why": "活跃(pushed 1d)；许可 apache-2.0；非新星；可落线：fleet",
+   "why": "活跃(pushed 0d)；许可 apache-2.0；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -200,15 +207,15 @@
    "full_name": "omnigent-ai/omnigent",
    "url": "https://github.com/omnigent-ai/omnigent",
    "desc": "Omnigent is an open-source AI agent framework and meta-harness: orchestrate Claude Code, Codex, Cursor, Pi, and custom agents — swap harnesses without rewriting, enforce policies and sandboxing, and collaborate in real time from any device.",
-   "stars": 11417,
+   "stars": 11446,
    "license": "apache-2.0",
    "lines": [
     "fleet"
    ],
    "grade": "ADOPT-CANDIDATE",
-   "why": "活跃(pushed 1d)；许可 apache-2.0；新且高星(161d/11417★)；可落线：fleet",
+   "why": "活跃(pushed 0d)；许可 apache-2.0；新且高星(162d/11446★)；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -232,15 +239,15 @@
    "full_name": "kyegomez/swarms",
    "url": "https://github.com/kyegomez/swarms",
    "desc": "The Enterprise-Grade Multi-Agent Orchestration Framework. Website: https://swarms.ai",
-   "stars": 7389,
+   "stars": 7388,
    "license": "apache-2.0",
    "lines": [
     "fleet"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 1d)；许可 apache-2.0；非新星；可落线：fleet",
+   "why": "不活跃(pushed 0d)；许可 apache-2.0；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -264,15 +271,15 @@
    "full_name": "ageerle/ruoyi-ai",
    "url": "https://github.com/ageerle/ruoyi-ai",
    "desc": "Enterprise-grade AI agent framework with multi-provider LLM management, secure knowledge bases and high-precision RAG, visual workflow orchestration, and multi-agent coordination.",
-   "stars": 5838,
+   "stars": 5837,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "WATCH",
-   "why": "活跃(pushed 29d)；许可 mit；非新星；可落线：fleet",
+   "why": "活跃(pushed 1d)；许可 mit；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -289,15 +296,15 @@
    "full_name": "VRSEN/agency-swarm",
    "url": "https://github.com/VRSEN/agency-swarm",
    "desc": "Reliable Multi-Agent Orchestration Framework",
-   "stars": 4639,
+   "stars": 4640,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "WATCH",
-   "why": "活跃(pushed 3d)；许可 mit；非新星；可落线：fleet",
+   "why": "活跃(pushed 4d)；许可 mit；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -308,16 +315,16 @@
    "full_name": "IBM/AssetOpsBench",
    "url": "https://github.com/IBM/AssetOpsBench",
    "desc": "AssetOpsBench - Industry 4.0: A unified benchmark and framework for building, orchestrating, and evaluating domain-specific AI agents for Industry 4.0 asset operations and maintenance, with 460+ scenarios, 5 specialist agents (IoT, FMSR, TSFM, Work Order,...), and multi-agent orchestration blueprint",
-   "stars": 2446,
+   "stars": 2453,
    "license": "apache-2.0",
    "lines": [
     "asset",
     "fleet"
    ],
    "grade": "WATCH",
-   "why": "活跃(pushed 1d)；许可 apache-2.0；非新星；可落线：asset,fleet",
+   "why": "活跃(pushed 0d)；许可 apache-2.0；非新星；可落线：asset,fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：asset,fleet",
    "status": "stocked",
    "need_verify": false,
@@ -337,15 +344,15 @@
    "full_name": "master-co/css",
    "url": "https://github.com/master-co/css",
    "desc": "A markup-driven CSS orchestration language for developers and AI agents.",
-   "stars": 1957,
+   "stars": 1955,
    "license": "noassertion",
    "lines": [
     "fleet"
    ],
    "grade": "WATCH",
-   "why": "活跃(pushed 2d)；许可 noassertion；非新星；可落线：fleet",
+   "why": "活跃(pushed 1d)；许可 noassertion；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -369,7 +376,7 @@
    "full_name": "agentjido/jido",
    "url": "https://github.com/agentjido/jido",
    "desc": "🤖 Autonomous agent framework for Elixir. Built for distributed, autonomous behavior and dynamic workflows.",
-   "stars": 1919,
+   "stars": 1920,
    "license": "apache-2.0",
    "lines": [
     "fleet"
@@ -377,7 +384,7 @@
    "grade": "WATCH",
    "why": "活跃(pushed 1d)；许可 apache-2.0；非新星；可落线：fleet",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": false,
@@ -398,15 +405,15 @@
    "full_name": "morluto/rea",
    "url": "https://github.com/morluto/rea",
    "desc": "Reverse engineer anything with agents, from app behavior down to native binaries.",
-   "stars": 467762,
+   "stars": 470165,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 1d)；许可 mit；新且高星(219d/467762★)；可落线：fleet；⚠星数超 10 万需人工核实",
+   "why": "不活跃(pushed 0d)；许可 mit；新且高星(220d/470165★)；可落线：fleet；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": true,
@@ -433,15 +440,15 @@
    "full_name": "deepseek-ai/deepseek-harness",
    "url": "https://github.com/deepseek-ai/deepseek-harness",
    "desc": "DeepSeek Harness: Everything is a Plugin.",
-   "stars": 283523,
+   "stars": 284273,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "ADOPT-CANDIDATE",
-   "why": "活跃(pushed 1d)；许可 mit；新且高星(98d/283523★)；可落线：fleet；⚠星数超 10 万需人工核实",
+   "why": "活跃(pushed 2d)；许可 mit；新且高星(99d/284273★)；可落线：fleet；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": true,
@@ -460,15 +467,15 @@
    "full_name": "ultraworkers/claw-code",
    "url": "https://github.com/ultraworkers/claw-code",
    "desc": "An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention.",
-   "stars": 194762,
+   "stars": 194761,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "ADOPT-CANDIDATE",
-   "why": "活跃(pushed 9d)；许可 mit；新且高星(233d/194762★)；可落线：fleet；⚠星数超 10 万需人工核实",
+   "why": "活跃(pushed 10d)；许可 mit；新且高星(234d/194761★)；可落线：fleet；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": true,
@@ -515,15 +522,15 @@
    "full_name": "Graphify-Labs/graphify",
    "url": "https://github.com/Graphify-Labs/graphify",
    "desc": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deterministic AST parsing, every edge explained, no vector store.",
-   "stars": 150018,
+   "stars": 150695,
    "license": "apache-2.0",
    "lines": [
     "fleet"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 2d)；许可 apache-2.0；新且高星(230d/150018★)；可落线：fleet；⚠星数超 10 万需人工核实",
+   "why": "不活跃(pushed 0d)；许可 apache-2.0；新且高星(231d/150695★)；可落线：fleet；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": true,
@@ -602,16 +609,16 @@
    "full_name": "JuliusBrussee/caveman",
    "url": "https://github.com/JuliusBrussee/caveman",
    "desc": "why use many token when few token do trick. Skill + local proxy for coding agents: shorter answers, smaller tool output, every original recoverable.",
-   "stars": 121240,
+   "stars": 121591,
    "license": "apache-2.0",
    "lines": [
     "asset",
     "fleet"
    ],
    "grade": "ADOPT-CANDIDATE",
-   "why": "活跃(pushed 1d)；许可 apache-2.0；新且高星(229d/121240★)；可落线：asset,fleet；⚠星数超 10 万需人工核实",
+   "why": "活跃(pushed 0d)；许可 apache-2.0；新且高星(230d/121591★)；可落线：asset,fleet；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked",
    "need_verify": true,
@@ -671,16 +678,16 @@
    "full_name": "nexu-io/open-design",
    "url": "https://github.com/nexu-io/open-design",
    "desc": "The 1st Collaborative AI Design Agent Workspace. Local-first and open source. Create motion, prototypes, websites, apps, dashboards, presentations, images, and videos with your team and AI agents. Share work, exchange feedback, and iterate together in one workspace.",
-   "stars": 108288,
+   "stars": 108542,
    "license": "apache-2.0",
    "lines": [
     "fleet",
     "mv"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 1d)；许可 apache-2.0；新且高星(205d/108288★)；可落线：fleet,mv；⚠星数超 10 万需人工核实",
+   "why": "不活跃(pushed 0d)；许可 apache-2.0；新且高星(206d/108542★)；可落线：fleet,mv；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet,mv",
    "status": "stocked",
    "need_verify": true,
@@ -707,7 +714,7 @@
    "full_name": "debpalash/VoiceStudio",
    "url": "https://github.com/debpalash/VoiceStudio",
    "desc": "VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.",
-   "stars": 113345,
+   "stars": 114438,
    "license": "agpl-3.0",
    "lines": [
     "drama",
@@ -715,9 +722,9 @@
     "mv"
    ],
    "grade": "SKIP",
-   "why": "活跃(pushed 1d)；许可 agpl-3.0；传染性许可，商用慎；新且高星(224d/113345★)；可落线：drama,fleet,mv；⚠星数超 10 万需人工核实",
+   "why": "活跃(pushed 0d)；许可 agpl-3.0；传染性许可，商用慎；新且高星(225d/114438★)；可落线：drama,fleet,mv；⚠星数超 10 万需人工核实",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：drama,fleet,mv",
    "status": "stocked",
    "need_verify": true,
@@ -744,13 +751,13 @@
    "full_name": "odysseus-dev/odysseus",
    "url": "https://github.com/odysseus-dev/odysseus",
    "desc": "Self-hosted AI workspace. ",
-   "stars": 95802,
+   "stars": 95839,
    "license": "agpl-3.0",
    "lines": [],
    "grade": "SKIP",
-   "why": "活跃(pushed 1d)；许可 agpl-3.0；传染性许可，商用慎；新且高星(172d/95802★)；无线索落点",
+   "why": "活跃(pushed 0d)；许可 agpl-3.0；传染性许可，商用慎；新且高星(173d/95839★)；无线索落点",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：-",
    "status": "stocked",
    "need_verify": false,
@@ -761,13 +768,13 @@
    "full_name": "tt-a1i/archify",
    "url": "https://github.com/tt-a1i/archify",
    "desc": "Turn any idea, plan, or codebase into a beautiful interactive diagram. An agent skill for Claude Code, Codex, and more.",
-   "stars": 97678,
+   "stars": 98080,
    "license": "apache-2.0",
    "lines": [
     "fleet"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 1d)；许可 apache-2.0；新且高星(218d/97678★)；可落线：fleet",
+   "why": "不活跃(pushed 0d)；许可 apache-2.0；新且高星(219d/98080★)；可落线：fleet",
    "need_verify": false,
    "created_at": "2026-04-15T05:27:37Z",
    "topics": [
@@ -785,7 +792,7 @@
     "dsh-plugin"
    ],
    "first_seen": "2026-11-06",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked"
   },
@@ -793,13 +800,13 @@
    "full_name": "career-ops-hq/career-ops",
    "url": "https://github.com/career-ops-hq/career-ops",
    "desc": "Open-source AI job search agent and job finder: scan job boards, score each job 1-5 against your CV before you apply, tailor an ATS-friendly resume and cover letter, get interview prep and an application tracker. It helps you fill in each application; you press Submit. Runs locally in Codex, OpenCod",
-   "stars": 83501,
+   "stars": 83811,
    "license": "mit",
    "lines": [
     "fleet"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 1d)；许可 mit；新且高星(229d/83501★)；可落线：fleet",
+   "why": "不活跃(pushed 1d)；许可 mit；新且高星(230d/83811★)；可落线：fleet",
    "need_verify": false,
    "created_at": "2026-04-04T18:21:18Z",
    "topics": [
@@ -817,7 +824,7 @@
     "good-first-issue"
    ],
    "first_seen": "2026-11-14",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked"
   },
@@ -825,14 +832,14 @@
    "full_name": "OpenMontageInc/OpenMontage",
    "url": "https://github.com/OpenMontageInc/OpenMontage",
    "desc": "World's first open-source, agentic video production system. 12 production pipelines, 100+ tools, 700+ agent skill and production-knowledge files. Turn your AI coding assistant into a full video production studio.",
-   "stars": 81503,
+   "stars": 81778,
    "license": "agpl-3.0",
    "lines": [
     "fleet",
     "mv"
    ],
    "grade": "SKIP",
-   "why": "不活跃(pushed 3d)；许可 agpl-3.0；传染性许可，商用慎；新且高星(235d/81503★)；可落线：fleet,mv",
+   "why": "不活跃(pushed 4d)；许可 agpl-3.0；传染性许可，商用慎；新且高星(236d/81778★)；可落线：fleet,mv",
    "need_verify": false,
    "created_at": "2026-03-29T15:23:22Z",
    "topics": [
@@ -850,7 +857,7 @@
     "openai"
    ],
    "first_seen": "2026-11-17",
-   "last_seen": "2026-11-19",
+   "last_seen": "2026-11-20",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet,mv",
    "status": "stocked"
   },
@@ -910,6 +917,36 @@
    "first_seen": "2026-11-18",
    "last_seen": "2026-11-19",
    "trial_trigger": "当线里有对应缺口时试跑最小例子：-",
+   "status": "stocked"
+  },
+  "Ebony-Vinyl/dsh-our-free-model": {
+   "full_name": "Ebony-Vinyl/dsh-our-free-model",
+   "url": "https://github.com/Ebony-Vinyl/dsh-our-free-model",
+   "desc": "在 dsh 里装上这个插件即可，无需登录、注册或填 API Key，就能使用包括 DeepSeek V4.1 Flash、Kimi K3 在内的前沿模型——完全免费，不限量。 All you do is install this plugin in dsh: no login, no sign-up, no API key — the frontier models are just there, DeepSeek V4.1 Flash and Kimi K3 among them. Completely free, with no usage cap.",
+   "stars": 81112,
+   "license": "noassertion",
+   "lines": [
+    "fleet"
+   ],
+   "grade": "WATCH",
+   "why": "活跃(pushed 2d)；许可 noassertion；新且高星(57d/81112★)；可落线：fleet",
+   "need_verify": false,
+   "created_at": "2026-09-24T16:17:19Z",
+   "topics": [
+    "ai-agents",
+    "deepseek",
+    "deepseek-harness",
+    "developer-tools",
+    "dsh",
+    "dsh-plugin",
+    "free-model",
+    "llm",
+    "model-provider",
+    "openai-compatible"
+   ],
+   "first_seen": "2026-11-20",
+   "last_seen": "2026-11-20",
+   "trial_trigger": "当线里有对应缺口时试跑最小例子：fleet",
    "status": "stocked"
   }
  }

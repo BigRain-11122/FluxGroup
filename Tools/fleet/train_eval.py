@@ -159,9 +159,14 @@ def main():
                 ("%5.1f / %3d%%" % (l["avg"], l["pass_rate"])) if l else "-"))
         out = os.path.join(ROOT, "cph4", "fleet", "social", "train", "SEGMENT-EVAL.json")
         import time as _t
-        json.dump({"ts": _t.strftime("%Y-%m-%dT%H:%M:%S"), "base": base_rows, "lora": lora_rows,
-                   "samples": a.samples, "adapter": a.adapter},
-                  open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        rec = {"ts": _t.strftime("%Y-%m-%dT%H:%M:%S"), "base": base_rows, "lora": lora_rows,
+               "samples": a.samples, "adapter": a.adapter}
+        json.dump(rec, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        # 只写 SEGMENT-EVAL.json 会被下一次评测覆盖：2026-11-20 实锚，tech_nerd 的 n=10 结果
+        # 被 music_seeker 覆盖后只剩日志里两行文字，人味维度再也查不到。历史必须追加。
+        with open(os.path.join(os.path.dirname(out), "SEGMENT-EVAL-HISTORY.jsonl"),
+                  "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
         print("[eval] → %s" % os.path.relpath(out, ROOT))
         return 0
 
