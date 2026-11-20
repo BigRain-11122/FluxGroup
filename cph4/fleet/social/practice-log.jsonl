@@ -167,3 +167,19 @@
 {"action": "verify", "rpid": "324456691936", "visible": false, "mature": true, "age_min": 1902, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-20T20:48:10"}
 {"action": "verify", "rpid": "324467017808", "visible": false, "mature": true, "age_min": 1760, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-20T20:48:16"}
 {"action": "verify", "rpid": "324478326528", "visible": true, "mature": true, "age_min": 1620, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:48:22"}
+{"action": "verify", "rpid": "324383548128", "visible": true, "mature": true, "age_min": 3029, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:53:47"}
+{"action": "verify", "rpid": "324384231376", "visible": true, "mature": true, "age_min": 3022, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:53:52"}
+{"action": "verify", "rpid": "324453442864", "visible": true, "mature": true, "age_min": 1944, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:53:58"}
+{"action": "unblock", "ts": "2026-11-20T20:54:48"}
+{"action": "verify", "rpid": "324381099552", "visible": true, "mature": true, "age_min": 3052, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:55:03"}
+{"action": "verify", "rpid": "324381901264", "visible": true, "mature": true, "age_min": 3046, "why": "已公开可见（sort=0 第2页）", "ts": "2026-11-20T20:55:08"}
+{"action": "verify", "rpid": "324382754256", "visible": true, "mature": true, "age_min": 3038, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:55:13"}
+{"action": "blocked", "why": "最近 10 次投递里 3 次发送失败 → 账号侧发不出去，停止发帖", "ts": "2026-11-20T20:55:13"}
+{"action": "unblock", "ts": "2026-11-20T20:56:55"}
+{"action": "verify", "rpid": "324378918608", "visible": true, "mature": true, "age_min": 3076, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:57:26"}
+{"action": "verify", "rpid": "324379766080", "visible": true, "mature": true, "age_min": 3069, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-20T20:57:31"}
+{"action": "verify", "rpid": "324380433472", "visible": true, "mature": true, "age_min": 3062, "why": "已公开可见（sort=0 第3页）", "ts": "2026-11-20T20:57:43"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-20T20:57:43"}
+{"action": "verify", "rpid": "324378570336", "visible": null, "mature": true, "age_min": 3093, "why": "回验异常：Page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.bilibili.com/video/av11", "ts": "2026-11-20T21:08:57"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-20T21:08:57"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-20T22:00:56"}
