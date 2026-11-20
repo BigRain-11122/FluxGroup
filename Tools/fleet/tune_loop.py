@@ -66,10 +66,17 @@ def load_params():
 
 def save_params(p):
     import datetime
-    p = {k: {"value": v["value"], "why": v["why"]}
-         for k, v in p.items() if not k.startswith("_")}
-    p["_updated"] = datetime.datetime.now().isoformat(timespec="seconds")
-    json.dump(p, open(PARAMS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    # 保留本器不管的参数（eval_n / kind_share 由 social_loop 读写）：
+    # 整份覆写会把别人的参数抹掉，属"同一事实两处写"的典型事故。
+    try:
+        keep = json.load(open(PARAMS, encoding="utf-8"))
+    except Exception:
+        keep = {}
+    out = {k: v for k, v in keep.items() if k not in DEFAULTS and not k.startswith("_")}
+    out.update({k: {"value": v["value"], "why": v["why"]}
+                for k, v in p.items() if not k.startswith("_")})
+    out["_updated"] = datetime.datetime.now().isoformat(timespec="seconds")
+    json.dump(out, open(PARAMS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 
 def load_jsonl(p, limit=None):

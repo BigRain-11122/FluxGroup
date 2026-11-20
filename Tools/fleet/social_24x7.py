@@ -142,10 +142,26 @@ def free_gb():
 
 
 def segment_counts():
-    """各段可用行数（只看已过品味闸的集），generic 单列——它不进任何人群段。"""
+    """各段可用行数（只看已过品味闸的集），generic 单列——它不进任何人群段。
+
+    2026-11-20：优先读烘焙产物 BAKED-v1.jsonl。链路的真实产物是
+    own_collected → corpus_bake → BAKED-v1.jsonl（带 seg/verdict），
+    而 QUALITY-PASS.jsonl 自 16:11 起全仓无人再写；读它会把可用行数少算一个数量级
+    （5720 vs 50157），进而把"这段够不够训"判错。旧文件只在烘焙产物缺失时兜底。
+    """
     sys.path.insert(0, HERE)
     import segments as sg
     spec = sg.load_spec()
+    baked = os.path.join(SOCIAL, "corpus", "human", "BAKED-v1.jsonl")
+    if os.path.exists(baked):
+        cnt, tot = {}, 0
+        for r in read_jsonl(baked):
+            if (r.get("verdict") or "PASS") != "PASS":
+                continue
+            k = r.get("seg") or "generic"
+            cnt[k] = cnt.get(k, 0) + 1
+            tot += 1
+        return cnt, tot
     cnt, tot = {}, 0
     for r in read_jsonl(PASS_F):
         t = r.get("text") or ""

@@ -68,6 +68,11 @@ CASES = [
     ("L1", "make index 索引", "make_index.py", ["--self-test"]),
     ("L1", "os matrix 跨系统", "os_matrix.py", ["--self-test"]),
     ("L1", "cpu alloc 分配", "cpu_alloc.py", ["--self-test"]),
+    # 养号线：这四件此前一条都没进回归，等于养号线没有回归保护
+    ("L1", "social loop 自驱环路", "social_loop.py", ["--self-test"]),
+    ("L1", "social 24x7 闭环", "social_24x7.py", ["--self-test"]),
+    ("L1", "adapter router 选件", "adapter_router.py", ["--self-test"]),
+    ("L3", "train eval 分段评测", "train_eval.py", ["--self-test"]),
     ("L1", "env probe 环境采集", "env_probe.py", ["--self-test"]),
     ("L1", "env align 环境对齐", "env_align.py", ["--self-test"]),
     ("L1", "fleet doc 文档生成", "fleet_doc.py", ["--self-test"]),
