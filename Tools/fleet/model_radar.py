@@ -661,6 +661,9 @@ def _run_body(pol, today, node="", out_path="", apply=False):
                 continue
             if row["family"] not in (ap.get("only_same_family_as") or []):
                 continue
+            # 退役档：策略里写死的一律不拉，否则删了会自动长回来（2026-11-20 实锚）
+            if row["model"] in (ap.get("retired") or []):
+                continue
             if (row.get("size_gb") or 0) > float(ap.get("max_size_gb") or 6.0):
                 continue
             try:
