@@ -303,7 +303,11 @@ def main():
     #     真风险不是次数多，而是机械均匀与零互动；夜里准点发帖比多发更假）。
     import human_rhythm as hr
     rng = random.Random()
-    if not hr.awake(rng=rng):
+    # 人工放行：CEO 明确要求"现在就发"时用（FLUX_PRACTICE_FORCE=1）。
+    # 只跳过作息这一道，工具闸/风控闸/字数闸照旧——放行不等于免检。
+    if os.environ.get("FLUX_PRACTICE_FORCE") == "1":
+        log({"action": "skip", "why": "作息闸人工放行"})
+    elif not hr.awake(rng=rng):
         refresh_screen("不在线时段（作息模型），本拍不发")
         log({"action": "skip", "why": "asleep"})
         print("[tick] 跳过：不在线时段")

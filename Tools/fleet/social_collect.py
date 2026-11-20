@@ -151,6 +151,9 @@ def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
             holder = open(lock, encoding="utf-8").read().strip()
         except Exception:
             pass
+        if holder.isdigit() and int(holder) == os.getpid():
+            # 可重入：同一进程先后开两次浏览器（复核多条评论就是这种情况）不能被自己的锁挡住
+            return lock
         alive = False
         if holder.isdigit():
             try:
@@ -167,6 +170,18 @@ def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
         if time.time() - t0 > wait_s:
             return None
         time.sleep(poll)
+
+
+def release_profile_lock(prof):
+    """用完就放锁：复核/发帖是一条条来的，不释放会把后面每一次都挡在自己的锁外面。"""
+    lock = os.path.join(prof, ".flux-collect.lock")
+    try:
+        if open(lock, encoding="utf-8").read().strip() == str(os.getpid()):
+            os.remove(lock)
+            return True
+    except Exception:
+        pass
+    return False
 
 
 def _launch(p, headed=False, platform=None):

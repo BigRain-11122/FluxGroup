@@ -110,12 +110,27 @@ def _pw():
         return _pw_mod, False
 
 
-def _launch(p, headless=True):
+def _launch(p, headless=True, wait_s=None):
+    """开浏览器前先拿 profile 锁：补采/学习/发帖共用同一个 profile，抢不到就排队。
+
+    2026-11-20 实锚：补采在跑时发帖直接抛 ProcessSingleton 异常，被记成"发布失败"；
+    实际账号一切正常（CEO 手动评论成功）。所以启动前用 social_collect 那把 pid 锁排队，
+    抢不到时给一句能读懂的话，而不是把浏览器内部错误当成账号问题。
+    """
     kw = dict(user_data_dir=PROF, headless=headless, locale="zh-CN",
               timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 950},
               args=["--disable-blink-features=AutomationControlled"])
     if os.path.exists(CHROME):
         kw["executable_path"] = CHROME
+    if wait_s is None:
+        import os as _os
+        wait_s = float(_os.environ.get("FLUX_PROFILE_WAIT", "180"))
+    try:
+        import social_collect as _sc
+        if _sc._acquire_profile_lock(PROF, wait_s=wait_s) is None:
+            raise RuntimeError("profile 被占用（等锁 %ds 超时）：先放补采或学习循环" % int(wait_s))
+    except ImportError:
+        pass
     return p.chromium.launch_persistent_context(**kw)
 
 
@@ -277,11 +292,74 @@ def bv_to_aid(video):
                 pass
 
 
+def verify_comment_browser(aid, rpid, pages=3, sorts=(0, 2), tries=3, wait_s=45):
+    """登录态回验：用浏览器同源请求扫前几页，返回 (True/False/None, 说明)。
+
+    None = 取不到数（不是"看不见"）。2026-11-20 实锚：原来用**匿名** urllib 打
+    /x/v2/reply，接口回 code=0 但 replies 为空——于是每条都被判"不可见"，
+    熔断把发帖停了，而账号本身一切正常（CEO 手动评论成功）。
+    判据纪律：取数失败必须与"确实不可见"分开，否则一个接口变动就能冤枉整个账号。
+    """
+    import time as _t
+    for attempt in range(max(1, tries)):
+        mod, _st = _pw()
+        got_any = False
+        try:
+            with mod.sync_playwright() as p:
+                ctx = _launch(p)
+                try:
+                    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+                    pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                            wait_until="domcontentloaded", timeout=60000)
+                    _t.sleep(3)
+                    for sort in sorts:
+                        for pn in range(1, pages + 1):
+                            url = ("https://api.bilibili.com/x/v2/reply?type=1&oid=%s"
+                                   "&pn=%d&ps=20&sort=%d" % (aid, pn, sort))
+                            raw = pg.evaluate(
+                                "async(u)=>{const r=await fetch(u,{credentials:'include'});"
+                                "return await r.text();}", url)
+                            try:
+                                d = json.loads(raw)
+                            except Exception:
+                                continue
+                            if d.get("code") not in (0, None):
+                                continue
+                            reps = ((d.get("data") or {}).get("replies") or [])
+                            if reps:
+                                got_any = True
+                            if str(rpid) in [str(x.get("rpid")) for x in reps]:
+                                return True, "已公开可见（sort=%d 第%d页）" % (sort, pn)
+                    if got_any:
+                        return False, "%d 页内查不到该 rpid（确实不在公开列表）" % pages
+                finally:
+                    try:
+                        ctx.close()
+                    except Exception:
+                        pass
+                    try:
+                        import social_collect as _sc2
+                        _sc2.release_profile_lock(PROF)
+                    except Exception:
+                        pass
+        except Exception as e:
+            msg = str(e).strip().splitlines()[0][:80]
+            if "ProcessSingleton" in msg or "profile" in msg.lower():
+                _t.sleep(wait_s)      # profile 被补采占着：等，不判红
+                continue
+            return None, "回验异常：%s" % msg
+        _t.sleep(wait_s)
+    return None, "回验未取到数（%d 次尝试均被占用/失败）" % tries
+
+
 def verify_comment(aid, rpid, wait_s=900, step_s=60):
     """顶级评论回验：评论区第一页查得到 rpid 才算公开可见。
 
     与 verify_visible（子回复）不是同一个接口：顶级评论在 /x/v2/reply 的 replies 里。
     """
+    vis, why = verify_comment_browser(aid, rpid)
+    if vis is not None:
+        return vis, why
     deadline = time.time() + wait_s
     while time.time() < deadline:
         try:

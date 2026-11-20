@@ -1,56 +1,14 @@
 {
  "node": "bm-m",
- "ts": "2026-11-20T11:46:07",
+ "ts": "2026-11-20T11:54:43",
  "jobs": [
   {
-   "id": "R-TRIAGE-BIGMONEY-BMB-20261120",
-   "title": "BigMoney·量化 线证据扫描（bm-b 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigmoney --node bm-b --out cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261120.md",
+   "id": "R-TRIAGE-BIGGAME-BMB-20261120",
+   "title": "Biggame·游戏 线证据扫描（bm-b 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line biggame --node bm-b --out cph4/fleet/queue-receipts/triage-biggame-bm-b-20261120.md",
    "cwd": "",
    "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-bm-b-20261120.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGCOMPUTE-BMM-20261120",
-   "title": "BigCompute·硅基算力 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line bigcompute --node bm-m --out cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261120.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-bm-m-20261120.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-BIGLIFE-BMM-20261120",
-   "title": "BigLife·数字生命 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line biglife --node bm-m --out cph4/fleet/queue-receipts/triage-biglife-bm-m-20261120.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-bm-m-20261120.md",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "R-TRIAGE-RECON-BMM-20261120",
-   "title": "RECON·竞品拆解 线证据扫描（bm-m 本机可判面）",
-   "cmd": "python Tools/fleet/line_triage.py --line recon --node bm-m --out cph4/fleet/queue-receipts/triage-recon-bm-m-20261120.md",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/triage-recon-bm-m-20261120.md",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-bm-b-20261120.md",
    "need_mb": null,
    "model": "none",
    "prompt": "",
@@ -61,5 +19,5 @@
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 18.7/1.0 GB"
+ "capacity_note": "ram 9.5/1.0 GB"
 }

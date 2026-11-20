@@ -116,6 +116,24 @@ def human_feel(text):
     return max(0, min(40, f))
 
 
+def awkward_particles(text):
+    """语气词塞错位置的检测（不改分，只给调用方一个可拒稿的信号）。
+
+    2026-11-20 实锚：把"带口语助词"写进指令后，模型开始硬塞——
+    「结尾那声鸣叫哈挺带感的」——语感分从 0 冲到 16，中文却不像人说的。
+    判据：语气词后面必须紧跟标点或句尾；塞在词中间就算生硬。
+    """
+    t = strip_reply_prefix(text or "")
+    bad = []
+    for i, ch in enumerate(t):
+        if ch not in ORAL:
+            continue
+        nxt = t[i + 1] if i + 1 < len(t) else ""
+        if nxt and nxt not in "，。！？、；：…~～ ":
+            bad.append("%s@%d" % (ch, i))
+    return bad
+
+
 def score(text, seg=None):
     t = strip_reply_prefix(text)
     d = {"len": len(t), "logic": 0, "voice": 0, "human": 0, "taste": 0, "natural": 0,

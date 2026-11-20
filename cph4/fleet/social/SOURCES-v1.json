@@ -7,14 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV1Lysc6bEai/",
-        "https://www.bilibili.com/video/BV1avsP6wE8R/",
-        "https://www.bilibili.com/video/BV1nGWq6AE5v/",
-        "https://www.bilibili.com/video/BV13Ns66bEcz/",
-        "https://www.bilibili.com/video/BV1ftGuzME9Y/",
-        "https://www.bilibili.com/video/BV1iA9uBDEWM/",
-        "https://www.bilibili.com/video/BV149tB6ZESn/",
-        "https://www.bilibili.com/video/BV13K4y1Q7Ao/",
         "https://www.bilibili.com/video/BV1iyWB6FE3X/",
         "https://www.bilibili.com/video/BV1Zq4y1z7oJ/",
         "https://www.bilibili.com/video/BV1Co2WBsE9V/",
@@ -126,7 +118,15 @@
         "https://www.bilibili.com/video/BV1Y3eK6fEzu/",
         "https://www.bilibili.com/video/BV1c1nU6bEX1/",
         "https://www.bilibili.com/video/BV14KoYB2EYe/",
-        "https://www.bilibili.com/video/BV194421S73L/"
+        "https://www.bilibili.com/video/BV194421S73L/",
+        "https://www.bilibili.com/video/BV1Le4y1U7oQ/",
+        "https://www.bilibili.com/video/BV1Nh4y1t7tR/",
+        "https://www.bilibili.com/video/BV1me4y117Jx/",
+        "https://www.bilibili.com/video/BV1vJ4m1g7ov/",
+        "https://www.bilibili.com/video/BV1Lf4y1n7rW/",
+        "https://www.bilibili.com/video/BV1t8411J7qG/",
+        "https://www.bilibili.com/video/BV1aU4y1277r/",
+        "https://www.bilibili.com/video/BV1B4411j7th/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
@@ -151,7 +151,8 @@
         "一家人生活记录视频",
         "剪得太乱 吐槽",
         "剪辑工程文件 求",
-        "繁體 剪片 教學"
+        "繁體 剪片 教學",
+        "大学生宿舍拍视频"
       ]
     },
     "douyin": {
