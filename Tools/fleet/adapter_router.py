@@ -102,6 +102,34 @@ def restore(timeout=180):
     return ok, tail, secs
 
 
+def heal_stale(max_age_min=10):
+    """兜底：切换后进程被杀，段件会留在线上影响所有消费者。
+
+    判据：日志里最后一次动作是"切到段件"、且超过 max_age_min 没有切回 → 主动切回基座。
+    只在 practice_tick 这类高频进程里调用，所以最多十分钟就会自我恢复。
+    """
+    cur = current()
+    if not cur:
+        return False, "已是基座"
+    try:
+        lines = [json.loads(x) for x in open(LOG, encoding="utf-8") if x.strip()]
+    except Exception:
+        lines = []
+    if not lines:
+        return False, "无切换记录"
+    last = lines[-1]
+    if last.get("target") == "base":
+        return False, "最后一步已是切回"
+    try:
+        ts = time.mktime(time.strptime(last["ts"], "%Y-%m-%dT%H:%M:%S"))
+    except Exception:
+        return False, "时间读不出"
+    if time.time() - ts < max_age_min * 60:
+        return False, "切换不到 %d 分钟，可能仍在用" % max_age_min
+    ok, note, secs = _switch("base", "兜底切回：段件留在线上超过 %d 分钟" % max_age_min)
+    return ok, note
+
+
 def self_test():
     cases = []
     b = best_adapters()

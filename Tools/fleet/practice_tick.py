@@ -278,12 +278,6 @@ def main():
         refresh_screen(why)
         print("[tick] 止损：%s" % why)
         return 0
-    # GPU 独占：训练在跑时出稿会拿到 2 tok/s 的烂产出（实测），不如等它训完
-    sent = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE")
-    if os.path.exists(sent) and os.environ.get("FLUX_PRACTICE_FORCE") != "1":
-        log({"action": "skip", "why": "training-gpu"})
-        print("[tick] 训练占用 GPU，本轮延后（会话时段会照常发）")
-        return 0
     rv = recent_visibility()
     if len(rv) >= STOP_AFTER and not any(rv):
         why = "最近 %d 条全部公开不可见，判定账号被静默扣留，停止刷帖" % len(rv)
@@ -307,6 +301,24 @@ def main():
 
     # 2.5 拟人节律：不在线时段不发（CEO「模拟人类操作习惯就好」——
     #     真风险不是次数多，而是机械均匀与零互动；夜里准点发帖比多发更假）。
+    # 上一拍如果被杀在"段件在线"状态，这里兜底切回基座（最多滞后十分钟）
+    try:
+        import adapter_router as _ar0
+        if _ar0.current():
+            _hok, _hnote = _ar0.heal_stale(10)
+            if _hok:
+                log({"action": "heal", "note": _hnote})
+                print("[tick] 兜底：段件留在线上，已切回基座（%s）" % _hnote)
+    except Exception:
+        pass
+
+    # GPU 独占：训练在跑时出稿会拿到 2 tok/s 的烂产出（实测），不如等它训完
+    sent = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE")
+    if os.path.exists(sent) and os.environ.get("FLUX_PRACTICE_FORCE") != "1":
+        log({"action": "skip", "why": "training-gpu"})
+        print("[tick] 训练占用 GPU，本轮延后（会话时段会照常发）")
+        return 0
+
     # 2.5 会话节律：一天 3-6 次"进来刷一会儿"，而不是每 20 分钟拍一次决定发不发。
     #     会话内按预算动手（多数会话只看不动手），没预算就做一次真实浏览。
     import social_session as sess
