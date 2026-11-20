@@ -334,6 +334,9 @@ def danmaku_line(title, rng=None, style="point"):
         if runs:
             kw = max(runs, key=len)[:6]
         else:
+            # 一个汉字都没有（纯数字/纯英文/纯符号）就不发：弹幕必须贴内容
+            if not re.search(r"[\u4e00-\u9fff]", t or ""):
+                return None
             core = re.sub(r"\s+", "", t)
             if len(core) < 3:
                 return None
