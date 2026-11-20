@@ -32,3 +32,13 @@
 - 高频 spawn python3 的机队 LaunchAgent 是燃料（`statesync`/`locallane` 60s、`seatdispatch` 180s、`drive` 300s）。
 - 正法仍是 `launchctl disable gui/$UID/<label>`（持久）＋ 目录 `chflags uchg`；`restore-startup.sh` 必须先 `chflags nouchg` + `launchctl enable`。
 - 注意：本轮把归档里**全部 44 个** label 都 disable 了（不只是高频那几个），恢复时按需挑（`bash Tools/restore-startup.sh pulse console`）。
+
+## 电池 + 低功耗模式：训练慢 4.6 倍（2026-11-20 实锚）
+
+- 同一段 shallow 训练：**电池 + lowpowermode=1 时 18.6 秒/步**，接电 4 秒/步；
+  电量 1 小时内见底（83% 报剩余 1:07）。这是 macOS 对 GPU 的限速，不是代码问题。
+- 处置：`train_forever.power_verdict(on_ac, lowpowermode)` 纯函数 + `power_ok()` 读 pmset，
+  电池或低功耗 → 记 `last_rc=POWER` 并直接返回（不记 FAIL，避免触发重试），自检 3 条。
+- 与 CEO「不许留余量」令不冲突：这不是保守限流，是硬件限速 + 断电会丢整轮的事实。
+- 另：**mlx 训练日志是 tqdm 写文件、有缓冲**，`tail` 看着停在 iter 110 其实已到 300；
+  判断训练是否推进只认 **checkpoint 文件落盘 + 进程 CPU 时间增长**，别读日志行号。
