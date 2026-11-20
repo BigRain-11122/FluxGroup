@@ -100,3 +100,4 @@
 {"action": "verify", "arm": "A", "aid": 1652730485, "rpid": "324552685648", "root": 215525151936, "visible": false, "why": "发后 25s 内未在列表中找到（已扫 6 页（sort=0/2）未见该 rpid）", "verdict": "待审核-保留", "ts": "2026-11-20T12:42:25"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324552685648", "arm": "A", "persona": "shallow", "ts": "2026-11-20T12:42:25"}
 {"action": "fail", "why": "距上帖仅 6 分钟（下限 15）", "arm": "D", "lane": "lora", "ts": "2026-11-20T12:47:52"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-20T12:52:52"}
