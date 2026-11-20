@@ -1,37 +1,37 @@
 {
- "ts": "2026-11-20T12:39:50",
+ "ts": "2026-11-20T13:49:12",
  "base": [
   {
    "n": 10,
-   "avg": 48.8,
-   "pass_rate": 70,
-   "avg_logic": 6.0,
-   "avg_human": 4.0,
-   "avg_natural": 19.2,
+   "avg": 47.6,
+   "pass_rate": 10,
+   "avg_logic": 5.0,
+   "avg_human": 3.0,
+   "avg_natural": 19.6,
    "reject": 0,
-   "seg": "memer",
+   "seg": "peer_pro",
    "sample": [
-    "那就让那些德不配位的神曲烂尾吧，毕竟我最讨厌听。",
-    "只有我还在为那些被火出来的神曲流泪吧"
+    "火到不配位确实是行业痛点，做纯音乐时我们常在旋律抓耳与结构留白间反复权衡，你对这类失衡案例有什么看法？",
+    "你提到的“火极必衰”在混音阶段最致命，当年为赶节奏强行压缩动态范围，后期听感实则已崩。"
    ]
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 78.5,
-   "pass_rate": 100,
-   "avg_logic": 29.0,
-   "avg_human": 10.0,
+   "avg": 87.3,
+   "pass_rate": 90,
+   "avg_logic": 39.5,
+   "avg_human": 12.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "memer",
+   "seg": "peer_pro",
    "sample": [
-    "我支持这个视频笑死我了[脱单doge] 毕竟现在全是哈机密音乐",
-    "应该没人比这还高级的剪辑了吧，下个月出个最经典top10吧"
+    "剪辑师，有点不一样的调色，哈哈",
+    "老师，您这理念我喜欢，但是调色还是剪曲"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-115009/ckpt300"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261120-133016/ckpt300"
 }
