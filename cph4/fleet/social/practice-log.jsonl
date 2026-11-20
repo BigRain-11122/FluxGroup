@@ -87,3 +87,6 @@
 {"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1ZW411f7CN/", "aid": 30870810, "root": 0, "text": "开头镜头晃得脚疼，这剪辑没必要啊。", "rpid": "324548766368", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 0/8 条，间隔 OK", "ts": "2026-11-20T12:02:39"}
 {"action": "verify", "arm": "C", "aid": 30870810, "rpid": "324548766368", "root": 0, "visible": true, "why": "已公开可见（sort=0 第1页）", "verdict": "公开可见", "ts": "2026-11-20T12:02:43"}
 {"action": "lane", "lane": "lora", "serving": "base", "rpid": "324548766368", "arm": "C", "persona": "craft_learner", "ts": "2026-11-20T12:02:43"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-20T12:10:15"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-20T12:10:21"}
+{"action": "fail", "why": "距上帖仅 8 分钟（下限 15）", "arm": "A", "lane": "lora", "ts": "2026-11-20T12:10:30"}

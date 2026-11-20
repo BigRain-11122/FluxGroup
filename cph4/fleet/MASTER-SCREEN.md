@@ -1,24 +1,24 @@
-# 主控一屏 2026-11-20T11:49:06
+# 主控一屏 2026-11-20T12:10:45
 
-**现在最重要的一件事**：MV（41 曲 / 爱在西元前）：STOP-DIAGNOSE（1 张卡已停线待根因：R-NEXT-BIGSTREAMM-REBUILD-20261120）
+**现在最重要的一件事**：MV（41 曲 / 爱在西元前）：STOP-DIAGNOSE（2 张卡已停线待根因：R-NEXT-BIGSTREAMM-REBUILD-20261120）
 
 | 线 | 最后真实产出 | 今天完成 | 卡点 | 本轮动作 |
 |---|---|---|---|---|
-| MV（41 曲 / 爱在西元前） | 117.5h 前 | 1 张 | ENGINE | STOP-DIAGNOSE |
-| 游戏（39 款在册 / 0 上线） | 402.4h 前 | 1 张 | ENGINE | STOP-DIAGNOSE |
-| 资产储备（角色 LoRA + 音色库） | 116.9h 前 | 1 张 | ENGINE | DISPATCH |
-| 量化（19.9 算力包） | 383.6h 前 | 2 张 | ENGINE | STOP-DIAGNOSE |
+| MV（41 曲 / 爱在西元前） | 117.8h 前 | 1 张 | ENGINE | STOP-DIAGNOSE |
+| 游戏（39 款在册 / 0 上线） | 402.7h 前 | 1 张 | ENGINE | STOP-DIAGNOSE |
+| 资产储备（角色 LoRA + 音色库） | 117.2h 前 | 1 张 | ENGINE | STOP-DIAGNOSE |
+| 量化（19.9 算力包） | 384.0h 前 | 2 张 | ENGINE | STOP-DIAGNOSE |
 
 ## 每条线的理由（可核）
 
-- **MV（41 曲 / 爱在西元前）**：1 张卡已停线待根因：R-NEXT-BIGSTREAMM-REBUILD-20261120
-- **游戏（39 款在册 / 0 上线）**：1 张卡已停线待根因：biggame-pack-scan-2026-11-19
-- **资产储备（角色 LoRA + 音色库）**：队列里有 16 张可派卡，等待机器认领
+- **MV（41 曲 / 爱在西元前）**：2 张卡已停线待根因：R-NEXT-BIGSTREAMM-REBUILD-20261120
+- **游戏（39 款在册 / 0 上线）**：2 张卡已停线待根因：biggame-pack-scan-2026-11-19
+- **资产储备（角色 LoRA + 音色库）**：2 张卡已停线待根因：asset-lib-library-check-2026-11-20
 - **量化（19.9 算力包）**：1 张卡已停线待根因：bigmoney-signal-2026-11-19
 
 ## 产能配比（机制 vs 业务）
 
-在飞 27 张，业务线 26 张（96%，底线 60%）
+在飞 17 张，业务线 17 张（100%，底线 60%）
 
 **四条线的「可发物」定义**（做不到就不算产出）：
 - bigstream-mv：母版 mp4 + 四闸回执
