@@ -32,6 +32,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 CORPUS = os.path.join(SOCIAL, "corpus", "human", "own_collected.jsonl")
+# 2026-11-20 闭环：实战写出去、过完所有闸的稿子也是语料——而且是最贴我们目标的分布。
+PRACTICE = os.path.join(SOCIAL, "corpus", "human", "own_practice.jsonl")
+SOURCES = [CORPUS, PRACTICE]
 OUT = os.path.join(SOCIAL, "corpus", "human", "BAKED-v1.jsonl")
 STATS = os.path.join(SOCIAL, "corpus", "human", "BAKED-stats.json")
 
@@ -84,11 +87,30 @@ def bake_one(text):
             s.get("human"), s.get("voice"))
 
 
+def _feed_practice():
+    """烘焙前先把实战稿导回语料（闭环：实战→训练）。失败不影响烘焙。"""
+    try:
+        import practice_feed
+        practice_feed.main()
+    except Exception as e:
+        print("[bake] 实战稿导流失败（跳过）：%s" % e)
+
+
 def run(workers, limit=0):
-    rows = []
-    for line in open(CORPUS, encoding="utf-8"):
-        if line.strip():
-            rows.append(json.loads(line))
+    _feed_practice()
+    rows, seen = [], set()
+    for src in SOURCES:
+        if not os.path.exists(src):
+            continue
+        for line in open(src, encoding="utf-8"):
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            h = r.get("h") or (r.get("text") or "")[:40]
+            if h in seen:
+                continue
+            seen.add(h)
+            rows.append(r)
     if limit:
         rows = rows[:limit]
     t0 = time.time()
