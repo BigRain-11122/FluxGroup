@@ -1,30 +1,30 @@
 {
- "ts": "2026-11-20T22:32:19",
- "rows": 53298,
+ "ts": "2026-11-20T22:38:20",
+ "rows": 54867,
  "workers": 7,
  "bake_sec": 0.3,
- "rows_per_sec": 153181.1,
- "near_dup": 1041,
+ "rows_per_sec": 173011.7,
+ "near_dup": 1051,
  "segments": {
-  "generic": 38793,
-  "memer": 3995,
-  "shallow": 3360,
-  "craft_learner": 1588,
-  "feeler": 1546,
-  "peer_pro": 1183,
-  "tech_nerd": 724,
-  "student": 579,
-  "music_seeker": 478,
-  "critic": 283,
-  "family": 233,
-  "beginner": 220,
+  "generic": 39802,
+  "memer": 4174,
+  "shallow": 3429,
+  "craft_learner": 1620,
+  "feeler": 1619,
+  "peer_pro": 1198,
+  "tech_nerd": 732,
+  "student": 647,
+  "music_seeker": 481,
+  "family": 322,
+  "critic": 292,
+  "beginner": 232,
   "ai_creator": 205,
-  "requester": 71,
-  "traditional": 40
+  "requester": 73,
+  "traditional": 41
  },
  "verdicts": {
-  "RISKY": 35381,
-  "PASS": 9650,
-  "REJECT": 8267
+  "RISKY": 36563,
+  "PASS": 9922,
+  "REJECT": 8382
  }
 }
