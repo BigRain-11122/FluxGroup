@@ -1,6 +1,6 @@
 {
  "node": "bm-m",
- "ts": "2026-11-20T11:31:54",
+ "ts": "2026-11-20T11:32:46",
  "jobs": [
   {
    "id": "R-NEXT-BIGSTREAMM-REBUILD-20261120",
@@ -57,9 +57,23 @@
    "when_all": [],
    "llm": null,
    "timeout_s": null
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMM-20261120",
+   "title": "BigDomain·硅基域商业化 线证据扫描（bm-m 本机可判面）",
+   "cmd": "python Tools/fleet/line_triage.py --line bigdomain --node bm-m --out cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261120.md",
+   "cwd": "",
+   "needs": "cpu",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-bm-m-20261120.md",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
   }
  ],
  "idle_reason": "",
  "lane_ok": true,
- "capacity_note": "ram 10.1/1.0 GB"
+ "capacity_note": "ram 12.9/1.0 GB"
 }
