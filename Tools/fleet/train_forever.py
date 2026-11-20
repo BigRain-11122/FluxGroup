@@ -257,13 +257,21 @@ def board(st, rows, rejects):
 
     runs = st.get("runs") or []
     lines += ["", "## 最近 10 轮", "",
-              "| 时间 | 段 | 行数 | val 最低 | 步 | 基座均分 | 候选均分 | 人味Δ | 判词 |",
-              "|---|---|---|---|---|---|---|---|---|"]
+              "| 时间 | 段 | n | 行数 | val 最低 | 步 | 基座 | 候选 | 人味Δ | 判词 |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
     for r in runs[-10:]:
-        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
-            (r.get("ts") or "")[5:16], r.get("seg"), r.get("rows"), r.get("val_min"),
-            r.get("step"), r.get("base_avg"), r.get("lora_avg"), r.get("human_delta"),
-            r.get("verdict")))
+        n = r.get("eval_n")
+        # 3 条判出来的结论是噪声（实测同一权重差 30 分）：必须在板上标出来，
+        # 否则读板的人会把"KEEP"当真。
+        tag = r.get("verdict") or ""
+        if n is None:
+            tag += "（旧口径 n=3，不可当真）"
+        elif int(n) < 8:
+            tag += "（样本不足）"
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
+            (r.get("ts") or "")[5:16], r.get("seg"), n if n is not None else "-",
+            r.get("rows"), r.get("val_min"), r.get("step"), r.get("base_avg"),
+            r.get("lora_avg"), r.get("human_delta"), tag))
     lines += ["", "> 判据：段内均分 ≥ 基座+5、PASS 不降、人味(human) 不降 2；"
                   "同段冷却 6h；被否段语料需涨 15% 才重训。"]
     os.makedirs(os.path.dirname(BOARD), exist_ok=True)
