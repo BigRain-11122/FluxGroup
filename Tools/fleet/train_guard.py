@@ -57,11 +57,44 @@ def kill(label):
                    capture_output=True)
 
 
+def unload_idle():
+    """越线时先卸闲置 ollama 模型，而不是杀训练。
+
+    2026-11-20 实测：本机常驻 4b-mlx(4.12GB)+2b(3.14GB)=7.26GB，而训练只要 3.3GB
+    ——把机器推到换页的是常驻模型，不是训练本身。所以"不触发 swap"的正确动作
+    是卸掉不参与训练的那几档，训练继续。
+    """
+    import urllib.request
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:11434/api/ps", timeout=5) as r:
+            models = json.load(r).get("models") or []
+    except Exception as e:
+        print("[guard] 读不到 ollama 模型表：%s" % e, flush=True)
+        return []
+    freed = []
+    for m in models:
+        name = m.get("name") or ""
+        if not name:
+            continue
+        try:
+            req = urllib.request.Request(
+                "http://127.0.0.1:11434/api/generate",
+                data=json.dumps({"model": name, "keep_alive": 0}).encode(),
+                headers={"Content-Type": "application/json"})
+            urllib.request.urlopen(req, timeout=10).read()
+            freed.append(name)
+        except Exception as e:
+            print("[guard] 卸载 %s 失败：%s" % (name, e), flush=True)
+    return freed
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", default="com.fluxgroup.trainb")
     ap.add_argument("--minutes", type=int, default=180)
     ap.add_argument("--interval", type=int, default=60)
+    ap.add_argument("--on-breach", choices=("kill", "unload"), default="kill",
+                    help="越线动作：kill=撤并行路；unload=只卸闲置 ollama 模型，训练继续")
     a = ap.parse_args(argv)
     os.makedirs(os.path.dirname(LOG), exist_ok=True)
     prev = vm()
@@ -89,6 +122,12 @@ def main(argv=None):
         print("[guard] %s %s %s" % (row["ts"], row["verdict"], "；".join(breach) or ""),
               flush=True)
         if breach:
+            if a.on_breach == "unload":
+                freed = unload_idle()
+                print("[guard] 越线→卸闲置模型 %s（%s）" % (freed or "无", "；".join(breach)),
+                      flush=True)
+                prev = vm()      # 给模型卸载后一个重新计数窗口，不立刻二次判越线
+                continue
             kill(a.label)
             print("[guard] 已撤并行训练 %s（%s）" % (a.label, "；".join(breach)), flush=True)
             return 3

@@ -83,6 +83,12 @@ sleep 3
 
 SW0=$(sysctl -n vm.swapusage | sed -n 's/.*used = \([0-9.]*\)M.*/\1/p')
 echo "[train] 起训 swap=${SW0}MB iters=$*"
+# 运行中看门狗：swap 增长/换出超标时先卸闲置 ollama 模型（不杀训练）。
+# 2026-11-20 实测：常驻 7.26GB 模型才是换页来源，训练只要 3.3GB。
+"$PY" "$ROOT/Tools/fleet/train_guard.py" --on-breach unload --interval 60 \
+  --minutes $(( 9 * 60 )) >"$ROOT/.codely-cli/state/train-guard.log" 2>&1 &
+GUARD_PID=$!
+trap 'kill $GUARD_PID 2>/dev/null' EXIT
 "$PY" -u "$ROOT/Tools/fleet/train_lora.py" "$@"
 rc=$?
 SW1=$(sysctl -n vm.swapusage | sed -n 's/.*used = \([0-9.]*\)M.*/\1/p')

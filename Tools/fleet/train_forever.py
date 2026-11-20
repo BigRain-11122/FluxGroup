@@ -430,6 +430,14 @@ def run_one(a):
         st["segments"].setdefault(seg, {})["last_rc"] = "POWER"
         _save(LOOP_STATE, st)
         return 0
+    ok_mem, seq_len, why_mem = mem_verdict(5.0)
+    if not ok_mem:
+        print("[loop] 暂停开训：%s" % why_mem)
+        st["segments"].setdefault(seg, {})["last_rc"] = "MEM"
+        _save(LOOP_STATE, st)
+        return 0
+    if why_mem:
+        print("[loop] 内存闸降档：%s" % why_mem)
     print("[loop] 选中段 %s（%d 行）" % (seg, task["rows"]), flush=True)
     if a.dry:
         board(st, rows, rejects)
@@ -460,7 +468,7 @@ def run_one(a):
 
     rc, out = sh(["/bin/bash", os.path.join(HERE, "train_run.sh"),
                   "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
-                  "--max-seq-length", "320", "--steps-per-eval", "50",
+                  "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
                   "--grad-checkpoint"], timeout=8 * 3600)
     if rc != 0:
         skip = "SKIP-ALREADY-TRAINING" in out
@@ -610,6 +618,49 @@ def self_test():
         okc += 1 if cond else 0
     print("[self-test] %d/%d" % (okc, len(cases)))
     return 0 if okc == len(cases) else 1
+
+
+def _swap_mb():
+    try:
+        out = subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True,
+                             text=True, timeout=10).stdout
+        m = re.search(r"used = ([0-9.]+)M", out)
+        return float(m.group(1)) if m else None
+    except Exception:
+        return None
+
+
+def mem_verdict(need_gb=5.0, sample_s=5):
+    """开训前的内存闸：**看增长，不看存量**。
+
+    CEO 的要求是"不要触发 swap"，判据就必须是"训练期间 swap 是否在涨"。
+    拿历史存量当判据会让机器永久降档——本机 swap 已累积 3.4GB（多为白天办公留下的），
+    但它稳定不涨时开训并不会新增换页。所以：
+      · 采样 sample_s 秒的 swap 增量换速率：>50MB/min = 正在换页 → 不开训（WAIT）
+      · 10~50MB/min = 有压力 → 降序列到 256（DOWNGRADE）
+      · 否则按 mem_gate 的绝对预算兜底（可用内存装不下 5GB 才降/拒）
+    """
+    a = _swap_mb()
+    time.sleep(sample_s)
+    b = _swap_mb()
+    if a is not None and b is not None:
+        rate = (b - a) / float(sample_s) * 60.0
+        if rate > 50:
+            return False, 320, "swap 正在增长 %.0fMB/min（%0.0f→%0.0fMB），开训就是硬扛换页" % (
+                rate, a, b)
+        if rate > 10:
+            return True, 256, "swap 有增长 %.0fMB/min（%0.0f→%0.0fMB）→ 序列 320 降到 256" % (
+                rate, a, b)
+    try:
+        sys.path.insert(0, HERE)
+        import mem_gate
+        d = mem_gate.decide(need_gb)
+        if (d.get("model_max_gb") or 0) < 3.3:
+            return True, 256, "可用内存只剩 %.1fGB（swap 存量 %.1fGB 稳定）→ 序列降到 256" % (
+                d.get("model_max_gb") or 0, d.get("swap_used_gb") or 0)
+    except Exception:
+        pass
+    return True, 320, ""
 
 
 def power_verdict(on_ac, lowpowermode):
