@@ -1,18 +1,18 @@
-# 养号线智能体监控（2026-11-20T10:55:31）
+# 养号线智能体监控（2026-11-20T11:55:51）
 
 整体：**RED**
 
 | 任务 | 负责人 | 周期 | 状态 | 说明 |
 |---|---|---|---|---|
-| threads_tick | 养号席·会话 | 0.5h | OK | 事件驱动：本次 0 条待处理（产出 64.5h 未涨属正常） |
-| learn_cycle | 养号席·采集 | 0.7h | STALE | 产出已 13.2h 未更新（周期 0.7h） |
-| audit_surface | 养号席·体检 | 12.0h | OK | 产出 16.1h 前更新 · SURFACE-REPORT.md=103行 |
-| corpus_refresh | 语料席 | 12.0h | OK | 产出 16.7h 前更新 · 无行数 |
-| taste_filter | 语料席 | 12.0h | OK | 产出 16.1h 前更新 · QUALITY-PASS.jsonl=5180行 |
-| segment_report | 语料席 | 12.0h | OK | 产出 16.1h 前更新 · QUALITY-PASS.jsonl=5180行 |
-| sweep_targeted | 养号席·补采 | 24.0h | OK | 产出 14.9h 前更新 · bilibili.comment.jsonl=5244行 |
+| threads_tick | 养号席·会话 | 0.5h | OK | 事件驱动：本次 0 条待处理（产出 65.5h 未涨属正常） |
+| learn_cycle | 养号席·采集 | 0.7h | OK | 产出 0.3h 前更新 · LEARNING-LEDGER.jsonl=168行 |
+| audit_surface | 养号席·体检 | 12.0h | OK | 产出 1.0h 前更新 · SURFACE-REPORT.md=103行 |
+| corpus_refresh | 语料席 | 12.0h | OK | 产出 14.7h 前更新 · 无行数 |
+| taste_filter | 语料席 | 12.0h | OK | 产出 1.0h 前更新 · QUALITY-PASS.jsonl=5716行 |
+| segment_report | 语料席 | 12.0h | OK | 产出 1.0h 前更新 · QUALITY-PASS.jsonl=5716行 |
+| sweep_targeted | 养号席·补采 | 24.0h | OK | 产出 15.9h 前更新 · bilibili.comment.jsonl=5244行 |
 | train_weekly | 训练席 | 24.0h | FAIL | 上次 rc=1（允许 [0, 2, 3]）[pipe] 训练失败，停止。 |
-| monitor_board | 主控·监控席 | 1.0h | STALE | 产出已 13.8h 未更新（周期 1.0h） |
+| monitor_board | 主控·监控席 | 1.0h | OK | 产出 1.0h 前更新 · SOCIAL-AGENT-BOARD.md=79行 |
 
 ## 机队事实
 
@@ -36,12 +36,12 @@
    "exit": "0"
   },
   "com.fluxgroup.pulse": {
-   "pid": "86505",
+   "pid": "76240",
    "exit": "-15"
   },
   "com.fluxgroup.trainloop": {
-   "pid": "17790",
-   "exit": "0"
+   "pid": "76668",
+   "exit": "1"
   },
   "com.fluxgroup.corpusbake": {
    "pid": "-",
@@ -68,7 +68,7 @@
    "exit": "0"
   },
   "com.fluxgroup.trainlock": {
-   "pid": "17848",
+   "pid": "76701",
    "exit": "0"
   }
  },

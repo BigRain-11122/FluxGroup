@@ -70,3 +70,20 @@
 {"action": "verify", "aid": 286995196, "rpid": "324490007888", "visible": null, "why": "重验：回验未取到数（1 次尝试均被占用/失败）", "reverify": true}
 {"action": "verify", "aid": 116566888810038, "rpid": "324496273472", "visible": false, "why": "重验：2 页内查不到该 rpid（确实不在公开列表）", "reverify": true}
 {"action": "verify", "aid": 286995196, "rpid": "324490007888", "visible": null, "why": "重验：回验未取到数（1 次尝试均被占用/失败）", "reverify": true}
+{"action": "verify", "aid": 703513418, "rpid": "324483135440", "visible": null, "why": "重验：回验未取到数（1 次尝试均被占用/失败）", "reverify": true}
+{"action": "verify", "aid": 115642615269782, "rpid": "324478326528", "visible": null, "why": "重验：回验未取到数（1 次尝试均被占用/失败）", "reverify": true}
+{"action": "verify", "aid": 1805667200, "rpid": "324467017808", "visible": null, "why": "重验：回验未取到数（1 次尝试均被占用/失败）", "reverify": true}
+{"action": "verify", "aid": 115563997167759, "rpid": "324456691936", "visible": null, "why": "重验：回验未取到数（1 次尝试均被占用/失败）", "reverify": true}
+{"action": "verify", "aid": 116566888810038, "rpid": "324496273472", "visible": false, "why": "重验：2 页内查不到该 rpid（确实不在公开列表）", "reverify": true}
+{"action": "verify", "aid": 286995196, "rpid": "324490007888", "visible": false, "why": "重验：2 页内查不到该 rpid（确实不在公开列表）", "reverify": true}
+{"action": "verify", "aid": 703513418, "rpid": "324483135440", "visible": true, "why": "重验：已公开可见（sort=0 第1页）", "reverify": true}
+{"action": "verify", "aid": 115642615269782, "rpid": "324478326528", "visible": true, "why": "重验：已公开可见（sort=0 第1页）", "reverify": true}
+{"action": "verify", "aid": 1805667200, "rpid": "324467017808", "visible": false, "why": "重验：2 页内查不到该 rpid（确实不在公开列表）", "reverify": true}
+{"action": "verify", "aid": 115563997167759, "rpid": "324456691936", "visible": false, "why": "重验：2 页内查不到该 rpid（确实不在公开列表）", "reverify": true}
+{"action": "unblock", "ts": "2026-11-20T11:59:44"}
+{"action": "skip", "why": "asleep", "ts": "2026-11-20T11:59:48"}
+{"action": "skip", "why": "作息闸人工放行", "ts": "2026-11-20T11:59:57"}
+{"action": "skip", "why": "作息闸人工放行", "ts": "2026-11-20T12:00:59"}
+{"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1ZW411f7CN/", "aid": 30870810, "root": 0, "text": "开头镜头晃得脚疼，这剪辑没必要啊。", "rpid": "324548766368", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 0/8 条，间隔 OK", "ts": "2026-11-20T12:02:39"}
+{"action": "verify", "arm": "C", "aid": 30870810, "rpid": "324548766368", "root": 0, "visible": true, "why": "已公开可见（sort=0 第1页）", "verdict": "公开可见", "ts": "2026-11-20T12:02:43"}
+{"action": "lane", "lane": "lora", "serving": "base", "rpid": "324548766368", "arm": "C", "persona": "craft_learner", "ts": "2026-11-20T12:02:43"}
