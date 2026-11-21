@@ -1,26 +1,26 @@
 # 养号自驱环路（SOCIAL-LOOP）
 
-> 更新时间 2026-11-21T17:39:19 ｜ 语料 12424 行 ｜ 每段评测目标 n=30
+> 更新时间 2026-11-21T18:19:37 ｜ 语料 10856 行 ｜ 每段评测目标 n=30
 
 | 段 | 可用行 | 目标 | 缺口 | 最近判词 | n | 龄期(h) | 下一步 |
 |---|---|---|---|---|---|---|---|
 | traditional | 3 | 300 | 99% | - | 0 | - | collect |
 | family | 17 | 300 | 94% | - | 0 | - | collect |
-| ai_creator | 72 | 400 | 82% | - | 0 | - | collect |
-| requester | 91 | 400 | 77% | - | 0 | - | collect |
-| student | 108 | 400 | 73% | - | 0 | - | collect |
+| requester | 62 | 400 | 84% | - | 0 | - | collect |
+| ai_creator | 64 | 400 | 84% | - | 0 | - | collect |
+| student | 105 | 400 | 74% | - | 0 | - | collect |
 | critic | 122 | 400 | 70% | - | 0 | - | collect |
-| beginner | 162 | 400 | 60% | - | 0 | - | collect |
-| music_seeker | 442 | 600 | 26% | KEEP | 10 | 0.3 | collect |
-| feeler | 558 | 600 | 7% | REJECT | 10 | 18.8 | - |
-| tech_nerd | 574 | 600 | 4% | KEEP | 10 | 2.4 | verify |
-| craft_learner | 2124 | 800 | 0% | REJECT | 10 | 18.1 | - |
-| memer | 2191 | 600 | 0% | KEEP | 10 | 3.4 | verify |
-| peer_pro | 622 | 600 | 0% | KEEP | 30 | 21.1 | - |
-| shallow | 3217 | 600 | 0% | KEEP | 10 | 1.3 | verify |
+| beginner | 149 | 400 | 63% | - | 0 | - | collect |
+| music_seeker | 436 | 600 | 27% | KEEP | 10 | 1.0 | collect |
+| feeler | 545 | 600 | 9% | EVAL-MISSING | 0 | 0.0 | - |
+| tech_nerd | 557 | 600 | 7% | KEEP | 10 | 3.1 | verify |
+| craft_learner | 2071 | 800 | 0% | REJECT | 10 | 18.8 | - |
+| memer | 2143 | 600 | 0% | KEEP | 10 | 4.1 | verify |
+| peer_pro | 602 | 600 | 0% | KEEP | 10 | 0.1 | verify |
+| shallow | 1894 | 600 | 0% | KEEP | 10 | 2.0 | verify |
 
 **本拍派工**：`tune` / `__all__` —— 各段无缺料、无待验件，做参数复检
-**结果**：OK（0.4s）
+**结果**：OK（0.6s）
 
 ```
 （min_human 固定 8）

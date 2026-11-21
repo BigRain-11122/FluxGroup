@@ -9,21 +9,20 @@
    "val_min": 4.214
   },
   "peer_pro": {
-   "last_ts": 1795178071.0,
+   "last_ts": 1795255940.0,
    "last_rc": "KEEP",
-   "rows": null,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "rows": 622,
+   "run": "20261121-172502",
+   "step": 400,
+   "val_min": 3.237
   },
   "music_seeker": {
-   "last_ts": 1795252772.7419379,
+   "last_ts": 1795252772.0,
    "last_rc": "KEEP",
    "rows": 442,
    "run": "20261121-162521",
    "step": 200,
-   "val_min": 3.323,
-   "recipe": "v3-natural-dist"
+   "val_min": 3.323
   },
   "craft_learner": {
    "last_ts": 1795188767.0,
@@ -58,12 +57,12 @@
    "val_min": 3.156
   },
   "feeler": {
-   "last_ts": 1795186410.0,
-   "last_rc": "REJECT",
+   "last_ts": 1795256257.541204,
+   "last_rc": "EVAL-MISSING",
    "rows": 460,
-   "run": "20261120-220135",
-   "step": 200,
-   "val_min": 3.449
+   "run": "20261121-181316",
+   "step": null,
+   "val_min": null
   }
  },
  "runs": [
@@ -501,6 +500,39 @@
    "verdict": "KEEP",
    "why": "均分 +30.1 / 人味 +7.0",
    "adapter": "cph4/fleet/social/train/RUNS/20261121-162521/ckpt200"
+  },
+  {
+   "ts": "2026-11-21T18:12:20",
+   "seg": "peer_pro",
+   "rows": 622,
+   "built": 324,
+   "eval_n": 10,
+   "run": "20261121-172502",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 3.237,
+   "base_avg": 51.8,
+   "lora_avg": 71.5,
+   "base_human": 5.0,
+   "lora_human": 11.0,
+   "human_delta": 6.0,
+   "verdict": "KEEP",
+   "why": "均分 +19.7 / 人味 +6.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261121-172502/ckpt400"
+  },
+  {
+   "ts": "2026-11-21T18:17:37",
+   "seg": "feeler",
+   "rows": 545,
+   "built": 222,
+   "run": "20261121-181316",
+   "step": null,
+   "val_step": null,
+   "val_min": null,
+   "eval_n": 0,
+   "verdict": "EVAL-MISSING",
+   "why": "找不到 checkpoint 或评测没产出",
+   "adapter": null
   }
  ]
 }
