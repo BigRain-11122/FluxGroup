@@ -237,6 +237,11 @@ def hard_block(text):
     foreign = re.findall(r"[\u0400-\u04FF\u0370-\u03FF\u0600-\u06FF\u0590-\u05FF]", t)
     if foreign:
         return "外文幻觉：%s" % "".join(foreign[:3])
+    # 表情码破损：2026-11-21 实测模型写「[打 call]」「[doge ]」——发出去是裸文本，
+    # 比不带表情更露馅（真人的表情码永远是紧贴的 [打call]）。
+    for m in re.findall(r"\[[^\[\]]{1,12}\]", t):
+        if re.search(r"\s", m):
+            return "表情码破损：%s" % m
     cp = copied_sample(t)
     if cp:
         return cp

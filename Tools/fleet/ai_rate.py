@@ -36,6 +36,35 @@ def opening(t):
     return re.sub(r"[^\u4e00-\u9fff]", "", t or "")[:2]
 
 
+IMG = re.compile(r"\[[^\[\]]{1,10}\]")
+
+
+def platform_metrics(texts, seg=""):
+    """平台人味：表情码使用率、口癖命中率、字长区间，跟真实语料比。
+
+    2026-11-21 实测基线：真实 B 站评论 20% 带表情（memer 72%/shallow 25%/
+    music_seeker 9%），我们生成 0%——这一项不改，写出来的永远是"通用中文"。
+    """
+    try:
+        import platform_voice as pv
+        d = json.load(open(pv.OUT, encoding="utf-8"))
+        ref = (d.get("segments") or {}).get(seg) or d.get("global") or {}
+    except Exception:
+        ref = {}
+    n = len(texts) or 1
+    em = sum(1 for t in texts if IMG.search(t)) / n
+    memes = [g for g, _ in (ref.get("meme_top") or [])[:6]]
+    mh = sum(1 for t in texts if any(g in t for g in memes)) / n if memes else 0.0
+    return {
+        "emoji_rate": round(em, 3),
+        "emoji_rate_ref": ref.get("emoji_rate"),
+        "emoji_gap": (round(em - float(ref.get("emoji_rate") or 0), 3)
+                      if ref.get("emoji_rate") is not None else None),
+        "meme_hit_rate": round(mh, 3),
+        "len_ref": [ref.get("len_p25"), ref.get("len_p50"), ref.get("len_p75")],
+    }
+
+
 def raw_ai_hits(t):
     """闸之前就能看出来的 AI 痕迹（不看分数，只看"这句话本身像不像我们发的"）。"""
     import comment_taste as ct
@@ -116,6 +145,7 @@ def measure(model="base", adapter=None, n=30, per_title=None, seg=""):
         "opening_top": opens.most_common(3),
         "opening_max_share": round(opens.most_common(1)[0][1] / len(texts), 3),
         "gate_pass_rate": round(gate_pass / len(texts), 3),
+        **platform_metrics(texts, seg),
         "samples": texts,
     }
 
@@ -151,6 +181,7 @@ def rescore(path):
         "distinct_lens": len(set(lens)),
         "opening_max_share": round(opens.most_common(1)[0][1] / n, 3),
         "rescored_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        **platform_metrics(texts, d.get("seg") or ""),
     })
     json.dump(out, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     return out

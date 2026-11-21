@@ -331,6 +331,41 @@ def human_len_target(i=0):
     return base[order[i % len(order)] % len(base)]
 
 
+PLATFORM_VOICE = os.path.join(ROOT, "cph4", "fleet", "social", "PLATFORM-VOICE-v1.json")
+
+
+def platform_block(seg=None):
+    """把这个平台上"这一类人怎么说话"拼进提示词（表情码/口癖/字数）。
+
+    2026-11-21 CEO「要有平台相关用户的人味」+ 实测：真实 B 站评论 20% 带表情码
+    （memer 段 72%、shallow 25%、music_seeker 9%），我们生成 **0%**。
+    提示词里只写了"像随口说话"，从没写过"像这个平台的人"——所以模型写的是通用中文。
+
+    只用统计出来的三条：表情码候选、口癖候选、字长区间；例句不给（给了就照抄）。
+    """
+    try:
+        d = json.load(open(PLATFORM_VOICE, encoding="utf-8"))
+    except Exception:
+        return ""
+    v = (d.get("segments") or {}).get(seg) or d.get("global") or {}
+    if not v:
+        return ""
+    em = [e for e, _ in (v.get("emoji_top") or [])[:4]]
+    mt = [g for g, _ in (v.get("meme_top") or [])[:4]]
+    rate = float(v.get("emoji_rate") or 0)
+    p25, p75 = v.get("len_p25") or 0, v.get("len_p75") or 0
+    bits = []
+    if em:
+        # 只给比例、不给"必须带"：写完 0%→46.7%，真实是 25.4%，说清"多数不带"才收得住
+        bits.append("表情码就用 %s 这种写法、紧贴不空格；这批人只有约 %.0f%% 会带，多数评论不带"
+                    % ("/".join(em), rate * 100))
+    if mt:
+        bits.append("这类人嘴上常挂 %s 这种词，但别硬塞" % "、".join(mt[:3]))
+    if p25 and p75:
+        bits.append("他们一般写 %d-%d 字" % (p25, p75))
+    return ("\n这是 B 站评论区，要像这个平台的人说话：" + "；".join(bits) + "。") if bits else ""
+
+
 def lora_comment_prompt(title, desc="", i=0, seg=None):
     """按**训练时用的同一批指令模板**拼提示词。
 
@@ -352,6 +387,7 @@ def lora_comment_prompt(title, desc="", i=0, seg=None):
         except Exception:
             pass
     ins += human_persona_block()
+    ins += platform_block(seg)
     ins += _ANGLE[i % len(_ANGLE)]
     return ins
 
