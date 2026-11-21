@@ -1,13 +1,12 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795285999.032479,
-   "last_rc": "KEEP",
-   "rows": 570,
+   "last_ts": 1795286164.0,
+   "last_rc": "REJECT",
+   "rows": null,
    "run": "20261122-020611",
-   "step": 400,
-   "val_min": 3.522,
-   "recipe": "v5-shape-quota"
+   "step": null,
+   "val_min": null
   },
   "peer_pro": {
    "last_ts": 1795280055.0,
@@ -34,8 +33,8 @@
    "val_min": 3.478
   },
   "memer": {
-   "last_ts": 1795273361.0,
-   "last_rc": "KEEP",
+   "last_ts": 1795286332.98846,
+   "last_rc": "YIELD-PUBLISH",
    "rows": null,
    "run": null,
    "step": null,
@@ -67,44 +66,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-20T11:12:47",
-   "seg": "peer_pro",
-   "rows": 388,
-   "built": 216,
-   "eval_n": 10,
-   "run": "20261119-203050",
-   "step": 200,
-   "val_step": 200,
-   "val_min": 3.143,
-   "base_avg": 60.0,
-   "lora_avg": 69.9,
-   "base_human": 6.0,
-   "lora_human": 9.0,
-   "human_delta": 3.0,
-   "verdict": "KEEP",
-   "why": "均分 +9.9 / 人味 +3.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261119-203050/ckpt200"
-  },
-  {
-   "ts": "2026-11-20T11:12:54",
-   "seg": "music_seeker",
-   "rows": 382,
-   "built": 216,
-   "eval_n": 10,
-   "run": "20261119-211618",
-   "step": 200,
-   "val_step": 200,
-   "val_min": 3.827,
-   "base_avg": 38.5,
-   "lora_avg": 84.4,
-   "base_human": 1.0,
-   "lora_human": 11.0,
-   "human_delta": 10.0,
-   "verdict": "KEEP",
-   "why": "均分 +45.9 / 人味 +10.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261119-211618/ckpt200"
-  },
   {
    "ts": "2026-11-20T11:39:27",
    "seg": "craft_learner",
@@ -687,6 +648,19 @@
    "verdict": "KEEP",
    "why": "均分 +13.0 / 人味 +3.0",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-020611/ckpt400"
+  },
+  {
+   "ts": "2026-11-22T02:36:04",
+   "seg": "tech_nerd",
+   "verdict": "REJECT",
+   "why": "均分只 +3.7（需 ≥5.0）",
+   "run": "20261122-020611",
+   "re_verify": true,
+   "lora_avg": 60.4,
+   "base_avg": 56.7,
+   "eval_n": 30,
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-020611/ckpt400",
+   "note": "re-verify(n=30)：均分只 +3.7（需 ≥5.0）"
   }
  ]
 }
