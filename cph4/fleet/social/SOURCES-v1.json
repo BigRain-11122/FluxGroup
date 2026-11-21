@@ -7,11 +7,6 @@
     "bilibili": {
       "enabled": true,
       "urls": [
-        "https://www.bilibili.com/video/BV1rTWq6iEfV/",
-        "https://www.bilibili.com/video/BV1ACWv6PEuE/",
-        "https://www.bilibili.com/video/BV1f94c6uEr3/",
-        "https://www.bilibili.com/video/BV1JV8yz7EKm/",
-        "https://www.bilibili.com/video/BV1zh9jByEuu/",
         "https://www.bilibili.com/video/BV1KN4y1S7w1/",
         "https://www.bilibili.com/video/BV18a4y1g7xc/",
         "https://www.bilibili.com/video/BV1Mf4m6pEWe/",
@@ -126,7 +121,12 @@
         "https://www.bilibili.com/video/BV1gLoXBGEmM/",
         "https://www.bilibili.com/video/BV1tt4y1i7p3/",
         "https://www.bilibili.com/video/BV17NtG6iEd1/",
-        "https://www.bilibili.com/video/BV1sf4y1X7AD/"
+        "https://www.bilibili.com/video/BV1sf4y1X7AD/",
+        "https://www.bilibili.com/video/BV1TP5464EsH/",
+        "https://www.bilibili.com/video/BV1n6eJ6jEfd/",
+        "https://www.bilibili.com/video/BV1dFsg6JEKm/",
+        "https://www.bilibili.com/video/BV1eJ411e7A1/",
+        "https://www.bilibili.com/video/BV1JV8yz7EKm/"
       ],
       "need_login": true,
       "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",
@@ -152,7 +152,8 @@
         "剪得太乱 吐槽",
         "剪辑工程文件 求",
         "繁體 剪片 教學",
-        "大学生宿舍拍视频"
+        "大学生宿舍拍视频",
+        "新手剪辑从哪开始"
       ]
     },
     "douyin": {

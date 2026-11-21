@@ -1,9 +1,9 @@
 {
  "train": {
   "runs": 69,
-  "keep": 20,
+  "keep": 22,
   "reject": 7,
-  "avg_gain": 24.1,
+  "avg_gain": 23.0,
   "max_gain": 46.7,
   "best_by_seg": {
    "music_seeker": 46.7,
@@ -22,16 +22,16 @@
  },
  "actions": {
   "all": {
-   "session": 10,
-   "like": 33,
-   "danmaku": 17,
-   "watch": 68
+   "session": 13,
+   "like": 42,
+   "danmaku": 20,
+   "watch": 98
   },
   "today": {
-   "watch": 60,
-   "like": 27,
-   "danmaku": 14,
-   "session": 4
+   "watch": 90,
+   "like": 36,
+   "danmaku": 17,
+   "session": 7
   }
  },
  "practice": {

@@ -189,3 +189,16 @@
 {"action": "route", "seg": "shallow", "ok": true, "secs": 21.8, "note": "[switch] 8788 就绪（70%）（cph4/fleet/social/train/RUNS/20261121-152144/ckpt400）", "ts": "2026-11-21T23:00:18"}
 {"action": "skip", "why": "no text passed gates", "arm": "C", "video": "https://www.bilibili.com/video/BV1kg4y1J7a7/", "ts": "2026-11-21T23:00:50"}
 {"action": "skip", "why": "gpu-busy:GPU 被占用：publish（已 543s）", "ts": "2026-11-21T23:10:10"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：publish（已 747s）", "ts": "2026-11-21T23:41:42"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：publish（已 152s）", "ts": "2026-11-21T23:44:30"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：publish（已 341s）", "ts": "2026-11-21T23:47:39"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 14.6, "note": "[switch] 8788 就绪（50%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-21T23:49:16"}
+{"action": "skip", "why": "gen-gate:AI 腔：太实用了", "arm": "C", "ts": "2026-11-21T23:49:30"}
+{"action": "fail", "why": "{'safe_to_send': [False, '与本视频无关（不含该视频话题词）'], 'gen_gate': [True, ''], 'taste': 88, 'verdict': 'PASS'}", "arm": "C", "lane": "lora", "ts": "2026-11-21T23:49:55"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-21T23:50:22"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-21T23:50:29"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 20.3, "note": "[switch] 8788 就绪（60%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-21T23:50:49"}
+{"action": "skip", "why": "gen-gate:烂梗：绝了", "arm": "C", "ts": "2026-11-21T23:51:14"}
+{"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1hS4y1N7Gs/", "aid": 682658539, "root": 0, "text": "素材都齐了，按这步骤剪，手生也能出片吧。", "rpid": "324728059504", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 0/8 条，间隔 OK", "ts": "2026-11-21T23:52:10"}
+{"action": "verify", "arm": "C", "aid": 682658539, "rpid": "324728059504", "root": 0, "visible": false, "why": "3 页内查不到该 rpid（确实不在公开列表）", "verdict": "待审核-保留", "ts": "2026-11-21T23:52:15"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100", "rpid": "324728059504", "arm": "C", "persona": "craft_learner", "ts": "2026-11-21T23:52:15"}
