@@ -84,8 +84,15 @@ def main(argv=None):
 
     while not STOP:
         try:
-            if not in_hours(per):
-                # 不在这个号的活跃时段：睡 10 分钟再看（不退出，24 小时守着）
+            # 用平台真实作息时钟决定"现在该不该动"（activity_clock.py 从评论时间戳算出）。
+            # 2026-11-21 CEO「频率太低，要符合 UP 主操作习惯」：原来按人设的 4 个整点 ±1 小时开，
+            # 均匀得像机器；实测真实活跃是 22 点 2.6 倍、12 点 2.2 倍、凌晨 1–6 点接近 0。
+            try:
+                import activity_clock as _ac
+                _plan = _ac.session_plan(persona=per)
+            except Exception:
+                _plan = {"open": in_hours(per), "minutes": 15}
+            if not _plan.get("open"):
                 time.sleep(600)
                 continue
             import user_agent as ua
@@ -96,7 +103,7 @@ def main(argv=None):
                 log({"event": "no_account", "account": a.account})
                 time.sleep(1800)
                 continue
-            minutes = rng.randint(8, 35)
+            minutes = int(_plan.get("minutes") or rng.randint(8, 35))
             t0 = time.time()
             sent = os.path.join(STATE, "AGENT-SESSION-%s" % a.account)
             try:
