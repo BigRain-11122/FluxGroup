@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-21T23:53:23",
+ "ts": "2026-11-22T04:42:46",
  "pass": {
   "CR01": false,
   "CR02": true,
@@ -10,10 +10,10 @@
   "CR07": false,
   "CR08": false,
   "TR01": false,
-  "TR02": null,
+  "TR02": true,
   "TR03": false,
   "TR04": true,
-  "TR05": true,
+  "TR05": false,
   "TR06": true,
   "AC01": true,
   "AC02": true,
@@ -26,7 +26,7 @@
   "SD03": true,
   "SD04": true,
   "SD05": true,
-  "SD06": true,
+  "SD06": false,
   "SC01": true,
   "SC02": true,
   "SC03": true,
@@ -36,7 +36,7 @@
   "ME04": false,
   "ME05": true,
   "ME03": true,
-  "EV01": null,
+  "EV01": true,
   "EV02": true,
   "EV03": true,
   "EV04": true,
@@ -57,7 +57,7 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "3.1%（线 ≤5%）8/257 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：干货/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "detail": "3.1%（线 ≤5%）8/257 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：三连/干货\", 1], [\"AI 腔：干货满满/干货\", 1]]",
    "n": 257,
    "group": "corpus"
   },
@@ -93,8 +93,8 @@
    "name": "采集新鲜（24h）",
    "ok": true,
    "sev": "P1",
-   "detail": "24h 内采集 13 次 / 总 70 次",
-   "n": 13,
+   "detail": "24h 内采集 4 次 / 总 51 次",
+   "n": 4,
    "group": "corpus"
   },
   {
@@ -120,17 +120,17 @@
    "name": "训练容量（epoch 3–5）",
    "ok": false,
    "sev": "P2",
-   "detail": "iters=500 rows=307 → 1.63 epoch",
-   "n": 307,
+   "detail": "iters=400 rows=631 → 0.63 epoch",
+   "n": 631,
    "group": "train"
   },
   {
    "id": "TR02",
    "name": "轮次判据质量",
-   "ok": null,
+   "ok": true,
    "sev": "P1",
-   "detail": "判据起 23:44 后还没有训练轮次；历史 12 行不判红",
-   "n": null,
+   "detail": "近 5 轮：判据齐全（历史欠账 7 行）",
+   "n": 5,
    "group": "train"
   },
   {
@@ -138,7 +138,7 @@
    "name": "配方一致（RECIPE=v5-shape-quota）",
    "ok": false,
    "sev": "P1",
-   "detail": "需重造 7 段：tech_nerd, peer_pro, music_seeker, craft_learner, memer, shallow, feeler",
+   "detail": "需重造 5 段：music_seeker, craft_learner, memer, shallow, feeler",
    "n": 8,
    "group": "train"
   },
@@ -154,9 +154,9 @@
   {
    "id": "TR05",
    "name": "评测功率（n≥30）",
-   "ok": true,
+   "ok": false,
    "sev": "P2",
-   "detail": "最小 n=30，2 组（线 ≥30）",
+   "detail": "最小 n=10，2 组（线 ≥30）",
    "n": 2,
    "group": "train"
   },
@@ -174,7 +174,7 @@
    "name": "活人节奏（alive+在动）",
    "ok": true,
    "sev": "P1",
-   "detail": "两号均在活动（上限 2h）",
+   "detail": "两号均在活动（上限 6h）",
    "n": 2,
    "group": "accounts"
   },
@@ -183,8 +183,8 @@
    "name": "跨号隔离（24h 不同视频）",
    "ok": true,
    "sev": "P0",
-   "detail": "24h 内 94 条视频无跨号重叠",
-   "n": 94,
+   "detail": "24h 内 70 条视频无跨号重叠",
+   "n": 70,
    "group": "accounts"
   },
   {
@@ -219,7 +219,7 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一条 0.0h 前（2026-11-21T23:52:10 rpid=324728059504）",
+   "detail": "最近一条 4.8h 前（2026-11-21T23:52:10 rpid=324728059504）",
    "n": 24,
    "group": "sends"
   },
@@ -271,9 +271,9 @@
   {
    "id": "SD06",
    "name": "副动作齐（看/赞/弹幕）",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "两号三类动作齐",
+   "detail": "acct1 缺 watch,like,danmaku；acct3 缺 watch,like,danmaku",
    "n": 2,
    "group": "sends"
   },
@@ -318,7 +318,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2519MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 1959MB）",
    "n": null,
    "group": "mem"
   },
@@ -327,7 +327,7 @@
    "name": "常驻模型预算",
    "ok": true,
    "sev": "P1",
-   "detail": "ollama 常驻 1 个 / 4.1GB（预算 ≤1 个、≤6GB）：qwen3.5:4b-mlx",
+   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
    "n": null,
    "group": "mem"
   },
@@ -345,7 +345,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 1.3G + inactive 10.0G = 11.2G（线 ≥4G）",
+   "detail": "free 8.7G + inactive 5.7G = 14.4G（线 ≥4G）",
    "n": null,
    "group": "mem"
   },
@@ -354,16 +354,16 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-21T23:34:59（0h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（5h前）生成 3 条 swap +0.0MB pageouts +0",
    "n": null,
    "group": "mem"
   },
   {
    "id": "EV01",
    "name": "反思覆盖（每轮有归因）",
-   "ok": null,
+   "ok": true,
    "sev": "P1",
-   "detail": "168h 内没有训练轮次（判据自 2026-11-21T23:40 起）",
+   "detail": "判据起 2026-11-21T23:40：10 轮，无可判读 why 0 条；真失败 5 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
    "n": null,
    "group": "evolve"
   },
@@ -399,7 +399,7 @@
    "name": "训练期换页（≤256MB）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一轮 2026-11-21T20:29:45：swap 3708→3508MB（-200MB）",
+   "detail": "最近一轮 2026-11-22T04:19:19：swap 2359→2359MB（+0MB）",
    "n": null,
    "group": "evolve"
   }
@@ -412,8 +412,8 @@
   },
   "train": {
    "overall": false,
-   "n_fail": 2,
-   "n_skip": 1
+   "n_fail": 3,
+   "n_skip": 0
   },
   "accounts": {
    "overall": false,
@@ -421,8 +421,8 @@
    "n_skip": 0
   },
   "sends": {
-   "overall": true,
-   "n_fail": 0,
+   "overall": false,
+   "n_fail": 1,
    "n_skip": 0
   },
   "sched": {
@@ -438,7 +438,7 @@
   "evolve": {
    "overall": true,
    "n_fail": 0,
-   "n_skip": 1
+   "n_skip": 0
   }
  },
  "overall": false

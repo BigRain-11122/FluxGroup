@@ -1,6 +1,6 @@
 {
  "group": "mem",
- "ts": "2026-11-21T23:53:23",
+ "ts": "2026-11-22T04:42:46",
  "pass": {
   "ME01": true,
   "ME02": true,
@@ -18,7 +18,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2519MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 1959MB）",
    "n": null
   },
   {
@@ -26,7 +26,7 @@
    "name": "常驻模型预算",
    "ok": true,
    "sev": "P1",
-   "detail": "ollama 常驻 1 个 / 4.1GB（预算 ≤1 个、≤6GB）：qwen3.5:4b-mlx",
+   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
    "n": null
   },
   {
@@ -42,7 +42,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 1.3G + inactive 10.0G = 11.2G（线 ≥4G）",
+   "detail": "free 8.7G + inactive 5.7G = 14.4G（线 ≥4G）",
    "n": null
   },
   {
@@ -50,7 +50,7 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-21T23:34:59（0h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（5h前）生成 3 条 swap +0.0MB pageouts +0",
    "n": null
   }
  ]

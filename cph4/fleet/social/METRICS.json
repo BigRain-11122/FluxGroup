@@ -1,9 +1,9 @@
 {
  "train": {
-  "runs": 69,
-  "keep": 22,
-  "reject": 7,
-  "avg_gain": 23.0,
+  "runs": 78,
+  "keep": 26,
+  "reject": 12,
+  "avg_gain": 22.5,
   "max_gain": 46.7,
   "best_by_seg": {
    "music_seeker": 46.7,
@@ -16,28 +16,23 @@
   }
  },
  "corpus": {
-  "rows": 60579,
-  "pass": 11084,
-  "own_practice": 12
+  "rows": 60580,
+  "pass": 11085,
+  "own_practice": 13
  },
  "actions": {
   "all": {
-   "session": 13,
-   "like": 42,
+   "session": 14,
+   "like": 44,
    "danmaku": 20,
-   "watch": 98
+   "watch": 102
   },
-  "today": {
-   "watch": 90,
-   "like": 36,
-   "danmaku": 17,
-   "session": 7
-  }
+  "today": {}
  },
  "practice": {
-  "posts_all": 20,
-  "posts_ok": 20,
+  "posts_all": 21,
+  "posts_ok": 21,
   "posts_today": 0,
-  "fails": 4
+  "fails": 5
  }
 }

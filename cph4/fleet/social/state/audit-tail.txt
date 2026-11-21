@@ -1,13 +1,14 @@
-2026-11-21T23:43:11
-[守卫] rc=1 7 组：红 8 项 / 跳过 2 项
+2026-11-22T04:42:49
+[守卫] rc=1 7 组：红 9 项 / 跳过 0 项
 [闸回归] rc=0 已落盘 cph4/fleet/social/state/GATE-RESULT.json（overall=True）
-[账本] rc=0 训练：69 轮　留档 22 件　淘汰 7 件　平均 +23.0 分　最高 +46.7 分
-[多样性] rc=1 达标 2 / 不达标 12
+[账本] rc=0 训练：78 轮　留档 26 件　淘汰 12 件　平均 +22.5 分　最高 +46.7 分
+[多样性] rc=1 达标 3 / 不达标 11
 [自检] PASS
 [履职 P0] 5 项：未过 0 / 跳过 0
-[履职 P1] 13 项：未过 1 / 跳过 2
+[履职 P1] 14 项：未过 2 / 跳过 0
 [履职 P2] 9 项：未过 3 / 跳过 0
-       P1 B01 评论出稿（24h 至少 1 条）：pass.SD01=False（需 True）；pass.AC05=False（需 True）
+       P1 B02 副动作与活人节奏（看/赞/弹幕）：pass.SD06=False（需 True）
        P2 S03 多样性与生成质量：pass.CR07=False（需 True）；pass.CR01=False（需 True）；pass.CR08=False（需 True）
-       P2 S04 训练体检（容量/配方/评测功率）：pass.TR01=False（需 True）；pass.TR03=False（需 True）
+       P2 S04 训练体检（容量/配方/评测功率）：pass.TR01=False（需 True）；pass.TR03=False（需 True）；pass.TR05=False（需 True）
        P2 M03 ollama 服务端唯一：pass.ME04=False（需 True）
+       P1 B05 同视频不重复评论（7 天 ≤1）：pass.AC05=False（需 True）

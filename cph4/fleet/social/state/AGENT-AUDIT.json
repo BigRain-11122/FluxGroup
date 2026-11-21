@@ -1,19 +1,17 @@
 {
- "version": "v2.2-20261121",
+ "version": "v2.3-20261121",
  "agent": "social-keeper",
  "counts": {
-  "OK": 21,
-  "SKIP": 2,
-  "NOT_PASS": 4
+  "OK": 23,
+  "NOT_PASS": 5
  },
  "tiers": {
   "P0": {
    "OK": 5
   },
   "P1": {
-   "OK": 10,
-   "SKIP": 2,
-   "NOT_PASS": 1
+   "OK": 12,
+   "NOT_PASS": 2
   },
   "P2": {
    "OK": 6,
@@ -145,8 +143,8 @@
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "SKIP",
-   "why": "pass.TR02 量不到（SKIP）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "T02",
@@ -171,7 +169,7 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 4.0,
+   "age_h": 9.0,
    "limit_h": 24.0,
    "state": "OK",
    "why": "12h 内 341 条"
@@ -180,15 +178,15 @@
    "id": "B01",
    "tier": "P1",
    "ring": "出稿",
-   "name": "评论出稿（24h 至少 1 条）",
+   "name": "评论出稿（合格且发出＝闭环）",
    "exec": "Tools/fleet/practice_tick.py",
    "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 0.5,
-   "symptom": "SD01 红=24h 没有成功评论（先查 warmup/配额/租约/登录态，别先怀疑模型）；AC05 红=同一视频 7 天内评论>1 条（B站判重复折叠，删了重发可能 5 日限制+永久降权）",
+   "symptom": "SD01 红=24h 没有真正发出的评论；SD07 红=发出的评论缺双闸证据（合格与否事后说不清）；只有赞和弹幕不算",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "NOT_PASS",
-   "why": "pass.SD01=False（需 True）；pass.AC05=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "B02",
@@ -201,8 +199,8 @@
    "symptom": "SD06 红=某号当天看/赞/弹幕有一类为 0；AC01 红=进程在但超过 2h（活动时段）没动作，多为 profile 锁、登录态失效或时段判断错",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.SD06=False（需 True）"
   },
   {
    "id": "B03",
@@ -227,10 +225,10 @@
    "evidence": ".codely-cli/state/HEALTH.json",
    "cadence_h": 0.2,
    "symptom": "AC01 红=某号进程不在或长时间没动作；健康表 green 但账号不动，说明判据只看心跳",
-   "age_h": 0.0,
+   "age_h": 0.2,
    "limit_h": 1.0,
    "state": "OK",
-   "why": "level='green'（不许等于 'red'）"
+   "why": "level='yellow'（不许等于 'red'）"
   },
   {
    "id": "S02",
@@ -272,7 +270,7 @@
    "age_h": 0.0,
    "limit_h": 336.0,
    "state": "NOT_PASS",
-   "why": "pass.TR01=False（需 True）；pass.TR03=False（需 True）"
+   "why": "pass.TR01=False（需 True）；pass.TR03=False（需 True）；pass.TR05=False（需 True）"
   },
   {
    "id": "S05",
@@ -355,8 +353,8 @@
    "symptom": "EV01 红=有轮次 whose why 为空/无数字，或真失败在 LESSONS 里找不到归因；EV01 SKIP=判据生效后还没跑过训练（量不到≠通过）",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "SKIP",
-   "why": "pass.EV01 量不到（SKIP）"
+   "state": "OK",
+   "why": "pass.EV01=True（需 True）"
   },
   {
    "id": "E02",
@@ -399,6 +397,20 @@
    "limit_h": 24.0,
    "state": "OK",
    "why": "pass.EV04=True（需 True）"
+  },
+  {
+   "id": "B05",
+   "tier": "P1",
+   "ring": "出稿",
+   "name": "同视频不重复评论（7 天 ≤1）",
+   "exec": "Tools/fleet/social_guard.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "AC05 红=同一 aid 7 天内评论 >1 条（含历史欠账，到期自然消失）",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "NOT_PASS",
+   "why": "pass.AC05=False（需 True）"
   }
  ]
 }
