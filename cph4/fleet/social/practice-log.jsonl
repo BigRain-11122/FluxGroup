@@ -186,3 +186,6 @@
 {"action": "skip", "why": "training-gpu", "ts": "2026-11-21T22:20:35"}
 {"action": "skip", "why": "training-gpu", "ts": "2026-11-21T22:26:30"}
 {"action": "skip", "why": "training-gpu", "ts": "2026-11-21T22:38:38"}
+{"action": "route", "seg": "shallow", "ok": true, "secs": 21.8, "note": "[switch] 8788 就绪（70%）（cph4/fleet/social/train/RUNS/20261121-152144/ckpt400）", "ts": "2026-11-21T23:00:18"}
+{"action": "skip", "why": "no text passed gates", "arm": "C", "video": "https://www.bilibili.com/video/BV1kg4y1J7a7/", "ts": "2026-11-21T23:00:50"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：publish（已 543s）", "ts": "2026-11-21T23:10:10"}

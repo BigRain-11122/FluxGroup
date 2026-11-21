@@ -1,4 +1,13 @@
-2026-11-21T22:42:41
+2026-11-21T22:58:54
+[守卫] rc=1 5 组：红 11 项 / 跳过 0 项
+[闸回归] rc=0 已落盘 cph4/fleet/social/state/GATE-RESULT.json（overall=True）
 [账本] rc=0 训练：69 轮　留档 20 件　淘汰 7 件　平均 +24.1 分　最高 +46.7 分
-[多样性] rc=1 达标 2 条 / 不达标 12 条
-[履职] OK 12 / STALE 0 / MISSING 0 / NO-EXECUTOR 0
+[多样性] rc=1 达标 2 / 不达标 12
+[自检] PASS
+[履职 P0] 4 项：未过 0 / 跳过 0
+[履职 P1] 10 项：未过 1 / 跳过 1
+[履职 P2] 6 项：未过 3 / 跳过 0
+       P1 B01 评论出稿（24h 至少 1 条）：pass.SD01=False（需 True）
+       P2 S03 多样性与生成质量：pass.CR07=False（需 True）；pass.CR01=False（需 True）；pass.CR08=False（需 True）
+       P2 S04 训练体检（容量/配方/评测功率）：pass.TR01=False（需 True）；pass.TR03=False（需 True）；pass.TR05=False（需 True）
+       P2 S05 调度一致性（声明/实载/退役件/节拍）：pass.SC02=False（需 True）；pass.SC04=False（需 True）

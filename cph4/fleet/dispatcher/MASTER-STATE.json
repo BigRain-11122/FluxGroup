@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-21T22:52:58",
- "cycle": 3713,
+ "ts": "2026-11-21T23:21:43",
+ "cycle": 3718,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-21T22:52:58",
+ "master_tick_ts": "2026-11-21T23:21:43",
  "queue": {
-  "total": 385,
+  "total": 386,
   "open": 14,
   "running": 0,
   "done": 228,
@@ -14,23 +14,23 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 21.7,
-   "cpu_load_pct": 37,
-   "ram_free_gb": 53.9,
-   "gpu_util_pct": 1,
+   "hb_age_s": 9.7,
+   "cpu_load_pct": 34,
+   "ram_free_gb": 53,
+   "gpu_util_pct": 86,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-21T22:50:50",
-    "reason": "EXECUTOR-DEAD (35.4h 零产出)",
+    "ts": "2026-11-21T23:20:50",
+    "reason": "EXECUTOR-DEAD (35.5h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (35.5h 零产出)",
-   "idle_rounds": 2
+   "idle_reason": "EXECUTOR-DEAD (36.0h 零产出)",
+   "idle_rounds": 7
   },
   "bm-b": {
    "online": false,
@@ -70,7 +70,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 2,
+  "bm-a": 7,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -245,14 +245,16 @@
   "fleet-ops": {
    "name": "机队运维·端到端自检（平台服务线）",
    "status": "ACTIVE",
-   "verdict": "WAITING",
+   "verdict": "STALLED-STAGE",
    "age_h": null,
    "stale_after_h": 24.0,
    "owner": "中枢（机器判）",
    "jobs": [],
    "no_supply": true,
    "blockers": [],
-   "note": null
+   "note": null,
+   "stuck_stage": "ops-canary",
+   "stuck_owner": "中枢"
   },
   "asset-lib": {
    "name": "资产储备·角色 LoRA 与音色库",
@@ -292,7 +294,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 178.0,
+    "age_h": 178.4,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -304,7 +306,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 178.0,
+     "age_h": 178.4,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -315,7 +317,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 156.4,
+     "age_h": 156.8,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -337,7 +339,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 152.7,
+     "age_h": 153.0,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -359,7 +361,7 @@
      "model": "none",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 178.0,
+     "age_h": 178.4,
      "limit_h": 9999.0,
      "jobs": []
     }
@@ -375,7 +377,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "WAITING",
-     "age_h": 35.7,
+     "age_h": 36.1,
      "limit_h": 48.0,
      "jobs": []
     },
@@ -424,7 +426,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 532.2,
+     "age_h": 532.5,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -435,7 +437,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "PARKED",
-     "age_h": 532.2,
+     "age_h": 532.5,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -451,7 +453,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 465.7,
+     "age_h": 466.1,
      "limit_h": 168.0,
      "jobs": []
     },
@@ -462,7 +464,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "PARKED",
-     "age_h": 532.2,
+     "age_h": 532.5,
      "limit_h": 168.0,
      "jobs": []
     }
@@ -476,7 +478,7 @@
     "model": "cloud-smart",
     "lane": null,
     "verdict": "STALLED",
-    "age_h": 437.6,
+    "age_h": 437.9,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -488,7 +490,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 437.6,
+     "age_h": 437.9,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -562,7 +564,7 @@
     "model": "none",
     "lane": "bm-b",
     "verdict": "STALLED",
-    "age_h": 418.8,
+    "age_h": 419.2,
     "limit_h": 24.0,
     "jobs": []
    },
@@ -574,7 +576,7 @@
      "model": "none",
      "lane": "bm-b",
      "verdict": "STALLED",
-     "age_h": 418.8,
+     "age_h": 419.2,
      "limit_h": 24.0,
      "jobs": []
     },
@@ -709,7 +711,7 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "PARKED",
-     "age_h": 459.0,
+     "age_h": 459.3,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -734,7 +736,7 @@
     "model": "none",
     "lane": "bm-a",
     "verdict": "STALLED",
-    "age_h": 346.2,
+    "age_h": 346.6,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -746,7 +748,7 @@
      "model": "none",
      "lane": "bm-a",
      "verdict": "STALLED",
-     "age_h": 346.2,
+     "age_h": 346.6,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -757,14 +759,24 @@
      "model": "cloud-smart",
      "lane": null,
      "verdict": "STALLED",
-     "age_h": 346.2,
+     "age_h": 346.6,
      "limit_h": 72.0,
      "jobs": []
     }
    ]
   },
   "fleet-ops": {
-   "bottleneck": null,
+   "bottleneck": {
+    "id": "ops-canary",
+    "name": "端到端自检",
+    "owner": "中枢",
+    "model": "none",
+    "lane": null,
+    "verdict": "STALLED",
+    "age_h": 24.4,
+    "limit_h": 24.0,
+    "jobs": []
+   },
    "stages": [
     {
      "id": "ops-canary",
@@ -772,8 +784,8 @@
      "owner": "中枢",
      "model": "none",
      "lane": null,
-     "verdict": "WAITING",
-     "age_h": 24.0,
+     "verdict": "STALLED",
+     "age_h": 24.4,
      "limit_h": 24.0,
      "jobs": []
     }
@@ -787,7 +799,7 @@
     "model": "rule",
     "lane": "bm-c",
     "verdict": "STALLED",
-    "age_h": 152.1,
+    "age_h": 152.4,
     "limit_h": 72.0,
     "jobs": []
    },
@@ -799,7 +811,7 @@
      "model": "rule",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 152.1,
+     "age_h": 152.4,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -810,7 +822,7 @@
      "model": "rule",
      "lane": "bm-b",
      "verdict": "WAITING",
-     "age_h": 23.8,
+     "age_h": 24.2,
      "limit_h": 72.0,
      "jobs": []
     },
@@ -821,7 +833,7 @@
      "model": "local-gpu",
      "lane": "bm-c",
      "verdict": "STALLED",
-     "age_h": 152.1,
+     "age_h": 152.4,
      "limit_h": 72.0,
      "jobs": []
     }
@@ -852,7 +864,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x2 (EXECUTOR-DEAD (35.5h 零产出))",
+  "bm-a IDLE-CONFIRMED x7 (EXECUTOR-DEAD (36.0h 零产出))",
   "bm-b OFFLINE",
   "bm-c OFFLINE",
   "bm-m OFFLINE",
@@ -860,6 +872,7 @@
   "STAGE-STALLED biggame 卡在 玩法/数值/游戏席 (游戏席)",
   "STAGE-STALLED bigmoney 卡在 数据/数据席 (量化席)",
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)",
+  "STAGE-STALLED fleet-ops 卡在 端到端自检/中枢 (中枢（机器判）)",
   "STAGE-STALLED asset-lib 卡在 训练环境自检/资产席 (资产席)"
  ],
  "lane_files_written": [

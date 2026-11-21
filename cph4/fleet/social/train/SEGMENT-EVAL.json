@@ -1,38 +1,37 @@
 {
- "ts": "2026-11-21T22:17:12",
+ "ts": "2026-11-21T23:08:35",
  "base": [
   {
-   "n": 10,
-   "avg": 54.0,
-   "pass_rate": 10,
-   "avg_logic": 9.0,
-   "avg_human": 5.0,
-   "avg_natural": 20.0,
-   "reject": 0,
+   "n": 30,
+   "avg": 44.1,
+   "pass_rate": 90,
+   "avg_logic": 3.3,
+   "avg_human": 1.0,
+   "avg_natural": 19.5,
+   "reject": 1,
+   "seg": "shallow",
    "sample": [
-    "你用的那个耳机参数是多少？我试过同参数组合，降噪效果确实不如预期。",
-    "你设置的声场参数我测了，人声分离度明显，但高频平板感确实存在。"
-   ],
-   "seg": "tech_nerd",
-   "cached": true
+    "哈哈，这理由太精辟了！",
+    "巧了，我也是这么想的。"
+   ]
   }
  ],
  "lora": [
   {
-   "n": 10,
-   "avg": 50.8,
-   "pass_rate": 20,
-   "avg_logic": 11.0,
-   "avg_human": 4.0,
-   "avg_natural": 20.0,
-   "reject": 2,
-   "seg": "tech_nerd",
+   "n": 30,
+   "avg": 61.3,
+   "pass_rate": 93,
+   "avg_logic": 17.0,
+   "avg_human": 6.0,
+   "avg_natural": 19.2,
+   "reject": 1,
+   "seg": "shallow",
    "sample": [
-    "你们的镜头,耳机,和手机都什么参数,能配得上那些分镜吗",
-    "你看下你用的是那个镜头吧"
+    "可以分享分享，你给我推荐一下你最喜欢的歌吧",
+    "不是，我顶多就因为这第1，其他的是正常的"
    ]
   }
  ],
- "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261121-215111/ckpt300"
+ "samples": 30,
+ "adapter": "cph4/fleet/social/train/RUNS/20261121-194441/ckpt400"
 }
