@@ -334,3 +334,9 @@ cph4/fleet/state/lane-trust.json
 /torchinductor_*/
 /_offload/
 /_pub/
+
+# 2026-11-21：训练权重/向量缓存不进 git（单件 32MB、整目录 5.1G，远端 pre-receive 直接拒）
+# 无人值守的 pulse 提交曾用 git add -A 把 167 个 safetensors 扫进历史，导致 push 被拒。
+cph4/fleet/social/train/RUNS/
+*.safetensors
+cph4/fleet/social/corpus/human/*.npz

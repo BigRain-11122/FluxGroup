@@ -147,7 +147,14 @@ def main(argv=None):
         return 0
 
     if dirty:
-        rc, out = sh(["git", "add", "-A", "cph4/fleet"])
+        # 2026-11-21 实锚：`add -A cph4/fleet` 把 167 个 32MB 的 LoRA 权重扫进历史，
+        # 远端 pre-receive 直接拒推（整目录 5.1G）。无人值守提交只许提交**状态面**，
+        # 权重/向量缓存永远不进 git——用 pathspec 排除，不靠 .gitignore 一层保险。
+        rc, out = sh(["git", "add", "-A", "cph4/fleet",
+                      ":(exclude)cph4/fleet/social/train/RUNS",
+                      ":(exclude)cph4/fleet/social/train/RUNS/**",
+                      ":(exclude)*.safetensors",
+                      ":(exclude)*.npz"])
         rc, out = sh(["git", "commit", "-m", "state: sync [via state_sync]"])
         if rc != 0 and "nothing to commit" not in out:
             log("commit-fail %s" % out[-160:])
