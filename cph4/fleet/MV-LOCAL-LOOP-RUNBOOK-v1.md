@@ -157,3 +157,21 @@ python Tools\fleet\drama_ep_chain.py --ep <N> --stages plan,kf,i2v-plan
 | 云端 | 按 CEO 令：仅辅助，不参与默认链 |
 
 —— bm-c · 2026-11-20
+
+---
+
+## 七、本机环境基线（2026-11-21 重启后实测）
+
+| 项 | 值 |
+|---|---|
+| GPU | RTX 3070 **16384 MiB**（16GB）· 驱动 621.24 · 重启后空载 2960MiB |
+| ComfyUI | **v0.46.0**，`torch 2.11.0+cu130`，`cuda_avail True` |
+| 自定义节点 18 个 | H3 全家（CAB-Sampler / Director / Fused-Kernels / Long-Sequence / Low-Memory-Sage2 / Optimization-Suite / Spectrum）· **H3E_IndexTTS2.5** · Krea2T-Enhancer · PuLID · LivePortraitKJ · KJNodes · GGUF · VideoHelperSuite · controlnet_aux · DD-Translation · Manager |
+| 模型 | diffusion：H3 int4/int8、Wan2.2-TI2V-5B-Q4、krea2_fp8、qwen_image 2.1/2512、animagine-xl-4.0、DreamShaperXL；LoRA：jman_v1_640 / jman_v2 / H3 turbo-4step / qwen 2step |
+| 配音 | piper `zh_CN-huayan-medium`（本地单音色·默认）；**edge-tts 多音色可用**（Yunxi 男 / Xiaoxiao 女 / Yunjian 旁白，1.5–2.3s/句·云端辅助通道） |
+| IndexTTS2.5 | 节点已装、**权重未下**（`models/tts` 空）→ 本地多角色音色仍缺 |
+| 技能 | 本机 `~/.codely-cli/skills` 已装 MV/漫剧整车：tw-mv-director(更新) · drama-director · bigstream-expert-panel · mv-casting · mv-colorist · mv-edit-rhythm · mv-intent-to-prompt · mv-lighting · mv-performance · mv-props-era · art-critique · gate-rigor · content-recon · agent-librarian |
+
+> 更新纪律（承 11-15 判例）：**ComfyUI-Manager 不要点"更新全部"**——它会连带换 torch，
+> 曾把 `2.11.0+cu130` 换成 `2.15.0+cpu`，启动即 `Torch not compiled with CUDA enabled`。
+> 升级前先看 `requirements.txt` 里有没有 torch / torchvision 行。

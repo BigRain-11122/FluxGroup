@@ -47,6 +47,37 @@ def sh(cmd, dry):
 PIPER = r"K:\Fluxgroup\.tools\tts-venv\Scripts\piper.exe"
 PIPER_MODEL = r"K:\Fluxgroup\.tools\piper-voices\zh_CN-huayan-medium.onnx"
 
+# 2026-11-21：多角色配音。piper 本机只有一把女声（zh_CN-huayan），漫剧里「旁白/父/门卫」
+# 全同音=硬伤。edge-tts 是**云端**通道（CEO 令：云端只作辅助），所以默认仍走 piper，
+# 显式 --tts edge 才启用按 speaker 分音色。音色映射按剧本 speaker 字段匹配。
+EDGE_VOICES = {
+    "旁白": "zh-CN-YunjianNeural",      # 沉稳男声，叙述感
+    "父": "zh-CN-YunxiNeural",          # 中年男声
+    "门卫": "zh-CN-YunxiNeural",
+    "长": "zh-CN-YunxiNeural",          # 主角（成年）
+    "神": "zh-CN-YunjianNeural",
+}
+EDGE_DEFAULT = "zh-CN-XiaoxiaoNeural"
+
+
+def _edge_say(text, voice, out):
+    """edge-tts 合成一句（云端辅助通道）。失败抛异常由调用方记 failed。"""
+    import asyncio
+    import edge_tts
+
+    async def _go():
+        await edge_tts.Communicate(text, voice).save(out)
+
+    asyncio.run(_go())
+    return os.path.getsize(out) > 2000
+
+
+def _speaker_voice(speaker):
+    for k, v in EDGE_VOICES.items():
+        if k and k in (speaker or ""):
+            return v
+    return EDGE_DEFAULT
+
 
 def voice_all(ep, a, dry=False):
     """逐镜配音：对每个有 sub 的镜出一句 wav（SKIP 已存在 >10KB）。
@@ -79,6 +110,26 @@ def voice_all(ep, a, dry=False):
             continue
         txt = os.path.join(vo, r["id"] + ".txt")
         open(txt, "w", encoding="utf-8").write(sub)
+        use_edge = (getattr(a, "tts", "piper") == "edge")
+        if use_edge:
+            voice = _speaker_voice(r.get("speaker"))
+            mp3 = os.path.join(vo, r["id"] + ".mp3")
+            try:
+                ok = _edge_say(sub, voice, mp3)
+            except Exception as e:
+                ok = False
+                print("  VOICE edge ERR %s %s" % (r["id"], type(e).__name__))
+            if ok:
+                # 统一成 wav（下游 _mixed.wav 走 pydub，格式混杂会拖慢）
+                pc = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", mp3,
+                                     "-ar", "48000", "-ac", "1", wav],
+                                    creationflags=NO_WIN, capture_output=True)
+                if pc.returncode == 0 and os.path.getsize(wav) > 1000:
+                    made += 1
+                    continue
+            failed += 1
+            print("  VOICE FAIL " + r["id"])
+            continue
         p = subprocess.run([PIPER, "--model", PIPER_MODEL, "--output_file", wav, "--input_file", txt],
                            env=env, creationflags=NO_WIN, capture_output=True)
         if p.returncode == 0 and os.path.getsize(wav) > 1000:
@@ -100,6 +151,8 @@ def main(argv=None):
     ap.add_argument("--max-s", type=float, default=3.0)
     ap.add_argument("--wf", default=WF480)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--tts", choices=["piper", "edge"], default="piper",
+                    help="piper=本地单音色（默认·离线）；edge=云端多音色，按剧本 speaker 分角色（辅助通道）")
     a = ap.parse_args(argv)
 
     ep = a.ep

@@ -14,13 +14,14 @@
    "accept": "cph4/fleet/out/drama/EP002/ep002-gate.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-DRAMA-EP002.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP002.err.log",
-   "status": "pending",
-   "retries": 1,
+   "status": "done",
+   "retries": 3,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "manual-verify",
+   "claimed_ts": "closeout-check",
    "last_error": "fail:kf,assembly,qc",
-   "requeued_ts": "2026-11-21T13:31:47",
-   "blocked_ts": "2026-11-21T02:11:46"
+   "requeued_ts": "2026-11-21T23:01:46",
+   "blocked_ts": "2026-11-21T02:11:46",
+   "done_ts": "2026-11-21T23:09:35"
   },
   {
    "id": "PROD-DRAMA-EP003",
