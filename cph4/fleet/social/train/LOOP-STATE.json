@@ -33,9 +33,9 @@
    "val_min": 3.478
   },
   "memer": {
-   "last_ts": 1795286332.98846,
-   "last_rc": "YIELD-PUBLISH",
-   "rows": null,
+   "last_ts": 1795286332.0,
+   "last_rc": "BLOCKED",
+   "rows": 2157,
    "run": null,
    "step": null,
    "val_min": null
@@ -49,12 +49,13 @@
    "val_min": 3.42
   },
   "shallow": {
-   "last_ts": 1795273716.0,
-   "last_rc": "KEEP",
-   "rows": null,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "last_ts": 1795288419.043926,
+   "last_rc": "REJECT",
+   "rows": 1948,
+   "run": "20261122-024437",
+   "step": 400,
+   "val_min": 3.663,
+   "recipe": "v5-shape-quota"
   },
   "feeler": {
    "last_ts": 1795282118.0,
@@ -66,25 +67,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-20T11:39:27",
-   "seg": "craft_learner",
-   "rows": 1306,
-   "built": 791,
-   "eval_n": 10,
-   "run": "20261120-110449",
-   "step": 300,
-   "val_step": 300,
-   "val_min": 3.875,
-   "base_avg": 60.0,
-   "lora_avg": 69.9,
-   "base_human": 6.0,
-   "lora_human": 9.0,
-   "human_delta": 3.0,
-   "verdict": "KEEP",
-   "why": "均分 +9.9 / 人味 +3.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-110449/ckpt300"
-  },
   {
    "ts": "2026-11-20T12:39:52",
    "seg": "memer",
@@ -661,6 +643,35 @@
    "eval_n": 30,
    "adapter": "cph4/fleet/social/train/RUNS/20261122-020611/ckpt400",
    "note": "re-verify(n=30)：均分只 +3.7（需 ≥5.0）"
+  },
+  {
+   "ts": "2026-11-22T02:38:52",
+   "seg": "memer",
+   "rows": 2157,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "让路出稿：距上帖 27 分钟（间隔 30 分钟）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T03:13:39",
+   "seg": "shallow",
+   "rows": 1948,
+   "built": 589,
+   "eval_n": 10,
+   "run": "20261122-024437",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 3.663,
+   "base_avg": 54.3,
+   "lora_avg": 43.8,
+   "base_human": 1.0,
+   "lora_human": 2.0,
+   "human_delta": 1.0,
+   "verdict": "REJECT",
+   "why": "均分只 -10.5（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-024437/ckpt400"
   }
  ]
 }
