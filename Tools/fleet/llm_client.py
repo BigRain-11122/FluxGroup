@@ -398,6 +398,12 @@ def lora_comment_prompt(title, desc="", i=0, seg=None, brief=""):
         ins += brief
     ins += human_persona_block()
     ins += platform_block(seg)
+    # 分区常识（在聊什么/别碰什么）——CEO 2026-11-21「好好理解 b 站」「目前不做引流」
+    try:
+        import bili_norms as _bn
+        ins += _bn.block(seg or "")
+    except Exception:
+        pass
     ins += _EMOJI_RULE
     # 角度随机：固定 i%8 会让"第 1 条永远说画面、第 8 条永远带表情"，
     # 换条视频还是同序，等于半个模板。用 (标题+序号) 做种子，不同视频取到不同角度。

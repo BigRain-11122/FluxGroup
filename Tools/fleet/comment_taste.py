@@ -175,6 +175,11 @@ def _ai_smell_words():
 AI_SMELL, AI_SMELL_CORPUS = _ai_smell_words()
 # 语料级还要剔这些：真人偶尔也说，但一个"按风格挑过"的训练集不该把模型往这儿带
 CLICHE_CORPUS = ["绝了", "破防", "拿捏", "yyds", "封神", "土拨鼠", "懂的都懂", "硬控"]
+# 引流词（CEO 2026-11-21「目前不做引流」）：关注/互关/私信/加群/跨平台导流全是红线。
+# 老 AI 评论里就出现过「壶关我分享给你呀」——那正是要永久禁掉的东西。
+DRAIN = ["互关", "互粉", "求关注", "点关注", "关注我", "主页", "小号", "私信", "加群",
+         "加V", "加微信", "微信", "QQ", "qq", "公众号", "小红书", "抖音", "快手", "视频号",
+         "扫码", "链接", "分享给你", "来看我", "关注一下", "一键三连我", "投币我"]
 
 
 def copied_sample(text, n=5):
@@ -210,6 +215,11 @@ def hard_block(text, context=""):
       · 12 条里有 9 条用"那个/那"开头——单条看不出，连着发就是模板。
     """
     t = strip_reply_prefix(text or "")
+    # 引流：CEO 2026-11-21「目前不做引流」。这条优先级最高——一句"求关注/互关"
+    # 比任何烂梗都伤号：平台判定拉粉行为，且真用户不会在别人评论区拉人。
+    drain = [w for w in DRAIN if w in t]
+    if drain:
+        return "引流：%s" % "/".join(drain[:2])
     cli = [w for w in CLICHE if w in t]
     if cli:
         return "烂梗：%s" % "/".join(cli[:2])
