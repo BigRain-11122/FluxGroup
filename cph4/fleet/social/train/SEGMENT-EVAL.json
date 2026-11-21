@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-22T03:13:37",
+ "ts": "2026-11-22T03:45:24",
  "base": [
   {
    "n": 10,
-   "avg": 54.3,
-   "pass_rate": 100,
-   "avg_logic": 12.5,
-   "avg_human": 1.0,
+   "avg": 37.5,
+   "pass_rate": 0,
+   "avg_logic": 0.0,
+   "avg_human": 0.0,
    "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "分人，有的歌就是自带 BGM 属性。",
-    "哈哈，这态度太对了！"
+    "《风景》/《难忘的情怀》/《借东西的小人阿莉埃蒂》",
+    "《2025 年度最令人讨厌歌曲 TOP10》"
    ],
-   "seg": "shallow",
+   "seg": "music_seeker",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 43.8,
-   "pass_rate": 50,
-   "avg_logic": 5.0,
-   "avg_human": 2.0,
-   "avg_natural": 18.0,
-   "reject": 5,
-   "seg": "shallow",
+   "avg": 72.0,
+   "pass_rate": 80,
+   "avg_logic": 24.0,
+   "avg_human": 8.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "music_seeker",
    "sample": [
-    "我觉得这个点很好",
-    "回来了哈哈"
+    "这个视频BGM是天使爱美丽",
+    "可以放一首《你的名字》的配乐"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261122-024437/ckpt400"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261122-031937/ckpt400"
 }
