@@ -1,32 +1,33 @@
 {
  "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
- "src_sha": "addc5c63d17dccf1",
- "train": 307,
- "valid": 16,
- "avg_len": 27.3,
+ "src_sha": "3b822cb7dee3b8f9",
+ "train": 370,
+ "valid": 18,
+ "avg_len": 24.2,
  "dropped": {
   "dup": 0,
-  "len": 4485,
-  "bad": 86,
+  "len": 4486,
+  "bad": 87,
   "use": 0,
   "ai_smell": 2370,
   "ai_smell_why": {
    "AI 腔": 2333,
    "烂梗": 37
   },
-  "human": 40541,
-  "taste": 9033,
-  "near_dup": 40,
+  "human": 40548,
+  "taste": 9037,
+  "near_dup": 41,
   "phrase_dull": 0,
   "seg_over": 262,
   "backfill": 70,
-  "voice_topup": 19
+  "short_topup": 112,
+  "voice_topup": 16
  },
  "seed": 20261117,
  "valid_ratio": 0.05,
  "by_len": {
-  "m": 165,
-  "l": 143,
-  "s": 15
+  "l": 148,
+  "m": 166,
+  "s": 74
  }
 }
