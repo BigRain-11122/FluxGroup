@@ -1,0 +1,24 @@
+{
+ "pos_n": 14,
+ "pos_pass": 14,
+ "pos_rate": 1.0,
+ "pos_threshold": 0.9,
+ "pos_ok": true,
+ "neg_n": 17,
+ "neg_blocked": 8,
+ "neg_rate": 1.0,
+ "neg_ok": true,
+ "structural_n": 9,
+ "structural_samples": [
+  "剪辑太久了，别累着自己！",
+  "你这教程比付费课还强十倍，我跟着学了一周，终于搞懂了才是真。",
+  "新手别怕剪辑烂，跟着教程拍剪都能变大盘！",
+  "重复意象与拆镜头，让剪辑更有故事感。",
+  "开头镜头晃得脚疼，这剪辑没必要啊。",
+  "你真本末倒置，剪辑本该是为内容服务，而非炫技，这样教学算哪门"
+ ],
+ "pos_fail_samples": [],
+ "neg_leak_samples": [],
+ "ts": "2026-11-21T22:58:53",
+ "overall": true
+}

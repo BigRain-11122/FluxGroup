@@ -209,14 +209,30 @@ def fix(rep):
             done.append("清理僵尸 %s（pid=%s 存活=%s）" % (f, pid, alive))
         except Exception as e:
             done.append("清理失败 %s：%s" % (f, e))
-    # 训练哨兵在有训练在跑时绝不清（那会让两条线同时抢 GPU）
+    # 训练哨兵在有训练在跑时绝不清（那会让两条线同时抢 GPU）。
+    # 但判据不能用"等满 3 小时"——2026-11-21 实锚：训练 21:50 结束、哨兵里的 pid 20909
+    # 已死，出稿却一直记 skip why=training-gpu 让路一小时多。哨兵里本来就写了 pid，判它死活最快。
     tr = rep.get("train") or {}
-    if tr.get("sentinel") and not tr.get("running") and (tr.get("sentinel_min") or 0) > 180:
+    if tr.get("sentinel") and not tr.get("running"):
+        sent = os.path.join(STATE, "TRAIN-EXCLUSIVE")
+        pid, dead = None, False
         try:
-            os.remove(os.path.join(STATE, "TRAIN-EXCLUSIVE"))
-            done.append("清理僵尸训练哨兵（无训练进程且超 3 小时）")
+            parts = open(sent, encoding="utf-8").read().split()
+            pid = int(parts[-1]) if parts and parts[-1].isdigit() else None
         except Exception:
             pass
+        if pid:
+            try:
+                os.kill(pid, 0)
+            except Exception:
+                dead = True
+        if dead or (tr.get("sentinel_min") or 0) > 180:
+            try:
+                os.remove(sent)
+                done.append("清理僵尸训练哨兵（pid=%s 存活=%s，挂了 %.0f 分钟）"
+                            % (pid, not dead, tr.get("sentinel_min") or 0))
+            except Exception as e:
+                done.append("清理僵尸哨兵失败：%s" % e)
     # swap 高→卸闲置 ollama 模型（复用看门狗的动作，不杀训练）
     if rep.get("swap_mb", 0) > 2048:
         try:

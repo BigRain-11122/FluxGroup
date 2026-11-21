@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -143,6 +144,8 @@ def self_test():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--build", action="store_true")
+    ap.add_argument("--save", action="store_true",
+                    help="把本轮结果落盘到 state/GATE-RESULT.json（职责审计只认这个，不认输入集）")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
@@ -152,6 +155,16 @@ def main():
         print(json.dumps(build(), ensure_ascii=False))
         return 0
     r = run()
+    if a.save:
+        out = os.path.join(SOCIAL, "state", "GATE-RESULT.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        r.update({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                  "overall": bool(r["pos_ok"] and r["neg_ok"])})
+        tmp = out + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(r, f, ensure_ascii=False, indent=1)
+        os.replace(tmp, out)
+        print("已落盘 %s（overall=%s）" % (os.path.relpath(out, ROOT), r["overall"]))
     print(json.dumps(r, ensure_ascii=False, indent=1) if a.json else
           "正控 %d/%d 放行（%.0f%%，线 %.0f%%）%s｜负控 %d/%d 拦住%s"
           % (r["pos_pass"], r["pos_n"], r["pos_rate"] * 100, POS_MIN_PASS * 100,

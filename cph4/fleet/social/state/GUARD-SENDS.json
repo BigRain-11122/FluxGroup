@@ -1,0 +1,66 @@
+{
+ "group": "sends",
+ "ts": "2026-11-21T22:59:12",
+ "pass": {
+  "SD01": false,
+  "SD02": true,
+  "SD03": true,
+  "SD04": true,
+  "SD05": true,
+  "SD06": true
+ },
+ "overall": false,
+ "n_checks": 6,
+ "n_fail": 1,
+ "n_skip": 0,
+ "checks": [
+  {
+   "id": "SD01",
+   "name": "评论出稿（24h 至少 1 条）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "最近一条 79.4h 前（2026-11-18T15:37:31）",
+   "n": 3
+  },
+  {
+   "id": "SD02",
+   "name": "失败归因齐全",
+   "ok": true,
+   "sev": "P1",
+   "detail": "4 条失败，0 条无 why",
+   "n": 4
+  },
+  {
+   "id": "SD03",
+   "name": "连续真失败 <2",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 7 天真失败 0 条，尾部连续 0",
+   "n": 0
+  },
+  {
+   "id": "SD04",
+   "name": "引流硬拒回归 3/3",
+   "ok": true,
+   "sev": "P0",
+   "detail": "拦住 3/3",
+   "n": 3
+  },
+  {
+   "id": "SD05",
+   "name": "评论配额（≤20/号/天）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "今日 acct1=0, acct3=0",
+   "n": 2
+  },
+  {
+   "id": "SD06",
+   "name": "副动作齐（看/赞/弹幕）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "两号三类动作齐",
+   "n": 2
+  }
+ ]
+}

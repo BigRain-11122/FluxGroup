@@ -1,0 +1,57 @@
+{
+ "group": "accounts",
+ "ts": "2026-11-21T22:59:12",
+ "pass": {
+  "AC01": false,
+  "AC02": true,
+  "AC03": true,
+  "AC04": true,
+  "AC05": false
+ },
+ "overall": false,
+ "n_checks": 5,
+ "n_fail": 2,
+ "n_skip": 0,
+ "checks": [
+  {
+   "id": "AC01",
+   "name": "活人节奏（alive+在动）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "acct3 14.8h 没动作",
+   "n": 2
+  },
+  {
+   "id": "AC02",
+   "name": "跨号隔离（24h 不同视频）",
+   "ok": true,
+   "sev": "P0",
+   "detail": "24h 内 68 条视频无跨号重叠",
+   "n": 68
+  },
+  {
+   "id": "AC03",
+   "name": "同 mid 单 profile",
+   "ok": true,
+   "sev": "P0",
+   "detail": "2 个 mid 各一个活跃 profile",
+   "n": 2
+  },
+  {
+   "id": "AC04",
+   "name": "夜间静默（1–6 点）",
+   "ok": true,
+   "sev": "P0",
+   "detail": "近 7 天夜间动作 0 次",
+   "n": 128
+  },
+  {
+   "id": "AC05",
+   "name": "同视频 7 天 ≤1 条评论",
+   "ok": false,
+   "sev": "P1",
+   "detail": "重复评论：{'117616622439632': 2}",
+   "n": 2
+  }
+ ]
+}

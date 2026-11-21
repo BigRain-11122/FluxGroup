@@ -1,0 +1,325 @@
+{
+ "ts": "2026-11-21T22:59:12",
+ "pass": {
+  "CR01": false,
+  "CR02": true,
+  "CR03": true,
+  "CR04": true,
+  "CR05": true,
+  "CR06": true,
+  "CR07": false,
+  "CR08": false,
+  "TR01": false,
+  "TR02": true,
+  "TR03": false,
+  "TR04": true,
+  "TR05": false,
+  "TR06": true,
+  "AC01": false,
+  "AC02": true,
+  "AC03": true,
+  "AC04": true,
+  "AC05": false,
+  "SD01": false,
+  "SD02": true,
+  "SD03": true,
+  "SD04": true,
+  "SD05": true,
+  "SD06": true,
+  "SC01": true,
+  "SC02": false,
+  "SC03": true,
+  "SC04": false
+ },
+ "checks": [
+  {
+   "id": "CR01",
+   "name": "生成侧 AI 腔命中率",
+   "ok": false,
+   "sev": "P1",
+   "detail": "AI-RATE-shallow-AFTER5.json ai_hit=10.0%（线 ≤5%） 命中词=[['绝了', 4], ['氛围感', 1]]",
+   "n": 30,
+   "group": "corpus"
+  },
+  {
+   "id": "CR02",
+   "name": "语料侧 AI 腔污染率",
+   "ok": true,
+   "sev": "P1",
+   "detail": "3.1%（线 ≤5%）8/256 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：必须/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 256,
+   "group": "corpus"
+  },
+  {
+   "id": "CR03",
+   "name": "烘焙与分段",
+   "ok": true,
+   "sev": "P1",
+   "detail": "0.0h前 rows=60579 段=15 verdict=3",
+   "n": 60579,
+   "group": "corpus"
+  },
+  {
+   "id": "CR04",
+   "name": "内容简报覆盖",
+   "ok": true,
+   "sev": "P2",
+   "detail": "100.0% 有话题或简介（线 ≥90%），106 条",
+   "n": 106,
+   "group": "corpus"
+  },
+  {
+   "id": "CR05",
+   "name": "人设隔离（亲笔样句不入共享集）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "命中 0 条（线 0）",
+   "n": 0,
+   "group": "corpus"
+  },
+  {
+   "id": "CR06",
+   "name": "采集新鲜（24h）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "24h 内采集 19 次 / 总 70 次",
+   "n": 19,
+   "group": "corpus"
+  },
+  {
+   "id": "CR07",
+   "name": "多样性三项核心",
+   "ok": false,
+   "sev": "P2",
+   "detail": "陈述 77%(≤60) 短评 6%(≥25) 跨度 11(≥12)",
+   "n": 3975,
+   "group": "corpus"
+  },
+  {
+   "id": "CR08",
+   "name": "生成侧缺陷率",
+   "ok": false,
+   "sev": "P1",
+   "detail": "10.0%（线 ≤5%） 主因=[['烂梗：绝了', 2], ['AI 腔：氛围感', 1]]",
+   "n": 30,
+   "group": "corpus"
+  },
+  {
+   "id": "TR01",
+   "name": "训练容量（epoch 3–5）",
+   "ok": false,
+   "sev": "P2",
+   "detail": "iters=500 rows=307 → 1.63 epoch",
+   "n": 307,
+   "group": "train"
+  },
+  {
+   "id": "TR02",
+   "name": "轮次判据质量",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 5 轮：判据齐全",
+   "n": 5,
+   "group": "train"
+  },
+  {
+   "id": "TR03",
+   "name": "配方一致（RECIPE=v5-shape-quota）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "需重造 7 段：tech_nerd, peer_pro, music_seeker, craft_learner, memer, shallow, feeler",
+   "n": 8,
+   "group": "train"
+  },
+  {
+   "id": "TR04",
+   "name": "ACTIVE 指针一致",
+   "ok": true,
+   "sev": "P1",
+   "detail": "base 模式 run 必须为空（base，2026-11-21T21:07:08）",
+   "n": null,
+   "group": "train"
+  },
+  {
+   "id": "TR05",
+   "name": "评测功率（n≥30）",
+   "ok": false,
+   "sev": "P2",
+   "detail": "最小 n=10，2 组（线 ≥30）",
+   "n": 2,
+   "group": "train"
+  },
+  {
+   "id": "TR06",
+   "name": "GPU 租约健康",
+   "ok": true,
+   "sev": "P1",
+   "detail": "当前无持有者",
+   "n": null,
+   "group": "train"
+  },
+  {
+   "id": "AC01",
+   "name": "活人节奏（alive+在动）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "acct3 14.8h 没动作",
+   "n": 2,
+   "group": "accounts"
+  },
+  {
+   "id": "AC02",
+   "name": "跨号隔离（24h 不同视频）",
+   "ok": true,
+   "sev": "P0",
+   "detail": "24h 内 68 条视频无跨号重叠",
+   "n": 68,
+   "group": "accounts"
+  },
+  {
+   "id": "AC03",
+   "name": "同 mid 单 profile",
+   "ok": true,
+   "sev": "P0",
+   "detail": "2 个 mid 各一个活跃 profile",
+   "n": 2,
+   "group": "accounts"
+  },
+  {
+   "id": "AC04",
+   "name": "夜间静默（1–6 点）",
+   "ok": true,
+   "sev": "P0",
+   "detail": "近 7 天夜间动作 0 次",
+   "n": 128,
+   "group": "accounts"
+  },
+  {
+   "id": "AC05",
+   "name": "同视频 7 天 ≤1 条评论",
+   "ok": false,
+   "sev": "P1",
+   "detail": "重复评论：{'117616622439632': 2}",
+   "n": 2,
+   "group": "accounts"
+  },
+  {
+   "id": "SD01",
+   "name": "评论出稿（24h 至少 1 条）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "最近一条 79.4h 前（2026-11-18T15:37:31）",
+   "n": 3,
+   "group": "sends"
+  },
+  {
+   "id": "SD02",
+   "name": "失败归因齐全",
+   "ok": true,
+   "sev": "P1",
+   "detail": "4 条失败，0 条无 why",
+   "n": 4,
+   "group": "sends"
+  },
+  {
+   "id": "SD03",
+   "name": "连续真失败 <2",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 7 天真失败 0 条，尾部连续 0",
+   "n": 0,
+   "group": "sends"
+  },
+  {
+   "id": "SD04",
+   "name": "引流硬拒回归 3/3",
+   "ok": true,
+   "sev": "P0",
+   "detail": "拦住 3/3",
+   "n": 3,
+   "group": "sends"
+  },
+  {
+   "id": "SD05",
+   "name": "评论配额（≤20/号/天）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "今日 acct1=0, acct3=0",
+   "n": 2,
+   "group": "sends"
+  },
+  {
+   "id": "SD06",
+   "name": "副动作齐（看/赞/弹幕）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "两号三类动作齐",
+   "n": 2,
+   "group": "sends"
+  },
+  {
+   "id": "SC01",
+   "name": "声明与实载一致",
+   "ok": true,
+   "sev": "P2",
+   "detail": "未归类 1 个：ollamamodel；应载未载 0 个",
+   "n": 13,
+   "group": "sched"
+  },
+  {
+   "id": "SC02",
+   "name": "退役调度器未复活",
+   "ok": false,
+   "sev": "P1",
+   "detail": "复活：practice10 → CEO 2026-11-18「实战十轮」一次性任务，跑完就该 bootout；留",
+   "n": 5,
+   "group": "sched"
+  },
+  {
+   "id": "SC03",
+   "name": "定时器退出码正常",
+   "ok": true,
+   "sev": "P1",
+   "detail": "15 个 rc 正常，报告型：acceptrun,socialhealth",
+   "n": 15,
+   "group": "sched"
+  },
+  {
+   "id": "SC04",
+   "name": "节拍与排班表一致",
+   "ok": false,
+   "sev": "P1",
+   "detail": "selfgen plist=10800s 表=21600s",
+   "n": 3,
+   "group": "sched"
+  }
+ ],
+ "groups": {
+  "corpus": {
+   "overall": false,
+   "n_fail": 3,
+   "n_skip": 0
+  },
+  "train": {
+   "overall": false,
+   "n_fail": 3,
+   "n_skip": 0
+  },
+  "accounts": {
+   "overall": false,
+   "n_fail": 2,
+   "n_skip": 0
+  },
+  "sends": {
+   "overall": false,
+   "n_fail": 1,
+   "n_skip": 0
+  },
+  "sched": {
+   "overall": false,
+   "n_fail": 2,
+   "n_skip": 0
+  }
+ },
+ "overall": false
+}

@@ -1,0 +1,31 @@
+{
+ "self_test": "PASS",
+ "states": {
+  "OK1": "OK",
+  "ST1": "STALE",
+  "MI1": "MISSING",
+  "NE1": "NO-EXECUTOR",
+  "NP1": "NOT_PASS",
+  "NP2": "NOT_PASS",
+  "SK1": "SKIP",
+  "JL1": "OK",
+  "JL2": "NOT_PASS"
+ },
+ "got": {
+  "OK1": "OK",
+  "ST1": "STALE",
+  "MI1": "MISSING",
+  "NE1": "NO-EXECUTOR",
+  "NP1": "NOT_PASS",
+  "NP2": "NOT_PASS",
+  "SK1": "SKIP",
+  "JL1": "OK",
+  "JL2": "NOT_PASS"
+ },
+ "tamper_flip": "NOT_PASS",
+ "p0_veto": [
+  "NP1"
+ ],
+ "rc": 0,
+ "ts": "2026-11-21T22:58:54"
+}
