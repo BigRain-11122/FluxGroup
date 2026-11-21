@@ -93,6 +93,7 @@ CASES = [
     ("L2", "鲁棒性 10 例", "robustness_suite.py", []),
     ("L2", "养号判据守卫（改坏必翻）", "social_guard.py", ["--self-test"]),
     ("L2", "职责审计断言引擎", "agent_audit.py", ["--self-test"]),
+    ("L2", "统一内存判据（换页必红）", "mem_probe.py", ["--self-test"]),
     ("L2", "条件矩阵 80 格", "condition_matrix.py", ["--rounds", "2"]),
     ("L2", "并发争用模型", "parallel_sim.py", ["--hours", "1"]),
     # 可达性受真实机器开关影响（外部状态），按 report 处理：只要求跑通，判决写进输出

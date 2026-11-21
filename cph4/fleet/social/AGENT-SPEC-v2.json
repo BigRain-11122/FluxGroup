@@ -1,6 +1,6 @@
 {
  "_why": "养号线智能体岗位职责表 v2（CEO 2026-11-21「职责可以更加具体科学一点，你已经训练了这么多天，发现了真多问题」）。v1 只判「执行体在、证据在、证据新鲜」，结果 12/12 全绿而当天一条评论都没发出去（comments-sent 最近一条 79.3h 前）。v2 每条职责都必须回答五件事：①我们踩过什么坑才需要它（why）②谁执行（exec）③证据落在哪个文件（evidence）④证据里的什么数字算做对（assert）⑤它坏掉时你会看到什么（symptom）。判据正文由 social_guard.py 产出 pass 映射，agent_audit.py 只做契约执行，二者不许互相洗白。",
- "version": "v2-20261121",
+ "version": "v2.1-20261121",
  "agent": {
   "name": "social-keeper",
   "open": "一条线多个身体，但只有一个时钟：出稿=practicetick(1800s) 持有 GPU 租约；互动=agent-acct1/acct3 各一进程；训练/自举/烘焙/嵌入各一个定时器；全部经 gpu_lease 互斥，拿不到就记让路。",
@@ -509,6 +509,76 @@
    "schedulers": [
     "com.fluxgroup.socialaudit"
    ]
+  },
+  {
+   "id": "M01",
+   "tier": "P0",
+   "ring": "内存",
+   "name": "统一内存不换页（真生成实测）",
+   "why": "CEO 2026-11-21 再次强调「不触发 swap 的情况下用好用科学 统一内存 gpu cpu」——这条说过多次却没被判据守住：受管 ollama 一直写着 MAX_LOADED_MODELS=6 + KEEP_ALIVE=10m，一台 32GB 统一内存机器同时塞六个模型必然换页，而审计里没有任何一条会因此变红。",
+   "exec": "Tools/fleet/mem_probe.py --once",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "all": [
+     {
+      "path": "pass.ME01",
+      "eq": true
+     },
+     {
+      "path": "pass.ME03",
+      "eq": true
+     }
+    ]
+   },
+   "symptom": "ME01 红=两次采样 swap/pageouts 在涨；ME03 红=真实生成时 pageouts 增长（硬扛 swap）；ME03 SKIP=一周没跑过 --gen，等于没测",
+   "fallback": "先卸闲置模型再谈调参；9B 只在显式 big 档用、用完即卸；判据不认「装得下」只认「换页增量为 0」",
+   "schedulers": []
+  },
+  {
+   "id": "M02",
+   "tier": "P1",
+   "ring": "内存",
+   "name": "常驻预算与余量",
+   "why": "2026-11-21 实测：ollama 侧曾常驻 2B 3.1GB 且上限写 6 个，free 只剩 0.2GB；统一内存里 GPU 与 CPU 同一个池子，模型占满就等于浏览器与训练都没地方放。",
+   "exec": "Tools/fleet/mem_probe.py --once",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "all": [
+     {
+      "path": "pass.ME02",
+      "eq": true
+     },
+     {
+      "path": "pass.ME05",
+      "eq": true
+     }
+    ]
+   },
+   "symptom": "ME02 红=ollama 常驻 >1 个或 >6GB；ME05 红=free+inactive <4GB（下一次大模型加载就会换页）",
+   "fallback": "卸闲置模型（keep_alive=0）；MLX 与 ollama 不同时驻留大模型；embedding 0.6B 可留",
+   "schedulers": []
+  },
+  {
+   "id": "M03",
+   "tier": "P2",
+   "ring": "内存",
+   "name": "ollama 服务端唯一",
+   "why": "2026-11-21 实测：11434 上有两个 ollama serve——Ollama.app 自启一个（绑 IPv6）、受管 plist 一个（绑 127.0.0.1）。两套环境变量、两套模型注册表，配置改了不一定生效。",
+   "exec": "Tools/fleet/mem_probe.py --once",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "path": "pass.ME04",
+    "eq": true
+   },
+   "symptom": "11434 监听进程 >1：app 引擎与受管线各存一份模型元数据，IPv4/IPv6 走不同服务端",
+   "fallback": "我们只认 127.0.0.1（llm_client 已是）；app 引擎属 CEO 应用，不擅自杀，报出来由人决定是否退出",
+   "schedulers": []
   }
  ]
 }

@@ -1,8 +1,8 @@
 {
  "group": "accounts",
- "ts": "2026-11-21T22:59:12",
+ "ts": "2026-11-21T23:36:14",
  "pass": {
-  "AC01": false,
+  "AC01": true,
   "AC02": true,
   "AC03": true,
   "AC04": true,
@@ -10,15 +10,15 @@
  },
  "overall": false,
  "n_checks": 5,
- "n_fail": 2,
+ "n_fail": 1,
  "n_skip": 0,
  "checks": [
   {
    "id": "AC01",
    "name": "活人节奏（alive+在动）",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "acct3 14.8h 没动作",
+   "detail": "两号均在活动（上限 2h）",
    "n": 2
   },
   {
@@ -26,8 +26,8 @@
    "name": "跨号隔离（24h 不同视频）",
    "ok": true,
    "sev": "P0",
-   "detail": "24h 内 68 条视频无跨号重叠",
-   "n": 68
+   "detail": "24h 内 83 条视频无跨号重叠",
+   "n": 83
   },
   {
    "id": "AC03",
@@ -43,7 +43,7 @@
    "ok": true,
    "sev": "P0",
    "detail": "近 7 天夜间动作 0 次",
-   "n": 128
+   "n": 162
   },
   {
    "id": "AC05",

@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-21T22:59:12",
+ "ts": "2026-11-21T23:36:17",
  "pass": {
   "CR01": false,
   "CR02": true,
@@ -10,12 +10,12 @@
   "CR07": false,
   "CR08": false,
   "TR01": false,
-  "TR02": true,
+  "TR02": false,
   "TR03": false,
   "TR04": true,
-  "TR05": false,
+  "TR05": true,
   "TR06": true,
-  "AC01": false,
+  "AC01": true,
   "AC02": true,
   "AC03": true,
   "AC04": true,
@@ -27,9 +27,14 @@
   "SD05": true,
   "SD06": true,
   "SC01": true,
-  "SC02": false,
+  "SC02": true,
   "SC03": true,
-  "SC04": false
+  "SC04": true,
+  "ME01": true,
+  "ME02": true,
+  "ME04": false,
+  "ME05": true,
+  "ME03": true
  },
  "checks": [
   {
@@ -46,7 +51,7 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "3.1%（线 ≤5%）8/256 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：必须/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "detail": "3.1%（线 ≤5%）8/256 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：三连/干货\", 1], [\"AI 腔：干货满满/干货\", 1]]",
    "n": 256,
    "group": "corpus"
   },
@@ -82,8 +87,8 @@
    "name": "采集新鲜（24h）",
    "ok": true,
    "sev": "P1",
-   "detail": "24h 内采集 19 次 / 总 70 次",
-   "n": 19,
+   "detail": "24h 内采集 16 次 / 总 70 次",
+   "n": 16,
    "group": "corpus"
   },
   {
@@ -116,9 +121,9 @@
   {
    "id": "TR02",
    "name": "轮次判据质量",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "近 5 轮：判据齐全",
+   "detail": "近 5 轮：memer KEEP 缺 val_min；shallow KEEP 缺 val_min",
    "n": 5,
    "group": "train"
   },
@@ -136,16 +141,16 @@
    "name": "ACTIVE 指针一致",
    "ok": true,
    "sev": "P1",
-   "detail": "base 模式 run 必须为空（base，2026-11-21T21:07:08）",
+   "detail": "base 模式 run 必须为空（base，2026-11-21T23:00:51）",
    "n": null,
    "group": "train"
   },
   {
    "id": "TR05",
    "name": "评测功率（n≥30）",
-   "ok": false,
+   "ok": true,
    "sev": "P2",
-   "detail": "最小 n=10，2 组（线 ≥30）",
+   "detail": "最小 n=30，2 组（线 ≥30）",
    "n": 2,
    "group": "train"
   },
@@ -161,9 +166,9 @@
   {
    "id": "AC01",
    "name": "活人节奏（alive+在动）",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "acct3 14.8h 没动作",
+   "detail": "两号均在活动（上限 2h）",
    "n": 2,
    "group": "accounts"
   },
@@ -172,8 +177,8 @@
    "name": "跨号隔离（24h 不同视频）",
    "ok": true,
    "sev": "P0",
-   "detail": "24h 内 68 条视频无跨号重叠",
-   "n": 68,
+   "detail": "24h 内 83 条视频无跨号重叠",
+   "n": 83,
    "group": "accounts"
   },
   {
@@ -191,7 +196,7 @@
    "ok": true,
    "sev": "P0",
    "detail": "近 7 天夜间动作 0 次",
-   "n": 128,
+   "n": 162,
    "group": "accounts"
   },
   {
@@ -208,7 +213,7 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": false,
    "sev": "P1",
-   "detail": "最近一条 79.4h 前（2026-11-18T15:37:31）",
+   "detail": "最近一条 80.0h 前（2026-11-18T15:37:31）",
    "n": 3,
    "group": "sends"
   },
@@ -269,9 +274,9 @@
   {
    "id": "SC02",
    "name": "退役调度器未复活",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "复活：practice10 → CEO 2026-11-18「实战十轮」一次性任务，跑完就该 bootout；留",
+   "detail": "无退役件在跑",
    "n": 5,
    "group": "sched"
   },
@@ -280,18 +285,63 @@
    "name": "定时器退出码正常",
    "ok": true,
    "sev": "P1",
-   "detail": "15 个 rc 正常，报告型：acceptrun,socialhealth",
-   "n": 15,
+   "detail": "14 个 rc 正常，报告型：acceptrun",
+   "n": 14,
    "group": "sched"
   },
   {
    "id": "SC04",
    "name": "节拍与排班表一致",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "selfgen plist=10800s 表=21600s",
+   "detail": "3 个定时器与 COMPUTE-SCHEDULE 一致",
    "n": 3,
    "group": "sched"
+  },
+  {
+   "id": "ME01",
+   "name": "swap 不在涨",
+   "ok": true,
+   "sev": "P1",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2519MB）",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME02",
+   "name": "常驻模型预算",
+   "ok": true,
+   "sev": "P1",
+   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME04",
+   "name": "单一 ollama 服务端",
+   "ok": false,
+   "sev": "P2",
+   "detail": "11434 监听进程 2 个：53612,53684",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME05",
+   "name": "内存余量",
+   "ok": true,
+   "sev": "P2",
+   "detail": "free 4.8G + inactive 11.0G = 15.8G（线 ≥4G）",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME03",
+   "name": "真实生成不增量",
+   "ok": true,
+   "sev": "P1",
+   "detail": "上次 2026-11-21T23:34:59（0h前）生成 3 条 swap +0.0MB pageouts +0",
+   "n": null,
+   "group": "mem"
   }
  ],
  "groups": {
@@ -307,7 +357,7 @@
   },
   "accounts": {
    "overall": false,
-   "n_fail": 2,
+   "n_fail": 1,
    "n_skip": 0
   },
   "sends": {
@@ -316,8 +366,13 @@
    "n_skip": 0
   },
   "sched": {
+   "overall": true,
+   "n_fail": 0,
+   "n_skip": 0
+  },
+  "mem": {
    "overall": false,
-   "n_fail": 2,
+   "n_fail": 1,
    "n_skip": 0
   }
  },

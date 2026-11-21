@@ -1,22 +1,20 @@
 {
- "version": "v2-20261121",
+ "version": "v2.1-20261121",
  "agent": "social-keeper",
  "counts": {
-  "OK": 15,
-  "NOT_PASS": 4,
-  "SKIP": 1
+  "OK": 18,
+  "NOT_PASS": 5
  },
  "tiers": {
   "P0": {
-   "OK": 4
+   "OK": 5
   },
   "P1": {
-   "OK": 8,
-   "NOT_PASS": 1,
-   "SKIP": 1
+   "OK": 9,
+   "NOT_PASS": 2
   },
   "P2": {
-   "OK": 3,
+   "OK": 4,
    "NOT_PASS": 3
   }
  },
@@ -42,7 +40,7 @@
    "ring": "红线",
    "name": "不做引流（硬拒 3/3）",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-SENDS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "评论里出现互关/私信/加群/分享给你/跨平台词；或词表被改松导致回归样例不再被拦",
    "age_h": 0.0,
@@ -56,7 +54,7 @@
    "ring": "红线",
    "name": "夜间静默（1–6 点）",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-ACCOUNTS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "台账里出现凌晨 1–6 点的动作；通常是 daemon 没读到作息表或时区/时段判断用了 UTC",
    "age_h": 0.0,
@@ -70,7 +68,7 @@
    "ring": "红线",
    "name": "跨号隔离（不同视频/同 mid 单 profile）",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-ACCOUNTS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "AC02 红=两号 24h 内碰同一 aid；AC03 红=同一 mid 出现在两个活跃 alias；AC03 SKIP=账号表没有 mid，说明凭据表被换过",
    "age_h": 0.0,
@@ -84,7 +82,7 @@
    "ring": "语料",
    "name": "采集与学习（看片抽语料）",
    "exec": "Tools/fleet/social_loop.py",
-   "evidence": "cph4/fleet/social/state/GUARD-CORPUS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 0.5,
    "symptom": "24h 内没有 collect/learn 记录：socialloop 被停、profile 被占、或一直判「无缺料」但其实没在收集",
    "age_h": 0.0,
@@ -98,7 +96,7 @@
    "ring": "语料",
    "name": "语料卫生（AI 腔回流 + 人设隔离）",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-CORPUS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "CR02 红=语料里 AI 腔词率 >5%；CR05 红=训练集里出现 ≥6 字与亲笔样句完全相同的句子（表情码已剥，不算抄）",
    "age_h": 0.0,
@@ -112,7 +110,7 @@
    "ring": "语料",
    "name": "烘焙与分段",
    "exec": "Tools/fleet/corpus_bake.py",
-   "evidence": "cph4/fleet/social/state/GUARD-CORPUS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "CR03 红=BAKED-stats 超过 6h / rows=0 / 段数<6 / verdicts 空；等于新采的语料没进训练面",
    "age_h": 0.0,
@@ -126,7 +124,7 @@
    "ring": "语料",
    "name": "标题与内容简报",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-CORPUS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 24.0,
    "symptom": "CR04 红=有视频缺 topics/desc（覆盖率<90%），出稿会写「这个视频真好」这类无信息句",
    "age_h": 0.0,
@@ -140,13 +138,13 @@
    "ring": "训练",
    "name": "训练轮次与上线指针",
    "exec": "Tools/fleet/train_forever.py",
-   "evidence": "cph4/fleet/social/state/GUARD-TRAIN.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 1.0,
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.TR02=False（需 True）"
   },
   {
    "id": "T02",
@@ -154,7 +152,7 @@
    "ring": "训练",
    "name": "GPU 单点租约",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-TRAIN.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "TR06 红=同时多个持有者，或持有者 pid 已死（野锁）；表现是训练一直让路、出稿说 GPU-BUSY",
    "age_h": 0.0,
@@ -171,7 +169,7 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 3.3,
+   "age_h": 3.9,
    "limit_h": 24.0,
    "state": "OK",
    "why": "12h 内 341 条"
@@ -182,13 +180,13 @@
    "ring": "出稿",
    "name": "评论出稿（24h 至少 1 条）",
    "exec": "Tools/fleet/practice_tick.py",
-   "evidence": "cph4/fleet/social/state/GUARD-SENDS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 0.5,
    "symptom": "SD01 红=24h 没有成功评论（先查 warmup/配额/租约/登录态，别先怀疑模型）；AC05 红=同一视频 7 天内评论>1 条（B站判重复折叠，删了重发可能 5 日限制+永久降权）",
    "age_h": 0.0,
    "limit_h": 8.0,
    "state": "NOT_PASS",
-   "why": "pass.SD01=False（需 True）"
+   "why": "pass.SD01=False（需 True）；pass.AC05=False（需 True）"
   },
   {
    "id": "B02",
@@ -196,13 +194,13 @@
    "ring": "出稿",
    "name": "副动作与活人节奏（看/赞/弹幕）",
    "exec": "Tools/fleet/agent_daemon.py",
-   "evidence": "cph4/fleet/social/state/GUARD-SENDS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 0.5,
    "symptom": "SD06 红=某号当天看/赞/弹幕有一类为 0；AC01 红=进程在但超过 2h（活动时段）没动作，多为 profile 锁、登录态失效或时段判断错",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "SKIP",
-   "why": "缺字段 pass.AC01"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "B03",
@@ -210,7 +208,7 @@
    "ring": "出稿",
    "name": "发送失败归因与止损",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-SENDS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "SD02 红=失败记录没有原因（无法归因=无法止损）；SD03 红=风控/登录类连续 2 次仍继续发",
    "age_h": 0.0,
@@ -227,7 +225,7 @@
    "evidence": ".codely-cli/state/HEALTH.json",
    "cadence_h": 0.2,
    "symptom": "AC01 红=某号进程不在或长时间没动作；健康表 green 但账号不动，说明判据只看心跳",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "limit_h": 1.0,
    "state": "OK",
    "why": "level='green'（不许等于 'red'）"
@@ -252,7 +250,7 @@
    "ring": "监督",
    "name": "多样性与生成质量",
    "exec": "Tools/fleet/diversity_audit.py",
-   "evidence": "cph4/fleet/social/state/GUARD-CORPUS.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "CR07 红=陈述>60% 或短评<25% 或长度跨度<12；CR01/CR08 红=闸之前 AI 腔/缺陷率>5%（词：绝了/氛围感/破损表情码）",
    "age_h": 0.0,
@@ -266,13 +264,13 @@
    "ring": "监督",
    "name": "训练体检（容量/配方/评测功率）",
    "exec": "Tools/fleet/train_eval.py",
-   "evidence": "cph4/fleet/social/state/GUARD-TRAIN.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 168.0,
    "symptom": "TR01 红=epoch 不在 3–5（<3 欠训，>5 过拟合）；TR03 红=有数据但配方 != 当前 RECIPE；TR05 红=评测 n<30",
    "age_h": 0.0,
    "limit_h": 336.0,
    "state": "NOT_PASS",
-   "why": "pass.TR01=False（需 True）；pass.TR03=False（需 True）；pass.TR05=False（需 True）"
+   "why": "pass.TR01=False（需 True）；pass.TR03=False（需 True）"
   },
   {
    "id": "S05",
@@ -280,13 +278,13 @@
    "ring": "监督",
    "name": "调度一致性（声明/实载/退役件/节拍）",
    "exec": "Tools/fleet/social_guard.py",
-   "evidence": "cph4/fleet/social/state/GUARD-SCHED.json",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_h": 6.0,
    "symptom": "SC02 红=退役/一次性任务还在列表；SC04 红=plist 节拍与 COMPUTE-SCHEDULE 不一致；SC01 红=声明了该跑却没载",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "NOT_PASS",
-   "why": "pass.SC02=False（需 True）；pass.SC04=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "S06",
@@ -301,6 +299,48 @@
    "limit_h": 24.0,
    "state": "OK",
    "why": "self_test='PASS'（需 'PASS'）"
+  },
+  {
+   "id": "M01",
+   "tier": "P0",
+   "ring": "内存",
+   "name": "统一内存不换页（真生成实测）",
+   "exec": "Tools/fleet/mem_probe.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "ME01 红=两次采样 swap/pageouts 在涨；ME03 红=真实生成时 pageouts 增长（硬扛 swap）；ME03 SKIP=一周没跑过 --gen，等于没测",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "M02",
+   "tier": "P1",
+   "ring": "内存",
+   "name": "常驻预算与余量",
+   "exec": "Tools/fleet/mem_probe.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "ME02 红=ollama 常驻 >1 个或 >6GB；ME05 红=free+inactive <4GB（下一次大模型加载就会换页）",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "M03",
+   "tier": "P2",
+   "ring": "内存",
+   "name": "ollama 服务端唯一",
+   "exec": "Tools/fleet/mem_probe.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "11434 监听进程 >1：app 引擎与受管线各存一份模型元数据，IPv4/IPv6 走不同服务端",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "NOT_PASS",
+   "why": "pass.ME04=False（需 True）"
   }
  ]
 }

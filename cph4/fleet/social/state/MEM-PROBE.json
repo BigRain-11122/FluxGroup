@@ -1,0 +1,91 @@
+{
+ "ts": "2026-11-21T23:36:21",
+ "pass": {
+  "ME01": true,
+  "ME02": true,
+  "ME04": false,
+  "ME05": true,
+  "ME03": true
+ },
+ "checks": [
+  {
+   "id": "ME01",
+   "name": "swap 不在涨",
+   "ok": true,
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2519MB）",
+   "sev": "P1"
+  },
+  {
+   "id": "ME02",
+   "name": "常驻模型预算",
+   "ok": true,
+   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
+   "sev": "P1"
+  },
+  {
+   "id": "ME04",
+   "name": "单一 ollama 服务端",
+   "ok": false,
+   "detail": "11434 监听进程 2 个：53612,53684",
+   "sev": "P1"
+  },
+  {
+   "id": "ME05",
+   "name": "内存余量",
+   "ok": true,
+   "detail": "free 4.9G + inactive 11.0G = 15.8G（线 ≥4G）",
+   "sev": "P2"
+  },
+  {
+   "id": "ME03",
+   "name": "真实生成不增量",
+   "ok": true,
+   "detail": "上次 2026-11-21T23:34:59（0h前）生成 3 条 swap +0.0MB pageouts +0",
+   "sev": "P1"
+  }
+ ],
+ "sample": {
+  "now": {
+   "swap_used_mb": 2518.62,
+   "swap_total_mb": 4096.0,
+   "pageouts": 175778,
+   "pageins": 795669847,
+   "free_gb": 4.86,
+   "inactive_gb": 10.97,
+   "wired_gb": 2.62,
+   "headroom_gb": 15.82,
+   "ts": "2026-11-21T23:36:21"
+  },
+  "before": {
+   "swap_used_mb": 2518.62,
+   "swap_total_mb": 4096.0,
+   "pageouts": 175778,
+   "pageins": 795669832,
+   "free_gb": 4.88,
+   "inactive_gb": 11.0,
+   "wired_gb": 2.6,
+   "headroom_gb": 15.88,
+   "ts": "2026-11-21T23:36:18"
+  }
+ },
+ "models": {
+  "n": 0,
+  "gb": 0.0,
+  "names": []
+ },
+ "servers": [
+  "53612",
+  "53684"
+ ],
+ "last_gen": {
+  "ts": "2026-11-21T23:34:59",
+  "n_gen": 3,
+  "swap_before": 2518.62,
+  "swap_after": 2518.62,
+  "gen_errors": 0,
+  "pageouts_before": 175778,
+  "pageouts_after": 175778,
+  "swap_delta_mb": 0.0,
+  "pageouts_delta": 0
+ }
+}

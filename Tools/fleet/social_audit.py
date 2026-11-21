@@ -63,10 +63,28 @@ def main():
     out = []
     rc_all = 0
 
+    # 0 内存探针：ME03 只认"真实生成时的增量"，所以每天至少跑一次 --gen 1；
+    #   训练独占时不抢 GPU，只做静态采样（那时候换页由训练自己在账里说话）。
+    last_gen_age = None
+    try:
+        with open(os.path.join(STATE, "MEM-PROBE.json"), encoding="utf-8") as f:
+            lg = (json.load(f) or {}).get("last_gen") or {}
+        ts = lg.get("ts")
+        if ts:
+            last_gen_age = (time.time() - time.mktime(time.strptime(ts, "%Y-%m-%dT%H:%M:%S"))) / 3600
+    except Exception:
+        pass
+    training = os.path.exists(os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE"))
+    if last_gen_age is None or last_gen_age > 24:
+        args = [os.path.join(HERE, "mem_probe.py"), "--once"] + ([] if training else ["--gen", "1"])
+        rc6, o6 = _run(args, timeout=240)
+        out.append("[内存] rc=%d %s%s" % (rc6, _first(o6),
+                                         "（训练独占，本轮只静态采样）" if training else ""))
+
     # 1 守卫（领域判据）
     rc0, o0 = _run([os.path.join(HERE, "social_guard.py"), "--all"])
     groups = {}
-    for g in ("CORPUS", "TRAIN", "ACCOUNTS", "SENDS", "SCHED"):
+    for g in ("CORPUS", "TRAIN", "ACCOUNTS", "SENDS", "SCHED", "MEM"):
         d = None
         try:
             with open(os.path.join(STATE, "GUARD-%s.json" % g), encoding="utf-8") as f:

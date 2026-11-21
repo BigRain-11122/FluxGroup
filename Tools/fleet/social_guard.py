@@ -633,12 +633,37 @@ def scheduler_checks(spec=None):
     return out
 
 
+def mem_checks():
+    """统一内存（CEO 2026-11-21「不触发 swap 的情况下用好用科学 统一内存 gpu cpu」）。
+
+    判据本体在 mem_probe.py（采样 + 真实生成增量），这里只做转写，避免两套阈值。
+    曾经的问题：受管 ollama 写着 MAX_LOADED_MODELS=6 / KEEP_ALIVE=10m，
+    32GB 统一内存硬塞六个模型必然换页，而审计里没有任何一条会因此变红。
+    """
+    mp = _import("mem_probe")
+    if not mp:
+        return [_mk("ME01", "统一内存体检", None, "P1", "mem_probe 导入失败")]
+    out = []
+    try:
+        doc = mp.probe(with_gen=0)          # 静态：两次采样 + 常驻 + 余量（不跑模型）
+        for c in doc.get("checks") or []:
+            out.append(_mk(c["id"], c["name"], c["ok"], c.get("sev", "P1"), c["detail"]))
+    except Exception as e:
+        out.append(_mk("ME01", "统一内存体检", None, "P1", "探针异常：%s" % str(e)[:50]))
+    # ME04 是卫生项：app 自启的第二个服务端不影响 127.0.0.1 调用，降到 P2，别当红线叫
+    for c in out:
+        if c["id"] == "ME04":
+            c["sev"] = "P2"
+    return out
+
+
 GROUPS = {
     "corpus": corpus_checks,
     "train": train_checks,
     "accounts": account_checks,
     "sends": send_checks,
     "sched": scheduler_checks,
+    "mem": mem_checks,
 }
 
 
