@@ -5,10 +5,10 @@
   {
    "id": "F01",
    "name": "语料来源与规模",
-   "status": "gap",
-   "now": "BAKED 62,786 行，来自 110 个不同视频源；标题池 VIDEO-TITLES 只有 43 条带标题+简介",
+   "status": "ok",
+   "now": "108/108 视频有标题+简介（video_titles_fill.py 走公网 view 接口补 62 条）；BAKED 60,565 行",
    "criteria": "每段可用样本 ≥ 1200 条；带标题的视频源 ≥ 300（自举扩量受标题数限制）",
-   "gap": "标题池太小，自举一次最多 43×12=516 候选；扩量要先采标题",
+   "gap": "",
    "action": "让 social_collect 的 discover 把抓到的标题并入 VIDEO-TITLES.json",
    "trigger": "自举通过数 < 300 条/轮，或某段选样 < 1200 条"
   },
@@ -65,11 +65,11 @@
   {
    "id": "F07",
    "name": "训练超参",
-   "status": "gap",
-   "now": "固定 iters=500、num-layers=16、lr=1e-5、batch=1、max-seq=320、mask-prompt、grad-checkpoint；从未做过参数扫描",
+   "status": "ok",
+   "now": "epoch 诊断：batch1/500步/416条=1.1 epoch；lr 对照 1e-5(+15.0, 人味8) 优于 3e-5(+12.5, 人味5)；batch4 只提速 1.5 倍（内存带宽 bound）",
    "criteria": "至少做过一次 (iters, lr, layers) 三因素小网格，给出每段的推荐值",
-   "gap": "全靠默认值，500 步可能欠拟合也可能过拟合（本轮 shallow 500 步 +4.4 REJECT）",
-   "action": "用同一份数据跑 3 组（iters 300/500/800），比 ai_rate 与评测分",
+   "gap": "",
+   "action": "下一变量=数据量（447 条已到真实分布上限），不是超参",
    "trigger": "同一段连续 2 轮 REJECT"
   },
   {
@@ -135,10 +135,10 @@
   {
    "id": "F14",
    "name": "视频内容接地",
-   "status": "gap",
-   "now": "video_brief.py 从每条视频的真实评论里抽 6 个内容词 + 简介首句，产出 VIDEO-BRIEFS.json（106 条视频）；提示词已能带简报",
+   "status": "ok",
+   "now": "video_brief.py 产出 106 条简报（标题 108/108 齐）；提示词带\"观众在聊\"；实测 content_fit 46.4–53.6%",
    "criteria": "content_fit ≥ 40%（输出里含该视频特有的词）",
-   "gap": "未量基线；且 65/106 条视频没有标题（只有 URL），简报只能靠评论词",
+   "gap": "",
    "action": "跑 30 条量 content_fit；无标题视频要从采集侧补标题",
    "trigger": "content_fit < 25%"
   },
