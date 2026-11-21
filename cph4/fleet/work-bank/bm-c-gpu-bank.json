@@ -14,12 +14,13 @@
    "accept": "cph4/fleet/out/drama/EP002/ep002-gate.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-DRAMA-EP002.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP002.err.log",
-   "status": "claimed",
+   "status": "pending",
    "retries": 1,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T00:52:21",
-   "last_error": "no-deliverable",
-   "requeued_ts": "2026-11-21T00:49:14"
+   "claimed_ts": "manual-verify",
+   "last_error": "fail:kf,assembly,qc",
+   "requeued_ts": "2026-11-21T13:31:47",
+   "blocked_ts": "2026-11-21T02:11:46"
   },
   {
    "id": "PROD-DRAMA-EP003",
@@ -34,7 +35,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP003.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T04:11:00",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T03:51:46",
+   "blocked_ts": "2026-11-21T04:11:46"
   },
   {
    "id": "PROD-DRAMA-EP004",
@@ -49,7 +54,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP004.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T06:05:59",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T05:51:46",
+   "blocked_ts": "2026-11-21T06:11:47"
   },
   {
    "id": "PROD-DRAMA-EP005",
@@ -64,7 +73,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP005.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T08:00:59",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T07:41:47",
+   "blocked_ts": "2026-11-21T08:01:46"
   },
   {
    "id": "PROD-DRAMA-EP006",
@@ -79,7 +92,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP006.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T09:11:01",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T09:01:46",
+   "blocked_ts": "2026-11-21T09:11:46"
   },
   {
    "id": "PROD-DRAMA-EP007",
@@ -94,7 +111,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP007.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T10:26:01",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T10:11:56",
+   "blocked_ts": "2026-11-21T10:31:46"
   },
   {
    "id": "PROD-DRAMA-EP008",
@@ -109,7 +130,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP008.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T11:51:02",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T11:41:46",
+   "blocked_ts": "2026-11-21T11:51:46"
   },
   {
    "id": "PROD-DRAMA-EP009",
@@ -124,7 +149,11 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP009.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-21T13:06:02",
+   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
+   "requeued_ts": "2026-11-21T12:51:46",
+   "blocked_ts": "2026-11-21T13:11:46"
   },
   {
    "id": "PROD-DRAMA-EP010",

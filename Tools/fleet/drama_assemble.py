@@ -251,8 +251,14 @@ def main(argv):
         audio = ["-filter_complex", ";".join(filters), "-map", "0:v:0", "-map", "[a]"]
         af = None
     else:
-        audio = ["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-shortest",
-                 "-map", "0:v:0", "-map", "1:a:0"]
+        # 2026-11-21 bm-c：无配音时用 lavfi 静音轨兜底。原写法把 -f lavfi -i ... 放进
+        # audio（输出段），命令变成
+        #   ffmpeg -i v.mp4 -vf ass=... -f lavfi -i anullsrc ...
+        # ffmpeg 把 -vf 判给了 anullsrc 这个**输入**，报
+        #   "Option vf cannot be applied to input url anullsrc"，装配必败。
+        # 正法：输入归输入（并进 inputs），输出选项才放后面。
+        inputs += ["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo"]
+        audio = ["-shortest", "-map", "0:v:0", "-map", "1:a:0"]
         af = None
     cmd = [F, "-y"] + inputs
     if af is None and labels:

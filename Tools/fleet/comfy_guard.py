@@ -150,6 +150,34 @@ def reclaim_webview(below_gb=4.0):
         return 0
 
 
+def _pid_alive(pid):
+    """进程是否仍存活（taskkill 打不掉的僵尸会走到这里）。"""
+    try:
+        out = subprocess.run(["powershell", "-NoProfile", "-Command",
+                              "(Get-Process -Id %s -ErrorAction SilentlyContinue).Id" % pid],
+                             capture_output=True, text=True, timeout=20,
+                             creationflags=NO_WINDOW).stdout.strip()
+        return bool(out)
+    except Exception:
+        return False
+
+
+def _escalate(pids):
+    """僵尸杀不掉 = 需要人（重启机器或提权 gpu-reset）。写标记，不擅自重启。"""
+    marker = os.path.join(os.path.dirname(LOGDIR), "comfy-wedged.json")
+    try:
+        with open(marker, "w", encoding="utf-8") as f:
+            json.dump({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                       "pids": pids,
+                       "why": "ComfyUI 进程存活但不监听 8188，taskkill 无效（CUDA 挂死）",
+                       "action": "需重启本机，或提权执行 nvidia-smi --gpu-reset -i 0"},
+                      f, ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+    log("WEDGED-ESCALATE pids=%s -- 需重启机器（标记 %s）" % (pids, marker))
+    return 1
+
+
 def main():
     if "--once" not in sys.argv:
         pass
@@ -168,6 +196,13 @@ def main():
             except Exception:
                 pass
         time.sleep(3)
+        # 2026-11-21 bm-c：taskkill 打不掉的僵尸（CUDA 挂死在不可中断态）会一直占着显存，
+        # 于是每轮都 "restarting" 却永远起不来——实测这样空转 25 分钟、整夜零产出。
+        # 判据=杀完仍存活 且 8188 仍不服务；处置=写升级标记 + 显式告警（不擅自重启机器，
+        # 重启是人的决定）。iterate 会把这个标记写进日报。
+        if any(_pid_alive(p) for p in (pids or [])) and not serving():
+            _escalate(pids)
+            return 1
         if not start_comfy():
             return 1
 

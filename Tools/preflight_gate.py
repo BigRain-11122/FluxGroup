@@ -104,8 +104,12 @@ def guard(shot_id, prompt_text, tokens, kf_verified=False, kf_note="", defect=No
         fails.append("③否定句命中 %s（否定词会诱发目标出现）" % hit)
 
     # ④ 场景锚
+    # 2026-11-21 bm-c 修：原判定 `w in low` 是子串匹配，把人物锚 "silver-templed man"
+    # 里的 temple 判成"场景带偏"，EP002_17 因此被闸挡掉（假阳性）。改词边界匹配，
+    # 允许复数（torch/torches、temple/temples），但不吃 -templed / -torchlit 这类词内命中。
     scene = tokens.get("scene", "")
-    bad = [w for w in scene_map.get(scene, ()) if w in low]
+    bad = [w for w in scene_map.get(scene, ())
+           if re.search(r"(?<![a-z])" + re.escape(w) + r"(?:s|es)?(?![a-z])", low)]
     if bad:
         fails.append("④场景锚冲突 scene=%s 却出现 %s" % (scene, bad))
 
