@@ -202,3 +202,5 @@
 {"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1hS4y1N7Gs/", "aid": 682658539, "root": 0, "text": "素材都齐了，按这步骤剪，手生也能出片吧。", "rpid": "324728059504", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 0/8 条，间隔 OK", "ts": "2026-11-21T23:52:10"}
 {"action": "verify", "arm": "C", "aid": 682658539, "rpid": "324728059504", "root": 0, "visible": false, "why": "3 页内查不到该 rpid（确实不在公开列表）", "verdict": "待审核-保留", "ts": "2026-11-21T23:52:15"}
 {"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100", "rpid": "324728059504", "arm": "C", "persona": "craft_learner", "ts": "2026-11-21T23:52:15"}
+{"action": "verify", "rpid": "324728059504", "visible": false, "mature": true, "age_min": 19, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T00:11:48"}
+{"action": "skip", "why": "training-gpu", "ts": "2026-11-22T00:11:48"}
