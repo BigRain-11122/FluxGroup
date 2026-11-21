@@ -17,12 +17,13 @@
    "val_min": null
   },
   "music_seeker": {
-   "last_ts": 1795170407.0,
-   "last_rc": "SUPPLY",
-   "rows": 386,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "last_ts": 1795252772.7419379,
+   "last_rc": "KEEP",
+   "rows": 442,
+   "run": "20261121-162521",
+   "step": 200,
+   "val_min": 3.323,
+   "recipe": "v3-natural-dist"
   },
   "craft_learner": {
    "last_ts": 1795188767.0,
@@ -49,13 +50,12 @@
    "val_min": 3.42
   },
   "shallow": {
-   "last_ts": 1795249191.379405,
+   "last_ts": 1795249191.0,
    "last_rc": "KEEP",
    "rows": 557,
    "run": "20261121-152144",
    "step": 400,
-   "val_min": 3.156,
-   "recipe": "v3-natural-dist"
+   "val_min": 3.156
   },
   "feeler": {
    "last_ts": 1795186410.0,
@@ -482,6 +482,25 @@
    "verdict": "KEEP",
    "why": "均分 +21.1 / 人味 +9.0",
    "adapter": "cph4/fleet/social/train/RUNS/20261121-152144/ckpt400"
+  },
+  {
+   "ts": "2026-11-21T17:19:32",
+   "seg": "music_seeker",
+   "rows": 442,
+   "built": 204,
+   "eval_n": 10,
+   "run": "20261121-162521",
+   "step": 200,
+   "val_step": 250,
+   "val_min": 3.323,
+   "base_avg": 37.5,
+   "lora_avg": 67.6,
+   "base_human": 0.0,
+   "lora_human": 7.0,
+   "human_delta": 7.0,
+   "verdict": "KEEP",
+   "why": "均分 +30.1 / 人味 +7.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261121-162521/ckpt200"
   }
  ]
 }

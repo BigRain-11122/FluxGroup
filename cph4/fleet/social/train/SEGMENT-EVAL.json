@@ -1,37 +1,37 @@
 {
- "ts": "2026-11-21T16:19:48",
+ "ts": "2026-11-21T17:19:30",
  "base": [
   {
    "n": 10,
-   "avg": 54.3,
-   "pass_rate": 100,
-   "avg_logic": 12.5,
-   "avg_human": 1.0,
+   "avg": 37.5,
+   "pass_rate": 0,
+   "avg_logic": 0.0,
+   "avg_human": 0.0,
    "avg_natural": 20.0,
    "reject": 0,
-   "seg": "shallow",
+   "seg": "music_seeker",
    "sample": [
-    "分人，有的歌就是自带 BGM 属性。",
-    "哈哈，这态度太对了！"
+    "《风景》/《难忘的情怀》/《借东西的小人阿莉埃蒂》",
+    "《2025 年度最令人讨厌歌曲 TOP10》"
    ]
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 75.4,
-   "pass_rate": 100,
-   "avg_logic": 27.5,
-   "avg_human": 10.0,
-   "avg_natural": 19.6,
+   "avg": 67.6,
+   "pass_rate": 70,
+   "avg_logic": 21.0,
+   "avg_human": 7.0,
+   "avg_natural": 20.0,
    "reject": 0,
-   "seg": "shallow",
+   "seg": "music_seeker",
    "sample": [
-    "b站UP主 请三连 我觉得UP主说得很有道理！",
-    "加置顶，up主解释下这个视频，还有歌词"
+    "建议听听BGM（这个BGM不是BGM 我们是歌手的 BGM）",
+    "据说BGM都因为这首歌献祭死掉了？？"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261121-152144/ckpt400"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261121-162521/ckpt200"
 }
