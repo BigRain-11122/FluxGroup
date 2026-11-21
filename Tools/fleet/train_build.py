@@ -174,7 +174,10 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
-RECIPE = "v3-natural-dist"     # 造集配方版本：变了就该重训（train_forever 认这个）
+RECIPE = "v4-clean-corpus"     # 造集配方版本：变了就该重训（train_forever 认这个）
+# 2026-11-21 升版理由：语料级反 AI 腔硬筛（4.0% 行）+ 自举语料并入 + 亲笔长度分布。
+# 配方一变，train_forever 会把每一段都当成"新的一课"重训，这是有意为之：
+# 拿旧配方训出来的件不能证明新配方没用，留着它反而会让"已训过"挡住重训。
 
 KIND_SHARE = {"question": 0.25, "critique": 0.20, "experience": 0.30, "praise": 0.25}
 
@@ -433,8 +436,26 @@ def main():
         try:
             import segments as sg
             spec = sg.load_spec()
+            # 2026-11-21：优先用 corpus_classify.py 产出的 seg2（嵌入聚类 + 本地模型命名）。
+            # 关键词分类器把 71% 的行判成 generic，等于每段都在用"平均嗓"的数据训练；
+            # seg2 只覆盖判过的行，没判到的照旧用关键词结果。
+            seg2 = {}
+            p2 = os.path.join(ROOT, "cph4", "fleet", "social", "corpus", "human", "SEG2.jsonl")
+            if os.path.exists(p2):
+                for line in open(p2, encoding="utf-8"):
+                    if line.strip():
+                        o = json.loads(line)
+                        if o.get("h") and o.get("seg2"):
+                            seg2[o["h"]] = o["seg2"]
+            n2 = 0
             for r in rows:
-                r["seg"] = sg.classify(r["text"], spec)["primary"]
+                if r.get("h") in seg2:
+                    r["seg"] = seg2[r["h"]]
+                    n2 += 1
+                else:
+                    r["seg"] = sg.classify(r["text"], spec)["primary"]
+            if n2:
+                print("[build] 用 seg2（嵌入聚类）覆盖 %d 行分段" % n2)
             cap_seg = max(20, int(len(rows) * a.seg_cap))
             byseg = {}
             for r in rows:

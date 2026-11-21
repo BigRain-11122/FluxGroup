@@ -98,19 +98,62 @@ def measure(model="base", adapter=None, n=30, per_title=None, seg=""):
     lens = [len(t) for t in texts]
     opens = Counter(opening(t) for t in texts)
     gate_pass = sum(1 for t in texts if not ct.hard_block(t) and ct.score(t)["verdict"] == "PASS")
+    # 原始缺陷率：不只看"像不像 AI"，还看"有没有硬伤"。
+    # 2026-11-21 实锚：shallow 旧件吐出 `_formats_`（模板占位符），词表一个都没命中，
+    # 只数 AI 腔会把这句算成"干净"——缺陷必须和腔调分开计。
+    defs = [(t, ct.hard_block(t)) for t in texts]
+    defs = [(t, w) for t, w in defs if w]
     return {
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "model": model, "adapter": adapter or "", "seg": seg,
         "n": len(texts), "call_errors": errs, "seconds": round(time.time() - t0, 1),
         "ai_hit_rate": round(len(hit_rows) / len(texts), 3),
         "ai_hit_words": hit_words.most_common(8),
+        "defect_rate": round(len(defs) / len(texts), 3),
+        "defect_words": Counter(w for _, w in defs).most_common(6),
         "len_min": min(lens), "len_p50": sorted(lens)[len(lens) // 2], "len_max": max(lens),
         "distinct_lens": len(set(lens)),
         "opening_top": opens.most_common(3),
         "opening_max_share": round(opens.most_common(1)[0][1] / len(texts), 3),
         "gate_pass_rate": round(gate_pass / len(texts), 3),
-        "samples": texts[:20],
+        "samples": texts,
     }
+
+
+def rescore(path):
+    """对已存的样本重算指标（不重新生成、不占 GPU）。
+
+    为什么要有这个：判据会变（今天加了缺陷率、内容度），但不能每次都重跑 30 条生成——
+    已存样本是最便宜的复算面。这也逼着我们把 samples 全存下来而不是只留 20 条。
+    """
+    import comment_taste as ct
+    d = json.load(open(path, encoding="utf-8"))
+    texts = d.get("samples") or []
+    if not texts:
+        return {"error": "该文件没存样本"}
+    lens = [len(t) for t in texts]
+    opens = Counter(opening(t) for t in texts)
+    hit = sum(1 for t in texts if raw_ai_hits(t))
+    defs = [ct.hard_block(t) for t in texts]
+    defs = [w for w in defs if w]
+    sc = [ct.score(t) for t in texts]
+    n = len(texts)
+    out = dict(d)
+    out.update({
+        "ai_hit_rate": round(hit / n, 3),
+        "defect_rate": round(len(defs) / n, 3),
+        "defect_words": Counter(defs).most_common(6),
+        "avg_logic": round(sum(s.get("logic") or 0 for s in sc) / n, 1),
+        "avg_human": round(sum(s.get("human") or 0 for s in sc) / n, 1),
+        "avg_voice": round(sum(s.get("voice") or 0 for s in sc) / n, 1),
+        "avg_total": round(sum(s.get("total") or 0 for s in sc) / n, 1),
+        "gate_pass_rate": round(sum(1 for s in sc if s["verdict"] == "PASS") / n, 3),
+        "distinct_lens": len(set(lens)),
+        "opening_max_share": round(opens.most_common(1)[0][1] / n, 3),
+        "rescored_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    })
+    json.dump(out, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    return out
 
 
 def self_test():
@@ -131,10 +174,18 @@ def main():
     ap.add_argument("--n", type=int, default=30)
     ap.add_argument("--seg", default="")
     ap.add_argument("--json-out", default="")
+    ap.add_argument("--rescore", default="", help="对已存样本重算指标（不重新生成）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.rescore:
+        r = rescore(a.rescore)
+        print(json.dumps({k: r.get(k) for k in ("ai_hit_rate", "defect_rate", "avg_logic",
+                                                "avg_human", "avg_voice", "avg_total",
+                                                "gate_pass_rate", "distinct_lens",
+                                                "opening_max_share")}, ensure_ascii=False, indent=1))
+        return 0
     res = measure(a.model, a.adapter if a.model == "lora" else None, a.n, seg=a.seg)
     if a.json_out:
         os.makedirs(OUTDIR, exist_ok=True)

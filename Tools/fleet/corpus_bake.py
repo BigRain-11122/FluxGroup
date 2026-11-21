@@ -35,6 +35,13 @@ CORPUS = os.path.join(SOCIAL, "corpus", "human", "own_collected.jsonl")
 # 2026-11-20 闭环：实战写出去、过完所有闸的稿子也是语料——而且是最贴我们目标的分布。
 PRACTICE = os.path.join(SOCIAL, "corpus", "human", "own_practice.jsonl")
 SOURCES = [CORPUS, PRACTICE]
+
+
+def _sources():
+    """来源清单 + 自举产出（selfgen-*.jsonl 随时增加，不用改代码）。"""
+    import glob
+    extra = sorted(glob.glob(os.path.join(SOCIAL, "corpus", "human", "selfgen-*.jsonl")))
+    return SOURCES + extra
 OUT = os.path.join(SOCIAL, "corpus", "human", "BAKED-v1.jsonl")
 STATS = os.path.join(SOCIAL, "corpus", "human", "BAKED-stats.json")
 
@@ -99,7 +106,7 @@ def _feed_practice():
 def run(workers, limit=0):
     _feed_practice()
     rows, seen = [], set()
-    for src in SOURCES:
+    for src in _sources():
         if not os.path.exists(src):
             continue
         for line in open(src, encoding="utf-8"):
@@ -113,6 +120,25 @@ def run(workers, limit=0):
             rows.append(r)
     if limit:
         rows = rows[:limit]
+    # 2026-11-21 CEO「训练库和语料都可以随时更新优化」：反 AI 腔清洗放在**烘焙这一层**，
+    # 而不是等造集时才过滤——这样 BAKED-v1 本身就是干净的，任何读它的消费者（造集、
+    # 评测集、自举、人工看样本）都不会再看到"干货/三连/保姆级"这类句子。
+    # 仍保留 train_build 那道（双保险）：配方变更后有人拿旧 BAKED 也不会漏。
+    try:
+        sys.path.insert(0, HERE)
+        import train_build as _tb
+        kept, cut = [], {}
+        for r in rows:
+            why = _tb.ai_smell(r.get("text"))
+            if why:
+                k = why.split("：")[0]
+                cut[k] = cut.get(k, 0) + 1
+                continue
+            kept.append(r)
+        n_cut = len(rows) - len(kept)
+        rows = kept
+    except Exception as e:
+        n_cut, cut = 0, {"不可用": str(e)[:60]}
     t0 = time.time()
     texts = [(r.get("text") or "") for r in rows]
     with Pool(processes=workers, initializer=_warm) as pool:
@@ -152,7 +178,8 @@ def run(workers, limit=0):
     st = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "workers": workers,
           "bake_sec": round(bake_s, 1), "rows_per_sec": round(len(rows) / max(bake_s, 1e-6), 1),
           "near_dup": len(dup_of), "segments": dict(segs.most_common()),
-          "verdicts": dict(verd)}
+          "verdicts": dict(verd),
+          "ai_smell_cut": n_cut, "ai_smell_why": cut}
     json.dump(st, open(STATS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     return st
 
