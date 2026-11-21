@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-21T16:11:40",
- "cycle": 3647,
+ "ts": "2026-11-21T16:17:26",
+ "cycle": 3648,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-21T16:11:40",
+ "master_tick_ts": "2026-11-21T16:17:26",
  "queue": {
   "total": 385,
   "open": 14,
@@ -16,12 +16,12 @@
    "online": true,
    "hb_age_s": 0.0,
    "cpu_load_pct": null,
-   "ram_free_gb": 54.4,
+   "ram_free_gb": 54.5,
    "gpu_util_pct": null,
    "job": null,
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "EXECUTOR-DEAD (28.9h 零产出)",
+   "idle_reason": "EXECUTOR-DEAD (29.0h 零产出)",
    "idle_rounds": 0
   },
   "bm-b": {
