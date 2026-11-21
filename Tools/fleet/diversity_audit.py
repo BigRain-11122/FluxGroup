@@ -195,6 +195,7 @@ def main():
     ap.add_argument("--gen", default=os.path.join(STATE, "AI-RATE-shallow-AFTER5.json"))
     ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--json-out", default="", help="写一份 JSON 给 agent_audit 当证据")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
@@ -207,6 +208,9 @@ def main():
     bad = [t for t in trains if t.get("n") and not t.get("ok")]
     rep = {"train": trains, "generate": gen, "actions": acts,
            "fails": len(bad) + (0 if gen.get("ok", True) else 1) + (0 if acts.get("ok", True) else 1)}
+    if a.json_out:
+        os.makedirs(os.path.dirname(a.json_out), exist_ok=True)
+        json.dump(rep, open(a.json_out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     if a.json:
         print(json.dumps(rep, ensure_ascii=False, indent=1))
     else:

@@ -89,9 +89,13 @@ def practice_metrics():
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--save", default="", help="把账本写成 JSON（给 agent_audit 当证据）")
     a = ap.parse_args(argv)
     m = {"train": train_metrics(), "corpus": corpus_metrics(),
          "actions": action_metrics(), "practice": practice_metrics()}
+    if a.save:
+        os.makedirs(os.path.dirname(a.save), exist_ok=True)
+        json.dump(m, open(a.save, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     if a.json:
         print(json.dumps(m, ensure_ascii=False, indent=1))
         return 0

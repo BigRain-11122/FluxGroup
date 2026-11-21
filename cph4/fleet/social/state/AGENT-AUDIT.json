@@ -1,0 +1,140 @@
+{
+ "version": "v1-20261121",
+ "counts": {
+  "OK": 12
+ },
+ "duties": [
+  {
+   "id": "S01",
+   "name": "出稿（评论为主）",
+   "exec": "Tools/fleet/agent_daemon.py",
+   "evidence": "cph4/fleet/social/USER-AGENT-LEDGER.jsonl",
+   "cadence_h": 1.0,
+   "age_h": 0.0,
+   "limit_h": 4.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S02",
+   "name": "采集与学习（看片、抽语料）",
+   "exec": "Tools/fleet/social_loop.py",
+   "evidence": "cph4/fleet/social/SOCIAL-LOOP-LEDGER.jsonl",
+   "cadence_h": 0.5,
+   "age_h": 0.0,
+   "limit_h": 3.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S03",
+   "name": "段训练",
+   "exec": "Tools/fleet/train_forever.py",
+   "evidence": "cph4/fleet/social/train/TRAIN-LOOP-LEDGER.jsonl",
+   "cadence_h": 1.0,
+   "age_h": 0.4,
+   "limit_h": 6.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S04",
+   "name": "自举补语料",
+   "exec": "Tools/fleet/selfgen.py",
+   "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
+   "cadence_h": 3.0,
+   "age_h": 3.0,
+   "limit_h": 12.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S05",
+   "name": "语料烘焙（去 AI 腔/去重/分段）",
+   "exec": "Tools/fleet/corpus_bake.py",
+   "evidence": "cph4/fleet/social/corpus/human/BAKED-stats.json",
+   "cadence_h": 6.0,
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S06",
+   "name": "健康哨兵（登录态/止损/账号）",
+   "exec": "Tools/fleet/social_health.py",
+   "evidence": ".codely-cli/state/HEALTH.json",
+   "cadence_h": 0.2,
+   "age_h": 0.2,
+   "limit_h": 1.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S07",
+   "name": "量化账本（一屏数字）",
+   "exec": "Tools/fleet/social_metrics.py",
+   "evidence": "cph4/fleet/social/METRICS.json",
+   "cadence_h": 1.0,
+   "age_h": 0.0,
+   "limit_h": 3.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S08",
+   "name": "多样性体检",
+   "exec": "Tools/fleet/diversity_audit.py",
+   "evidence": "cph4/fleet/social/state/DIVERSITY.json",
+   "cadence_h": 24.0,
+   "age_h": 0.0,
+   "limit_h": 72.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S09",
+   "name": "平台作息与语汇刷新",
+   "exec": "Tools/fleet/activity_clock.py",
+   "evidence": "cph4/fleet/social/ACTIVITY-CLOCK.json",
+   "cadence_h": 168.0,
+   "age_h": 0.2,
+   "limit_h": 336.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S10",
+   "name": "闸回归（误杀/漏网）",
+   "exec": "Tools/fleet/gate_regression.py",
+   "evidence": "cph4/fleet/social/GATE-REGRESSION.json",
+   "cadence_h": 24.0,
+   "age_h": 3.5,
+   "limit_h": 72.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S11",
+   "name": "标题与内容简报",
+   "exec": "Tools/fleet/video_titles_fill.py",
+   "evidence": "cph4/fleet/social/VIDEO-BRIEFS.json",
+   "cadence_h": 24.0,
+   "age_h": 1.7,
+   "limit_h": 72.0,
+   "state": "OK",
+   "why": ""
+  },
+  {
+   "id": "S12",
+   "name": "评测功率复测（n=30 重复性）",
+   "exec": "Tools/fleet/train_eval.py",
+   "evidence": "cph4/fleet/social/train/SEGMENT-EVAL.json",
+   "cadence_h": 168.0,
+   "age_h": 0.4,
+   "limit_h": 336.0,
+   "state": "OK",
+   "why": ""
+  }
+ ]
+}
