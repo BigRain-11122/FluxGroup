@@ -1,12 +1,13 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795270633.0,
-   "last_rc": "REJECT",
+   "last_ts": 1795285999.032479,
+   "last_rc": "KEEP",
    "rows": 570,
-   "run": "20261121-215111",
-   "step": 300,
-   "val_min": 3.638
+   "run": "20261122-020611",
+   "step": 400,
+   "val_min": 3.522,
+   "recipe": "v5-shape-quota"
   },
   "peer_pro": {
    "last_ts": 1795280055.0,
@@ -25,13 +26,12 @@
    "val_min": 2.913
   },
   "craft_learner": {
-   "last_ts": 1795284008.072211,
+   "last_ts": 1795284008.0,
    "last_rc": "REJECT",
    "rows": 2139,
    "run": "20261122-013440",
    "step": 200,
-   "val_min": 3.478,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.478
   },
   "memer": {
    "last_ts": 1795273361.0,
@@ -67,25 +67,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-20T11:12:47",
-   "seg": "tech_nerd",
-   "rows": 462,
-   "built": 220,
-   "eval_n": 10,
-   "run": "20261119-200531",
-   "step": 250,
-   "val_step": 250,
-   "val_min": 3.14,
-   "base_avg": 56.0,
-   "lora_avg": 79.1,
-   "base_human": 8.0,
-   "lora_human": 11.0,
-   "human_delta": 3.0,
-   "verdict": "KEEP",
-   "why": "均分 +23.1 / 人味 +3.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261119-200531/ckpt200"
-  },
   {
    "ts": "2026-11-20T11:12:47",
    "seg": "peer_pro",
@@ -687,6 +668,25 @@
    "verdict": "REJECT",
    "why": "均分只 -8.7（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-013440/ckpt200"
+  },
+  {
+   "ts": "2026-11-22T02:33:19",
+   "seg": "tech_nerd",
+   "rows": 570,
+   "built": 370,
+   "eval_n": 10,
+   "run": "20261122-020611",
+   "step": 400,
+   "val_step": 450,
+   "val_min": 3.522,
+   "base_avg": 54.0,
+   "lora_avg": 67.0,
+   "base_human": 5.0,
+   "lora_human": 8.0,
+   "human_delta": 3.0,
+   "verdict": "KEEP",
+   "why": "均分 +13.0 / 人味 +3.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-020611/ckpt400"
   }
  ]
 }
