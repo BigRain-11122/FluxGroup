@@ -744,7 +744,10 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--dry", action="store_true")
-    ap.add_argument("--iters", type=int, default=500)
+    # 2026-11-21 CEO「加快频率训练」：500→400 步，一轮从约 55 分钟压到约 45 分钟，
+    # 一天能多跑 4–5 轮。代价是 epoch 从 1.1 降到 0.9——比"训得慢但只学一遍"更亏的是
+    # "一天只训几遍"，所以先换频率；数据量涨上来（自举/更多真实语料）再回调步数。
+    ap.add_argument("--iters", type=int, default=400)
     ap.add_argument("--samples", type=int, default=10,
                     help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")
     ap.add_argument("--seg", default=None,

@@ -30,12 +30,12 @@
    22
   ],
   "caps": {
-   "comment": 10,
-   "danmaku": 30,
-   "like": 80
+   "comment": 15,
+   "danmaku": 40,
+   "like": 100
   },
   "note": "老号（成熟期）：自媒体/AI/短剧漫剧/数码科技为主；时段与配额按平台作息时钟排（峰值 12/17/21/22）",
-  "sessions_per_day": 6
+  "sessions_per_day": 8
  },
  "acct3": {
   "alias": "acct3",
@@ -65,16 +65,21 @@
    22
   ],
   "caps": {
-   "comment": 6,
-   "danmaku": 20,
-   "like": 50
+   "comment": 10,
+   "danmaku": 26,
+   "like": 60
   },
   "note": "新号（观察期）：游戏/人工智能/AI影视/娱乐；前 3 天只浏览+点赞（maturity=new）",
-  "sessions_per_day": 5
+  "sessions_per_day": 7
  },
  "_clock": {
   "source": "cph4/fleet/social/ACTIVITY-CLOCK.json",
   "based_on": "120 条真实评论 ctime",
   "updated": "2026-11-21"
+ },
+ "_tempo": {
+  "note": "2026-11-21 CEO「加快频率」：配额上调、场间 5–20 分钟随机，不再等 15–60 分钟",
+  "gap_min": 5,
+  "gap_max": 20
  }
 }

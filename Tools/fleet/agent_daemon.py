@@ -68,8 +68,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--account", required=True)
     ap.add_argument("--dry", action="store_true")
-    ap.add_argument("--min-gap", type=int, default=15, help="两场之间最少歇几分钟")
-    ap.add_argument("--max-gap", type=int, default=60)
+    ap.add_argument("--min-gap", type=int, default=5, help="两场之间最少歇几分钟（CEO：加快频率）")
+    ap.add_argument("--max-gap", type=int, default=20)
     a = ap.parse_args(argv)
     signal.signal(signal.SIGTERM, _stop)
     signal.signal(signal.SIGINT, _stop)
@@ -103,7 +103,16 @@ def main(argv=None):
                 log({"event": "no_account", "account": a.account})
                 time.sleep(1800)
                 continue
-            minutes = int(_plan.get("minutes") or rng.randint(8, 35))
+            # 2026-11-21 CEO「你随机就好」：计划值只当基准，实际时长/动作量都加抖动，
+            # 免得每天同一分钟、同一长度——那本身就是"不是人"的证据。
+            _base_min = int(_plan.get("minutes") or rng.randint(8, 35))
+            minutes = max(5, int(round(_base_min * rng.uniform(0.7, 1.4))))
+            if _plan.get("comment"):
+                _plan["comment"] = max(1, int(round(_plan["comment"] * rng.uniform(0.6, 1.5))))
+            if _plan.get("danmaku"):
+                _plan["danmaku"] = max(1, int(round(_plan["danmaku"] * rng.uniform(0.6, 1.6))))
+            if _plan.get("like"):
+                _plan["like"] = max(2, int(round(_plan["like"] * rng.uniform(0.6, 1.6))))
             t0 = time.time()
             sent = os.path.join(STATE, "AGENT-SESSION-%s" % a.account)
             try:
