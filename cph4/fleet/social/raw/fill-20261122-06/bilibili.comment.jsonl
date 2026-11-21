@@ -1,29 +1,29 @@
-{"id": "c0", "author": "", "text": "【项目开源/下载地址】：https://github.com/cuicui-V5/video_ai_rename 你的硬盘里是不是也躺着成百上千个类似“微信视频_xxx”、“DJI_0045.mp4”这样名字不知所云的素材？每次剪辑找特定画面都得像开盲盒一样，极其折磨人。 为了彻底干掉这个反人类的素材整理工作，我开发了这个“AI Video Rename”自动化工具。 💡 核心功能： 它能全自动帮", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c1", "author": "", "text": "主播主播能打包一下吗，公司电脑根本不想装环境", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c2", "author": "", "text": "可以, 有空的时候搞一下, 主要是依赖全都是cuda , wisper的模型之类的大家伙, 打包之后好几个G, 体验不太好", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c3", "author": "", "text": "老哥 这应该挺烧token吧 我之前也让人做了一个 接的豆包2.0 烧的心疼", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c4", "author": "", "text": "去掉语音部分能砍掉大部分依赖，只需要便携python+ffmpeg即可，打包应该不用100M，改元数据也不是很必要，会让视频上传网盘不能触发秒传，而且没人右键从属性看简介的吧", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c5", "author": "", "text": "写元数据里后面可以做个gui方便的展示这些数据呀, 语音识别砍掉了大模型识别这块不废了吗", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c6", "author": "", "text": "upup，如果是那种比较长的视频素材，它是怎么处理的，是将视频切割一段段的吗，每一段有索引，还是怎么的？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c7", "author": "", "text": "我就想问这个能识别多大文件？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c8", "author": "", "text": "多大理论上都可以， 本地转录时间长点罢了， 现在大模型上文长度够用", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c9", "author": "", "text": "@崔崔造物 崔老师，能不能把FFmpeg结合ai，让这上古源码焕发第二春， 就是裁剪出需要的参考片段，比如打斗分镜", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c10", "author": "", "text": "理论上可以做到， 但是ai分类可能做不到那么准确", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c11", "author": "", "text": "那么，小姐姐的房子能收拾一下么", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c12", "author": "", "text": "接grok应该可以， 别的模型有安全机制", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c13", "author": "", "text": "支持检索吗", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c14", "author": "", "text": "正准备做一个管理面板", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c15", "author": "", "text": "【项目开源/下载地址】： 你的硬盘里是不是也躺着成百上千个类似“微信视频_xxx”、“DJI_0045.mp4”这样名字不知所云的素材？每次剪辑找特定画面都得像开盲盒一样，极其折磨人。 为了彻底干掉这个反人类的素材整理工作，我开发了这个“AI Video Rename”自动化工具。 💡 核心功能： 它能全自动帮你把成百上千个视频看一遍、听一遍。不仅能给它们重命名成“带有具体时间点和精准内容描述”的", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c16", "author": "", "text": "大哥，您这个开源工具，对于英文和法语等视频，同样适用吗？识别英文的视频，然后用中文重名名——别再手动找素材了！我写了个AI工具，全自动给几千个视频重命名+写简介", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c17", "author": "", "text": "现在AI真的太猛了！花了大价钱买了套剪辑素材包，【 https://pan.quark.cn/s/263ea1e198ea 】里面都是MP4格式，萌新UP主建议收藏！求一键三连视频素材文件，支持一键使用，必备剪辑素材，感觉四舍五入等于白嫖了～", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c18", "author": "", "text": "先关注一下，这个真可以，可以让命名再精简一些，如果能自动分好类，比如场景、对话，然后再做精确描述，就具有实用性了，期待后续开发进度。", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c19", "author": "", "text": "这个必须是有语音的视频，才能操作对吗？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c20", "author": "", "text": "没有语音的ai只能根据三张关键帧分析内容", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c21", "author": "", "text": "有没有使用教程啊下载了根本不会用", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c22", "author": "", "text": "是本地离线版的吗？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c23", "author": "", "text": "语音识别调用的本地模型，然后把截图和转录的文本发给远程的多模态大模型", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c24", "author": "", "text": "有用过的朋友反馈一下么？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c25", "author": "", "text": "拉下来自己试一下就知道了 包好用的", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c26", "author": "", "text": "催更使用教程哈哈！！！", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c27", "author": "", "text": "大牛，这就是我要的，ai编程就是应该有这个", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
-{"id": "c28", "author": "", "text": "怎么下载下来用呀~", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:50:35"}
+{"id": "c0", "author": "", "text": "【项目开源/下载地址】：https://github.com/cuicui-V5/video_ai_rename 你的硬盘里是不是也躺着成百上千个类似“微信视频_xxx”、“DJI_0045.mp4”这样名字不知所云的素材？每次剪辑找特定画面都得像开盲盒一样，极其折磨人。 为了彻底干掉这个反人类的素材整理工作，我开发了这个“AI Video Rename”自动化工具。 💡 核心功能： 它能全自动帮", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c1", "author": "", "text": "主播主播能打包一下吗，公司电脑根本不想装环境", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c2", "author": "", "text": "可以, 有空的时候搞一下, 主要是依赖全都是cuda , wisper的模型之类的大家伙, 打包之后好几个G, 体验不太好", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c3", "author": "", "text": "老哥 这应该挺烧token吧 我之前也让人做了一个 接的豆包2.0 烧的心疼", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c4", "author": "", "text": "去掉语音部分能砍掉大部分依赖，只需要便携python+ffmpeg即可，打包应该不用100M，改元数据也不是很必要，会让视频上传网盘不能触发秒传，而且没人右键从属性看简介的吧", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c5", "author": "", "text": "写元数据里后面可以做个gui方便的展示这些数据呀, 语音识别砍掉了大模型识别这块不废了吗", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c6", "author": "", "text": "upup，如果是那种比较长的视频素材，它是怎么处理的，是将视频切割一段段的吗，每一段有索引，还是怎么的？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c7", "author": "", "text": "我就想问这个能识别多大文件？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c8", "author": "", "text": "多大理论上都可以， 本地转录时间长点罢了， 现在大模型上文长度够用", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c9", "author": "", "text": "@崔崔造物 崔老师，能不能把FFmpeg结合ai，让这上古源码焕发第二春， 就是裁剪出需要的参考片段，比如打斗分镜", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c10", "author": "", "text": "理论上可以做到， 但是ai分类可能做不到那么准确", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c11", "author": "", "text": "那么，小姐姐的房子能收拾一下么", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c12", "author": "", "text": "接grok应该可以， 别的模型有安全机制", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c13", "author": "", "text": "支持检索吗", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c14", "author": "", "text": "正准备做一个管理面板", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c15", "author": "", "text": "【项目开源/下载地址】： 你的硬盘里是不是也躺着成百上千个类似“微信视频_xxx”、“DJI_0045.mp4”这样名字不知所云的素材？每次剪辑找特定画面都得像开盲盒一样，极其折磨人。 为了彻底干掉这个反人类的素材整理工作，我开发了这个“AI Video Rename”自动化工具。 💡 核心功能： 它能全自动帮你把成百上千个视频看一遍、听一遍。不仅能给它们重命名成“带有具体时间点和精准内容描述”的", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c16", "author": "", "text": "大哥，您这个开源工具，对于英文和法语等视频，同样适用吗？识别英文的视频，然后用中文重名名——别再手动找素材了！我写了个AI工具，全自动给几千个视频重命名+写简介", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c17", "author": "", "text": "先关注一下，这个真可以，可以让命名再精简一些，如果能自动分好类，比如场景、对话，然后再做精确描述，就具有实用性了，期待后续开发进度。", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c18", "author": "", "text": "现在AI真的太猛了！花了大价钱买了套剪辑素材包，【 https://pan.quark.cn/s/263ea1e198ea 】里面都是MP4格式，萌新UP主建议收藏！求一键三连视频素材文件，支持一键使用，必备剪辑素材，感觉四舍五入等于白嫖了～", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c19", "author": "", "text": "有没有使用教程啊下载了根本不会用", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c20", "author": "", "text": "这个必须是有语音的视频，才能操作对吗？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c21", "author": "", "text": "没有语音的ai只能根据三张关键帧分析内容", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c22", "author": "", "text": "是本地离线版的吗？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c23", "author": "", "text": "语音识别调用的本地模型，然后把截图和转录的文本发给远程的多模态大模型", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c24", "author": "", "text": "有用过的朋友反馈一下么？", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c25", "author": "", "text": "拉下来自己试一下就知道了 包好用的", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c26", "author": "", "text": "催更使用教程哈哈！！！", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c27", "author": "", "text": "大牛，这就是我要的，ai编程就是应该有这个", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
+{"id": "c28", "author": "", "text": "怎么下载下来用呀~", "thread": "https://www.bilibili.com/video/BV1XidBBqE1K/", "ts": "2026-11-22T01:54:28"}
