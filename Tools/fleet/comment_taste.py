@@ -201,7 +201,7 @@ def copied_sample(text, n=5):
     return ""
 
 
-def hard_block(text):
+def hard_block(text, context=""):
     """硬拒（不扣分，直接不收）：这三类是"发出去就露馅"的，不该靠总分盖过去。
 
     2026-11-20 读样本实锚：
@@ -229,7 +229,11 @@ def hard_block(text):
     ok_latin = {"BGM", "bgm", "MV", "mv", "UP", "up", "B站", "PR", "AI", "Vlog", "vlog",
                 "rap", "RAP", "CS", "cs", "PS", "ps", "APP", "app", "V社", "GDP",
                 "iPhone", "iPad", "PC", "pc", "TV", "DLC", "Steam", "steam", "LOL"}
-    bad = [w for w in latin if w not in ok_latin]
+    # 上下文白名单：标题/简介/简报里出现的英文词是内容不是幻觉。
+    # 2026-11-21 实锚：「15 号比了嘛，16 号支持 BLG 啊！」被判"英文幻觉 BLG"，
+    # 而 BLG 就是这条视频标题里的队名——闸没有上下文就会把专有名词当乱码。
+    ctx = (context or "").lower()
+    bad = [w for w in latin if w not in ok_latin and w.lower() not in ctx]
     if bad:
         return "英文幻觉：%s" % "/".join(bad[:2])
     # 非中文字符混入：2026-11-20 实测「镜头构图虽 Европы 但配乐还挺带感嘛」过了闸——
@@ -248,7 +252,7 @@ def hard_block(text):
     return ""
 
 
-def gen_gate(text):
+def gen_gate(text, ctx=""):
     """**出稿闸**：只拦"发出去会露馅"的，不拿品味分当及格线。
 
     2026-11-21 回归实测（GATE-REGRESSION：亲笔 20 句 + 坏句 17 句）：
@@ -263,7 +267,7 @@ def gen_gate(text):
     t = strip_reply_prefix(text or "")
     if not t:
         return False, "空"
-    hb = hard_block(t)
+    hb = hard_block(t, context=ctx)
     if hb:
         return False, hb
     if not CJK.search(t):

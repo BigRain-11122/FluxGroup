@@ -552,15 +552,23 @@ def main():
     except Exception:
         pass
 
+    # 视频内容简报：从这条视频的真实评论里抽"观众在聊什么"，让稿子指着具体内容说
+    try:
+        import video_brief as vb
+        _brief = vb.block(url)
+    except Exception:
+        _brief = ""
     best = None
     for k in range(8):
-        p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k)
+        p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k, brief=_brief)
         p += persona_line(seg)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
+        # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
+        # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
         t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
             continue
-        ok, why = ct.gen_gate(t)
+        ok, why = ct.gen_gate(t, ctx=(title or "") + (meta.get("desc") or ""))
         if not ok:
             log({"action": "skip", "why": "gen-gate:" + why, "arm": arm})
             continue

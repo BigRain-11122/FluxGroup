@@ -47,7 +47,7 @@ def opening(t):
     return re.sub(r"[^\u4e00-\u9fff]", "", t or "")[:2]
 
 
-def gate(t):
+def gate(t, ctx=""):
     """一条候选能不能进训练集。返回 ("PASS", "") 或 (原因, 细节)。
 
     2026-11-21 换成 `gen_gate`：回归集实测，拿 score().verdict 当及格线会把亲笔句
@@ -59,7 +59,7 @@ def gate(t):
         return "空", ""
     if not (LO <= len(t) <= HI):
         return "字数", str(len(t))
-    ok, why = ct.gen_gate(t)
+    ok, why = ct.gen_gate(t, ctx=ctx)
     if not ok:
         return "硬拒", why
     if ct.awkward_particles(t):
@@ -67,9 +67,14 @@ def gate(t):
     return "PASS", ""
 
 
-def sample_one(title, desc, k, seg, temperature=0.85):
+def sample_one(title, desc, k, seg, temperature=0.85, url=""):
     import llm_client as lc
-    p = lc.lora_comment_prompt(title, desc, i=k, seg=seg or None)
+    try:
+        import video_brief as vb
+        _brief = vb.block(url) if url else ""
+    except Exception:
+        _brief = ""
+    p = lc.lora_comment_prompt(title, desc, i=k, seg=seg or None, brief=_brief)
     p += "只写 %d-%d 字，一句话。" % (LO, HI)
     r = lc.generate_lora(p, max_tokens=48, temperature=temperature)
     if isinstance(r, dict):
@@ -133,11 +138,11 @@ def _run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""
         if not title:
             continue
         for k in range(per):
-            t, why = sample_one(title, desc, k, seg, temperature)
+            t, why = sample_one(title, desc, k, seg, temperature, url)
             if why:
                 stats["调用失败"] += 1
                 continue
-            verdict, detail = gate(t)
+            verdict, detail = gate(t, ctx=(title or "") + (desc or ""))
             if verdict != "PASS":
                 stats[verdict + ("：" + detail.split("：")[0] if detail else "")] += 1
                 continue

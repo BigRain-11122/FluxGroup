@@ -17,12 +17,8 @@
    1
   ]
  ],
- "defect_rate": 0.133,
+ "defect_rate": 0.067,
  "defect_words": [
-  [
-   "引号包裹/抄格式",
-   2
-  ],
   [
    "烂梗：绝了",
    1
@@ -88,5 +84,14 @@
  "avg_human": 4.3,
  "avg_voice": 9.3,
  "avg_total": 68.7,
- "rescored_at": "2026-11-21T18:01:41"
+ "rescored_at": "2026-11-21T19:13:22",
+ "emoji_rate": 0.0,
+ "emoji_rate_ref": 0.254,
+ "emoji_gap": -0.254,
+ "meme_hit_rate": 0.033,
+ "len_ref": [
+  7,
+  13,
+  25
+ ]
 }

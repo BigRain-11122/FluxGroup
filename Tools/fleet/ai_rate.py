@@ -65,6 +65,33 @@ def platform_metrics(texts, seg=""):
     }
 
 
+def content_metrics(pairs):
+    """内容接地：这条评论有没有提到"这条视频里的具体东西"。
+
+    判据=命中该视频简报里的主题词（从它自己的真实评论里抽出来的），
+    或命中标题里的实词。2026-11-21 CEO「尤其是要看视频内容」——
+    泛泛夸「画面真好看」不含任何该视频特有的词，这一项就是 0。
+    """
+    try:
+        d = json.load(open(os.path.join(SOCIAL, "VIDEO-BRIEFS.json"), encoding="utf-8"))
+        briefs = d.get("briefs") or {}
+    except Exception:
+        return {}
+    hit = tot = 0
+    for t, url in pairs:
+        b = briefs.get((url or "").strip()) or {}
+        topics = (b.get("topics") or [])[:6]
+        title = b.get("title") or ""
+        words = [w for w in re.split(r"[^\u4e00-\u9fffA-Za-z0-9]+", title) if len(w) >= 2]
+        cues = set(topics) | set(words)
+        if not cues:
+            continue
+        tot += 1
+        if any(c in t for c in cues):
+            hit += 1
+    return {"content_fit": round(hit / tot, 3) if tot else None, "content_n": tot}
+
+
 def raw_ai_hits(t):
     """闸之前就能看出来的 AI 痕迹（不看分数，只看"这句话本身像不像我们发的"）。"""
     import comment_taste as ct
@@ -97,13 +124,20 @@ def measure(model="base", adapter=None, n=30, per_title=None, seg=""):
             return {"error": "挂适配器失败：%s" % tail}
         restore = ar
 
-    texts, errs = [], 0
+    texts, errs, pairs = [], 0, []
     t0 = time.time()
     i = 0
     while len(texts) < n and i < n * 3:
         url, meta = items[i % len(items)]
         title = (meta or {}).get("title") or ""
-        p = lc.lora_comment_prompt(title, (meta or {}).get("desc") or "", i=i, seg=seg or None)
+        # 必须和生产同口径：生产会传视频简报，测量不传就等于在测另一条链路
+        try:
+            import video_brief as vb
+            _brief = vb.block(url)
+        except Exception:
+            _brief = ""
+        p = lc.lora_comment_prompt(title, (meta or {}).get("desc") or "", i=i,
+                                   seg=seg or None, brief=_brief)
         tgt = lc.human_len_target(i) or 15
         p += "只写 %d-%d 字，一句话。" % (max(4, tgt - 2), min(30, tgt + 3))
         r = lc.generate_lora(p, max_tokens=52, temperature=0.85)
@@ -112,6 +146,7 @@ def measure(model="base", adapter=None, n=30, per_title=None, seg=""):
             errs += 1
         else:
             texts.append(t)
+            pairs.append((t, url))
         i += 1
     try:
         if restore:
@@ -130,7 +165,16 @@ def measure(model="base", adapter=None, n=30, per_title=None, seg=""):
     # 原始缺陷率：不只看"像不像 AI"，还看"有没有硬伤"。
     # 2026-11-21 实锚：shallow 旧件吐出 `_formats_`（模板占位符），词表一个都没命中，
     # 只数 AI 腔会把这句算成"干净"——缺陷必须和腔调分开计。
-    defs = [(t, ct.hard_block(t)) for t in texts]
+    try:
+        import video_brief as _vb
+        _d = json.load(open(_vb.OUT, encoding="utf-8"))
+    except Exception:
+        _d = {}
+    def _ctx(url):
+        b = ((_d.get("briefs") or {}).get(url) or {})
+        return " ".join([b.get("title") or "", b.get("desc") or ""] +
+                        list(b.get("topics") or []))
+    defs = [(t, ct.hard_block(t, context=_ctx(u))) for t, u in pairs]
     defs = [(t, w) for t, w in defs if w]
     return {
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -146,6 +190,7 @@ def measure(model="base", adapter=None, n=30, per_title=None, seg=""):
         "opening_max_share": round(opens.most_common(1)[0][1] / len(texts), 3),
         "gate_pass_rate": round(gate_pass / len(texts), 3),
         **platform_metrics(texts, seg),
+        **content_metrics(pairs),
         "samples": texts,
     }
 

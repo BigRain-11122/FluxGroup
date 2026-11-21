@@ -271,15 +271,20 @@ HUMAN_PERSONA = os.path.join(ROOT, "cph4", "fleet", "social", "HUMAN-PERSONA-v1.
 
 # 8 条候选各自换一个"从哪儿说"，避免候选之间只是换词。
 _ANGLE = [
-    "\n这条就从画面里的东西说起。",
-    "\n这条只说你自己的感受，别描述画面。",
-    "\n这条挑一个不完美的地方，口气放轻。",
-    "\n这条短一点，像随手一评，别写完整句。",
-    "\n这条说说你想起的另一件事。",
-    "\n这条只提一个小细节，别的都不说。",
-    "\n这条像跟人接话，口语一点。",
-    "\n这条结尾带一个表情。",
+    "\n指着这条片子里一个具体的东西说（某个镜头/某句话/某个声音）。",
+    "\n只说你自己看完的感受，别描述画面。",
+    "\n挑一个不完美的地方，口气放轻。",
+    "\n短一点，像随手一评，别写完整句。",
+    "\n说说你想起的另一件事。",
+    "\n只提一个小细节，别的都不说。",
+    "\n像跟人接话，口语一点。",
+    "\n就着片子里某个具体点问一句（怎么做的/是哪一版）。",
 ]
+# 表情要"跟着情绪走"：CEO 2026-11-21「不要为了表情而表情」。
+# 原来有一条角度直接要求"结尾带一个表情"，等于给每条候选发一个强制配额，
+# 模型于是把 [笑哭] 贴在毫无情绪的陈述句后面。现在改成条件句，并明说不许硬加。
+_EMOJI_RULE = ("\n表情只在句子本身有情绪（好笑/无奈/惊讶/想笑）时才带一个，"
+               "平铺直述就别加；不许为了带表情而带。")
 
 
 def human_persona_block(acct=None):
@@ -357,7 +362,10 @@ def platform_block(seg=None):
     bits = []
     if em:
         # 只给比例、不给"必须带"：写完 0%→46.7%，真实是 25.4%，说清"多数不带"才收得住
-        bits.append("表情码就用 %s 这种写法、紧贴不空格；这批人只有约 %.0f%% 会带，多数评论不带"
+        # 实测写"约 25% 会带"仍输出 40%：模型对比例不敏感，对"几句里几句"敏感。
+        # 换成硬约束数量（四句最多一句），再补一句"宁可没有"。
+        bits.append("表情码就用 %s 这种写法、紧贴不空格；这批人只有约 %.0f%% 会带，"
+                    "也就是四句话里最多一句带表情，宁可没有"
                     % ("/".join(em), rate * 100))
     if mt:
         bits.append("这类人嘴上常挂 %s 这种词，但别硬塞" % "、".join(mt[:3]))
@@ -366,7 +374,7 @@ def platform_block(seg=None):
     return ("\n这是 B 站评论区，要像这个平台的人说话：" + "；".join(bits) + "。") if bits else ""
 
 
-def lora_comment_prompt(title, desc="", i=0, seg=None):
+def lora_comment_prompt(title, desc="", i=0, seg=None, brief=""):
     """按**训练时用的同一批指令模板**拼提示词。
 
     踩过的坑：自己另写一句"写一条B站评论"喂给 LoRA，它会退回助手腔——
@@ -386,9 +394,16 @@ def lora_comment_prompt(title, desc="", i=0, seg=None):
             ins += " " + _sg.style_block(seg)
         except Exception:
             pass
+    if brief:
+        ins += brief
     ins += human_persona_block()
     ins += platform_block(seg)
-    ins += _ANGLE[i % len(_ANGLE)]
+    ins += _EMOJI_RULE
+    # 角度随机：固定 i%8 会让"第 1 条永远说画面、第 8 条永远带表情"，
+    # 换条视频还是同序，等于半个模板。用 (标题+序号) 做种子，不同视频取到不同角度。
+    import random as _rnd
+    _seed = (title or "") + str(i)
+    ins += _ANGLE[_rnd.Random(_seed).randrange(len(_ANGLE))]
     return ins
 
 

@@ -1,21 +1,29 @@
 {
- "total": 130899,
- "usable_for_train": 130739,
+ "total": 143525,
+ "usable_for_train": 131421,
  "by_use": {
-  "train": 130739,
+  "train": 131421,
   "rejected": 8,
+  "null": 11944,
   "reference": 152
  },
  "by_src": {
+  "selfgen-shallow": 236,
   "own_collected": 62766,
   "negatives": 0,
   "QUALITY-PASS": 6394,
   "study_hot": 1343,
   "own_practice": 20,
+  "SEG2": 11944,
   "bili_comments_crawl": 152,
-  "BAKED-v1": 60224
+  "selfgen-shallow-v0": 105,
+  "BAKED-v1": 60565
  },
  "by_kind": {
+  "praise": 552,
+  "critique": 98,
+  "question": 30,
+  "experience": 2,
   "其他": 85552,
   "提问": 25308,
   "夸奖": 10918,
@@ -24,14 +32,14 @@
   "挑刺": 2443,
   "玩梗": 2345,
   "催更": 446,
-  "null": 1343
+  "null": 13287
  },
  "by_emo": {
+  "null": 14001,
   "平": 116442,
   "喜": 7840,
   "怒": 2042,
   "哀": 1345,
-  "奇": 1855,
-  "null": 1375
+  "奇": 1855
  }
 }
