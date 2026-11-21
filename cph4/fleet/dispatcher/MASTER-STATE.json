@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-21T16:46:39",
- "cycle": 3653,
+ "ts": "2026-11-21T16:55:36",
+ "cycle": 3654,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-21T16:46:39",
+ "master_tick_ts": "2026-11-21T16:55:36",
  "queue": {
   "total": 385,
   "open": 14,
@@ -854,7 +854,5 @@
   "STAGE-STALLED recon 卡在 扒榜/拆包/拆解部 (拆解部)",
   "STAGE-STALLED asset-lib 卡在 训练环境自检/资产席 (资产席)"
  ],
- "lane_files_written": [
-  "bm-a"
- ]
+ "lane_files_written": []
 }
