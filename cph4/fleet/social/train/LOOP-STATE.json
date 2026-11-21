@@ -33,12 +33,13 @@
    "val_min": 3.606
   },
   "memer": {
-   "last_ts": 1795164065.0,
-   "last_rc": "POWER",
-   "rows": null,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "last_ts": 1795241793.662049,
+   "last_rc": "KEEP",
+   "rows": 2191,
+   "run": "20261121-132429",
+   "step": 400,
+   "val_min": 3.337,
+   "recipe": "v3-natural-dist"
   },
   "__all__": {
    "last_ts": 1795155403.0,
@@ -424,6 +425,25 @@
    "verdict": "REJECT",
    "why": "均分只 -7.7（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261120-225900/ckpt500"
+  },
+  {
+   "ts": "2026-11-21T14:16:33",
+   "seg": "memer",
+   "rows": 2191,
+   "built": 366,
+   "eval_n": 10,
+   "run": "20261121-132429",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 3.337,
+   "base_avg": 38.7,
+   "lora_avg": 73.4,
+   "base_human": 1.0,
+   "lora_human": 11.0,
+   "human_delta": 10.0,
+   "verdict": "KEEP",
+   "why": "均分 +34.7 / 人味 +10.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261121-132429/ckpt400"
   }
  ]
 }
