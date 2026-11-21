@@ -418,7 +418,16 @@ def warmup_stage(acct):
     """新号前 3 天只浏览+点赞：新号评论最容易被吞，弹幕更容易被判刷。
 
     返回 (允许评论, 允许弹幕, 说明)。日期取账号表 created_at（登录当天算第 0 天）。
+
+    2026-11-21 实锚（这条把老号害惨了）：acct1「大喵没鱼吃」的 created_at 是**本地
+    登记日期**（2026-11-20），不是账号年龄。于是老号被判成"新号第 0 天"，
+    只许弹幕+点赞、不许评论，**一整天 0 条出稿**，看着像 GPU 被训练饿死，其实是被
+    这条判据锁住。所以：账号表显式写 maturity（mature/new）时以它为准，
+    没写才退回按 created_at 推算。
     """
+    mat = (acct or {}).get("maturity")
+    if mat == "mature":
+        return True, True, ""
     ts = (acct or {}).get("created_at")
     if not ts:
         return True, True, ""

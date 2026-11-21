@@ -46,7 +46,7 @@ def last_post_ts():
 
 
 YIELD_STATE = os.path.join(ROOT, "cph4", "fleet", "state", "publish-yield.json")
-YIELD_COOLDOWN_S = 600     # 让过一次之后 10 分钟内不再让，否则出稿一旦长期失败训练会被饿死
+YIELD_COOLDOWN_S = 1500    # 出稿一轮 30 分钟，让过一次后 25 分钟内不再让（保证每个出稿窗口都有机会）
 
 
 def _last_yield():
