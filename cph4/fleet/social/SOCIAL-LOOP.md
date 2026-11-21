@@ -1,6 +1,6 @@
 # 养号自驱环路（SOCIAL-LOOP）
 
-> 更新时间 2026-11-22T04:46:58 ｜ 语料 11085 行 ｜ 每段评测目标 n=30
+> 更新时间 2026-11-22T04:51:59 ｜ 语料 11085 行 ｜ 每段评测目标 n=30
 
 | 段 | 可用行 | 目标 | 缺口 | 最近判词 | n | 龄期(h) | 下一步 |
 |---|---|---|---|---|---|---|---|
@@ -11,11 +11,11 @@
 | student | 105 | 400 | 74% | - | 0 | - | collect |
 | critic | 125 | 400 | 69% | - | 0 | - | collect |
 | beginner | 150 | 400 | 62% | - | 0 | - | collect |
-| music_seeker | 441 | 600 | 26% | KEEP | 10 | 1.0 | collect |
-| feeler | 550 | 600 | 8% | REJECT | 10 | 3.3 | - |
-| tech_nerd | 570 | 600 | 5% | REJECT | 30 | 2.2 | - |
-| craft_learner | 2139 | 800 | 0% | REJECT | 10 | 2.8 | - |
-| memer | 2157 | 600 | 0% | BLOCKED | 0 | 2.1 | - |
+| music_seeker | 441 | 600 | 26% | KEEP | 10 | 1.1 | collect |
+| feeler | 550 | 600 | 8% | REJECT | 10 | 3.4 | - |
+| tech_nerd | 570 | 600 | 5% | REJECT | 30 | 2.3 | - |
+| craft_learner | 2139 | 800 | 0% | REJECT | 10 | 2.9 | - |
+| memer | 2157 | 600 | 0% | BLOCKED | 0 | 2.2 | - |
 | peer_pro | 603 | 600 | 0% | KEEP | 10 | 0.5 | verify |
 | shallow | 1948 | 600 | 0% | REJECT | 10 | 1.6 | - |
 
