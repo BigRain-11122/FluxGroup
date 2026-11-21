@@ -1,0 +1,6 @@
+CHAIN EP007 stages=plan,kf,i2v-plan,i2v,assembly,qc dry=False
+[plan]
+  $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_kf_plan.py --eps 7
+[kf]
+  $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_kf_batch.py --ep 7
+CHAIN DONE fails=1 state=cph4\fleet\out\drama\EP007\chain-state.json
