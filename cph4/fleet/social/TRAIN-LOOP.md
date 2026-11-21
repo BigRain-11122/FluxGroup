@@ -1,4 +1,4 @@
-# 7×24 训练循环（2026-11-21T21:40:24）
+# 7×24 训练循环（2026-11-21T21:45:25）
 
 > 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
 
@@ -6,34 +6,33 @@
 
 | 段 | 可用行数 | 可训 | 判据 |
 |---|---|---|---|
-| craft_learner | 2138 | 是 | 配方更新 v4-clean-corpus（2138 行） |
-| shallow | 1948 | 是 | 配方更新 v4-clean-corpus（1948 行） |
-| peer_pro | 603 | 是 | 配方更新 v4-clean-corpus（603 行） |
-| tech_nerd | 570 | 是 | 配方更新 v4-clean-corpus（570 行） |
-| feeler | 550 | 是 | 配方更新 v4-clean-corpus（550 行） |
-| music_seeker | 441 | 是 | 配方更新 v4-clean-corpus（441 行） |
-| memer | 2157 | 否 | 冷却中（0.0h 前刚训过，语料 2157→2157 未涨 10%） |
-| beginner | 150 | 否 | 语料 150 < 200 |
-| critic | 125 | 否 | 语料 125 < 200 |
-| student | 105 | 否 | 语料 105 < 200 |
-| ai_creator | 64 | 否 | 语料 64 < 200 |
-| requester | 62 | 否 | 语料 62 < 200 |
-| family | 17 | 否 | 语料 17 < 200 |
-| traditional | 3 | 否 | 语料 3 < 200 |
+| shallow | 159 | 否 | 语料 159 < 200 |
+| craft_learner | 129 | 否 | 语料 129 < 200 |
+| memer | 104 | 否 | 语料 104 < 200 |
+| tech_nerd | 56 | 否 | 语料 56 < 200 |
+| feeler | 41 | 否 | 语料 41 < 200 |
+| peer_pro | 41 | 否 | 语料 41 < 200 |
+| music_seeker | 33 | 否 | 语料 33 < 200 |
+| requester | 13 | 否 | 语料 13 < 200 |
+| student | 9 | 否 | 语料 9 < 200 |
+| ai_creator | 7 | 否 | 语料 7 < 200 |
+| critic | 6 | 否 | 语料 6 < 200 |
+| beginner | 4 | 否 | 语料 4 < 200 |
 
 ## 补料清单（训练线的真实瓶颈）
 
-有 7 个段低于 200 行，合计还差 **874 行**才够开训：
+有 12 个段低于 200 行，合计还差 **1798 行**才够开训：
 
 | 段 | 现有 | 差 |
 |---|---|---|
-| beginner | 150 | 50 |
-| critic | 125 | 75 |
-| student | 105 | 95 |
-| ai_creator | 64 | 136 |
-| requester | 62 | 138 |
-| family | 17 | 183 |
-| traditional | 3 | 197 |
+| shallow | 159 | 41 |
+| craft_learner | 129 | 71 |
+| memer | 104 | 96 |
+| tech_nerd | 56 | 144 |
+| peer_pro | 41 | 159 |
+| feeler | 41 | 159 |
+| music_seeker | 33 | 167 |
+| requester | 13 | 187 |
 
 ## 最近 10 轮
 
