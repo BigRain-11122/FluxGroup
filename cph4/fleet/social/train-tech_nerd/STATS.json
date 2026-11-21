@@ -1,9 +1,9 @@
 {
  "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
  "src_sha": "addc5c63d17dccf1",
- "train": 294,
- "valid": 15,
- "avg_len": 28.0,
+ "train": 307,
+ "valid": 16,
+ "avg_len": 27.3,
  "dropped": {
   "dup": 0,
   "len": 4485,
@@ -19,13 +19,14 @@
   "near_dup": 40,
   "phrase_dull": 0,
   "seg_over": 262,
-  "backfill": 70
+  "backfill": 70,
+  "voice_topup": 19
  },
  "seed": 20261117,
  "valid_ratio": 0.05,
  "by_len": {
-  "m": 157,
+  "m": 165,
   "l": 143,
-  "s": 9
+  "s": 15
  }
 }
