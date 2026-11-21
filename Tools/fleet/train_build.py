@@ -281,6 +281,47 @@ def ai_smell(text):
     return ""
 
 
+def top_up_voice(rows, seg, quota, src, spec=None):
+    """把带口语语气词的样本补到 quota 占比。
+
+    2026-11-21 实测：shallow 数据 voice 均分 3.0/20、69% 的行一个语气词都没有，
+    而 CEO 要的"人味和自然"主要落在这一维。真人不是每句都带（他亲笔只有 22% 带），
+    所以目标不是拉满，而是**保底三成**——模型才会学到"什么时候该带"。
+    只补过得出稿闸、非 AI 腔、长度合规的行，且与现有行不重复。
+    """
+    import comment_taste as ct
+    import segments as sg
+    cur = sum(1 for r in rows if ct.score(r["text"]).get("voice", 0) >= 8)
+    need = int(len(rows) * max(0.0, quota) - cur)
+    if need <= 0:
+        return rows, 0
+    seen = {r.get("h") for r in rows}
+    spec = spec or sg.load_spec()
+    picked = []
+    for line in open(src, encoding="utf-8"):
+        if len(picked) >= need:
+            break
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        h = r.get("h")
+        t = (r.get("text") or "").strip()
+        if not h or h in seen or not t or r.get("dup_of"):
+            continue
+        if r.get("use") != "train" or ai_smell(t):
+            continue
+        if not (MIN_LEN <= len(t) <= MAX_LEN):
+            continue
+        if seg and sg.classify(t, spec)["primary"] != seg:
+            continue
+        if not ct.gen_gate(t)[0] or ct.score(t).get("voice", 0) < 8:
+            continue
+        seen.add(h)
+        picked.append({"h": h, "text": t, "len": len(t), "kind": r.get("kind"),
+                       "origin": r.get("origin") or "comment", "thread": r.get("thread")})
+    return rows + picked, len(picked)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
@@ -289,6 +330,10 @@ def main():
     ap.add_argument("--valid-ratio", type=float, default=0.05)
     ap.add_argument("--ban-ai", type=int, default=1,
                     help="语料级反 AI 腔硬筛（1=开，默认）。关掉只为做对照实验")
+    ap.add_argument("--voice-quota", type=float, default=0.30,
+                    help="带口语语气词（voice>=8）的样本至少占比。2026-11-21 实测："
+                         "数据里 voice 均分只有 3.0/20、69% 为 0，而这一维就是'像人说话'；"
+                         "但全改会做作，所以只保三成")
     ap.add_argument("--target-rows", type=int, default=0,
                     help="目标行数：硬阈值砍太狠时，从'没硬伤但分不够'的池里按分回填到该数"
                          "（0=不补）。2026-11-21 实测 shallow 只剩 293/4396，必须回填")
@@ -534,6 +579,13 @@ def main():
     if len(rows) < 100:
         print("[build] 只有 %d 条可用，太少（至少 100 才有意义）" % len(rows))
         return 2
+
+    if a.voice_quota > 0 and rows:
+        rows, added_v = top_up_voice(rows, a.seg, a.voice_quota, a.src)
+        if added_v:
+            dropped["voice_topup"] = added_v
+            print("[build] 补语感样本 %d 条（带语气词的行补到 %.0f%%）"
+                  % (added_v, a.voice_quota * 100))
 
     rnd = random.Random(a.seed)
     quota = (os.environ.get("FLUX_BUILD_KIND_QUOTA") == "1"
