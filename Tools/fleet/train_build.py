@@ -176,8 +176,10 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
-RECIPE = "v4-clean-corpus"     # 造集配方版本：变了就该重训（train_forever 认这个）
-# 2026-11-21 升版理由：语料级反 AI 腔硬筛（4.0% 行）+ 自举语料并入 + 亲笔长度分布。
+RECIPE = "v5-shape-quota"     # 造集配方版本：变了就该重训（train_forever 认这个）
+# 2026-11-21 v5 理由：句式配额（短评补到 45%，贴近真实 38%）+ 语感配额；
+# 旧数据集陈述句占 76–80%、短评只 7%，模型因此只会写整句——这是"样本都一样"的根。
+# v4 理由：语料级反 AI 腔硬筛（4.0% 行）+ 自举语料并入 + 亲笔长度分布。
 # 配方一变，train_forever 会把每一段都当成"新的一课"重训，这是有意为之：
 # 拿旧配方训出来的件不能证明新配方没用，留着它反而会让"已训过"挡住重训。
 
@@ -281,6 +283,50 @@ def ai_smell(text):
     return ""
 
 
+def top_up_short(rows, seg, quota, src, spec=None, max_len=10):
+    """把"短评"（≤10 字）补到 quota 占比。
+
+    2026-11-21 实测（CEO「训练样本各种行为都要不一样」）：真实 B 站评论句式分布是
+    陈述 49% / **短评 38%** / 疑问 8% / 感叹 5%，而我们的数据集陈述 76–80%、短评只有 5–15%。
+    原因是过滤链（长度≥4、品味≥60、人味≥5）把短句系统性筛掉了，模型于是只会写整句。
+    这里按真实比例回补短评，只补过得出稿闸、非 AI 腔、同段、未重复的行。
+    """
+    import comment_taste as ct
+    import segments as sg
+    def _short(t):
+        return len(re.sub(r"\[[^\]]{1,10}\]", "", t or "")) <= max_len
+    cur = sum(1 for r in rows if _short(r["text"]))
+    need = int(len(rows) * max(0.0, quota) - cur)
+    if need <= 0:
+        return rows, 0
+    seen = {r.get("h") for r in rows}
+    spec = spec or sg.load_spec()
+    picked = []
+    for line in open(src, encoding="utf-8"):
+        if len(picked) >= need:
+            break
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        h, t = r.get("h"), (r.get("text") or "").strip()
+        if not h or h in seen or not t or r.get("dup_of") or r.get("use") != "train":
+            continue
+        if not (MIN_LEN <= len(t) <= MAX_LEN) or not _short(t):
+            continue
+        # 优先补"平铺短句"：带 ！/? 的短句会被句式统计算成感叹/疑问，
+        # 补一堆"好家伙！"并不能改善句式分布（2026-11-21 实测：补 130 条，短评只涨 6pp）
+        if ("！" in t or "!" in t or "？" in t or "?" in t):
+            continue
+        if ai_smell(t) or not ct.gen_gate(t)[0]:
+            continue
+        if seg and sg.classify(t, spec)["primary"] != seg:
+            continue
+        seen.add(h)
+        picked.append({"h": h, "text": t, "len": len(t), "kind": r.get("kind"),
+                       "origin": r.get("origin") or "comment", "thread": r.get("thread")})
+    return rows + picked, len(picked)
+
+
 def top_up_voice(rows, seg, quota, src, spec=None):
     """把带口语语气词的样本补到 quota 占比。
 
@@ -330,6 +376,9 @@ def main():
     ap.add_argument("--valid-ratio", type=float, default=0.05)
     ap.add_argument("--ban-ai", type=int, default=1,
                     help="语料级反 AI 腔硬筛（1=开，默认）。关掉只为做对照实验")
+    ap.add_argument("--short-quota", type=float, default=0.45,
+                    help="短评（≤10 字）至少占比。真实 B 站评论 38% 是短评，"
+                         "而过滤链会把短句筛掉，导致模型只会写整句")
     ap.add_argument("--voice-quota", type=float, default=0.30,
                     help="带口语语气词（voice>=8）的样本至少占比。2026-11-21 实测："
                          "数据里 voice 均分只有 3.0/20、69% 为 0，而这一维就是'像人说话'；"
@@ -579,6 +628,13 @@ def main():
     if len(rows) < 100:
         print("[build] 只有 %d 条可用，太少（至少 100 才有意义）" % len(rows))
         return 2
+
+    if a.short_quota > 0 and rows:
+        rows, added_s = top_up_short(rows, a.seg, a.short_quota, a.src)
+        if added_s:
+            dropped["short_topup"] = added_s
+            print("[build] 补短评 %d 条（短句补到 %.0f%%，真实分布 38%%）"
+                  % (added_s, a.short_quota * 100))
 
     if a.voice_quota > 0 and rows:
         rows, added_v = top_up_voice(rows, a.seg, a.voice_quota, a.src)
