@@ -99,11 +99,15 @@ def _age_h(ts):
         return None
 
 
+MISSING = object()
+
+
 def _dig(doc, path):
+    """区分「字段不存在」与「字段值就是 None」：后者是 SKIP，前者是契约缺口。"""
     cur = doc
     for part in str(path).split("."):
         if not isinstance(cur, dict) or part not in cur:
-            return None
+            return MISSING
         cur = cur[part]
     return cur
 
@@ -148,8 +152,10 @@ def eval_assert(a, evidence_files):
     if doc is None:
         return None, "证据不是可读 JSON"
     val = _dig(doc, a.get("path", ""))
-    if val is None:
+    if val is MISSING:
         return None, "缺字段 %s" % a.get("path")
+    if val is None:
+        return None, "%s 量不到（SKIP）" % a.get("path")
     if "eq" in a:
         return (val == a["eq"]), "%s=%r（需 %r）" % (a.get("path"), val, a["eq"])
     if "ne" in a:

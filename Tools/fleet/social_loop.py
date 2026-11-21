@@ -455,8 +455,11 @@ def do_verify(seg, adapter, eval_n):
         keep, why = tf.judge_keep(base, lora)
     except Exception as e:
         return False, 0, secs, "[verify] 判据不可用：%s" % e
+    # 2026-11-21 反思：复验行原来只写 note，不写 why/run，于是台账里出现
+    # 「KEEP 但 why=None、run=None」——审计读不到归因，也不知道是哪个适配器的判决。
     append_jsonl(TRAIN_LEDGER, dict(
-        ts=now(), seg=seg, verdict="KEEP" if keep else "REJECT",
+        ts=now(), seg=seg, verdict="KEEP" if keep else "REJECT", why=why,
+        run=os.path.basename(run_dir), re_verify=True,
         lora_avg=lora.get("avg"), base_avg=base.get("avg"), eval_n=lora.get("n"),
         adapter=adapter, note="re-verify(n=%d)：%s" % (eval_n, why)))
     return True, int(lora.get("n") or 0), secs, "[verify] %s（n=%s）：%s" % (

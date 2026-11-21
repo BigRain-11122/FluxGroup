@@ -1,20 +1,22 @@
 {
- "version": "v2.1-20261121",
+ "version": "v2.2-20261121",
  "agent": "social-keeper",
  "counts": {
-  "OK": 18,
-  "NOT_PASS": 5
+  "OK": 21,
+  "SKIP": 2,
+  "NOT_PASS": 4
  },
  "tiers": {
   "P0": {
    "OK": 5
   },
   "P1": {
-   "OK": 9,
-   "NOT_PASS": 2
+   "OK": 10,
+   "SKIP": 2,
+   "NOT_PASS": 1
   },
   "P2": {
-   "OK": 4,
+   "OK": 6,
    "NOT_PASS": 3
   }
  },
@@ -143,8 +145,8 @@
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "NOT_PASS",
-   "why": "pass.TR02=False（需 True）"
+   "state": "SKIP",
+   "why": "pass.TR02 量不到（SKIP）"
   },
   {
    "id": "T02",
@@ -169,7 +171,7 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 3.9,
+   "age_h": 4.0,
    "limit_h": 24.0,
    "state": "OK",
    "why": "12h 内 341 条"
@@ -225,7 +227,7 @@
    "evidence": ".codely-cli/state/HEALTH.json",
    "cadence_h": 0.2,
    "symptom": "AC01 红=某号进程不在或长时间没动作；健康表 green 但账号不动，说明判据只看心跳",
-   "age_h": 0.1,
+   "age_h": 0.0,
    "limit_h": 1.0,
    "state": "OK",
    "why": "level='green'（不许等于 'red'）"
@@ -341,6 +343,62 @@
    "limit_h": 24.0,
    "state": "NOT_PASS",
    "why": "pass.ME04=False（需 True）"
+  },
+  {
+   "id": "E01",
+   "tier": "P1",
+   "ring": "演进",
+   "name": "反思覆盖（每轮有归因）",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "EV01 红=有轮次 whose why 为空/无数字，或真失败在 LESSONS 里找不到归因；EV01 SKIP=判据生效后还没跑过训练（量不到≠通过）",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "SKIP",
+   "why": "pass.EV01 量不到（SKIP）"
+  },
+  {
+   "id": "E02",
+   "tier": "P1",
+   "ring": "演进",
+   "name": "变更审查（参数留痕）",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "EV02 红=live 参数与 PARAMS-SNAPSHOT 有差异却找不到对应 CHANGE 条目（或 EV02 SKIP=没有基线）",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "OK",
+   "why": "pass.EV02=True（需 True）"
+  },
+  {
+   "id": "E03",
+   "tier": "P2",
+   "ring": "演进",
+   "name": "迭代节奏（7 天有前进）",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "EV03 红=近 7 天只有调参类变更，没有配方/数据/阈值/角度四类实质前进",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "OK",
+   "why": "pass.EV03=True（需 True）"
+  },
+  {
+   "id": "E04",
+   "tier": "P2",
+   "ring": "演进",
+   "name": "创新落地（带测量）",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_h": 6.0,
+   "symptom": "EV04 红=近 14 天没有创新条目，或条目缺 measured/verdict（无测量=没落地）",
+   "age_h": 0.0,
+   "limit_h": 24.0,
+   "state": "OK",
+   "why": "pass.EV04=True（需 True）"
   }
  ]
 }

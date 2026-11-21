@@ -52,6 +52,9 @@ PY = sys.executable
 # 起源时段：按 2026-11-21 activity_clock 实测，1–6 点接近 0，深夜开窗最像脚本
 NIGHT_HOURS = (1, 2, 3, 4, 5, 6)
 
+# 判据生效时点：之前写下的行只报欠账、不判红（不伪造历史归因，也不让旧账永远挡路）
+JUDGE_SINCE = "2026-11-21T23:44:00"
+
 # 已声明退役/被取代的调度器：它们若还在跑，说明旧引擎复活或一次性任务没卸
 RETIRED_SCHEDULERS = {
     "com.fluxgroup.practice10": "CEO 2026-11-18「实战十轮」一次性任务，跑完就该 bootout；"
@@ -309,22 +312,31 @@ def train_checks():
 
     # TR02 轮次判据质量：verdict 必须合法；KEEP/REJECT 必须有 val_min；让路/失败必须有 why。
     # 这条防的是 2026-11-17 那个假绿：loss 行带 ANSI 色码没剥，val_min 静默记 None 还判 KEEP。
-    rows = _rows(os.path.join(SOCIAL, "train", "TRAIN-LOOP-LEDGER.jsonl"), 5)
+    allrows = _rows(os.path.join(SOCIAL, "train", "TRAIN-LOOP-LEDGER.jsonl"), 12)
+    rows = [r for r in allrows if str(r.get("ts") or "") >= JUDGE_SINCE][-5:]
+    debt = len(allrows) - len(rows)
     KNOWN = {"KEEP", "REJECT", "BASELINE", "PLUMBING", "BLOCKED", "TRAIN-FAIL", "NO-DATA"}
     if not rows:
-        out.append(_mk("TR02", "轮次判据质量", False, "P1", "TRAIN-LOOP-LEDGER 空"))
+        out.append(_mk("TR02", "轮次判据质量", None, "P1",
+                       "判据起 %s 后还没有训练轮次；历史 %d 行不判红" % (JUDGE_SINCE[11:16], debt)))
     else:
         bad = []
         for r in rows:
             v = r.get("verdict")
+            # 复验行（re_verify）只做评测不训练，val_min 本来就不该有；但 why 必须有，
+            # 否则就是 2026-11-21 那种「KEEP 但 why=None、run=None」的假绿。
             if v not in KNOWN:
                 bad.append("%s verdict=%r" % (r.get("seg"), v))
+            elif v in ("KEEP", "REJECT") and r.get("re_verify"):
+                if not (r.get("why") or "").strip():
+                    bad.append("%s 复验行缺 why" % r.get("seg"))
             elif v in ("KEEP", "REJECT") and r.get("val_min") is None:
                 bad.append("%s %s 缺 val_min" % (r.get("seg"), v))
             elif v in ("BLOCKED", "TRAIN-FAIL") and not (r.get("why") or "").strip():
                 bad.append("%s %s 缺 why" % (r.get("seg"), v))
         out.append(_mk("TR02", "轮次判据质量", not bad, "P1",
-                       "近 %d 轮：%s" % (len(rows), ("；".join(bad[:4])) if bad else "判据齐全"),
+                       "近 %d 轮：%s（历史欠账 %d 行）" % (
+                           len(rows), ("；".join(bad[:4])) if bad else "判据齐全", debt),
                        len(rows)))
 
     # TR03 配方一致：有数据但配方 != 当前 RECIPE 的段必须重造（v5 的 3 项改动还没落到各段）
@@ -657,6 +669,24 @@ def mem_checks():
     return out
 
 
+def evolve_checks():
+    """反思 / 审查 / 迭代 / 创新（CEO 2026-11-21「这些属性都要在的」）。
+
+    判据本体在 evolve_audit.py（台账 + 参数基线 + 台账 diff），这里只转写：
+    执行面能证明"做了"，只有反思与审查能证明"做对了、并且改得明白"。
+    """
+    ea = _import("evolve_audit")
+    if not ea:
+        return [_mk("EV01", "反思/审查/迭代/创新", None, "P1", "evolve_audit 导入失败")]
+    try:
+        doc = ea.run_all()
+    except Exception as e:
+        return [_mk("EV01", "反思/审查/迭代/创新", None, "P1", "审计异常：%s" % str(e)[:50])]
+    sev = {"EV01": "P1", "EV02": "P1", "EV03": "P2", "EV04": "P2", "EV05": "P1"}
+    return [_mk(c["id"], c["name"], c["ok"], sev.get(c["id"], "P2"), c["detail"])
+            for c in (doc.get("checks") or [])]
+
+
 GROUPS = {
     "corpus": corpus_checks,
     "train": train_checks,
@@ -664,6 +694,7 @@ GROUPS = {
     "sends": send_checks,
     "sched": scheduler_checks,
     "mem": mem_checks,
+    "evolve": evolve_checks,
 }
 
 

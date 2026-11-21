@@ -1,4 +1,4 @@
-# 养号线职责表 v2.1（23 项 · 故障驱动 · 内容级判据 · 含统一内存）
+# 养号线职责表 v2.2（27 项 · 故障驱动 · 内容级判据 · 内存环 · 演进环）
 
 > 机读正身：`AGENT-SPEC-v2.json`　审计器：`Tools/fleet/agent_audit.py`
 > 判据提供者：`Tools/fleet/social_guard.py`（只读，不产内容、不占 GPU）
@@ -27,8 +27,8 @@
 ## 三、分级（一票否决只给红线）
 
 - **P0 红线（5）**：出稿闸回归、不做引流、夜间静默、跨号隔离、统一内存不换页 → 失守 `exit 2`，停线排查
-- **P1 产能（11，含 M02）**：采集、语料卫生、烘焙、简报、训练轮次、租约、自举、评论出稿、副动作、发送归因
-- **P2 体检（7，含 M03）**：健康、账本、多样性+生成质量、训练体检、调度一致性、自审、服务端唯一
+- **P1 产能（13，含 M02、E01 反思、E02 审查）**：采集、语料卫生、烘焙、简报、训练轮次、租约、自举、评论出稿、副动作、发送归因
+- **P2 体检（9，含 M03、E03 迭代、E04 创新）**：健康、账本、多样性+生成质量、训练体检、调度一致性、自审、服务端唯一、迭代节奏、创新落地
 
 ## 四、20 项业务职责（故障 → 判据 → 失效症状；内存环另见八点五）
 
@@ -85,4 +85,6 @@ python3 Tools/fleet/social_audit.py                # 总入口（定时 com.flux
 python3 Tools/fleet/agent_audit.py --self-test     # 9 个状态/断言 + 3 条负控
 python3 Tools/fleet/social_guard.py --self-test    # 8 类判据的改坏必翻
 python3 Tools/fleet/mem_probe.py --gen 3           # 统一内存：真实生成前后 swap 增量
+python3 Tools/fleet/evolve_audit.py                # 反思/审查/迭代/创新
+python3 Tools/fleet/evolve_audit.py --snapshot     # 审查通过后记参数基线
 ```

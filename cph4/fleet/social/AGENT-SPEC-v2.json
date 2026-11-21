@@ -1,6 +1,6 @@
 {
  "_why": "养号线智能体岗位职责表 v2（CEO 2026-11-21「职责可以更加具体科学一点，你已经训练了这么多天，发现了真多问题」）。v1 只判「执行体在、证据在、证据新鲜」，结果 12/12 全绿而当天一条评论都没发出去（comments-sent 最近一条 79.3h 前）。v2 每条职责都必须回答五件事：①我们踩过什么坑才需要它（why）②谁执行（exec）③证据落在哪个文件（evidence）④证据里的什么数字算做对（assert）⑤它坏掉时你会看到什么（symptom）。判据正文由 social_guard.py 产出 pass 映射，agent_audit.py 只做契约执行，二者不许互相洗白。",
- "version": "v2.1-20261121",
+ "version": "v2.2-20261121",
  "agent": {
   "name": "social-keeper",
   "open": "一条线多个身体，但只有一个时钟：出稿=practicetick(1800s) 持有 GPU 租约；互动=agent-acct1/acct3 各一进程；训练/自举/烘焙/嵌入各一个定时器；全部经 gpu_lease 互斥，拿不到就记让路。",
@@ -529,6 +529,10 @@
      {
       "path": "pass.ME03",
       "eq": true
+     },
+     {
+      "path": "pass.EV05",
+      "eq": true
      }
     ]
    },
@@ -578,6 +582,78 @@
    },
    "symptom": "11434 监听进程 >1：app 引擎与受管线各存一份模型元数据，IPv4/IPv6 走不同服务端",
    "fallback": "我们只认 127.0.0.1（llm_client 已是）；app 引擎属 CEO 应用，不擅自杀，报出来由人决定是否退出",
+   "schedulers": []
+  },
+  {
+   "id": "E01",
+   "tier": "P1",
+   "ring": "演进",
+   "name": "反思覆盖（每轮有归因）",
+   "why": "2026-11-21 实锚：台账里出现「KEEP 但 why=None、run=None」的复验行（social_loop 只写 note 不写 why/run），以及「TRAIN-FAIL 只记时间戳」——判决有了、归因没有，下一次必然重犯。",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "path": "pass.EV01",
+    "eq": true
+   },
+   "symptom": "EV01 红=有轮次 whose why 为空/无数字，或真失败在 LESSONS 里找不到归因；EV01 SKIP=判据生效后还没跑过训练（量不到≠通过）",
+   "fallback": "失败必须落 LESSONS（why/next/landed 三件），让路（GPU 占用）不算失败；不许补写没有证据的归因",
+   "schedulers": []
+  },
+  {
+   "id": "E02",
+   "tier": "P1",
+   "ring": "演进",
+   "name": "变更审查（参数留痕）",
+   "why": "2026-11-21：受管 ollama 的 MAX_LOADED_MODELS 从 6 到 1、KEEP_ALIVE 从 10m 到 2m 都影响判据，却没人知道什么时候改的、为什么改。阈值/配方/节拍的静默漂移等于偷偷改考卷。",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "path": "pass.EV02",
+    "eq": true
+   },
+   "symptom": "EV02 红=live 参数与 PARAMS-SNAPSHOT 有差异却找不到对应 CHANGE 条目（或 EV02 SKIP=没有基线）",
+   "fallback": "每处差异补 CHANGE（old/new/why/evidence/before_after）后 --snapshot；只许补证据，不许删条目",
+   "schedulers": []
+  },
+  {
+   "id": "E03",
+   "tier": "P2",
+   "ring": "演进",
+   "name": "迭代节奏（7 天有前进）",
+   "why": "「每天在跑」不等于「每天在往前走」：2026-11-21 前连续多日只重复调参，配方与形状配额都不动，指标原地打转。",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "path": "pass.EV03",
+    "eq": true
+   },
+   "symptom": "EV03 红=近 7 天只有调参类变更，没有配方/数据/阈值/角度四类实质前进",
+   "fallback": "停掉重复调参，先定一个结构改动（数据或形状）再排轮次",
+   "schedulers": []
+  },
+  {
+   "id": "E04",
+   "tier": "P2",
+   "ring": "演进",
+   "name": "创新落地（带测量）",
+   "why": "CEO 2026-11-21：「创新属性也要在」。新能力上了却说不清带来什么变化，等于没落地；试错被记为失败也算合格，但必须有 measured。",
+   "exec": "Tools/fleet/evolve_audit.py",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "path": "pass.EV04",
+    "eq": true
+   },
+   "symptom": "EV04 红=近 14 天没有创新条目，或条目缺 measured/verdict（无测量=没落地）",
+   "fallback": "每条创新写清 measured（数字）与 verdict（kept/rolled_back），无效就回滚并留下记录",
    "schedulers": []
   }
  ]

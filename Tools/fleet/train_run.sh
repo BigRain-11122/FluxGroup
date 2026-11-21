@@ -93,4 +93,15 @@ trap 'kill $GUARD_PID 2>/dev/null' EXIT
 rc=$?
 SW1=$(sysctl -n vm.swapusage | sed -n 's/.*used = \([0-9.]*\)M.*/\1/p')
 echo "[train] 训练结束 rc=$rc swap ${SW0}MB→${SW1}MB"
+# 训练期换页必须落盘（CEO「不触发 swap」的判据只看真实生成/真实训练，不看"装得下"）。
+# 2026-11-21 实锚：craft_learner 那轮训练前 swap 已 3.7GB，中途失败，事后无记录可查。
+"$PY" - "$SW0" "$SW1" "$rc" <<'PYEOF' 2>/dev/null || true
+import json, sys, time
+sw0, sw1, rc = sys.argv[1], sys.argv[2], sys.argv[3]
+p = "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/state/TRAIN-SWAP.jsonl"
+with open(p, "a", encoding="utf-8") as f:
+    f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                        "sw0": float(sw0 or 0), "sw1": float(sw1 or 0),
+                        "rc": int(rc or 0), "src": "train_run.sh"}, ensure_ascii=False) + "\n")
+PYEOF
 exit $rc

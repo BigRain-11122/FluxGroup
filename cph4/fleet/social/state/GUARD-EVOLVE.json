@@ -1,0 +1,57 @@
+{
+ "group": "evolve",
+ "ts": "2026-11-21T23:43:11",
+ "pass": {
+  "EV01": null,
+  "EV02": true,
+  "EV03": true,
+  "EV04": true,
+  "EV05": true
+ },
+ "overall": true,
+ "n_checks": 5,
+ "n_fail": 0,
+ "n_skip": 1,
+ "checks": [
+  {
+   "id": "EV01",
+   "name": "反思覆盖（每轮有归因）",
+   "ok": null,
+   "sev": "P1",
+   "detail": "168h 内没有训练轮次（判据自 2026-11-21T23:40 起）",
+   "n": null
+  },
+  {
+   "id": "EV02",
+   "name": "变更审查（参数留痕）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "参数 9 项，与基线差 0 处（无差异）",
+   "n": null
+  },
+  {
+   "id": "EV03",
+   "name": "迭代节奏（7 天有前进）",
+   "ok": true,
+   "sev": "P2",
+   "detail": "近 7 天变更 5 条，其中实质前进（配方/数据/阈值/角度）3 条",
+   "n": null
+  },
+  {
+   "id": "EV04",
+   "name": "创新落地（带测量）",
+   "ok": true,
+   "sev": "P2",
+   "detail": "近 14 天 4 条：全部带 measured 与 verdict",
+   "n": null
+  },
+  {
+   "id": "EV05",
+   "name": "训练期换页（≤256MB）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "最近一轮 2026-11-21T20:29:45：swap 3708→3508MB（-200MB）",
+   "n": null
+  }
+ ]
+}

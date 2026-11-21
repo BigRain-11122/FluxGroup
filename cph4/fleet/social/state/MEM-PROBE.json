@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-21T23:36:21",
+ "ts": "2026-11-21T23:43:11",
  "pass": {
   "ME01": true,
   "ME02": true,
@@ -33,7 +33,7 @@
    "id": "ME05",
    "name": "内存余量",
    "ok": true,
-   "detail": "free 4.9G + inactive 11.0G = 15.8G（线 ≥4G）",
+   "detail": "free 5.9G + inactive 10.4G = 16.4G（线 ≥4G）",
    "sev": "P2"
   },
   {
@@ -49,23 +49,23 @@
    "swap_used_mb": 2518.62,
    "swap_total_mb": 4096.0,
    "pageouts": 175778,
-   "pageins": 795669847,
-   "free_gb": 4.86,
-   "inactive_gb": 10.97,
-   "wired_gb": 2.62,
-   "headroom_gb": 15.82,
-   "ts": "2026-11-21T23:36:21"
+   "pageins": 795742427,
+   "free_gb": 5.93,
+   "inactive_gb": 10.45,
+   "wired_gb": 2.51,
+   "headroom_gb": 16.38,
+   "ts": "2026-11-21T23:43:11"
   },
   "before": {
    "swap_used_mb": 2518.62,
    "swap_total_mb": 4096.0,
    "pageouts": 175778,
-   "pageins": 795669832,
-   "free_gb": 4.88,
-   "inactive_gb": 11.0,
-   "wired_gb": 2.6,
-   "headroom_gb": 15.88,
-   "ts": "2026-11-21T23:36:18"
+   "pageins": 795742376,
+   "free_gb": 5.96,
+   "inactive_gb": 10.43,
+   "wired_gb": 2.51,
+   "headroom_gb": 16.39,
+   "ts": "2026-11-21T23:43:08"
   }
  },
  "models": {

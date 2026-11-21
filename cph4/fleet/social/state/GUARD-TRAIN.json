@@ -1,9 +1,9 @@
 {
  "group": "train",
- "ts": "2026-11-21T23:36:14",
+ "ts": "2026-11-21T23:43:08",
  "pass": {
   "TR01": false,
-  "TR02": false,
+  "TR02": null,
   "TR03": false,
   "TR04": true,
   "TR05": true,
@@ -11,8 +11,8 @@
  },
  "overall": false,
  "n_checks": 6,
- "n_fail": 3,
- "n_skip": 0,
+ "n_fail": 2,
+ "n_skip": 1,
  "checks": [
   {
    "id": "TR01",
@@ -25,10 +25,10 @@
   {
    "id": "TR02",
    "name": "轮次判据质量",
-   "ok": false,
+   "ok": null,
    "sev": "P1",
-   "detail": "近 5 轮：memer KEEP 缺 val_min；shallow KEEP 缺 val_min",
-   "n": 5
+   "detail": "判据起 23:44 后还没有训练轮次；历史 12 行不判红",
+   "n": null
   },
   {
    "id": "TR03",

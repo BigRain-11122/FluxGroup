@@ -1,6 +1,6 @@
 {
  "group": "mem",
- "ts": "2026-11-21T23:36:21",
+ "ts": "2026-11-21T23:43:11",
  "pass": {
   "ME01": true,
   "ME02": true,
@@ -42,7 +42,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 4.9G + inactive 11.0G = 15.8G（线 ≥4G）",
+   "detail": "free 5.9G + inactive 10.4G = 16.4G（线 ≥4G）",
    "n": null
   },
   {

@@ -84,7 +84,7 @@ def main():
     # 1 守卫（领域判据）
     rc0, o0 = _run([os.path.join(HERE, "social_guard.py"), "--all"])
     groups = {}
-    for g in ("CORPUS", "TRAIN", "ACCOUNTS", "SENDS", "SCHED", "MEM"):
+    for g in ("CORPUS", "TRAIN", "ACCOUNTS", "SENDS", "SCHED", "MEM", "EVOLVE"):
         d = None
         try:
             with open(os.path.join(STATE, "GUARD-%s.json" % g), encoding="utf-8") as f:
