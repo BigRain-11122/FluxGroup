@@ -481,6 +481,22 @@ def run_one(a):
         board(st, rows, rejects)
         return 0
 
+    # 出稿优先（COMPUTE-SCHEDULE.json lanes.publish priority=1）：
+    # 训练一轮 40–50 分钟会连续占住 GPU，而出稿每 30 分钟才要 60 秒。
+    # 所以开训前看一眼"出稿是不是快到期了"：到期就先让这一 tick，让它先跑。
+    try:
+        import practice_due as _pd
+        _due, _why = _pd.due(within_s=180, mark=True)
+    except Exception:
+        _due, _why = False, ""
+    if _due:
+        print("[loop] 让路：出稿到期（%s），本 tick 不开训" % _why)
+        record_fail(seg, task["rows"], "BLOCKED", "让路出稿：" + _why)
+        st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
+                                   last_rc="YIELD-PUBLISH")
+        _save(LOOP_STATE, st)
+        return 0
+
     # 一块 GPU 一把租约：2026-11-21 实测三个消费者（训练/嵌入/自举）同抢，训练从
     # 10 步/分掉到 3.3 步/分，两小时变六小时。拿不到就不抢，写清让路原因，本轮返回 0。
     try:

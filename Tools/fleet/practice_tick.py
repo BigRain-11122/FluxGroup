@@ -518,7 +518,23 @@ def main():
     if hi <= lo:
         lo, hi = band
     import llm_client as lc
-    # 2026-11-21：有亲笔语料的号（老号）不再统一写 10-20 字——他真人 2-63 字，
+    # 出稿要 60 秒 GPU：训练正占着（TTL 4h）就本轮让路，不硬抢。
+    # 与 train_forever 的"出稿到期让路"配成一对：训练让出窗口，出稿在窗口里拿锁。
+    try:
+        import gpu_lease as _gl
+        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=90)
+    except Exception:
+        _got, _why = True, ""
+    if not _got:
+        log({"action": "skip", "why": "gpu-busy:" + _why})
+        print("[tick] 让路：%s" % _why)
+        return 0
+    try:
+        import atexit as _atexit
+        _atexit.register(lambda: _gl.release("publish"))
+    except Exception:
+        pass
+    # 2026-11-21：有亲笔语料的账号（老号）不再统一写 10-20 字——他真人 2-63 字，
     # 全挤进一个区间本身就是模板。改成按实测分布取目标，允许 ±3 浮动。
     _tlen = lc.human_len_target(n)
     if _tlen:
