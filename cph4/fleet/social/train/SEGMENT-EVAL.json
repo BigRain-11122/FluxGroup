@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-21T21:00:47",
+ "ts": "2026-11-21T21:40:24",
  "base": [
   {
    "n": 10,
-   "avg": 54.3,
-   "pass_rate": 100,
-   "avg_logic": 12.5,
+   "avg": 38.7,
+   "pass_rate": 20,
+   "avg_logic": 2.0,
    "avg_human": 1.0,
-   "avg_natural": 20.0,
+   "avg_natural": 19.2,
    "reject": 0,
    "sample": [
-    "分人，有的歌就是自带 BGM 属性。",
-    "哈哈，这态度太对了！"
+    "不，是我被火到了，不配位，不讨厌。",
+    "火大不如直接拉黑，毕竟有些歌配了个“讨厌”的壳子。"
    ],
-   "seg": "shallow",
+   "seg": "memer",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 66.8,
-   "pass_rate": 100,
-   "avg_logic": 23.5,
-   "avg_human": 5.0,
-   "avg_natural": 19.2,
+   "avg": 50.3,
+   "pass_rate": 50,
+   "avg_logic": 9.0,
+   "avg_human": 4.0,
+   "avg_natural": 20.0,
    "reject": 0,
-   "seg": "shallow",
+   "seg": "memer",
    "sample": [
-    "谢谢分享，我平常很少听歌，但是最近很喜欢听歌，谢谢UP主的推荐，感觉很有收获，把ta加进了歌单，真的非常感谢，哈哈",
-    "但是这个视频火了啊"
+    "哈哈哈哈哈哈哈[doge]",
+    "主要是被广告和这个视频，[doge]"
    ]
   }
  ],
  "samples": 10,
- "adapter": "cph4/fleet/social/train/RUNS/20261121-203651/adapter"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261121-210031/ckpt300"
 }

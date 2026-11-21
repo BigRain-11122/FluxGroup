@@ -25,20 +25,21 @@
    "val_min": null
   },
   "craft_learner": {
-   "last_ts": 1795264185.893516,
+   "last_ts": 1795264185.0,
    "last_rc": "TRAIN-FAIL",
-   "rows": 2071,
+   "rows": 2138,
    "run": null,
    "step": null,
    "val_min": null
   },
   "memer": {
-   "last_ts": 1795259963.0,
-   "last_rc": "TRAIN-FAIL",
-   "rows": 2143,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "last_ts": 1795268424.922982,
+   "last_rc": "KEEP",
+   "rows": 2157,
+   "run": "20261121-210031",
+   "step": 300,
+   "val_min": 3.346,
+   "recipe": "v4-clean-corpus"
   },
   "__all__": {
    "last_ts": 1795155403.0,
@@ -631,6 +632,35 @@
    "verdict": "KEEP",
    "why": "均分 +15.0 / 人味 +7.0",
    "adapter": "cph4/fleet/social/train/RUNS/20261121-194441/ckpt400"
+  },
+  {
+   "ts": "2026-11-21T20:29:45",
+   "seg": "craft_learner",
+   "rows": 2138,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "TRAIN-FAIL",
+   "why": "[train] 训练结束 rc=1 swap 3707.75MB→3507.75MB",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-21T21:40:24",
+   "seg": "memer",
+   "rows": 2157,
+   "built": 1016,
+   "eval_n": 10,
+   "run": "20261121-210031",
+   "step": 300,
+   "val_step": 350,
+   "val_min": 3.346,
+   "base_avg": 38.7,
+   "lora_avg": 50.3,
+   "base_human": 1.0,
+   "lora_human": 4.0,
+   "human_delta": 3.0,
+   "verdict": "KEEP",
+   "why": "均分 +11.6 / 人味 +3.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261121-210031/ckpt300"
   }
  ]
 }
