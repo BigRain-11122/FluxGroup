@@ -1,31 +1,28 @@
 {
- "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
- "src_sha": "addc5c63d17dccf1",
- "train": 416,
- "valid": 21,
- "avg_len": 26.5,
+ "src": "cph4/fleet/social/corpus/human/BAKED-v1.jsonl",
+ "src_sha": "cdf62b0357afe6ba",
+ "train": 375,
+ "valid": 18,
+ "avg_len": 21.2,
  "dropped": {
   "dup": 0,
-  "len": 4485,
-  "bad": 86,
+  "len": 2779,
+  "bad": 52,
   "use": 0,
-  "ai_smell": 2370,
-  "ai_smell_why": {
-   "AI 腔": 2333,
-   "烂梗": 37
-  },
-  "human": 40541,
-  "taste": 9033,
-  "near_dup": 40,
+  "human": 23625,
+  "taste": 5273,
+  "near_dup": 10,
   "phrase_dull": 0,
-  "seg_over": 262,
-  "backfill": 160
+  "seg_over": 186,
+  "backfill": 102,
+  "short_topup": 110,
+  "voice_topup": 12
  },
  "seed": 20261117,
  "valid_ratio": 0.05,
  "by_len": {
-  "m": 216,
-  "l": 211,
-  "s": 10
+  "m": 189,
+  "s": 75,
+  "l": 129
  }
 }
