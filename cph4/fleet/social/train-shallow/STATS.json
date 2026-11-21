@@ -1,28 +1,33 @@
 {
- "src": "cph4/fleet/social/corpus/human/BAKED-v1.jsonl",
- "src_sha": "cdf62b0357afe6ba",
- "train": 375,
- "valid": 18,
- "avg_len": 21.2,
+ "src": "cph4/fleet/social/corpus/human/own_collected.jsonl",
+ "src_sha": "3b822cb7dee3b8f9",
+ "train": 589,
+ "valid": 30,
+ "avg_len": 21.9,
  "dropped": {
   "dup": 0,
-  "len": 2779,
-  "bad": 52,
+  "len": 4486,
+  "bad": 87,
   "use": 0,
-  "human": 23625,
-  "taste": 5273,
-  "near_dup": 10,
+  "ai_smell": 2370,
+  "ai_smell_why": {
+   "AI 腔": 2333,
+   "烂梗": 37
+  },
+  "human": 40548,
+  "taste": 9037,
+  "near_dup": 41,
   "phrase_dull": 0,
-  "seg_over": 186,
-  "backfill": 102,
-  "short_topup": 110,
-  "voice_topup": 12
+  "seg_over": 262,
+  "backfill": 160,
+  "short_topup": 171,
+  "voice_topup": 30
  },
  "seed": 20261117,
  "valid_ratio": 0.05,
  "by_len": {
-  "m": 189,
-  "s": 75,
-  "l": 129
+  "m": 280,
+  "l": 218,
+  "s": 121
  }
 }
