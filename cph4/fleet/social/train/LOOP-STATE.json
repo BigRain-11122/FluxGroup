@@ -25,8 +25,8 @@
    "val_min": null
   },
   "craft_learner": {
-   "last_ts": 1795256564.0,
-   "last_rc": "SUPPLY",
+   "last_ts": 1795264185.893516,
+   "last_rc": "TRAIN-FAIL",
    "rows": 2071,
    "run": null,
    "step": null,
@@ -49,13 +49,12 @@
    "val_min": 3.42
   },
   "shallow": {
-   "last_ts": 1795262795.3843572,
+   "last_ts": 1795262795.0,
    "last_rc": "KEEP",
    "rows": 1948,
    "run": "20261121-194441",
    "step": 400,
-   "val_min": 3.584,
-   "recipe": "v4-clean-corpus"
+   "val_min": 3.584
   },
   "feeler": {
    "last_ts": 1795261283.0,

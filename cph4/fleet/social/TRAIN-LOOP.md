@@ -1,6 +1,6 @@
-# 7×24 训练循环（2026-11-21T20:06:35）
+# 7×24 训练循环（2026-11-21T20:29:45）
 
-> 调度：`com.fluxgroup.trainloop` 每 300s · 当前 not
+> 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
 
 ## 队列
 
@@ -8,11 +8,11 @@
 |---|---|---|---|
 | memer | 2157 | 是 | 配方更新 v4-clean-corpus（2157 行） |
 | craft_learner | 2138 | 是 | 配方更新 v4-clean-corpus（2138 行） |
+| shallow | 1948 | 是 | 配方更新 v4-clean-corpus（1948 行） |
 | peer_pro | 603 | 是 | 配方更新 v4-clean-corpus（603 行） |
 | tech_nerd | 570 | 是 | 配方更新 v4-clean-corpus（570 行） |
 | feeler | 550 | 是 | 配方更新 v4-clean-corpus（550 行） |
 | music_seeker | 441 | 是 | 配方更新 v4-clean-corpus（441 行） |
-| shallow | 1948 | 否 | 冷却中（0.0h 前刚训过，语料 1948→1948 未涨 10%） |
 | beginner | 150 | 否 | 语料 150 < 200 |
 | critic | 125 | 否 | 语料 125 < 200 |
 | student | 105 | 否 | 语料 105 < 200 |
