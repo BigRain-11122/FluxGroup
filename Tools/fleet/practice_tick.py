@@ -518,6 +518,12 @@ def main():
     if hi <= lo:
         lo, hi = band
     import llm_client as lc
+    # 2026-11-21：有亲笔语料的号（老号）不再统一写 10-20 字——他真人 2-63 字，
+    # 全挤进一个区间本身就是模板。改成按实测分布取目标，允许 ±3 浮动。
+    _tlen = lc.human_len_target(n)
+    if _tlen:
+        lo = max(4, _tlen - 2)
+        hi = min(30, _tlen + 3)
     import comment_taste as ct
     import social_practice as sp
     # 2026-11-20：原来是"第一条过闸就发"，于是发出去的都是第一版平淡句。

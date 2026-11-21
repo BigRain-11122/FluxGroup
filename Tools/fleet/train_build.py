@@ -161,6 +161,11 @@ def self_test():
     cases.append(("长度上下界合理", MIN_LEN == 4 and MAX_LEN == 60))
     # 5 SimHash 稳定性：同一文本签名必须一致
     cases.append(("SimHash 稳定", simhash("同一句话") == simhash("同一句话")))
+    # 6 反 AI 腔：真发出去被否的句子必须被剔，真人句必须留下（负控）
+    cases.append(("AI 腔被剔", bool(ai_smell("教程太干货了，必须三连支持！"))))
+    cases.append(("烂梗被剔", bool(ai_smell("那个转场绝了，氛围感拿捏得死死的"))))
+    cases.append(("真人句放行", ai_smell("封面是范伟老师是吧") == ""))
+    cases.append(("拉丁词不误杀", ai_smell("CS 那版手感比这个好") == ""))
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         if not v:
@@ -244,12 +249,41 @@ def balance_kinds(rows, rnd, quota=False):
     rnd.shuffle(kept)
     return kept
 
+
+def ai_smell(text):
+    """**语料级**反 AI 腔判据：这句话本身是不是我们不想让模型学会的腔调。
+
+    2026-11-21 CEO「你不是只靠拦着，而是从根本上训练好」——闸只能一条条拒，
+    语料里留着这类句子等于把 AI 腔当正样本教。两个来源都要清：
+      · own_practice.jsonl 里我们自己发过、后来被否的句子（标注还写着"已过全部闸"）；
+      · 爬来的评论里本来就有的营销腔/客服腔。
+    注意用 AI_SMELL_CORPUS 而不是 AI_SMELL：作文连接词（而且/不仅）真人也在用，
+    拿输出级的严表洗语料会多删 700+ 条正常句子（实测）。
+    返回命中原因，空串=可进训练集。
+    """
+    try:
+        sys.path.insert(0, HERE)
+        import comment_taste as ct
+    except Exception:
+        return ""
+    t = text or ""
+    smell = [w for w in ct.AI_SMELL_CORPUS if w in t]
+    if smell:
+        return "AI 腔：" + "/".join(smell[:2])
+    cli = [w for w in ct.CLICHE_CORPUS if w in t]
+    if cli:
+        return "烂梗：" + "/".join(cli[:2])
+    return ""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--src", default=SRC)
     ap.add_argument("--out", default=OUTDIR)
     ap.add_argument("--valid-ratio", type=float, default=0.05)
+    ap.add_argument("--ban-ai", type=int, default=1,
+                    help="语料级反 AI 腔硬筛（1=开，默认）。关掉只为做对照实验")
     ap.add_argument("--danmaku-max", type=float, default=0.35,
                     help="弹幕最多占训练集的比例（弹幕多是碎片，比例过高会把模型教成半句）")
     ap.add_argument("--danmaku-min-len", type=int, default=6,
@@ -304,6 +338,15 @@ def main():
             dropped["dup"] += 1
             continue
         seen.add(h)
+        if a.ban_ai:
+            why = ai_smell(t)
+            if why:
+                dropped.setdefault("ai_smell", 0)
+                dropped["ai_smell"] += 1
+                dropped.setdefault("ai_smell_why", {})
+                k = why.split("：")[0]
+                dropped["ai_smell_why"][k] = dropped["ai_smell_why"].get(k, 0) + 1
+                continue
         if a.min_human > 0:
             try:
                 import comment_taste as _ct2
@@ -523,6 +566,11 @@ def main():
     print("[build] 可用 %d 条（丢掉 重复%d/长度%d/广告%d/非train%d）均值 %.1f 字"
           % (len(rows), dropped["dup"], dropped["len"], dropped["bad"], dropped["use"],
              stat["avg_len"]))
+    if dropped.get("ai_smell"):
+        print("[build] 反 AI 腔剔除 %d 条（%s）——这些句子是教会模型说腔调的源头，"
+              "不是一个一个拦得住的"
+              % (dropped["ai_smell"],
+                 "/".join("%s %d" % (k, v) for k, v in (dropped.get("ai_smell_why") or {}).items())))
     print("[build] 语料指纹 %s" % src_sha)
     return 0
 

@@ -142,23 +142,39 @@ def _ai_smell_words():
     的全是这个形状。所以把骨架收进硬拒表：空夸（干货/保姆级/三连）、文案腔
     （氛围感/质感/很到位）、作文腔（不仅/综上/展现了）、客服腔（宝子/同学/感谢支持）。
     表在文件里不在代码里：以后发现新的坏句子，改 JSON 不用改代码。
+
+    分两级用（2026-11-21 CEO「不是只靠拦着，而是从根本上训练好」）：
+      · 输出级（AI_SMELL）= 全部，严一点没关系，拒了只是少发一条；
+      · 语料级（AI_SMELL_CORPUS）= 只留"真人基本不会说"的那几组。
+        作文连接词（不仅/而且/从而）真人也会用，从训练集里删掉是过度清洗——
+        实测会多删 700+ 条正常句子。
     """
     p = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
         os.path.abspath(__file__)))), "cph4", "fleet", "social", "BAN-PHRASES-v1.json")
+    CORPUS_GROUPS = ("空夸词", "营销词", "客服腔")
     try:
         d = json.load(open(p, encoding="utf-8"))
-        words = []
-        for v in (d.get("words") or {}).values():
-            words.extend([w for w in v if w and len(w) >= 2])
-        if words:
-            return sorted(set(words), key=len, reverse=True)
+        groups = d.get("words") or {}
+        allw, corpusw = [], []
+        for k, v in groups.items():
+            allw.extend([w for w in v if w and len(w) >= 2])
+            if k in CORPUS_GROUPS:
+                corpusw.extend([w for w in v if w and len(w) >= 2])
+        if allw:
+            return (sorted(set(allw), key=len, reverse=True),
+                    sorted(set(corpusw), key=len, reverse=True))
     except Exception:
         pass
-    return ["干货", "保姆级", "三连", "已收藏", "氛围感", "质感", "很到位",
+    allw = ["干货", "保姆级", "三连", "已收藏", "氛围感", "质感", "很到位",
             "不仅", "综上", "值得一提", "展现了", "赋能", "维度", "宝子", "同学", "感谢支持"]
+    corpusw = ["干货", "保姆级", "三连", "已收藏", "氛围感", "质感", "很到位",
+               "赋能", "维度", "宝子", "同学", "感谢支持"]
+    return allw, corpusw
 
 
-AI_SMELL = _ai_smell_words()
+AI_SMELL, AI_SMELL_CORPUS = _ai_smell_words()
+# 语料级还要剔这些：真人偶尔也说，但一个"按风格挑过"的训练集不该把模型往这儿带
+CLICHE_CORPUS = ["绝了", "破防", "拿捏", "yyds", "封神", "土拨鼠", "懂的都懂", "硬控"]
 
 
 def copied_sample(text, n=5):

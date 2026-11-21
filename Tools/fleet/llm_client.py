@@ -306,6 +306,31 @@ def human_persona_block(acct=None):
             "\n照这个口气写：不要更整齐、更完整、更夸张，不要加引号，也不要照抄这几句。")
 
 
+def human_len_target(i=0):
+    """按**本人实测分布**取一个目标字数，而不是所有评论都写 10-20 字。
+
+    2026-11-21 实锚：老号亲笔 23 条真实长度是 2–63 字（中位 10、p25 7、p75 21），
+    而生产带子是 10-20 —— 每条都被逼进同一区间，这本身就是模板特征；
+    真人一句话长短是随口定的。做法：从实测分位数里按 i 轮换取目标。
+    没有亲笔语料的号（新号）返回 None，调用方继续用原带子。
+    """
+    acct = os.environ.get("FLUX_ACCOUNT") or ""
+    if acct not in ("acct1",):
+        return None
+    try:
+        d = json.load(open(HUMAN_PERSONA, encoding="utf-8"))
+    except Exception:
+        return None
+    L = d.get("len") or {}
+    base = [L.get(k) for k in ("min", "p25", "median", "p75", "max")]
+    base = [int(x) for x in base if isinstance(x, (int, float)) and x]
+    if not base:
+        return None
+    # 权重偏短：多数 7-14 字、偶尔一句长，跟他实际形态一致（不是均匀分布）
+    order = [2, 1, 2, 3, 1, 2, 0, 4]
+    return base[order[i % len(order)] % len(base)]
+
+
 def lora_comment_prompt(title, desc="", i=0, seg=None):
     """按**训练时用的同一批指令模板**拼提示词。
 

@@ -54,9 +54,22 @@ def main():
                 if h in seen:
                     continue
                 seen.add(h)
+                # 2026-11-21：原来"当年过闸"就永久算正样本。实测 20 条回流里 8 条
+                # 按今天标准属 AI 腔（干货/三连/氛围感…）——40% 的坏样本被当作
+                # "已过全部闸"教回去，这才是模型学会营销腔的根。判据每次按当前标准重算。
+                try:
+                    import train_build as tb
+                    why = tb.ai_smell(t)
+                except Exception:
+                    why = ""
+                if why:
+                    fn.write(json.dumps({"text": t, "why": "反AI腔：" + why,
+                                         "ts": r.get("ts")}, ensure_ascii=False) + "\n")
+                    neg += 1
+                    continue
                 seg = sg.classify(t, spec)["primary"]
                 fo.write(json.dumps({"h": h, "text": t, "src": "own_practice",
-                                     "license": "自有账号实际发布（已过全部闸）", "use": "train",
+                                     "license": "自有账号实际发布（发布时过闸 + 入语料时按当前标准复查）", "use": "train",
                                      "kind": "其他", "seg": seg,
                                      "thread": r.get("video") or "", "ts": r.get("ts")},
                                     ensure_ascii=False) + "\n")
