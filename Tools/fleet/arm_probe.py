@@ -125,7 +125,7 @@ def form_check(arm, text):
     return True, "形态 OK"
 
 
-def gates(text, ctx=""):
+def gates(text, ctx="", topics=()):
     """两道闸：social_practice.safe_to_send + social_comment_gen.gate。
 
     ctx 必须是**视频标题**而不是链接：编造闸要拿标题核对称呼与领域，
@@ -133,7 +133,7 @@ def gates(text, ctx=""):
     """
     import social_practice as sp
     import social_comment_gen as cg
-    ok1, w1 = sp.safe_to_send(text, ctx)
+    ok1, w1 = sp.safe_to_send(text, ctx, topics=topics)
     ok2, w2, s = cg.gate(text, ctx=ctx, taken=(), corpus=())
     return (ok1 and ok2), {"safe_to_send": [ok1, w1], "gen_gate": [ok2, w2],
                            "taste": (s or {}).get("total"),
@@ -167,13 +167,13 @@ def fetch_roots(aid, limit=20):
          "text": ((x.get("content") or {}).get("message") or "")} for x in reps])
 
 
-def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx=""):
+def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=()):
     import social_comment as sc
     a = ARMS[arm]
     okf, wf = form_check(arm, text)
     if not okf:
         return {"ok": False, "stage": "form", "why": wf}
-    okg, g = gates(text, ctx or video)
+    okg, g = gates(text, ctx or video, topics=topics)
     if not okg:
         return {"ok": False, "stage": "gate", "why": g}
     # 额度允许被"显式指令"覆盖：CEO 的实战令必须留下可审计的覆盖理由，
@@ -284,6 +284,13 @@ def self_test():
     # 负控 7：无领域词的短句必须被 safe_to_send 拦（防"与本视频无关"）
     okg2, g2 = gates("哈哈哈太好笑了", "剪辑教学")
     cases.append(("负控7：无领域词被拦", okg2 is False))
+    # 正控 8（2026-11-21 修）：话题词来自该视频真实评论时，非剪辑类视频的话也要放行。
+    # 实锚：剪辑/MV 的固定词表把「蒙版遮去背景把歌词打上去」判成"与本视频无关"，
+    # 12 条候选全被废，一整天发不出一条。这里只测这一条判据，不掺品味闸。
+    import social_practice as _sp
+    _t = "蒙版遮去背景把歌词打上去挺自然"
+    cases.append(("正控8：视频话题词放行", _sp.safe_to_send(_t, "剪辑教学", topics=["蒙版", "歌词"])[0] is True))
+    cases.append(("负控8：无话题词按宽表拒", _sp.safe_to_send(_t, "剪辑教学")[0] is False))
     n = sum(1 for _, v in cases if v)
     for name, v in cases:
         if not v:

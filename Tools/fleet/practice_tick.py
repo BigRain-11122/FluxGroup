@@ -572,8 +572,9 @@ def main():
     try:
         import video_brief as vb
         _brief = vb.block(url)
+        _topics = (vb.get(url) or {}).get("topics") or []
     except Exception:
-        _brief = ""
+        _brief, _topics = "", []
     best = None
     # 候选数 8→12：2026-11-21 实测单条候选过闸率 30–47%，8 条里"一条都没过"的概率有 2–6%，
     # 而那意味着这一轮白跑（不发也不记产出）。12 条把"全部被拒"压到 <1%，
@@ -596,13 +597,13 @@ def main():
         # 品味分只用来排序（下面 best-of-8），不再一票否决——2026-11-21 回归实测：
         # 拿它当及格线会把亲笔句毙掉 88%（「太喜欢这首歌了，没有之一。」被判"逻辑不够"）。
         s = ct.score(t, seg=seg or None)
-        if not sp.safe_to_send(t, title)[0]:
+        if not sp.safe_to_send(t, title, topics=_topics)[0]:
             continue
         key = (s["voice"] + s["human"], s["total"])
         if recent_ops.get(ct.opening_key(t)):
             key = (key[0] - 3, key[1])   # 开头撞车：让位给别的候选
         if best is None or key > best[0]:
-            best = (key, t, lane)
+            best = (key, t, lane, s)
     text, lane_used = "", ""
     if best:
         text, lane_used = best[1], best[2]
@@ -624,7 +625,7 @@ def main():
     res = None
     for attempt in range(3):
         try:
-            res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title)
+            res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title, topics=_topics)
             break
         except Exception as e:
             msg = str(e)
@@ -645,6 +646,14 @@ def main():
     # 车道落这一行：事后要能回答"这条评论是适配器说的还是基座说的"
     log({"action": "lane", "lane": lane_used, "serving": serving_adapter(),
          "rpid": res.get("rpid"), "arm": arm, "persona": seg})
+    # 「合格且发出去」才是闭环：把这条稿的闸/分与 rpid 绑在一起落账，
+    # 否则事后只看到"发过一条"，说不清它是不是过了闸的那条（2026-11-21 CEO 令）。
+    try:
+        log({"action": "qualified", "rpid": res.get("rpid"), "persona": seg,
+             "arm": arm, "lane": lane_used, "score": (best[0][1] if best else None),
+             "voice_human": (list(best[0][0]) if best else None), "text": text})
+    except Exception:
+        pass
     if s_now:
         try:
             sess.bump(s_now["start"], "posted")   # 只有真发出去才消耗预算

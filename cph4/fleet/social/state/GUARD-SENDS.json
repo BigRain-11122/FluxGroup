@@ -1,34 +1,43 @@
 {
  "group": "sends",
- "ts": "2026-11-21T23:43:08",
+ "ts": "2026-11-21T23:53:19",
  "pass": {
-  "SD01": false,
+  "SD01": true,
+  "SD07": true,
   "SD02": true,
   "SD03": true,
   "SD04": true,
   "SD05": true,
   "SD06": true
  },
- "overall": false,
- "n_checks": 6,
- "n_fail": 1,
+ "overall": true,
+ "n_checks": 7,
+ "n_fail": 0,
  "n_skip": 0,
  "checks": [
   {
    "id": "SD01",
    "name": "评论出稿（24h 至少 1 条）",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "最近一条 80.1h 前（2026-11-18T15:37:31）",
-   "n": 3
+   "detail": "最近一条 0.0h 前（2026-11-21T23:52:10 rpid=324728059504）",
+   "n": 24
+  },
+  {
+   "id": "SD07",
+   "name": "已发都带合格证据",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 10 条已发均双闸通过",
+   "n": 24
   },
   {
    "id": "SD02",
    "name": "失败归因齐全",
    "ok": true,
    "sev": "P1",
-   "detail": "4 条失败，0 条无 why",
-   "n": 4
+   "detail": "5 条失败，0 条无 why",
+   "n": 5
   },
   {
    "id": "SD03",

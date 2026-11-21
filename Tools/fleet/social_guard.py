@@ -476,12 +476,10 @@ def account_checks():
 
     # AC05 同视频不重复评论（7 天 ≤1 条）：B站把重复评论判「无关」折叠，
     # 折叠后删了重发可能触发 5 日评论限制 + 关联视频永久降权（2026-11-20 实锚）。
-    sent = _rows(os.path.join(SOCIAL, "comments-sent.jsonl"))
-    recent = [r for r in sent if (_age_h(r.get("ts")) or 1e9) <= 24 * 7]
+    recent = _sent_posts(7)
     cnt = {}
     for r in recent:
-        if r.get("ok"):
-            cnt[str(r.get("aid"))] = cnt.get(str(r.get("aid")), 0) + 1
+        cnt[str(r.get("aid"))] = cnt.get(str(r.get("aid")), 0) + 1
     dup = {k: v for k, v in cnt.items() if v > 1}
     out.append(_mk("AC05", "同视频 7 天 ≤1 条评论", not dup, "P1",
                    ("重复评论：%s" % {k: v for k, v in list(dup.items())[:2]}) if dup
@@ -490,18 +488,55 @@ def account_checks():
 
 
 # ---------------------------------------------------------------- sends
+def _sent_posts(days=7):
+    """已发评论的单一事实：practice-log 的 post 行 + comments-sent 行，按 rpid 去重。
+
+    为什么要合并（2026-11-21 实锚）：出稿走 arm_probe → 只写 practice-log（带 gates），
+    而审计只读 comments-sent，于是**真发出去了仍报 79 小时没发**。
+    两个台账都可能缺字段，但"发出去了"这件事一条 rpid 就够。
+    """
+    seen, out = {}, []
+    for path in (os.path.join(SOCIAL, "practice-log.jsonl"),
+                 os.path.join(SOCIAL, "comments-sent.jsonl")):
+        for r in _rows(path):
+            is_post = (r.get("action") == "post") or ("reply" in r and "rpid" in r)
+            if not is_post or r.get("ok") is False:
+                continue
+            if (_age_h(r.get("ts")) or 1e9) > days * 24:
+                continue
+            rpid = str(r.get("rpid") or "")
+            key = rpid or ("%s|%s" % (r.get("ts"), r.get("aid")))
+            if key in seen:
+                seen[key].update({k: v for k, v in r.items() if v is not None})
+                continue
+            seen[key] = dict(r)
+            out.append(seen[key])
+    return sorted(out, key=lambda r: str(r.get("ts") or ""))
+
+
 def send_checks():
     out = []
-    sent = _rows(os.path.join(SOCIAL, "comments-sent.jsonl"))
-    oks = [r for r in sent if r.get("ok")]
-
-    # SD01 评论出稿龄期：今天真正发出去一条才算履职（点赞弹幕不能顶替）
-    if not oks:
-        out.append(_mk("SD01", "评论出稿（24h 至少 1 条）", False, "P1", "从未成功发送过评论"))
+    posts = _sent_posts(7)
+    if not posts:
+        out.append(_mk("SD01", "评论出稿（24h 至少 1 条）", False, "P1", "近 7 天没有成功发送的评论"))
     else:
-        age = _age_h(oks[-1].get("ts")) or 1e9
+        age = _age_h(posts[-1].get("ts")) or 1e9
         out.append(_mk("SD01", "评论出稿（24h 至少 1 条）", age <= 24, "P1",
-                       "最近一条 %.1fh 前（%s）" % (age, str(oks[-1].get("ts"))), len(oks)))
+                       "最近一条 %.1fh 前（%s rpid=%s）" % (
+                           age, str(posts[-1].get("ts")), posts[-1].get("rpid")), len(posts)))
+
+    # SD07 合格且发出才是闭环：每条已发都要带闸证据（safe_to_send + gen_gate 双过）
+    no_proof = []
+    for r in posts[-10:]:
+        g = r.get("gates") or {}
+        st, gg = g.get("safe_to_send"), g.get("gen_gate")
+        ok_st = (st[0] if isinstance(st, (list, tuple)) and st else st)
+        ok_gg = (gg[0] if isinstance(gg, (list, tuple)) and gg else gg)
+        if not (ok_st is True and ok_gg is True):
+            no_proof.append(str(r.get("rpid") or r.get("ts"))[:14])
+    out.append(_mk("SD07", "已发都带合格证据", not no_proof, "P1",
+                   ("%d 条已发缺闸证据：%s" % (len(no_proof), ",".join(no_proof[:3]))) if no_proof
+                   else "近 %d 条已发均双闸通过" % min(10, len(posts)), len(posts)))
 
     # SD02 失败归因：每条失败必须带 why，且能归到 rhythm/risk/login/other
     prac = [r for r in _rows(os.path.join(SOCIAL, "practice-log.jsonl"), 3000)
@@ -542,6 +577,8 @@ def send_checks():
                        "拦住 %d/3" % blocked, 3))
 
     # SD05 配额（按号，超配额比不发更危险）
+    today = datetime.now().strftime("%Y-%m-%d")
+    n_today = len([r for r in posts if str(r.get("ts") or "").startswith(today)])
     health = _j(HEALTH, {}) or {}
     bad, detail = [], []
     for a in (health.get("accounts") or []):
@@ -549,6 +586,8 @@ def send_checks():
         detail.append("%s=%s" % (a.get("alias"), n))
         if n is not None and int(n) > 20:
             bad.append(a.get("alias"))
+    if n_today > 20:
+        bad.append("今日合计 %d" % n_today)
     out.append(_mk("SD05", "评论配额（≤20/号/天）", not bad, "P1",
                    "今日 %s" % ", ".join(detail) if detail else "HEALTH 无账号", len(detail)))
 

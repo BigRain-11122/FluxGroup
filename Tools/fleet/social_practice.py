@@ -65,8 +65,15 @@ FAKE_PAT = (
 ADDRESS_PAT = re.compile(r"([\u4e00-\u9fff]{2,3})这(教程|期|集|视频|波|手)")
 
 
-def safe_to_send(text, title=""):
-    """返回 (ok, 原因)。只放行"不编人、不编事、且与本视频领域相关"的评论。"""
+def safe_to_send(text, title="", topics=()):
+    """返回 (ok, 原因)。只放行"不编人、不编事、且与本视频相关"的评论。
+
+    2026-11-21 修：原来领域判据是写死的剪辑/MV 词表（NICHE），可出稿早已跨段
+    （tech_nerd/shallow/情感…），于是「用蒙版遮掉侧面杂音再叠加歌词」这种明明在讲
+    这条视频的话也被判"与本视频领域无关"——闸太窄把好话挡在门外。
+    正解是拿**这条视频自己的话题词**当依据（topics 来自该视频真实评论），
+    而不是全领域一张表；没有 topics 时仍用 NICHE 兜底（arm_probe 的负控靠这条）。
+    """
     txt = (text or "").strip()
     if len(txt) < 8:
         return False, "太短"
@@ -80,8 +87,9 @@ def safe_to_send(text, title=""):
     for cand in re.findall(r"[老小阿][\u4e00-\u9fff]{1,2}", txt):
         if cand not in (title or ""):
             return False, "编造称呼「%s」" % cand
-    if not any(w in txt for w in NICHE):
-        return False, "与本视频领域无关（不含任何剪辑/教程类词）"
+    pool = list(NICHE) + [str(t) for t in (topics or ()) if t and len(str(t)) >= 2]
+    if not any(w in txt for w in pool):
+        return False, "与本视频无关（不含该视频话题词）"
     return True, ""
 
 

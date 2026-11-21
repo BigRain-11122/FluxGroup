@@ -1,6 +1,6 @@
 {
  "_why": "养号线智能体岗位职责表 v2（CEO 2026-11-21「职责可以更加具体科学一点，你已经训练了这么多天，发现了真多问题」）。v1 只判「执行体在、证据在、证据新鲜」，结果 12/12 全绿而当天一条评论都没发出去（comments-sent 最近一条 79.3h 前）。v2 每条职责都必须回答五件事：①我们踩过什么坑才需要它（why）②谁执行（exec）③证据落在哪个文件（evidence）④证据里的什么数字算做对（assert）⑤它坏掉时你会看到什么（symptom）。判据正文由 social_guard.py 产出 pass 映射，agent_audit.py 只做契约执行，二者不许互相洗白。",
- "version": "v2.2-20261121",
+ "version": "v2.3-20261121",
  "agent": {
   "name": "social-keeper",
   "open": "一条线多个身体，但只有一个时钟：出稿=practicetick(1800s) 持有 GPU 租约；互动=agent-acct1/acct3 各一进程；训练/自举/烘焙/嵌入各一个定时器；全部经 gpu_lease 互斥，拿不到就记让路。",
@@ -268,8 +268,8 @@
    "id": "B01",
    "tier": "P1",
    "ring": "出稿",
-   "name": "评论出稿（24h 至少 1 条）",
-   "why": "2026-11-21 实锚：审计 12/12 全绿而当天 0 条评论，最近一条在 79 小时前——点赞弹幕都在跑，唯独不出人的话。这是「有动作≠有产出」的典型。",
+   "name": "评论出稿（合格且发出＝闭环）",
+   "why": "2026-11-21 CEO「评论合格且发出去 才是闭环」。两道断点两个真锚：①审计只读 comments-sent，而出稿写 practice-log → 真发出去了仍报 79h 没发；②发送前第二道闸不认视频话题词，把在讲这条视频的话判「与本视频无关」→ 12 条候选全废。",
    "exec": "Tools/fleet/practice_tick.py",
    "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
    "cadence_s": 1800,
@@ -281,12 +281,12 @@
       "eq": true
      },
      {
-      "path": "pass.AC05",
+      "path": "pass.SD07",
       "eq": true
      }
     ]
    },
-   "symptom": "SD01 红=24h 没有成功评论（先查 warmup/配额/租约/登录态，别先怀疑模型）；AC05 红=同一视频 7 天内评论>1 条（B站判重复折叠，删了重发可能 5 日限制+永久降权）",
+   "symptom": "SD01 红=24h 没有真正发出的评论；SD07 红=发出的评论缺双闸证据（合格与否事后说不清）；只有赞和弹幕不算",
    "fallback": "按配额与作息让路可以，但连续两天 0 条必须升级成人判；不许用弹幕冒充评论",
    "schedulers": [
     "com.fluxgroup.practicetick",
@@ -654,6 +654,24 @@
    },
    "symptom": "EV04 红=近 14 天没有创新条目，或条目缺 measured/verdict（无测量=没落地）",
    "fallback": "每条创新写清 measured（数字）与 verdict（kept/rolled_back），无效就回滚并留下记录",
+   "schedulers": []
+  },
+  {
+   "id": "B05",
+   "tier": "P1",
+   "ring": "出稿",
+   "name": "同视频不重复评论（7 天 ≤1）",
+   "why": "2026-11-21 实锚：aid 117616622439632 在 11-17 与 11-18 各发一条。B站把重复评论判「无关」折叠，折叠后删了重发可能触发 5 日评论限制与关联视频永久降权。",
+   "exec": "Tools/fleet/social_guard.py --group sends",
+   "evidence": "cph4/fleet/social/state/GUARD-ALL.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "assert": {
+    "path": "pass.AC05",
+    "eq": true
+   },
+   "symptom": "AC05 红=同一 aid 7 天内评论 >1 条（含历史欠账，到期自然消失）",
+   "fallback": "不删不重发；同视频第二次互动只许看/赞/弹幕，不许再评论",
    "schedulers": []
   }
  ]

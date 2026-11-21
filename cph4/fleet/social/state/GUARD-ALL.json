@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-21T23:43:11",
+ "ts": "2026-11-21T23:53:23",
  "pass": {
   "CR01": false,
   "CR02": true,
@@ -20,7 +20,8 @@
   "AC03": true,
   "AC04": true,
   "AC05": false,
-  "SD01": false,
+  "SD01": true,
+  "SD07": true,
   "SD02": true,
   "SD03": true,
   "SD04": true,
@@ -56,8 +57,8 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "3.1%（线 ≤5%）8/256 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：必须/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
-   "n": 256,
+   "detail": "3.1%（线 ≤5%）8/257 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：干货/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 257,
    "group": "corpus"
   },
   {
@@ -65,8 +66,8 @@
    "name": "烘焙与分段",
    "ok": true,
    "sev": "P1",
-   "detail": "0.0h前 rows=60579 段=15 verdict=3",
-   "n": 60579,
+   "detail": "0.0h前 rows=60580 段=15 verdict=3",
+   "n": 60580,
    "group": "corpus"
   },
   {
@@ -92,8 +93,8 @@
    "name": "采集新鲜（24h）",
    "ok": true,
    "sev": "P1",
-   "detail": "24h 内采集 15 次 / 总 70 次",
-   "n": 15,
+   "detail": "24h 内采集 13 次 / 总 70 次",
+   "n": 13,
    "group": "corpus"
   },
   {
@@ -146,7 +147,7 @@
    "name": "ACTIVE 指针一致",
    "ok": true,
    "sev": "P1",
-   "detail": "base 模式 run 必须为空（base，2026-11-21T23:00:51）",
+   "detail": "base 模式 run 必须为空（base，2026-11-21T23:52:15）",
    "n": null,
    "group": "train"
   },
@@ -182,8 +183,8 @@
    "name": "跨号隔离（24h 不同视频）",
    "ok": true,
    "sev": "P0",
-   "detail": "24h 内 90 条视频无跨号重叠",
-   "n": 90,
+   "detail": "24h 内 94 条视频无跨号重叠",
+   "n": 94,
    "group": "accounts"
   },
   {
@@ -201,7 +202,7 @@
    "ok": true,
    "sev": "P0",
    "detail": "近 7 天夜间动作 0 次",
-   "n": 173,
+   "n": 180,
    "group": "accounts"
   },
   {
@@ -209,17 +210,26 @@
    "name": "同视频 7 天 ≤1 条评论",
    "ok": false,
    "sev": "P1",
-   "detail": "重复评论：{'117616622439632': 2}",
-   "n": 2,
+   "detail": "重复评论：{'117616622439632': 3, '117626990822035': 2}",
+   "n": 20,
    "group": "accounts"
   },
   {
    "id": "SD01",
    "name": "评论出稿（24h 至少 1 条）",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "最近一条 80.1h 前（2026-11-18T15:37:31）",
-   "n": 3,
+   "detail": "最近一条 0.0h 前（2026-11-21T23:52:10 rpid=324728059504）",
+   "n": 24,
+   "group": "sends"
+  },
+  {
+   "id": "SD07",
+   "name": "已发都带合格证据",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 10 条已发均双闸通过",
+   "n": 24,
    "group": "sends"
   },
   {
@@ -227,8 +237,8 @@
    "name": "失败归因齐全",
    "ok": true,
    "sev": "P1",
-   "detail": "4 条失败，0 条无 why",
-   "n": 4,
+   "detail": "5 条失败，0 条无 why",
+   "n": 5,
    "group": "sends"
   },
   {
@@ -317,7 +327,7 @@
    "name": "常驻模型预算",
    "ok": true,
    "sev": "P1",
-   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
+   "detail": "ollama 常驻 1 个 / 4.1GB（预算 ≤1 个、≤6GB）：qwen3.5:4b-mlx",
    "n": null,
    "group": "mem"
   },
@@ -335,7 +345,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 5.9G + inactive 10.4G = 16.4G（线 ≥4G）",
+   "detail": "free 1.3G + inactive 10.0G = 11.2G（线 ≥4G）",
    "n": null,
    "group": "mem"
   },
@@ -411,8 +421,8 @@
    "n_skip": 0
   },
   "sends": {
-   "overall": false,
-   "n_fail": 1,
+   "overall": true,
+   "n_fail": 0,
    "n_skip": 0
   },
   "sched": {
