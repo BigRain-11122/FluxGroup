@@ -174,6 +174,14 @@ def cmd_finalize(a):
         # 死了没产物 → 重试梯
         job["retries"] = int(job.get("retries") or 0) + 1
         job["last_error"] = "no-deliverable" if not ok else "gate-fail:%s" % gate_note
+        # 2026-11-21：把"哪一站挂的"记进台账——只写 no-deliverable 等于把人推回原始日志里捞。
+        if not ok:
+            epn = (job.get("id") or "").split("EP")[-1]
+            cs = rj(os.path.join(REPO, "cph4", "fleet", "out", "drama", "EP%s" % epn,
+                                 "chain-state.json"), {})
+            failed_stages = [k for k, v in (cs.get("stages") or {}).items() if v.get("rc") not in (0, 3)]
+            if failed_stages:
+                job["last_error"] = "fail:" + ",".join(failed_stages)
         if job["retries"] <= MAX_RETRIES:
             job["status"] = "pending"
             job["requeued_ts"] = now()
@@ -256,6 +264,11 @@ def cmd_iterate(a):
     lines.append("")
 
     lines += ["## 四、迭代建议（建议，不是法）", ""]
+    # 硬阻断：ComfyUI 僵尸（进程活但不监听）会让整夜零产出，必须顶到最前面
+    wedge = rj(os.path.join(REPO, "media", "comfy-wedged.json"), {})
+    if wedge:
+        lines.append("0. **【硬阻断】ComfyUI 僵尸** pid=%s（%s）→ %s。清掉它之前所有 GPU 活都起不来。"
+                     % (wedge.get("pids"), wedge.get("why"), wedge.get("action")))
     if cause.get("no-deliverable", 0) >= 2:
         lines.append("1. **重复「无产物」** ≥2 次 → 先查 SKIP 判据与旧件归档（10-24 判例：旧帧不归档=命令秒过零产出）。")
     if any("gate-fail" in k for k in cause):

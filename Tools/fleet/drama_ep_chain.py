@@ -116,7 +116,9 @@ def main(argv=None):
 
     want = [s.strip() for s in a.stages.split(",") if s.strip()]
     if want == ["all"]:
-        want = ["plan", "kf", "i2v-plan", "i2v", "assembly", "qc"]
+        # 2026-11-21 修：原 all 漏了 audio —— EP002-009 因此全程无配音，
+        # 装配走"无音轨"兜底并连带踩到 ffmpeg 参数错位，9 集全 blocked。
+        want = ["plan", "kf", "i2v-plan", "i2v", "audio", "assembly", "qc"]
     fails = 0
     print("CHAIN EP%03d stages=%s dry=%s" % (ep, ",".join(want), a.dry_run))
 
