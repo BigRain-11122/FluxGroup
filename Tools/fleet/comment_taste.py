@@ -228,7 +228,10 @@ def hard_block(text, context=""):
     # 正常内容里的英文：类型名/平台名/常见缩写，不许当幻觉（rap/BGM/MV/IPhone/CS…）
     ok_latin = {"BGM", "bgm", "MV", "mv", "UP", "up", "B站", "PR", "AI", "Vlog", "vlog",
                 "rap", "RAP", "CS", "cs", "PS", "ps", "APP", "app", "V社", "GDP",
-                "iPhone", "iPad", "PC", "pc", "TV", "DLC", "Steam", "steam", "LOL"}
+                "iPhone", "iPad", "PC", "pc", "TV", "DLC", "Steam", "steam", "LOL",
+                # 中文评论里常见的英文借词：真人天天这么写，不算幻觉
+                "feeling", "vibe", "hold", "live", "cover", "remix", "beat", "drop",
+                "flow", "ok", "OK", "yes", "no", "play", "loop", "demo"}
     # 上下文白名单：标题/简介/简报里出现的英文词是内容不是幻觉。
     # 2026-11-21 实锚：「15 号比了嘛，16 号支持 BLG 啊！」被判"英文幻觉 BLG"，
     # 而 BLG 就是这条视频标题里的队名——闸没有上下文就会把专有名词当乱码。

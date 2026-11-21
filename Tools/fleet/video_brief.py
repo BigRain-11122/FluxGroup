@@ -55,19 +55,33 @@ def brief_from(texts, desc="", keep=6):
                 if g in WATER:
                     continue
                 grams[g] += 1
+    # 拉丁词必须整词出现：2026-11-21 实测「BLG」会派生「LG」「BL」、「video」派生「eo」，
+    # 这些在中文语境里不是词。判据=该拉丁串在原文里两侧不能紧邻字母。
+    def _latin_whole(g, texts):
+        if not re.fullmatch(r"[A-Za-z0-9]+", g):
+            return True
+        pat = re.compile(r"(?<![A-Za-z0-9])" + re.escape(g) + r"(?![A-Za-z0-9])")
+        return any(pat.search(t or "") for t in texts[:2000])
+
     # 去掉"滑窗碎片"：2026-11-21 实测 naive 分数会吐出「版转/场好/好丝」这类
     # 只存在于「蒙版转场好丝滑」中间的片段。判据=若存在更长的候选把 g 夹在**中间**
     # （既不是前缀也不是后缀），g 就是碎片；而「蒙版」「转场」是前缀/后缀，保留。
     # 频次门槛跟着样本量走：真实视频几百条评论用 5，小样本（自检）降到 2，
     # 否则"评论太少"会被误判成"没有内容词"。
     min_freq = max(2, min(5, len(texts) // 10))
-    cand = [(g, c) for g, c in grams.most_common(200) if c >= min_freq and 2 <= len(g) <= 4]
+    cand = [(g, c) for g, c in grams.most_common(200)
+            if c >= min_freq and 2 <= len(g) <= 4 and _latin_whole(g, texts)]
     frag = set()
     for g, c in cand:
         for g2, c2 in cand:
             if len(g2) <= len(g) or g not in g2:
                 continue
+            # ①中间片段（版转/场好）：只要被更长词夹在中间就不是词
             if c2 >= c * 0.6 and not (g2.startswith(g) or g2.endswith(g)):
+                frag.add(g)
+                break
+            # ②冗余短词（工作流 出现 100 次时，"作流/求工"几乎同频 → 它只是切片）
+            if c2 >= c * 0.8:
                 frag.add(g)
                 break
     top = []

@@ -559,7 +559,10 @@ def main():
     except Exception:
         _brief = ""
     best = None
-    for k in range(8):
+    # 候选数 8→12：2026-11-21 实测单条候选过闸率 30–47%，8 条里"一条都没过"的概率有 2–6%，
+    # 而那意味着这一轮白跑（不发也不记产出）。12 条把"全部被拒"压到 <1%，
+    # 代价是单次出稿多花约 50% 生成时间（约 5 秒），可接受。
+    for k in range(12):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k, brief=_brief)
         p += persona_line(seg)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
