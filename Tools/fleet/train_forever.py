@@ -463,7 +463,10 @@ def run_one(a):
 
     ds = os.path.join(SOCIAL, "train-%s" % seg)
     build_cmd = [PY, os.path.join(HERE, "train_build.py"), "--out", ds,
-                 "--min-human", "5"]
+                 "--min-human", "5",
+                 # 2026-11-21：硬阈值会把段砍成零头（shallow 4396→293），回填到 1200 条
+                 # 再训——278 条训 LoRA 等于没训，这是在浪费 50 分钟 GPU。
+                 "--target-rows", "1200"]
     if seg != GENERIC:
         build_cmd += ["--seg", seg]
     rc, out = sh(build_cmd, timeout=1200)
@@ -478,10 +481,30 @@ def run_one(a):
         board(st, rows, rejects)
         return 0
 
-    rc, out = sh(["/bin/bash", os.path.join(HERE, "train_run.sh"),
-                  "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
-                  "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
-                  "--grad-checkpoint"], timeout=8 * 3600)
+    # 一块 GPU 一把租约：2026-11-21 实测三个消费者（训练/嵌入/自举）同抢，训练从
+    # 10 步/分掉到 3.3 步/分，两小时变六小时。拿不到就不抢，写清让路原因，本轮返回 0。
+    try:
+        import gpu_lease as _gl
+        _got, _why = _gl.acquire("train", ttl_s=4 * 3600)
+    except Exception as _e:
+        _got, _why = True, "租约不可用（%s），不拦" % str(_e)[:40]
+    if not _got:
+        print("[loop] 让路：%s" % _why)
+        record_fail(seg, task["rows"], "BLOCKED", "GPU 让路：" + _why)
+        st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
+                                   last_rc="GPU-BUSY")
+        _save(LOOP_STATE, st)
+        return 0
+    try:
+        rc, out = sh(["/bin/bash", os.path.join(HERE, "train_run.sh"),
+                      "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
+                      "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
+                      "--grad-checkpoint"], timeout=8 * 3600)
+    finally:
+        try:
+            _gl.release("train")
+        except Exception:
+            pass
     if rc != 0:
         skip = "SKIP-ALREADY-TRAINING" in out
         print("[loop] 训练%s（rc=%d）：%s" % ("被让路" if skip else "失败", rc,

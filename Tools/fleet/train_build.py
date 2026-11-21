@@ -287,6 +287,9 @@ def main():
     ap.add_argument("--valid-ratio", type=float, default=0.05)
     ap.add_argument("--ban-ai", type=int, default=1,
                     help="语料级反 AI 腔硬筛（1=开，默认）。关掉只为做对照实验")
+    ap.add_argument("--target-rows", type=int, default=0,
+                    help="目标行数：硬阈值砍太狠时，从'没硬伤但分不够'的池里按分回填到该数"
+                         "（0=不补）。2026-11-21 实测 shallow 只剩 293/4396，必须回填")
     ap.add_argument("--danmaku-max", type=float, default=0.35,
                     help="弹幕最多占训练集的比例（弹幕多是碎片，比例过高会把模型教成半句）")
     ap.add_argument("--danmaku-min-len", type=int, default=6,
@@ -319,6 +322,7 @@ def main():
         return 2
 
     seen, rows, dropped = set(), [], {"dup": 0, "len": 0, "bad": 0, "use": 0}
+    pool = []          # 回填候选：没硬伤、只是分不够高的行（见 --target-rows）
     for line in open(a.src, encoding="utf-8"):
         if not line.strip():
             continue
@@ -353,9 +357,20 @@ def main():
         if a.min_human > 0:
             try:
                 import comment_taste as _ct2
-                if _ct2.human_feel(t) < a.min_human:
+                hv = _ct2.human_feel(t)
+                if hv < a.min_human:
                     dropped.setdefault("human", 0)
                     dropped["human"] += 1
+                    # 留作回填候选：没硬伤，只是分数不够高。**两个分都记**，
+                    # 否则回填门槛只能看一半（2026-11-21 踩过：只记 _hf 时品味下限失效）。
+                    try:
+                        _tt = int(_ct2.score(t).get("total") or 0)
+                    except Exception:
+                        _tt = 0
+                    pool.append({"h": h, "text": t, "len": len(t), "kind": r.get("kind"),
+                                 "origin": r.get("origin") or "comment",
+                                 "thread": r.get("thread"), "_score": int(hv),
+                                 "_hf": int(hv), "_tt": _tt})
                     continue
             except Exception:
                 a.min_human = 0
@@ -374,6 +389,10 @@ def main():
                 if s["total"] < a.min_taste or s["verdict"] == "REJECT":
                     dropped.setdefault("taste", 0)
                     dropped["taste"] += 1
+                    pool.append({"h": h, "text": t, "len": len(t), "kind": r.get("kind"),
+                                 "origin": origin, "thread": r.get("thread"),
+                                 "_score": int(s.get("human") or 0) + int(s.get("voice") or 0),
+                                 "_hf": None, "_tt": int(s.get("total") or 0)})
                     continue
             except Exception as e:
                 print("[build] 品味闸不可用（%s），本次不筛" % str(e)[:60])
@@ -430,6 +449,7 @@ def main():
             print("[build] 单视频上限 %d 条（%.0f%%）→ 去掉 %d 条，剩 %d"
                   % (cap, a.per_video_max * 100, drop_v, len(rows)))
 
+
     # 段位打标 + 单段配额（颗粒度对齐：语料/训练/生成/评测用同一套段位）
     if a.seg_cap:
         sys.path.insert(0, HERE)
@@ -452,6 +472,12 @@ def main():
                 if r.get("h") in seg2:
                     r["seg"] = seg2[r["h"]]
                     n2 += 1
+                else:
+                    r["seg"] = sg.classify(r["text"], spec)["primary"]
+            # 回填池也要打段标，否则过滤后补不进来
+            for r in pool:
+                if r.get("h") in seg2:
+                    r["seg"] = seg2[r["h"]]
                 else:
                     r["seg"] = sg.classify(r["text"], spec)["primary"]
             if n2:
@@ -478,8 +504,30 @@ def main():
             if cut:
                 print("[build] 单段上限 %d 条（%.0f%%）→ 去掉 %d 条，剩 %d"
                       % (cap_seg, a.seg_cap * 100, cut, len(rows)))
+
         except Exception as e:
             print("[build] 段位打标不可用（%s），本跳过" % str(e)[:60])
+
+    # 回填放在**分段过滤之后**：--seg 会把别的段剔掉，回填必须在剩下这一段里补，
+    # 否则补进来的还是别的段（2026-11-21 第一次实现踩的坑：回填跑在过滤前，一行没补上）。
+    # 硬阈值砍太狠时按 (人味+语感) 从"没硬伤但分不够"的池里补到目标行数；
+    # 安全闸（AI 腔/硬拒/长度/广告）一律不吃回填。
+    if a.target_rows and len(rows) < a.target_rows and pool:
+        # 回填也要看质量：2026-11-21 实测——严格集 278 条总分均 78.9，无门槛回填到
+        # 1,006 条掉到 52.7，训练学的是均值，于是 lora 只比基座 +4.4（前一次严格集是 +21.1）。
+        # 所以只从"人味 ≥4 且品味 ≥55"的次优里补，宁可少也不要稀。
+        cand = [r for r in pool if not a.seg or r.get("seg") == a.seg]
+        cand = [r for r in cand if (r.get("_hf") is None or r.get("_hf") >= 4)
+                and (r.get("_tt") is None or r.get("_tt") >= 55)]
+        need = min(len(cand), a.target_rows - len(rows))
+        cand.sort(key=lambda r: -r.get("_score", 0))
+        add = cand[:need]
+        for r in add:
+            r.pop("_score", None)
+        rows.extend(add)
+        dropped["backfill"] = len(add)
+        print("[build] 回填 %d 条（目标 %d）：只从没硬伤、但人味/品味分不够的池里按分取"
+              % (len(add), a.target_rows))
 
     if len(rows) < 100:
         print("[build] 只有 %d 条可用，太少（至少 100 才有意义）" % len(rows))

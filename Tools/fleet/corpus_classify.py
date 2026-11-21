@@ -43,19 +43,32 @@ sys.path.insert(0, HERE)
 
 
 def embed(texts, batch=64, timeout=180):
-    """批量嵌入。ollama 的 /api/embed 支持一次多条，比自己循环快一个数量级。"""
+    """批量嵌入。ollama 的 /api/embed 支持一次多条，比自己循环快一个数量级。
+
+    2026-11-21 实锚：batch=256 直接 HTTP 400（请求体太大/超 token 上限），
+    超长文本也会 400。所以先截断到 200 字，并在 400 时自动减半重试。
+    """
+    texts = [(t or "")[:200] for t in texts]
     out = []
-    for i in range(0, len(texts), batch):
+    i = 0
+    while i < len(texts):
         chunk = texts[i:i + batch]
         body = json.dumps({"model": EMB_MODEL, "input": chunk}).encode()
         req = urllib.request.Request(OLLAMA + "/api/embed", data=body,
                                      headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            d = json.loads(r.read().decode())
-        e = d.get("embeddings") or []
-        if len(e) != len(chunk):
-            raise RuntimeError("嵌入条数不符：%d vs %d" % (len(e), len(chunk)))
-        out.extend(e)
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                d = json.loads(r.read().decode())
+        except urllib.error.HTTPError as e:
+            if e.code == 400 and batch > 1:
+                batch = max(1, batch // 2)      # 减半重试，别整批丢
+                continue
+            raise
+        e2 = d.get("embeddings") or []
+        if len(e2) != len(chunk):
+            raise RuntimeError("嵌入条数不符：%d vs %d" % (len(e2), len(chunk)))
+        out.extend(e2)
+        i += len(chunk)
     return np.asarray(out, dtype=np.float32)
 
 
@@ -116,7 +129,7 @@ def ask_seg(samples, segs, timeout=90):
     return pick_seg(raw, segs), raw.strip()[:40]
 
 
-def run(k=48, limit=0, dry=False, batch=64):
+def run(k=48, limit=0, dry=False, batch=64, cache=None):
     import segments as sg
     spec = sg.load_spec()
     segs = [s["id"] for s in spec["segments"]]
@@ -137,7 +150,34 @@ def run(k=48, limit=0, dry=False, batch=64):
 
     t0 = time.time()
     texts = [r.get("text") or "" for r in rows]
-    X = embed(texts, batch=batch)
+    # 嵌入很贵（44k 行约 28 分钟），而命名很便宜（几十次小模型调用），
+    # 所以缓存向量：训练占着 GPU 时只做嵌入，等空出来再聚类命名。
+    X = None
+    if cache and os.path.exists(cache):
+        try:
+            z = np.load(cache, allow_pickle=False)
+            if int(z["n"]) == len(texts):
+                X = z["X"]
+        except Exception:
+            X = None
+    if X is None:
+        # 嵌入是 GPU 活：与训练/自举互斥（拿不到就不抢，用缓存或下次再说）
+        try:
+            import gpu_lease as _gl
+            _got, _why = _gl.acquire("embed", ttl_s=2 * 3600)
+        except Exception:
+            _got, _why = True, ""
+        if not _got:
+            return {"skipped": _why}
+        try:
+            X = embed(texts, batch=batch)
+        finally:
+            try:
+                _gl.release("embed")
+            except Exception:
+                pass
+        if cache:
+            np.savez(cache, X=X, n=len(texts))
     X = X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-9)   # 归一化，距离=余弦
     emb_s = time.time() - t0
 
@@ -147,16 +187,24 @@ def run(k=48, limit=0, dry=False, batch=64):
 
     t2 = time.time()
     assigns = {}
+    rng = np.random.default_rng(20261121)
     for c in range(len(C)):
         idx = np.where(labels == c)[0]
         if len(idx) < 20:          # 太小的簇不判（噪声）
             continue
-        # 取离质心最近的 5 句做代表
         d = ((X[idx] - C[c]) ** 2).sum(1)
         near = idx[np.argsort(d)[:5]]
-        samples = [texts[i] for i in near]
-        seg, raw = ask_seg(samples, segs)
-        assigns[c] = {"seg": seg, "raw": raw, "n": int(len(idx)), "samples": samples}
+        # 第二问用"随机 5 条"，跟最近 5 条分开问：两个答案不一致说明这一簇是混杂的，
+        # 宁可留 generic 也不要打错标签（2026-11-21 抽查：只问一次时"现在不都这种吗"
+        # 被判成 beginner，"显卡贵就贵吧"被判成 tech_nerd 还算对，混杂簇必须拦掉）。
+        rand5 = idx[rng.choice(len(idx), size=min(5, len(idx)), replace=False)]
+        s1 = [texts[i] for i in near]
+        s2 = [texts[i] for i in rand5]
+        seg1, raw1 = ask_seg(s1, segs)
+        seg2_, raw2 = ask_seg(s2, segs)
+        agree = (seg1 == seg2_)
+        assigns[c] = {"seg": seg1 if agree else "generic", "raw": "%s|%s" % (raw1[:14], raw2[:14]),
+                      "agree": agree, "n": int(len(idx)), "samples": s1}
     ask_s = time.time() - t2
 
     moved = 0
@@ -180,7 +228,7 @@ def run(k=48, limit=0, dry=False, batch=64):
            "moved_ratio": round(moved / max(1, len(rows)), 3),
            "emb_sec": round(emb_s, 1), "kmeans_sec": round(km_s, 1), "ask_sec": round(ask_s, 1),
            "total_sec": round(time.time() - t0, 1),
-           "assign": {str(c): {"seg": v["seg"], "n": v["n"], "raw": v["raw"],
+           "assign": {str(c): {"seg": v["seg"], "n": v["n"], "raw": v["raw"], "agree": v.get("agree"),
                                "samples": v["samples"][:3]} for c, v in assigns.items()},
            "seg_counts": dict(Counter(v["seg"] for v in assigns.values()).most_common())}
     if not dry:
@@ -211,12 +259,14 @@ def main():
     ap.add_argument("--k", type=int, default=48)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--batch", type=int, default=64)
+    ap.add_argument("--cache", default=os.path.join(SOCIAL, "corpus", "human", "EMB-cache.npz"),
+                    help="嵌入向量缓存（44k 行约 28 分钟，缓存在磁盘上可以分两次跑）")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
-    r = run(a.k, a.limit, a.dry, a.batch)
+    r = run(a.k, a.limit, a.dry, a.batch, a.cache or None)
     print(json.dumps(r, ensure_ascii=False, indent=1)[:2500])
     return 0
 

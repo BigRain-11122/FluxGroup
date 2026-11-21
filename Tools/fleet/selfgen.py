@@ -78,6 +78,24 @@ def sample_one(title, desc, k, seg, temperature=0.85):
 
 
 def run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""):
+    # 一块 GPU 一把租约（2026-11-21）：与训练/嵌入互斥，拿不到就让路，不抢。
+    try:
+        import gpu_lease as _gl
+        got, why = _gl.acquire("selfgen", ttl_s=3 * 3600)
+    except Exception as _e:
+        got, why = True, "租约不可用：%s" % str(_e)[:40]
+    if not got:
+        return {"skipped": why}
+    try:
+        return _run(titles_limit, per, seg, dry, temperature, out_name)
+    finally:
+        try:
+            _gl.release("selfgen")
+        except Exception:
+            pass
+
+
+def _run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""):
     import segments as sg
     spec = sg.load_spec() if not seg else None
     try:
