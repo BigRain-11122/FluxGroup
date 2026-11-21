@@ -1,39 +1,6 @@
 {
  "human": [
   {
-   "text": "宝子，你也对剪辑感兴趣嘛？壶关我分享给你呀",
-   "field": "source_content",
-   "business_id": 1,
-   "video_title": "周杰伦JAY-可爱女人+她来听我的演唱会+世界末日=2014香港演唱会",
-   "uri": "https://www.bilibili.com/video/BV19zRpB4Eft",
-   "replier": "小笨鱼8",
-   "replier_mid": 3707030428715109,
-   "their_reply": "",
-   "rpid": 324471291168
-  },
-  {
-   "text": "再次感谢同学的支持！[给心心][给心心]",
-   "field": "source_content",
-   "business_id": 1,
-   "video_title": "教程太干货了，必须三连支持！",
-   "uri": "https://www.bilibili.com/video/BV1EeQ4BiEC6",
-   "replier": "剪辑教程寒林",
-   "replier_mid": 1695192693,
-   "their_reply": "",
-   "rpid": 320642974321
-  },
-  {
-   "text": "感谢同学的留言支持！",
-   "field": "source_content",
-   "business_id": 1,
-   "video_title": "教程干货满满，新手必看！",
-   "uri": "https://www.bilibili.com/video/BV1EeQ4BiEC6",
-   "replier": "剪辑教程寒林",
-   "replier_mid": 1695192693,
-   "their_reply": "",
-   "rpid": 320642965777
-  },
-  {
    "text": "后面就简单了，关键是副歌部分找灵感找了好久[笑哭]",
    "field": "source_content",
    "business_id": 1,
@@ -298,6 +265,40 @@
    "replier_mid": 3546886862539215,
    "their_reply": "",
    "rpid": 324385324832
+  },
+  {
+   "text": "宝子，你也对剪辑感兴趣嘛？壶关我分享给你呀",
+   "field": "source_content",
+   "business_id": 1,
+   "video_title": "周杰伦JAY-可爱女人+她来听我的演唱会+世界末日=2014香港演唱会",
+   "uri": "https://www.bilibili.com/video/BV19zRpB4Eft",
+   "replier": "小笨鱼8",
+   "replier_mid": 3707030428715109,
+   "their_reply": "",
+   "rpid": 324471291168
+  },
+  {
+   "text": "再次感谢同学的支持！[给心心][给心心]",
+   "field": "source_content",
+   "business_id": 1,
+   "video_title": "教程太干货了，必须三连支持！",
+   "uri": "https://www.bilibili.com/video/BV1EeQ4BiEC6",
+   "replier": "剪辑教程寒林",
+   "replier_mid": 1695192693,
+   "their_reply": "",
+   "rpid": 320642974321
+  },
+  {
+   "text": "感谢同学的留言支持！",
+   "field": "source_content",
+   "business_id": 1,
+   "video_title": "教程干货满满，新手必看！",
+   "uri": "https://www.bilibili.com/video/BV1EeQ4BiEC6",
+   "replier": "剪辑教程寒林",
+   "replier_mid": 1695192693,
+   "their_reply": "",
+   "rpid": 320642965777
   }
- ]
+ ],
+ "_note_split_fix": "2026-11-21：11-17 之前的老 AI 模板评论（宝子/感谢同学）误算成 human，已移出正样本"
 }

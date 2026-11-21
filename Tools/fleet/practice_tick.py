@@ -560,14 +560,15 @@ def main():
         t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
             continue
-        s = ct.score(t, seg=seg or None)
-        if s["verdict"] != "PASS":
+        ok, why = ct.gen_gate(t)
+        if not ok:
+            log({"action": "skip", "why": "gen-gate:" + why, "arm": arm})
             continue
         if ct.awkward_particles(t):
             continue
-        if ct.hard_block(t):
-            log({"action": "skip", "why": "hard-block:" + ct.hard_block(t), "arm": arm})
-            continue
+        # 品味分只用来排序（下面 best-of-8），不再一票否决——2026-11-21 回归实测：
+        # 拿它当及格线会把亲笔句毙掉 88%（「太喜欢这首歌了，没有之一。」被判"逻辑不够"）。
+        s = ct.score(t, seg=seg or None)
         if not sp.safe_to_send(t, title)[0]:
             continue
         key = (s["voice"] + s["human"], s["total"])

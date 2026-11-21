@@ -48,20 +48,22 @@ def opening(t):
 
 
 def gate(t):
-    """一条候选能不能进训练集。返回 ("PASS", "") 或 (原因, 细节)。"""
+    """一条候选能不能进训练集。返回 ("PASS", "") 或 (原因, 细节)。
+
+    2026-11-21 换成 `gen_gate`：回归集实测，拿 score().verdict 当及格线会把亲笔句
+    毙掉 88%（「太喜欢这首歌了，没有之一。」被判逻辑不够）。要喂的是训练集，
+    标准该是"不烂 + 带具体东西"，不是"像范文"。
+    """
     import comment_taste as ct
     if not t:
         return "空", ""
     if not (LO <= len(t) <= HI):
         return "字数", str(len(t))
-    hb = ct.hard_block(t)
-    if hb:
-        return "硬拒", hb
+    ok, why = ct.gen_gate(t)
+    if not ok:
+        return "硬拒", why
     if ct.awkward_particles(t):
         return "语气词错位", ""
-    s = ct.score(t)
-    if s["verdict"] != "PASS":
-        return "品味分", "%s/%s" % (s["verdict"], s["total"])
     return "PASS", ""
 
 
@@ -179,17 +181,21 @@ def _run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""
 
 def self_test():
     """负控：闸必须能拒 AI 腔、放真人句；开头配额函数不能把 2 字当 0 字。"""
+    # 判据 2026-11-21 改过：出稿/造集闸只管"露馅"（AI 腔/烂梗/格式），
+    # 平淡但正常的句子（「这个电影真的很不错我觉得还行吧」）该放行、交给排序去优中选优。
     bad = ["教程太干货了，必须三连支持！", "那个转场绝了，氛围感拿捏得死死的",
-           "这个电影真的很不错我觉得还行吧"]
+           "「镜头那抹烟嗓呢，太戳人了。」"]
     # 用"像人但不在亲笔样句里"的句子：样句本身会被抄样句闸拦，那是正确行为不是误杀。
     # 注意 9 字的真人句会被字数带拒——这正是"带子比真人窄"的实锚，记在报告里。
     good = ["索爱那广告放到现在看还是有点好笑", "后面那次副歌进来我起鸡皮疙瘩"]
     ok_bad = all(gate(t)[0] != "PASS" for t in bad)
     ok_good = all(gate(t)[0] == "PASS" for t in good)
+    ok_bland = gate("这个电影真的很不错我觉得还行吧")[0] == "PASS"   # 平淡不是缺陷
     ok_open = opening("「镜头」很稳") == "镜头" and len(opening("abc")) == 0
-    ok = ok_bad and ok_good and ok_open
+    ok = ok_bad and ok_good and ok_open and ok_bland
     print(json.dumps({"self_test": "PASS" if ok else "FAIL",
-                      "拒掉坏句": ok_bad, "放行真人句": ok_good, "开头解析": ok_open},
+                      "拒掉坏句": ok_bad, "放行真人句": ok_good, "平淡放行": ok_bland,
+                      "开头解析": ok_open},
                      ensure_ascii=False))
     return 0 if ok else 1
 

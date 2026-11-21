@@ -216,12 +216,19 @@ def hard_block(text):
     smell = [w for w in AI_SMELL if w in t]
     if smell:
         return "AI 腔：%s" % "/".join(smell[:2])
-    # 引号包裹：2026-11-20 实测把样句放进提示词后，模型连「」一起抄出来
-    # （「突然「我」发现这段配乐…」）。真人不会给自己的评论打引号。
-    if re.search(r"[「」“”\"]", t):
+    # 引号包裹：只拦"整句被引号包起来"（模型抄样句格式的特征）。
+    # 2026-11-21 回归实测：真人会引歌词（方文山写"天青色等烟雨"的时候…），
+    # 一刀切"句内有引号就拒"会把他的话毙掉——判据必须窄到只抓格式。
+    if re.match(r'^\s*[「“\"]', t) and re.search(r'[」”\"]\s*$', t):
         return "引号包裹/抄格式"
-    latin = re.findall(r"[A-Za-z]{3,}", t)
-    ok_latin = {"BGM", "bgm", "MV", "mv", "UP", "up", "B站", "PR", "AI", "Vlog", "vlog"}
+    # 表情码里的拉丁字母不算幻觉：2026-11-21 实测 [doge_金箍] 被当成"英文幻觉"，
+    # 把真人句「这也是说唱 rap r&b[doge_金箍]」整句毙掉。先剥掉 [xxx] 再查。
+    bare = re.sub(r"\[[^\]]{1,12}\]", "", t)
+    latin = re.findall(r"[A-Za-z]{3,}", bare)
+    # 正常内容里的英文：类型名/平台名/常见缩写，不许当幻觉（rap/BGM/MV/IPhone/CS…）
+    ok_latin = {"BGM", "bgm", "MV", "mv", "UP", "up", "B站", "PR", "AI", "Vlog", "vlog",
+                "rap", "RAP", "CS", "cs", "PS", "ps", "APP", "app", "V社", "GDP",
+                "iPhone", "iPad", "PC", "pc", "TV", "DLC", "Steam", "steam", "LOL"}
     bad = [w for w in latin if w not in ok_latin]
     if bad:
         return "英文幻觉：%s" % "/".join(bad[:2])
@@ -234,6 +241,38 @@ def hard_block(text):
     if cp:
         return cp
     return ""
+
+
+def gen_gate(text):
+    """**出稿闸**：只拦"发出去会露馅"的，不拿品味分当及格线。
+
+    2026-11-21 回归实测（GATE-REGRESSION：亲笔 20 句 + 坏句 17 句）：
+    用 `score(...)["verdict"] == "PASS"` 当出稿闸，亲笔句只有 **12% 能过**——
+    「太喜欢这首歌了，没有之一。」「髮你哦」这种真话被判"逻辑不够"，
+    而这是真人最自然的样子。反过来我们的坏句有 9/17 漏网（「别累着自己！」这类
+    空心关心，词表永远抓不到）。所以：
+      · 出稿闸 = 安全闸（AI 腔/烂梗/外文/抄样句）＋ 最低完整性（有汉字、不是纯表情/纯助兴）；
+      · 品味分只用来**排序**（best-of-8 挑最好的一条），不再当一票否决。
+    这就是 CEO 说的"不是只靠拦着"：闸管"不许烂"，排序管"尽量好"。
+    """
+    t = strip_reply_prefix(text or "")
+    if not t:
+        return False, "空"
+    hb = hard_block(t)
+    if hb:
+        return False, hb
+    if not CJK.search(t):
+        return False, "无中文"
+    bare = BRACKET_EMOJI.sub("", t)
+    bare = re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", bare)
+    if len(bare) < 2:
+        return False, "纯表情/纯符号"
+    if FILLER.match(t):
+        return False, "纯助兴"
+    # 真人会写长句（回归集里有一条 81 字的说唱评论），60 字太窄；只防模型跑飞。
+    if len(t) > 120:
+        return False, "过长 %d" % len(t)
+    return True, ""
 
 
 def opening_key(text, n=2):
