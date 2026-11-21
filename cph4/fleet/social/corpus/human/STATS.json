@@ -1,8 +1,8 @@
 {
- "total": 143555,
- "usable_for_train": 131451,
+ "total": 143919,
+ "usable_for_train": 131815,
  "by_use": {
-  "train": 131451,
+  "train": 131815,
   "rejected": 8,
   "null": 11944,
   "reference": 152
@@ -14,15 +14,16 @@
   "QUALITY-PASS": 6394,
   "study_hot": 1343,
   "own_practice": 21,
+  "selfgen-all": 182,
   "SEG2": 11944,
   "bili_comments_crawl": 152,
   "selfgen-shallow-v0": 105,
-  "BAKED-v1": 60580
+  "BAKED-v1": 60762
  },
  "by_kind": {
-  "praise": 552,
-  "critique": 98,
-  "question": 30,
+  "praise": 810,
+  "critique": 156,
+  "question": 78,
   "experience": 2,
   "其他": 85570,
   "提问": 25316,
@@ -35,7 +36,7 @@
   "null": 13287
  },
  "by_emo": {
-  "null": 14003,
+  "null": 14367,
   "平": 116466,
   "喜": 7842,
   "怒": 2042,

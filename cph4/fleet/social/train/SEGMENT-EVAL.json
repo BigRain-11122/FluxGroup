@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-22T04:54:33",
+ "ts": "2026-11-22T07:11:34",
  "base": [
   {
-   "n": 10,
-   "avg": 56.5,
-   "pass_rate": 20,
-   "avg_logic": 6.5,
-   "avg_human": 10.0,
-   "avg_natural": 20.0,
+   "n": 30,
+   "avg": 56.7,
+   "pass_rate": 3,
+   "avg_logic": 9.0,
+   "avg_human": 8.0,
+   "avg_natural": 19.9,
    "reject": 0,
    "sample": [
-    "你总说被讨厌的歌里藏着太多往事，连我也想起那晚耳机里的余音了。",
-    "我也总想起某次深夜在车里单曲循环，后来才发现那首歌火到不配听。"
+    "你提到戴耳机音量太大，我试过 29 分贝实测就明显刺痛耳膜了。",
+    "你用的哪个耳机？我也在纠结参数，但实际听感确实因人而异。"
    ],
-   "seg": "feeler",
+   "seg": "tech_nerd",
    "cached": true
   }
  ],
  "lora": [
   {
-   "n": 10,
-   "avg": 46.6,
-   "pass_rate": 40,
-   "avg_logic": 11.0,
-   "avg_human": 4.0,
-   "avg_natural": 17.6,
-   "reject": 2,
-   "seg": "feeler",
+   "n": 30,
+   "avg": 61.7,
+   "pass_rate": 53,
+   "avg_logic": 20.5,
+   "avg_human": 7.0,
+   "avg_natural": 19.3,
+   "reject": 5,
+   "seg": "tech_nerd",
    "sample": [
-    "我都是之前看这个上了火 结果现在觉得还是当年没旋律 比唱的更响",
-    "所以，以为只有自己一个人喜欢，还是没爱过。"
+    "支持一下，不过我想问问你的镜头是什么？",
+    "开篇比结尾多1分钟，还分镜头"
    ]
   }
  ],
- "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261122-042552/ckpt400"
+ "samples": 30,
+ "adapter": "cph4/fleet/social/train/RUNS/20261122-063552/ckpt400"
 }

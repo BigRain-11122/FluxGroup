@@ -1,39 +1,40 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795286164.0,
-   "last_rc": "REJECT",
+   "last_ts": 1795302133.103908,
+   "last_rc": "KEEP",
+   "rows": 579,
+   "run": "20261122-063552",
+   "step": 400,
+   "val_min": 3.522,
+   "recipe": "v5-shape-quota"
+  },
+  "peer_pro": {
+   "last_ts": 1795295277.0,
+   "last_rc": "KEEP",
    "rows": null,
-   "run": "20261122-020611",
+   "run": "20261122-035131",
    "step": null,
    "val_min": null
   },
-  "peer_pro": {
-   "last_ts": 1795292397.0,
-   "last_rc": "KEEP",
-   "rows": 603,
-   "run": "20261122-035131",
-   "step": 400,
-   "val_min": 3.783
-  },
   "music_seeker": {
-   "last_ts": 1795290325.0,
-   "last_rc": "KEEP",
+   "last_ts": 1795296259.0,
+   "last_rc": "SUPPLY",
    "rows": 441,
-   "run": "20261122-031937",
-   "step": 400,
-   "val_min": 2.913
+   "run": null,
+   "step": null,
+   "val_min": null
   },
   "craft_learner": {
-   "last_ts": 1795284008.0,
+   "last_ts": 1795300191.0,
    "last_rc": "REJECT",
-   "rows": 2139,
-   "run": "20261122-013440",
+   "rows": 2170,
+   "run": "20261122-060439",
    "step": 200,
    "val_min": 3.478
   },
   "memer": {
-   "last_ts": 1795286332.0,
+   "last_ts": 1795295518.0,
    "last_rc": "BLOCKED",
    "rows": 2157,
    "run": null,
@@ -49,141 +50,23 @@
    "val_min": 3.42
   },
   "shallow": {
-   "last_ts": 1795288419.0,
-   "last_rc": "REJECT",
+   "last_ts": 1795295847.0,
+   "last_rc": "BLOCKED",
    "rows": 1948,
-   "run": "20261122-024437",
-   "step": 400,
-   "val_min": 3.663
+   "run": null,
+   "step": null,
+   "val_min": null
   },
   "feeler": {
-   "last_ts": 1795294474.772574,
+   "last_ts": 1795298312.0,
    "last_rc": "REJECT",
    "rows": 550,
-   "run": "20261122-042552",
+   "run": "20261122-053010",
    "step": 400,
-   "val_min": 3.322,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.322
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-20T13:49:12",
-   "seg": "peer_pro",
-   "rows": 493,
-   "built": 271,
-   "eval_n": 10,
-   "run": "20261120-133016",
-   "step": 300,
-   "val_step": 300,
-   "val_min": 3.375,
-   "base_avg": 47.6,
-   "lora_avg": 87.3,
-   "base_human": 3.0,
-   "lora_human": 12.0,
-   "human_delta": 9.0,
-   "verdict": "KEEP",
-   "why": "均分 +39.7 / 人味 +9.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-133016/ckpt300"
-  },
-  {
-   "ts": "2026-11-20T14:16:43",
-   "seg": "__all__",
-   "rows": 0,
-   "built": 3975,
-   "eval_n": 10,
-   "run": "20261120-134941",
-   "step": 100,
-   "val_step": 150,
-   "val_min": 3.42,
-   "base_avg": 49.2,
-   "lora_avg": 70.0,
-   "base_human": 3.0,
-   "lora_human": 11.5,
-   "human_delta": 8.5,
-   "verdict": "KEEP",
-   "why": "均分 +20.8 / 人味 +8.5",
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100"
-  },
-  {
-   "ts": "2026-11-20T15:47:09",
-   "seg": "peer_pro",
-   "rows": 493,
-   "built": 254,
-   "eval_n": 10,
-   "run": "20261120-152218",
-   "step": 300,
-   "val_step": 300,
-   "val_min": 3.338,
-   "base_avg": 53.0,
-   "lora_avg": 73.6,
-   "base_human": 6.0,
-   "lora_human": 8.0,
-   "human_delta": 2.0,
-   "verdict": "KEEP",
-   "why": "均分 +20.6 / 人味 +2.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-152218/ckpt300"
-  },
-  {
-   "ts": "2026-11-20T16:39:12",
-   "seg": "craft_learner",
-   "verdict": "REJECT",
-   "lora_avg": 78.2,
-   "base_avg": 81.4,
-   "eval_n": 30,
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-110449/ckpt300",
-   "note": "re-verify(n=30)：均分只 -3.2（需 ≥5.0）"
-  },
-  {
-   "ts": "2026-11-20T16:41:05",
-   "seg": "memer",
-   "verdict": "KEEP",
-   "lora_avg": 76.5,
-   "base_avg": 49.0,
-   "eval_n": 30,
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-115009/ckpt300",
-   "note": "re-verify(n=30)：均分 +27.5 / 人味 +7.6"
-  },
-  {
-   "ts": "2026-11-20T18:21:36",
-   "seg": "tech_nerd",
-   "rows": 471,
-   "built": 0,
-   "eval_n": 0,
-   "verdict": "TRAIN-FAIL",
-   "why": "FileNotFoundError: [Errno 2] No such file or directory: '/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/2026",
-   "adapter": null
-  },
-  {
-   "ts": "2026-11-20T18:26:47",
-   "seg": "music_seeker",
-   "rows": 386,
-   "built": 176,
-   "eval_n": 0,
-   "verdict": "SUPPLY",
-   "why": "造集不足 176 条",
-   "adapter": null
-  },
-  {
-   "ts": "2026-11-20T20:33:02",
-   "seg": "shallow",
-   "rows": 2294,
-   "built": 0,
-   "eval_n": 0,
-   "verdict": "TRAIN-FAIL",
-   "why": "/Users/junsheng.sun/FluxGroup/Tools/fleet/train_run.sh: line 86: 50493 Terminated: 15          \"$PY\" -u \"$ROOT/Tools/fle",
-   "adapter": null
-  },
-  {
-   "ts": "2026-11-20T20:34:31",
-   "seg": "peer_pro",
-   "verdict": "KEEP",
-   "lora_avg": 57.4,
-   "base_avg": 50.3,
-   "eval_n": 30,
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-152218/ckpt300",
-   "note": "re-verify(n=30)：均分 +7.1 / 人味 +1.0"
-  },
   {
    "ts": "2026-11-20T22:53:30",
    "seg": "feeler",
@@ -690,6 +573,126 @@
    "verdict": "REJECT",
    "why": "均分只 -9.9（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-042552/ckpt400"
+  },
+  {
+   "ts": "2026-11-22T05:00:38",
+   "seg": "craft_learner",
+   "rows": 2139,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "GPU 让路：GPU 被占用：selfgen（已 72s）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T05:06:25",
+   "seg": "tech_nerd",
+   "rows": 570,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "GPU 让路：GPU 被占用：selfgen（已 419s）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T05:07:57",
+   "seg": "peer_pro",
+   "verdict": "KEEP",
+   "why": "均分 +6.9 / 人味 +2.0",
+   "run": "20261122-035131",
+   "re_verify": true,
+   "lora_avg": 57.2,
+   "base_avg": 50.3,
+   "eval_n": 30,
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-035131/ckpt400",
+   "note": "re-verify(n=30)：均分 +6.9 / 人味 +2.0"
+  },
+  {
+   "ts": "2026-11-22T05:11:58",
+   "seg": "memer",
+   "rows": 2157,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "GPU 让路：GPU 被占用：selfgen（已 752s）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T05:17:27",
+   "seg": "shallow",
+   "rows": 1948,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "GPU 让路：GPU 被占用：selfgen（已 1081s）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T05:24:19",
+   "seg": "music_seeker",
+   "rows": 441,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "SUPPLY",
+   "why": "造集不足 0 条",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T05:58:32",
+   "seg": "feeler",
+   "rows": 550,
+   "built": 665,
+   "eval_n": 10,
+   "run": "20261122-053010",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 3.322,
+   "base_avg": 56.5,
+   "lora_avg": 43.4,
+   "base_human": 10.0,
+   "lora_human": 4.0,
+   "human_delta": -6.0,
+   "verdict": "REJECT",
+   "why": "均分只 -13.1（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-053010/ckpt400"
+  },
+  {
+   "ts": "2026-11-22T06:29:51",
+   "seg": "craft_learner",
+   "rows": 2170,
+   "built": 1439,
+   "eval_n": 10,
+   "run": "20261122-060439",
+   "step": 200,
+   "val_step": 250,
+   "val_min": 3.478,
+   "base_avg": 85.5,
+   "lora_avg": 80.3,
+   "base_human": 11.0,
+   "lora_human": 12.0,
+   "human_delta": 1.0,
+   "verdict": "REJECT",
+   "why": "均分只 -5.2（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-060439/ckpt200"
+  },
+  {
+   "ts": "2026-11-22T07:02:13",
+   "seg": "tech_nerd",
+   "rows": 579,
+   "built": 370,
+   "eval_n": 10,
+   "run": "20261122-063552",
+   "step": 400,
+   "val_step": 450,
+   "val_min": 3.522,
+   "base_avg": 54.0,
+   "lora_avg": 68.0,
+   "base_human": 5.0,
+   "lora_human": 8.0,
+   "human_delta": 3.0,
+   "verdict": "KEEP",
+   "why": "均分 +14.0 / 人味 +3.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-063552/ckpt400"
   }
  ]
 }
