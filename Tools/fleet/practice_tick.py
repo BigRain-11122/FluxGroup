@@ -412,8 +412,8 @@ def main():
     # 上一拍如果被杀在"段件在线"状态，这里兜底切回基座（最多滞后十分钟）
     try:
         import adapter_router as _ar0
-        if _ar0.current():
-            _hok, _hnote = _ar0.heal_stale(10)
+        if _ar0.current() and os.environ.get("FLUX_IN_SESSION") != "1":
+            _hok, _hnote = _ar0.heal_stale(30)
             if _hok:
                 log({"action": "heal", "note": _hnote})
                 print("[tick] 兜底：段件留在线上，已切回基座（%s）" % _hnote)
@@ -429,7 +429,10 @@ def main():
 
     try:
         if os.environ.get("FLUX_SKIP_VERIFY") != "1":
-            verify_pending(1)
+            import practice_due as _pd0
+            _owed0, _ = _pd0.due(within_s=0)
+            if not _owed0:              # 该出稿了就别先花 25 秒去看旧帖
+                verify_pending(1)
     except Exception:
         pass
 
@@ -529,26 +532,9 @@ def main():
     # 与 train_forever 的"出稿到期让路"配成一对：训练让出窗口，出稿在窗口里拿锁。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=8)
+        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=20)
     except Exception:
         _got, _why = True, ""
-    if not _got and "train" in str(_why):
-        # 2026-11-22 CEO「太慢了…彻底解决」：训练一轮 25–45 分钟，让出稿"等轮间"
-        # 就是白天发不出一条。实测内存余量够（free+inactive ≫4GB）时两者可并行：
-        # 训练照跑（GPU 时间片），出稿只占用 ~10 秒，不必互斥。
-        # 只有在内存吃紧时才退回"让路"，避免为了快把机器顶进 swap。
-        try:
-            import mem_probe as _mp
-            _s = _mp.sample()
-            _room = float(_s.get("headroom_gb") or 0)
-        except Exception:
-            _room = 0.0
-        if _room >= 4.0:
-            _got = True
-            log({"action": "concurrent", "with": "train", "headroom_gb": _room,
-                 "why": "出稿与训练并行（内存余量够，训练不暂停）"})
-        else:
-            _why += "（内存余量 %.1fGB <4GB，仍让路）" % _room
     if not _got:
         log({"action": "skip", "why": "gpu-busy:" + _why, "waited_s": 15})
         print("[tick] 让路：%s" % _why)
@@ -636,6 +622,11 @@ def main():
         # 一整天就这样白跑。正解=只用**发送前那一套**（ap.gates）做候选筛选，
         # 过不了的压根不参与排序，"过了却发不出去"这类白跑从结构上消失。
         okg, ginfo = ap.gates(t, title or "", topics=_topics)
+        if okg:
+            _fok, _fwhy = ap.form_check(arm, t)
+            if not _fok:
+                okg = False
+                log({"action": "skip", "why": "form:" + str(_fwhy)[:30], "arm": arm})
         if not okg:
             log({"action": "skip", "why": "gate:" + str(ginfo.get("gen_gate") or ginfo)[:40],
                  "arm": arm})

@@ -23,7 +23,7 @@ LOG = os.path.join(ROOT, "cph4", "fleet", "social", "practice-log.jsonl")
 # 常驻 agent 写 USER-AGENT-LEDGER。只看前者会得出"今天 0 出稿"的错结论，
 # 于是训练永远不让路，把养号活活饿死一整天。
 AGENT_LOG = os.path.join(ROOT, "cph4", "fleet", "social", "USER-AGENT-LEDGER.jsonl")
-INTERVAL_S = 1800          # 与 com.fluxgroup.practicetick 的 StartInterval 一致
+INTERVAL_S = int(os.environ.get("FLUX_PUBLISH_INTERVAL_S") or 1800)          # 与 com.fluxgroup.practicetick 的 StartInterval 一致
 
 
 def last_post_ts():

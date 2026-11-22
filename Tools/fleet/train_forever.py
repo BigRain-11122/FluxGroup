@@ -519,60 +519,6 @@ def run_one(a):
     # 否则宁可让 publish 等——不许为了快把机器顶进 swap。
     ystats = {"yields": 0, "blocked": 0, "waited_s": 0.0}
 
-    def _yield_if_publish_due(proc):
-        """出稿到期时**暂停训练**（SIGSTOP），松开租约与训练哨兵，发完再续。
-
-        为什么不是"并行"（2026-11-22 实测）：并行时生成从 2.2s 掉到 40s+
-        （4 分钟才跑完一拍），因为它和训练抢同一块 GPU。暂停训练 10–60 秒
-        对训练总量的损失远小于"出稿被拖成分钟级"。
-        安全边界：只暂停、不杀；内存余量 <4GB 时不动（避免换页）；最长 180 秒。
-        """
-        try:
-            import practice_due as _pd
-            import mem_probe as _mp
-            import signal as _sig
-        except Exception:
-            return
-        owed, _why = _pd.due(within_s=0)
-        if not owed:
-            return
-        s = _mp.sample()
-        if (s.get("headroom_gb") or 0) < 4.0:
-            ystats["blocked"] += 1
-            return
-        sent = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE")
-        try:
-            os.killpg(os.getpgid(proc.pid), _sig.SIGSTOP)
-        except Exception:
-            return
-        try:
-            _gl.release("train")
-        except Exception:
-            pass
-        if os.path.exists(sent):
-            try:
-                os.rename(sent, sent + ".yielded")
-            except Exception:
-                pass
-        ystats["yields"] += 1
-        t0 = time.time()
-        while time.time() - t0 < 180:
-            ok, _w2 = _pd.due(within_s=0)
-            if not ok:                      # 已经发出去了
-                break
-            time.sleep(10)
-        ystats["waited_s"] += round(time.time() - t0, 1)
-        try:
-            if os.path.exists(sent + ".yielded"):
-                os.rename(sent + ".yielded", sent)
-        except Exception:
-            pass
-        try:
-            os.killpg(os.getpgid(proc.pid), _sig.SIGCONT)
-        except Exception:
-            pass
-        _gl.acquire("train", ttl_s=4 * 3600, wait_s=180)
-
     try:
         cmd = ["/bin/bash", os.path.join(HERE, "train_run.sh"),
                "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
@@ -593,7 +539,15 @@ def run_one(a):
         _last = 0.0
         while _p.poll() is None:
             if time.time() - _last >= 30:      # 每 30 秒看一次"出稿是否到期"
-                _yield_if_publish_due(_p)
+                try:
+                    import practice_due as _pd
+                    import mem_probe as _mp
+                    yield_for_publish(_p, _gl, lambda: _pd.due(within_s=0),
+                                      _mp.sample, os.path.join(ROOT, ".codely-cli",
+                                                               "state", "TRAIN-EXCLUSIVE"),
+                                      ystats)
+                except Exception:
+                    pass
                 _last = time.time()
             time.sleep(2)
         _th.join(timeout=5)
@@ -826,6 +780,110 @@ def power_ok():
         return True, ""    # 读不到就别拦，避免把"读不到"当"不能训"
 
 
+def yield_for_publish(proc, gl, due_fn, mem_fn, sentinel, ystats, cap_s=180, sleep_fn=time.sleep):
+    """出稿到期时暂停训练（SIGSTOP 进程组），松租约与哨兵，发完 SIGCONT 续训。
+
+    抽成模块级是为了能被自检直接调用：真起一个子进程、真发信号，断言它确实被停过又续上。
+    返回 True 表示让过路。禁止事项：只暂停不杀；内存余量 <4GB 不动；最长 cap_s 秒。
+    """
+    owed, _why = due_fn()
+    if not owed:
+        return False
+    s = mem_fn()
+    if (s.get("headroom_gb") or 0) < 4.0:
+        ystats["blocked"] += 1
+        return False
+    import signal as _sig
+    try:
+        os.killpg(os.getpgid(proc.pid), _sig.SIGSTOP)
+    except Exception:
+        return False
+    try:
+        gl.release("train")
+    except Exception:
+        pass
+    stashed = sentinel + ".yielded"
+    if os.path.exists(sentinel):
+        try:
+            os.rename(sentinel, stashed)
+        except Exception:
+            pass
+    ystats["yields"] += 1
+    t0 = time.time()
+    while time.time() - t0 < cap_s:
+        ok, _w2 = due_fn()
+        if not ok:
+            break
+        sleep_fn(10)
+    ystats["waited_s"] += round(time.time() - t0, 1)
+    try:
+        if os.path.exists(stashed):
+            os.rename(stashed, sentinel)
+    except Exception:
+        pass
+    try:
+        os.killpg(os.getpgid(proc.pid), _sig.SIGCONT)
+    except Exception:
+        pass
+    gl.acquire("train", ttl_s=4 * 3600, wait_s=180)
+    return True
+
+
+def _self_test_yield():
+    """真起一个子进程，验证：到期→SIGSTOP→哨兵挪走→发完→SIGCONT→哨兵还原。
+
+    负控三件：①不到期不许停；②内存余量 <4GB 不许停；③停过之后进程必须还活着。
+    """
+    import subprocess, tempfile, signal
+    d = tempfile.mkdtemp(prefix="yield-")
+    sent = os.path.join(d, "TRAIN-EXCLUSIVE")
+    open(sent, "w").write("x")
+    p = subprocess.Popen(["/bin/bash", "-c", "for i in $(seq 1 300); do echo $i; sleep 0.1; done"],
+                         stdout=subprocess.DEVNULL, start_new_session=True)
+
+    class _GL:
+        def __init__(self):
+            self.released = self.acquired = 0
+
+        def release(self, n):
+            self.released += 1
+
+        def acquire(self, n, ttl_s=0, wait_s=0):
+            self.acquired += 1
+            return True, ""
+
+    cases = {}
+    st = {"yields": 0, "blocked": 0, "waited_s": 0.0}
+    gl = _GL()
+    # 负控①：不到期
+    r1 = yield_for_publish(p, gl, lambda: (False, "未到期"), lambda: {"headroom_gb": 10},
+                           sent, st, cap_s=1, sleep_fn=lambda s: None)
+    cases["不到期不停"] = (r1 is False and gl.released == 0)
+    # 负控②：内存不足
+    r2 = yield_for_publish(p, gl, lambda: (True, "到期"), lambda: {"headroom_gb": 2},
+                           sent, st, cap_s=1, sleep_fn=lambda s: None)
+    cases["内存不足不停"] = (r2 is False and st["blocked"] == 1 and gl.released == 0)
+    # 正控：到期 → 停 → 挪哨兵 → 发完 → 续 → 还原
+    due_calls = {"n": 0}
+
+    def _due():
+        due_calls["n"] += 1
+        return (due_calls["n"] <= 2, "到期")      # 第三次调用时已发出去
+
+    r3 = yield_for_publish(p, gl, _due, lambda: {"headroom_gb": 10}, sent, st,
+                           cap_s=30, sleep_fn=lambda s: None)
+    stat = subprocess.run(["/bin/ps", "-o", "stat=", "-p", str(p.pid)],
+                          capture_output=True, text=True).stdout.strip()
+    cases["正控：让路并还原"] = (r3 is True and gl.released == 1 and gl.acquired == 1
+                               and os.path.exists(sent) and "T" not in stat)
+    cases["进程仍存活"] = stat != "" and "Z" not in stat
+    p.kill()
+    ok = all(cases.values())
+    print(json.dumps({"self_test": "PASS" if ok else "FAIL", "cases": cases},
+                     ensure_ascii=False, indent=1))
+    return 0 if ok else 1
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
@@ -834,12 +892,15 @@ def main(argv=None):
     # 一天能多跑 4–5 轮。代价是 epoch 从 1.1 降到 0.9——比"训得慢但只学一遍"更亏的是
     # "一天只训几遍"，所以先换频率；数据量涨上来（自举/更多真实语料）再回调步数。
     ap.add_argument("--iters", type=int, default=400)
+    ap.add_argument("--self-test-yield", action="store_true")
     ap.add_argument("--samples", type=int, default=10,
                     help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")
     ap.add_argument("--seg", default=None,
                     help="手动指定这一段（跳过队列与冷却，运维复核用；仍照常落台账）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
+    if getattr(a, "self_test_yield", False):
+        return _self_test_yield()
     if a.self_test:
         return self_test()
     return run_one(a)

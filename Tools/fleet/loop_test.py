@@ -69,6 +69,12 @@ def one_round(idx, url, meta, brief, topics, mods, n_first=3, n_max=6):
         else:
             okg, ginfo = ap.gates(t, title + desc, topics=topics)
             whyg = str(ginfo.get("gen_gate") or "")
+            # 形态闸也必须在候选阶段就过：否则选出来的最佳稿到发送时被 form 拒，
+            # 整轮白跑（2026-11-22 #04 实锚：30 字文本过三闸却因 D 臂缺具体对象被拒）。
+            _arm = "C" if len(t) <= 20 else "D"
+            okf, whyf = ap.form_check(_arm, t)
+            if okg and not okf:
+                okg, whyg = False, "形态:" + str(whyf)[:20]
             if okg:
                 sc = ct.score(t, seg=seg)
                 cand = (sc.get("total") or 0, t, lane, sc)
