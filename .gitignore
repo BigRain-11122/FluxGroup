@@ -339,3 +339,8 @@ media/latentsync-deploy/
 media/mv0001-handover/
 media/review-720p/
 Logs/
+
+# 只增运行时台账：不进 git（机队同步会把它恢复成仓库旧版，实测丢掉整晚真发记录）
+cph4/fleet/social/practice-log.jsonl
+cph4/fleet/social/USER-AGENT-LEDGER.jsonl
+cph4/fleet/social/comments-sent.jsonl
