@@ -362,9 +362,30 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--write", action="store_true",
+                    help="落一份 state/LOOP-REGRESSION.json 并常退 0（给 launchd 用：报告型工具）")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.write:
+        res = []
+        for name, fn in SEGMENTS:
+            try:
+                ok, detail = fn()
+            except Exception as e:
+                ok, detail = False, "断言自身报错：%s: %s" % (type(e).__name__, str(e)[:100])
+            res.append({"seg": name, "ok": ok, "detail": detail})
+        green = sum(1 for r in res if r["ok"])
+        out = {"ts": datetime.now().isoformat(timespec="seconds"),
+               "green": green, "total": len(res), "segs": res}
+        os.makedirs(STATE, exist_ok=True)
+        with open(os.path.join(STATE, "LOOP-REGRESSION.json"), "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=1)
+        red = [r["seg"] for r in res if not r["ok"]]
+        print("%s 闭环 %d/%d 绿%s" % (out["ts"], green, len(res),
+                                    ("｜红：" + "、".join(red)) if red else ""))
+        # 报告型：红不当作进程失败，否则 launchd 只看到一个坏退出码、看不到红在哪
+        return 0
     return run(json_out=a.json)
 
 
