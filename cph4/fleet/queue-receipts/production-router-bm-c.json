@@ -1,24 +1,27 @@
 {
- "ts": "2026-11-23T07:15:37",
+ "ts": "2026-11-23T07:20:37",
  "node": "bm-c",
  "kind": "production-router",
  "gpu": {
-  "util": 100,
-  "mem_used_mb": 15367,
+  "util": 1,
+  "mem_used_mb": 1235,
   "mem_total_mb": 16384
  },
  "comfy": {
-  "8189": true,
+  "8189": false,
   "8188": false
  },
  "batches": {
-  "heroine_factory": 3
+  "heroine_factory": 1
  },
  "throughput": {
   "pl_ql_last10min": 0
  },
- "stalls": [],
- "plan": "gpu-mainline",
+ "stalls": [
+  "gpu-lane-stalled: factory alive but no output & GPU idle",
+  "both-comfy-down"
+ ],
+ "plan": "switch-comfy-guard-revive",
  "lanes": {
   "gpu-mainline": "heroine-lora-factory (ql in-flight, then tm/hk...)",
   "gpu-alt-1": "main-dispatch KF batches (8188)",
