@@ -470,8 +470,12 @@ def cmd_status(args):
     print("  Queue : %d" % len(q))
     for x in q[:8]:
         print("    P%s %-30s %s" % (x.get("prio"), x.get("name"), x.get("lane")))
+    # anomalies 是上一轮 tick 的快照；内存类告警若已缓解就不再显示，免得与实时读数打架
+    live = res.get("ram_free_gb", 0)
     for a in doc.get("anomalies", []):
-        print("  ! " + a)
+        if a.startswith("ram-low") and live >= RAM_FLOOR_GB:
+            continue
+        print("  ! " + a + ("" if a.startswith("ram-low") else "  (上一轮)"))
     return 0
 
 
