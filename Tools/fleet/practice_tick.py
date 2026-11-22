@@ -737,7 +737,7 @@ def main():
                  "arm": arm, "text": t[:20]})
             continue
         if best is None or key > best[0]:
-            best = (key, t, lane, s)
+            best = (key, t, lane, s, lc._pick_arch(k, title))
         if best and k + 1 >= n_cand:
             break                      # 已有货就不再追加
         if k + 1 >= n_cand and n_cand < n_max:
@@ -803,7 +803,9 @@ def main():
         _sc = (best[3] if best and len(best) > 3 else {}) or {}
         log({"action": "qualified", "rpid": res.get("rpid"), "persona": seg,
              "arm": arm, "lane": lane_used, "score": _sc.get("total"),
-             "voice": _sc.get("voice"), "human": _sc.get("human"), "text": text})
+             "voice": _sc.get("voice"), "human": _sc.get("human"), "text": text,
+             # 原型落账：多样性判据要靠"生成时选的是哪一类"，不能事后按文本猜
+             "arch": (best[4] if best and len(best) > 4 else None)})
     except Exception:
         pass
     if s_now:

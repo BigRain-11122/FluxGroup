@@ -45,6 +45,19 @@ AI_SMELL = ["绝了", "氛围感", "质感", "干货", "拉满", "封神", "无�
             "值得一提", "整体而言", "综上所述", "简直", "颇为", "堪称"]
 MECH = ["首先", "其次", "然后", "之后", "综上所述", "总而言之"]
 
+# 原型判定（看我们发出去的稿属于哪一类，用来算"一天有没有扎堆一个腔"）
+ARCH_PATTERNS = [
+    ("reaction", r"^(哈|hh|笑死|草|泪目|哭了|破防|卧槽|好家伙|救命)"),
+    ("meme", r"([\[\【].{1,8}[\]\】]|梗|doge|狗头|要素)"),
+    ("ask", r"[?？]|吗$|呢$|怎么|为什么|求问|有没有"),
+    ("resonance", r"(我也是|以前|当年|想起|小时候|经历|同款|自己)"),
+    ("critique", r"(生硬|廉价|崩|可惜|不过|但是|有点|太干|没救)"),
+    ("praise", r"(挺好|不错|真香|喜欢|厉害|舒服|好棒|好听|好看|帅|酷|带感|活啦|省事|好用|真快)"),
+]
+
+# 人设一致性：同一号的长度与表情习惯不该一天一变（漂移超 40% 判不一致）
+DRIFT_LINE = 0.40
+
 PASS_LINE = 65.0        # 中位分合格线
 CONCRETE_LINE = 0.5     # 具体性覆盖率
 DUP_LINE = 0.10         # 模板碰撞率上限
@@ -75,6 +88,14 @@ def _title_of(url):
         return ((d.get(url) or {}).get("title") or "")
     except Exception:
         return ""
+
+
+def archetype(text):
+    t = (text or "").strip()
+    for name, pat in ARCH_PATTERNS:
+        if re.search(pat, t, re.I):
+            return name
+    return "plain"
 
 
 def _grams(t, n=4):
@@ -149,8 +170,46 @@ def evaluate(n=30, since=None):
         "ai_smell_rate": round(sum(1 for i in items if i["ai_smell"]) / len(items), 2),
         "dup_rate": round(sum(1 for i in items if not i["fresh"]) / len(items), 2),
     }
+    # 多样性：一天里最扎堆的原型占比（≥50% 就是"一天一个腔"）
+    # 原型优先取生成时落账的 arch（qualified 行），没有才按文本判
+    arch_of = {}
+    for r in rows:
+        if r.get("action") == "qualified" and r.get("rpid"):
+            arch_of[str(r["rpid"])] = r.get("arch") or ""
+    archs = [arch_of.get(str(i.get("rpid"))) or archetype(i["text"]) for i in items]
+    import collections as _c
+    cnt = _c.Counter(archs)
+    agg["archetypes"] = dict(cnt.most_common())
+    agg["max_share"] = round(cnt.most_common(1)[0][1] / len(items), 2)
+    agg["unique_arch"] = len(cnt)
+    # 人设一致性：按号比"今天 vs 之前 7 天"的长度中位与表情率
+    drift = {}
+    by_acct = {}
+    for r in posts:
+        by_acct.setdefault(r.get("account") or "unknown", []).append(r)
+    hist = [r for r in rows if r.get("action") == "post" and (r.get("text") or "").strip()]
+    for acct, cur in by_acct.items():
+        if acct == "unknown" or len(cur) < 3:
+            continue
+        old = [r for r in hist if (r.get("account") == acct) and r not in cur]
+        if len(old) < 3:
+            continue
+        def prof(rs):
+            ls = [len(r.get("text") or "") for r in rs]
+            em = sum(1 for r in rs if re.search(r"[\[\【]", r.get("text") or "")) / len(rs)
+            return st.median(ls), em
+        m1, e1 = prof(cur)
+        m0, e0 = prof(old)
+        dl = abs(m1 - m0) / max(1.0, m0)
+        de = abs(e1 - e0)
+        drift[acct] = {"len_today": m1, "len_base": m0, "len_drift": round(dl, 2),
+                       "emoji_today": round(e1, 2), "emoji_base": round(e0, 2),
+                       "ok": dl <= DRIFT_LINE and de <= 0.5}
+    agg["consistency"] = drift
     agg["ok"] = (agg["median"] >= PASS_LINE and agg["concrete_rate"] >= CONCRETE_LINE
-                 and agg["dup_rate"] <= DUP_LINE and agg["ai_smell_rate"] == 0)
+                 and agg["dup_rate"] <= DUP_LINE and agg["ai_smell_rate"] == 0
+                 and agg["max_share"] <= 0.5
+                 and all(v["ok"] for v in drift.values()))
     agg["items"] = items
     return agg
 
@@ -187,6 +246,12 @@ def main(argv=None):
             if not w["ontopic"]:
                 why.append("不贴题")
             print("   最低 [%d分] %s ← %s" % (w["score"], w["text"], "、".join(why)))
+        print("   原型分布 %s（最扎堆 %.0f%%，%d 类）"
+              % (agg.get("archetypes"), 100 * agg.get("max_share", 0), agg.get("unique_arch", 0)))
+        for acct, v in (agg.get("consistency") or {}).items():
+            print("   %s 一致性：长度 %.0f→%.0f（漂 %.0f%%）、表情 %.0f%%→%.0f%% %s"
+                  % (acct, v["len_base"], v["len_today"], 100 * v["len_drift"],
+                     100 * v["emoji_base"], 100 * v["emoji_today"], "✅" if v["ok"] else "❗"))
         print("%s 质量线%s" % ("✅" if agg["ok"] else "❗", "达标" if agg["ok"] else "未达标"))
     return 0 if agg["ok"] else 2
 

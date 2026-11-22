@@ -443,15 +443,73 @@ def _voice_spec():
     return _VOICE["spec"]
 
 
+_ARCH = {"use": None, "ts": 0.0, "picked": {}}
+
+
+def _arch_state():
+    """当天各原型的已用次数（跨进程共享）：轮换要按"今天谁用得多"来定，
+    否则同一天 8 条候选可能全是夸奖型，多样性为零（2026-11-22 实测）。"""
+    import json as _json
+    import time as _t
+    from datetime import datetime as _dt
+    p = os.path.join(ROOT, ".codely-cli", "state", "VOICE-USAGE.json")
+    today = _dt.now().strftime("%Y-%m-%d")
+    if _ARCH["use"] is not None and _ARCH["ts"] and _dt.now().strftime("%Y-%m-%d") == _ARCH.get("day"):
+        return _ARCH["use"]
+    try:
+        d = _json.load(open(p, encoding="utf-8")) or {}
+    except Exception:
+        d = {}
+    cur = d.get(today) or {}
+    _ARCH["use"] = cur
+    _ARCH["day"] = today
+    _ARCH["path"] = p
+    _ARCH["all"] = d
+    _ARCH["ts"] = _t.time()
+    return cur
+
+
+def _arch_save():
+    import json as _json
+    try:
+        d = _ARCH.get("all") or {}
+        d[_ARCH.get("day")] = _ARCH.get("use") or {}
+        # 只留最近 14 天，文件不涨
+        keep = sorted(d.keys())[-14:]
+        d = {k: d[k] for k in keep}
+        _json.dump(d, open(_ARCH["path"], "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+
+def _pick_arch(i, title=""):
+    """选原型：优先"今天用得最少"的那类，同次数时用 (标题+序号) 做种子定序。"""
+    spec = _voice_spec()
+    names = list((spec.get("archetypes") or {}).keys())
+    if not names:
+        return None
+    key = "%s|%d" % ((title or "")[:24], i)
+    hit = _ARCH["picked"].get(key)
+    if hit:
+        return hit
+    use = _arch_state()
+    import random as _rnd
+    seed = _rnd.Random((title or "") + "arch" + str(i))
+    order = sorted(names, key=lambda n: (int(use.get(n) or 0), seed.random()))
+    name = order[0]
+    use[name] = int(use.get(name) or 0) + 1
+    _ARCH["picked"][key] = name
+    _arch_save()
+    return name
+
+
 def voice_band(i=0, title=""):
-    """与 voice_block 同一套种子选出原型，返回它的字数带；没有样本时返回 None。"""
+    """与 voice_block 同一套选原型逻辑，返回它的字数带；没有样本时返回 None。"""
     spec = _voice_spec()
     arch = (spec.get("archetypes") or {})
     if not arch:
         return None
-    names = list(arch.keys())
-    import random as _rnd
-    name = names[_rnd.Random((title or "") + "arch" + str(i)).randrange(len(names))]
+    name = _pick_arch(i, title)
     band = (arch.get(name) or {}).get("band")
     if not band:
         return None
@@ -464,9 +522,7 @@ def voice_block(i=0, title=""):
     arch = (spec.get("archetypes") or {})
     if not arch:
         return ""
-    names = list(arch.keys())
-    import random as _rnd
-    name = names[_rnd.Random((title or "") + "arch" + str(i)).randrange(len(names))]
+    name = _pick_arch(i, title)
     a = arch.get(name) or {}
     samples = list(a.get("samples") or [])[:3]
     if not samples:

@@ -52,7 +52,7 @@ RAMP = os.path.join(ROOT, ".codely-cli", "state", "RAMP.json")
 GROW_MIN_N = 8            # 样本不足不下结论
 GROW_QUALITY = 70.0       # 质量中位 ≥70 才允许升档（reply_quality 五维合计 100 分制）
 SHRINK_QUALITY = 55.0     # 质量中位 <55 → 降一档
-QUALITY_SINCE = "2026-11-22"   # 判据只判"闸与话术生效之后"的稿，旧稿不追溯
+QUALITY_SINCE = "2026-11-22T18:05"   # 话术与判据生效时刻：此前的稿不追溯（含已被修掉的毛病）
 GAP_MIN = (4, 18)
 TITLES = os.path.join(SOCIAL, "VIDEO-TITLES.json")
 RULE_DAYS = 7          # 「同视频 7 天 ≤1 条评论」这条硬规则
@@ -105,8 +105,11 @@ def ramp_tick(stats):
             return lv + 1, ("质量中位 %.0f、具体 %.0f%%、0 AI 腔、撞模板 %.0f%% → 升到 L%d"
                             % (med, 100 * conc, 100 * dup, lv + 1))
         return lv, "已在最高档 L%d（质量中位 %.0f）" % (lv, med)
-    return lv, ("样本 %d 条 / 质量中位 %.0f / 具体 %.0f%% / 撞模板 %.0f%% → 保持 L%d"
-                "（可见率 %.0f%% 仅记录）" % (qn or n, med, 100 * conc, 100 * dup, lv, 100 * rate))
+    if qn < GROW_MIN_N:
+        return lv, ("质量样本不足（%d 条，需 ≥%d）→ 保持 L%d（可见率 %.0f%% 仅记录）"
+                    % (qn, GROW_MIN_N, lv, 100 * rate))
+    return lv, ("质量样本 %d 条 / 中位 %.0f / 具体 %.0f%% / 撞模板 %.0f%% → 保持 L%d"
+                "（可见率 %.0f%% 仅记录）" % (qn, med, 100 * conc, 100 * dup, lv, 100 * rate))
 
 
 def supply_cap(days=RULE_DAYS):
