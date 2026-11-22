@@ -162,7 +162,11 @@ def seg_timing():
         last = str(max(str(r.get("ts") or "") for r in rows))[11:19]
         return False, ("%d 条 timing 全是旧格式（末条 %s），拆分计时上线后还没真发过一条"
                        % (len(rows), last))
-    return m <= POST_MEDIAN_LINE, "post 中位 %.1fs（上限 %.0fs，n=%d）" % (m, POST_MEDIAN_LINE, len(post))
+    qm = _median([float(r["post_queue_s"]) for r in rows if r.get("post_queue_s") is not None])
+    detail = "post 中位 %.1fs（上限 %.0fs，n=%d）" % (m, POST_MEDIAN_LINE, len(post))
+    if qm is not None:
+        detail += "｜排队中位 %.1fs（等会话腾浏览器，不计入 post）" % qm
+    return m <= POST_MEDIAN_LINE, detail
 
 
 def seg_post():

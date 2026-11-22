@@ -41,6 +41,13 @@ PROF = (os.environ.get("FLUX_BILI_PROFILE")
         or os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili"))
 # 多号不同时：切换账号时由调用方设置 FLUX_BILI_PROFILE，登录态、锁、补采全跟着这个目录走。
 
+# 上一次开浏览器排队等了多久（秒）：排队是别人的会话在占，不是发帖慢，要分开记
+LOCK_WAIT = {"s": 0.0}
+
+
+def last_lock_wait():
+    return LOCK_WAIT["s"]
+
 
 def merge_queue_done(mark):
     """按 root_rpid 行级合并写回队列（RG-15：禁整文件覆盖）。
@@ -142,8 +149,14 @@ def _launch(p, headless=True, wait_s=None, prof=None):
         pass
     try:
         import social_collect as _sc
-        if _sc._acquire_profile_lock(prof, wait_s=wait_s) is None:
-            raise RuntimeError("profile 被占用（等锁 %ds 超时）：先放补采或学习循环" % int(wait_s))
+        _t_lock = time.time()
+        try:
+            if _sc._acquire_profile_lock(prof, wait_s=wait_s) is None:
+                raise RuntimeError("profile 被占用（等锁 %ds 超时）：先放补采或学习循环" % int(wait_s))
+        finally:
+            # 排队时间必须和"发帖动作"分开记：真人会话占着 profile 时这条会到 90 秒以上，
+            # 混进 post_s 会让人以为发帖很慢，其实浏览器里只跑了三五秒（2026-11-22 实锚）。
+            LOCK_WAIT["s"] = round(time.time() - _t_lock, 1)
     except ImportError:
         pass
     finally:

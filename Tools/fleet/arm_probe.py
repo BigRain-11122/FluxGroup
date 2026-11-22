@@ -253,7 +253,8 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
         # 可见性回验要翻多页，分钟级；真人发完就走，回验该在下一拍做。
         # 2026-11-22 CEO「太慢了，真人不会这样」：把回验收出发帖路径。
         return {"ok": True, "stage": "posted", "rpid": rpid, "visible": None,
-                "why": "回验延后（pending）"}
+                "why": "回验延后（pending）",
+                "lock_wait_s": getattr(sc, "last_lock_wait", lambda: 0.0)()}
     if root_rpid:
         vis, vwhy = sc.verify_visible(aid, root_rpid, rpid, wait_s=wait_s)
     else:
@@ -261,7 +262,8 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
     _log({"action": "verify", "arm": arm, "aid": aid, "rpid": rpid, "root": root_rpid,
           "visible": vis, "why": vwhy, "likes": getattr(sc, "LAST_VERIFY", {}).get("likes"),
           "verdict": "公开可见" if vis else "待审核-保留"})
-    return {"ok": True, "stage": "posted", "rpid": rpid, "visible": vis, "why": vwhy}
+    return {"ok": True, "stage": "posted", "rpid": rpid, "visible": vis, "why": vwhy,
+            "lock_wait_s": getattr(sc, "last_lock_wait", lambda: 0.0)()}
 
 
 def _log(rec):
