@@ -39,3 +39,7 @@
 2026-11-22T22:51:31 RECEIPT RUNNING gpu=100 vram=15384MB busy=i2v,lora
 2026-11-22T22:51:41 stale lock pid=57352 -> reclaim
 2026-11-22T22:51:42 RECEIPT RUNNING gpu=99 vram=15365MB busy=i2v,lora
+2026-11-22T22:52:10 TICK commit=commit-failed:fatal: cannot lock ref 'HEAD': is at 0bc24158c82ce46036397ed03024007e6624a5ed but expected 0afaaac8de650dbb846b871a7804de15501810f9
+ converge=fetch-failed:error: cannot lock ref 'refs/remotes/origin/main': is at dcfa83f0f642e42202539db9c866982812b93e8a but expected 0afaaac8d push=pushed lane=lane-cooldown(5m)
+2026-11-22T22:52:21 TICK commit=committed:7 converge=merged-behind-1 push=pushed lane=lane-cooldown(5m)
+2026-11-22T22:52:44 RECEIPT RUNNING gpu=100 vram=8238MB busy=i2v,lora
