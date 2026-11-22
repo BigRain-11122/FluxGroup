@@ -35,7 +35,10 @@ SEATS = [
     ('生产者 BmcIdleGuard', 'BmcIdleGuard', 900),
     ('收口员 Bmc-ProdFinalize', 'Bmc-ProdFinalize', 1500),
     ('自省员 Bmc-ProdIterate', 'Bmc-ProdIterate', 26 * 3600),
-    ('引擎守卫 ComfyGuard', 'FluxGroup-ComfyGuard-bmc', 900),
+    # 2026-11-22: 两个 ComfyGuard 跑同一脚本同一端口（重复），-bmc 已禁用；
+    # 保留直跑 .py 的 FluxGroup-ComfyGuard。
+    ('引擎守卫 ComfyGuard', 'FluxGroup-ComfyGuard', 900),
+    ('总控 Orchestrator', 'Bmc-Orchestrator', 300),
     ('自动巡航 AutodriveGuard', 'Bmc-AutodriveGuard', 1500),
 ]
 

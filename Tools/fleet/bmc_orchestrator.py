@@ -402,6 +402,12 @@ def cmd_tick(args):
         if res["gpu_util"] >= GPU_UTIL_BUSY and not gpu_holders and not comfy_busy:
             doc["anomalies"].append("unknown-gpu-holder: util=%d%% 但无持证者" % res["gpu_util"])
 
+        # 实例存活：8189 由 ComfyGuard 自愈；8188 无守卫 -> 只报不擅自重启
+        for port_s, info in doc["comfy"].items():
+            if not info.get("up"):
+                doc["anomalies"].append(
+                    "comfy-%s-down%s" % (port_s, "" if port_s == "8189" else "（无自动守卫）"))
+
         # 空闲 ComfyUI 实例归还显存（不杀进程）
         held_ports = {int(h["port"]) for h in doc["holders"] if h.get("port")}
         idle = doc.setdefault("idle_since", {})

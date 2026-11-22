@@ -139,9 +139,8 @@ try:
                         "--prio", str(claimed.get("prio") or "P2")],
                        capture_output=True, text=True, timeout=90, creationflags=NO_WINDOW)
     if g.returncode != 0:
+        # 让路：不改 idle_since（继续保持"想干活"的状态），下轮 5 分钟节拍立即重试
         log("ORCHESTRATOR YIELD: %s (%s) -> %s" % (claimed["id"], or_lane, (g.stdout or "").strip()))
-        st["idle_since"] = now      # 保持"想干活但被排号挡住"的状态，下轮再试
-        write_json(STATE, st)
         sys.exit(0)
 except Exception as e:
     log("orchestrator gate FAIL (保守让路): %r" % e)
