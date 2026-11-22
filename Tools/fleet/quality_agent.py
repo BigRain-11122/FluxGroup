@@ -272,6 +272,8 @@ def once(dry=False):
     s = sense()
     action, why = decide(s)
     out = act(action, why, dry=dry)
+    if action in ("expand", "mine", "rebalance") and not dry:
+        s = sense()      # 动作后重测：一屏不能写着动作前的旧数
     _log({"sense": {"n": s.get("quality", {}).get("n"), "median": s.get("quality", {}).get("median"),
                     "dup": s.get("quality", {}).get("dup_rate"), "pool": s.get("pool"),
                     "hot": s.get("hot")}, "decision": action, "why": why,
