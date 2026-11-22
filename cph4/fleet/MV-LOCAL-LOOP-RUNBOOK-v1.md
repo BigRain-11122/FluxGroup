@@ -175,3 +175,7 @@ python Tools\fleet\drama_ep_chain.py --ep <N> --stages plan,kf,i2v-plan
 > 更新纪律（承 11-15 判例）：**ComfyUI-Manager 不要点"更新全部"**——它会连带换 torch，
 > 曾把 `2.11.0+cu130` 换成 `2.15.0+cpu`，启动即 `Torch not compiled with CUDA enabled`。
 > 升级前先看 `requirements.txt` 里有没有 torch / torchvision 行。
+
+> **2026-11-21 新增判例（krea2 必读）**：krea2_turbo_fp8(12.24GB) + qwen3vl_4b_fp8(4.88GB) ≈ 17.1GB 权重 > 16GB 显存，
+> 默认模式跑到第 3 帧会让 **ComfyUI 进程直接消失**（ConnectionResetError 10054）。
+> 正法：起服加 --lowvram + 步数 6——实测稳定且更快（22s/帧 vs 60s/帧）。
