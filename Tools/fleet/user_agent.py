@@ -833,6 +833,13 @@ def run_session(minutes=18, dry=False, force=False):
                 out["steps"].append({"act": "watch", "title": title, "sec": int(st["dwell_min"] * 60)})
             else:
                 ok, note = sc.browse_video(url, seconds=int(st["dwell_min"] * 60))
+                if (not ok) and "post-pending" in str(note):
+                    # 发帖优先导致的让路不是失败：记 defer，别把"该让的"算成账号异常
+                    out["steps"].append({"act": "watch", "ok": False, "note": "defer(post-pending)"})
+                    log({"action": "defer", "why": "post-pending", "aid": aid,
+                         "account": acct.get("uname") or acct.get("mid")})
+                    vi += 1
+                    continue
                 out["steps"].append({"act": "watch", "ok": ok, "note": str(note)[:60]})
                 _mark_seen(url)
                 log({"action": "watch", "aid": aid, "sec": int(st["dwell_min"] * 60),

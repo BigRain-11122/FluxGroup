@@ -772,6 +772,13 @@ def main():
     # （2026-11-19 实锚：补采脚本在跑时 practice-tick 直接 rc=1）。忙就本轮跳过，
     # 记事由、返回 0——"环境被占用"不是故障，不该把作业打成红。
     res = None
+    # 发帖优先标记：让常驻浏览器把"浏览"这种可推迟的动作让开（单线程排队的根因）
+    _pend = os.path.join(ROOT, ".codely-cli", "state", "POST-PENDING")
+    try:
+        os.makedirs(os.path.dirname(_pend), exist_ok=True)
+        open(_pend, "w").write(str(os.getpid()))
+    except Exception:
+        pass
     t_post0 = time.time()
     for attempt in range(3):
         try:
@@ -790,6 +797,11 @@ def main():
                 return 0
             raise
     t_post1 = time.time()
+    try:
+        if os.path.exists(_pend):
+            os.remove(_pend)
+    except Exception:
+        pass
     if res.get("stage") != "posted":
         refresh_screen("发帖未成：%s" % str(res.get("why"))[:60])
         log({"action": "fail", "why": str(res.get("why"))[:120], "arm": arm, "lane": lane_used})
