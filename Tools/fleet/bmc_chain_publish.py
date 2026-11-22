@@ -322,6 +322,27 @@ def push():
     return "push-failed:%s" % last
 
 
+LANE_DONE = os.path.join(ROOT, "cph4", "fleet", "production", "chain-lane-done.json")
+
+
+def _lane_done():
+    try:
+        return set(json.load(open(LANE_DONE, encoding="utf-8")))
+    except Exception:
+        return set()
+
+
+def _lane_done_add(ids):
+    if not ids:
+        return
+    cur = _lane_done() | set(ids)
+    try:
+        os.makedirs(os.path.dirname(LANE_DONE), exist_ok=True)
+        json.dump(sorted(cur), open(LANE_DONE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception as e:
+        log("LANE-DONE-WRITE-ERR %s" % e)
+
+
 def lane_jobs():
     """主控派给本机的卡（读 origin 副本，主控的笔只在远端是权威）。"""
     p = git("show", "origin/main:cph4/fleet/lanes/bm-c.json").stdout
@@ -336,14 +357,27 @@ def run_lane_once():
     jobs = lane_jobs()
     if not jobs:
         return "lane-empty"
-    log("LANE jobs=%d -> run one card" % len(jobs))
+    # 主控的 lane 文件在它下一轮脉之前不会清卡；同一张卡我已跑过就不能再跑
+    # （2026-11-07 实锚：同一门禁卡被重跑 40+ 轮，每轮都推一份同结论回执）。
+    done = _lane_done()
+    fresh = [j for j in jobs if str(j.get("id")) not in done]
+    if not fresh:
+        return "lane-all-done(%d)" % len(jobs)
+    log("LANE jobs=%d fresh=%d -> run one card" % (len(jobs), len(fresh)))
     r = subprocess.run([PY, os.path.join(ROOT, "Tools", "fleet", "lane_agent.py"),
                         "--node", "bm-c", "--root", ROOT, "--max-seconds", "900"],
                        cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
                        errors="replace", timeout=1200)
-    tail = ((r.stdout or "") + (r.stderr or "")).strip().splitlines()[-3:]
-    log("LANE rc=%s %s" % (r.returncode, " | ".join(tail)))
-    return "lane-rc-%s" % r.returncode
+    out = (r.stdout or "") + (r.stderr or "")
+    finished = []
+    for ln in out.splitlines():
+        parts = ln.split()
+        if len(parts) >= 2 and parts[1] == "DONE":
+            finished.append(parts[0])
+    _lane_done_add(finished)
+    tail = out.strip().splitlines()[-3:]
+    log("LANE rc=%s done=%s %s" % (r.returncode, ",".join(finished) or "-", " | ".join(tail)))
+    return "lane-rc-%s(%d done)" % (r.returncode, len(finished))
 
 
 def main():
