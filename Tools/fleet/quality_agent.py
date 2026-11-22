@@ -295,18 +295,285 @@ def _pct(x):
         return "—"
 
 
+# ---------------- 任务台账（自驱的核心：有活自己扛） ----------------
+BACKLOG = os.path.join(STATE, "QUALITY-BACKLOG.json")
+ESCALATE = os.path.join(STATE, "ESCALATIONS.md")
+MAX_ATTEMPTS = 3
+
+# 每个任务由谁负责：agent 能自己闭环的归 agent，要动代码/阈值的归 human
+ITEMS = {
+    "Q-POOL":   {"title": "内容池扩到目标", "owner": "agent", "priority": 5},
+    "Q-HOT":    {"title": "补采高赞样本", "owner": "agent", "priority": 6},
+    "Q-DIV":    {"title": "原型分布别扎堆", "owner": "agent", "priority": 4},
+    "Q-DUP":    {"title": "撞模板率压到 10% 以下", "owner": "human", "priority": 2},
+    "Q-LEN":    {"title": "长度带命中率回到 80%", "owner": "human", "priority": 3},
+    "Q-AI":     {"title": "AI 腔必须为 0（闸漏了）", "owner": "human", "priority": 1},
+    "S8-SPEED": {"title": "出稿节拍压到 30s 内", "owner": "human", "priority": 1},
+    "S7-GATE":  {"title": "闸负控有红，定位失效断言", "owner": "human", "priority": 1},
+    "S9-ACCT":  {"title": "跨号隔离/重复评论收口", "owner": "human", "priority": 1},
+    "Q-WAIT":   {"title": "等新稿样本攒够（≥8）", "owner": "agent", "priority": 9},
+}
+
+
+def _backlog():
+    d = _load(BACKLOG, {}) or {}
+    return d.get("items") or {}
+
+
+def _save_backlog(items):
+    json.dump({"ts": _now().isoformat(timespec="seconds"), "items": items},
+              open(BACKLOG, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+
+def sync_backlog(s):
+    """把"当前事实"同步成任务：新问题立卡，已消失的自动关掉（不留假活）。"""
+    q = s.get("quality") or {}
+    n = int(q.get("n") or 0)
+    items = _backlog()
+    want = {}
+    if s.get("pool", 0) < POOL_TARGET:
+        want["Q-POOL"] = "池 %d < 目标 %d" % (s.get("pool", 0), POOL_TARGET)
+    if s.get("hot", 0) < HOT_TARGET:
+        want["Q-HOT"] = "高赞样本 %d < 目标 %d" % (s.get("hot", 0), HOT_TARGET)
+    if n >= MIN_N:
+        if float(q.get("max_share") or 0) > SHARE_LINE:
+            want["Q-DIV"] = "单一原型 %.0f%% > %.0f%%" % (100 * float(q.get("max_share") or 0), 100 * SHARE_LINE)
+        if float(q.get("dup_rate") or 0) > DUP_LINE:
+            want["Q-DUP"] = "撞模板 %.0f%% > %.0f%%" % (100 * float(q.get("dup_rate") or 0), 100 * DUP_LINE)
+        if float(q.get("len_ok_rate") or 0) < LEN_LINE:
+            want["Q-LEN"] = "长度带命中 %.0f%% < %.0f%%" % (100 * float(q.get("len_ok_rate") or 0), 100 * LEN_LINE)
+        if float(q.get("ai_smell_rate") or 0) > 0:
+            want["Q-AI"] = "AI 腔 %.0f%%（必须 0）" % (100 * float(q.get("ai_smell_rate") or 0))
+    if n < MIN_N:
+        want["Q-WAIT"] = "新话术下样本 %d 条（需 ≥%d）" % (n, MIN_N)
+    for c in ((s.get("surface") or {}).get("checks") or []):
+        if c.get("ok") is not False:
+            continue
+        if c.get("id") == "S8":
+            want["S8-SPEED"] = c.get("detail") or ""
+        elif c.get("id") == "S7":
+            want["S7-GATE"] = c.get("detail") or ""
+        elif c.get("id") == "S9":
+            want["S9-ACCT"] = c.get("detail") or ""
+    # 新问题立卡 / 已有问题刷新理由 / 问题消失则关闭
+    now = _now().isoformat(timespec="seconds")
+    for k, why in want.items():
+        if k in items and items[k].get("status") in ("open", "doing", "blocked"):
+            items[k]["why"] = why
+            items[k]["updated"] = now
+            continue
+        meta = ITEMS.get(k) or {"title": k, "owner": "human", "priority": 5}
+        items[k] = {"id": k, "title": meta["title"], "owner": meta["owner"],
+                    "priority": meta["priority"], "why": why, "attempts": 0,
+                    "status": "open", "created": now, "updated": now}
+    for k, v in list(items.items()):
+        if k not in want and v.get("status") in ("open", "doing"):
+            v["status"] = "done"
+            v["updated"] = now
+            v["closed_why"] = "问题已消失（事实不再触发这个任务）"
+    _save_backlog(items)
+    escalations(items)
+    return items
+
+
+def pick_item(items):
+    """先干自己能闭环的，干不了的去把证据备齐（这同样是自驱，不是等）。"""
+    openc = [v for v in items.values() if v.get("status") in ("open", "doing")]
+    if not openc:
+        return None
+    # 排法：①human 型且还没取过证的先做一次（取证便宜，且能让主控一小时内有卡片可执行）
+    # ②agent 能自己闭环的 ③其余 human 型（等主控处置，不重复打扰）
+    def _k(v):
+        human_first = 0 if (v.get("owner") == "human" and int(v.get("attempts") or 0) == 0) else (
+            1 if v.get("owner") == "agent" else 2)
+        return (human_first, int(v.get("priority") or 9), str(v.get("created") or ""))
+    openc.sort(key=_k)
+    return openc[0]
+
+
+def act_item(item, s, dry=False):
+    """按任务 id 动手；human 型任务只做取证（把结论备成一分钟可执行的卡片）。"""
+    iid = item.get("id")
+    out = {"action": iid, "why": item.get("why"), "did": ""}
+    if iid == "Q-POOL":
+        if dry:
+            out["did"] = "（dry）扩池 %d" % EXPAND_ADD
+            return out
+        rc, tail = _run([os.path.join(HERE, "pool_expand.py"), "--limit", str(EXPAND_ADD)], timeout=1200)
+        out["rc"], out["did"] = rc, tail
+        return out
+    if iid == "Q-HOT":
+        if dry:
+            out["did"] = "（dry）补采高赞样本"
+            return out
+        rc, tail = _run([os.path.join(HERE, "voice_mine.py"), "--videos", "60",
+                         "--min-likes" if False else "--min-like", "10", "--pages", "2"], timeout=1500)
+        out["rc"], out["did"] = rc, tail
+        st = _load(AGENT_STATE, {}) or {}
+        st["last_mine"] = _now().isoformat(timespec="seconds")
+        json.dump(st, open(AGENT_STATE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        return out
+    if iid == "Q-DIV":
+        try:
+            p = os.path.join(STATE, "VOICE-USAGE.json")
+            d = _load(p, {}) or {}
+            day = _now().strftime("%Y-%m-%d")
+            cur = d.get(day) or {}
+            if cur:
+                top = max(cur.items(), key=lambda kv: kv[1])[0]
+                cur[top] = int(cur[top]) + 3
+                d[day] = cur
+                json.dump(d, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+                out["did"] = "最扎堆原型 %s 计数 +3" % top
+            else:
+                out["did"] = "今天还没有原型计数"
+        except Exception as e:
+            out["did"] = "重平衡失败：%s" % str(e)[:70]
+        return out
+    if iid == "S8-SPEED":
+        # 取证：把"慢在生成还是慢在发帖排队"分开算清楚
+        rows = [r for r in _load_log() if r.get("action") == "timing"][-10:]
+        gen = sorted(float(r.get("gen_s") or 0) for r in rows)
+        post = sorted(float(r.get("post_s") or 0) for r in rows if r.get("post_s") is not None)
+        tot = sorted(float(r.get("total_s") or 0) for r in rows)
+        med = lambda a: (a[len(a) // 2] if a else None)
+        out["did"] = "取证：total 中位 %s、gen 中位 %s、post 中位 %s（n=%d）%s" % (
+            med(tot), med(gen), med(post), len(rows),
+            "；历史行无 post_s 字段，等新样本才能拆分" if not post else "")
+        out["evidence"] = {"total_med": med(tot), "gen_med": med(gen), "post_med": med(post)}
+        return out
+    if iid == "S7-GATE":
+        # 证据要从真正的产物读（GATE-RESULT.json 的 overall/pos/neg），
+        # 不是跑 guard 自己的 self-test——那是另一套东西，会得出"全绿"的错觉。
+        try:
+            d = _load(os.path.join(SOCIAL, "state", "GATE-RESULT.json"), {})
+            bad = (d.get("pos_fail_samples") or []) + (d.get("neg_leak_samples") or [])
+            out["did"] = "闸回归 overall=%s 正例 %s/%s 负例拦 %s/%s" % (
+                d.get("overall"), d.get("pos_pass"), d.get("pos_n"),
+                d.get("neg_blocked"), d.get("neg_n"))
+            out["detail"] = bad[:3] or ["（无漏/误样本，红在别处）"]
+        except Exception as e:
+            out["did"] = "读闸结果失败：%s" % str(e)[:60]
+        return out
+    if iid == "S9-ACCT":
+        rc, t = _run([os.path.join(HERE, "social_guard.py"), "--group", "accounts"], timeout=300)
+        det = []
+        try:
+            for line in open(os.path.join(SOCIAL, "state", "GUARD-ACCOUNTS.json"), encoding="utf-8"):
+                pass
+            d = _load(os.path.join(SOCIAL, "state", "GUARD-ACCOUNTS.json"), {})
+            det = ["%s %s" % (c.get("id"), (c.get("detail") or "")[:80])
+                   for c in (d.get("checks") or []) if c.get("ok") is False][:4]
+        except Exception:
+            pass
+        out["rc"], out["did"], out["detail"] = rc, "账号安全：%d 项红" % len(det), det
+        return out
+    if iid == "Q-WAIT":
+        out["did"] = "等出稿，不动手（样本不足时不折腾模型）"
+        return out
+    out["did"] = "未实现的动作"
+    return out
+
+
+def _load_log():
+    out = []
+    try:
+        for line in open(os.path.join(SOCIAL, "practice-log.jsonl"), encoding="utf-8"):
+            if line.strip():
+                out.append(json.loads(line))
+    except FileNotFoundError:
+        pass
+    return out
+
+
+def verify_item(item, s, out):
+    """做完必须自验：事实没变就不许标完成（否则又是假绿）。"""
+    iid = item.get("id")
+    if iid == "Q-POOL":
+        return (s.get("pool", 0) >= POOL_TARGET, "池 %d / 目标 %d" % (s.get("pool", 0), POOL_TARGET))
+    if iid == "Q-HOT":
+        return (s.get("hot", 0) >= HOT_TARGET, "样本 %d / 目标 %d" % (s.get("hot", 0), HOT_TARGET))
+    if iid == "Q-DIV":
+        q = s.get("quality") or {}
+        if int(q.get("n") or 0) < MIN_N:
+            return None, "样本不足，无法验证"
+        return (float(q.get("max_share") or 0) <= SHARE_LINE, "最扎堆 %.0f%%" % (100 * float(q.get("max_share") or 0)))
+    if iid in ("S8-SPEED", "S7-GATE", "S9-ACCT"):
+        # human 型任务：本轮只取证，不算闭环；证据必须写清楚，否则卡片没用
+        det = out.get("detail") or []
+        ev = out.get("did") or ""
+        if det:
+            ev += "；" + " | ".join(str(x) for x in det[:3])
+        return None, ev[:300]
+    if iid == "Q-WAIT":
+        q = s.get("quality") or {}
+        return (int(q.get("n") or 0) >= MIN_N, "样本 %d" % int(q.get("n") or 0))
+    return None, "无自动验证"
+
+
+def escalations(items):
+    """把所有 human 型/反复失败的任务写成一屏，供人一分钟内决断。"""
+    lines = ["# 待主控处置（自动生成 %s）" % _now().strftime("%Y-%m-%d %H:%M"), ""]
+    rows = [v for v in items.values() if v.get("status") in ("open", "blocked") and v.get("owner") == "human"]
+    rows.sort(key=lambda v: int(v.get("priority") or 9))
+    if not rows:
+        lines.append("无。")
+    for v in rows:
+        lines.append("## %s %s（尝试 %d 次）" % (v["id"], v["title"], int(v.get("attempts") or 0)))
+        lines.append("- 现象：%s" % (v.get("why") or "—"))
+        if v.get("evidence"):
+            lines.append("- 证据：%s" % v["evidence"])
+        if v.get("status") == "blocked":
+            lines.append("- 状态：已重试 %d 次未果，**需要主控改结构**" % MAX_ATTEMPTS)
+    try:
+        open(ESCALATE, "w", encoding="utf-8").write("\n".join(lines) + "\n")
+    except Exception:
+        pass
+
+
 def once(dry=False):
     s = sense()
-    action, why = decide(s)
-    out = act(action, why, dry=dry)
-    if action in ("expand", "mine", "rebalance") and not dry:
-        s = sense()      # 动作后重测：一屏不能写着动作前的旧数
-    _log({"sense": {"n": s.get("quality", {}).get("n"), "median": s.get("quality", {}).get("median"),
-                    "dup": s.get("quality", {}).get("dup_rate"), "pool": s.get("pool"),
-                    "hot": s.get("hot")}, "decision": action, "why": why,
-          "did": out.get("did"), "rc": out.get("rc")})
+    items = sync_backlog(s)
+    item = pick_item(items)
+    if not item:
+        board(s, {"action": "idle", "why": "没有未闭环任务（事实全绿）", "did": "空转一轮"})
+        _log({"ts": _now().isoformat(timespec="seconds"), "decision": "idle",
+              "why": "没有未闭环任务", "did": ""})
+        print("[agent] 空闲：所有任务已闭环")
+        return 0
+    item["status"] = "doing"
+    item["attempts"] = int(item.get("attempts") or 0) + 1
+    out = act_item(item, s, dry=dry)
+    if not dry:
+        s2 = sense()          # 动作后重测
+        ok, detail = verify_item(item, s2, out)
+        out["verify"] = detail
+        if ok is True:
+            item["status"] = "done"
+            item["closed_why"] = detail
+        elif ok is False:
+            if item["attempts"] >= MAX_ATTEMPTS:
+                item["status"] = "blocked"
+            else:
+                item["status"] = "open"
+        else:
+            # 无法自动验证（human 型/样本不足）：保持 open，等下一次或交主控
+            item["status"] = "open"
+        item["updated"] = _now().isoformat(timespec="seconds")
+        item["evidence"] = detail
+        _save_backlog(items)
+        escalations(items)
+        s = s2
+    _log({"sense": {"n": (s.get("quality") or {}).get("n"),
+                    "median": (s.get("quality") or {}).get("median"),
+                    "pool": s.get("pool"), "hot": s.get("hot")},
+          "decision": item.get("id"), "why": item.get("why"),
+          "did": out.get("did"), "verify": out.get("verify"),
+          "status": item.get("status"), "attempts": item.get("attempts")})
     board(s, out)
-    print("[agent] 动作=%s ｜ %s ｜ %s" % (action, why, out.get("did")))
+    print("[agent] 任务=%s（%s，第 %d 次）｜ %s ｜ 验证：%s" % (
+        item.get("id"), item.get("owner"), item.get("attempts"),
+        out.get("did"), out.get("verify") or "—"))
     return 0
 
 
@@ -314,8 +581,17 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--board", action="store_true")
+    ap.add_argument("--backlog", action="store_true")
     ap.add_argument("--dry", action="store_true")
     a = ap.parse_args(argv)
+    if a.backlog:
+        s = sense()
+        items = sync_backlog(s)
+        for v in sorted(items.values(), key=lambda x: (x.get("status"), int(x.get("priority") or 9))):
+            print("%-9s %-6s %-7s 尝试%d  %s ← %s" % (
+                v["id"], v.get("status"), v.get("owner"), int(v.get("attempts") or 0),
+                v.get("title"), (v.get("why") or "")[:48]))
+        return 0
     if a.board:
         s = sense()
         board(s, {"action": "-", "why": "只重写一屏", "did": ""})

@@ -155,8 +155,16 @@ def s7_gates():
     if age > 24 * 60:
         return _mk("S7", False, "闸结果 %.0f 小时未更新" % (age / 60))
     d = _load(p, {})
-    return _mk("S7", bool(d.get("ok", d.get("pass", False))), "闸负控：%s" % (
-        "全绿" if d.get("ok", d.get("pass")) else "有红"))
+    # GATE-RESULT 用的字段是 overall（正例/负例各自还有 pos_ok/neg_ok），
+    # 之前只认 ok/pass，把"全绿"读成了"有红"——判据必须按真实产物字段读。
+    ok = bool(d.get("overall", d.get("ok", d.get("pass", False))))
+    det = "正例 %s/%s、负例拦 %s/%s、结构样本 %s" % (
+        d.get("pos_pass"), d.get("pos_n"), d.get("neg_blocked"), d.get("neg_n"),
+        d.get("structural_n"))
+    if d.get("pos_fail_samples") or d.get("neg_leak_samples"):
+        ok = False
+        det += "；漏/误：%s" % ((d.get("pos_fail_samples") or []) + (d.get("neg_leak_samples") or []))[:2]
+    return _mk("S7", ok, det)
 
 
 def s8_speed():
