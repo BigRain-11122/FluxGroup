@@ -7,21 +7,18 @@
  },
  "tiers": {
   "P0": {
-   "OK": 4,
-   "NOT_PASS": 1
+   "OK": 5
   },
   "P1": {
-   "OK": 12,
-   "NOT_PASS": 2
+   "OK": 11,
+   "NOT_PASS": 3
   },
   "P2": {
    "OK": 5,
    "NOT_PASS": 4
   }
  },
- "p0_bad": [
-  "G04"
- ],
+ "p0_bad": [],
  "duties": [
   {
    "id": "G01",
@@ -76,8 +73,8 @@
    "symptom": "AC02 红=两号 24h 内碰同一 aid；AC03 红=同一 mid 出现在两个活跃 alias；AC03 SKIP=账号表没有 mid，说明凭据表被换过",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "NOT_PASS",
-   "why": "pass.AC02=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "C01",
@@ -146,8 +143,8 @@
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "NOT_PASS",
-   "why": "pass.TR04=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "T02",
@@ -172,7 +169,7 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 4.8,
+   "age_h": 10.8,
    "limit_h": 24.0,
    "state": "OK",
    "why": "12h 内 173 条"
@@ -188,8 +185,8 @@
    "symptom": "SD01 红=24h 没有真正发出的评论；SD07 红=发出的评论缺双闸证据（合格与否事后说不清）；只有赞和弹幕不算",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.SD07=False（需 True）"
   },
   {
    "id": "B02",
@@ -202,8 +199,8 @@
    "symptom": "SD06 红=某号当天看/赞/弹幕有一类为 0；AC01 红=进程在但超过 2h（活动时段）没动作，多为 profile 锁、登录态失效或时段判断错",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.SD06=False（需 True）"
   },
   {
    "id": "B03",
@@ -231,7 +228,7 @@
    "age_h": 0.2,
    "limit_h": 1.0,
    "state": "OK",
-   "why": "level='green'（不许等于 'red'）"
+   "why": "level='yellow'（不许等于 'red'）"
   },
   {
    "id": "S02",
@@ -287,7 +284,7 @@
    "age_h": 0.0,
    "limit_h": 24.0,
    "state": "NOT_PASS",
-   "why": "pass.SC01=False（需 True）"
+   "why": "pass.SC04=False（需 True）"
   },
   {
    "id": "S06",

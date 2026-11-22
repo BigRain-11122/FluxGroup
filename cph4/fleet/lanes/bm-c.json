@@ -1,37 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-22T23:24:17",
- "jobs": [
-  {
-   "id": "asset-lib-asset-gen-2026-11-16",
-   "title": "[资产储备（角色 LoRA / 音色库）] 通用资产出图（道具/场景，吃 ASSET-PROMPTS 规格）",
-   "cmd": "python Tools/fleet/asset_gen.py --node bm-c --class props --limit 4 --receipt media/asset/props/MANIFEST-2026-11-16.json",
-   "cwd": "",
-   "needs": "gpu",
-   "deliverable": "media/asset/props/MANIFEST-2026-11-16.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  },
-  {
-   "id": "asset-lib-face-dataset-2026-11-20",
-   "title": "[资产储备（角色 LoRA / 音色库）] 人脸数据集准入（反 AI 脸的第一道门）",
-   "cmd": "python Tools/fleet/asset_dataset_audit.py --mode face --dir media/asset/faces --out cph4/fleet/queue-receipts/asset-face-2026-11-20.json",
-   "cwd": "",
-   "needs": "cpu",
-   "deliverable": "cph4/fleet/queue-receipts/asset-face-2026-11-20.json",
-   "need_mb": null,
-   "model": "none",
-   "prompt": "",
-   "when_all": [],
-   "llm": null,
-   "timeout_s": null
-  }
- ],
- "idle_reason": "",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "ts": "2026-11-23T01:43:38",
+ "jobs": [],
+ "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
+ "lane_ok": false,
+ "capacity_note": "OFFLINE (hb age Nones, no fresh lane receipt)"
 }

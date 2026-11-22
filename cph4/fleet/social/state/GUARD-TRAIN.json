@@ -1,17 +1,17 @@
 {
  "group": "train",
- "ts": "2026-11-22T19:39:57",
+ "ts": "2026-11-23T01:40:09",
  "pass": {
   "TR01": false,
   "TR02": true,
   "TR03": false,
-  "TR04": false,
+  "TR04": true,
   "TR05": false,
   "TR06": true
  },
  "overall": false,
  "n_checks": 6,
- "n_fail": 4,
+ "n_fail": 3,
  "n_skip": 0,
  "checks": [
   {
@@ -41,9 +41,9 @@
   {
    "id": "TR04",
    "name": "ACTIVE 指针一致",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "mode 只能是 base/lora（实际 None）（None，2026-11-22T11:36:14）",
+   "detail": "base 模式 run 必须为空（base，2026-11-23T00:49:59）",
    "n": null
   },
   {

@@ -103,16 +103,17 @@ def op(payload):
     if kind not in ("post", "browse", "danmaku", "roots", "nav", "hot"):
         return {"ok": False, "res": "未知动作 %r" % kind}
     # 发帖优先：practice_tick 在调用 post 前会立一个 POST-PENDING 标记。
-    # 常驻浏览器是单线程，一次浏览要占 8–28 秒（停留+goto），发帖排在后面就是 90 秒。
-    # 浏览是"可推迟"的动作，发帖不是——所以浏览见到标记就让路。
-    if kind == "browse":
+    # 常驻浏览器是单线程，任何动作排进去都占着唯一线程；发帖排在后面就是 90 秒。
+    # 2026-11-22 实测：只让 browse 让路不够——采评论（hot）/取楼中楼（roots）同样是重活，
+    # 发帖仍被压在 77–98 秒。凡是"可推迟"的动作在标记期内一律让路，只有 post 自己不让。
+    if kind != "post":
         try:
             mk = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
                 os.path.abspath(__file__)))), ".codely-cli", "state", "POST-PENDING")
             if os.path.exists(mk):
                 age = time.time() - os.path.getmtime(mk)
                 if age < 180:
-                    return {"ok": False, "res": "post-pending（让路给发帖，%.0fs 前立的）" % age}
+                    return {"ok": False, "res": "post-pending（%s 让路给发帖，%.0fs 前立的）" % (kind, age)}
         except Exception:
             pass
     ctx = ctx_for(payload.get("account"), payload.get("profile"))
