@@ -39,14 +39,55 @@ LEDGERS = [os.path.join(SOCIAL, "practice-log.jsonl"),
 
 # 人类量级（不再用"可见率换配额"的阶梯——那是把平台的审核延迟当成自己的 KPI）。
 # 每日上限与间隔都取区间、按日期种子决定：同一个号每天不一样，才不像脚本。
-# 2026-11-22 CEO「活跃点 高频」：抬到 30–44 条/天（两号合计，约 15–22 条/号），
-# 但必须同时满足供给约束——见 supply_cap()，否则高频只会变成同一条视频反复评论。
-PER_DAY = (30, 44)
+# 2026-11-22 CEO「活跃点 高频」→「你科学决策」：不再由我拍一个数，改成**带刹车的自动升档**。
+# 每档一个每日总量区间；每天用上一周期的真实数据决定升/降/保持（见 ramp_tick）。
+LEVELS = [
+    (30, 44),      # L1 起步（两号合计 ≈15–22 条/号）
+    (40, 60),      # L2
+    (54, 76),      # L3
+    (70, 96),      # L4
+    (88, 120),     # L5 上限（≈44–60 条/号，池子与产能都要跟上）
+]
+RAMP = os.path.join(ROOT, ".codely-cli", "state", "RAMP.json")
+GROW_MIN_RATE = 0.35      # 可见率 ≥35% 才允许升档（60 天实测均值 36%）
+GROW_MIN_N = 8            # 样本不足不下结论
+SHRINK_RATE = 0.25        # 可见率 <25% 且样本足够 → 降一档
 GAP_MIN = (4, 18)
 TITLES = os.path.join(SOCIAL, "VIDEO-TITLES.json")
 RULE_DAYS = 7          # 「同视频 7 天 ≤1 条评论」这条硬规则
 # 只有这两类信号允许叫停（真失败，不是"看不见"）：
 CONSEC_REAL_FAIL = 2
+
+
+def level_now():
+    try:
+        d = json.load(open(RAMP, encoding="utf-8")) or {}
+        return max(1, min(len(LEVELS), int(d.get("level") or 1)))
+    except Exception:
+        return 1
+
+
+def ramp_tick(stats):
+    """按上一周期实测决定下一档。返回 (新档位, 判定理由)。
+
+    升档要三件事同时成立：样本够、可见率达标、没有连续真失败与连续不可见。
+    降档只要一件：可见率跌破 25%（说明内容或节奏出了问题），或连续 2 次真失败。
+    这比"我拍一个数"可靠：数字由平台反馈决定，不由我乐观决定。
+    """
+    lv = level_now()
+    n = int(stats.get("n") or 0)
+    rate = float(stats.get("rate") or 0)
+    real = int(stats.get("consec_real_fail") or 0)
+    invis = int(stats.get("consec_invisible") or 0)
+    if real >= CONSEC_REAL_FAIL:
+        return max(1, lv - 1), "连续 %d 次真失败 → 降档观察" % real
+    if n >= GROW_MIN_N and rate < SHRINK_RATE:
+        return max(1, lv - 1), "可见率 %.0f%% < 25%% → 降档" % (100 * rate)
+    if n >= GROW_MIN_N and rate >= GROW_MIN_RATE and invis < 3:
+        if lv < len(LEVELS):
+            return lv + 1, "可见率 %.0f%% ≥35%%、无真失败 → 升到 L%d" % (100 * rate, lv + 1)
+        return lv, "已在最高档 L%d（可见率 %.0f%%）" % (lv, 100 * rate)
+    return lv, "样本 %d 条 / 可见率 %.0f%% → 保持 L%d" % (n, 100 * rate, lv)
 
 
 def supply_cap(days=RULE_DAYS):
@@ -86,9 +127,13 @@ def _rng_for_today():
 
 
 def human_band():
-    """今天的"人类量级"上限与最小间隔（同日稳定、跨日变化）。"""
+    """今天的"人类量级"上限与最小间隔（同日稳定、跨日变化）。
+
+    上限区间取自当前档位（LEVELS[level-1]），所以升档是"换区间"，不是"改常量"。
+    """
     r = _rng_for_today()
-    return r.randint(*PER_DAY), r.randint(*GAP_MIN)
+    lo, hi = LEVELS[level_now() - 1]
+    return r.randint(lo, hi), r.randint(*GAP_MIN)
 
 
 def load_rows():
@@ -178,6 +223,15 @@ def main(argv=None):
     rows = load_rows()
     at = attempts(rows)
     st = summarize(at)
+    if a.recompute:
+        # 先按实测定档，再按档位出配额——顺序反了就会用旧档算今天
+        lv, why_lv = ramp_tick(st)
+        try:
+            json.dump({"level": lv, "why": why_lv,
+                       "ts": __import__("datetime").datetime.now().isoformat(timespec="seconds")},
+                      open(RAMP, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        except Exception:
+            pass
     cur = load_policy()
     per, gap, why = decide(st, int(cur.get("stage", 0)))
     stage = 0
@@ -185,14 +239,17 @@ def main(argv=None):
         print("[freq] 已回验动作 %d 条：可见 %d（%.0f%%）｜近5条可见率 %.0f%% ｜连续不可见 %d"
               % (st["n"], st["visible"], 100 * st["rate"],
                  100 * st["rate_last5"], st["consec_invisible"]))
+        print("[freq] 当前档位 L%d（%s）" % (level_now(),
+                                          (LEVELS[level_now() - 1])))
         print("[freq] 判定：每日 %d 条、间隔 ≥%d 分钟" % (per, gap))
         print("[freq] 依据：%s" % why)
         return 0
     rec = {"stage": stage, "max_per_day": per, "min_gap_min": gap, "why": why,
-           "evidence": st, "ts": __import__("datetime").datetime.now().isoformat(timespec="seconds")}
+           "level": level_now(), "evidence": st,
+           "ts": __import__("datetime").datetime.now().isoformat(timespec="seconds")}
     json.dump(rec, open(POLICY, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print("[freq] 已写回 %s：每日 %d 条 / 间隔 %d 分钟（%s）"
-          % (os.path.relpath(POLICY, ROOT), per, gap, why))
+    print("[freq] 已写回 %s：L%d → 每日 %d 条 / 间隔 %d 分钟（%s）"
+          % (os.path.relpath(POLICY, ROOT), level_now(), per, gap, why))
     return 0
 
 
