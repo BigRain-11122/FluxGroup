@@ -409,6 +409,17 @@ def main():
         print("[tick] 跳过：今日 %d/%d" % (n, mx))
         return 0
 
+    # 2.4 间隔与额度的早判：放到生成之前，别把 3–5 秒生成白花在"还差 3 分钟"上
+    try:
+        import arm_probe as _ap0
+        _okc, _wc = _ap0.cap_check()
+        if not _okc:
+            log({"action": "skip", "why": _wc})
+            print("[tick] 跳过：%s" % _wc[:40])
+            return 0
+    except Exception:
+        pass
+
     # 2.5 拟人节律：不在线时段不发（CEO「模拟人类操作习惯就好」——
     #     真风险不是次数多，而是机械均匀与零互动；夜里准点发帖比多发更假）。
     # 上一拍如果被杀在"段件在线"状态，这里兜底切回基座（最多滞后十分钟）
@@ -655,7 +666,7 @@ def main():
             p += "提到一个具体的东西（画面/剪辑/镜头/转场/配乐）。"
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
-        t, lane = make_text(p)
+        t, lane = make_text(p, lanes=("lora",))
         if not t or not (lo <= len(t) <= hi):
             log({"action": "skip", "why": "length:%d not in %d-%d" % (len(t or ""), lo, hi),
                  "arm": arm, "text": (t or "")[:20]})

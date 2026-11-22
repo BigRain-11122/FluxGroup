@@ -108,8 +108,17 @@ def cap_check(now=None, log=LOG, sent2=SENT2, policy=None):
     if lts:
         try:
             gap = (now - datetime.fromisoformat(lts)).total_seconds() / 60
-            if gap < gap_min:
-                return False, "距上帖仅 %.0f 分钟（下限 %d）" % (gap, gap_min)
+            # 真人不是秒表：间隔以策略值为中心抖动（0.6–1.4 倍），另有约 10% 概率是
+            # "看到就回"的短间隔（1–4 分钟）——那才是最像人的部分（2026-11-22 CEO
+            # 「额度不要这么严厉，像个平台的常用用户行为」）。
+            import random as _r
+            r = _r.Random(str(lts))
+            if r.random() < 0.10:
+                need = r.uniform(1, 4)
+            else:
+                need = max(1.0, gap_min * r.uniform(0.6, 1.4))
+            if gap < need:
+                return False, "距上帖仅 %.0f 分钟（本次下限 %.0f）" % (gap, need)
         except Exception:
             pass
     return True, "今日 %d/%d 条，间隔 OK" % (n, mx)
