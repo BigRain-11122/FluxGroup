@@ -1,8 +1,8 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795327810.0,
-   "last_rc": "BLOCKED",
+   "last_ts": 1795354582.675821,
+   "last_rc": "YIELD-DAY",
    "rows": 580,
    "run": null,
    "step": null,
@@ -25,13 +25,12 @@
    "val_min": 2.913
   },
   "craft_learner": {
-   "last_ts": 1795354237.36732,
+   "last_ts": 1795354237.0,
    "last_rc": "REJECT",
    "rows": 2204,
    "run": "20261122-210807",
    "step": 200,
-   "val_min": 3.478,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.478
   },
   "memer": {
    "last_ts": 1795350306.0,
@@ -67,25 +66,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-21T20:06:35",
-   "seg": "shallow",
-   "rows": 1948,
-   "built": 416,
-   "eval_n": 10,
-   "run": "20261121-194441",
-   "step": 400,
-   "val_step": 450,
-   "val_min": 3.584,
-   "base_avg": 54.3,
-   "lora_avg": 69.3,
-   "base_human": 1.0,
-   "lora_human": 8.0,
-   "human_delta": 7.0,
-   "verdict": "KEEP",
-   "why": "均分 +15.0 / 人味 +7.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261121-194441/ckpt400"
-  },
   {
    "ts": "2026-11-21T20:29:45",
    "seg": "craft_learner",
