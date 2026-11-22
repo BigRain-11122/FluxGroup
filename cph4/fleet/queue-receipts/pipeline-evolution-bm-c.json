@@ -1,57 +1,57 @@
 {
- "ts": "2026-11-22T22:07:25",
+ "ts": "2026-11-23T04:07:26",
  "node": "bm-c",
  "kind": "pipeline-evolution",
  "cycle": "6h",
  "canon_age_days": {
-  "drama_v3": 0.0,
-  "heroine_factory": 0.0,
-  "production_router": 0.0
+  "drama_v3": 0.3,
+  "heroine_factory": 0.2,
+  "production_router": 0.3
  },
  "router_signals": {
-  "ts": "2026-11-22T22:05:37",
+  "ts": "2026-11-23T04:05:38",
   "stalls": [],
   "throughput": {
-   "pl_ql_last10min": 1
+   "pl_ql_last10min": 0
   },
   "plan": "gpu-mainline"
  },
  "recent_receipts": [
   {
-   "file": "pipeline-evolution-bm-c.json",
-   "ts": "2026-11-22T22:06:33",
+   "file": "autodrive-hb-bm-c.json",
+   "ts": "2026-11-23T04:06:30.977",
+   "name": null
+  },
+  {
+   "file": "_last_lane_bm-c.json",
+   "ts": "2026-11-23T04:06:30",
    "name": null
   },
   {
    "file": "production-router-bm-c.json",
-   "ts": "2026-11-22T22:05:37",
+   "ts": "2026-11-23T04:05:38",
    "name": null
   },
   {
-   "file": "autodrive-hb-bm-c.json",
-   "ts": "2026-11-22T21:59:35",
+   "file": "asset-lib-face-dataset-2026-11-20-bm-c.json",
+   "ts": "2026-11-23T02:02:50",
    "name": null
   },
   {
-   "file": "v3-board-bm-c-20261121.json",
-   "ts": "2026-11-22T00:17:50",
-   "name": "lora-v3-verification-board"
-  },
-  {
-   "file": "night-batch-bm-c-20261116.json",
-   "ts": "2026-11-16T01:19:58",
-   "name": "lora-v2-verification-board + v3-dataset-expansion"
+   "file": "heroine-ql-bm-c.json",
+   "ts": "2026-11-23T01:44:58",
+   "name": "heroine-lora-ql-v1"
   }
  ],
  "issues": [
   {
    "kind": "slow-throughput",
    "lane": "pl_ql_last10min",
-   "rate": 1
+   "rate": 0
   }
  ],
  "proposals": [
-  "[proposal] 车道 pl_ql_last10min 出货 1/10min 偏慢——优化等待参数或换更快的生成通道"
+  "[proposal] 车道 pl_ql_last10min 出货 0/10min 偏慢——优化等待参数或换更快的生成通道"
  ],
  "note": "observation+proposal only; canon changes go through director/council channel"
 }
