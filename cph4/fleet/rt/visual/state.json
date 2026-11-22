@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-22T22:49:48",
+ "ts": "2026-11-22T23:49:50",
  "station": "visual",
  "charter_sha": "2d76a18c1f8a",
- "findings": 51,
+ "findings": 49,
  "by_severity": {
   "high": 38,
-  "warn": 13
+  "warn": 11
  },
  "model": "ok",
- "advice": "立即处理\"asset-lib-asset-gen-2026-11-16\"任务，因其处于“在跑但本工位没有回执”的阻塞状态。",
- "sec": 3.23
+ "advice": "立即处理\"asset-lib-asset-gen-2026-11-16\"任务，因其处于“在跑但本工位没有回执”的阻塞状态，需尽快获取回执以消除等待风险。",
+ "sec": 5.6
 }

@@ -71,3 +71,5 @@
 2026-11-22T23:33:50 LANE rc=0 done=asset-lib-face-dataset-2026-11-20 LANE-SLOTS bm-c :: 2 job(s): asset-lib-asset-gen-2026-11-16,asset-lib-face-dataset-2026-11-20 | LANE-ACCEPT asset-lib-face-dataset-2026-11-20 :: REJECT None | asset-lib-face-dataset-2026-11-20 DONE rc=0 63.5s deliverable=True error=-
 2026-11-22T23:33:50 TICK commit=committed:5 converge=merged-behind-1 push=pushed lane=lane-rc-0(1 done)
 2026-11-22T23:36:33 RECEIPT RUNNING gpu=100 vram=15613MB busy=i2v,lora
+2026-11-22T23:53:17 FATAL TimeoutExpired(['git', '-C', 'K:\\Fluxgroup\\FluxGroup', 'fetch', 'origin', '--quiet'], 150)
+2026-11-22T23:56:32 RECEIPT RUNNING gpu=100 vram=15419MB busy=i2v,lora
