@@ -1,17 +1,16 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795302133.103908,
+   "last_ts": 1795302695.0,
    "last_rc": "KEEP",
-   "rows": 579,
+   "rows": null,
    "run": "20261122-063552",
-   "step": 400,
-   "val_min": 3.522,
-   "recipe": "v5-shape-quota"
+   "step": null,
+   "val_min": null
   },
   "peer_pro": {
-   "last_ts": 1795295277.0,
-   "last_rc": "KEEP",
+   "last_ts": 1795306430.104022,
+   "last_rc": "YIELD-PUBLISH",
    "rows": null,
    "run": "20261122-035131",
    "step": null,
@@ -67,44 +66,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-20T22:53:30",
-   "seg": "feeler",
-   "rows": 460,
-   "built": 192,
-   "eval_n": 10,
-   "run": "20261120-220135",
-   "step": 200,
-   "val_step": 250,
-   "val_min": 3.449,
-   "base_avg": 56.5,
-   "lora_avg": 59.4,
-   "base_human": 10.0,
-   "lora_human": 3.0,
-   "human_delta": -7.0,
-   "verdict": "REJECT",
-   "why": "均分只 +2.9（需 ≥5.0）",
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-220135/ckpt200"
-  },
-  {
-   "ts": "2026-11-20T23:32:47",
-   "seg": "craft_learner",
-   "rows": 1505,
-   "built": 836,
-   "eval_n": 10,
-   "run": "20261120-225900",
-   "step": 500,
-   "val_step": 500,
-   "val_min": 3.606,
-   "base_avg": 85.5,
-   "lora_avg": 77.8,
-   "base_human": 11.0,
-   "lora_human": 10.0,
-   "human_delta": -1.0,
-   "verdict": "REJECT",
-   "why": "均分只 -7.7（需 ≥5.0）",
-   "adapter": "cph4/fleet/social/train/RUNS/20261120-225900/ckpt500"
-  },
   {
    "ts": "2026-11-21T14:16:33",
    "seg": "memer",
@@ -693,6 +654,19 @@
    "verdict": "KEEP",
    "why": "均分 +14.0 / 人味 +3.0",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-063552/ckpt400"
+  },
+  {
+   "ts": "2026-11-22T07:11:35",
+   "seg": "tech_nerd",
+   "verdict": "KEEP",
+   "why": "均分 +5.0 / 人味 -1.0",
+   "run": "20261122-063552",
+   "re_verify": true,
+   "lora_avg": 61.7,
+   "base_avg": 56.7,
+   "eval_n": 30,
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-063552/ckpt400",
+   "note": "re-verify(n=30)：均分 +5.0 / 人味 -1.0"
   }
  ]
 }
