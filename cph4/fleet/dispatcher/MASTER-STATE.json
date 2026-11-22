@@ -1,36 +1,36 @@
 {
- "ts": "2026-11-23T00:06:19",
- "cycle": 3903,
+ "ts": "2026-11-23T00:12:01",
+ "cycle": 3904,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-23T00:06:19",
+ "master_tick_ts": "2026-11-23T00:12:01",
  "queue": {
   "total": 386,
-  "open": 9,
-  "running": 2,
+  "open": 10,
+  "running": 1,
   "done": 228,
   "failed": 8
  },
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 42.9,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 57.8,
-   "gpu_util_pct": 1,
+   "hb_age_s": 25.9,
+   "cpu_load_pct": 44,
+   "ram_free_gb": 50,
+   "gpu_util_pct": 86,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-23T00:05:49",
-    "reason": "EXECUTOR-DEAD (60.7h 零产出)",
+    "ts": "2026-11-23T00:10:49",
+    "reason": "EXECUTOR-DEAD (60.8h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (60.8h 零产出)",
-   "idle_rounds": 20
+   "idle_reason": "EXECUTOR-DEAD (60.9h 零产出)",
+   "idle_rounds": 21
   },
   "bm-b": {
    "online": false,
@@ -70,7 +70,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 20,
+  "bm-a": 21,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -276,7 +276,9 @@
     "asset-lib-asset-gen-2026-11-20"
    ],
    "no_supply": false,
-   "blockers": [],
+   "blockers": [
+    "asset-lib-face-dataset-2026-11-20:no-lane"
+   ],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0",
    "stuck_stage": "asset-env",
    "stuck_owner": "资产席"
@@ -838,16 +840,17 @@
   }
  },
  "judgments": {
-  "open": 2,
+  "open": 3,
   "by_kind": {
-   "LINE-LATE": 2
+   "LINE-LATE": 2,
+   "RETRY": 1
   },
-  "added": 0,
+  "added": 1,
   "tick_tier": "none",
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 1,
+  "local": 2,
   "cloud": 0,
   "queue": 8,
   "blocked": 0,
@@ -855,13 +858,15 @@
   "waste": []
  },
  "supply_gap": {
-  "cpu": 1,
+  "cpu": 2,
   "gpu": 8
  },
  "supply_added": [],
- "events": [],
+ "events": [
+  "asset-lib-face-dataset-2026-11-20 REQUeued attempt=2"
+ ],
  "violations": [
-  "bm-a IDLE-CONFIRMED x20 (EXECUTOR-DEAD (60.8h 零产出))",
+  "bm-a IDLE-CONFIRMED x21 (EXECUTOR-DEAD (60.9h 零产出))",
   "bm-b OFFLINE",
   "bm-m OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
@@ -872,6 +877,7 @@
   "STAGE-STALLED asset-lib 卡在 训练环境自检/资产席 (资产席)"
  ],
  "lane_files_written": [
-  "bm-a"
+  "bm-a",
+  "bm-c"
  ]
 }
