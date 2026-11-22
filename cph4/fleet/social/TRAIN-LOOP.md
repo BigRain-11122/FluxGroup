@@ -1,4 +1,4 @@
-# 7×24 训练循环（2026-11-22T11:29:01）
+# 7×24 训练循环（2026-11-22T20:56:15）
 
 > 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
 
@@ -6,15 +6,15 @@
 
 | 段 | 可用行数 | 可训 | 判据 |
 |---|---|---|---|
-| memer | 2181 | 是 | 配方更新 v5-shape-quota（2181 行） |
-| craft_learner | 2172 | 是 | 配方更新 v5-shape-quota（2172 行） |
-| shallow | 1952 | 是 | 配方更新 v5-shape-quota（1952 行） |
-| peer_pro | 605 | 是 | 配方更新 v5-shape-quota（605 行） |
-| tech_nerd | 579 | 是 | 配方更新 v5-shape-quota（579 行） |
-| feeler | 550 | 是 | 配方更新 v5-shape-quota（550 行） |
-| music_seeker | 445 | 是 | 配方更新 v5-shape-quota（445 行） |
-| beginner | 151 | 否 | 语料 151 < 200 |
-| critic | 127 | 否 | 语料 127 < 200 |
+| memer | 2207 | 是 | 配方更新 v5-shape-quota（2207 行） |
+| craft_learner | 2204 | 是 | 配方更新 v5-shape-quota（2204 行） |
+| shallow | 1955 | 是 | 配方更新 v5-shape-quota（1955 行） |
+| peer_pro | 606 | 是 | 配方更新 v5-shape-quota（606 行） |
+| tech_nerd | 591 | 是 | 配方更新 v5-shape-quota（591 行） |
+| music_seeker | 447 | 是 | 配方更新 v5-shape-quota（447 行） |
+| feeler | 551 | 否 | 冷却中（0.0h 前刚训过，语料 551→551 未涨 10%） |
+| beginner | 152 | 否 | 语料 152 < 200 |
+| critic | 129 | 否 | 语料 129 < 200 |
 | student | 107 | 否 | 语料 107 < 200 |
 | ai_creator | 65 | 否 | 语料 65 < 200 |
 | requester | 62 | 否 | 语料 62 < 200 |
@@ -23,12 +23,12 @@
 
 ## 补料清单（训练线的真实瓶颈）
 
-有 7 个段低于 200 行，合计还差 **868 行**才够开训：
+有 7 个段低于 200 行，合计还差 **865 行**才够开训：
 
 | 段 | 现有 | 差 |
 |---|---|---|
-| beginner | 151 | 49 |
-| critic | 127 | 73 |
+| beginner | 152 | 48 |
+| critic | 129 | 71 |
 | student | 107 | 93 |
 | ai_creator | 65 | 135 |
 | requester | 62 | 138 |
@@ -39,15 +39,15 @@
 
 | 时间 | 段 | n | 行数 | val 最低 | 步 | 基座 | 候选 | 人味Δ | 判词 |
 |---|---|---|---|---|---|---|---|---|---|
-| 11-22T05:17 | shallow | 0 | 1948 | None | None | None | None | None | BLOCKED（样本不足） |
-| 11-22T05:24 | music_seeker | 0 | 441 | None | None | None | None | None | SUPPLY（样本不足） |
-| 11-22T05:58 | feeler | 10 | 550 | 3.322 | 400 | 56.5 | 43.4 | -6.0 | REJECT |
-| 11-22T06:29 | craft_learner | 10 | 2170 | 3.478 | 200 | 85.5 | 80.3 | 1.0 | REJECT |
-| 11-22T07:02 | tech_nerd | 10 | 579 | 3.522 | 400 | 54.0 | 68.0 | 3.0 | KEEP |
-| 11-22T07:11 | tech_nerd | 30 | None | None | None | 56.7 | 61.7 | None | KEEP |
-| 11-22T08:13 | peer_pro | 0 | 605 | None | None | None | None | None | BLOCKED（样本不足） |
-| 11-22T09:51 | memer | 0 | 2181 | None | None | None | None | None | BLOCKED（样本不足） |
-| 11-22T10:16 | shallow | 0 | 1952 | None | None | None | None | None | BLOCKED（样本不足） |
 | 11-22T10:58 | music_seeker | 10 | 445 | 2.913 | 400 | 37.5 | 73.0 | 8.0 | KEEP |
+| 11-22T11:29 | feeler | 0 | 550 | None | None | None | None | None | TRAIN-FAIL（样本不足） |
+| 11-22T11:35 | craft_learner | 0 | 2173 | None | None | None | None | None | BLOCKED（样本不足） |
+| 11-22T14:10 | tech_nerd | 0 | 580 | None | None | None | None | None | BLOCKED（样本不足） |
+| 11-22T18:39 | peer_pro | 10 | 606 | 3.783 | 400 | 51.8 | 49.0 | -3.0 | REJECT |
+| 11-22T19:10 | memer | 10 | 2207 | 2.99 | 400 | 38.7 | 44.0 | 0.0 | KEEP |
+| 11-22T19:41 | shallow | 10 | 1955 | 3.663 | 400 | 54.3 | 32.8 | 0.0 | REJECT |
+| 11-22T20:17 | music_seeker | 10 | 447 | 2.913 | 400 | 37.5 | 63.5 | 6.0 | KEEP |
+| 11-22T20:25 | memer | 30 | None | None | None | 49.0 | 40.0 | None | REJECT |
+| 11-22T20:56 | feeler | 10 | 551 | 3.322 | 400 | 56.5 | 49.3 | -5.0 | REJECT |
 
 > 判据：段内均分 ≥ 基座+5、PASS 不降、人味(human) 不降 2；同段冷却 6h；被否段语料需涨 15% 才重训。

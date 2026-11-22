@@ -1,23 +1,23 @@
 {
  "group": "sched",
- "ts": "2026-11-22T04:42:42",
+ "ts": "2026-11-22T19:39:57",
  "pass": {
-  "SC01": true,
+  "SC01": false,
   "SC02": true,
   "SC03": true,
   "SC04": true
  },
- "overall": true,
+ "overall": false,
  "n_checks": 4,
- "n_fail": 0,
+ "n_fail": 1,
  "n_skip": 0,
  "checks": [
   {
    "id": "SC01",
    "name": "声明与实载一致",
-   "ok": true,
+   "ok": false,
    "sev": "P2",
-   "detail": "未归类 1 个：ollamamodel；应载未载 0 个",
+   "detail": "未归类 2 个：browserd,ollamamodel；应载未载 1 个：practicetick",
    "n": 13
   },
   {
