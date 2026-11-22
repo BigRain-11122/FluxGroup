@@ -112,14 +112,15 @@ def _pw():
         return _pw_mod, False
 
 
-def _launch(p, headless=True, wait_s=None):
+def _launch(p, headless=True, wait_s=None, prof=None):
     """开浏览器前先拿 profile 锁：补采/学习/发帖共用同一个 profile，抢不到就排队。
 
     2026-11-20 实锚：补采在跑时发帖直接抛 ProcessSingleton 异常，被记成"发布失败"；
     实际账号一切正常（CEO 手动评论成功）。所以启动前用 social_collect 那把 pid 锁排队，
     抢不到时给一句能读懂的话，而不是把浏览器内部错误当成账号问题。
     """
-    kw = dict(user_data_dir=PROF, headless=headless, locale="zh-CN",
+    prof = prof or PROF
+    kw = dict(user_data_dir=prof, headless=headless, locale="zh-CN",
               timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 950},
               args=["--disable-blink-features=AutomationControlled"])
     if os.path.exists(CHROME):
@@ -129,10 +130,10 @@ def _launch(p, headless=True, wait_s=None):
         wait_s = float(_os.environ.get("FLUX_PROFILE_WAIT", "180"))
     # 新号第一次用时 profile 目录还不存在，而锁文件是写在 profile 目录里的
     # （2026-11-20 实锚：第二个号首次登录直接 FileNotFoundError）。
-    os.makedirs(PROF, exist_ok=True)
+    os.makedirs(prof, exist_ok=True)
     try:
         import social_collect as _sc
-        if _sc._acquire_profile_lock(PROF, wait_s=wait_s) is None:
+        if _sc._acquire_profile_lock(prof, wait_s=wait_s) is None:
             raise RuntimeError("profile 被占用（等锁 %ds 超时）：先放补采或学习循环" % int(wait_s))
     except ImportError:
         pass
@@ -205,45 +206,85 @@ def my_videos_and_comments(limit_videos=3, per_video=6):
     return out, ""
 
 
-def post_reply(aid, root_rpid, message, dry=True, read_first=False):
-    """在自己视频下回复某条评论。dry=True 只走签名+构造，不发请求。"""
+BROWSERD = os.environ.get("FLUX_BROWSERD", "http://127.0.0.1:8791")
+
+
+def _daemon(op, payload, timeout=120):
+    """问常驻浏览器执行一个动作。返回 dict 或 None（不在/没开就回落冷启动）。
+
+    2026-11-22 CEO「快点弄好」：每条评论冷启动一次 Chromium 约 30 秒，
+    常驻浏览器把这份成本摊掉——同一个已登录上下文里开标签页发完就走。
+    """
+    if os.environ.get("FLUX_BROWSER_DAEMON", "1") == "0":
+        return None
+    try:
+        import urllib.request as _u
+        acct = os.environ.get("FLUX_ACCOUNT") or ""
+        body = json.dumps(dict(payload, op=op, account=acct,
+                               profile=PROF)).encode()
+        req = _u.Request(BROWSERD + "/op", data=body,
+                         headers={"Content-Type": "application/json"})
+        with _u.urlopen(req, timeout=timeout) as r:
+            return json.loads(r.read().decode() or "{}")
+    except Exception:
+        return None
+
+
+def _post_in(ctx, aid, root_rpid, message, dry=True, read_first=False):
+    """在给定浏览器上下文里发回复（常驻浏览器与临时浏览器共用这一份逻辑）。"""
+    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+    pg.goto("https://www.bilibili.com/video/av%s" % aid,
+            wait_until="domcontentloaded", timeout=60000)
+    try:
+        pg.wait_for_load_state("networkidle", timeout=8000)
+    except Exception:
+        pass
+    if read_first and not pg.url.endswith("#no-read"):
+        human_read(pg)
+    nav = pg.evaluate("""async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
+        {credentials:'include'});const j=await r.json();return {mid:(j.data||{}).mid,
+        wbi:(j.data||{}).wbi_img, isLogin:(j.data||{}).isLogin};}""")
+    if not nav.get("isLogin"):
+        return False, "未登录"
+    wbi = nav.get("wbi") or {}
+    key = mixin_key(wbi.get("img_url", ""), wbi.get("sub_url", ""))
+    cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+    csrf = cookies.get("bili_jct", "")
+    if not csrf:
+        return False, "缺 csrf（bili_jct）——登录态不完整"
+    params = sign_params({"oid": aid, "type": 1, "root": root_rpid, "parent": root_rpid,
+                          "message": message, "csrf": csrf, "plat": 1}, key)
+    if dry:
+        return True, {"dry": True,
+                      "params_preview": {k: str(v)[:20] for k, v in params.items()},
+                      "message": message, "aid": aid, "root": root_rpid}
+    body = urllib.parse.urlencode(params)
+    res = pg.evaluate("""async (body)=>{
+        const r=await fetch('https://api.bilibili.com/x/v2/reply/add',
+          {method:'POST',credentials:'include',
+           headers:{'Content-Type':'application/x-www-form-urlencoded'},
+           body:body});
+        return {status:r.status, text:await r.text()};}""", body)
+    return res.get("status") == 200, res
+
+
+def post_reply(aid, root_rpid, message, dry=True, read_first=False, ctx=None):
+    """在自己视频下回复某条评论。ctx 传入时复用常驻浏览器（不再冷启动）。"""
+    if ctx is not None:
+        return _post_in(ctx, aid, root_rpid, message, dry=dry, read_first=read_first)
+    hit = _daemon("post", {"aid": aid, "root": root_rpid, "message": message,
+                           "dry": dry, "read_first": read_first})
+    if hit is not None:
+        ok = bool(hit.get("ok"))
+        return ok, hit.get("res")
     _mod, _stealth = _pw()
     with _mod.sync_playwright() as p:
-        ctx = _launch(p)
+        ctx2 = _launch(p)
         try:
-            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-            pg.goto("https://www.bilibili.com/video/av%s" % aid,
-                    wait_until="domcontentloaded", timeout=60000)
-            time.sleep(3)
-            if read_first:
-                human_read(pg)          # 先像人一样读一会儿评论再动手
-            nav = pg.evaluate("""async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
-                {credentials:'include'});const j=await r.json();return {mid:(j.data||{}).mid,
-                wbi:(j.data||{}).wbi_img, isLogin:(j.data||{}).isLogin};}""")
-            if not nav.get("isLogin"):
-                return False, "未登录"
-            wbi = nav.get("wbi") or {}
-            key = mixin_key(wbi.get("img_url", ""), wbi.get("sub_url", ""))
-            cookies = {c["name"]: c["value"] for c in ctx.cookies()}
-            csrf = cookies.get("bili_jct", "")
-            if not csrf:
-                return False, "缺 csrf（bili_jct）——登录态不完整"
-            params = sign_params({"oid": aid, "type": 1, "root": root_rpid, "parent": root_rpid,
-                                  "message": message, "csrf": csrf, "plat": 1}, key)
-            if dry:
-                return True, {"dry": True, "params_preview": {k: str(v)[:20] for k, v in params.items()},
-                              "message": message, "aid": aid, "root": root_rpid}
-            body = urllib.parse.urlencode(params)
-            res = pg.evaluate("""async (body)=>{
-                const r=await fetch('https://api.bilibili.com/x/v2/reply/add',
-                  {method:'POST',credentials:'include',
-                   headers:{'Content-Type':'application/x-www-form-urlencoded'},
-                   body:body});
-                return {status:r.status, text:await r.text()};}""", body)
-            return res.get("status") == 200, res
+            return _post_in(ctx2, aid, root_rpid, message, dry=dry, read_first=read_first)
         finally:
             try:
-                ctx.close()
+                ctx2.close()
             except Exception:
                 pass
 
@@ -440,39 +481,39 @@ def ingest_harvest(timeout=900):
     return max(0, after - before), "own %d→%d" % (before, after)
 
 
-def browse_video(url, seconds=None, rng=None, harvest=True):
-    """真的把视频页打开、停留、滚动一段再关掉（不调接口、不互动）。
+def _browse_in(ctx, url, seconds=None, harvest=True):
+    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+    pg.goto(url, wait_until="domcontentloaded", timeout=60000)
+    human_read(pg, seconds=seconds)
+    title = (pg.title() or "")[:40]
+    got = 0
+    if harvest:
+        try:
+            import social_collect as _sc4
+            items = _sc4.extract(pg, "bilibili", limit=40) or []
+            got = _harvest(url, title, items)
+        except Exception:
+            got = 0
+    return True, "%s|%d" % (title, got)
 
-    为什么要有这一步：真人的轨迹是"进来先刷几条"，只在少数几条上动手。
-    只发不看的账号，行为序列里没有任何阅读停留，本身就是异常信号。
-    """
+
+def browse_video(url, seconds=None, rng=None, harvest=True, ctx=None):
+    """真的把视频页打开、停留、滚动一段（常驻浏览器里就是一个新标签页）。"""
+    if ctx is not None:
+        return _browse_in(ctx, url, seconds=seconds, harvest=harvest)
+    hit = _daemon("browse", {"url": url, "seconds": seconds, "harvest": harvest})
+    if hit is not None:
+        return bool(hit.get("ok")), hit.get("res")
     import random as _r
     mod, _st = _pw()
     try:
         with mod.sync_playwright() as p:
-            ctx = _launch(p)
+            c2 = _launch(p)
             try:
-                pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-                pg.goto(url, wait_until="domcontentloaded", timeout=60000)
-                human_read(pg, seconds=seconds)
-                title = (pg.title() or "")[:40]
-                got = 0
-                if harvest:
-                    try:
-                        import social_collect as _sc4
-                        items = _sc4.extract(pg, "bilibili", limit=40) or []
-                        got = _harvest(url, title, items)
-                    except Exception:
-                        got = 0
-                return True, "%s|%d" % (title, got)
+                return _browse_in(c2, url, seconds=seconds, harvest=harvest)
             finally:
                 try:
-                    ctx.close()
-                except Exception:
-                    pass
-                try:
-                    import social_collect as _sc3
-                    _sc3.release_profile_lock(PROF)
+                    c2.close()
                 except Exception:
                     pass
     except Exception as e:
@@ -893,69 +934,86 @@ def main():
     return 2
 
 
-def send_danmaku(aid, text, progress_ms=None, dry=False):
-    """发一条弹幕（真实用户会做的动作之一）。
+def _roots_in(ctx, aid, limit=20):
+    """在给定上下文里取第一页 root 评论（常驻浏览器与临时浏览器共用）。"""
+    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+    pg.goto("https://www.bilibili.com/video/av%s" % aid,
+            wait_until="domcontentloaded", timeout=60000)
+    try:
+        pg.wait_for_load_state("networkidle", timeout=8000)
+    except Exception:
+        pass
+    raw = pg.evaluate("""async(a)=>{const r=await fetch('https://api.bilibili.com/x/v2/reply?type=1&oid='
+        +a+'&pn=1&ps=20&sort=1',{credentials:'include'});return await r.text();}""", aid)
+    d = json.loads(raw or "{}")
+    reps = ((d.get("data") or {}).get("replies") or [])[:limit]
+    return live_comments([
+        {"rpid": str(x.get("rpid")), "author": ((x.get("member") or {}).get("uname") or ""),
+         "text": ((x.get("content") or {}).get("message") or "")} for x in reps])
 
-    2026-11-20 CEO「弹幕什么，像一个真实的用户操作习惯就好」。
-    纪律（都是为"像人"而不是"能发"）：
-    · 短：≤20 字，长了不像弹幕；
-    · 低频：由调用方控制（tools 里按"看过几条视频才发一条"配比）；
-    · 贴视频：文本必须从该视频标题/简介推出来，不许泛夸；
-    · 时间点随机：progress 落在前 90 秒内随机，避免每条都同一时刻。
-    接口：/x/v2/dm/post，需 csrf(bili_jct) 与 cid（由 view 接口取）。
-    """
+
+def _danmaku_in(ctx, aid, text, progress_ms=None, dry=False):
+    """在给定上下文里发弹幕（常驻浏览器与临时浏览器共用）。"""
     import random as _r
+    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+    pg.goto("https://www.bilibili.com/video/av%s" % aid,
+            wait_until="domcontentloaded", timeout=60000)
+    try:
+        pg.wait_for_load_state("networkidle", timeout=8000)
+    except Exception:
+        pass
+    info = pg.evaluate("""async(a)=>{const r=await fetch(
+        'https://api.bilibili.com/x/web-interface/view?aid='+a,
+        {credentials:'include'});const j=await r.json();
+        const d=j.data||{}; return {code:j.code, cid:(d.pages&&d.pages[0]||{}).cid||d.cid,
+        bvid:d.bvid, dur:d.duration, isLogin:true};}""", aid)
+    cid, bvid = info.get("cid"), info.get("bvid")
+    if not cid:
+        return False, "取不到 cid（code=%s）" % info.get("code")
+    cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+    csrf = cookies.get("bili_jct", "")
+    if not csrf:
+        return False, "缺 csrf（bili_jct）——登录态不完整"
+    dur = int(info.get("dur") or 120)
+    if progress_ms is None:
+        progress_ms = _r.randint(3000, max(4000, min(90000, dur * 1000)))
+    body = urllib.parse.urlencode({
+        "type": 1, "oid": cid, "msg": text[:20], "bvid": bvid,
+        "progress": int(progress_ms), "mode": 1, "fontsize": 25,
+        "color": 16777215, "pool": 0, "plat": 1, "csrf": csrf})
+    if dry:
+        return True, {"dry": True, "cid": cid, "bvid": bvid,
+                      "progress": progress_ms, "msg": text[:20]}
+    res = pg.evaluate("""async (body)=>{
+        const r=await fetch('https://api.bilibili.com/x/v2/dm/post',
+          {method:'POST',credentials:'include',
+           headers:{'Content-Type':'application/x-www-form-urlencoded'},
+           body:body});
+        return {status:r.status, text:await r.text()};}""", body)
+    try:
+        j = json.loads(res.get("text") or "{}")
+    except Exception:
+        j = {}
+    ok = res.get("status") == 200 and j.get("code") == 0
+    return ok, {"code": j.get("code"), "message": j.get("message"),
+                "cid": cid, "progress": progress_ms}
+
+
+def send_danmaku(aid, text, progress_ms=None, dry=False, ctx=None):
+    """发一条弹幕；有常驻浏览器时复用，没有就冷启动（行为与原来一致）。"""
+    if ctx is not None:
+        return _danmaku_in(ctx, aid, text, progress_ms=progress_ms, dry=dry)
+    hit = _daemon("danmaku", {"aid": aid, "text": text, "progress_ms": progress_ms, "dry": dry})
+    if hit is not None:
+        return bool(hit.get("ok")), hit.get("res")
     _mod, _stealth = _pw()
     with _mod.sync_playwright() as p:
-        ctx = _launch(p)
+        c2 = _launch(p)
         try:
-            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-            pg.goto("https://www.bilibili.com/video/av%s" % aid,
-                    wait_until="domcontentloaded", timeout=60000)
-            time.sleep(3)
-            info = pg.evaluate("""async(a)=>{const r=await fetch(
-                'https://api.bilibili.com/x/web-interface/view?aid='+a,
-                {credentials:'include'});const j=await r.json();
-                const d=j.data||{}; return {code:j.code, cid:(d.pages&&d.pages[0]||{}).cid||d.cid,
-                bvid:d.bvid, dur:d.duration, isLogin:true};}""", aid)
-            cid, bvid = info.get("cid"), info.get("bvid")
-            if not cid:
-                return False, "取不到 cid（code=%s）" % info.get("code")
-            cookies = {c["name"]: c["value"] for c in ctx.cookies()}
-            csrf = cookies.get("bili_jct", "")
-            if not csrf:
-                return False, "缺 csrf（bili_jct）——登录态不完整"
-            dur = int(info.get("dur") or 120)
-            if progress_ms is None:
-                progress_ms = _r.randint(3000, max(4000, min(90000, dur * 1000)))
-            body = urllib.parse.urlencode({
-                "type": 1, "oid": cid, "msg": text[:20], "bvid": bvid,
-                "progress": int(progress_ms), "mode": 1, "fontsize": 25,
-                "color": 16777215, "pool": 0, "plat": 1, "csrf": csrf})
-            if dry:
-                return True, {"dry": True, "cid": cid, "bvid": bvid,
-                              "progress": progress_ms, "msg": text[:20]}
-            res = pg.evaluate("""async (body)=>{
-                const r=await fetch('https://api.bilibili.com/x/v2/dm/post',
-                  {method:'POST',credentials:'include',
-                   headers:{'Content-Type':'application/x-www-form-urlencoded'},
-                   body:body});
-                return {status:r.status, text:await r.text()};}""", body)
-            try:
-                j = json.loads(res.get("text") or "{}")
-            except Exception:
-                j = {}
-            ok = res.get("status") == 200 and j.get("code") == 0
-            return ok, {"code": j.get("code"), "message": j.get("message"),
-                        "cid": cid, "progress": progress_ms}
+            return _danmaku_in(c2, aid, text, progress_ms=progress_ms, dry=dry)
         finally:
             try:
-                ctx.close()
-            except Exception:
-                pass
-            try:
-                import social_collect as _sc
-                _sc.release_profile_lock(PROF)
+                c2.close()
             except Exception:
                 pass
 

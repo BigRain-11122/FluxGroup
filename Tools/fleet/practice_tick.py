@@ -269,7 +269,9 @@ def serving_adapter():
         return "unknown"
 
 
-def make_text(prompt):
+def make_text(prompt, lanes=None):
+    """按车道阶梯出稿。出稿链路默认**只用 lora**：4b 兜底要现加载模型（约 30 秒），
+    一拍 3 条候选就会变成 90 秒——这正是"太慢"的一大块（2026-11-22 实测）。"""
     """按车道阶梯出稿，返回 (text, lane)。两条都不通返回 ("", "")。
 
     CEO 2026-11-18「使用的是本地大模型能力训练和养号实践」：训练产出的适配器必须
@@ -278,7 +280,7 @@ def make_text(prompt):
     所以落账必须记 lane，才能事后归因"这话是谁说的"。
     """
     import social_comment_gen as cg
-    for lane in LANE_ORDER:
+    for lane in (lanes or LANE_ORDER):
         fn = cg.LANES.get(lane)
         if not fn:
             continue
@@ -516,7 +518,10 @@ def main():
     force = (os.environ.get("FLUX_FORCE_SEG") or "").strip()
     if force:
         seg = force
-    arm = ARMS[n % len(ARMS)]
+    # 2026-11-22：臂不再按 n 轮转——轮转会让"提示词要 10–20 字"与"臂是 D(21–90)"打架，
+    # 候选全部落空且不落日志（实锚：一拍连跑 6 条全被长度筛掉，只留一句"无文案过闸"）。
+    # 现在统一由最终字数带决定臂：≤20 用 C，>20 用 D。
+    _arm_by_band = None
     # 人群带子与臂带子取交集：人群说这类人写 9-63 字，而 C 臂形态上限是 20 字，
     # 直接用人群体会把文案发到 32 字被 arm_probe 判"不在 10-20"（2026-11-19 实锚）。
     try:
@@ -535,6 +540,27 @@ def main():
         _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=20)
     except Exception:
         _got, _why = True, ""
+    if not _got and "train" in str(_why):
+        # 2026-11-22 握手：训练只在"出稿到期"时让路，可手动/会话触发的这一拍可能还没到期，
+        # 于是干等。出稿这里举一次手（PUBLISH-REQUEST），训练侧看到就 SIGSTOP 让路，
+        # 最多等 90 秒；等不到才认让路。
+        req = os.path.join(ROOT, ".codely-cli", "state", "PUBLISH-REQUEST")
+        try:
+            os.makedirs(os.path.dirname(req), exist_ok=True)
+            json.dump({"ts": time.time(), "pid": os.getpid()}, open(req, "w"))
+        except Exception:
+            pass
+        t_w = time.time()
+        while time.time() - t_w < 90:
+            time.sleep(5)
+            _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=5)
+            if _got:
+                log({"action": "yield-wait", "secs": round(time.time() - t_w, 1)})
+                break
+        try:
+            os.remove(req)
+        except Exception:
+            pass
     if not _got:
         log({"action": "skip", "why": "gpu-busy:" + _why, "waited_s": 15})
         print("[tick] 让路：%s" % _why)
@@ -550,6 +576,7 @@ def main():
     if _tlen:
         lo = max(4, _tlen - 2)
         hi = min(30, _tlen + 3)
+    arm = "C" if hi <= 20 else ("D" if hi >= 21 else "C")
     import comment_taste as ct
     import social_practice as sp
     # 2026-11-20：原来是"第一条过闸就发"，于是发出去的都是第一版平淡句。
@@ -560,7 +587,14 @@ def main():
     try:
         import adapter_router as ar
         import atexit
-        rok, rnote, rsecs = ar.ensure(seg)
+        # 2026-11-22「快点弄好」：每拍换一次段件要 15–20 秒（重启 8788 再加载）。
+        # 段件之间都是同一套语料风格，差异远小于"每条多花 20 秒"；
+        # 已经在任一 LoRA 上就沿用，只有还在基座时才切。
+        if ar.current():
+            rok, rnote, rsecs = True, "沿用已加载段件（%s）" % os.path.basename(
+                str(ar.current())), 0.0
+        else:
+            rok, rnote, rsecs = ar.ensure(seg)
         log({"action": "route", "seg": seg, "ok": rok, "secs": rsecs, "note": rnote})
         if rok:
             # 2026-11-22「太慢了」：/v1/models 能应答 ≠ 权重已加载完，切换后第一枪要
@@ -612,10 +646,16 @@ def main():
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k, brief=_brief)
         p += persona_line(seg)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
+        if arm == "D":
+            # D 臂要求含具体对象，提示词不要求就会被形态闸整批拒（2026-11-22 实锚：
+            # 连拒 5 条、日志只写 gate:[True,'']，看不出是形态闸）
+            p += "提到一个具体的东西（画面/剪辑/镜头/转场/配乐）。"
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
         t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
+            log({"action": "skip", "why": "length:%d not in %d-%d" % (len(t or ""), lo, hi),
+                 "arm": arm, "text": (t or "")[:20]})
             continue
         # 2026-11-22 实锚：生成时用 ct.gen_gate、发送前用 cg.gate，两套判据打架——
         # 候选过了第一套、best 出去被第二套拒（「太实用」这类词只在后者表里），
@@ -626,10 +666,12 @@ def main():
             _fok, _fwhy = ap.form_check(arm, t)
             if not _fok:
                 okg = False
-                log({"action": "skip", "why": "form:" + str(_fwhy)[:30], "arm": arm})
+                log({"action": "skip", "why": "form:" + str(_fwhy)[:40], "arm": arm,
+                     "text": t[:24]})
         if not okg:
-            log({"action": "skip", "why": "gate:" + str(ginfo.get("gen_gate") or ginfo)[:40],
-                 "arm": arm})
+            _why = "form" if str(ginfo.get("gen_gate")) == "[True, '']" else \
+                str(ginfo.get("gen_gate") or ginfo)[:40]
+            log({"action": "skip", "why": "gate:" + _why, "arm": arm, "text": t[:24]})
             continue
         if ct.awkward_particles(t):
             continue

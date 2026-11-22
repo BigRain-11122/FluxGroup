@@ -498,6 +498,26 @@ def run_one(a):
         _save(LOOP_STATE, st)
         return 0
 
+    # 2026-11-22「快点弄好」：白天训练不许抢出稿。判据两条——
+    #   ①有会话在进行（AGENT-SESSION-*）②近 20 分钟有出稿动作。
+    # 满足任一条就本轮跳过训练（不是故障），把 GPU 留给"像人一样快"的那条线。
+    try:
+        from datetime import datetime as _dt
+        _h = _dt.now().hour
+        if 9 <= _h < 23:
+            sd = os.path.join(ROOT, ".codely-cli", "state")
+            busy = any(f.startswith("AGENT-SESSION-") for f in os.listdir(sd))
+            import practice_due as _pd2
+            _age = (time.time() - (_pd2.last_activity_ts() or 0)) / 60
+            if busy or _age < 20:
+                st["segments"][seg] = dict(st["segments"].get(seg) or {},
+                                           last_ts=time.time(), last_rc="YIELD-DAY")
+                _save(LOOP_STATE, st)
+                print("[loop] 白天让路出稿（会话=%s，距上次动作 %.0f 分钟）" % (busy, _age))
+                return 0
+    except Exception:
+        pass
+
     # 一块 GPU 一把租约：2026-11-21 实测三个消费者（训练/嵌入/自举）同抢，训练从
     # 10 步/分掉到 3.3 步/分，两小时变六小时。拿不到就不抢，写清让路原因，本轮返回 0。
     try:
@@ -812,7 +832,8 @@ def yield_for_publish(proc, gl, due_fn, mem_fn, sentinel, ystats, cap_s=180, sle
     t0 = time.time()
     while time.time() - t0 < cap_s:
         ok, _w2 = due_fn()
-        if not ok:
+        req = os.path.join(ROOT, ".codely-cli", "state", "PUBLISH-REQUEST")
+        if not ok or not os.path.exists(req):
             break
         sleep_fn(10)
     ystats["waited_s"] += round(time.time() - t0, 1)

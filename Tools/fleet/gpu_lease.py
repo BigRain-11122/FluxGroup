@@ -107,6 +107,17 @@ def acquire(name, ttl_s=3600, wait_s=0):
                 return False, ("GPU 被占用：%s（已 %.0fs）" % (
                     (cur or {}).get("name", "未知"), (cur or {}).get("age_s", 0)))
             time.sleep(2)
+    # 2026-11-22 实锚：训练被 kill 后租约文件留了 4 小时 TTL，出稿以为"train 还在"
+    # 干等 90 秒。文件锁已拿到，再看记录里的 pid 死没死——死了就是野记录，覆盖即可。
+    try:
+        old = _read()
+        if old and old.get("pid") and old.get("name") != name:
+            try:
+                os.kill(int(old["pid"]), 0)
+            except Exception:
+                _write({})
+    except Exception:
+        pass
     _handles[name] = fh                    # 句柄保活 = 锁保活
     DEPTH[name] = 1
     now = time.time()

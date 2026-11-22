@@ -149,8 +149,16 @@ def gates(text, ctx="", topics=(), taste_gate=False):
 
 
 def fetch_roots(aid, limit=20):
-    """同源取第一页 root 评论（带 rpid），并滤掉注销号/空内容。"""
+    """同源取第一页 root 评论（带 rpid），并滤掉注销号/空内容。
+
+    2026-11-22 实锚：这里自己冷启动浏览器，而常驻浏览器已占着 profile 锁 →
+    抛 RuntimeError，整拍白跑 3 分钟。改为先走常驻浏览器（同一上下文里一个标签页）。
+    """
     import social_comment as sc
+    hit = sc._daemon("roots", {"aid": aid, "limit": limit}, timeout=90)
+    if hit is not None and hit.get("ok"):
+        return hit.get("res") or []
+    mod, _ = sc._pw()
     mod, _ = sc._pw()
     from time import sleep
     with mod.sync_playwright() as p:
