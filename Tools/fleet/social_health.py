@@ -30,6 +30,7 @@ SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 STATE = os.path.join(ROOT, ".codely-cli", "state")
 ACC = os.path.expanduser("~/.fluxgroup/bili-accounts.json")
 LEDGER = os.path.join(SOCIAL, "USER-AGENT-LEDGER.jsonl")
+PRACTICE = os.path.join(SOCIAL, "practice-log.jsonl")
 OUT = os.path.join(STATE, "HEALTH.json")
 PERSONAS = os.path.join(SOCIAL, "ACCOUNT-PERSONAS.json")
 
@@ -47,6 +48,20 @@ def _rows(limit=None):
         for line in open(LEDGER, encoding="utf-8"):
             if line.strip():
                 rows.append(json.loads(line))
+    except FileNotFoundError:
+        pass
+    return rows[-limit:] if limit else rows
+
+
+def _rows_file(path, limit=None):
+    rows = []
+    try:
+        for line in open(path, encoding="utf-8"):
+            if line.strip():
+                try:
+                    rows.append(json.loads(line))
+                except ValueError:
+                    continue
     except FileNotFoundError:
         pass
     return rows[-limit:] if limit else rows
@@ -74,17 +89,42 @@ def accounts():
 
 
 def activity_today(alias_uname):
+    """alias_uname 可以是单个标识或一组标识（alias 与 uname 都要认）。
+
+    落账口径不统一是历史事实：USER-AGENT-LEDGER 写 uname，practice-log 写 alias（FLUX_ACCOUNT）。
+    只认一种就会把另一种当成"别人的行"，于是再次出现"实发 9 条、HEALTH 记 0"。
+    """
+    ids = {str(x) for x in (alias_uname if isinstance(alias_uname, (set, list, tuple))
+                            else [alias_uname]) if x}
     today = datetime.now().strftime("%Y-%m-%d")
     c = {"session": 0, "watch": 0, "like": 0, "danmaku": 0, "comment": 0, "need_login": 0}
     last = ""
     for r in _rows():
-        if r.get("account") and r.get("account") != alias_uname:
+        if r.get("account") and str(r.get("account")) not in ids:
             continue
         ts = str(r.get("ts") or "")
         if ts.startswith(today) and r.get("action") in c:
             c[r["action"]] += 1
         if ts > last:
             last = ts
+    # 真实发帖落 practice-log（USER-AGENT-LEDGER 只有看/赞/弹幕），不并进来
+    # "今日评论数"就恒为 0——2026-11-22 实锚：当天真发 9 条，HEALTH 记 acct1=0/acct3=0，
+    # 于是 SD05 配额判据永远绿。行里没有 account 的历史记录计入 comment_unknown，不硬摊给某个号。
+    unknown = 0
+    for r in _rows_file(PRACTICE):
+        if r.get("action") != "post" or not str(r.get("ts") or "").startswith(today):
+            continue
+        acct = r.get("account")
+        if acct and str(acct) not in ids:
+            continue
+        if acct:
+            c["comment"] += 1
+        else:
+            unknown += 1
+        ts = str(r.get("ts") or "")
+        if ts > last:
+            last = ts
+    c["comment_unknown"] = unknown
     return c, last
 
 
@@ -168,7 +208,7 @@ def check():
             continue
         name = a.get("uname") or str(a.get("mid"))
         pid = dm.get(alias)
-        c, last = activity_today(name)
+        c, last = activity_today({str(alias), str(name)})
         p = per.get(a.get("persona") or alias) or {}
         alive = bool(pid)
         acts = c["like"] + c["danmaku"] + c["comment"]

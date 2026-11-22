@@ -546,9 +546,18 @@ def send_checks():
     else:
         vals = sorted(float(r.get("total_s") or 0) for r in tm[-10:])
         med = vals[len(vals) // 2]
+        # 分段明细：gen=纯模型、post=发帖往返。混着看只会得出"慢"，说不出该修哪一段
+        # （2026-11-22 实测：候选单条 2.1s，一拍记 71s，多出来的都在发帖往返）。
+        gs = sorted(float(r.get("gen_s") or 0) for r in tm[-10:])
+        ps = sorted(float(r.get("post_s")) for r in tm[-10:] if r.get("post_s") is not None)
+        seg = ""
+        if gs and gs[-1] > 0:
+            seg += "；gen 中位 %.0fs" % gs[len(gs) // 2]
+        if ps:
+            seg += "；post 中位 %.0fs" % ps[len(ps) // 2]
         out.append(_mk("SD08", "出稿节拍（中位 ≤30s）", med <= 30, "P1",
-                       "近 %d 拍中位 %.0fs（最快 %.0fs / 最慢 %.0fs）" % (
-                           len(vals), med, vals[0], vals[-1]), len(vals)))
+                       "近 %d 拍中位 %.0fs（最快 %.0fs / 最慢 %.0fs）%s" % (
+                           len(vals), med, vals[0], vals[-1], seg), len(vals)))
 
     # SD02 失败归因：每条失败必须带 why，且能归到 rhythm/risk/login/other
     prac = [r for r in _rows(os.path.join(SOCIAL, "practice-log.jsonl"), 3000)
@@ -588,20 +597,33 @@ def send_checks():
         out.append(_mk("SD04", "引流硬拒回归 3/3", blocked == 3, "P0",
                        "拦住 %d/3" % blocked, 3))
 
-    # SD05 配额（按号，超配额比不发更危险）
+    # SD05 配额：判据必须与硬闸读同一真值（practice-log 的 post 行）与同一策略源。
+    # 2026-11-22 实锚：旧版读 HEALTH.today.comment（源自 USER-AGENT-LEDGER，真发不落那里），
+    # 当天实发 9 条却显示 acct1=0/acct3=0，判据恒绿、看不出超配额。
     today = datetime.now().strftime("%Y-%m-%d")
     n_today = len([r for r in posts if str(r.get("ts") or "").startswith(today)])
+    try:
+        import freq_policy as _fp
+        mx = int((_fp.load_policy() or {}).get("max_per_day") or 20)
+    except Exception:
+        mx = 20
     health = _j(HEALTH, {}) or {}
     bad, detail = [], []
+    unk_once = 0
     for a in (health.get("accounts") or []):
-        n = ((a.get("today") or {}).get("comment"))
+        t = a.get("today") or {}
+        n = t.get("comment")
+        unk_once = max(unk_once, int(t.get("comment_unknown") or 0))
         detail.append("%s=%s" % (a.get("alias"), n))
         if n is not None and int(n) > 20:
-            bad.append(a.get("alias"))
-    if n_today > 20:
-        bad.append("今日合计 %d" % n_today)
-    out.append(_mk("SD05", "评论配额（≤20/号/天）", not bad, "P1",
-                   "今日 %s" % ", ".join(detail) if detail else "HEALTH 无账号", len(detail)))
+            bad.append(str(a.get("alias")))
+    if n_today > mx:
+        bad.append("今日实发 %d>%d" % (n_today, mx))
+    out.append(_mk("SD05", "评论配额（≤策略上限/天）", not bad, "P1",
+                   "今日实发 %d/%d；分号 %s%s" % (
+                       n_today, mx, ", ".join(detail) if detail else "HEALTH 无账号",
+                       ("（另有 %d 条未署名，历史行无账号列）" % unk_once) if unk_once else ""),
+                   n_today))
 
     # SD06 副动作（只点赞不说话 = 机器人；活人三件套都要有）
     # 期望按当前时段折算：上午 10 点就要求"今天看满 10 条"是把正常作息判成失职。
