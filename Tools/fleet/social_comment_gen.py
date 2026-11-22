@@ -100,7 +100,7 @@ def corpus_texts(limit=6000):
     return out
 
 
-def gate(text, ctx="", taken=(), corpus=(), face="viewer"):
+def gate(text, ctx="", taken=(), corpus=(), face="viewer", taste_gate=True):
     """返回 (ok, 原因, 评分明细)。ok=False 时原因一句话，能直接看懂。
 
     face 决定用哪把尺子（2026-11-18 实锚，别再搞混）：
@@ -132,7 +132,9 @@ def gate(text, ctx="", taken=(), corpus=(), face="viewer"):
         if t.count("！") + t.count("!") > 2:
             return False, "感叹号堆砌", {}
     s = ct.score(t)
-    if s["verdict"] != "PASS":
+    # 2026-11-22：品味分当硬闸会误杀亲笔句 88%（2026-11-21 回归实锚），
+    # 出稿链路改成"只排序不否决"（taste_gate=False）；批产线仍可保留硬闸。
+    if taste_gate and s["verdict"] != "PASS":
         return False, "品味闸 %s(%d)" % (s["verdict"], s["total"]), s
     for x in taken:
         hit = shared_run(t, x)

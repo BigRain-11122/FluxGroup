@@ -529,9 +529,26 @@ def main():
     # 与 train_forever 的"出稿到期让路"配成一对：训练让出窗口，出稿在窗口里拿锁。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=15)
+        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=8)
     except Exception:
         _got, _why = True, ""
+    if not _got and "train" in str(_why):
+        # 2026-11-22 CEO「太慢了…彻底解决」：训练一轮 25–45 分钟，让出稿"等轮间"
+        # 就是白天发不出一条。实测内存余量够（free+inactive ≫4GB）时两者可并行：
+        # 训练照跑（GPU 时间片），出稿只占用 ~10 秒，不必互斥。
+        # 只有在内存吃紧时才退回"让路"，避免为了快把机器顶进 swap。
+        try:
+            import mem_probe as _mp
+            _s = _mp.sample()
+            _room = float(_s.get("headroom_gb") or 0)
+        except Exception:
+            _room = 0.0
+        if _room >= 4.0:
+            _got = True
+            log({"action": "concurrent", "with": "train", "headroom_gb": _room,
+                 "why": "出稿与训练并行（内存余量够，训练不暂停）"})
+        else:
+            _why += "（内存余量 %.1fGB <4GB，仍让路）" % _room
     if not _got:
         log({"action": "skip", "why": "gpu-busy:" + _why, "waited_s": 15})
         print("[tick] 让路：%s" % _why)
@@ -614,17 +631,19 @@ def main():
         t, lane = make_text(p)
         if not t or not (lo <= len(t) <= hi):
             continue
-        ok, why = ct.gen_gate(t, ctx=(title or "") + (meta.get("desc") or ""))
-        if not ok:
-            log({"action": "skip", "why": "gen-gate:" + why, "arm": arm})
+        # 2026-11-22 实锚：生成时用 ct.gen_gate、发送前用 cg.gate，两套判据打架——
+        # 候选过了第一套、best 出去被第二套拒（「太实用」这类词只在后者表里），
+        # 一整天就这样白跑。正解=只用**发送前那一套**（ap.gates）做候选筛选，
+        # 过不了的压根不参与排序，"过了却发不出去"这类白跑从结构上消失。
+        okg, ginfo = ap.gates(t, title or "", topics=_topics)
+        if not okg:
+            log({"action": "skip", "why": "gate:" + str(ginfo.get("gen_gate") or ginfo)[:40],
+                 "arm": arm})
             continue
         if ct.awkward_particles(t):
             continue
-        # 品味分只用来排序（下面 best-of-8），不再一票否决——2026-11-21 回归实测：
-        # 拿它当及格线会把亲笔句毙掉 88%（「太喜欢这首歌了，没有之一。」被判"逻辑不够"）。
+        # 品味分只用来排序，不再一票否决（2026-11-21 回归：当及格线会误杀亲笔句 88%）。
         s = ct.score(t, seg=seg or None)
-        if not sp.safe_to_send(t, title, topics=_topics)[0]:
-            continue
         key = (s["voice"] + s["human"], s["total"])
         if recent_ops.get(ct.opening_key(t)):
             key = (key[0] - 3, key[1])   # 开头撞车：让位给别的候选

@@ -88,4 +88,5 @@ python3 Tools/fleet/social_guard.py --self-test    # 8 类判据的改坏必翻
 python3 Tools/fleet/mem_probe.py --gen 3           # 统一内存：真实生成前后 swap 增量
 python3 Tools/fleet/evolve_audit.py                # 反思/审查/迭代/创新
 python3 Tools/fleet/evolve_audit.py --snapshot     # 审查通过后记参数基线
+python3 Tools/fleet/loop_test.py --rounds 10       # 出稿闭环压测（dry，不真发）
 ```

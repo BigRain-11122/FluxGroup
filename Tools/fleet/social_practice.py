@@ -87,6 +87,15 @@ def safe_to_send(text, title="", topics=()):
     for cand in re.findall(r"[老小阿][\u4e00-\u9fff]{1,2}", txt):
         if cand not in (title or ""):
             return False, "编造称呼「%s」" % cand
+    # 引流硬拒：CEO 2026-11-21「目前不做引流」。2026-11-22 压测实锚：
+    # 「你直接进主页看教程吧」从发送闸漏了出去——DRAIN 只在生成侧用过，发送侧没接。
+    try:
+        import comment_taste as _ct
+        hit = [w for w in getattr(_ct, "DRAIN", ()) if w in txt]
+        if hit:
+            return False, "引流词（%s）" % "/".join(hit[:2])
+    except Exception:
+        pass
     pool = list(NICHE) + [str(t) for t in (topics or ()) if t and len(str(t)) >= 2]
     if not any(w in txt for w in pool):
         return False, "与本视频无关（不含该视频话题词）"

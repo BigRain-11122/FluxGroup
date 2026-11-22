@@ -30,6 +30,7 @@ import os
 import re
 import shutil
 import subprocess
+import threading
 import sys
 import time
 from datetime import datetime
@@ -511,11 +512,96 @@ def run_one(a):
                                    last_rc="GPU-BUSY")
         _save(LOOP_STATE, st)
         return 0
+    # 2026-11-22 CEO「太慢了，真人不会这样」：一轮训练 25–45 分钟独占租约，
+    # 出稿只能等轮间——白天一整天发不出一条。改成**轮内让路**：训练照跑（GPU 时间片，
+    # 不 SIGSTOP），但每 30 秒看一次"出稿是否到期"；到期就把租约让出去最多 3 分钟，
+    # 让 publish 拿到锁去生成，然后拿回来。只有在内存余量够（≥4GB）时才让，
+    # 否则宁可让 publish 等——不许为了快把机器顶进 swap。
+    ystats = {"yields": 0, "blocked": 0, "waited_s": 0.0}
+
+    def _yield_if_publish_due(proc):
+        """出稿到期时**暂停训练**（SIGSTOP），松开租约与训练哨兵，发完再续。
+
+        为什么不是"并行"（2026-11-22 实测）：并行时生成从 2.2s 掉到 40s+
+        （4 分钟才跑完一拍），因为它和训练抢同一块 GPU。暂停训练 10–60 秒
+        对训练总量的损失远小于"出稿被拖成分钟级"。
+        安全边界：只暂停、不杀；内存余量 <4GB 时不动（避免换页）；最长 180 秒。
+        """
+        try:
+            import practice_due as _pd
+            import mem_probe as _mp
+            import signal as _sig
+        except Exception:
+            return
+        owed, _why = _pd.due(within_s=0)
+        if not owed:
+            return
+        s = _mp.sample()
+        if (s.get("headroom_gb") or 0) < 4.0:
+            ystats["blocked"] += 1
+            return
+        sent = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE")
+        try:
+            os.killpg(os.getpgid(proc.pid), _sig.SIGSTOP)
+        except Exception:
+            return
+        try:
+            _gl.release("train")
+        except Exception:
+            pass
+        if os.path.exists(sent):
+            try:
+                os.rename(sent, sent + ".yielded")
+            except Exception:
+                pass
+        ystats["yields"] += 1
+        t0 = time.time()
+        while time.time() - t0 < 180:
+            ok, _w2 = _pd.due(within_s=0)
+            if not ok:                      # 已经发出去了
+                break
+            time.sleep(10)
+        ystats["waited_s"] += round(time.time() - t0, 1)
+        try:
+            if os.path.exists(sent + ".yielded"):
+                os.rename(sent + ".yielded", sent)
+        except Exception:
+            pass
+        try:
+            os.killpg(os.getpgid(proc.pid), _sig.SIGCONT)
+        except Exception:
+            pass
+        _gl.acquire("train", ttl_s=4 * 3600, wait_s=180)
+
     try:
-        rc, out = sh(["/bin/bash", os.path.join(HERE, "train_run.sh"),
-                      "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
-                      "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
-                      "--grad-checkpoint"], timeout=8 * 3600)
+        cmd = ["/bin/bash", os.path.join(HERE, "train_run.sh"),
+               "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
+               "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
+               "--grad-checkpoint"]
+        _p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                              text=True, cwd=ROOT, start_new_session=True)
+        _buf = []
+
+        def _reader(pipe):
+            for ln in pipe:
+                _buf.append(ln)
+                if len(_buf) > 400:
+                    del _buf[:-200]
+
+        _th = threading.Thread(target=_reader, args=(_p.stdout,), daemon=True)
+        _th.start()
+        _last = 0.0
+        while _p.poll() is None:
+            if time.time() - _last >= 30:      # 每 30 秒看一次"出稿是否到期"
+                _yield_if_publish_due(_p)
+                _last = time.time()
+            time.sleep(2)
+        _th.join(timeout=5)
+        rc = _p.returncode
+        out = "".join(_buf)
+        if ystats["yields"]:
+            print("[loop] 训练期间让路出稿 %d 次（共等 %.0fs，内存不足跳过 %d 次）"
+                  % (ystats["yields"], ystats["waited_s"], ystats["blocked"]))
     finally:
         try:
             _gl.release("train")

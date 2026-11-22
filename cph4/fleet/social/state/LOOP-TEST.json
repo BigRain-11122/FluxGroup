@@ -1,0 +1,37 @@
+{
+ "ts": "2026-11-22T10:55:27",
+ "rounds": 2,
+ "budget_s": 30.0,
+ "pass": 2,
+ "fail": 0,
+ "rows": [
+  {
+   "round": 1,
+   "ok": true,
+   "video": "V14E411P7sJ/",
+   "seg": "craft_learner",
+   "text": "用蒙版把天空做成黄昏色啊，这特效比很多成品还好看呢。",
+   "lane": "lora",
+   "score": 56,
+   "tries": 3,
+   "gen_s": 13.2,
+   "total_s": 13.3,
+   "stage": "dry",
+   "rejects": []
+  },
+  {
+   "round": 2,
+   "ok": true,
+   "video": "BV15es76gEgL",
+   "seg": "craft_learner",
+   "text": "镜头切场的卡点挺稳，但这段比赛回放配乐是最后加的吧。",
+   "lane": "lora",
+   "score": 103,
+   "tries": 3,
+   "gen_s": 14.9,
+   "total_s": 15.2,
+   "stage": "dry",
+   "rejects": []
+  }
+ ]
+}

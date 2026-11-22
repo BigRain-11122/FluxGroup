@@ -12,7 +12,9 @@ post + verify 两行，按行数算会把 1 条帖子记成 2 条，等于把上
   A 短句子回复：<15 字、无专有名词
   B 短句子回复：同 A 的字数带，换一个视频（排除"这条视频本身好发"的偶然）
   C 短句顶级评论：<15 字、无专有名词、不带子回复层级
-  D 长句子回复：>=25 字且含具体内容（画面/剪辑/转场等具体对象）
+  D 长句子回复：>=21 字且含具体内容（画面/剪辑/转场等具体对象）
+    2026-11-22：原来 25 起，21–24 字成了没有任何臂能覆盖的空档（压测 4/10 卡在这），
+    与 C（≤20）接上即可，语义不变。
 
 每个动作都留证据：两道闸的返回值、提交返回码、回验结果，全部落 practice-log.jsonl。
 
@@ -44,9 +46,10 @@ ARMS = {
     "A": {"kind": "reply", "max_len": 20, "min_len": 10, "why": "短句子回复"},
     "B": {"kind": "reply", "max_len": 20, "min_len": 10, "why": "短句子回复（换视频）"},
     "C": {"kind": "top", "max_len": 20, "min_len": 10, "why": "短句顶级评论"},
-    "D": {"kind": "reply", "max_len": 90, "min_len": 25, "why": "长句子回复（带具体内容）"},
+    "D": {"kind": "reply", "max_len": 90, "min_len": 21, "why": "长句子回复（带具体内容）"},
 }
 CONCRETE = ("画面", "剪辑", "镜头", "结尾", "开头", "配乐", "转场", "调色", "教程",
+            "蒙版", "歌词", "字幕", "素材", "卡点", "音效", "节奏", "特效", "滤镜",
             "素材", "分镜", "节奏", "字幕", "光影", "构图", "音效", "前奏", "副歌")
 
 
@@ -125,7 +128,7 @@ def form_check(arm, text):
     return True, "形态 OK"
 
 
-def gates(text, ctx="", topics=()):
+def gates(text, ctx="", topics=(), taste_gate=False):
     """两道闸：social_practice.safe_to_send + social_comment_gen.gate。
 
     ctx 必须是**视频标题**而不是链接：编造闸要拿标题核对称呼与领域，
@@ -133,11 +136,16 @@ def gates(text, ctx="", topics=()):
     """
     import social_practice as sp
     import social_comment_gen as cg
+    import comment_taste as ct
     ok1, w1 = sp.safe_to_send(text, ctx, topics=topics)
-    ok2, w2, s = cg.gate(text, ctx=ctx, taken=(), corpus=())
-    return (ok1 and ok2), {"safe_to_send": [ok1, w1], "gen_gate": [ok2, w2],
-                           "taste": (s or {}).get("total"),
-                           "verdict": (s or {}).get("verdict")}
+    # 露馅闸（AI 腔/烂梗/非拉丁外文/破损表情码/整句引号）必须在这里，
+    # 否则"唯一的发送闸"会漏掉它——2026-11-22 压测实锚：#07「真的绝了」就这样过了。
+    ok3, w3 = ct.gen_gate(text, ctx=ctx)
+    ok2, w2, s = cg.gate(text, ctx=ctx, taken=(), corpus=(), taste_gate=taste_gate)
+    return (ok1 and ok2 and ok3), {"safe_to_send": [ok1, w1], "gen_gate": [ok2, w2],
+                                   "smell_gate": [ok3, w3],
+                                   "taste": (s or {}).get("total"),
+                                   "verdict": (s or {}).get("verdict")}
 
 
 def fetch_roots(aid, limit=20):
