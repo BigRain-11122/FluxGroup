@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-23T02:51:58",
+ "ts": "2026-11-23T03:02:00",
  "verdict": "GREEN",
  "paused": false,
- "gpu_util": 37,
- "vram_used_mb": 7324,
+ "gpu_util": 100,
+ "vram_used_mb": 10388,
  "vram_total_mb": 16384,
  "comfy": true,
  "bank": {
@@ -17,42 +17,42 @@
   {
    "seat": "生产者 BmcIdleGuard",
    "task": "BmcIdleGuard",
-   "last_run_age_s": 57,
+   "last_run_age_s": 60,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 10,
+   "last_run_age_s": 12,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 78295,
+   "last_run_age_s": 78897,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 99,
+   "last_run_age_s": 162,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "总控 Orchestrator",
    "task": "Bmc-Orchestrator",
-   "last_run_age_s": 9,
+   "last_run_age_s": 11,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 143,
+   "last_run_age_s": 145,
    "state": "OK",
    "result": 0
   }
