@@ -235,10 +235,16 @@ def _daemon(op, payload, timeout=120):
 def _post_in(ctx, aid, root_rpid, message, dry=True, read_first=False):
     """在给定浏览器上下文里发回复（常驻浏览器与临时浏览器共用这一份逻辑）。"""
     pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-    pg.goto("https://www.bilibili.com/video/av%s" % aid,
-            wait_until="domcontentloaded", timeout=60000)
+    # 2026-11-22 实锚：post 动作 59.99s —— 正好等于这里的 goto 60 秒超时。
+    # B站视频页长连接多，domcontentloaded 常迟迟不触发，于是一路等到超时；
+    # 而页面其实早就能操作（后面的 nav 与提交都成功）。改成等 15 秒、超时即继续。
     try:
-        pg.wait_for_load_state("networkidle", timeout=8000)
+        pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                wait_until="domcontentloaded", timeout=15000)
+    except Exception:
+        pass
+    try:
+        pg.wait_for_load_state("networkidle", timeout=3000)
     except Exception:
         pass
     if read_first and not pg.url.endswith("#no-read"):
@@ -493,7 +499,7 @@ def _browse_in(ctx, url, seconds=None, harvest=True):
     # 常驻浏览器是单线程的：一次浏览的 goto 最长 60 秒，排队等它的是发帖动作
     # （2026-11-22 实测：post 在 daemon 里等了 90 秒，而它自己只需 3 秒）。
     # 浏览不需要"等到完全加载"，20 秒拿不到内容就跳过，把线程让给要发的东西。
-    pg.goto(url, wait_until="domcontentloaded", timeout=20000)
+    pg.goto(url, wait_until="domcontentloaded", timeout=12000)
     human_read(pg, seconds=seconds)
     title = (pg.title() or "")[:40]
     got = 0
@@ -507,7 +513,7 @@ def _browse_in(ctx, url, seconds=None, harvest=True):
     return True, "%s|%d" % (title, got)
 
 
-DAEMON_HOLD_S = 8      # 常驻浏览器里最多"停留"这么久，剩下的由调用方补睡
+DAEMON_HOLD_S = 3      # daemon 内最多停留 3 秒（停留由调用方补睡，别占唯一线程）
 
 
 def browse_video(url, seconds=None, rng=None, harvest=True, ctx=None):
@@ -973,10 +979,16 @@ def main():
 def _roots_in(ctx, aid, limit=20):
     """在给定上下文里取第一页 root 评论（常驻浏览器与临时浏览器共用）。"""
     pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-    pg.goto("https://www.bilibili.com/video/av%s" % aid,
-            wait_until="domcontentloaded", timeout=60000)
+    # 2026-11-22 实锚：post 动作 59.99s —— 正好等于这里的 goto 60 秒超时。
+    # B站视频页长连接多，domcontentloaded 常迟迟不触发，于是一路等到超时；
+    # 而页面其实早就能操作（后面的 nav 与提交都成功）。改成等 15 秒、超时即继续。
     try:
-        pg.wait_for_load_state("networkidle", timeout=8000)
+        pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                wait_until="domcontentloaded", timeout=15000)
+    except Exception:
+        pass
+    try:
+        pg.wait_for_load_state("networkidle", timeout=3000)
     except Exception:
         pass
     raw = pg.evaluate("""async(a)=>{const r=await fetch('https://api.bilibili.com/x/v2/reply?type=1&oid='
@@ -992,10 +1004,16 @@ def _danmaku_in(ctx, aid, text, progress_ms=None, dry=False):
     """在给定上下文里发弹幕（常驻浏览器与临时浏览器共用）。"""
     import random as _r
     pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-    pg.goto("https://www.bilibili.com/video/av%s" % aid,
-            wait_until="domcontentloaded", timeout=60000)
+    # 2026-11-22 实锚：post 动作 59.99s —— 正好等于这里的 goto 60 秒超时。
+    # B站视频页长连接多，domcontentloaded 常迟迟不触发，于是一路等到超时；
+    # 而页面其实早就能操作（后面的 nav 与提交都成功）。改成等 15 秒、超时即继续。
     try:
-        pg.wait_for_load_state("networkidle", timeout=8000)
+        pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                wait_until="domcontentloaded", timeout=15000)
+    except Exception:
+        pass
+    try:
+        pg.wait_for_load_state("networkidle", timeout=3000)
     except Exception:
         pass
     info = pg.evaluate("""async(a)=>{const r=await fetch(
