@@ -35,3 +35,4 @@
 | 2026-11-22 22:25:32 | Bmc-ChainPublish | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-22 22:58:21 | Bigmoney-StrategyBench | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-22 22:58:52 | Bmc-Orchestrator | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 23:20:10 | Bigmoney-BlockBoard | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
