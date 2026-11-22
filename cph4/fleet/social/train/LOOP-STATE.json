@@ -1,16 +1,16 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795358160.214027,
-   "last_rc": "YIELD-PUBLISH",
-   "rows": 580,
+   "last_ts": 1795358160.0,
+   "last_rc": "BLOCKED",
+   "rows": 591,
    "run": null,
    "step": null,
    "val_min": null
   },
   "peer_pro": {
-   "last_ts": 1795343997.0,
-   "last_rc": "REJECT",
+   "last_ts": 1795358811.406689,
+   "last_rc": "YIELD-DAY",
    "rows": 606,
    "run": "20261122-181352",
    "step": 400,
@@ -66,16 +66,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-21T20:29:45",
-   "seg": "craft_learner",
-   "rows": 2138,
-   "built": 0,
-   "eval_n": 0,
-   "verdict": "TRAIN-FAIL",
-   "why": "[train] 训练结束 rc=1 swap 3707.75MB→3507.75MB",
-   "adapter": null
-  },
   {
    "ts": "2026-11-21T21:40:24",
    "seg": "memer",
@@ -666,6 +656,16 @@
    "verdict": "REJECT",
    "why": "均分只 -4.0（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-210807/ckpt200"
+  },
+  {
+   "ts": "2026-11-22T22:36:00",
+   "seg": "tech_nerd",
+   "rows": 591,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "让路出稿：距上帖 36 分钟（间隔 30 分钟）",
+   "adapter": null
   }
  ]
 }
