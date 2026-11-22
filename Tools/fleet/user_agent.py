@@ -361,15 +361,27 @@ def danmaku_line(title, rng=None, style="point"):
 SEEN = os.path.join(SOCIAL, "SEEN-VIDEOS.json")
 
 
+def _acct_id():
+    return os.environ.get("FLUX_ACCOUNT") or "default"
+
+
+def _seen_entry(v):
+    """兼容旧格式：值是时间字符串，新格式是 {ts, who}。"""
+    if isinstance(v, dict):
+        return {"ts": str(v.get("ts") or ""), "who": str(v.get("who") or "")}
+    return {"ts": str(v or ""), "who": ""}
+
+
 def _seen():
-    return _load_json(SEEN, {})
+    raw = _load_json(SEEN, {}) or {}
+    return {u: _seen_entry(v) for u, v in raw.items()}
 
 
 def _mark_seen(url):
-    d = _seen()
-    d[url] = datetime.now().isoformat(timespec="seconds")
+    raw = _load_json(SEEN, {}) or {}
+    raw[url] = {"ts": datetime.now().isoformat(timespec="seconds"), "who": _acct_id()}
     try:
-        json.dump(d, open(SEEN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        json.dump(raw, open(SEEN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     except Exception:
         pass
 
@@ -379,21 +391,29 @@ def pick_videos(n, rng=None, topics=None):
     rng = rng or random.Random()
     vids = _load_json(os.path.join(SOCIAL, "VIDEO-TITLES.json"), {})
     seen = _seen()
+    me = _acct_id()
     cand = [(u, v) for u, v in vids.items() if (v or {}).get("title") and u not in seen]
     if len(cand) < max(6, n * 2):
         # 2026-11-22 实锚：108 条全看过 → "没有未看过的视频可挑" → 会话 0 动作。
-        # 真人会回看老视频；把**隔天**看过的放回候选（优先没看过的）。评论侧仍受
+        # 真人会回看老视频；把看过的放回候选（优先没看过的）。评论侧仍受
         # 「同视频 7 天 ≤1 条」约束，回看不会变成重复互动。
-        def _old_enough(u):
-            ts = str(seen.get(u) or "")
+        # 2026-11-22 新增跨号隔离：回看池按「别号没碰过的优先 + 越久没碰越优先」排序，
+        # 再从最前几条里随机取——两个号回看同一条，是最容易把它们绑成一个人的指纹
+        # （AC02 实测被抓 20 行）。注意：今天之前的 SEEN 没有 who 列，只能从下次刷新起生效。
+        def _rank(kv):
+            e = seen.get(kv[0]) or {}
+            who = str(e.get("who") or "")
+            ts = str(e.get("ts") or "")
             try:
-                return (datetime.now() - datetime.fromisoformat(ts)).days >= 1
+                age_h = (datetime.now() - datetime.fromisoformat(ts)).total_seconds() / 3600
             except Exception:
-                return True
-        revisit = [(u, v) for u, v in vids.items()
-                   if (v or {}).get("title") and u in seen and _old_enough(u)]
-        rng.shuffle(revisit)
-        cand = cand + revisit[:max(6, n * 2)]
+                age_h = 1e9
+            return (1 if (who and who != me) else 0, -age_h)   # 别号碰过的排后面
+        revisit = sorted([(u, v) for u, v in vids.items()
+                          if (v or {}).get("title") and u in seen], key=_rank)
+        head = revisit[:max(6, n * 2)]
+        rng.shuffle(head)          # 不让两个号每次命中同一条"最老的"
+        cand = cand + head
     if topics:
         def score(kv):
             t = (kv[1].get("title") or "")
@@ -401,7 +421,28 @@ def pick_videos(n, rng=None, topics=None):
         cand.sort(key=score)
     else:
         rng.shuffle(cand)
-    return cand[:n]
+    out = cand[:n]
+    # 选完就"占位"：把 who 记到 SEEN 上。旧数据没有 who 列，两个号只能各挑各的、
+    # 常常撞同一条；占位之后，后规划的那个号会看到"这条是本号/别号刚碰的"。
+    try:
+        raw = _load_json(SEEN, {}) or {}
+        ch = False
+        for u, _v in out:
+            e = raw.get(u)
+            if e is None:
+                raw[u] = {"ts": datetime.now().isoformat(timespec="seconds"), "who": me}
+                ch = True
+            elif isinstance(e, dict) and not e.get("who"):
+                e["who"] = me
+                ch = True
+            elif isinstance(e, str):
+                raw[u] = {"ts": e, "who": me}
+                ch = True
+        if ch:
+            json.dump(raw, open(SEEN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+    return out
 
 
 
