@@ -167,7 +167,7 @@ def fetch_roots(aid, limit=20):
          "text": ((x.get("content") or {}).get("message") or "")} for x in reps])
 
 
-def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=()):
+def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(), verify=True):
     import social_comment as sc
     a = ARMS[arm]
     okf, wf = form_check(arm, text)
@@ -221,6 +221,11 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=())
     _log(rec)
     if not okp or not rpid:
         return {"ok": False, "stage": "post", "why": rec}
+    if not verify:
+        # 可见性回验要翻多页，分钟级；真人发完就走，回验该在下一拍做。
+        # 2026-11-22 CEO「太慢了，真人不会这样」：把回验收出发帖路径。
+        return {"ok": True, "stage": "posted", "rpid": rpid, "visible": None,
+                "why": "回验延后（pending）"}
     if root_rpid:
         vis, vwhy = sc.verify_visible(aid, root_rpid, rpid, wait_s=wait_s)
     else:

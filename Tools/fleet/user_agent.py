@@ -144,9 +144,11 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
         if r < 0.45 and n_like < max_like:
             n_like += 1
             steps.append({"t_min": round(t, 1), "act": "like"})
-        elif r < 0.75 and n_talk < max_talk:
+        elif r < 0.80 and n_talk < max_talk:
             n_talk += 1
-            steps.append({"t_min": round(t, 1), "act": "danmaku" if rng.random() < 0.7 else "comment"})
+            # 2026-11-22：说话里评论占比 30%→45%。真人刷十条会搭两三句话，
+            # 全是弹幕没有评论＝只点赞的机器人；之前每场约 1 条评论，太慢。
+            steps.append({"t_min": round(t, 1), "act": "danmaku" if rng.random() < 0.55 else "comment"})
         t += rng.uniform(0.05, 0.6)          # 手指/刷页面的间隙
     steps.append({"t_min": round(t, 1), "act": "end"})
     acts = [s["act"] for s in steps]
@@ -378,6 +380,20 @@ def pick_videos(n, rng=None, topics=None):
     vids = _load_json(os.path.join(SOCIAL, "VIDEO-TITLES.json"), {})
     seen = _seen()
     cand = [(u, v) for u, v in vids.items() if (v or {}).get("title") and u not in seen]
+    if len(cand) < max(6, n * 2):
+        # 2026-11-22 实锚：108 条全看过 → "没有未看过的视频可挑" → 会话 0 动作。
+        # 真人会回看老视频；把**隔天**看过的放回候选（优先没看过的）。评论侧仍受
+        # 「同视频 7 天 ≤1 条」约束，回看不会变成重复互动。
+        def _old_enough(u):
+            ts = str(seen.get(u) or "")
+            try:
+                return (datetime.now() - datetime.fromisoformat(ts)).days >= 1
+            except Exception:
+                return True
+        revisit = [(u, v) for u, v in vids.items()
+                   if (v or {}).get("title") and u in seen and _old_enough(u)]
+        rng.shuffle(revisit)
+        cand = cand + revisit[:max(6, n * 2)]
     if topics:
         def score(kv):
             t = (kv[1].get("title") or "")
@@ -534,19 +550,33 @@ def _active_account():
     return pick_account(os.environ.get("FLUX_ACCOUNT") or None)
 
 
+MID_LOCK_TTL_S = 90 * 60      # 一场会话最长 35 分钟，留足余量
+
+
 def _mid_lock(mid):
-    """按 mid 的单实例锁：同一个号同一时刻只许一场会话（哪怕挂了两个 profile）。"""
+    """按 mid 的单实例锁：同一个号同一时刻只许一场会话（哪怕挂了两个 profile）。
+
+    2026-11-22 实锚（这条让两个号整天 0 动作）：锁里写的是**常驻 daemon 的 pid**，
+    而 daemon 是长命进程 —— 一旦某场会话异常退出没走到解锁，之后每一场都会
+    "看到自己还活着"从而被永久拒绝。锁属于"会话"不属于"进程"：
+    改成 pid + 时间戳，超过 TTL 或 pid 已死都算陈旧，直接接管。
+    """
     p = os.path.join(ROOT, ".codely-cli", "state", "BILI-MID-%s.lock" % (mid or "unknown"))
     try:
         if os.path.exists(p):
-            old = int(open(p, encoding="utf-8").read().strip() or 0)
+            raw = open(p, encoding="utf-8").read().strip()
+            old, ts = (raw.split(":") + ["0"])[:2] if ":" in raw else (raw, "0")
+            alive = False
             try:
-                os.kill(old, 0)
-                return None
+                os.kill(int(old), 0)
+                alive = True
             except Exception:
-                pass
+                alive = False
+            fresh = (time.time() - float(ts or 0)) < MID_LOCK_TTL_S
+            if alive and fresh:
+                return None
         os.makedirs(os.path.dirname(p), exist_ok=True)
-        open(p, "w", encoding="utf-8").write(str(os.getpid()))
+        open(p, "w", encoding="utf-8").write("%d:%d" % (os.getpid(), time.time()))
         return p
     except Exception:
         return None
@@ -751,7 +781,8 @@ def run_session(minutes=18, dry=False, force=False):
                 out["steps"].append({"act": "comment", "dry": True})
             else:
                 import subprocess
-                env = dict(os.environ, FLUX_FORCE_SEG=per.get("seg") or "")
+                env = dict(os.environ, FLUX_FORCE_SEG=per.get("seg") or "",
+                           FLUX_IN_SESSION="1")
                 r = subprocess.run([sys.executable, os.path.join(HERE, "practice_tick.py")],
                                    cwd=ROOT, capture_output=True, text=True,
                                    timeout=1800, env=env)

@@ -427,6 +427,12 @@ def main():
         print("[tick] 训练占用 GPU，本轮延后（会话时段会照常发）")
         return 0
 
+    try:
+        if os.environ.get("FLUX_SKIP_VERIFY") != "1":
+            verify_pending(1)
+    except Exception:
+        pass
+
     # 2.5 会话节律：一天 3-6 次"进来刷一会儿"，而不是每 20 分钟拍一次决定发不发。
     #     会话内按预算动手（多数会话只看不动手），没预算就做一次真实浏览。
     import social_session as sess
@@ -497,6 +503,7 @@ def main():
         return 0
     url, meta = cand[0]
     title = meta["title"]
+    t_tick0 = time.time()
     # 4 生成：先定"这条评论是谁说的"（人群画像），再按那群的实测习惯出稿。
     #   2026-11-19 CEO「分足够多的人群画像和习惯，能应对自如」：全局统一字数带
     #   等于对所有人说同一种话；而规格里的带子本身也失真（玩梗党实测中位 33 字、
@@ -522,11 +529,11 @@ def main():
     # 与 train_forever 的"出稿到期让路"配成一对：训练让出窗口，出稿在窗口里拿锁。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=90)
+        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=15)
     except Exception:
         _got, _why = True, ""
     if not _got:
-        log({"action": "skip", "why": "gpu-busy:" + _why})
+        log({"action": "skip", "why": "gpu-busy:" + _why, "waited_s": 15})
         print("[tick] 让路：%s" % _why)
         return 0
     try:
@@ -553,7 +560,18 @@ def main():
         rok, rnote, rsecs = ar.ensure(seg)
         log({"action": "route", "seg": seg, "ok": rok, "secs": rsecs, "note": rnote})
         if rok:
-            atexit.register(ar.restore)
+            # 2026-11-22「太慢了」：/v1/models 能应答 ≠ 权重已加载完，切换后第一枪要
+            # 20 秒（实测一拍 85 秒里有 65 秒花在这）。这里先打一枪暖机（max_tokens=1），
+            # 再进候选循环；会话内也不切回基座，否则下一拍又要重付一次切换+暖机。
+            if rsecs and rsecs > 1:      # 只有真的切过才需要暖机；已在位还暖就是白等
+                try:
+                    _t0 = time.time()
+                    lc.generate_lora("暖机", max_tokens=1)
+                    log({"action": "warmup", "secs": round(time.time() - _t0, 1), "seg": seg})
+                except Exception:
+                    pass
+            if os.environ.get("FLUX_IN_SESSION") != "1":
+                atexit.register(ar.restore)
     except Exception as e:
         log({"action": "route", "seg": seg, "ok": False, "note": str(e)[:80]})
 
@@ -575,11 +593,19 @@ def main():
         _topics = (vb.get(url) or {}).get("topics") or []
     except Exception:
         _brief, _topics = "", []
+    t_gen0 = time.time()
     best = None
     # 候选数 8→12：2026-11-21 实测单条候选过闸率 30–47%，8 条里"一条都没过"的概率有 2–6%，
     # 而那意味着这一轮白跑（不发也不记产出）。12 条把"全部被拒"压到 <1%，
     # 代价是单次出稿多花约 50% 生成时间（约 5 秒），可接受。
-    for k in range(12):
+    # 自适应候选数（2026-11-22「太慢了」）：单条生成 ~4s，12 条 = 48s。
+    # 单条过闸率 30–47%，先跑 3 条（约 12s、七成概率已有货），不够再追加 3 条，
+    # 最多 9 条。典型一拍从 48s 降到 12–24s，而"全被拒"仍 <1%。
+    n_first = int(os.environ.get("FLUX_CANDIDATES") or 3)
+    n_batch = int(os.environ.get("FLUX_CANDIDATE_BATCH") or 3)
+    n_max = max(n_first, int(os.environ.get("FLUX_CANDIDATE_MAX") or 9))
+    n_cand = n_first
+    for k in range(n_max):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k, brief=_brief)
         p += persona_line(seg)
         p += "只写 %d-%d 字，一句话。" % (lo, hi)
@@ -604,6 +630,10 @@ def main():
             key = (key[0] - 3, key[1])   # 开头撞车：让位给别的候选
         if best is None or key > best[0]:
             best = (key, t, lane, s)
+        if best and k + 1 >= n_cand:
+            break                      # 已有货就不再追加
+        if k + 1 >= n_cand and n_cand < n_max:
+            n_cand = min(n_max, n_cand + n_batch)   # 不够就再给一批
     text, lane_used = "", ""
     if best:
         text, lane_used = best[1], best[2]
@@ -614,18 +644,25 @@ def main():
         return 0
 
     # 5 发 + 回验：发前先"读一会儿"（拟人停留），再发
+    # 2026-11-22 CEO「太慢了，真人不会这样」：会话里已经看过这条视频，
+    # 发前再等 20–60 秒是双份。会话内直接发；独立跑才做一次短停留（≤10s）。
     try:
-        dwell = min(60, int(hr.dwell_before_post_s(rng=rng)))
-        time.sleep(max(0, dwell))
+        if os.environ.get("FLUX_IN_SESSION") == "1":
+            dwell = 0
+        else:
+            dwell = min(10, int(hr.dwell_before_post_s(rng=rng)))
+        if dwell:
+            time.sleep(dwell)
     except Exception:
-        pass
+        dwell = 0
     # profile 互斥：采集与发布用的是同一个登录 profile，同时开会 ProcessSingleton 崩溃
     # （2026-11-19 实锚：补采脚本在跑时 practice-tick 直接 rc=1）。忙就本轮跳过，
     # 记事由、返回 0——"环境被占用"不是故障，不该把作业打成红。
     res = None
     for attempt in range(3):
         try:
-            res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title, topics=_topics)
+            res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title,
+                         topics=_topics, verify=False)
             break
         except Exception as e:
             msg = str(e)
@@ -649,9 +686,10 @@ def main():
     # 「合格且发出去」才是闭环：把这条稿的闸/分与 rpid 绑在一起落账，
     # 否则事后只看到"发过一条"，说不清它是不是过了闸的那条（2026-11-21 CEO 令）。
     try:
+        _sc = (best[3] if best and len(best) > 3 else {}) or {}
         log({"action": "qualified", "rpid": res.get("rpid"), "persona": seg,
-             "arm": arm, "lane": lane_used, "score": (best[0][1] if best else None),
-             "voice_human": (list(best[0][0]) if best else None), "text": text})
+             "arm": arm, "lane": lane_used, "score": _sc.get("total"),
+             "voice": _sc.get("voice"), "human": _sc.get("human"), "text": text})
     except Exception:
         pass
     if s_now:
@@ -659,6 +697,12 @@ def main():
             sess.bump(s_now["start"], "posted")   # 只有真发出去才消耗预算
         except Exception:
             pass
+    try:
+        log({"action": "timing", "rpid": res.get("rpid"), "cand": n_cand,
+             "gen_s": round(time.time() - t_gen0, 1), "dwell_s": dwell,
+             "total_s": round(time.time() - t_tick0, 1), "pending_verify": True})
+    except Exception:
+        pass
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
     print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
           % (res.get("rpid"), res.get("visible"), lane_used))

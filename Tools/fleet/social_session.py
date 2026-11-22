@@ -59,32 +59,39 @@ BLOCKS = [(8, 11), (12, 14), (15, 17), (19, 22)]
 def make_plan(day=None, rng=None):
     """生成一天的会话计划（不落地）。
 
-    约束（自检守它们）：会话数 3-6、互不重叠、全天动手预算 0-8、2-6 点不活动。
+    约束（自检守它们）：会话数 6-9、互不重叠且间隔 ≥25 分钟、全天动手预算 0-8、2-6 点不活动。
     建模思路：先决定"今天哪几个时段会刷"（每段 75% 概率，至少 3 段），
     再在每个时段里随机一个起点——这样间隔天然是几小时，而不是均匀的 20 分钟一颗。
     """
     rng = rng or random
     day = day or datetime.now()
 
-    picked = [b for b in BLOCKS if rng.random() < 0.75]
-    while len(picked) < 3:                       # 至少刷 3 次
-        b = rng.choice(BLOCKS)
-        if b not in picked:
+    # 2026-11-22 CEO「太慢了，真人不会这样」：原来一天只生成 3 场、全天动手预算 3 次，
+    # 20 条/天的量根本跑不出来。真人白天会反复进来刷：每个时段 1–2 场，全天 6–9 场，
+    # 总量仍受 freq_policy 的 8 次/天与最小间隔约束。
+    picked = []
+    for b in BLOCKS:
+        if rng.random() < 0.85:
             picked.append(b)
-    picked.sort()
+        if rng.random() < 0.6:
+            picked.append(b)            # 同一时段再进来一次（错开 ≥25 分钟）
+    while len(picked) < 6:
+        picked.append(rng.choice(BLOCKS))
+    picked = sorted(picked)[:9]
 
     sessions, prev_end = [], None
     for lo, hi in picked:
         start = day.replace(hour=rng.randint(lo, hi), minute=rng.randint(0, 55),
                             second=0, microsecond=0)
-        if prev_end and start < prev_end + timedelta(minutes=5):
-            start = prev_end + timedelta(minutes=rng.randint(5, 30))
-        dur = min(35.0, max(6.0, rng.lognormvariate(math.log(12.0), 0.55)))
+        if prev_end and start < prev_end + timedelta(minutes=25):
+            start = prev_end + timedelta(minutes=rng.randint(25, 60))
+            if start.hour >= 23:
+                break
+        dur = min(30.0, max(6.0, rng.lognormvariate(math.log(11.0), 0.5)))
         prev_end = start + timedelta(minutes=dur)
         passive = max(2, min(12, int(round(rng.gauss(6, 2.2)))))
         r = rng.random()
-        # 目标每天 4-6 条：四个时段里两三次真留言、一两次只看
-        budget = 0 if r < 0.25 else (1 if r < 0.65 else (2 if r < 0.90 else 3))
+        budget = 0 if r < 0.30 else (1 if r < 0.75 else 2)
         sessions.append({"start": start.isoformat(timespec="seconds"),
                          "dur_min": round(dur, 1), "passive": passive, "social": budget})
 

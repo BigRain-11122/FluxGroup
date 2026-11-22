@@ -538,6 +538,18 @@ def send_checks():
                    ("%d 条已发缺闸证据：%s" % (len(no_proof), ",".join(no_proof[:3]))) if no_proof
                    else "近 %d 条已发均双闸通过" % min(10, len(posts)), len(posts)))
 
+    # SD08 出稿节拍：真人写一句评论不会花两分钟。用落盘的 timing 行判中位数。
+    tm = [r for r in _rows(os.path.join(SOCIAL, "practice-log.jsonl"))
+          if r.get("action") == "timing" and (_age_h(r.get("ts")) or 1e9) <= 24 * 7]
+    if not tm:
+        out.append(_mk("SD08", "出稿节拍（中位 ≤60s）", None, "P1", "近 7 天没有 timing 记录"))
+    else:
+        vals = sorted(float(r.get("total_s") or 0) for r in tm[-10:])
+        med = vals[len(vals) // 2]
+        out.append(_mk("SD08", "出稿节拍（中位 ≤60s）", med <= 60, "P1",
+                       "近 %d 拍中位 %.0fs（最快 %.0fs / 最慢 %.0fs）" % (
+                           len(vals), med, vals[0], vals[-1]), len(vals)))
+
     # SD02 失败归因：每条失败必须带 why，且能归到 rhythm/risk/login/other
     prac = [r for r in _rows(os.path.join(SOCIAL, "practice-log.jsonl"), 3000)
             if (_age_h(r.get("ts")) or 1e9) <= 24 * 7]
@@ -592,7 +604,11 @@ def send_checks():
                    "今日 %s" % ", ".join(detail) if detail else "HEALTH 无账号", len(detail)))
 
     # SD06 副动作（只点赞不说话 = 机器人；活人三件套都要有）
-    need = {"watch": 10, "like": 5, "danmaku": 3}
+    # 期望按当前时段折算：上午 10 点就要求"今天看满 10 条"是把正常作息判成失职。
+    _h = datetime.now().hour
+    _frac = max(0.15, min(1.0, (_h - 9) / 14.0)) if _h >= 9 else 0.0
+    need = {"watch": max(1, int(10 * _frac)), "like": max(1, int(5 * _frac)),
+            "danmaku": max(0, int(3 * _frac))}
     bad = []
     for a in (health.get("accounts") or []):
         t = a.get("today") or {}
