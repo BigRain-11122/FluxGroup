@@ -25,6 +25,12 @@ import sys
 import time
 from datetime import datetime
 
+# 2026-11-22：这两个模块级导入在一次机队同步里被冲掉了（文件里还留着调用），
+# 表现为 NameError: sc / pick。补回来，并且只从一处导入。
+sys.path.insert(0, HERE) if 'HERE' in globals() else None
+import social_comment as sc          # noqa: E402
+import social_practice as sp         # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
@@ -555,7 +561,8 @@ def main():
             if browsed >= int(s_now.get("passive", 6)):
                 print("[tick] 本次会话已刷满（看 %d 条、发 %d 条），离开" % (browsed, used))
                 return 0
-            row0 = pick()
+            import social_practice as _sp0
+            row0 = _sp0.pick()
             if row0:
                 okb, info = sc.browse_video(row0["video"],
                                             seconds=rng.uniform(25, 110), rng=rng)
