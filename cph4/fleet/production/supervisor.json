@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-23T06:51:57",
- "verdict": "AMBER",
+ "ts": "2026-11-23T07:01:58",
+ "verdict": "RED",
  "paused": false,
- "gpu_util": 96,
- "vram_used_mb": 8642,
+ "gpu_util": 99,
+ "vram_used_mb": 8451,
  "vram_total_mb": 16384,
- "comfy": true,
+ "comfy": false,
  "bank": {
   "done": 1,
   "pending": 11
@@ -17,47 +17,48 @@
   {
    "seat": "生产者 BmcIdleGuard",
    "task": "BmcIdleGuard",
-   "last_run_age_s": 56,
+   "last_run_age_s": 58,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 9,
+   "last_run_age_s": 11,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 6294,
+   "last_run_age_s": 6895,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 99,
+   "last_run_age_s": 160,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "总控 Orchestrator",
    "task": "Bmc-Orchestrator",
-   "last_run_age_s": 9,
+   "last_run_age_s": 10,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 142,
+   "last_run_age_s": 143,
    "state": "OK",
    "result": 0
   }
  ],
  "alerts": [
+  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩",
   "AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）"
  ]
 }
