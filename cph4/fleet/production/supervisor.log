@@ -60,3 +60,4 @@
 2026-11-23T06:41:56 GREEN gpu=100% inflight=1 pending=11 comfy=UP | all seats nominal
 2026-11-23T06:51:57 AMBER gpu=96% inflight=0 pending=11 comfy=UP | AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）
 2026-11-23T07:01:58 RED   gpu=99% inflight=0 pending=11 comfy=DOWN | RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩 ; AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）
+2026-11-23T07:11:57 GREEN gpu=95% inflight=1 pending=11 comfy=UP | all seats nominal
