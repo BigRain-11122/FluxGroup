@@ -136,3 +136,7 @@ Please make sure you have the push=pushed lane=lane-cooldown(6m)
 2026-11-23T03:16:32 RECEIPT RUNNING gpu=95 vram=15619MB busy=i2v,lora
 2026-11-23T03:17:06 TICK commit=committed:8 converge=merged-behind-2 push=pushed lane=lane-cooldown(5m)
 2026-11-23T03:21:32 RECEIPT RUNNING gpu=100 vram=15621MB busy=i2v,lora
+2026-11-23T03:22:14 LANE jobs=1 fresh=1 -> run one card
+2026-11-23T03:22:24 LANE rc=0 done=- 
+2026-11-23T03:22:24 TICK commit=committed:4 converge=merged-behind-1 push=pushed lane=lane-rc-0(0 done)
+2026-11-23T03:26:32 RECEIPT RUNNING gpu=100 vram=12806MB busy=i2v,lora
