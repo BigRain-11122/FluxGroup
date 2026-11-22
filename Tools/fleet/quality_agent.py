@@ -42,7 +42,7 @@ HOT = os.path.join(SOCIAL, "corpus", "hot", "HOT-COMMENTS.jsonl")
 
 # 括号（动作边界）：改这些数要有依据，不许为"看起来在干活"而放宽
 POOL_TARGET = 2000          # 内容池目标条数
-HOT_TARGET = 300            # 高赞样本目标条数
+HOT_TARGET = 1200           # 高赞样本目标条数（2026-11-22 并发补采后 11 秒入 949 条，目标上调）
 MINE_COOLDOWN_MIN = 45      # 两次补采的最小间隔（接口会 412）
 EXPAND_ADD = 400            # 单次扩池最多加多少条
 DUP_LINE = 0.10             # 撞模板率上限

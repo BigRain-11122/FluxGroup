@@ -526,6 +526,19 @@ def _pick_arch(i, title=""):
     return name
 
 
+def fix_emoji(text):
+    """把模型写坏的 B 站表情码修好："[打 call]" → "[打call]"。
+
+    2026-11-22 实测：模型经常在方括号里加空格，露馅闸判"表情码破损"整条拒掉，
+    一天能白扔好几条好稿。这是纯粹的写法瑕疵，修词不修意。
+    """
+    import re as _re
+    if not text:
+        return text
+    return _re.sub(r"\[\s*([^\[\]]{1,16}?)\s*\]",
+                   lambda m: "[" + m.group(1).replace(" ", "") + "]", text)
+
+
 def voice_band(i=0, title=""):
     """与 voice_block 同一套选原型逻辑，返回它的字数带；没有样本时返回 None。"""
     spec = _voice_spec()

@@ -25,6 +25,7 @@ import time
 import sys
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -86,7 +87,66 @@ def _hot_via_daemon(aid, pn=1):
     return _get(REPLY % (aid, pn))
 
 
-def mine(n_videos=120, min_like=20, pages=2, sleep_s=1.2):
+LOCK = os.path.join(SOCIAL, "corpus", "hot", ".miner.lock")
+
+
+def _take_lock():
+    try:
+        if os.path.exists(LOCK):
+            pid = int((open(LOCK).read() or "0").strip() or 0)
+            if pid and pid != os.getpid():
+                os.kill(pid, 0)
+                return False
+    except Exception:
+        pass
+    try:
+        open(LOCK, "w").write(str(os.getpid()))
+    except Exception:
+        pass
+    return True
+
+
+def _drop_lock():
+    try:
+        if (open(LOCK).read() or "").strip() == str(os.getpid()):
+            os.remove(LOCK)
+    except Exception:
+        pass
+
+
+def _one_video(args):
+    """取一条视频的高赞评论（含 412 退避）。并发安全：只读接口 + 返回纯数据。"""
+    url, bv, min_like, pages, sleep_s = args
+    for i in range(3):
+        try:
+            j = _get("https://api.bilibili.com/x/web-interface/view?bvid=%s" % bv)
+            oid = ((j.get("data") or {}).get("aid"))
+            if not oid:
+                return url, bv, []
+            out = []
+            for pn in range(1, max(1, pages) + 1):
+                d = _hot_via_daemon(oid, pn)
+                for r in ((d.get("data") or {}).get("replies") or []):
+                    txt = clean((r.get("content") or {}).get("message"))
+                    like = int(r.get("like") or 0)
+                    if not txt or like < min_like:
+                        continue
+                    out.append({"text": txt, "like": like, "len": len(txt), "video": url,
+                                "bvid": bv, "archetype": archetype(txt),
+                                "has_emoji": bool(re.search(r"[\[\【].{1,10}[\]\】]", txt)),
+                                "has_q": bool(re.search(r"[?？]", txt))})
+                if sleep_s:
+                    time.sleep(sleep_s / max(1, pages))
+            return url, bv, out
+        except Exception as e:
+            if "412" in str(e) and i < 2:
+                time.sleep(8 * (i + 1))
+                continue
+            return url, bv, []
+    return url, bv, []
+
+
+def mine(n_videos=120, min_like=20, pages=2, sleep_s=0.2, workers=3):
     """按热度采高赞评论。三条铁律（都是 2026-11-22 踩出来的）：
 
     1. **不许覆盖**：结果与已有样本合并去重——第一次跑完 58 条，第二次被限流只回 6 条，
@@ -116,47 +176,25 @@ def mine(n_videos=120, min_like=20, pages=2, sleep_s=1.2):
     todo = [(u, v) for u, v in vids.items()
             if (v or {}).get("bvid") and (v or {}).get("bvid") not in done_bv]
     todo = todo[:max(1, n_videos)]
-    for i, (url, v) in enumerate(todo):
-        bv = v.get("bvid")
-        try:
-            j = _get("https://api.bilibili.com/x/web-interface/view?bvid=%s" % bv)
-            oid = ((j.get("data") or {}).get("aid"))
-        except Exception:
-            oid = None
-        if not oid:
-            continue
-        for pn in range(1, max(1, pages) + 1):
-            j = None
-            for attempt in range(3):
-                try:
-                    j = _hot_via_daemon(oid, pn)
-                    break
-                except Exception as e:
-                    if "412" in str(e):
-                        print("[hot] 412 限流，退避 30s（第 %d 次）" % (attempt + 1))
-                        time.sleep(30)
-                        continue
-                    break
-            if not j:
-                break
-            for r in ((j.get("data") or {}).get("replies") or []):
-                txt = clean((r.get("content") or {}).get("message"))
-                like = int(r.get("like") or 0)
-                if not txt or like < min_like:
-                    continue
-                key = re.sub(r"\W", "", txt)[:40]
+    # 并发 3：实测 6 条 0.63s 全成功；串行 1.2s/条时 60 个视频要 2.4 分钟，并行 20–30 秒。
+    # 接口有 IP 限流，所以并发不上去（411/412 就退避），3 线程是"快又不惹"的位置。
+    args = [(u, (v or {}).get("bvid"), min_like, pages, sleep_s) for u, v in todo]
+    done_ct = 0
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as ex:
+        for url, bv, got in ex.map(_one_video, args):
+            for r in got:
+                key = re.sub(r"\W", "", r["text"])[:40]
                 if key in seen:
                     continue
                 seen.add(key)
-                rows.append({"text": txt, "like": like, "len": len(txt), "video": url,
-                             "bvid": bv, "archetype": archetype(txt),
-                             "has_emoji": bool(re.search(r"[\[\【].{1,10}[\]\】]", txt)),
-                             "has_q": bool(re.search(r"[?？]", txt))})
-            time.sleep(sleep_s)
-        done_bv.add(bv)
-        if i and i % 25 == 0:
-            print("[hot] 已扫 %d/%d，累计样本 %d" % (i, len(todo), len(rows)))
-            json.dump(sorted(done_bv), open(seen_file, "w", encoding="utf-8"), ensure_ascii=False)
+                rows.append(r)
+            done_bv.add(bv)
+            done_ct += 1
+            if done_ct % 25 == 0:
+                print("[hot] 已扫 %d/%d，累计样本 %d" % (done_ct, len(todo), len(rows)))
+                json.dump(sorted(done_bv), open(seen_file, "w", encoding="utf-8"), ensure_ascii=False)
+
+    json.dump(sorted(done_bv), open(seen_file, "w", encoding="utf-8"), ensure_ascii=False)
 
     json.dump(sorted(done_bv), open(seen_file, "w", encoding="utf-8"), ensure_ascii=False)
     rows.sort(key=lambda r: -r["like"])
@@ -188,8 +226,15 @@ def main(argv=None):
     ap.add_argument("--videos", type=int, default=120)
     ap.add_argument("--min-like", type=int, default=20)
     ap.add_argument("--pages", type=int, default=2)
+    ap.add_argument("--workers", type=int, default=3)
     a = ap.parse_args(argv)
-    mine(a.videos, a.min_like, a.pages)
+    if not _take_lock():
+        print("[hot] 已有补采实例在跑，本轮让路")
+        return 0
+    try:
+        mine(a.videos, a.min_like, a.pages, workers=a.workers)
+    finally:
+        _drop_lock()
     return 0
 
 

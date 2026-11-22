@@ -22,6 +22,7 @@ import os
 import time
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -54,22 +55,35 @@ def topics():
     return sorted(out)
 
 
-def expand(limit=200, dry=False, sleep_s=0.35):
+def _related(bv, tries=2):
+    """取一条视频的相关列表；412/超时就退避重试一次。并发下这条要幂等且不抛。"""
+    for i in range(max(1, tries)):
+        try:
+            j = _get(REL % urllib.parse.quote(bv))
+            if j.get("code") in (0, None):
+                return bv, (j.get("data") or [])
+        except Exception:
+            pass
+        time.sleep(2 + 2 * i)
+    return bv, []
+
+
+def expand(limit=200, dry=False, sleep_s=0.0, workers=10):
     vids = json.load(open(TITLES, encoding="utf-8")) or {}
     have = set((v or {}).get("bvid") for v in vids.values() if v)
     words = topics()
     print("[pool] 现有 %d 条；话题词 %d 个：%s" % (len(vids), len(words), ",".join(words[:8])))
 
     cands = {}
-    for i, (u, v) in enumerate(vids.items()):
-        bv = (v or {}).get("bvid")
-        if not bv:
-            continue
-        try:
-            j = _get(REL % urllib.parse.quote(bv))
-        except Exception:
-            continue
-        for x in (j.get("data") or []):
+    # 并发取相关列表：实测单条 121ms、10 并发全成功、0.29s 拿 16 条；
+    # 串行 + sleep 0.35s 时 808 条要 6 分钟，并行后 30–60 秒（10 核 8 性能核）。
+    bvs = [(u, (v or {}).get("bvid")) for u, v in vids.items() if (v or {}).get("bvid")]
+    got = {}
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as ex:
+        for bv, data in ex.map(lambda kv: _related(kv[1]), bvs):
+            got[bv] = data
+    for i, (u, bv) in enumerate(bvs):
+        for x in (got.get(bv) or []):
             nb = x.get("bvid")
             st = x.get("stat") or {}
             view = st.get("view") or 0
@@ -84,9 +98,10 @@ def expand(limit=200, dry=False, sleep_s=0.35):
                 continue
             cands[nb] = {"title": title, "bvid": nb, "desc": (x.get("desc") or "")[:400],
                          "dur": dur, "_view": view, "_hits": hits}
-        if i and i % 30 == 0:
-            print("[pool] 已扫 %d/%d 源，新候选 %d" % (i, len(vids), len(cands)))
-        time.sleep(sleep_s)
+        if i and i % 100 == 0:
+            print("[pool] 已扫 %d/%d 源，新候选 %d" % (i, len(bvs), len(cands)))
+        if sleep_s:
+            time.sleep(sleep_s)
 
     ranked = sorted(cands.values(), key=lambda c: (-c["_hits"], -c["_view"]))[:limit]
     print("[pool] 候选 %d 条，取 %d 条（按话题命中数、播放量排序）" % (len(cands), len(ranked)))
@@ -107,8 +122,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=200)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--workers", type=int, default=10, help="并发取相关列表的线程数")
     a = ap.parse_args(argv)
-    rc, total, added = expand(a.limit, dry=a.dry_run)
+    rc, total, added = expand(a.limit, dry=a.dry_run, workers=a.workers)
     # 池子变化直接决定媒体量：按 7 天不重复规则报一下可持续上限
     print("[pool] 按「同视频 7 天 ≤1 条」：全账号 %.1f 条/天，每号（2 号）%.1f 条/天"
           % (total / 7.0, total / 7.0 / 2))

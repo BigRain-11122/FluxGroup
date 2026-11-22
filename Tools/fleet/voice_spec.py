@@ -77,6 +77,77 @@ def pick(rows, kinds, band, n=8):
     return out
 
 
+HOT_IN = os.path.join(OUTDIR, "HOT-COMMENTS.jsonl")
+
+# 高赞评论的原型判定：用与 reply_quality 同一套规则，标签口径才一致
+ARCH_PATTERNS = [
+    ("reaction", r"^(哈|hh|笑死|草|泪目|哭了|破防|卧槽|好家伙|救命)"),
+    ("meme", r"([\[\【].{1,8}[\]\】]|梗|doge|狗头|要素|圣经)"),
+    ("ask", r"[?？]|吗$|呢$|怎么|为什么|求|有人知道|谁知道"),
+    ("resonance", r"(我也是|以前|当年|想起|小时候|经历|同款|自己|那会儿)"),
+    ("critique", r"(生硬|廉价|崩|可惜|不过|但是|有点|太干|没救|差|翻车)"),
+    ("praise", r"(挺好|不错|真香|喜欢|厉害|舒服|好棒|好听|好看|帅|酷|带感|牛|顶)"),
+]
+
+
+def _arch_of(t):
+    for name, pat in ARCH_PATTERNS:
+        if re.search(pat, t, re.I):
+            return name
+    return "plain"
+
+
+def from_hot(n=8):
+    """用**按点赞排序**的真实评论做样本源（CEO 要的"参考高点赞数的评论"）。
+
+    每个原型取 top-n，字数带取该类 P25–P75 并夹到 3–60：这样"该说多长"也是
+    平台投票出来的，不是我拍的。
+    """
+    rows = []
+    try:
+        for line in open(HOT_IN, encoding="utf-8"):
+            if line.strip():
+                rows.append(json.loads(line))
+    except FileNotFoundError:
+        return {}
+    if not rows:
+        return {}
+    buckets = {}
+    for r in rows:
+        t = (r.get("text") or "").strip()
+        # 样本只取 3–45 字：高赞里也有课代表级长评，喂长样本会把输出也拖长，
+        # 而我们的稿子要像"随手一句"
+        if not (3 <= len(t) <= 45):
+            continue
+        buckets.setdefault(_arch_of(t), []).append(r)
+    out = {}
+    for name, rs in buckets.items():
+        rs.sort(key=lambda r: -(r.get("like") or 0))
+        # 同开头只留一条，避免 8 个样本一个腔
+        picked, opens = [], set()
+        for r in rs:
+            k = (r.get("text") or "")[:2]
+            if k in opens:
+                continue
+            opens.add(k)
+            picked.append(r)
+            if len(picked) >= n:
+                break
+        if not picked:
+            continue
+        lens = sorted(len(r["text"]) for r in picked)
+        # 带宽要比 P25–P75 宽一点：模型不会精确落在四分位里，
+        # 太窄会让候选整批被字数带判死（实测窄带命中 67%）。下限放宽 4 字、上限放宽 6 字。
+        lo = max(3, min(36, (lens[len(lens) // 4] if lens else 8) - 4))
+        hi = max(lo + 10, min(45, (lens[len(lens) * 3 // 4] if lens else 28) + 6))
+        out[name] = {"kinds": ["hot"], "band": [lo, hi],
+                     "len_median": lens[len(lens) // 2],
+                     "emoji_rate": round(sum(1 for r in picked if r.get("has_emoji")) / len(picked), 2),
+                     "samples": [r["text"] for r in picked],
+                     "likes_median": sorted(int(r.get("like") or 0) for r in picked)[len(picked) // 2]}
+    return out
+
+
 def main():
     rows = load()
     pas = [r for r in rows if r.get("verdict") == "PASS"]
@@ -87,7 +158,14 @@ def main():
             "kind_dist": dict(collections.Counter(r.get("kind") for r in pas).most_common()),
             "oral_rate": round(sum(1 for r in pas if r.get("oral")) / len(pas), 3),
             "archetypes": {}}
+    hot = from_hot()
+    if hot:
+        # 有高赞样本就用它：平台投票选出来的说法，比"质量分"更接近真实语感
+        spec["source"] = "corpus/hot/HOT-COMMENTS.jsonl（按点赞排序）"
+        spec["archetypes"] = hot
     for name, kinds, band in ARCH:
+        if name in spec["archetypes"]:
+            continue
         samples = pick(rows, kinds, band)
         if not samples:
             continue

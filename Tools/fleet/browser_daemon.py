@@ -85,10 +85,23 @@ def op(payload):
     """执行一个动作。返回 {ok, res}；异常一律转成 ok:false，不拖垮服务。"""
     import social_comment as sc
     kind = payload.get("op")
-    if kind not in ("post", "browse", "danmaku", "roots", "nav"):
+    if kind not in ("post", "browse", "danmaku", "roots", "nav", "hot"):
         return {"ok": False, "res": "未知动作 %r" % kind}
     ctx = ctx_for(payload.get("account"), payload.get("profile"))
     _PW["last"][payload.get("profile") or payload.get("account") or "default"] = time.time()
+    if kind == "hot":
+        # 取"按热度排序"的评论（sort=2）。匿名 urllib 打这个接口会 412
+        # （2026-11-22 实测采到第 60 个视频就被限），而登录上下文里同源 fetch 与真人
+        # 翻评论区是同一条路径，稳定且带真 cookie。
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        if "bilibili.com" not in (pg.url or ""):
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=30000)
+        txt = pg.evaluate("""async(a)=>{
+            const u='https://api.bilibili.com/x/v2/reply?type=1&oid='+a.aid
+              +'&sort=2&ps=20&pn='+a.pn;
+            const r=await fetch(u,{credentials:'include'});
+            return await r.text();}""", {"aid": payload.get("aid"), "pn": payload.get("pn") or 1})
+        return {"ok": True, "res": txt}
     if kind == "nav":
         # 登录态核验也走常驻上下文：2026-11-22 实锚——daemon 把 profile 打开后，
         # 会话自己再 launch 一次就 ProcessSingleton，整天只剩 profile_busy。

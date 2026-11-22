@@ -63,6 +63,7 @@ def one_round(idx, url, meta, brief, topics, mods, n_first=3, n_max=6):
         # D 臂（21–90 字）要求含具体对象，提示词不要求就会被形态闸拒（#06 实锚）
         p += "只写 %d-%d 字，一句话；提到一个看得见的东西（画面/剪辑/镜头/转场/配乐）。" % (lo, hi)
         t, lane = pt.make_text(p)
+        t = lc.fix_emoji(t)
         tries += 1
         k += 1
         if not t or not (lo <= len(t) <= hi):

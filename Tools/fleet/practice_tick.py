@@ -702,6 +702,7 @@ def main():
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
         t, lane = make_text(p, lanes=("lora",))
+        t = lc.fix_emoji(t)          # [打 call] → [打call]：写法瑕疵不该整条作废
         if not t or not (lo <= len(t) <= hi):
             log({"action": "skip", "why": "length:%d not in %d-%d" % (len(t or ""), lo, hi),
                  "arm": arm, "text": (t or "")[:20]})
