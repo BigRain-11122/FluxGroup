@@ -171,8 +171,11 @@ def _human_wanting(prof):
     return ""
 
 
-def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
+def _acquire_profile_lock(prof, wait_s=None, poll=5.0, yield_ok=False):
     """同一 profile 只能一个进程用，后来者排队等，不是直接失败。
+
+    yield_ok 只给"可推迟"的采集用：发帖/会话自己要来时 MUST NOT 自我让路，
+    否则 POST-PENDING 是自己写的 → 自己判自己该让 → 第一条必然失败（2026-11-22 实锚）。
 
     2026-11-19 实锚：守护进程与手动运行撞同一个 profile，输的一方只打印
     "两个 profile 都起不来（可能被别的浏览器进程占用）"，看不出是谁占的、也查不出根因；
@@ -199,8 +202,9 @@ def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
         if holder.isdigit() and int(holder) == os.getpid():
             # 可重入：同一进程先后开两次浏览器（复核多条评论就是这种情况）不能被自己的锁挡住
             return lock
-        # 有时效的动作在等：本轮让路，别把等锁超时变成"副动作整天空转"
-        if _human_wanting(prof):
+        # 有时效的动作在等：本轮让路，别把等锁超时变成"副动作整天空转"。
+        # 只有采集自己让路，发帖方不许自我让路（见 docstring）。
+        if yield_ok and _human_wanting(prof):
             return None
         alive = False
         if holder.isdigit():
@@ -253,8 +257,8 @@ def _launch(p, headed=False, platform=None):
         except Exception as e:
             errs.append("%s: mkdir %s" % (os.path.basename(prof), str(e)[:60]))
             continue
-        if _acquire_profile_lock(prof) is None:
-            errs.append("%s: 等锁超时（别的采集进程占着 profile）" % os.path.basename(prof))
+        if _acquire_profile_lock(prof, yield_ok=True) is None:
+            errs.append("%s: 让路或等锁超时（发帖/会话要这个 profile）" % os.path.basename(prof))
             continue
         try:
             return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
