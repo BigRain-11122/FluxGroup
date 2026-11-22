@@ -55,7 +55,12 @@ def main():
     a = ap.parse_args()
 
     def _p(x):
-        return x if os.path.isabs(x) else os.path.join(BASE, x)
+        # 2026-11-23 修：原实现按 BASE 拼接，仓库相对路径（cph4/fleet/...）会被拼成
+        # cph4/fleet/mv-album-001-jay/cph4/fleet/... → FileNotFoundError。正法=按仓根解析。
+        if os.path.isabs(x):
+            return x
+        cand = os.path.join(ROOT, x)
+        return cand if os.path.exists(cand) else os.path.join(BASE, x)
 
     man = json.load(open(_p(a.manifest), encoding='utf-8'))
     units = man.get('units', [])
