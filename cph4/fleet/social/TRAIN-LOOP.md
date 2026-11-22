@@ -1,4 +1,4 @@
-# 7×24 训练循环（2026-11-22T21:30:37）
+# 7×24 训练循环（2026-11-22T23:57:15）
 
 > 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
 
@@ -7,12 +7,12 @@
 | 段 | 可用行数 | 可训 | 判据 |
 |---|---|---|---|
 | memer | 2207 | 是 | 配方更新 v5-shape-quota（2207 行） |
+| craft_learner | 2205 | 是 | 配方更新 v5-shape-quota（2205 行） |
 | shallow | 1955 | 是 | 配方更新 v5-shape-quota（1955 行） |
-| peer_pro | 606 | 是 | 配方更新 v5-shape-quota（606 行） |
-| tech_nerd | 591 | 是 | 配方更新 v5-shape-quota（591 行） |
+| tech_nerd | 592 | 是 | 配方更新 v5-shape-quota（592 行） |
 | feeler | 551 | 是 | 配方更新 v5-shape-quota（551 行） |
 | music_seeker | 447 | 是 | 配方更新 v5-shape-quota（447 行） |
-| craft_learner | 2204 | 否 | 冷却中（0.0h 前刚训过，语料 2204→2204 未涨 10%） |
+| peer_pro | 606 | 否 | 冷却中（0.0h 前刚训过，语料 606→606 未涨 10%） |
 | beginner | 152 | 否 | 语料 152 < 200 |
 | critic | 129 | 否 | 语料 129 < 200 |
 | student | 107 | 否 | 语料 107 < 200 |
@@ -39,8 +39,6 @@
 
 | 时间 | 段 | n | 行数 | val 最低 | 步 | 基座 | 候选 | 人味Δ | 判词 |
 |---|---|---|---|---|---|---|---|---|---|
-| 11-22T11:29 | feeler | 0 | 550 | None | None | None | None | None | TRAIN-FAIL（样本不足） |
-| 11-22T11:35 | craft_learner | 0 | 2173 | None | None | None | None | None | BLOCKED（样本不足） |
 | 11-22T14:10 | tech_nerd | 0 | 580 | None | None | None | None | None | BLOCKED（样本不足） |
 | 11-22T18:39 | peer_pro | 10 | 606 | 3.783 | 400 | 51.8 | 49.0 | -3.0 | REJECT |
 | 11-22T19:10 | memer | 10 | 2207 | 2.99 | 400 | 38.7 | 44.0 | 0.0 | KEEP |
@@ -49,5 +47,7 @@
 | 11-22T20:25 | memer | 30 | None | None | None | 49.0 | 40.0 | None | REJECT |
 | 11-22T20:56 | feeler | 10 | 551 | 3.322 | 400 | 56.5 | 49.3 | -5.0 | REJECT |
 | 11-22T21:30 | craft_learner | 10 | 2204 | 3.478 | 200 | 85.5 | 81.5 | 2.0 | REJECT |
+| 11-22T22:36 | tech_nerd | 0 | 591 | None | None | None | None | None | BLOCKED（样本不足） |
+| 11-22T23:57 | peer_pro | 10 | 606 | 3.783 | 400 | 51.8 | 52.8 | -1.0 | REJECT |
 
 > 判据：段内均分 ≥ 基座+5、PASS 不降、人味(human) 不降 2；同段冷却 6h；被否段语料需涨 15% 才重训。

@@ -9,12 +9,13 @@
    "val_min": null
   },
   "peer_pro": {
-   "last_ts": 1795358811.406689,
-   "last_rc": "YIELD-DAY",
+   "last_ts": 1795363035.67646,
+   "last_rc": "REJECT",
    "rows": 606,
-   "run": "20261122-181352",
+   "run": "20261122-232335",
    "step": 400,
-   "val_min": 3.783
+   "val_min": 3.783,
+   "recipe": "v5-shape-quota"
   },
   "music_seeker": {
    "last_ts": 1795349836.0,
@@ -666,6 +667,25 @@
    "verdict": "BLOCKED",
    "why": "让路出稿：距上帖 36 分钟（间隔 30 分钟）",
    "adapter": null
+  },
+  {
+   "ts": "2026-11-22T23:57:15",
+   "seg": "peer_pro",
+   "rows": 606,
+   "built": 631,
+   "eval_n": 10,
+   "run": "20261122-232335",
+   "step": 400,
+   "val_step": 450,
+   "val_min": 3.783,
+   "base_avg": 51.8,
+   "lora_avg": 52.8,
+   "base_human": 5.0,
+   "lora_human": 4.0,
+   "human_delta": -1.0,
+   "verdict": "REJECT",
+   "why": "均分只 +1.0（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-232335/ckpt400"
   }
  ]
 }
