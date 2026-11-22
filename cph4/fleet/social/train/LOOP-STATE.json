@@ -25,8 +25,8 @@
    "val_min": null
   },
   "craft_learner": {
-   "last_ts": 1795354237.0,
-   "last_rc": "REJECT",
+   "last_ts": 1795371553.983414,
+   "last_rc": "YIELD-PUBLISH",
    "rows": 2204,
    "run": "20261122-210807",
    "step": 200,
@@ -57,35 +57,15 @@
    "val_min": 3.663
   },
   "feeler": {
-   "last_ts": 1795371202.847637,
+   "last_ts": 1795371202.0,
    "last_rc": "REJECT",
    "rows": 551,
    "run": "20261123-014233",
    "step": 400,
-   "val_min": 3.322,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.322
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-22T00:19:34",
-   "seg": "music_seeker",
-   "rows": 441,
-   "built": 296,
-   "eval_n": 10,
-   "run": "20261121-235321",
-   "step": 400,
-   "val_step": 400,
-   "val_min": 2.913,
-   "base_avg": 37.5,
-   "lora_avg": 60.3,
-   "base_human": 0.0,
-   "lora_human": 6.0,
-   "human_delta": 6.0,
-   "verdict": "KEEP",
-   "why": "均分 +22.8 / 人味 +6.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261121-235321/ckpt400"
-  },
   {
    "ts": "2026-11-22T00:54:15",
    "seg": "peer_pro",
