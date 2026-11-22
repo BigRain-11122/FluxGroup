@@ -30,3 +30,6 @@
 2026-11-22T22:43:49 LANE rc=0 done=asset-lib-face-dataset-2026-11-19,asset-lib-face-dataset-2026-11-20,asset-lib-face-dataset-2026-11-17,asset-lib-face-dataset-2026-11-18 asset-lib-face-dataset-2026-11-20 DONE rc=0 30.3s deliverable=True error=- | asset-lib-face-dataset-2026-11-17 DONE rc=0 30.2s deliverable=True error=- | asset-lib-face-dataset-2026-11-18 DONE rc=0 30.3s deliverable=True error=-
 2026-11-22T22:43:49 TICK commit=committed:8 converge=merged-behind-1 push=pushed lane=lane-rc-0(4 done)
 2026-11-22T22:46:06 RECEIPT RUNNING gpu=1 vram=4863MB busy=i2v,lora,quant-engine
+2026-11-22T22:46:30 stale lock pid=55868 -> reclaim
+2026-11-22T22:46:31 LANE jobs=4 fresh=1 -> run one card
+2026-11-22T22:46:31 RECEIPT RUNNING gpu=100 vram=14502MB busy=i2v,lora
