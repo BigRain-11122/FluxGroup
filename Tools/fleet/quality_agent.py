@@ -358,7 +358,7 @@ def sync_backlog(s):
     # 新问题立卡 / 已有问题刷新理由 / 问题消失则关闭
     now = _now().isoformat(timespec="seconds")
     for k, why in want.items():
-        if k in items and items[k].get("status") in ("open", "doing", "blocked"):
+        if k in items and items[k].get("status") in ("open", "doing", "blocked", "waiting"):
             items[k]["why"] = why
             items[k]["updated"] = now
             continue
@@ -379,6 +379,11 @@ def sync_backlog(s):
 def pick_item(items):
     """先干自己能闭环的，干不了的去把证据备齐（这同样是自驱，不是等）。"""
     openc = [v for v in items.values() if v.get("status") in ("open", "doing")]
+    # human 型任务取过一次证就转 waiting：不再反复摘同一张卡（实测曾空转 174 次）
+    for v in list(openc):
+        if v.get("owner") == "human" and int(v.get("attempts") or 0) >= 1:
+            v["status"] = "waiting"
+            openc.remove(v)
     if not openc:
         return None
     # 排法：①human 型且还没取过证的先做一次（取证便宜，且能让主控一小时内有卡片可执行）
@@ -581,7 +586,10 @@ def once(dry=False):
             item["status"] = "done"
             item["closed_why"] = detail
         elif ok is False:
-            if item["attempts"] >= MAX_ATTEMPTS:
+            # Q-WAIT 是"等条件"不是"做没做成"：条件不满足不该被判死
+            if item.get("id") == "Q-WAIT":
+                item["status"] = "waiting"
+            elif item["attempts"] >= MAX_ATTEMPTS:
                 item["status"] = "blocked"
             else:
                 item["status"] = "open"

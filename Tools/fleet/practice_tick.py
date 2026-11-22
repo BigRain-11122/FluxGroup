@@ -348,6 +348,34 @@ def _short_profile_wait(fn, *a, **kw):
             os.environ["FLUX_PROFILE_WAIT"] = old
 
 
+def _lora_ready(timeout=4):
+    """8788（LoRA 车道）是否在位——训练期允许共存的唯一前提。"""
+    try:
+        import urllib.request as _u
+        with _u.urlopen("http://127.0.0.1:8788/v1/models", timeout=timeout) as r:
+            return bool(json.loads(r.read().decode() or "{}").get("data"))
+    except Exception:
+        return False
+
+
+def _coexist_gap_ok(gap_s=600):
+    """两条共存发布之间至少隔 10 分钟：训练拿绝对多数时间，出稿只取它够用的那一小段。"""
+    import time as _t
+    try:
+        rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
+    except Exception:
+        return True
+    last = 0
+    for r in rows[-80:]:
+        if r.get("action") in ("coexist-publish", "post"):
+            try:
+                ts = __import__("datetime").datetime.fromisoformat(str(r.get("ts")))
+                last = max(last, _t.mktime(ts.timetuple()))
+            except Exception:
+                continue
+    return (time.time() - last) >= gap_s if last else True
+
+
 def main():
     t_boot0 = time.time()
     # 0 成熟回验：止损/发帖前先补"过了几分钟才准"的结论，别用婴儿期证据下判决
@@ -462,9 +490,26 @@ def main():
     # GPU 独占：训练在跑时出稿会拿到 2 tok/s 的烂产出（实测），不如等它训完
     sent = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE")
     if os.path.exists(sent) and os.environ.get("FLUX_PRACTICE_FORCE") != "1":
-        log({"action": "skip", "why": "training-gpu"})
-        print("[tick] 训练占用 GPU，本轮延后（会话时段会照常发）")
-        return 0
+        # 2026-11-22 实锚：这条"见哨兵就跳过"让出稿停了 8 小时（13:25→21:42），
+        # 而 train_run.sh 里自己记着：训练 + 8788 出稿 + 采集同时跑实测 swap 零增长、
+        # 出稿 10/10 成功。规则没跟上事实，是规则的问题。
+        # 正法：训练期间只许走 8788（LoRA 车道，已在训练白名单里），探一下活着就照常发；
+        # ollama 车道（4b 兜底）才必须跳过——那才是真要额外装模型、会挤训练的那条。
+        _lora_ok = False
+        try:
+            import urllib.request as _u
+            with _u.urlopen("http://127.0.0.1:8788/v1/models", timeout=4) as _r:
+                _lora_ok = bool(json.loads(_r.read().decode() or "{}").get("data"))
+        except Exception:
+            _lora_ok = False
+        if not _lora_ok:
+            log({"action": "skip", "why": "training-gpu（8788 不在位）"})
+            print("[tick] 训练独占且 8788 不在位，本轮延后")
+            return 0
+        os.environ["FLUX_ALLOW_DURING_TRAIN"] = "1"
+        os.environ["FLUX_LANE_FORCE"] = "lora"
+        log({"action": "coexist", "why": "训练中，仅走 8788 LoRA 车道"})
+        print("[tick] 训练中：仅走 8788 LoRA 车道（训练+出稿共存已验证）")
 
     try:
         if os.environ.get("FLUX_SKIP_VERIFY") != "1":
@@ -603,15 +648,27 @@ def main():
             os.remove(req)
         except Exception:
             pass
+    _exclusive = bool(_got)
+    if not _got and "train" in str(_why):
+        # 训练持锁是 4 小时 TTL：它一占，出稿就被饿死（2026-11-22 实锚：13:25→21:42 零产出）。
+        # 而 train_run.sh 自己的探针已证明"训练 + 8788 出稿 + 采集"可同时跑
+        # （swap 零增长、训练 3.0–3.5s/步、出稿 10/10 成功）。所以允许**受限共存**：
+        # ①只在 8788 在位时 ②共存发布间隔 ≥10 分钟 ③落账 coexist-publish 可归因。
+        if _lora_ready() and _coexist_gap_ok():
+            _got, _why, _exclusive = True, "coexist（训练持锁，8788 在位）", False
+            log({"action": "coexist-publish", "why": _why})
+        else:
+            _why = _why + "； coexist 不可用（8788 不在位或间隔未到）"
     if not _got:
         log({"action": "skip", "why": "gpu-busy:" + _why, "waited_s": 15})
         print("[tick] 让路：%s" % _why)
         return 0
-    try:
-        import atexit as _atexit
-        _atexit.register(lambda: _gl.release("publish"))
-    except Exception:
-        pass
+    if _exclusive:
+        try:
+            import atexit as _atexit
+            _atexit.register(lambda: _gl.release("publish"))
+        except Exception:
+            pass
     # 2026-11-21：有亲笔语料的账号（老号）不再统一写 10-20 字——他真人 2-63 字，
     # 全挤进一个区间本身就是模板。改成按实测分布取目标，允许 ±3 浮动。
     _tlen = lc.human_len_target(n)

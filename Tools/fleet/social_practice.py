@@ -97,8 +97,15 @@ def safe_to_send(text, title="", topics=()):
     except Exception:
         pass
     pool = list(NICHE) + [str(t) for t in (topics or ()) if t and len(str(t)) >= 2]
+    # 标题词回填：扩池后大量新视频没有采集过评论 → topics 为空 → 任何句子都被这条闸拒，
+    # 出稿直接归零（2026-11-22 实锚：17:44 连续 3 条"与本视频无关"、当天 8 小时没发出）。
+    # 视频自己的标题就是最直接的"这条在讲什么"，用它兜底才对得上"与本视频相关"的本意。
+    import re as _re
+    for w in _re.findall(r"[\u4e00-\u9fff]{2,6}", (title or "")):
+        if w not in pool:
+            pool.append(w)
     if not any(w in txt for w in pool):
-        return False, "与本视频无关（不含该视频话题词）"
+        return False, "与本视频无关（不含该视频话题词/标题词）"
     return True, ""
 
 
