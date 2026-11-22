@@ -117,6 +117,13 @@ def sense():
         s["supply_cap"] = fp.supply_cap()
     except Exception:
         s["supply_cap"] = None
+    # 整面体检（12 个面，可复算）：一屏要能回答"这一线还有几个面是红的"
+    try:
+        import surface_audit as sa
+        s["surface"] = sa.audit()
+    except Exception as e:
+        s["surface"] = {"red": None, "skip": None, "checks": [],
+                        "error": str(e)[:60]}
     # 本地模型评审（规则算数、模型判"像不像人"）；训练独占时排队，不硬打
     try:
         import local_review as lr
@@ -253,7 +260,12 @@ def board(s, out):
         "- 互动弱信号：%s 条已回验，点赞中位 %s，被赞 %s" % (
             it.get("n"), it.get("median_likes"),
             ("%s%%" % _pct(it.get("any_liked_rate"))) if it.get("any_liked_rate") is not None else "—"),
-        "- 池子 %d ｜ 高赞样本 %d" % (s.get("pool", 0), s.get("hot", 0)),
+        "- 池子 %d ｜ 高赞样本 %d ｜ 12 面：红 %s / 待判 %s" % (
+            s.get("pool", 0), s.get("hot", 0),
+            (s.get("surface") or {}).get("red"), (s.get("surface") or {}).get("skip")),
+        "- 红面：%s" % ("、".join("%s %s" % (c["id"], c["name"])
+                                 for c in ((s.get("surface") or {}).get("checks") or [])
+                                 if c.get("ok") is False) or "无"),
         "",
         "## 本轮决策",
         "- 动作 `%s`：%s" % (out.get("action"), out.get("why")),

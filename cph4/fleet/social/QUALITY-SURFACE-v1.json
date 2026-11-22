@@ -1,0 +1,18 @@
+{
+ "version": "v1-20261122",
+ "_why": "养号线的‘面’清单：任何一次‘这里弄一下’都必须先对整面，避免只修被点名的那一处。本文件是定义（const），状态由 Tools/fleet/surface_audit.py 每次重算，不写死在这里。",
+ "areas": [
+  {"id": "S1", "name": "话术质量", "q": "稿子具体吗、像人吗", "exec": "Tools/fleet/reply_quality.py", "evidence": "state/LOCAL-REVIEW.json / practice-log.jsonl", "line": "中位≥65、具体≥60%、AI腔=0"},
+  {"id": "S2", "name": "原型多样性", "q": "一天有没有一个腔刷屏", "exec": "Tools/fleet/llm_client.py(_pick_arch)", "evidence": "state/VOICE-USAGE.json", "line": "单一原型≤50%、≥4 类"},
+  {"id": "S3", "name": "人设一致性", "q": "同号说话方式有没有一天三变", "exec": "Tools/fleet/reply_quality.py", "evidence": "practice-log.jsonl(post.account)", "line": "长度/表情漂移≤40%"},
+  {"id": "S4", "name": "互动效果", "q": "发出去的话有没有人买账", "exec": "Tools/fleet/arch_perf.py", "evidence": "practice-log.jsonl(verify.likes)", "line": "样本≥5 后按被赞率调权重"},
+  {"id": "S5", "name": "内容供给", "q": "能写出具体内容的新视频够不够", "exec": "Tools/fleet/pool_expand.py", "evidence": "VIDEO-TITLES.json", "line": "池子≥频率×7 天"},
+  {"id": "S6", "name": "选片贴合", "q": "挑的视频是不是这号该看的", "exec": "Tools/fleet/user_agent.py(pick_videos)", "evidence": "SEEN-VIDEOS.json", "line": "话题命中≥1/条"},
+  {"id": "S7", "name": "闸有效性", "q": "该拦的拦住了、不该拦的放过", "exec": "Tools/fleet/social_guard.py", "evidence": "state/GATE-RESULT.json", "line": "负控全绿"},
+  {"id": "S8", "name": "节拍与成本", "q": "一拍到底几秒、慢在哪段", "exec": "Tools/fleet/practice_tick.py", "evidence": "practice-log.jsonl(action=timing)", "line": "total 中位≤30s"},
+  {"id": "S9", "name": "账号安全", "q": "跨号隔离、重复、止损", "exec": "Tools/fleet/social_guard.py(--group accounts)", "evidence": "state/GUARD-ACCOUNTS.json", "line": "P0 全绿"},
+  {"id": "S10", "name": "训练协同", "q": "训练与出稿别互相拖死", "exec": "Tools/fleet/train_exclusive_guard.sh", "evidence": "state/TRAIN-EXCLUSIVE", "line": "让路可解释、不静默"},
+  {"id": "S11", "name": "创新实验", "q": "有没有在试新做法，而不是只修流程", "exec": "Tools/fleet/arch_perf.py", "evidence": "state/ARCH-PERF.json", "line": "每 7 天至少 1 个带测量的实验"},
+  {"id": "S12", "name": "汇报新鲜度", "q": "一屏是不是过期的", "exec": "Tools/fleet/quality_agent.py", "evidence": "QUALITY-BOARD.md", "line": "≤60 分钟"}
+ ]
+}

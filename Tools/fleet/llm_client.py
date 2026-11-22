@@ -482,6 +482,24 @@ def _arch_save():
         pass
 
 
+_ARCH_PERF = {"v": None, "ts": 0.0}
+
+
+def _arch_perf():
+    """原型效果台账（arch_perf.py 产出，10 分钟缓存）。样本不足时 best=None。"""
+    import json as _json
+    import time as _t
+    if _ARCH_PERF["v"] is not None and _t.time() - _ARCH_PERF["ts"] < 600:
+        return _ARCH_PERF["v"]
+    p = os.path.join(ROOT, ".codely-cli", "state", "ARCH-PERF.json")
+    try:
+        _ARCH_PERF["v"] = _json.load(open(p, encoding="utf-8")) or {}
+    except Exception:
+        _ARCH_PERF["v"] = {}
+    _ARCH_PERF["ts"] = _t.time()
+    return _ARCH_PERF["v"]
+
+
 def _pick_arch(i, title=""):
     """选原型：优先"今天用得最少"的那类，同次数时用 (标题+序号) 做种子定序。"""
     spec = _voice_spec()
@@ -497,6 +515,11 @@ def _pick_arch(i, title=""):
     seed = _rnd.Random((title or "") + "arch" + str(i))
     order = sorted(names, key=lambda n: (int(use.get(n) or 0), seed.random()))
     name = order[0]
+    # 探索-利用：80% 走"今天用得最少"（保多样性），20% 投给"被赞率最高"的原型
+    # （前提是该类样本≥5 条，见 arch_perf.MIN_N）。没有数据时自动退化为纯均匀轮换。
+    _best = (_arch_perf() or {}).get("best")
+    if _best in names and seed.random() < 0.2:
+        name = _best
     use[name] = int(use.get(name) or 0) + 1
     _ARCH["picked"][key] = name
     _arch_save()
