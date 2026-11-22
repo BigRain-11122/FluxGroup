@@ -690,7 +690,11 @@ def main():
     for k in range(n_max):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k, brief=_brief)
         p += persona_line(seg)
-        p += "只写 %d-%d 字，一句话。" % (lo, hi)
+        # 字数带只许有一处：原型带（真人实测）优先，否则人设带。两处都给会互相打架，
+        # 模型挑一个执行，长度带命中率掉到 67%（2026-11-22 实测）。
+        _vb = lc.voice_band(k, title)
+        _lo, _hi = (_vb if _vb else (lo, hi))
+        p += "只写 %d-%d 字，一句话。" % (_lo, _hi)
         if arm == "D":
             # D 臂要求含具体对象，提示词不要求就会被形态闸整批拒（2026-11-22 实锚：
             # 连拒 5 条、日志只写 gate:[True,'']，看不出是形态闸）
@@ -727,7 +731,11 @@ def main():
         s = ct.score(t, seg=seg or None)
         key = (s["voice"] + s["human"], s["total"])
         if recent_ops.get(ct.opening_key(t)):
-            key = (key[0] - 3, key[1])   # 开头撞车：让位给别的候选
+            # 撞开头是可判定的硬伤（2026-11-22 质量分实测：22% 已发稿撞开头），
+            # 只扣分仍可能被选中，直接丢弃这条候选，让模型再写一条
+            log({"action": "skip", "why": "opening-dup:%s" % ct.opening_key(t)[:4],
+                 "arm": arm, "text": t[:20]})
+            continue
         if best is None or key > best[0]:
             best = (key, t, lane, s)
         if best and k + 1 >= n_cand:

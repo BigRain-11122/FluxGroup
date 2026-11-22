@@ -408,6 +408,10 @@ def lora_comment_prompt(title, desc="", i=0, seg=None, brief=""):
         ins += _bn.block(seg or "")
     except Exception:
         pass
+    # 明确写出"别用这些词"：光靠闸拒稿会把八条候选打成一条都过不去
+    # （2026-11-22 实测：不写这句时 8 条候选里 5 条带"绝了"，全被烂梗闸拒）。
+    ins += ("\n别用这些词：绝了、氛围感、质感、干货、拉满、封神、爱了、绝美、高级感。"
+            "别用\"首先/然后/之后\"这类连接词。")
     ins += _EMOJI_RULE
     # 真实样本（few-shot）：小模型的腔调靠样本改，不靠形容词。样本取自 6 万条真实评论里
     # PASS 的部分，按 B 站自己的分类（提问/夸奖/挑刺/玩梗/共鸣/打卡）分组，按候选序号轮换，
@@ -437,6 +441,21 @@ def _voice_spec():
         _VOICE["spec"] = {}
     _VOICE["ts"] = _t.time()
     return _VOICE["spec"]
+
+
+def voice_band(i=0, title=""):
+    """与 voice_block 同一套种子选出原型，返回它的字数带；没有样本时返回 None。"""
+    spec = _voice_spec()
+    arch = (spec.get("archetypes") or {})
+    if not arch:
+        return None
+    names = list(arch.keys())
+    import random as _rnd
+    name = names[_rnd.Random((title or "") + "arch" + str(i)).randrange(len(names))]
+    band = (arch.get(name) or {}).get("band")
+    if not band:
+        return None
+    return int(band[0]), int(band[1])
 
 
 def voice_block(i=0, title=""):

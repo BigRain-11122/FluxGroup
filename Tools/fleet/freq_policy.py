@@ -49,9 +49,10 @@ LEVELS = [
     (88, 120),     # L5 上限（≈44–60 条/号，池子与产能都要跟上）
 ]
 RAMP = os.path.join(ROOT, ".codely-cli", "state", "RAMP.json")
-GROW_MIN_RATE = 0.35      # 可见率 ≥35% 才允许升档（60 天实测均值 36%）
 GROW_MIN_N = 8            # 样本不足不下结论
-SHRINK_RATE = 0.25        # 可见率 <25% 且样本足够 → 降一档
+GROW_QUALITY = 70.0       # 质量中位 ≥70 才允许升档（reply_quality 五维合计 100 分制）
+SHRINK_QUALITY = 55.0     # 质量中位 <55 → 降一档
+QUALITY_SINCE = "2026-11-22"   # 判据只判"闸与话术生效之后"的稿，旧稿不追溯
 GAP_MIN = (4, 18)
 TITLES = os.path.join(SOCIAL, "VIDEO-TITLES.json")
 RULE_DAYS = 7          # 「同视频 7 天 ≤1 条评论」这条硬规则
@@ -70,24 +71,42 @@ def level_now():
 def ramp_tick(stats):
     """按上一周期实测决定下一档。返回 (新档位, 判定理由)。
 
-    升档要三件事同时成立：样本够、可见率达标、没有连续真失败与连续不可见。
-    降档只要一件：可见率跌破 25%（说明内容或节奏出了问题），或连续 2 次真失败。
-    这比"我拍一个数"可靠：数字由平台反馈决定，不由我乐观决定。
+    判据用**回复质量**，不用可见率——2026-11-22 CEO「评论是否可见不是很重要，
+    我要的是回复质量」：可见与否取决于平台审核与折叠，把平台的审核延迟当成自己的
+    加量开关，等于让一个我们控制不了的数决定产量。可见率只记录、不参与判决。
+
+    升档：样本≥8、质量中位≥70、具体率≥60%、撞模板≤10%、AI 腔 0、无真失败，全中才升。
+    降档：连续 2 次真失败，或质量中位<55，或撞模板>25%，或 AI 腔>20%。
     """
     lv = level_now()
     n = int(stats.get("n") or 0)
-    rate = float(stats.get("rate") or 0)
+    rate = float(stats.get("rate") or 0)          # 只记录
     real = int(stats.get("consec_real_fail") or 0)
-    invis = int(stats.get("consec_invisible") or 0)
+    q = {}
+    try:
+        import reply_quality as rq
+        q = rq.evaluate(n=30, since=QUALITY_SINCE) or {}
+    except Exception:
+        q = {}
+    qn = int(q.get("n") or 0)
+    med = float(q.get("median") or 0)
+    conc = float(q.get("concrete_rate") or 0)
+    dup = float(q.get("dup_rate") or 0)
+    ai = float(q.get("ai_smell_rate") or 0)
+
     if real >= CONSEC_REAL_FAIL:
         return max(1, lv - 1), "连续 %d 次真失败 → 降档观察" % real
-    if n >= GROW_MIN_N and rate < SHRINK_RATE:
-        return max(1, lv - 1), "可见率 %.0f%% < 25%% → 降档" % (100 * rate)
-    if n >= GROW_MIN_N and rate >= GROW_MIN_RATE and invis < 3:
+    if qn >= GROW_MIN_N and (med < SHRINK_QUALITY or dup > 0.25 or ai > 0.20):
+        return max(1, lv - 1), ("质量中位 %.0f / 撞模板 %.0f%% / AI 腔 %.0f%% → 降档"
+                                % (med, 100 * dup, 100 * ai))
+    if (qn >= GROW_MIN_N and med >= GROW_QUALITY and conc >= 0.60
+            and dup <= 0.10 and ai == 0):
         if lv < len(LEVELS):
-            return lv + 1, "可见率 %.0f%% ≥35%%、无真失败 → 升到 L%d" % (100 * rate, lv + 1)
-        return lv, "已在最高档 L%d（可见率 %.0f%%）" % (lv, 100 * rate)
-    return lv, "样本 %d 条 / 可见率 %.0f%% → 保持 L%d" % (n, 100 * rate, lv)
+            return lv + 1, ("质量中位 %.0f、具体 %.0f%%、0 AI 腔、撞模板 %.0f%% → 升到 L%d"
+                            % (med, 100 * conc, 100 * dup, lv + 1))
+        return lv, "已在最高档 L%d（质量中位 %.0f）" % (lv, med)
+    return lv, ("样本 %d 条 / 质量中位 %.0f / 具体 %.0f%% / 撞模板 %.0f%% → 保持 L%d"
+                "（可见率 %.0f%% 仅记录）" % (qn or n, med, 100 * conc, 100 * dup, lv, 100 * rate))
 
 
 def supply_cap(days=RULE_DAYS):
