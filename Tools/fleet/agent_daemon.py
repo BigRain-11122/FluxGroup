@@ -119,31 +119,16 @@ def main(argv=None):
                 open(sent, "w", encoding="utf-8").write(str(os.getpid()))
             except Exception:
                 pass
-            # 会话期间要出稿（要 GPU）。2026-11-21 实锚：训练 19 轮把 GPU 占满，
-            # 养号"开一场"却生成不出字，一整天 0 条产出。所以会话先拿"publish"租约、
-            # 持有到会话结束；拿不到就跳过这一场（训练正在关键处，不硬抢）。
+            # 2026-11-22 实锚（这条把两个号整天锁死）：开场前就抢 "publish" 租约，
+            # 训练一起跑就 skip_gpu → 连浏览/点赞/弹幕都不做。可这三件事根本不用 GPU，
+            # 只有"发评论"那一步才要（practice_tick 自己会去拿租约）。
+            # 所以：会话照开，租约留给真正要 GPU 的那一步——训练期间人照样在刷视频。
             _lease = None
-            if not a.dry:
-                try:
-                    import gpu_lease as _gl
-                    _got, _why = _gl.acquire("publish", ttl_s=minutes * 60 + 600, wait_s=60)
-                except Exception:
-                    _got, _why = True, ""
-                if not _got:
-                    log({"event": "skip_gpu", "account": a.account, "why": _why})
-                    print("[daemon] %s 让路：%s" % (a.account, _why), flush=True)
-                    time.sleep(300)
-                    continue
-                _lease = _gl
+
             print("[daemon] %s 开一场 %d 分钟" % (a.account, minutes), flush=True)
             try:
                 r = ua.run_session(minutes, dry=a.dry, force=True)
             finally:
-                if _lease is not None:
-                    try:
-                        _lease.release("publish")
-                    except Exception:
-                        pass
                 try:
                     os.remove(sent)
                 except Exception:
