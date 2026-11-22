@@ -117,6 +117,12 @@ def sense():
         s["supply_cap"] = fp.supply_cap()
     except Exception:
         s["supply_cap"] = None
+    # 本地模型评审（规则算数、模型判"像不像人"）；训练独占时排队，不硬打
+    try:
+        import local_review as lr
+        s["review"] = lr.run(n=3)
+    except Exception as e:
+        s["review"] = {"why": "评审调用失败：%s" % str(e)[:60]}
     # 上次补采时间（限流保护）
     st = _load(AGENT_STATE, {})
     s["last_mine"] = st.get("last_mine")
@@ -243,6 +249,7 @@ def board(s, out):
             _pct(q.get("dup_rate")), _pct(q.get("len_ok_rate")), _pct(q.get("ai_smell_rate"))),
         "- 原型分布 %s（最扎堆 %s%%，%s 类）" % (
             q.get("archetypes"), _pct(q.get("max_share")), q.get("unique_arch")),
+        "- 本地模型评审：%s" % _review_line(s.get("review") or {}),
         "- 互动弱信号：%s 条已回验，点赞中位 %s，被赞 %s" % (
             it.get("n"), it.get("median_likes"),
             ("%s%%" % _pct(it.get("any_liked_rate"))) if it.get("any_liked_rate") is not None else "—"),
@@ -259,6 +266,14 @@ def board(s, out):
     except Exception:
         pass
     return BOARD
+
+
+def _review_line(rv):
+    if rv.get("n"):
+        return "评 %d 条，人味中位 %s，原型 %s%s" % (
+            rv.get("n"), rv.get("human_median"), rv.get("archetypes"),
+            ("；问题：" + "、".join(rv.get("issues") or [])[:60]) if rv.get("issues") else "")
+    return rv.get("why") or "无"
 
 
 def _pct(x):
