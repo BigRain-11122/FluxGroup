@@ -61,3 +61,7 @@
 2026-11-22T23:16:35 RECEIPT RUNNING gpu=1 vram=13149MB busy=i2v,lora
 2026-11-22T23:17:54 TICK commit=committed:6 converge=merged-behind-2 push=pushed lane=lane-cooldown(5m)
 2026-11-22T23:21:37 RECEIPT RUNNING gpu=100 vram=15616MB busy=i2v,lora
+2026-11-22T23:22:20 LANE jobs=3 fresh=1 -> run one card
+2026-11-22T23:23:32 LANE rc=0 done=asset-lib-face-dataset-2026-11-20,asset-lib-face-dataset-2026-11-17 LANE-ACCEPT asset-lib-face-dataset-2026-11-20 :: REJECT None | asset-lib-face-dataset-2026-11-20 DONE rc=0 54.1s deliverable=True error=- | asset-lib-face-dataset-2026-11-17 DONE rc=0 54.1s deliverable=True error=-
+2026-11-22T23:23:32 TICK commit=committed:5 converge=merged-behind-3 push=pushed lane=lane-rc-0(2 done)
+2026-11-22T23:26:32 RECEIPT RUNNING gpu=100 vram=15448MB busy=i2v,lora
