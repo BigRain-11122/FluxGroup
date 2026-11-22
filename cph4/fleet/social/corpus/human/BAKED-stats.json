@@ -1,18 +1,18 @@
 {
- "ts": "2026-11-22T08:45:21",
- "rows": 60762,
+ "ts": "2026-11-22T11:12:14",
+ "rows": 60765,
  "workers": 7,
- "bake_sec": 15.0,
- "rows_per_sec": 4044.0,
+ "bake_sec": 14.8,
+ "rows_per_sec": 4102.9,
  "near_dup": 1009,
  "segments": {
   "generic": 44095,
   "memer": 4678,
   "shallow": 2805,
-  "craft_learner": 2403,
+  "craft_learner": 2405,
   "feeler": 1759,
   "peer_pro": 1404,
-  "tech_nerd": 869,
+  "tech_nerd": 870,
   "student": 731,
   "music_seeker": 519,
   "family": 472,
@@ -23,7 +23,7 @@
   "traditional": 47
  },
  "verdicts": {
-  "PASS": 11178,
+  "PASS": 11181,
   "RISKY": 40654,
   "REJECT": 8930
  },

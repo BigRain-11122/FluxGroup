@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-22T07:11:34",
+ "ts": "2026-11-22T10:58:34",
  "base": [
   {
-   "n": 30,
-   "avg": 56.7,
-   "pass_rate": 3,
-   "avg_logic": 9.0,
-   "avg_human": 8.0,
-   "avg_natural": 19.9,
+   "n": 10,
+   "avg": 37.5,
+   "pass_rate": 0,
+   "avg_logic": 0.0,
+   "avg_human": 0.0,
+   "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "你提到戴耳机音量太大，我试过 29 分贝实测就明显刺痛耳膜了。",
-    "你用的哪个耳机？我也在纠结参数，但实际听感确实因人而异。"
+    "《风景》/《难忘的情怀》/《借东西的小人阿莉埃蒂》",
+    "《2025 年度最令人讨厌歌曲 TOP10》"
    ],
-   "seg": "tech_nerd",
+   "seg": "music_seeker",
    "cached": true
   }
  ],
  "lora": [
   {
-   "n": 30,
-   "avg": 61.7,
-   "pass_rate": 53,
-   "avg_logic": 20.5,
-   "avg_human": 7.0,
-   "avg_natural": 19.3,
-   "reject": 5,
-   "seg": "tech_nerd",
+   "n": 10,
+   "avg": 73.0,
+   "pass_rate": 80,
+   "avg_logic": 25.5,
+   "avg_human": 8.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "music_seeker",
    "sample": [
-    "支持一下，不过我想问问你的镜头是什么？",
-    "开篇比结尾多1分钟，还分镜头"
+    "bgm是啥？可以投稿BGM/配乐求首",
+    "其实这个bgm挺适合听这个的"
    ]
   }
  ],
- "samples": 30,
- "adapter": "cph4/fleet/social/train/RUNS/20261122-063552/ckpt400"
+ "samples": 10,
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261122-102149/ckpt400"
 }

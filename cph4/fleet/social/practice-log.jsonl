@@ -217,3 +217,50 @@
 {"action": "skip", "why": "training-gpu", "ts": "2026-11-22T05:41:50"}
 {"action": "skip", "why": "training-gpu", "ts": "2026-11-22T06:11:50"}
 {"action": "skip", "why": "training-gpu", "ts": "2026-11-22T06:41:50"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-22T09:19:51"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T10:13:08"}
+{"action": "route", "seg": "tech_nerd", "ok": true, "secs": 18.0, "note": "[switch] 8788 就绪（60%）（cph4/fleet/social/train/RUNS/20261119-200531/ckpt200）", "ts": "2026-11-22T10:13:26"}
+{"action": "skip", "why": "no text passed gates", "arm": "C", "video": "https://www.bilibili.com/video/BV1us5T6gE2v/", "ts": "2026-11-22T10:13:47"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T10:14:26"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 20.2, "note": "[switch] 8788 就绪（60%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-22T10:14:46"}
+{"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1yKp2z5ETj/", "aid": 115214309656121, "root": 0, "text": "你剪的卡点素材挺看得懂，再练练吧。", "rpid": "324757092736", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 0/8 条，间隔 OK", "ts": "2026-11-22T10:15:51"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100", "rpid": "324757092736", "arm": "C", "persona": "craft_learner", "ts": "2026-11-22T10:15:51"}
+{"action": "qualified", "rpid": "324757092736", "persona": "craft_learner", "arm": "C", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "你剪的卡点素材挺看得懂，再练练吧。", "ts": "2026-11-22T10:15:51"}
+{"action": "timing", "rpid": "324757092736", "cand": 3, "gen_s": 65.0, "dwell_s": 0, "total_s": 85.3, "pending_verify": true, "ts": "2026-11-22T10:15:51"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T10:16:42"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 16.2, "note": "[switch] 8788 就绪（50%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-22T10:16:58"}
+{"action": "warmup", "secs": 5.8, "seg": "craft_learner", "ts": "2026-11-22T10:17:04"}
+{"action": "fail", "why": "距上帖仅 1 分钟（下限 15）", "arm": "A", "lane": "lora", "ts": "2026-11-22T10:17:10"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T10:22:22"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 133s）", "ts": "2026-11-22T10:23:52"}
+{"action": "verify", "rpid": "324757092736", "visible": true, "mature": true, "age_min": 11, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-22T10:27:23"}
+{"action": "heal", "note": 25.9, "ts": "2026-11-22T10:27:49"}
+{"action": "skip", "why": "training-gpu", "ts": "2026-11-22T10:27:49"}
+{"action": "skip", "why": "training-gpu", "ts": "2026-11-22T10:31:44"}
+{"action": "skip", "why": "training-gpu", "ts": "2026-11-22T10:38:52"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T10:49:49"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 1706s）", "waited_s": 15, "ts": "2026-11-22T10:50:06"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T10:50:27"}
+{"action": "concurrent", "with": "train", "headroom_gb": 10.13, "why": "出稿与训练并行（内存余量够，训练不暂停）", "ts": "2026-11-22T10:50:35"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 17.8, "note": "[switch] 8788 就绪（60%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-22T10:50:53"}
+{"action": "warmup", "secs": 14.7, "seg": "craft_learner", "ts": "2026-11-22T10:51:08"}
+{"action": "skip", "why": "training-gpu", "ts": "2026-11-22T10:52:05"}
+{"action": "heal", "note": 19.1, "ts": "2026-11-22T11:02:40"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:02:40"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 14.5, "note": "[switch] 8788 就绪（50%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-22T11:02:54"}
+{"action": "warmup", "secs": 13.2, "seg": "craft_learner", "ts": "2026-11-22T11:03:08"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：publish（已 54s）", "waited_s": 15, "ts": "2026-11-22T11:03:34"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:06:02"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 0.0, "note": "已在位", "ts": "2026-11-22T11:06:02"}
+{"action": "post", "arm": "A", "form": "短句子回复", "video": "https://www.bilibili.com/video/BV1tBmxBuE56/", "aid": 115694440025004, "root": 282998059249, "text": "你那个转场音效删了，画面直接断成两截啊。", "rpid": "324761751728", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 1/8 条，间隔 OK", "ts": "2026-11-22T11:07:30"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100", "rpid": "324761751728", "arm": "A", "persona": "craft_learner", "ts": "2026-11-22T11:07:30"}
+{"action": "qualified", "rpid": "324761751728", "persona": "craft_learner", "arm": "A", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "你那个转场音效删了，画面直接断成两截啊。", "ts": "2026-11-22T11:07:30"}
+{"action": "timing", "rpid": "324761751728", "cand": 3, "gen_s": 87.4, "dwell_s": 0, "total_s": 87.4, "pending_verify": true, "ts": "2026-11-22T11:07:30"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:07:50"}
+{"action": "route", "seg": "shallow", "ok": true, "secs": 17.1, "note": "[switch] 8788 就绪（50%）（cph4/fleet/social/train/RUNS/20261121-152144/ckpt400）", "ts": "2026-11-22T11:08:07"}
+{"action": "warmup", "secs": 14.4, "seg": "shallow", "ts": "2026-11-22T11:08:22"}
+{"action": "skip", "why": "off-session", "ts": "2026-11-22T11:08:52"}
+{"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV1TP5464EsH/", "aid": 116555396620234, "root": 303458564768, "text": "素材整理好之后关键帧一动，画面立马就活啦。", "rpid": "324761961232", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-22 十轮压测后复核", "ts": "2026-11-22T11:09:07"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-152144/ckpt400", "rpid": "324761961232", "arm": "D", "persona": "shallow", "ts": "2026-11-22T11:09:07"}
+{"action": "qualified", "rpid": "324761961232", "persona": "shallow", "arm": "D", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "素材整理好之后关键帧一动，画面立马就活啦。", "ts": "2026-11-22T11:09:07"}
+{"action": "timing", "rpid": "324761961232", "cand": 3, "gen_s": 45.3, "dwell_s": 0, "total_s": 76.9, "pending_verify": true, "ts": "2026-11-22T11:09:07"}
