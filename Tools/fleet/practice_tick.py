@@ -924,9 +924,13 @@ def main():
         # 三段分开记：gen=纯模型、post=发帖往返、total=从挑视频到发完。
         # 混在一起时 SD08 只能看到"慢"，看不出是模型慢还是浏览器慢。
         _post_s = round(t_post1 - t_post0, 1)
+        # 排队（等真人会话腾出浏览器）从 post_s 里扣掉：混在一起时"发帖 90 秒"是假象，
+        # 浏览器里其实只跑了三五秒（2026-11-22 实锚：post 97.7s 里 90s 在等锁）。
+        _q_s = float(res.get("lock_wait_s") or 0.0)
+        _post_s_pure = round(max(0.0, _post_s - _q_s), 1)
         _rec = {"action": "timing", "rpid": res.get("rpid"), "cand": n_cand,
                 "gen_s": round(t_gen1 - t_gen0, 1), "dwell_s": dwell,
-                "post_s": _post_s,
+                "post_s": _post_s_pure, "post_queue_s": _q_s,
                 "total_s": round(time.time() - t_tick0, 1), "pending_verify": True}
         if _post_s > 40:
             # 单条 post 自己只要 3 秒；超过 40 秒必然是排在别人的浏览后面（daemon 单线程）

@@ -476,7 +476,12 @@ def act(task):
     ph, seg = task["phase"], task["seg"]
     if ph == "collect":
         ok, delta, secs, tail = do_collect(seg)
-        # 崩溃（delta=None）必须记 FAIL，不能记成"跑通了但没涨"
+        # 崩溃（delta=None）必须记 FAIL，不能记成"跑通了但没涨"。
+        # 但"让路/等锁"不是崩溃：真人会话正占着浏览器，这是设计内的排队。
+        # 记 FAIL 会让它进 24h 退避，直接把语料断掉（2026-11-22 实锚）。
+        if delta is None and ("让路" in tail or "等锁" in tail):
+            return dict(ts=now(), phase=ph, seg=seg, status="DEFER", why=task.get("why"),
+                        secs=round(secs, 1), delta=None, tail=tail.strip()[-400:])
         status = "OK" if ok else ("FAIL" if delta is None else "NOPROGRESS")
         return dict(ts=now(), phase=ph, seg=seg, status=status, why=task.get("why"),
                     secs=round(secs, 1), delta=delta, tail=tail.strip()[-400:])
@@ -632,7 +637,9 @@ def main(argv=None):
         print("[loop] %s（%.1fs）" % (rec["status"], rec["secs"]))
         if rec.get("tail"):
             print(rec["tail"][-300:])
-        return 0 if rec["status"] in ("OK", "WATCH") else 1
+        # DEFER 是健康状态（真人会话占着浏览器，本拍让路），不能算失败：
+        # 否则 launchd 只看到一个坏退出码，调度层会把"正常排队"误判成环路坏了。
+        return 0 if rec["status"] in ("OK", "WATCH", "DEFER") else 1
     finally:
         lock_release()
 
