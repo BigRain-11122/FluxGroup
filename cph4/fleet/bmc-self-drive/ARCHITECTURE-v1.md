@@ -68,3 +68,29 @@ CEO 授权（2026-11-15）：任何任务占用不合理（占显存/内存但�
 ## 六、链路
 - 主控：NATS 心跳+lanes 派卡（StationAgent 巡查 every:1h 已在役）
 - 本档案：cph4/fleet/bmc-self-drive/ARCHITECTURE-v1.md（node/bm-c 链上正身）
+
+
+## 七、闭环与上链节拍（2026-11-22 · CEO 令「本地闭环/信息同步/及时上链/主控知情」）
+
+> 本节修正第六节：「主控 = NATS 心跳 + lanes 派卡」在 2026-11 已不成立——
+> **全队 NATS hub 无监听，心跳走不通；主控实际按 git 里本机自写的回执判活。**
+
+| 层 | 载体 | 谁写 | 判据 |
+|---|---|---|---|
+| 在线 | cph4/fleet/queue-receipts/_last_lane_bm-c.json | 本机 | 主控 30 分钟内新鲜 = online |
+| 产出 | cph4/fleet/queue-receipts/autodrive-hb-bm-c.json | 本机 | 内容 
+ode+	s，超 6h = EXECUTOR-DEAD |
+| 派卡 | cph4/fleet/lanes/bm-c.json | **主控**（本机只读） | jobs 非空 = 有待执行卡 |
+| 结果 | 回执 + lane.result.bm-c（NATS，当前不通） | 本机 | 以 git 回执为准 |
+
+**执行体只有一个：Bmc-ChainPublish（每 5 分钟）**，顺序固定为
+刷新回执 → 提交证据件（单文件 ≤2MB）→ fetch/合并远端 → 推送 → 领一张卡。
+其余席位（路由/监督/守卫/巡查）只出判断或重启批，不写 git、不改主控的笔。
+
+三条铁律（违反会重演 2026-11-22 的 927 提交断供）：
+
+1. queue-receipts/ 是忽略目录，回执必须 git add -f 才能到主控——节点侧自证靠它；
+2. 主控的笔（PRODUCTION-QUEUE / PRODUCTION-BACKLOG / lanes/ / dispatcher/MASTER-STATE）
+   冲突一律取远端，节点绝不覆盖；
+3. 同一张车道卡跑过就记进 production/chain-lane-done.json，主控未清卡前不重跑
+   （旧账：同一门禁卡被重跑 40+ 轮，每轮推一份同结论回执）。
