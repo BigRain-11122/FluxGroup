@@ -323,6 +323,7 @@ def push():
 
 
 LANE_DONE = os.path.join(ROOT, "cph4", "fleet", "production", "chain-lane-done.json")
+LANE_SIG = os.path.join(ROOT, "cph4", "fleet", "production", "chain-lane-sig.json")
 
 
 def _lane_done():
@@ -363,6 +364,21 @@ def run_lane_once():
     fresh = [j for j in jobs if str(j.get("id")) not in done]
     if not fresh:
         return "lane-all-done(%d)" % len(jobs)
+    # lane_agent 不接受「只跑某几张卡」的参数（全队共享代码，本机不改它）；
+    # 它会把车道里能跑的卡都跑一遍。所以再压一道批次签名闸：同一批派单在
+    # 45 分钟内只跑一次，主控换了卡（签名变）才再跑。
+    sig = ",".join(sorted(str(j.get("id")) for j in jobs))
+    try:
+        prev = json.load(open(LANE_SIG, encoding="utf-8"))
+    except Exception:
+        prev = {}
+    if prev.get("sig") == sig and (time.time() - float(prev.get("ts") or 0)) < 2700:
+        age = int((time.time() - float(prev.get("ts") or 0)) / 60)
+        return "lane-batch-held(%dm, same dispatch)" % age
+    try:
+        json.dump({"sig": sig, "ts": time.time()}, open(LANE_SIG, "w", encoding="utf-8"))
+    except Exception:
+        pass
     log("LANE jobs=%d fresh=%d -> run one card" % (len(jobs), len(fresh)))
     r = subprocess.run([PY, os.path.join(ROOT, "Tools", "fleet", "lane_agent.py"),
                         "--node", "bm-c", "--root", ROOT, "--max-seconds", "900"],

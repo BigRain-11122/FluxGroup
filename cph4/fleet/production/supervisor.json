@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-22T22:31:56",
+ "ts": "2026-11-22T22:41:58",
  "verdict": "GREEN",
  "paused": false,
  "gpu_util": 100,
- "vram_used_mb": 15650,
+ "vram_used_mb": 15378,
  "vram_total_mb": 16384,
  "comfy": true,
  "bank": {
@@ -17,35 +17,35 @@
   {
    "seat": "生产者 BmcIdleGuard",
    "task": "BmcIdleGuard",
-   "last_run_age_s": 57,
+   "last_run_age_s": 58,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 9,
+   "last_run_age_s": 10,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 62694,
+   "last_run_age_s": 63295,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard-bmc",
-   "last_run_age_s": 88,
+   "last_run_age_s": 149,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 141,
+   "last_run_age_s": 143,
    "state": "OK",
    "result": 0
   }

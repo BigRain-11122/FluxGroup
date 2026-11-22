@@ -25,7 +25,15 @@ import wave
 import numpy as np
 
 REPO = os.environ.get("VB_GPT_ROOT", r"C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS")
-FFMPEG = r"C:\Fluxgroup\MiniGame\Tools\ffmpeg\bin\ffmpeg.exe"
+# 2026-11-22 修：原值写死 bm-b 的 C: 盘路径，在 bm-c 上 subprocess 直接 WinError 2。
+# 改为环境变量 → PATH → 常见位置 三级解析。
+_ff = os.environ.get("FFMPEG") or shutil.which("ffmpeg")
+if not _ff:
+    for _c in (r"D:\ComfyUI\ffmpeg.exe", r"K:\Fluxgroup\.tools\ffmpeg\bin\ffmpeg.exe"):
+        if os.path.isfile(_c):
+            _ff = _c
+            break
+FFMPEG = _ff or "ffmpeg"
 # 2026-11-22 修：原默认值写死 E: 盘（他机路径），本机是 K:\Fluxgroup，import 后第一行就
 # FileNotFoundError，整条语音语料构建跑不了。改为按本仓位置推导 + 环境变量可覆盖。
 _HERE = os.path.dirname(os.path.abspath(__file__))
