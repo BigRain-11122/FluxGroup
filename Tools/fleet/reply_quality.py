@@ -206,6 +206,15 @@ def evaluate(n=30, since=None):
                        "emoji_today": round(e1, 2), "emoji_base": round(e0, 2),
                        "ok": dl <= DRIFT_LINE and de <= 0.5}
     agg["consistency"] = drift
+    # 互动弱信号：已回验且拿到点赞数的那几条（新评论通常 0–2 赞，样本会随天数积累）
+    likes = [int(r.get("likes")) for r in rows
+             if r.get("action") == "verify" and r.get("likes") is not None
+             and (not since or str(r.get("ts") or "") >= since)]
+    agg["interaction"] = {
+        "n": len(likes),
+        "median_likes": round(st.median(likes), 1) if likes else None,
+        "any_liked_rate": round(sum(1 for x in likes if x > 0) / len(likes), 2) if likes else None,
+    }
     agg["ok"] = (agg["median"] >= PASS_LINE and agg["concrete_rate"] >= CONCRETE_LINE
                  and agg["dup_rate"] <= DUP_LINE and agg["ai_smell_rate"] == 0
                  and agg["max_share"] <= 0.5
@@ -246,6 +255,10 @@ def main(argv=None):
             if not w["ontopic"]:
                 why.append("不贴题")
             print("   最低 [%d分] %s ← %s" % (w["score"], w["text"], "、".join(why)))
+        it = agg.get("interaction") or {}
+        print("   互动弱信号：%s 条已回验，点赞中位 %s，被赞比例 %s"
+              % (it.get("n"), it.get("median_likes"),
+                 "%.0f%%" % (100 * it["any_liked_rate"]) if it.get("any_liked_rate") is not None else "—"))
         print("   原型分布 %s（最扎堆 %.0f%%，%d 类）"
               % (agg.get("archetypes"), 100 * agg.get("max_share", 0), agg.get("unique_arch", 0)))
         for acct, v in (agg.get("consistency") or {}).items():

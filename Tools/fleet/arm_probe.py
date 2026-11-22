@@ -259,7 +259,7 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
     else:
         vis, vwhy = sc.verify_comment(aid, rpid, wait_s=max(wait_s, 300))
     _log({"action": "verify", "arm": arm, "aid": aid, "rpid": rpid, "root": root_rpid,
-          "visible": vis, "why": vwhy,
+          "visible": vis, "why": vwhy, "likes": getattr(sc, "LAST_VERIFY", {}).get("likes"),
           "verdict": "公开可见" if vis else "待审核-保留"})
     return {"ok": True, "stage": "posted", "rpid": rpid, "visible": vis, "why": vwhy}
 

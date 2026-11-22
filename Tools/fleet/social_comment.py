@@ -36,6 +36,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 SENT = os.path.join(ROOT, "cph4", "fleet", "social", "comments-sent.jsonl")
 PRACTICE = os.path.join(ROOT, "cph4", "fleet", "social", "practice-log.jsonl")
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "social", "reply-queue.jsonl")
+LAST_VERIFY = {"likes": None}     # 最近一次回验命中的我方评论点赞数（可能为 None）
 PROF = (os.environ.get("FLUX_BILI_PROFILE")
         or os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili"))
 # 多号不同时：切换账号时由调用方设置 FLUX_BILI_PROFILE，登录态、锁、补采全跟着这个目录走。
@@ -375,8 +376,13 @@ def verify_comment_browser(aid, rpid, pages=3, sorts=(0, 2), tries=3, wait_s=45)
                             reps = ((d.get("data") or {}).get("replies") or [])
                             if reps:
                                 got_any = True
-                            if str(rpid) in [str(x.get("rpid")) for x in reps]:
-                                return True, "已公开可见（sort=%d 第%d页）" % (sort, pn)
+                            for _x in reps:
+                                if str(_x.get("rpid")) == str(rpid):
+                                    # 顺手记下这条评论被点了多少赞：这是唯一能拿到的
+                                    # "互动质量"弱信号（2026-11-22「要质量」）
+                                    LAST_VERIFY["likes"] = int(_x.get("like") or 0)
+                                    return True, "已公开可见（sort=%d 第%d页，%d 赞）" % (
+                                        sort, pn, LAST_VERIFY["likes"])
                     if got_any:
                         return False, "%d 页内查不到该 rpid（确实不在公开列表）" % pages
                 finally:
