@@ -89,6 +89,26 @@ def used_videos():
     return s
 
 
+def pick():
+    """挑一条还没用过的视频来浏览（会话预算用完时的"只看不发"）。
+
+    2026-11-22：这个函数在一次同步回滚里整段消失，留下裸调用 pick()，
+    于是会话一旦走"预算用完"分支就 NameError（白天 swatch/浏览全停）。
+    它的语义是"挑视频"，与 social_practice.pick（挑队列评论）不是一回事。
+    """
+    try:
+        vids = json.load(open(TITLES, encoding="utf-8"))
+    except Exception:
+        return None
+    used = used_videos()
+    cand = [(k, v) for k, v in vids.items()
+            if (v or {}).get("title") and k not in used]
+    if not cand:
+        return None
+    u, meta = cand[0]
+    return {"video": u, "title": (meta or {}).get("title") or ""}
+
+
 def blocked():
     try:
         d = json.load(open(BLOCKED, encoding="utf-8"))
@@ -561,8 +581,7 @@ def main():
             if browsed >= int(s_now.get("passive", 6)):
                 print("[tick] 本次会话已刷满（看 %d 条、发 %d 条），离开" % (browsed, used))
                 return 0
-            import social_practice as _sp0
-            row0 = _sp0.pick()
+            row0 = pick()
             if row0:
                 okb, info = sc.browse_video(row0["video"],
                                             seconds=rng.uniform(25, 110), rng=rng)
