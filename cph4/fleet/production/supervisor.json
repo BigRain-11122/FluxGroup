@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-23T06:41:56",
- "verdict": "GREEN",
+ "ts": "2026-11-23T06:51:57",
+ "verdict": "AMBER",
  "paused": false,
- "gpu_util": 100,
- "vram_used_mb": 15517,
+ "gpu_util": 96,
+ "vram_used_mb": 8642,
  "vram_total_mb": 16384,
  "comfy": true,
  "bank": {
@@ -12,7 +12,7 @@
  },
  "bank_total": 12,
  "pending": 11,
- "in_flight": 1,
+ "in_flight": 0,
  "seats": [
   {
    "seat": "生产者 BmcIdleGuard",
@@ -31,31 +31,33 @@
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 5693,
+   "last_run_age_s": 6294,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 38,
+   "last_run_age_s": 99,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "总控 Orchestrator",
    "task": "Bmc-Orchestrator",
-   "last_run_age_s": 8,
+   "last_run_age_s": 9,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 141,
+   "last_run_age_s": 142,
    "state": "OK",
    "result": 0
   }
  ],
- "alerts": []
+ "alerts": [
+  "AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）"
+ ]
 }
