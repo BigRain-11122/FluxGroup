@@ -71,3 +71,4 @@
 {"ev": "requeue", "id": "PROD-DRAMA-EP010", "attempt": 3, "why": "fail:kf", "ts": "2026-11-22T10:31:46"}
 {"ev": "blocked", "id": "PROD-DRAMA-EP010", "attempts": 4, "why": "fail:kf", "ts": "2026-11-22T10:51:46"}
 {"ev": "requeue", "id": "PROD-MV-HEI-I2V", "attempt": 1, "why": "no-deliverable", "ts": "2026-11-22T22:11:46"}
+{"ev": "iterate", "report": "cph4/fleet/production/ITERATION-20261123.md", "done": 1, "blocked": 0, "ts": "2026-11-23T05:07:01"}
