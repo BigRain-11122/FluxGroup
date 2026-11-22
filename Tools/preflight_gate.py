@@ -49,6 +49,7 @@ SCENE_CONFLICT = {
     "drama_street": ("temple", "museum", "interior"),
     "drama_interior": ("aerial", "skyline"),
     "drama_exterior": ("interior wall", "ceiling lamp"),
+    "piano_room": ("outdoor daylight", "beach", "forest canopy", "studio softbox"),
 }
 SCENE_CONFLICT_BY_PROFILE = {"mv": SCENE_CONFLICT, "drama": SCENE_CONFLICT}
 
@@ -99,7 +100,10 @@ def guard(shot_id, prompt_text, tokens, kf_verified=False, kf_note="", defect=No
             fails.append("②缺 %s" % k)
 
     # ③ 零否定
-    hit = [w for w in NEG_TOKENS if w in low]
+    # 2026-11-21 bm-c 修：原判定 `w in low` 是子串匹配，"piano room" 里的 "no "
+    # 被当成否定句（《黑色幽默》17/24 镜因此被误挡）。改词边界匹配，只抓真正的否定词。
+    hit = [w for w in NEG_TOKENS
+           if re.search(r"(?<![a-z])" + re.escape(w.strip()) + r"(?![a-z])", low)]
     if hit:
         fails.append("③否定句命中 %s（否定词会诱发目标出现）" % hit)
 
