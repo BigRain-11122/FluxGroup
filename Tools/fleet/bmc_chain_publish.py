@@ -69,7 +69,12 @@ MAX_FILE_BYTES = 2 * 1024 * 1024
 
 def log(msg):
     line = "%s %s" % (datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), msg)
-    print(line)
+    # 本脚本以 pythonw.exe 常驻（无控制台）：stdout 是 None，直接 print 会炸。
+    if sys.stdout is not None:
+        try:
+            print(line)
+        except Exception:
+            pass
     try:
         os.makedirs(os.path.dirname(LOG), exist_ok=True)
         with open(LOG, "a", encoding="utf-8") as fh:
