@@ -1,12 +1,13 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795358160.0,
-   "last_rc": "BLOCKED",
-   "rows": 591,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "last_ts": 1795373600.007767,
+   "last_rc": "KEEP",
+   "rows": 592,
+   "run": "20261123-022511",
+   "step": 400,
+   "val_min": 3.522,
+   "recipe": "v5-shape-quota"
   },
   "peer_pro": {
    "last_ts": 1795363035.0,
@@ -25,12 +26,12 @@
    "val_min": null
   },
   "craft_learner": {
-   "last_ts": 1795371553.983414,
-   "last_rc": "YIELD-PUBLISH",
-   "rows": 2204,
-   "run": "20261122-210807",
-   "step": 200,
-   "val_min": 3.478
+   "last_ts": 1795371553.0,
+   "last_rc": "BLOCKED",
+   "rows": 2206,
+   "run": null,
+   "step": null,
+   "val_min": null
   },
   "memer": {
    "last_ts": 1795369003.0,
@@ -66,25 +67,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-22T00:54:15",
-   "seg": "peer_pro",
-   "rows": 603,
-   "built": 631,
-   "eval_n": 10,
-   "run": "20261122-002540",
-   "step": 400,
-   "val_step": 450,
-   "val_min": 3.783,
-   "base_avg": 51.8,
-   "lora_avg": 51.8,
-   "base_human": 5.0,
-   "lora_human": 4.0,
-   "human_delta": -1.0,
-   "verdict": "REJECT",
-   "why": "均分只 +0.0（需 ≥5.0）",
-   "adapter": "cph4/fleet/social/train/RUNS/20261122-002540/ckpt400"
-  },
   {
    "ts": "2026-11-22T01:28:38",
    "seg": "feeler",
@@ -675,6 +657,35 @@
    "verdict": "REJECT",
    "why": "均分只 -13.4（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261123-014233/ckpt400"
+  },
+  {
+   "ts": "2026-11-23T02:19:13",
+   "seg": "craft_learner",
+   "rows": 2206,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "让路出稿：距上帖 29 分钟（间隔 30 分钟）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-23T02:53:20",
+   "seg": "tech_nerd",
+   "rows": 592,
+   "built": 370,
+   "eval_n": 10,
+   "run": "20261123-022511",
+   "step": 400,
+   "val_step": 450,
+   "val_min": 3.522,
+   "base_avg": 54.0,
+   "lora_avg": 66.0,
+   "base_human": 5.0,
+   "lora_human": 7.0,
+   "human_delta": 2.0,
+   "verdict": "KEEP",
+   "why": "均分 +12.0 / 人味 +2.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261123-022511/ckpt400"
   }
  ]
 }
