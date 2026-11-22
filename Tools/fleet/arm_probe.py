@@ -266,6 +266,8 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
 
 def _log(rec):
     rec.setdefault("ts", datetime.now().isoformat(timespec="seconds"))
+    # 与 practice_tick 同一列：agent_daemon 设 FLUX_ACCOUNT，配额判据要靠它分号。
+    rec.setdefault("account", os.environ.get("FLUX_ACCOUNT") or None)
     with open(LOG, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 

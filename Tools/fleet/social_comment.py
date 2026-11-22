@@ -34,6 +34,7 @@ from datetime import datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SENT = os.path.join(ROOT, "cph4", "fleet", "social", "comments-sent.jsonl")
+PRACTICE = os.path.join(ROOT, "cph4", "fleet", "social", "practice-log.jsonl")
 QUEUE = os.path.join(ROOT, "cph4", "fleet", "social", "reply-queue.jsonl")
 PROF = (os.environ.get("FLUX_BILI_PROFILE")
         or os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-bilibili"))
@@ -483,7 +484,10 @@ def ingest_harvest(timeout=900):
 
 def _browse_in(ctx, url, seconds=None, harvest=True):
     pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-    pg.goto(url, wait_until="domcontentloaded", timeout=60000)
+    # 常驻浏览器是单线程的：一次浏览的 goto 最长 60 秒，排队等它的是发帖动作
+    # （2026-11-22 实测：post 在 daemon 里等了 90 秒，而它自己只需 3 秒）。
+    # 浏览不需要"等到完全加载"，20 秒拿不到内容就跳过，把线程让给要发的东西。
+    pg.goto(url, wait_until="domcontentloaded", timeout=20000)
     human_read(pg, seconds=seconds)
     title = (pg.title() or "")[:40]
     got = 0
@@ -497,12 +501,27 @@ def _browse_in(ctx, url, seconds=None, harvest=True):
     return True, "%s|%d" % (title, got)
 
 
+DAEMON_HOLD_S = 8      # 常驻浏览器里最多"停留"这么久，剩下的由调用方补睡
+
+
 def browse_video(url, seconds=None, rng=None, harvest=True, ctx=None):
-    """真的把视频页打开、停留、滚动一段（常驻浏览器里就是一个新标签页）。"""
+    """真的把视频页打开、停留、滚动一段（常驻浏览器里就是一个新标签页）。
+
+    2026-11-22 实锚：browser_daemon 是**单线程** HTTPServer，一次 browse 在 daemon 里
+    睡 25–110 秒，期间所有发帖/回验请求都在排队——一拍被拖成 71–132 秒，客户端 120 秒
+    超时后再冷启动一次浏览器，等于付两次钱。改法：daemon 里只做"开页+滚动+采集"（≤8 秒），
+    停留改由调用方在拿到响应之后补睡；标签页仍然开着，页面看起来还是在看。
+    """
     if ctx is not None:
         return _browse_in(ctx, url, seconds=seconds, harvest=harvest)
-    hit = _daemon("browse", {"url": url, "seconds": seconds, "harvest": harvest})
+    hold = float(seconds or 0)
+    in_daemon = min(hold, DAEMON_HOLD_S)
+    hit = _daemon("browse", {"url": url, "seconds": in_daemon, "harvest": harvest},
+                  timeout=90)
     if hit is not None:
+        rest = hold - in_daemon
+        if rest > 0:
+            time.sleep(rest)
         return bool(hit.get("ok")), hit.get("res")
     import random as _r
     mod, _st = _pw()
@@ -697,18 +716,29 @@ def live_comments(cs):
 
 
 def _today_sent():
-    if not os.path.exists(SENT):
-        return 0
+    """今日已发条数。真值在 practice-log 的 post 行；comments-sent 是旧台账。
+
+    2026-11-22 实锚：当天真发 9 条，这里读旧台账得 0，于是"今日已满"这道闸形同虚设。
+    两个来源按 rpid 去重合并，任一路径写入都不会漏计。
+    """
     today = datetime.now().strftime("%Y-%m-%d")
-    n = 0
-    for line in open(SENT, encoding="utf-8"):
-        if line.strip():
+    seen = set()
+    for path in (SENT, PRACTICE):
+        if not os.path.exists(path):
+            continue
+        for line in open(path, encoding="utf-8"):
+            if not line.strip():
+                continue
             try:
-                if (json.loads(line).get("ts") or "").startswith(today):
-                    n += 1
+                r = json.loads(line)
             except Exception:
-                pass
-    return n
+                continue
+            if not str(r.get("ts") or "").startswith(today):
+                continue
+            if path is PRACTICE and r.get("action") not in (None, "post"):
+                continue
+            seen.add(str(r.get("rpid") or ("%s|%s" % (r.get("ts"), r.get("aid")))))
+    return len(seen)
 
 
 def self_test():

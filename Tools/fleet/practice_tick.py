@@ -106,7 +106,7 @@ def clear_blocked(why):
         pass
 
 
-def mature_verify(n=5, min_age_s=600, limit=3):
+def mature_verify(n=5, min_age_s=600, limit=3, quick=False):
     """对"发帖后只验过一次就再没验"的投递补一次成熟回验。
 
     2026-11-20 实锚：回验在发帖后 ~40 秒就做，B 站评论过审/进列表常要几分钟，
@@ -145,7 +145,10 @@ def mature_verify(n=5, min_age_s=600, limit=3):
             continue
         aid = p.get("aid") or p.get("oid")
         try:
-            v, why = sc.verify_comment_browser(aid, rp)
+            # quick：出稿前的补验只准试一次、等 5 秒。默认 3 次 × 45 秒会在
+            # profile 被另一号占着时把出稿拖到两三分钟（2026-11-22 实测）。
+            v, why = sc.verify_comment_browser(
+                aid, rp, tries=1 if quick else 3, wait_s=5 if quick else 45)
         except Exception as e:
             log({"action": "verify", "rpid": rp, "visible": None, "mature": True,
                  "why": "复核异常 %s" % type(e).__name__})
@@ -158,6 +161,9 @@ def mature_verify(n=5, min_age_s=600, limit=3):
 
 def log(rec):
     rec.setdefault("ts", datetime.now().isoformat(timespec="seconds"))
+    # 按号归因：agent_daemon 会设 FLUX_ACCOUNT。没有这一列，"今日 acct1 发了几条"
+    # 只能靠猜，而配额判据必须能分号（2026-11-22 实测 HEALTH.comment 恒 0）。
+    rec.setdefault("account", os.environ.get("FLUX_ACCOUNT") or None)
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
@@ -323,10 +329,30 @@ def recent_post_outcomes(n=5):
     return out[-n:]
 
 
+def _short_profile_wait(fn, *a, **kw):
+    """把浏览器 profile 锁的等待压到 10 秒再执行 fn。
+
+    2026-11-22 实锚：两个号各自开着会话时，profile 锁被占；出稿进程在
+    social_collect._acquire_profile_lock 里每 5 秒轮询、最多等 180 秒，**且不打任何日志**，
+    表现就是"点了没反应、五分钟没动静"，而 timing 行还显示 71 秒（等待不在计时里）。
+    回验是锦上添花，不该挡住出稿：拿不到锁就退回 reader profile 或当轮跳过。
+    """
+    old = os.environ.get("FLUX_PROFILE_WAIT")
+    os.environ["FLUX_PROFILE_WAIT"] = "10"
+    try:
+        return fn(*a, **kw)
+    finally:
+        if old is None:
+            os.environ.pop("FLUX_PROFILE_WAIT", None)
+        else:
+            os.environ["FLUX_PROFILE_WAIT"] = old
+
+
 def main():
+    t_boot0 = time.time()
     # 0 成熟回验：止损/发帖前先补"过了几分钟才准"的结论，别用婴儿期证据下判决
     try:
-        n_fix = mature_verify()
+        n_fix = _short_profile_wait(mature_verify, limit=1, quick=True)
         if n_fix:
             print("[tick] 补做成熟回验 %d 条" % n_fix)
     except Exception as e:
@@ -444,8 +470,11 @@ def main():
         if os.environ.get("FLUX_SKIP_VERIFY") != "1":
             import practice_due as _pd0
             _owed0, _ = _pd0.due(within_s=0)
-            if not _owed0:              # 该出稿了就别先花 25 秒去看旧帖
-                verify_pending(1)
+            if not _owed0:
+                # 原调用 verify_pending(1) 在这个文件里从未定义过，被 except 静默吞掉，
+                # 等于这一步一直是空的（2026-11-22 实锚）。补验统一走 mature_verify，
+                # 且同样限时拿锁，不许挡住出稿。
+                _short_profile_wait(mature_verify, limit=1, quick=True)
     except Exception:
         pass
 
@@ -519,7 +548,9 @@ def main():
         return 0
     url, meta = cand[0]
     title = meta["title"]
-    t_tick0 = time.time()
+    # 进程起点：真实总节拍必须含 0–2.5 段的等待（回验/拿锁/会话判定）。
+    # 起点原来放在"挑定视频之后"，于是五分钟没发出去也能记成 71 秒。
+    t_tick0 = t_boot0
     # 4 生成：先定"这条评论是谁说的"（人群画像），再按那群的实测习惯出稿。
     #   2026-11-19 CEO「分足够多的人群画像和习惯，能应对自如」：全局统一字数带
     #   等于对所有人说同一种话；而规格里的带子本身也失真（玩梗党实测中位 33 字、
@@ -676,16 +707,19 @@ def main():
         # 一整天就这样白跑。正解=只用**发送前那一套**（ap.gates）做候选筛选，
         # 过不了的压根不参与排序，"过了却发不出去"这类白跑从结构上消失。
         okg, ginfo = ap.gates(t, title or "", topics=_topics)
+        _rej = ""
         if okg:
             _fok, _fwhy = ap.form_check(arm, t, topics=_topics)
             if not _fok:
-                okg = False
-                log({"action": "skip", "why": "form:" + str(_fwhy)[:40], "arm": arm,
-                     "text": t[:24]})
+                okg, _rej = False, "form:" + str(_fwhy)[:50]
         if not okg:
-            _why = "form" if str(ginfo.get("gen_gate")) == "[True, '']" else \
-                str(ginfo.get("gen_gate") or ginfo)[:40]
-            log({"action": "skip", "why": "gate:" + _why, "arm": arm, "text": t[:24]})
+            if not _rej:
+                # 2026-11-22 实锚：原来只看 gen_gate，别的闸拒了也写成 "gate:form"，
+                # 一整天 9 条候选全被记成同一个原因，真正的拒稿理由被这个标签藏起来。
+                _fails = [(k, v[1]) for k, v in (ginfo or {}).items()
+                          if isinstance(v, (list, tuple)) and v and v[0] is False]
+                _rej = "; ".join("%s:%s" % (k, str(w)[:40]) for k, w in _fails) or "unknown"
+            log({"action": "skip", "why": _rej, "arm": arm, "text": t[:24]})
             continue
         if ct.awkward_particles(t):
             continue
@@ -709,6 +743,10 @@ def main():
         print("[tick] 跳过：无文案过闸")
         return 0
 
+    # 生成段到此结束。此前 gen_s 是在 ap.run 之后才算的，把发帖往返也吞了进去，
+    # 于是"生成慢"的结论一直无法证伪（2026-11-22 实测：候选单条 2.1s，一拍却记 71s）。
+    t_gen1 = time.time()
+
     # 5 发 + 回验：发前先"读一会儿"（拟人停留），再发
     # 2026-11-22 CEO「太慢了，真人不会这样」：会话里已经看过这条视频，
     # 发前再等 20–60 秒是双份。会话内直接发；独立跑才做一次短停留（≤10s）。
@@ -725,6 +763,7 @@ def main():
     # （2026-11-19 实锚：补采脚本在跑时 practice-tick 直接 rc=1）。忙就本轮跳过，
     # 记事由、返回 0——"环境被占用"不是故障，不该把作业打成红。
     res = None
+    t_post0 = time.time()
     for attempt in range(3):
         try:
             res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title,
@@ -741,6 +780,7 @@ def main():
                 print("[tick] 跳过：profile 被占用")
                 return 0
             raise
+    t_post1 = time.time()
     if res.get("stage") != "posted":
         refresh_screen("发帖未成：%s" % str(res.get("why"))[:60])
         log({"action": "fail", "why": str(res.get("why"))[:120], "arm": arm, "lane": lane_used})
@@ -764,9 +804,17 @@ def main():
         except Exception:
             pass
     try:
-        log({"action": "timing", "rpid": res.get("rpid"), "cand": n_cand,
-             "gen_s": round(time.time() - t_gen0, 1), "dwell_s": dwell,
-             "total_s": round(time.time() - t_tick0, 1), "pending_verify": True})
+        # 三段分开记：gen=纯模型、post=发帖往返、total=从挑视频到发完。
+        # 混在一起时 SD08 只能看到"慢"，看不出是模型慢还是浏览器慢。
+        _post_s = round(t_post1 - t_post0, 1)
+        _rec = {"action": "timing", "rpid": res.get("rpid"), "cand": n_cand,
+                "gen_s": round(t_gen1 - t_gen0, 1), "dwell_s": dwell,
+                "post_s": _post_s,
+                "total_s": round(time.time() - t_tick0, 1), "pending_verify": True}
+        if _post_s > 40:
+            # 单条 post 自己只要 3 秒；超过 40 秒必然是排在别人的浏览后面（daemon 单线程）
+            _rec["note"] = "post 慢：daemon 排队"
+        log(_rec)
     except Exception:
         pass
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
