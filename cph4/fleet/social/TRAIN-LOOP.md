@@ -1,4 +1,4 @@
-# 7×24 训练循环（2026-11-22T10:58:39）
+# 7×24 训练循环（2026-11-22T11:29:01）
 
 > 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
 
@@ -7,12 +7,12 @@
 | 段 | 可用行数 | 可训 | 判据 |
 |---|---|---|---|
 | memer | 2181 | 是 | 配方更新 v5-shape-quota（2181 行） |
-| craft_learner | 2171 | 是 | 配方更新 v5-shape-quota（2171 行） |
+| craft_learner | 2172 | 是 | 配方更新 v5-shape-quota（2172 行） |
 | shallow | 1952 | 是 | 配方更新 v5-shape-quota（1952 行） |
 | peer_pro | 605 | 是 | 配方更新 v5-shape-quota（605 行） |
 | tech_nerd | 579 | 是 | 配方更新 v5-shape-quota（579 行） |
 | feeler | 550 | 是 | 配方更新 v5-shape-quota（550 行） |
-| music_seeker | 445 | 否 | 冷却中（0.0h 前刚训过，语料 445→445 未涨 10%） |
+| music_seeker | 445 | 是 | 配方更新 v5-shape-quota（445 行） |
 | beginner | 151 | 否 | 语料 151 < 200 |
 | critic | 127 | 否 | 语料 127 < 200 |
 | student | 107 | 否 | 语料 107 < 200 |

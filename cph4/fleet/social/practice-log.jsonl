@@ -264,3 +264,94 @@
 {"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-152144/ckpt400", "rpid": "324761961232", "arm": "D", "persona": "shallow", "ts": "2026-11-22T11:09:07"}
 {"action": "qualified", "rpid": "324761961232", "persona": "shallow", "arm": "D", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "素材整理好之后关键帧一动，画面立马就活啦。", "ts": "2026-11-22T11:09:07"}
 {"action": "timing", "rpid": "324761961232", "cand": 3, "gen_s": 45.3, "dwell_s": 0, "total_s": 76.9, "pending_verify": true, "ts": "2026-11-22T11:09:07"}
+{"action": "verify", "rpid": "324761751728", "visible": false, "mature": true, "age_min": 17, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T11:25:21"}
+{"action": "verify", "rpid": "324761961232", "visible": false, "mature": true, "age_min": 16, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T11:25:26"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:25:26"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 987s）", "waited_s": 15, "ts": "2026-11-22T11:25:46"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:26:04"}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 1124s）", "waited_s": 15, "ts": "2026-11-22T11:28:04"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:30:56"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 15.3, "note": "[switch] 8788 就绪（50%）（cph4/fleet/social/train/RUNS/20261120-134941/ckpt100）", "ts": "2026-11-22T11:31:11"}
+{"action": "warmup", "secs": 10.8, "seg": "craft_learner", "ts": "2026-11-22T11:31:22"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "C", "ts": "2026-11-22T11:31:32"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "C", "ts": "2026-11-22T11:31:36"}
+{"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1zh9jByEuu/", "aid": 116329055066968, "root": 0, "text": "素材裁切好就出片，你试试啊。", "rpid": "324764422112", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-22 常驻浏览器+让路验收", "ts": "2026-11-22T11:33:08"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100", "rpid": "324764422112", "arm": "C", "persona": "craft_learner", "ts": "2026-11-22T11:33:08"}
+{"action": "qualified", "rpid": "324764422112", "persona": "craft_learner", "arm": "C", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "素材裁切好就出片，你试试啊。", "ts": "2026-11-22T11:33:08"}
+{"action": "timing", "rpid": "324764422112", "cand": 3, "gen_s": 106.2, "dwell_s": 0, "total_s": 132.3, "pending_verify": true, "ts": "2026-11-22T11:33:08"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:34:25"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 0.0, "note": "已在位", "ts": "2026-11-22T11:34:25"}
+{"action": "post", "arm": "C", "form": "短句顶级评论", "video": "https://www.bilibili.com/video/BV1YkNT6xEUK/", "aid": 116905771932191, "root": 0, "text": "用 Codex 出字幕真快啊！", "rpid": "324764602304", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-22 常驻浏览器验收2", "ts": "2026-11-22T11:35:46"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261120-134941/ckpt100", "rpid": "324764602304", "arm": "C", "persona": "craft_learner", "ts": "2026-11-22T11:35:46"}
+{"action": "qualified", "rpid": "324764602304", "persona": "craft_learner", "arm": "C", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "用 Codex 出字幕真快啊！", "ts": "2026-11-22T11:35:46"}
+{"action": "timing", "rpid": "324764602304", "cand": 3, "gen_s": 80.6, "dwell_s": 0, "total_s": 80.6, "pending_verify": true, "ts": "2026-11-22T11:35:46"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:36:14"}
+{"action": "route", "seg": "memer", "ok": true, "secs": 15.7, "note": "[switch] 8788 就绪（50%）（cph4/fleet/social/train/RUNS/20261121-132429/ckpt400）", "ts": "2026-11-22T11:36:30"}
+{"action": "warmup", "secs": 9.6, "seg": "memer", "ts": "2026-11-22T11:36:40"}
+{"action": "skip", "why": "training-gpu", "ts": "2026-11-22T11:38:52"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:40:02"}
+{"action": "route", "seg": "memer", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:40:02"}
+{"action": "fail", "why": "第一页没有可用 root 评论", "arm": "A", "lane": "lora", "ts": "2026-11-22T11:43:12"}
+{"action": "verify", "rpid": "324764422112", "visible": true, "mature": true, "age_min": 13, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-22T11:47:26"}
+{"action": "verify", "rpid": "324764602304", "visible": true, "mature": true, "age_min": 11, "why": "已公开可见（sort=0 第1页）", "ts": "2026-11-22T11:47:31"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:47:31"}
+{"action": "route", "seg": "memer", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:47:31"}
+{"action": "skip", "why": "no text passed gates", "arm": "A", "video": "https://www.bilibili.com/video/BV1BxWu6SESe/", "ts": "2026-11-22T11:47:44"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:47:56"}
+{"action": "route", "seg": "peer_pro", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:47:56"}
+{"action": "skip", "why": "form:D 臂要求含具体内容（画面/剪辑/镜头/结尾/开头 之一）", "arm": "D", "ts": "2026-11-22T11:48:03"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:48:03"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:48:06"}
+{"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV18a4y1g7xc/", "aid": 655912004, "root": 164519428512, "text": "50 块那段转场明显有廉价色散，200 块调色才像样啊。", "rpid": "324766140784", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-22 单通道验收3", "ts": "2026-11-22T11:50:02"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-132429/ckpt400", "rpid": "324766140784", "arm": "D", "persona": "peer_pro", "ts": "2026-11-22T11:50:02"}
+{"action": "qualified", "rpid": "324766140784", "persona": "peer_pro", "arm": "D", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "50 块那段转场明显有廉价色散，200 块调色才像样啊。", "ts": "2026-11-22T11:50:02"}
+{"action": "timing", "rpid": "324766140784", "cand": 3, "gen_s": 126.4, "dwell_s": 0, "total_s": 126.5, "pending_verify": true, "ts": "2026-11-22T11:50:02"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:50:08"}
+{"action": "route", "seg": "peer_pro", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:50:08"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:10"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:12"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:15"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:17"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:19"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:21"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:23"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:25"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:27"}
+{"action": "skip", "why": "no text passed gates", "arm": "D", "video": "https://www.bilibili.com/video/BV1Xd4y1Y7uc/", "ts": "2026-11-22T11:50:27"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:50:34"}
+{"action": "route", "seg": "feeler", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:50:34"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:37"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:39"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:41"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:44"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:46"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:47"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:49"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:52"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:50:54"}
+{"action": "skip", "why": "no text passed gates", "arm": "D", "video": "https://www.bilibili.com/video/BV1bbxf6UEi9/", "ts": "2026-11-22T11:50:54"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:51:04"}
+{"action": "route", "seg": "feeler", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:51:04"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:06"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:09"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:11"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:13"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:15"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:18"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:20"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:22"}
+{"action": "skip", "why": "gate:[True, '']", "arm": "D", "ts": "2026-11-22T11:51:24"}
+{"action": "skip", "why": "no text passed gates", "arm": "D", "video": "https://www.bilibili.com/video/BV1Md4w6oE19/", "ts": "2026-11-22T11:51:24"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:51:31"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:51:31"}
+{"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV16jZLY8Eak/", "aid": 114235778539336, "root": 258077845681, "text": "剪映的转场音效和画面掉帧怎么就修不回来啊？", "rpid": "324766566736", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-22 最终2", "ts": "2026-11-22T11:53:04"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-132429/ckpt400", "rpid": "324766566736", "arm": "D", "persona": "craft_learner", "ts": "2026-11-22T11:53:04"}
+{"action": "qualified", "rpid": "324766566736", "persona": "craft_learner", "arm": "D", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "剪映的转场音效和画面掉帧怎么就修不回来啊？", "ts": "2026-11-22T11:53:04"}
+{"action": "timing", "rpid": "324766566736", "cand": 3, "gen_s": 93.4, "dwell_s": 0, "total_s": 93.4, "pending_verify": true, "ts": "2026-11-22T11:53:04"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T11:53:23"}
+{"action": "route", "seg": "tech_nerd", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T11:53:23"}
+{"action": "skip", "why": "gate:form", "arm": "D", "text": "画面里那个特写角度确实稳，镜头推拉自然，没套路感", "ts": "2026-11-22T11:53:25"}
+{"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV19d4y1s7yt/", "aid": 391037298, "root": 141219243936, "text": "up 把日食瞬间和周围吃相的切片放在一起，这种剪辑思路其实比单纯拍画面更有趣呢。", "rpid": "324766462240", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 99, "verdict": "PASS"}, "cap": "额度被显式指令覆盖：CEO 2026-11-22 热态复测", "ts": "2026-11-22T11:54:19"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-132429/ckpt400", "rpid": "324766462240", "arm": "D", "persona": "tech_nerd", "ts": "2026-11-22T11:54:19"}
+{"action": "qualified", "rpid": "324766462240", "persona": "tech_nerd", "arm": "D", "lane": "lora", "score": 99, "voice": 8, "human": 10, "text": "up 把日食瞬间和周围吃相的切片放在一起，这种剪辑思路其实比单纯拍画面更有趣呢。", "ts": "2026-11-22T11:54:19"}
+{"action": "timing", "rpid": "324766462240", "cand": 3, "gen_s": 56.1, "dwell_s": 0, "total_s": 56.1, "pending_verify": true, "ts": "2026-11-22T11:54:19"}

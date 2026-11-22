@@ -65,3 +65,5 @@
 {"ts": "2026-11-22T09:51:31", "seg": "memer", "rows": 2181, "built": 0, "eval_n": 0, "verdict": "BLOCKED", "why": "让路出稿：距上帖 32 分钟（间隔 30 分钟）", "adapter": null}
 {"ts": "2026-11-22T10:16:00", "seg": "shallow", "rows": 1952, "built": 0, "eval_n": 0, "verdict": "BLOCKED", "why": "GPU 让路：GPU 被占用：publish（已 94s）", "adapter": null}
 {"ts": "2026-11-22T10:58:39", "seg": "music_seeker", "rows": 445, "built": 296, "eval_n": 10, "run": "20261122-102149", "step": 400, "val_step": 400, "val_min": 2.913, "base_avg": 37.5, "lora_avg": 73.0, "base_human": 0.0, "lora_human": 8.0, "human_delta": 8.0, "verdict": "KEEP", "why": "均分 +35.5 / 人味 +8.0", "adapter": "cph4/fleet/social/train/RUNS/20261122-102149/ckpt400"}
+{"ts": "2026-11-22T11:29:01", "seg": "feeler", "rows": 550, "built": 0, "eval_n": 0, "verdict": "TRAIN-FAIL", "why": "  \u001b[38;5;244m 240\u001b[0m    \u001b[1;33m3.546 ▲\u001b[0m    \u001b[1m    4\u001b[0m    \u001b[38;5;244m  4.4k\u001b[0m", "adapter": null}
+{"ts": "2026-11-22T11:35:01", "seg": "craft_learner", "rows": 2173, "built": 0, "eval_n": 0, "verdict": "BLOCKED", "why": "GPU 让路：GPU 被占用：publish（已 36s）", "adapter": null}
