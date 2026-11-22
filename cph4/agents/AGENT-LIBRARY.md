@@ -36,6 +36,7 @@
 | └ 生产者席 BmcIdleGuard | 闲置≥10min → 从 `work-bank/bm-c-gpu-bank.json` 认领 pending 活 → 隐链点火（**既有件**，本次仅启用+供料） | `cph4/fleet/idle-guard-kit/bmc_idleguard.py` | PT10M |
 | └ 收口员席 Bmc-ProdFinalize | 对账 claimed→done / pending（≤3 次重试）/ blocked；写 `production/LEDGER.jsonl` | `Tools/fleet/bmc_prod.py finalize` | PT10M |
 | └ 自省员席 Bmc-ProdIterate | 夜间读台账：单集耗时/产能估算/失败聚类/迭代建议（**只建议不立法**） | `Tools/fleet/bmc_prod.py iterate` | 日 05:07 |
+| └ 群审席 mv_panel（十席机械+多模态） | 每批出图/成片自动群审：导演/灯光/调色/服装/剪辑/表演/受众/合规/文字/连续性 + 多模态(VL描述→文本打分)；全席 ≥7 且均分 ≥9 才 PASS | \Tools/mv_panel.py\ | 每批自动 |
 | └ 审稿员席 drama_prompt_critic | 本地 LLM（num_gpu=0 纯 CPU）提示词初筛，与 GPU 烧片并行不抢卡 | `Tools/fleet/drama_prompt_critic.py` | 按批调用 |
 | W 波回测自滚引擎 | 量化波链席位/冻结/自燃全链 | bigmoney 仓 fleet/ | 连续滚动 |
 | 值守轮 / 夜轮 / 进化轮 | 四器审计+催办自愈 / 03:07 夜报 / 周日立法+法熵审视 | `cph4/night-round-prompt.txt` / `evolution.md` | 03:07/15:07 · 周日 |
