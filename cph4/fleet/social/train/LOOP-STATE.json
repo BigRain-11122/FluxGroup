@@ -1,16 +1,16 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795327810.7644181,
-   "last_rc": "YIELD-PUBLISH",
-   "rows": null,
-   "run": "20261122-063552",
+   "last_ts": 1795327810.0,
+   "last_rc": "BLOCKED",
+   "rows": 580,
+   "run": null,
    "step": null,
    "val_min": null
   },
   "peer_pro": {
-   "last_ts": 1795306430.0,
-   "last_rc": "BLOCKED",
+   "last_ts": 1795328459.9642649,
+   "last_rc": "YIELD-DAY",
    "rows": 605,
    "run": null,
    "step": null,
@@ -66,16 +66,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-21T18:22:44",
-   "seg": "craft_learner",
-   "rows": 2071,
-   "built": 0,
-   "eval_n": 0,
-   "verdict": "SUPPLY",
-   "why": "造集不足 0 条",
-   "adapter": null
-  },
   {
    "ts": "2026-11-21T19:02:55",
    "seg": "shallow",
@@ -626,6 +616,16 @@
    "eval_n": 0,
    "verdict": "BLOCKED",
    "why": "GPU 让路：GPU 被占用：publish（已 36s）",
+   "adapter": null
+  },
+  {
+   "ts": "2026-11-22T14:10:10",
+   "seg": "tech_nerd",
+   "rows": 580,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "BLOCKED",
+   "why": "让路出稿：距上帖 36 分钟（间隔 30 分钟）",
    "adapter": null
   }
  ]
