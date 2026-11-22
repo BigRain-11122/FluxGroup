@@ -1,0 +1,121 @@
+{
+ "tag": "hei-b1",
+ "shots": 13,
+ "prompts": "hei-kf-prompts-v2-batch1.json",
+ "avg": 9.82,
+ "verdict": "PASS",
+ "seats": [
+  {
+   "seat": "导演",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [
+    "（分段批：近特/主体预算由全片表核，本批只核空镜率）"
+   ],
+   "detail": {
+    "empty%": 0.0,
+    "face%": 0.0,
+    "body%": 100.0
+   }
+  },
+  {
+   "seat": "摄影灯光",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "directional_light_shots": 13
+   }
+  },
+  {
+   "seat": "调色",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "grades": [
+     "tw2001"
+    ],
+    "grade_case": true
+   }
+  },
+  {
+   "seat": "服装道具",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "denim": 13,
+    "graphic tee": 13,
+    "silver chain": 13,
+    "leather bracelet": 13
+   }
+  },
+  {
+   "seat": "剪辑节奏",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "over_length": 0
+   }
+  },
+  {
+   "seat": "表演",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "emotion_words": 0
+   }
+  },
+  {
+   "seat": "受众",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "action_shots%": 100.0
+   }
+  },
+  {
+   "seat": "合规",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "name_hits": 0
+   }
+  },
+  {
+   "seat": "文字",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "text_risk": 0
+   }
+  },
+  {
+   "seat": "连续性",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "person_id_variants": 1
+   }
+  },
+  {
+   "seat": "多模态",
+   "score": 8,
+   "verdict": "PASS",
+   "findings": [
+    "最差项：H001:构图略显拥挤，缺乏明显的视觉引导；H002:人物面部细节模糊，缺乏真实皮肤纹"
+   ],
+   "detail": {
+    "vlm_avg": 8.0,
+    "samples": 2
+   }
+  }
+ ]
+}
