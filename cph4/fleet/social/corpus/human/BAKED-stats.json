@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-22T13:23:03",
- "rows": 60770,
+ "ts": "2026-11-22T13:28:41",
+ "rows": 60771,
  "workers": 7,
- "bake_sec": 15.3,
- "rows_per_sec": 3972.6,
+ "bake_sec": 15.6,
+ "rows_per_sec": 3885.6,
  "near_dup": 1009,
  "segments": {
   "generic": 44095,
-  "memer": 4678,
+  "memer": 4679,
   "shallow": 2805,
   "craft_learner": 2410,
   "feeler": 1759,
@@ -23,7 +23,7 @@
   "traditional": 47
  },
  "verdicts": {
-  "PASS": 11186,
+  "PASS": 11187,
   "RISKY": 40654,
   "REJECT": 8930
  },

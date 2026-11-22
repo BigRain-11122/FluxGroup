@@ -359,3 +359,17 @@
 {"action": "verify", "rpid": "324766566736", "visible": false, "mature": true, "age_min": 81, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T13:14:55"}
 {"action": "verify", "rpid": "324766462240", "visible": false, "mature": true, "age_min": 80, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T13:15:00"}
 {"action": "skip", "why": "daily cap 8/8", "ts": "2026-11-22T13:15:00"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T13:24:13"}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T13:24:13"}
+{"action": "skip", "why": "gate:form", "arm": "D", "text": "看完那些用 AI 生成的空镜画面，真得省着点用，", "ts": "2026-11-22T13:24:21"}
+{"action": "skip", "why": "gate:form", "arm": "D", "text": "问苍，你这转场怎么切得这么丝滑？[打 call]", "ts": "2026-11-22T13:24:24"}
+{"action": "post", "arm": "D", "form": "长句子回复（带具体内容）", "video": "https://www.bilibili.com/video/BV1RQYe63EFf/", "aid": 117263059455614, "root": 318018588880, "text": "你那个问苍生的转场好生硬啊，差点没挨住，[doge] 配乐也没救回来。", "rpid": "324776446048", "code": 0, "toast": "OK", "ok": true, "gates": {"safe_to_send": [true, ""], "gen_gate": [true, ""], "smell_gate": [true, ""], "taste": 88, "verdict": "PASS"}, "cap": "今日 8/19 条，间隔 OK", "ts": "2026-11-22T13:25:24"}
+{"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-132429/ckpt400", "rpid": "324776446048", "arm": "D", "persona": "craft_learner", "ts": "2026-11-22T13:25:24"}
+{"action": "qualified", "rpid": "324776446048", "persona": "craft_learner", "arm": "D", "lane": "lora", "score": 88, "voice": 8, "human": 10, "text": "你那个问苍生的转场好生硬啊，差点没挨住，[doge] 配乐也没救回来。", "ts": "2026-11-22T13:25:24"}
+{"action": "timing", "rpid": "324776446048", "cand": 3, "gen_s": 71.1, "dwell_s": 0, "total_s": 71.1, "pending_verify": true, "ts": "2026-11-22T13:25:24"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T13:26:18"}
+{"action": "route", "seg": "tech_nerd", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T13:26:18"}
+{"action": "skip", "why": "gate:form", "arm": "D", "text": "万一你拿 24 机拍口播，注意别让后期把肤色调得", "ts": "2026-11-22T13:26:25"}
+{"action": "skip", "why": "gate:form", "arm": "D", "text": "你拍的窗边光影层次好，后期把暗部提亮后画面通透不", "ts": "2026-11-22T13:26:28"}
+{"action": "fail", "why": "距上帖仅 1 分钟（下限 22）", "arm": "D", "lane": "lora", "ts": "2026-11-22T13:26:31"}
+{"action": "skip", "why": "距上帖仅 1 分钟（本次下限 30）", "ts": "2026-11-22T13:26:51"}
