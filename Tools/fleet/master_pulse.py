@@ -317,6 +317,9 @@ STAGES = [
     ("budget", ["Tools/fleet/cloud_budget.py", "check"], 30, {0, 1}, True),
     ("gate", ["Tools/fleet/gate_report.py"], 180, {0}, True),
     ("checkups", ["Tools/fleet/checkups.py"], 180, {0, 2}, True),
+    # tailnet 体检（CEO 2026-11-22「整个机队最科学的策略」）：在线/直连or中继/密钥到期三件事，
+    # rc=1 是告警（停机、走中继、密钥 30 天内到期），不是工具坏，计入 ok_rc。
+    ("tailnet", ["Tools/fleet/tailnet_audit.py"], 120, {0, 1}, True),
     # 2026-11-07 删掉重复的 ("metrics", ops_metrics.py, {0})：ops_metrics 上线后这里没撤，
     # 同一个工具每轮跑两遍，而且两处契约相反（此处只许 rc=0，那边许 {0,1}）——
     # 于是 ops_metrics 每轮报的「燃尽告警」被这条旧登记判成故障，blockers 永久亮 stage:metrics。

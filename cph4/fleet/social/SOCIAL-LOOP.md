@@ -1,6 +1,6 @@
 # 养号自驱环路（SOCIAL-LOOP）
 
-> 更新时间 2026-11-22T22:35:09 ｜ 语料 11275 行 ｜ 每段评测目标 n=30
+> 更新时间 2026-11-22T22:45:15 ｜ 语料 11274 行 ｜ 每段评测目标 n=30
 
 | 段 | 可用行 | 目标 | 缺口 | 最近判词 | n | 龄期(h) | 下一步 |
 |---|---|---|---|---|---|---|---|
@@ -11,16 +11,16 @@
 | student | 107 | 400 | 73% | - | 0 | - | collect |
 | critic | 129 | 400 | 68% | - | 0 | - | collect |
 | beginner | 152 | 400 | 62% | - | 0 | - | collect |
-| music_seeker | 448 | 600 | 25% | KEEP | 10 | 2.3 | collect |
-| feeler | 551 | 600 | 8% | REJECT | 10 | 1.6 | - |
-| tech_nerd | 591 | 600 | 2% | BLOCKED | 0 | 8.4 | - |
-| craft_learner | 2204 | 800 | 0% | REJECT | 10 | 1.1 | - |
-| memer | 2207 | 600 | 0% | REJECT | 30 | 2.2 | - |
-| peer_pro | 606 | 600 | 0% | REJECT | 10 | 3.9 | - |
-| shallow | 1955 | 600 | 0% | REJECT | 10 | 2.9 | - |
+| music_seeker | 447 | 600 | 26% | KEEP | 10 | 2.5 | collect |
+| feeler | 551 | 600 | 8% | REJECT | 10 | 1.8 | - |
+| tech_nerd | 591 | 600 | 2% | BLOCKED | 0 | 0.2 | - |
+| craft_learner | 2204 | 800 | 0% | REJECT | 10 | 1.2 | - |
+| memer | 2207 | 600 | 0% | REJECT | 30 | 2.3 | - |
+| peer_pro | 606 | 600 | 0% | REJECT | 10 | 4.1 | - |
+| shallow | 1955 | 600 | 0% | REJECT | 10 | 3.1 | - |
 
 **本拍派工**：`tune` / `__all__` —— 各段无缺料、无待验件，做参数复检
-**结果**：OK（0.8s）
+**结果**：OK（0.4s）
 
 ```
 （min_human 固定 8）
