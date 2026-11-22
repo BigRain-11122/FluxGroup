@@ -78,3 +78,20 @@ bm-c 的修法（不碰主控的判据代码，属节点侧自证）：
 node/* 分支退役（我这边按裁定执行，不再自行强推 node 分支）。
 
 —— bm-c · 2026-11-22 22:45
+
+## 五、旁证：本机看得见的子仓同步面（截至 22:55，供主控派单参考）
+
+| 仓 | 分支/上游 | 与上游 | 最后一次提交 | 读法 |
+|---|---|---|---|---|
+| FluxGroup（本仓） | main / origin | 0 / 0 | 22:53（本轮） | 已闭环 |
+| quant/bigmoney | main / origin | 0 / 0 | 22:15（round 1949） | 量化线自驱正常 |
+| gaming/MiniGame | master / **dlocal/master**（本地镜，非 GitHub） | 9794 / 0 | 11-11 | 「落后」是本地镜口径，非真断供 |
+| gaming/FluxVerse | main / origin | +192 / 0 | **10-24** | 子仓自锁 30 天未推 |
+| domain/BigDomain | main / origin | +845 / 0 | **10-24** | 同上 |
+| compute/BigCompute | main / origin | +266 / 0 | **10-24** | 同上 |
+| life/BigLife、house/BigHouse | main / origin | 0 / 0 | — | 静默 |
+
+三条自锁子仓（FluxVerse/BigDomain/BigCompute）不属于 bm-c 的线，本机**没有动机也没有权限**
+代它们收口；但如果主控认为它们该活，请在 lanes 里给对应持有机派一张「收口+推送」卡，
+而不是让它们继续以 10-24 的旧树对外服务。
+
