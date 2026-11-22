@@ -52,6 +52,7 @@ def main():
     ap.add_argument('--grade', choices=['none', 'exec'], default='exec')
     ap.add_argument('--subs', default='')
     ap.add_argument('--limit', type=int, default=0)
+    ap.add_argument('--crf', type=int, default=17)
     a = ap.parse_args()
 
     def _p(x):
@@ -59,8 +60,11 @@ def main():
         # cph4/fleet/mv-album-001-jay/cph4/fleet/... → FileNotFoundError。正法=按仓根解析。
         if os.path.isabs(x):
             return x
-        cand = os.path.join(ROOT, x)
-        return cand if os.path.exists(cand) else os.path.join(BASE, x)
+        # 以仓内顶层目录开头的 = 仓相对；其余按 BASE 相对
+        top = x.replace(chr(92), '/').split('/')[0]
+        if top in ('cph4', 'media', 'Tools', 'docs', 'compute'):
+            return os.path.join(ROOT, x)
+        return os.path.join(BASE, x)
 
     man = json.load(open(_p(a.manifest), encoding='utf-8'))
     units = man.get('units', [])
@@ -125,7 +129,7 @@ def main():
     out = _p(a.out)
     cmd = ['ffmpeg', '-y', '-v', 'error', '-i', silent, '-ss', '0', '-t', '%.3f' % total, '-i', song,
            '-vf', vf, '-map', '0:v:0', '-map', '1:a:0',
-           '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', '-pix_fmt', 'yuv420p',
+           '-c:v', 'libx264', '-crf', str(a.crf), '-preset', 'medium', '-pix_fmt', 'yuv420p',
            '-r', str(a.fps), '-c:a', 'aac', '-b:a', '192k', '-shortest',
            '-movflags', '+faststart', out]
     rc = subprocess.run(cmd, capture_output=True, text=True, errors='replace')
