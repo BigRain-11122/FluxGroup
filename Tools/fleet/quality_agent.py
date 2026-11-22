@@ -531,6 +531,35 @@ def escalations(items):
         pass
 
 
+LOCK = os.path.join(STATE, "QUALITY-AGENT.lock")
+
+
+def _take_lock():
+    """单实例：扩池一轮要 8–10 分钟，launchd 与手工调用可能撞车，
+    两个进程同时写 VIDEO-TITLES 会互相覆盖（2026-11-22 实测过同类事故）。"""
+    try:
+        if os.path.exists(LOCK):
+            pid = int((open(LOCK).read() or "0").strip() or 0)
+            if pid and pid != os.getpid():
+                os.kill(pid, 0)
+                return False
+    except Exception:
+        pass
+    try:
+        open(LOCK, "w").write(str(os.getpid()))
+    except Exception:
+        pass
+    return True
+
+
+def _drop_lock():
+    try:
+        if (open(LOCK).read() or "").strip() == str(os.getpid()):
+            os.remove(LOCK)
+    except Exception:
+        pass
+
+
 def once(dry=False):
     s = sense()
     items = sync_backlog(s)
@@ -597,7 +626,13 @@ def main(argv=None):
         board(s, {"action": "-", "why": "只重写一屏", "did": ""})
         print("[agent] 一屏已更新：%s" % BOARD)
         return 0
-    return once(dry=a.dry)
+    if not _take_lock():
+        print("[agent] 已有实例在跑（扩池/补采可能正在进行），本轮让路")
+        return 0
+    try:
+        return once(dry=a.dry)
+    finally:
+        _drop_lock()
 
 
 if __name__ == "__main__":
