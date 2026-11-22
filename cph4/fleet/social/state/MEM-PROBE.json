@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-22T19:40:01",
+ "ts": "2026-11-23T01:40:13",
  "pass": {
   "ME01": true,
   "ME02": true,
@@ -12,7 +12,7 @@
    "id": "ME01",
    "name": "swap 不在涨",
    "ok": true,
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 1631MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3252MB）",
    "sev": "P1"
   },
   {
@@ -33,39 +33,39 @@
    "id": "ME05",
    "name": "内存余量",
    "ok": true,
-   "detail": "free 3.4G + inactive 6.0G = 9.4G（线 ≥4G）",
+   "detail": "free 6.7G + inactive 9.7G = 16.4G（线 ≥4G）",
    "sev": "P2"
   },
   {
    "id": "ME03",
    "name": "真实生成不增量",
    "ok": true,
-   "detail": "上次 2026-11-21T23:34:59（20h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（26h前）生成 3 条 swap +0.0MB pageouts +0",
    "sev": "P1"
   }
  ],
  "sample": {
   "now": {
-   "swap_used_mb": 1630.69,
-   "swap_total_mb": 3072.0,
-   "pageouts": 181978,
-   "pageins": 824581219,
-   "free_gb": 3.43,
-   "inactive_gb": 6.0,
-   "wired_gb": 8.78,
-   "headroom_gb": 9.42,
-   "ts": "2026-11-22T19:40:01"
+   "swap_used_mb": 3251.5,
+   "swap_total_mb": 4096.0,
+   "pageouts": 188551,
+   "pageins": 848452305,
+   "free_gb": 6.72,
+   "inactive_gb": 9.66,
+   "wired_gb": 2.2,
+   "headroom_gb": 16.38,
+   "ts": "2026-11-23T01:40:13"
   },
   "before": {
-   "swap_used_mb": 1630.69,
-   "swap_total_mb": 3072.0,
-   "pageouts": 181978,
-   "pageins": 824581120,
-   "free_gb": 6.63,
-   "inactive_gb": 6.0,
-   "wired_gb": 5.31,
-   "headroom_gb": 12.62,
-   "ts": "2026-11-22T19:39:58"
+   "swap_used_mb": 3251.5,
+   "swap_total_mb": 4096.0,
+   "pageouts": 188551,
+   "pageins": 848452285,
+   "free_gb": 6.72,
+   "inactive_gb": 9.65,
+   "wired_gb": 2.19,
+   "headroom_gb": 16.38,
+   "ts": "2026-11-23T01:40:09"
   }
  },
  "models": {

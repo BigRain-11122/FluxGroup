@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-22T19:40:02",
+ "ts": "2026-11-23T01:40:13",
  "pass": {
   "CR01": false,
   "CR02": true,
@@ -12,26 +12,26 @@
   "TR01": false,
   "TR02": true,
   "TR03": false,
-  "TR04": false,
+  "TR04": true,
   "TR05": false,
   "TR06": true,
   "AC01": true,
-  "AC02": false,
+  "AC02": true,
   "AC03": true,
   "AC04": true,
   "AC05": false,
   "SD01": true,
-  "SD07": true,
+  "SD07": false,
   "SD08": false,
   "SD02": true,
   "SD03": true,
   "SD04": true,
   "SD05": true,
-  "SD06": true,
-  "SC01": false,
+  "SD06": false,
+  "SC01": true,
   "SC02": true,
   "SC03": true,
-  "SC04": true,
+  "SC04": false,
   "ME01": true,
   "ME02": true,
   "ME04": false,
@@ -58,8 +58,8 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "2.1%（线 ≤5%）8/385 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：三连/干货\", 1], [\"AI 腔：干货满满/干货\", 1]]",
-   "n": 385,
+   "detail": "2.1%（线 ≤5%）8/388 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：干货/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 388,
    "group": "corpus"
   },
   {
@@ -67,8 +67,8 @@
    "name": "烘焙与分段",
    "ok": true,
    "sev": "P1",
-   "detail": "0.0h前 rows=60944 段=15 verdict=3",
-   "n": 60944,
+   "detail": "0.1h前 rows=60947 段=15 verdict=3",
+   "n": 60947,
    "group": "corpus"
   },
   {
@@ -94,8 +94,8 @@
    "name": "采集新鲜（24h）",
    "ok": true,
    "sev": "P1",
-   "detail": "24h 内采集 5 次 / 总 7 次",
-   "n": 5,
+   "detail": "24h 内采集 34 次 / 总 34 次",
+   "n": 34,
    "group": "corpus"
   },
   {
@@ -146,9 +146,9 @@
   {
    "id": "TR04",
    "name": "ACTIVE 指针一致",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "mode 只能是 base/lora（实际 None）（None，2026-11-22T11:36:14）",
+   "detail": "base 模式 run 必须为空（base，2026-11-23T00:49:59）",
    "n": null,
    "group": "train"
   },
@@ -175,17 +175,17 @@
    "name": "活人节奏（alive+在动）",
    "ok": true,
    "sev": "P1",
-   "detail": "两号均在活动（上限 2h）",
+   "detail": "两号均在活动（上限 6h）",
    "n": 2,
    "group": "accounts"
   },
   {
    "id": "AC02",
    "name": "跨号隔离（24h 不同视频）",
-   "ok": false,
+   "ok": true,
    "sev": "P0",
-   "detail": "同视频被两号碰过 20 条：['934830274', '1652730485']",
-   "n": 132,
+   "detail": "24h 内 50 条视频无跨号重叠",
+   "n": 50,
    "group": "accounts"
   },
   {
@@ -203,7 +203,7 @@
    "ok": true,
    "sev": "P0",
    "detail": "近 7 天夜间动作 0 次",
-   "n": 358,
+   "n": 65,
    "group": "accounts"
   },
   {
@@ -211,8 +211,8 @@
    "name": "同视频 7 天 ≤1 条评论",
    "ok": false,
    "sev": "P1",
-   "detail": "重复评论：{'117616622439632': 3, '117626990822035': 2}",
-   "n": 29,
+   "detail": "重复评论：{'117626990822035': 2, '116396449207584': 2}",
+   "n": 32,
    "group": "accounts"
   },
   {
@@ -220,17 +220,17 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一条 6.2h 前（2026-11-22T13:25:24 rpid=324776446048）",
-   "n": 33,
+   "detail": "最近一条 2.2h 前（2026-11-22T23:27:30 rpid=321027693377）",
+   "n": 37,
    "group": "sends"
   },
   {
    "id": "SD07",
    "name": "已发都带合格证据",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "近 10 条已发均双闸通过",
-   "n": 33,
+   "detail": "4 条已发缺闸证据：324828756864,324830052352,324830593184",
+   "n": 37,
    "group": "sends"
   },
   {
@@ -238,8 +238,8 @@
    "name": "出稿节拍（中位 ≤30s）",
    "ok": false,
    "sev": "P1",
-   "detail": "近 9 拍中位 85s（最快 56s / 最慢 132s）；gen 中位 81s",
-   "n": 9,
+   "detail": "近 10 拍中位 116s（最快 56s / 最慢 238s）；gen 中位 71s；post 中位 81s",
+   "n": 10,
    "group": "sends"
   },
   {
@@ -247,8 +247,8 @@
    "name": "失败归因齐全",
    "ok": true,
    "sev": "P1",
-   "detail": "8 条失败，0 条无 why",
-   "n": 8,
+   "detail": "12 条失败，0 条无 why",
+   "n": 12,
    "group": "sends"
   },
   {
@@ -274,25 +274,25 @@
    "name": "评论配额（≤策略上限/天）",
    "ok": true,
    "sev": "P1",
-   "detail": "今日实发 9/39；分号 acct1=0, acct3=0（另有 9 条未署名，历史行无账号列）",
-   "n": 9,
+   "detail": "今日实发 0/39；分号 acct1=0, acct3=0",
+   "n": 0,
    "group": "sends"
   },
   {
    "id": "SD06",
    "name": "副动作齐（看/赞/弹幕）",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "两号三类动作齐",
+   "detail": "acct1 缺 like；acct3 缺 like",
    "n": 2,
    "group": "sends"
   },
   {
    "id": "SC01",
    "name": "声明与实载一致",
-   "ok": false,
+   "ok": true,
    "sev": "P2",
-   "detail": "未归类 2 个：browserd,ollamamodel；应载未载 1 个：practicetick",
+   "detail": "未归类 4 个：browserd,loopreg,ollamamodel,qualityagent；应载未载 0 个",
    "n": 13,
    "group": "sched"
   },
@@ -310,17 +310,17 @@
    "name": "定时器退出码正常",
    "ok": true,
    "sev": "P1",
-   "detail": "14 个 rc 正常，报告型：acceptrun",
-   "n": 14,
+   "detail": "17 个 rc 正常，报告型：acceptrun",
+   "n": 17,
    "group": "sched"
   },
   {
    "id": "SC04",
    "name": "节拍与排班表一致",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "3 个定时器与 COMPUTE-SCHEDULE 一致",
-   "n": 3,
+   "detail": "corpusbake plist=1800s 表=21600s",
+   "n": 4,
    "group": "sched"
   },
   {
@@ -328,7 +328,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 1631MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3252MB）",
    "n": null,
    "group": "mem"
   },
@@ -355,7 +355,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 3.4G + inactive 6.0G = 9.4G（线 ≥4G）",
+   "detail": "free 6.7G + inactive 9.7G = 16.4G（线 ≥4G）",
    "n": null,
    "group": "mem"
   },
@@ -364,7 +364,7 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-21T23:34:59（20h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（26h前）生成 3 条 swap +0.0MB pageouts +0",
    "n": null,
    "group": "mem"
   },
@@ -373,7 +373,7 @@
    "name": "反思覆盖（每轮有归因）",
    "ok": true,
    "sev": "P1",
-   "detail": "判据起 2026-11-21T23:40：30 轮，无可判读 why 0 条；真失败 10 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
+   "detail": "判据起 2026-11-21T23:40：40 轮，无可判读 why 0 条；真失败 17 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
    "n": null,
    "group": "evolve"
   },
@@ -409,7 +409,7 @@
    "name": "训练期换页（≤256MB）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一轮 2026-11-22T19:10:08：swap 1631→1631MB（+0MB）",
+   "detail": "最近一轮 2026-11-23T01:36:05：swap 3260→3260MB（+0MB）",
    "n": null,
    "group": "evolve"
   }
@@ -422,17 +422,17 @@
   },
   "train": {
    "overall": false,
-   "n_fail": 4,
+   "n_fail": 3,
    "n_skip": 0
   },
   "accounts": {
    "overall": false,
-   "n_fail": 2,
+   "n_fail": 1,
    "n_skip": 0
   },
   "sends": {
    "overall": false,
-   "n_fail": 1,
+   "n_fail": 3,
    "n_skip": 0
   },
   "sched": {

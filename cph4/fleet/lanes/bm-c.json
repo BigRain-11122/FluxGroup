@@ -1,8 +1,8 @@
 {
  "node": "bm-c",
- "ts": "2026-11-23T01:37:45",
+ "ts": "2026-11-23T01:43:38",
  "jobs": [],
- "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
- "lane_ok": true,
- "capacity_note": "ram-unknown"
+ "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
+ "lane_ok": false,
+ "capacity_note": "OFFLINE (hb age Nones, no fresh lane receipt)"
 }
