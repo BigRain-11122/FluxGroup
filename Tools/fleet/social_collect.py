@@ -126,6 +126,51 @@ SELECTORS = {
 }
 
 
+def _pid_alive(pid):
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except Exception:
+        return False
+
+
+def _human_wanting(prof):
+    """有人要做"有时效"的事（发帖/真人会话）时，采集主动让路。
+
+    2026-11-22 实锚：采集长期占着 browser-profile，agent_daemon 等锁 180s 必超时 →
+    副动作（看/赞/弹幕）整天 0 条、会话哨兵不生成 → 出稿被判 off-session 一条不发。
+    三方抢同一把锁靠"等锁超时"解决不了，必须让有时效的优先；采集让路后会自动退到
+    reader profile 抓公开内容，不是停工。
+    僵尸判据：发帖标记要求 pid 活着且 120s 内；会话哨兵要求 30 分钟内，防止一次崩溃永久挡采集。
+    """
+    if os.environ.get("FLUX_PROFILE_NO_YIELD") == "1":
+        return ""
+    sd = os.path.join(ROOT, ".codely-cli", "state")
+    p = os.path.join(sd, "POST-PENDING")
+    try:
+        pid = int(open(p, encoding="utf-8").read().strip() or 0)
+        if pid and time.time() - os.path.getmtime(p) < 120 and _pid_alive(pid):
+            return "post-pending"
+    except Exception:
+        pass
+    try:
+        for f in os.listdir(sd):
+            if f.startswith("AGENT-SESSION-"):
+                if time.time() - os.path.getmtime(os.path.join(sd, f)) < 1800:
+                    return "agent-session"
+    except Exception:
+        pass
+    # 发帖/会话方在等锁前会先落一个 want 标记（见 social_comment._launch）
+    try:
+        for f in os.listdir(prof):
+            if f.startswith(".flux-want-"):
+                if time.time() - os.path.getmtime(os.path.join(prof, f)) < 180:
+                    return "want"
+    except Exception:
+        pass
+    return ""
+
+
 def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
     """同一 profile 只能一个进程用，后来者排队等，不是直接失败。
 
@@ -154,6 +199,9 @@ def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
         if holder.isdigit() and int(holder) == os.getpid():
             # 可重入：同一进程先后开两次浏览器（复核多条评论就是这种情况）不能被自己的锁挡住
             return lock
+        # 有时效的动作在等：本轮让路，别把等锁超时变成"副动作整天空转"
+        if _human_wanting(prof):
+            return None
         alive = False
         if holder.isdigit():
             try:

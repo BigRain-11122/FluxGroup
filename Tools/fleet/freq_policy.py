@@ -264,6 +264,10 @@ def main(argv=None):
         print("[freq] 当前档位 L%d（%s）" % (level_now(),
                                           (LEVELS[level_now() - 1])))
         print("[freq] 判定：每日 %d 条、间隔 ≥%d 分钟" % (per, gap))
+        # 2026-11-22 实锚：这个数是硬顶，不是目标。真实发帖由"真人会话节拍"驱动
+        # （social_session 一天 4-6 场、每场 0-2 条），两个数字各说各话会让人以为
+        # "39 条没做到＝环路坏了"。写明谁管什么，避免误读。
+        print("[freq] 口径：%d 条是硬顶；实际节奏由会话节拍决定（一天 4-6 场，见 social_session --plan）" % per)
         print("[freq] 依据：%s" % why)
         return 0
     rec = {"stage": stage, "max_per_day": per, "min_gap_min": gap, "why": why,

@@ -133,12 +133,24 @@ def _launch(p, headless=True, wait_s=None, prof=None):
     # 新号第一次用时 profile 目录还不存在，而锁文件是写在 profile 目录里的
     # （2026-11-20 实锚：第二个号首次登录直接 FileNotFoundError）。
     os.makedirs(prof, exist_ok=True)
+    # 等锁前先落"我要用"标记：采集看到它就主动让路（见 social_collect._human_wanting）。
+    # 否则采集持续持锁 → 这里等满 180s 必然超时 → 副动作/出稿整天 0 条（2026-11-22 实锚）。
+    _want = os.path.join(prof, ".flux-want-%d" % os.getpid())
+    try:
+        open(_want, "w").write(datetime.now().isoformat(timespec="seconds"))
+    except Exception:
+        pass
     try:
         import social_collect as _sc
         if _sc._acquire_profile_lock(prof, wait_s=wait_s) is None:
             raise RuntimeError("profile 被占用（等锁 %ds 超时）：先放补采或学习循环" % int(wait_s))
     except ImportError:
         pass
+    finally:
+        try:
+            os.remove(_want)
+        except Exception:
+            pass
     return p.chromium.launch_persistent_context(**kw)
 
 

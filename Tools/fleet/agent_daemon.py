@@ -159,8 +159,20 @@ def main(argv=None):
             while time.time() < t_end and not STOP:
                 time.sleep(30)
         except Exception as e:
-            log({"event": "error", "account": a.account,
-                 "why": "%s: %s" % (type(e).__name__, str(e)[:120])})
+            _msg = "%s: %s" % (type(e).__name__, str(e)[:120])
+            # "profile 被占用"不是账号故障，是三方抢同一把浏览器锁。按异常处理会睡 30 分钟，
+            # 而采集每轮都在抢——一晚下来副动作 0 条（2026-11-22 实锚）。
+            # 正解：记 defer（不算错误）、短退避重试，等采集让路那一拍就能进场。
+            if "profile" in str(e) and "占用" in str(e):
+                log({"event": "defer", "account": a.account, "why": _msg})
+                _back = rng.randint(90, 210)
+                print("[daemon] %s 让路：profile 在采集手里，%d 秒后重试"
+                      % (a.account, _back), flush=True)
+                _t = time.time() + _back
+                while time.time() < _t and not STOP:
+                    time.sleep(15)
+                continue
+            log({"event": "error", "account": a.account, "why": _msg})
             print("[daemon] 异常 %s，30 分钟后继续" % type(e).__name__, flush=True)
             time.sleep(1800)
     log({"event": "stop", "account": a.account})
