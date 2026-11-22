@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-22T22:42:41",
+ "ts": "2026-11-22T22:46:05",
  "node": "bm-c",
  "state": "RUNNING",
- "note": "in-flight: i2v,lora",
- "gpu_util_pct": 100,
- "vram_used_mb": 15309,
+ "note": "in-flight: i2v,lora,quant-engine",
+ "gpu_util_pct": 1,
+ "vram_used_mb": 4863,
  "writer": "bmc_chain_publish"
 }

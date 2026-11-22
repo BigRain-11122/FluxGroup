@@ -24,3 +24,9 @@
 2026-11-22T22:42:08 LANE rc=0 done=asset-lib-face-dataset-2026-11-20,asset-lib-face-dataset-2026-11-17,asset-lib-face-dataset-2026-11-18,asset-lib-face-dataset-2026-11-19 asset-lib-face-dataset-2026-11-17 DONE rc=0 31.7s deliverable=True error=- | asset-lib-face-dataset-2026-11-18 DONE rc=0 31.9s deliverable=True error=- | asset-lib-face-dataset-2026-11-19 DONE rc=0 31.9s deliverable=True error=-
 2026-11-22T22:42:08 TICK commit=committed:7 converge=merged-behind-6 push=pushed lane=lane-rc-0(4 done)
 2026-11-22T22:42:42 RECEIPT RUNNING gpu=100 vram=15309MB busy=i2v,lora
+2026-11-22T22:43:01 LANE rc=0 done=asset-lib-face-dataset-2026-11-19,asset-lib-face-dataset-2026-11-20,asset-lib-face-dataset-2026-11-18,asset-lib-face-dataset-2026-11-17 asset-lib-face-dataset-2026-11-20 DONE rc=0 36.6s deliverable=True error=- | asset-lib-face-dataset-2026-11-18 DONE rc=0 36.6s deliverable=True error=- | asset-lib-face-dataset-2026-11-17 DONE rc=0 38.9s deliverable=True error=-
+2026-11-22T22:43:01 TICK commit=committed:3 converge=up-to-date push=pushed lane=lane-rc-0(4 done)
+2026-11-22T22:43:04 LANE jobs=5 fresh=1 -> run one card
+2026-11-22T22:43:49 LANE rc=0 done=asset-lib-face-dataset-2026-11-19,asset-lib-face-dataset-2026-11-20,asset-lib-face-dataset-2026-11-17,asset-lib-face-dataset-2026-11-18 asset-lib-face-dataset-2026-11-20 DONE rc=0 30.3s deliverable=True error=- | asset-lib-face-dataset-2026-11-17 DONE rc=0 30.2s deliverable=True error=- | asset-lib-face-dataset-2026-11-18 DONE rc=0 30.3s deliverable=True error=-
+2026-11-22T22:43:49 TICK commit=committed:8 converge=merged-behind-1 push=pushed lane=lane-rc-0(4 done)
+2026-11-22T22:46:06 RECEIPT RUNNING gpu=1 vram=4863MB busy=i2v,lora,quant-engine

@@ -34,13 +34,24 @@ if not _ff:
             _ff = _c
             break
 FFMPEG = _ff or "ffmpeg"
-# 2026-11-22 修：原默认值写死 E: 盘（他机路径），本机是 K:\Fluxgroup，import 后第一行就
-# FileNotFoundError，整条语音语料构建跑不了。改为按本仓位置推导 + 环境变量可覆盖。
+# 2026-11-22 bm-c 修复：以下四个常量原来全是**他机路径**（E: 盘 / bm-b 的 C: 盘），
+# 在 bm-c 上 import 就 FileNotFoundError 或 subprocess WinError 2 —— 这就是音色库产线
+# 长期空转的根因。现在全部按本仓位置推导，环境变量仍可覆盖。
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(os.path.dirname(_HERE))
-ASR_DIR = os.environ.get("VB_ASR", os.path.join(_ROOT, "media", "voicebank-models",
-                                                "faster-whisper-small"))
+_MEDIA = os.path.join(_ROOT, "media", "voicebank-models")
+
+ASR_DIR = os.environ.get("VB_ASR", os.path.join(_MEDIA, "faster-whisper-small"))
+REPO = os.environ.get("VB_GPT_ROOT", os.path.join(_MEDIA, "GPT-SoVITS"))
 VB = os.environ.get("VB_ROOT", os.path.join(_ROOT, "cph4", "fleet", "voicebank"))
+
+_ff = os.environ.get("FFMPEG") or shutil.which("ffmpeg")
+if not _ff:
+    for _c in (r"D:\ComfyUI\ffmpeg.exe", r"K:\Fluxgroup\.tools\ffmpeg\bin\ffmpeg.exe"):
+        if os.path.isfile(_c):
+            _ff = _c
+            break
+FFMPEG = _ff or "ffmpeg"
 
 # one minute of usable speech costs a few minutes of source audio (intro/music/pauses)
 RAWS_PER_SPEECH = 3.0
