@@ -627,6 +627,14 @@ def main():
         _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=20)
     except Exception:
         _got, _why = True, ""
+    if (not _got and "train" in str(_why)
+            and os.path.exists(os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE"))
+            and _lora_ready() and _coexist_gap_ok()):
+        # 训练正在跑且 8788 在位：抬手等待没意义（训练侧本轮代码不响应），
+        # 直接进受限共存，省掉最多 90 秒空等（实测 total 188.7→117.1 就是这 90 秒的差）
+        _got, _exclusive = True, False
+        _why = "coexist（训练持锁，8788 在位，跳过举手等待）"
+        log({"action": "coexist-publish", "why": _why})
     if not _got and "train" in str(_why):
         # 2026-11-22 握手：训练只在"出稿到期"时让路，可手动/会话触发的这一拍可能还没到期，
         # 于是干等。出稿这里举一次手（PUBLISH-REQUEST），训练侧看到就 SIGSTOP 让路，
