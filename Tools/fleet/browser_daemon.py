@@ -81,6 +81,21 @@ def ctx_for(account, profile=None):
     return cur
 
 
+OPS_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))), ".codely-cli", "state", "browserd-ops.jsonl")
+
+
+def _log_op(kind, t0, note=""):
+    """每次动作落一行耗时：单线程到底被谁占着，只能靠每个动作的真实秒数说话。"""
+    try:
+        with open(OPS_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "op": kind,
+                                "secs": round(time.time() - t0, 2),
+                                "note": str(note)[:60]}, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
 def op(payload):
     """执行一个动作。返回 {ok, res}；异常一律转成 ok:false，不拖垮服务。"""
     import social_comment as sc
@@ -186,6 +201,7 @@ class H(BaseHTTPRequestHandler):
             t0 = time.time()
             res = op(payload)
             res["secs"] = round(time.time() - t0, 1)
+            _log_op(payload.get("op"), t0, res.get("res"))
             self._send(200, res)
         except Exception as e:
             self._send(200, {"ok": False, "res": "%s: %s" % (type(e).__name__, str(e)[:120])})
