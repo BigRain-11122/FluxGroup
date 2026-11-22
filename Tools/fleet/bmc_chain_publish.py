@@ -61,6 +61,8 @@ EVIDENCE_PREFIXES = (
     "cph4/fleet/idle-guard-kit/",
     "Tools/fleet/",
     "Tools/voicebank/",
+    "Tools/task-s4u-backlog.md",
+    "Tools/silence-window-guard.ps1",
     "Tools/mv_",
 )
 EVIDENCE_SUFFIXES = (".json", ".jsonl", ".md", ".log", ".py", ".ps1", ".cmd", ".vbs", ".txt")

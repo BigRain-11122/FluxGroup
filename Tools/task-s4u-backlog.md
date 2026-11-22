@@ -32,3 +32,4 @@
 | 2026-11-22 21:30:52 | Bmc-Supervisor | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-22 21:59:40 | Bmc-ProductionRouter | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-22 22:06:33 | Bmc-PipelineEvolution | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 22:25:32 | Bmc-ChainPublish | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |

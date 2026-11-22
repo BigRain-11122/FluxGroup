@@ -70,9 +70,24 @@ def main():
                     help="download only; corpus build is run separately")
     a = ap.parse_args()
 
-    bvids = [b for b in (a.bvids or "").split(",") if b.strip()]
+    bvids = [b.strip() for b in (a.bvids or "").split(",") if b.strip()]
     if a.bvids_file:
-        bvids += [l.strip() for l in open(a.bvids_file, encoding="utf-8") if l.strip()]
+        # 2026-11-22 修：清单是「BV<tab>时长<tab>标题」三列。原实现 l.strip() 把整行当 bvid，
+        # 于是每一条都报「bvid 必须是 12 位」，整条音色库产线空转（实测 17 条全 FAIL）。
+        # 正法：取第一列 + 形状校验（BV + 10 位字母数字）。
+        import re as _re
+        bad = 0
+        for l in open(a.bvids_file, encoding="utf-8"):
+            s = l.strip()
+            if not s or s.startswith("#"):
+                continue
+            tok = _re.split(r"[\t ,;]+", s)[0].strip()
+            if _re.fullmatch(r"BV[0-9A-Za-z]{10}", tok):
+                bvids.append(tok)
+            else:
+                bad += 1
+        if bad:
+            print("warn: %d line(s) skipped (not a BV id)" % bad)
     if not bvids:
         print("no bvids")
         return 2
