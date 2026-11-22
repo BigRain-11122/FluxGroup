@@ -114,3 +114,9 @@
 
 ## 2026-11-17 本机浏览器自动化四条硬事实（L1 迁入原文）
 [2026-11-17 12:19:16] [2026-11-17] 本机浏览器自动化四条硬事实（踩过，别再试）：①本机**没装 Chrome**；`playwright install chromium` 在本机恒 0%（cdn 与 npmmirror 两条源都连得上但不出数据）→ 正法=npmmirror/chrome-for-testing 直下 zip（5.7MB/s）解压到 `~/.fluxgroup/chrome/`，在 CHROME_CANDIDATES 用 `executable_path` 指过去，Playwright 不需要自己的浏览器目录。②**无头会被风控拦**：小红书返 `error_code=300012`、知乎跳 `/account/unhuman`；有头（headless=False）可正常到登录页 → T3 一律有头。③同一 user_data_dir 并发会报 `Failed to create a ProcessSingleton`（登录窗口占着 profile）→ 采集用独立 `~/.fluxgroup/browser-reader`。④长跑登录必须 `bring_to_front()` + 每 15s 打一行心跳，否则会被"5 分钟无输出"判死；login 默认 wait 改 600s。正典=cph4/fleet/social/SOCIAL-AGENT-PLAN-v1.md §十一。
+
+## 2026-11-22 发令到机队：poke 的任务名必须取自 fleet-nodes.json 白名单
+- 现象：自己拼 `tasks:["git-pull-and-apply-order","report-local-vs-cloud-share"]` poke bm-a，`/status` 回 `wakes=[... :deny]`——任务被拒，机器什么都没做，但 poke 本身返回 `ok=True`（假成功）。
+- 正解：`tasks` 只能用具名任务（bm-a: `HQ-ProductionClaim`/`HQ-StationDrive`/各 OSLoop；bm-b: `HQ-ProductionClaim`；bm-c: `HQ-ProductionClaim`/`HQ-StationDrive`/各自 MiniGame*Tick），取自 `Tools/fleet-nodes.json` 每台的 `wake_tasks`；总线的做法是 `tasks = sorted(set(n["wake_tasks"]))`。
+- 判据：poke 之后必须核 `/status` 的 `repo_heads["."]` 是否等于本机 HEAD，回 `ok=True` 不算送到。
+- 同轮另一条：`fleet_order_bus.py` 的 NATS 发布(`fleet.cmd`)写在 push **成功之后**，push 失败会静默跳过秒级通道——补发要手动 reuse `fleet_hb.Nats("100.110.185.62",4222).publish("fleet.cmd", ...)`。

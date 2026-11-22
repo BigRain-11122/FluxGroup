@@ -25,6 +25,12 @@ import sys
 import time
 from datetime import datetime
 
+# 2026-11-22：这两个模块级导入在一次机队同步里被冲掉了（文件里还留着调用），
+# 表现为 NameError: sc / pick。补回来，并且只从一处导入。
+sys.path.insert(0, HERE) if 'HERE' in globals() else None
+import social_comment as sc          # noqa: E402
+import social_practice as sp         # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
@@ -81,6 +87,26 @@ def used_videos():
             if r.get("video"):
                 s.add(r["video"])
     return s
+
+
+def pick():
+    """挑一条还没用过的视频来浏览（会话预算用完时的"只看不发"）。
+
+    2026-11-22：这个函数在一次同步回滚里整段消失，留下裸调用 pick()，
+    于是会话一旦走"预算用完"分支就 NameError（白天 swatch/浏览全停）。
+    它的语义是"挑视频"，与 social_practice.pick（挑队列评论）不是一回事。
+    """
+    try:
+        vids = json.load(open(TITLES, encoding="utf-8"))
+    except Exception:
+        return None
+    used = used_videos()
+    cand = [(k, v) for k, v in vids.items()
+            if (v or {}).get("title") and k not in used]
+    if not cand:
+        return None
+    u, meta = cand[0]
+    return {"video": u, "title": (meta or {}).get("title") or ""}
 
 
 def blocked():
@@ -627,6 +653,14 @@ def main():
         _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=20)
     except Exception:
         _got, _why = True, ""
+    if (not _got and "train" in str(_why)
+            and os.path.exists(os.path.join(ROOT, ".codely-cli", "state", "TRAIN-EXCLUSIVE"))
+            and _lora_ready() and _coexist_gap_ok()):
+        # 训练正在跑且 8788 在位：抬手等待没意义（训练侧本轮代码不响应），
+        # 直接进受限共存，省掉最多 90 秒空等（实测 total 188.7→117.1 就是这 90 秒的差）
+        _got, _exclusive = True, False
+        _why = "coexist（训练持锁，8788 在位，跳过举手等待）"
+        log({"action": "coexist-publish", "why": _why})
     if not _got and "train" in str(_why):
         # 2026-11-22 握手：训练只在"出稿到期"时让路，可手动/会话触发的这一拍可能还没到期，
         # 于是干等。出稿这里举一次手（PUBLISH-REQUEST），训练侧看到就 SIGSTOP 让路，

@@ -398,3 +398,6 @@
 {"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T21:56:43", "account": null}
 {"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 998s）； coexist 不可用（8788 不在位或间隔未到）", "waited_s": 15, "ts": "2026-11-22T21:58:43", "account": null}
 {"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T22:00:09", "account": null}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T22:36:32", "account": null}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T22:36:32", "account": null}
+{"action": "skip", "why": "opening-dup:你那", "arm": "D", "text": "你那个转场处理得挺顺，不过配乐节奏在这段", "ts": "2026-11-22T22:36:47", "account": null}
