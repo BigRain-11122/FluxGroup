@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-23T02:01:57",
+ "ts": "2026-11-23T02:11:57",
  "verdict": "GREEN",
  "paused": false,
  "gpu_util": 100,
- "vram_used_mb": 14000,
+ "vram_used_mb": 15652,
  "vram_total_mb": 16384,
  "comfy": true,
  "bank": {
@@ -24,28 +24,28 @@
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 10,
+   "last_run_age_s": 9,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 75294,
+   "last_run_age_s": 75894,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 159,
+   "last_run_age_s": 39,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "总控 Orchestrator",
    "task": "Bmc-Orchestrator",
-   "last_run_age_s": 9,
+   "last_run_age_s": 8,
    "state": "OK",
    "result": 0
   },
