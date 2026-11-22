@@ -659,6 +659,16 @@ def login_state(headless=True):
     核验失败只报 NEED-LOGIN，不开窗口、不反复试——人工登一次即可，之后复用 profile。
     """
     import social_comment as sc
+    # 先问常驻浏览器：它可能已把这个 profile 打开着，这时自己再 launch 一次必然
+    # ProcessSingleton。2026-11-22 实锚：acct1 从 11:43 起每轮都只记 profile_busy，
+    # 一整天没看、没赞、没发——不是账号问题，是两条路径抢同一个 profile。
+    try:
+        hit = sc._daemon("nav", {}, timeout=25)
+        if hit and hit.get("ok") and isinstance(hit.get("res"), dict):
+            r = hit["res"]
+            return bool(r.get("isLogin")), r.get("mid"), r.get("uname")
+    except Exception:
+        pass
     mod, _ = sc._pw()
     with mod.sync_playwright() as p:
         ctx = sc._launch(p, headless=headless)
