@@ -112,6 +112,9 @@ def one_round(idx, url, meta, brief, topics, mods, n_first=3, n_max=6):
 
 
 def run(rounds=10, budget=BUDGET_S):
+    # 压测是 dry（不发），但 ap.run 里会过额度闸；日额度用完就把"压测"整批判红，
+    # 看起来像机制坏了。测试期间显式覆盖额度，并把理由写进日志口径。
+    os.environ.setdefault("FLUX_CAP_OVERRIDE", "loop_test: dry 压测不真发")
     vb, lc, ct, sp, ap, pt = _mods()
     briefs = json.load(open(os.path.join(SOCIAL, "VIDEO-BRIEFS.json"), encoding="utf-8"))["briefs"]
     urls = [u for u, v in briefs.items() if (v or {}).get("title")]
