@@ -50,6 +50,7 @@ LEN_LINE = 0.80             # 长度带命中率下限
 CONC_LINE = 0.60            # 具体性下限
 SHARE_LINE = 0.50           # 单一原型最大占比
 MIN_N = 8                   # 质量样本最少条数
+WAIT_REARM = timedelta(hours=2)   # human 卡转 waiting 后的复检期：到期重新取证一次
 
 
 def _now():
@@ -359,6 +360,13 @@ def sync_backlog(s):
     now = _now().isoformat(timespec="seconds")
     for k, why in want.items():
         if k in items and items[k].get("status") in ("open", "doing", "blocked", "waiting"):
+            # 事实变了（理由串变了）就重新开卡：否则一个 waiting 会永久压住新证据。
+            # 2026-11-22 实锚：S8 attempts=175 却 status=open，每次 pick 都转 waiting 但没落盘，
+            # 于是永远"第 176 次取同样的证"。
+            if str(items[k].get("why") or "") != str(why):
+                items[k]["attempts"] = 0
+                items[k]["status"] = "open"
+                items[k]["why_key_changed"] = now
             items[k]["why"] = why
             items[k]["updated"] = now
             continue
@@ -379,11 +387,27 @@ def sync_backlog(s):
 def pick_item(items):
     """先干自己能闭环的，干不了的去把证据备齐（这同样是自驱，不是等）。"""
     openc = [v for v in items.values() if v.get("status") in ("open", "doing")]
-    # human 型任务取过一次证就转 waiting：不再反复摘同一张卡（实测曾空转 174 次）
+    # human 型任务取过一次证就转 waiting：不再反复摘同一张卡（实测曾空转 174 次）。
+    # waiting 必须带到期时间：没有期限就是"永久不管"——CEO 要的是持续运转，不是静默放弃。
+    now = _now()
     for v in list(openc):
         if v.get("owner") == "human" and int(v.get("attempts") or 0) >= 1:
             v["status"] = "waiting"
+            v["wait_until"] = (now + WAIT_REARM).isoformat(timespec="seconds")
             openc.remove(v)
+    # 到期的 waiting 重新开卡（只给一次新取证机会，事实没变就再等一轮）
+    for v in list(items.values()):
+        if v.get("status") != "waiting":
+            continue
+        try:
+            due = datetime.fromisoformat(str(v.get("wait_until")))
+        except Exception:
+            due = None
+        if due is None or now >= due:
+            v["status"] = "open"
+            v["attempts"] = 0
+            v["rearmed"] = now.isoformat(timespec="seconds")
+            openc.append(v)
     if not openc:
         return None
     # 排法：①human 型且还没取过证的先做一次（取证便宜，且能让主控一小时内有卡片可执行）
@@ -573,6 +597,9 @@ def once(dry=False):
         board(s, {"action": "idle", "why": "没有未闭环任务（事实全绿）", "did": "空转一轮"})
         _log({"ts": _now().isoformat(timespec="seconds"), "decision": "idle",
               "why": "没有未闭环任务", "did": ""})
+        # 空闲也必须落盘：pick_item 会把到期的 human 卡改回 open，不写就永远读不到这个改动
+        # （2026-11-22 实锚：S8 每次进程都读回 open，attempts 一路涨到 175 却从没进 waiting）
+        _save_backlog(items)
         print("[agent] 空闲：所有任务已闭环")
         return 0
     item["status"] = "doing"

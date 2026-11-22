@@ -871,16 +871,19 @@ def main():
     except Exception:
         pass
     t_post0 = time.time()
-    for attempt in range(3):
+    for attempt in range(2):
         try:
-            res = ap.run(arm, url, text, dry=False, wait_s=25, ctx=title,
+            res = ap.run(arm, url, text, dry=False, wait_s=10, ctx=title,
                          topics=_topics, verify=False)
             break
         except Exception as e:
             msg = str(e)
-            if "ProcessSingleton" in msg or "profile directory" in msg:
-                if attempt < 2:
-                    time.sleep(20)
+            # 2026-11-22 实锚：原来 3 次 × 20 秒 sleep，一次抢锁失败就把 post 拉到 81 秒，
+            # 看上去像"发帖很慢"，其实是自家重试把预算吃光（25+20+25+11=81s）。
+            # 抢不到就让开下一拍：宁可记一次 skip，也不要产出一条假的慢样本。
+            if "ProcessSingleton" in msg or "profile" in msg or "占用" in msg:
+                if attempt < 1:
+                    time.sleep(4)
                     continue
                 refresh_screen("浏览器 profile 被占用（采集在跑），本拍跳过")
                 log({"action": "skip", "why": "profile busy", "arm": arm})

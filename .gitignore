@@ -344,3 +344,8 @@ Logs/
 cph4/fleet/social/practice-log.jsonl
 cph4/fleet/social/USER-AGENT-LEDGER.jsonl
 cph4/fleet/social/comments-sent.jsonl
+# 追加型运行时台账（同上：只增文件进 git 会被 pull --rebase 恢复成旧版，实测丢数据）
+cph4/fleet/social/SOCIAL-LOOP-LEDGER.jsonl
+cph4/fleet/social/TUNE-LEDGER.jsonl
+cph4/fleet/social/raw/session/
+cph4/fleet/agent-runs/

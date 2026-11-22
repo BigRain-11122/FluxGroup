@@ -126,8 +126,56 @@ SELECTORS = {
 }
 
 
-def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
+def _pid_alive(pid):
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except Exception:
+        return False
+
+
+def _human_wanting(prof):
+    """有人要做"有时效"的事（发帖/真人会话）时，采集主动让路。
+
+    2026-11-22 实锚：采集长期占着 browser-profile，agent_daemon 等锁 180s 必超时 →
+    副动作（看/赞/弹幕）整天 0 条、会话哨兵不生成 → 出稿被判 off-session 一条不发。
+    三方抢同一把锁靠"等锁超时"解决不了，必须让有时效的优先；采集让路后会自动退到
+    reader profile 抓公开内容，不是停工。
+    僵尸判据：发帖标记要求 pid 活着且 120s 内；会话哨兵要求 30 分钟内，防止一次崩溃永久挡采集。
+    """
+    if os.environ.get("FLUX_PROFILE_NO_YIELD") == "1":
+        return ""
+    sd = os.path.join(ROOT, ".codely-cli", "state")
+    p = os.path.join(sd, "POST-PENDING")
+    try:
+        pid = int(open(p, encoding="utf-8").read().strip() or 0)
+        if pid and time.time() - os.path.getmtime(p) < 120 and _pid_alive(pid):
+            return "post-pending"
+    except Exception:
+        pass
+    try:
+        for f in os.listdir(sd):
+            if f.startswith("AGENT-SESSION-"):
+                if time.time() - os.path.getmtime(os.path.join(sd, f)) < 1800:
+                    return "agent-session"
+    except Exception:
+        pass
+    # 发帖/会话方在等锁前会先落一个 want 标记（见 social_comment._launch）
+    try:
+        for f in os.listdir(prof):
+            if f.startswith(".flux-want-"):
+                if time.time() - os.path.getmtime(os.path.join(prof, f)) < 180:
+                    return "want"
+    except Exception:
+        pass
+    return ""
+
+
+def _acquire_profile_lock(prof, wait_s=None, poll=5.0, yield_ok=False):
     """同一 profile 只能一个进程用，后来者排队等，不是直接失败。
+
+    yield_ok 只给"可推迟"的采集用：发帖/会话自己要来时 MUST NOT 自我让路，
+    否则 POST-PENDING 是自己写的 → 自己判自己该让 → 第一条必然失败（2026-11-22 实锚）。
 
     2026-11-19 实锚：守护进程与手动运行撞同一个 profile，输的一方只打印
     "两个 profile 都起不来（可能被别的浏览器进程占用）"，看不出是谁占的、也查不出根因；
@@ -154,6 +202,10 @@ def _acquire_profile_lock(prof, wait_s=None, poll=5.0):
         if holder.isdigit() and int(holder) == os.getpid():
             # 可重入：同一进程先后开两次浏览器（复核多条评论就是这种情况）不能被自己的锁挡住
             return lock
+        # 有时效的动作在等：本轮让路，别把等锁超时变成"副动作整天空转"。
+        # 只有采集自己让路，发帖方不许自我让路（见 docstring）。
+        if yield_ok and _human_wanting(prof):
+            return None
         alive = False
         if holder.isdigit():
             try:
@@ -205,8 +257,8 @@ def _launch(p, headed=False, platform=None):
         except Exception as e:
             errs.append("%s: mkdir %s" % (os.path.basename(prof), str(e)[:60]))
             continue
-        if _acquire_profile_lock(prof) is None:
-            errs.append("%s: 等锁超时（别的采集进程占着 profile）" % os.path.basename(prof))
+        if _acquire_profile_lock(prof, yield_ok=True) is None:
+            errs.append("%s: 让路或等锁超时（发帖/会话要这个 profile）" % os.path.basename(prof))
             continue
         try:
             return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
