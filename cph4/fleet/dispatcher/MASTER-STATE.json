@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-22T17:42:19",
- "cycle": 3845,
+ "ts": "2026-11-22T17:48:17",
+ "cycle": 3846,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-22T17:42:19",
+ "master_tick_ts": "2026-11-22T17:48:17",
  "queue": {
   "total": 386,
   "open": 14,
@@ -14,23 +14,23 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 46.2,
-   "cpu_load_pct": 44,
-   "ram_free_gb": 51.6,
-   "gpu_util_pct": 1,
+   "hb_age_s": 43.0,
+   "cpu_load_pct": 46,
+   "ram_free_gb": 51.4,
+   "gpu_util_pct": 87,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-22T17:40:50",
-    "reason": "EXECUTOR-DEAD (54.3h 零产出)",
+    "ts": "2026-11-22T17:45:50",
+    "reason": "EXECUTOR-DEAD (54.4h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (54.4h 零产出)",
-   "idle_rounds": 33
+   "idle_reason": "EXECUTOR-DEAD (54.5h 零产出)",
+   "idle_rounds": 34
   },
   "bm-b": {
    "online": false,
@@ -70,7 +70,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 33,
+  "bm-a": 34,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -876,7 +876,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x33 (EXECUTOR-DEAD (54.4h 零产出))",
+  "bm-a IDLE-CONFIRMED x34 (EXECUTOR-DEAD (54.5h 零产出))",
   "bm-b OFFLINE",
   "bm-c OFFLINE",
   "bm-m OFFLINE",
