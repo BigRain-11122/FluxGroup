@@ -17,12 +17,13 @@
    "val_min": 3.783
   },
   "music_seeker": {
-   "last_ts": 1795366177.0,
-   "last_rc": "BLOCKED",
+   "last_ts": 1795379925.022885,
+   "last_rc": "KEEP",
    "rows": 447,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "run": "20261123-041159",
+   "step": 400,
+   "val_min": 2.913,
+   "recipe": "v5-shape-quota"
   },
   "craft_learner": {
    "last_ts": 1795371553.0,
@@ -49,13 +50,12 @@
    "val_min": 3.42
   },
   "shallow": {
-   "last_ts": 1795377960.302099,
+   "last_ts": 1795377960.0,
    "last_rc": "REJECT",
    "rows": 1955,
    "run": "20261123-033536",
    "step": 400,
-   "val_min": 3.663,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.663
   },
   "feeler": {
    "last_ts": 1795371202.0,
@@ -67,25 +67,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-22T02:33:19",
-   "seg": "tech_nerd",
-   "rows": 570,
-   "built": 370,
-   "eval_n": 10,
-   "run": "20261122-020611",
-   "step": 400,
-   "val_step": 450,
-   "val_min": 3.522,
-   "base_avg": 54.0,
-   "lora_avg": 67.0,
-   "base_human": 5.0,
-   "lora_human": 8.0,
-   "human_delta": 3.0,
-   "verdict": "KEEP",
-   "why": "均分 +13.0 / 人味 +3.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261122-020611/ckpt400"
-  },
   {
    "ts": "2026-11-22T02:36:04",
    "seg": "tech_nerd",
@@ -686,6 +667,25 @@
    "verdict": "REJECT",
    "why": "均分只 -13.3（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261123-033536/ckpt400"
+  },
+  {
+   "ts": "2026-11-23T04:38:45",
+   "seg": "music_seeker",
+   "rows": 447,
+   "built": 296,
+   "eval_n": 10,
+   "run": "20261123-041159",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 2.913,
+   "base_avg": 37.5,
+   "lora_avg": 67.5,
+   "base_human": 0.0,
+   "lora_human": 7.0,
+   "human_delta": 7.0,
+   "verdict": "KEEP",
+   "why": "均分 +30.0 / 人味 +7.0",
+   "adapter": "cph4/fleet/social/train/RUNS/20261123-041159/ckpt400"
   }
  ]
 }
