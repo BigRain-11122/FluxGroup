@@ -35,7 +35,7 @@
    "like": 120
   },
   "note": "老号（成熟期）：自媒体/AI/短剧漫剧/数码科技为主；时段与配额按平台作息时钟排（峰值 12/17/21/22）",
-  "sessions_per_day": 8
+  "sessions_per_day": 9
  },
  "acct3": {
   "alias": "acct3",
@@ -65,12 +65,12 @@
    22
   ],
   "caps": {
-   "comment": 12,
+   "comment": 18,
    "danmaku": 30,
    "like": 70
   },
   "note": "新号（观察期）：游戏/人工智能/AI影视/娱乐；前 3 天只浏览+点赞（maturity=new）",
-  "sessions_per_day": 7
+  "sessions_per_day": 8
  },
  "_clock": {
   "source": "cph4/fleet/social/ACTIVITY-CLOCK.json",
@@ -78,9 +78,9 @@
   "updated": "2026-11-21"
  },
  "_tempo": {
-  "note": "2026-11-21 CEO「加快频率」：配额上调、场间 5–20 分钟随机，不再等 15–60 分钟",
-  "gap_min": 5,
-  "gap_max": 20
+  "note": "2026-11-22 CEO「活跃点 高频」：全账号 39 条/天（约 19 条/号），间隔 12 分钟起抖；供给上限由 freq_policy.supply_cap() 按池子自动封顶",
+  "gap_min": 4,
+  "gap_max": 18
  },
  "_focus": {
   "note": "2026-11-21 CEO「目前不做引流，多做评论和别的训练」：评论为主产出，弹幕/点赞为辅；引流词已进硬拒（互关/关注我/私信/加群/跨平台/分享给你）",

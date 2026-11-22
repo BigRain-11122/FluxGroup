@@ -39,10 +39,42 @@ LEDGERS = [os.path.join(SOCIAL, "practice-log.jsonl"),
 
 # 人类量级（不再用"可见率换配额"的阶梯——那是把平台的审核延迟当成自己的 KPI）。
 # 每日上限与间隔都取区间、按日期种子决定：同一个号每天不一样，才不像脚本。
-PER_DAY = (10, 20)
-GAP_MIN = (6, 25)
+# 2026-11-22 CEO「活跃点 高频」：抬到 30–44 条/天（两号合计，约 15–22 条/号），
+# 但必须同时满足供给约束——见 supply_cap()，否则高频只会变成同一条视频反复评论。
+PER_DAY = (30, 44)
+GAP_MIN = (4, 18)
+TITLES = os.path.join(SOCIAL, "VIDEO-TITLES.json")
+RULE_DAYS = 7          # 「同视频 7 天 ≤1 条评论」这条硬规则
 # 只有这两类信号允许叫停（真失败，不是"看不见"）：
 CONSEC_REAL_FAIL = 2
+
+
+def supply_cap(days=RULE_DAYS):
+    """内容池允许的每日总条数 = (池内视频 − 近 N 天已评论视频) ÷ N。
+
+    这才是"高频"的真上限，不是政策：池内 108 条时全账号每天最多 15 条，
+    把配额写成 44 只会让同一条视频 7 天内被评两三次——那才是机器味
+    （2026-11-22 AC05 实锚：同视频被评 3 次）。扩池后自动放开，不必改配额。
+    池子读不到时返回 None（不参与封顶，保持旧行为）。
+    """
+    try:
+        vids = json.load(open(TITLES, encoding="utf-8")) or {}
+        pool = len([1 for v in vids.values() if (v or {}).get("title")])
+    except Exception:
+        return None
+    import datetime as _dt
+    cut = _dt.datetime.now() - _dt.timedelta(days=days)
+    used = set()
+    for r in load_rows():
+        if r.get("action") != "post" or not r.get("aid"):
+            continue
+        try:
+            if _dt.datetime.fromisoformat(str(r.get("ts"))) >= cut:
+                used.add(str(r.get("aid")))
+        except Exception:
+            continue
+    free = max(0, pool - len(used))
+    return max(1, int(free / float(days)))
 
 
 def _rng_for_today():
@@ -106,17 +138,23 @@ def summarize(a):
 def decide(stats, cur_stage=0):
     """返回 (每日上限, 最小间隔分钟, 理由)。只被真失败叫停，可见率只记录。"""
     per, gap = human_band()
+    cap = supply_cap()
+    if cap is not None:
+        per = min(per, cap)     # 池子不够就不许硬发，否则必然重复同一视频
     real = int(stats.get("consec_real_fail") or 0)
     if real >= CONSEC_REAL_FAIL:
         return 2, 60, ("连续 %d 次真发送失败（平台拒绝/风控/登录失效）→ 收手观察；"
                        "可见率 %.0f%% 仅记录不判决" % (real, 100 * stats.get("rate", 0)))
-    return per, gap, ("人类量级：今天 %d 条、最短 %d 分钟（可见率 %.0f%% 仅记录，不换配额）"
-                      % (per, gap, 100 * stats.get("rate", 0)))
+    return per, gap, ("人类量级：今天 %d 条、最短 %d 分钟（供给上限 %s；可见率 %.0f%% 仅记录）"
+                      % (per, gap, cap if cap is not None else "未读到池", 100 * stats.get("rate", 0)))
 
 
 def load_policy():
     """读策略；没有文件或字段缺就用今天的人类带（不再回落到 2 条/90 分钟）。"""
     per, gap = human_band()
+    cap = supply_cap()
+    if cap is not None:
+        per = min(per, cap)
     base = {"stage": 0, "max_per_day": per, "min_gap_min": gap, "why": "人类量级（默认）"}
     try:
         d = json.load(open(POLICY, encoding="utf-8")) or {}
