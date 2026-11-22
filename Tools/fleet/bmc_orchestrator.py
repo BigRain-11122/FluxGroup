@@ -63,6 +63,7 @@ LANES = {
     "cpu-light": {"slots": 4, "gpu": False, "exclusive": False},
 }
 RAM_FLOOR_GB = 3.0          # 起新 GPU 活的最低可用内存
+DEFAULT_GPU_NEED_MB = 10000  # 银行 gpu 活没写 need_mb 时的保守估值
 GPU_UTIL_BUSY = 15          # >= 视为在干活
 COMFY_IDLE_FREE_S = 300     # 实例连续空闲 5 分钟才归还显存
 
@@ -299,6 +300,8 @@ def can_acquire(doc, name, lane, need_mb, res):
         return False, "paused(CEO让路窗)"
     cfg = LANES[lane]
     holders = doc.get("holders", [])
+    if cfg["gpu"] and not need_mb:
+        need_mb = DEFAULT_GPU_NEED_MB
     if cfg["gpu"]:
         excl = [h for h in holders if h.get("lane") == "gpu-exclusive"]
         if excl:
@@ -471,46 +474,73 @@ def cmd_plan(args):
     doc.setdefault("anomalies", [])
     cands = candidates(doc, doc["anomalies"])
     res = doc.get("resources", {})
-    print("candidates=%d  gpu=%d%% vram_free=%dMB ram=%.1fGB"
+    print("candidates=%d  gpu=%d%% vram_free=%dMB ram=%.1fGB holders=%d"
           % (len(cands), res.get("gpu_util", -1), res.get("vram_free_mb", -1),
-             res.get("ram_free_gb", -1)))
-    for c in cands[:12]:
-        ok, why = can_acquire(doc, c["name"], c["lane"], c["need_mb"], res)
+             res.get("ram_free_gb", -1), len(doc.get("holders", []))))
+    # 串行模拟：GPU 池只放一个；CPU 池按各自名额放——不互相挡
+    sim = {"paused": doc.get("paused", False),
+           "holders": [dict(h) for h in doc.get("holders", [])]}
+    first = True
+    for c in cands[:14]:
+        ok, why = can_acquire(sim, c["name"], c["lane"], c["need_mb"], res)
+        tag = "RUN"
+        if ok:
+            if first:
+                tag, first = "NEXT", False
+            need = c["need_mb"] or (DEFAULT_GPU_NEED_MB if LANES[c["lane"]]["gpu"] else 0)
+            sim["holders"].append({"name": c["name"], "lane": c["lane"], "need_mb": need})
+        else:
+            tag = "WAIT"
         print("  %-4s P%s %-30s %-14s need=%sMB  %s"
-              % ("RUN" if ok else "WAIT", c["prio"], c["name"], c["lane"], c["need_mb"], why))
+              % (tag, c["prio"], c["name"], c["lane"], c["need_mb"], why))
+    for a in doc["anomalies"]:
+        print("  ! " + a)
     return 0
 
 
 def cmd_acquire(args, quiet_ok=False):
+    name = args.acquire
     with Guard(LOCK):
         doc = load()
         doc["paused"] = paused()
         snapshot(doc)
         now = time.time()
         reap(doc, now)
-        ok, why = can_acquire(doc, args.name, args.lane, args.need_mb, doc["resources"])
-        if ok and why != "reentrant":
-            doc["holders"].append({
-                "name": args.name, "lane": args.lane, "pid": os.getpid(),
-                "since": now, "expires": now + args.ttl,
-                "need_mb": args.need_mb, "prio": args.prio,
-                "port": args.port, "note": args.note,
-            })
-            doc["actions"] = ["acquire:%s(%s)" % (args.name, args.lane)]
+        ok, why = can_acquire(doc, name, args.lane, args.need_mb, doc["resources"])
+        if ok:
+            holder = next((h for h in doc.get("holders", []) if h.get("name") == name), None)
+            if holder is not None:
+                # 重入=续租/换绑 pid（点火器先占位，Popen 拿到真 pid 后回填）
+                if args.pid:
+                    holder["pid"] = args.pid
+                holder["expires"] = now + args.ttl
+                if args.port:
+                    holder["port"] = args.port
+                doc["actions"] = ["renew:%s" % name]
+            else:
+                doc["holders"].append({
+                    "name": name, "lane": args.lane,
+                    "pid": args.pid or os.getpid(),
+                    "since": now, "expires": now + args.ttl,
+                    "need_mb": args.need_mb, "prio": prio_num(args.prio),
+                    "port": args.port, "note": args.note,
+                })
+                doc["actions"] = ["acquire:%s(%s)" % (name, args.lane)]
         save(doc)
-    print(("GRANT " if ok else "YIELD ") + args.name + " :: " + why)
-    log(("acquire-ok " if ok else "acquire-denied ") + args.name + " :: " + why)
+    print(("GRANT " if ok else "YIELD ") + name + " :: " + why)
+    log(("acquire-ok " if ok else "acquire-denied ") + name + " :: " + why)
     return 0 if ok else 3
 
 
 def cmd_release(args):
+    name = args.release
     with Guard(LOCK):
         doc = load()
         before = len(doc.get("holders", []))
-        doc["holders"] = [h for h in doc.get("holders", []) if h.get("name") != args.name]
-        doc["actions"] = ["release:%s" % args.name]
+        doc["holders"] = [h for h in doc.get("holders", []) if h.get("name") != name]
+        doc["actions"] = ["release:%s" % name]
         save(doc)
-    print("RELEASED %s (holders %d -> %d)" % (args.name, before, len(doc.get("holders", []))))
+    print("RELEASED %s (holders %d -> %d)" % (name, before, len(doc.get("holders", []))))
     return 0
 
 
@@ -542,8 +572,10 @@ def main():
     ap.add_argument("--lane", default="gpu-exclusive", choices=sorted(LANES))
     ap.add_argument("--need-mb", type=int, default=0)
     ap.add_argument("--ttl", type=int, default=3600)
-    ap.add_argument("--prio", type=int, default=2)
+    ap.add_argument("--prio", default="P2", help="P0..P4 或数字")
     ap.add_argument("--port", type=int, default=0)
+    ap.add_argument("--pid", type=int, default=0,
+                    help="持证进程 pid（默认=本进程；点火器可回填子进程 pid）")
     ap.add_argument("--note", default="")
     ap.add_argument("--quiet", action="store_true")
     ap.add_argument("--ollama", action="store_true")

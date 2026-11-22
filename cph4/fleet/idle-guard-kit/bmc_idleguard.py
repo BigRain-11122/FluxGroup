@@ -127,15 +127,42 @@ if not claimed:
     sys.exit(0)
 claimed["status"] = "claimed"
 claimed["claimed_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+
+# ---------- 4.5) 总控闸（CEO 2026-11-22「本机任务要排号，不要互相抢资源」） ----------
+# 点火前必须拿到 orchestrator 租约；拿不到=让路，不点火也不改银行状态。
+ORCH = os.path.join(REPO, "Tools", "fleet", "bmc_orchestrator.py")
+or_lane = "gpu-exclusive" if str(claimed.get("needs") or "gpu").lower().startswith("gpu") else "cpu-heavy"
+or_need = int(claimed.get("need_mb") or 0)
+try:
+    g = subprocess.run([SYS_PY, ORCH, "--acquire", claimed["id"], "--lane", or_lane,
+                        "--need-mb", str(or_need), "--ttl", "7200",
+                        "--prio", str(claimed.get("prio") or "P2")],
+                       capture_output=True, text=True, timeout=90, creationflags=NO_WINDOW)
+    if g.returncode != 0:
+        log("ORCHESTRATOR YIELD: %s (%s) -> %s" % (claimed["id"], or_lane, (g.stdout or "").strip()))
+        st["idle_since"] = now      # 保持"想干活但被排号挡住"的状态，下轮再试
+        write_json(STATE, st)
+        sys.exit(0)
+except Exception as e:
+    log("orchestrator gate FAIL (保守让路): %r" % e)
+    sys.exit(0)
+
 for job in bank["jobs"]:
     if job.get("id") == claimed["id"]:
         job.update(claimed)
 write_json(BANK, bank)
 lo = open(os.path.join(REPO, claimed["log_out"]), "wb")
-subprocess.Popen(claimed["cmd"], creationflags=NO_WINDOW, stdout=lo,
-                 stderr=open(os.path.join(REPO, claimed["log_err"]), "wb"))
+child = subprocess.Popen(claimed["cmd"], creationflags=NO_WINDOW, stdout=lo,
+                         stderr=open(os.path.join(REPO, claimed["log_err"]), "wb"))
+# 租约换绑到真子进程 pid：子进程死 -> 下一轮 tick 自动释放，不会留野租约
+try:
+    subprocess.run([SYS_PY, ORCH, "--acquire", claimed["id"], "--lane", or_lane,
+                    "--need-mb", str(or_need), "--ttl", "7200", "--pid", str(child.pid)],
+                   capture_output=True, text=True, timeout=90, creationflags=NO_WINDOW)
+except Exception:
+    pass
 idle_min = (now - (st.get("_idle_since") or now)) / 60
 st["idle_since"] = None
 st["last_claim"] = claimed["id"]
 write_json(STATE, st)
-log("CLAIMED+FIRED: %s (idle %.1f min)" % (claimed["id"], idle_min))
+log("CLAIMED+FIRED: %s (idle %.1f min, lane=%s pid=%s)" % (claimed["id"], idle_min, or_lane, child.pid))
