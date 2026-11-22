@@ -242,15 +242,21 @@ def _vlm_describe(path, timeout=420):
     return ((d.get('response') or '') + ' ' + (d.get('thinking') or ''))[:1200]
 
 
-def _text_score(desc, timeout=240):
-    """第二段：文本模型（吃得下 think:false）按三律打分出 JSON。"""
+def _text_score(desc, intent, timeout=240):
+    """第二段：文本模型按三律打分。
+
+    2026-11-22 修：原提示词只让判"画面质量"，VLM/文本模型会把**有意的空镜**（空钢琴凳/
+    雨窗）判成"没有主体、描述混乱"。现在把该镜的设计意图一起给它，判"有没有达成意图"。
+    """
     import json as _json
     import re as _re
     import urllib.request
 
-    q = ('下面是 MV 画面描述。按三项打分（0-10）：era=2000年代台湾质感、lived_in=活人感(非AI)、'
-         'composition=构图。只输出 JSON：{"era":n,"lived_in":n,"composition":n,"worst":"最大问题20字内"}'
-         '\n描述：' + desc)
+    q = ('下面是 MV 某一镜的【设计意图】和【画面描述】。请按三项打分（0-10）：'
+         'era=2000年代台湾质感、lived_in=活人感(非AI)、composition=构图是否达成该镜意图。'
+         '注意：意图若是空镜/静物，画面里没有人是**正确**的，不要因此扣分。'
+         '只输出 JSON：{"era":n,"lived_in":n,"composition":n,"worst":"最大问题20字内"}'
+         '\n【设计意图】' + intent + '\n【画面描述】' + desc)
     body = _json.dumps({'model': 'qwen3.5:4b-q4_K_M', 'prompt': q, 'stream': False,
                         'think': False, 'options': {'num_predict': 200, 'temperature': 0.1}}).encode()
     req = urllib.request.Request(VLM_HOST + '/api/generate', data=body,
@@ -271,12 +277,23 @@ def seat_vlm(rows, ctx):
     frames = ctx.get('frames') or ''
     if not frames or not os.path.isdir(frames):
         return 10, ['（未提供帧目录·跳过）'], {}
-    pngs = sorted(f for f in os.listdir(frames) if f.endswith('.png'))[:ctx.get('vlm_n', 2)]
+    allp = sorted(f for f in os.listdir(frames) if f.endswith('.png'))
+    k = ctx.get('vlm_n', 2) or 2
+    # 2026-11-22：只抽开头 N 帧 = 采样偏差（前奏全是空镜，会被判"构图松散"）。
+    # 改为全片均匀抽样。
+    if len(allp) <= k:
+        pngs = allp
+    else:
+        step = max(1, len(allp) // k)
+        pngs = [allp[i] for i in range(0, len(allp), step)][:k]
     scores, worst, notes = [], [], []
     for f in pngs:
         try:
             desc = _vlm_describe(os.path.join(frames, f))
-            r = _text_score(desc)
+            sid = f.replace('.png', '')
+            row = next((x for x in rows if x.get('id') == sid), {})
+            intent = '%s / %s' % (row.get('kind', '?'), (row.get('prompt') or '')[:90])
+            r = _text_score(desc, intent)
         except Exception as e:
             notes.append('%s: %s' % (f, type(e).__name__))
             continue
