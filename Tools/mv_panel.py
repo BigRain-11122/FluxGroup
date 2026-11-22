@@ -35,6 +35,25 @@ TEXT_RISK = ('signage', 'billboard', 'newspaper', 'book cover', 'screen text', '
 NAME_RISK = ('jay chou', '周杰伦', 'jolin', '蔡依林', 'vivian hsu', '徐若瑄')
 
 
+
+
+def _profile(prompts_path):
+    """2026-11-22：十席判据是 MV 专用的（牛仔外套锚 / "he ..." 动作词），
+    直接套到短剧上会误杀（实测《商路》EP01 服装席 4/10、受众席 3/10 全是假红）。
+    正法=项目自带 panel-profile.json 覆盖默认锚与词表。"""
+    import json as _json
+    d = os.path.dirname(os.path.abspath(prompts_path))
+    for _ in range(4):
+        f = os.path.join(d, 'panel-profile.json')
+        if os.path.isfile(f):
+            try:
+                return _json.load(open(f, encoding='utf-8'))
+            except Exception:
+                break
+        d = os.path.dirname(d)
+    return {}
+
+
 def load(p):
     return json.load(open(p, encoding='utf-8'))
 
@@ -91,7 +110,9 @@ def seat_colorist(rows, ctx):
 
 def seat_wardrobe(rows, ctx):
     """服装席：明星衣橱律（禁素T路人感）+ 同场同套连续性。"""
-    hits = {w: sum(1 for r in rows if w in r['prompt'].lower()) for w in WARDROBE_MUST}
+    prof = ctx.get("prof") or {}
+    musts = tuple(prof.get("wardrobe_must") or WARDROBE_MUST)
+    hits = {w: sum(1 for r in rows if w in r['prompt'].lower()) for w in musts}
     plain = [r['id'] for r in rows if any(w in r['prompt'].lower() for w in PLAIN_CLOTHES)]
     person = [r for r in rows if r.get('kind') in ('F', 'P')]
     score, findings = 10, []
@@ -100,8 +121,9 @@ def seat_wardrobe(rows, ctx):
         findings.append('造型锚缺失：%s' % missing); score -= 4
     if plain:
         findings.append('素T路人感命中 %d 镜（J-22 判例）' % len(plain)); score -= 5
-    if person and hits.get('denim', 0) < len(person) * 0.8:
-        findings.append('牛仔外套仅 %d/%d 人物镜（场内连续律）' % (hits.get('denim', 0), len(person))); score -= 2
+    key = musts[0] if musts else "denim"
+    if person and hits.get(key, 0) < len(person) * 0.8:
+        findings.append('主造型锚 %s 仅 %d/%d 人物镜（场内连续律）' % (key, hits.get(key, 0), len(person))); score -= 2
     return score, findings, hits
 
 
@@ -131,8 +153,9 @@ def seat_performance(rows, ctx):
 def seat_audience(rows, ctx):
     """受众席：L1 路人可读（主体占比 + 有明确动作的镜比例）。"""
     n = float(len(rows)) or 1
-    act = sum(1 for r in rows if any(v in r['prompt'].lower() for v in
-                                     (' as he ', ' he ', ' hand ', ' sits ', ' stands ', ' turns ')))
+    verbs = tuple((ctx.get('prof') or {}).get('action_verbs') or
+                  (' as he ', ' he ', ' hand ', ' sits ', ' stands ', ' turns '))
+    act = sum(1 for r in rows if any(v in r['prompt'].lower() for v in verbs))
     pct = act / n * 100
     score = 10 if pct >= 45 else 10 - int((45 - pct) / 5)
     findings = [] if pct >= 45 else ['有动作镜 %.0f%% < 45%%（路人可能看不懂在做什么）' % pct]
@@ -331,7 +354,8 @@ def main():
     a = ap.parse_args()
 
     rows = load(a.prompts)
-    ctx = {'frames': a.frames, 'shotlist': a.shotlist, 'subset': a.subset, 'vlm_n': a.vlm_n}
+    ctx = {'frames': a.frames, 'shotlist': a.shotlist, 'subset': a.subset,
+           'vlm_n': a.vlm_n, 'prof': _profile(a.prompts)}
     results = []
     for name, fn in SEATS:
         score, findings, detail = fn(rows, ctx)
