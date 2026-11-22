@@ -9,13 +9,12 @@
    "val_min": null
   },
   "peer_pro": {
-   "last_ts": 1795363035.67646,
+   "last_ts": 1795363035.0,
    "last_rc": "REJECT",
    "rows": 606,
    "run": "20261122-232335",
    "step": 400,
-   "val_min": 3.783,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.783
   },
   "music_seeker": {
    "last_ts": 1795349836.0,
@@ -50,12 +49,13 @@
    "val_min": 3.42
   },
   "shallow": {
-   "last_ts": 1795347713.0,
+   "last_ts": 1795365233.85493,
    "last_rc": "REJECT",
    "rows": 1955,
-   "run": "20261122-191623",
+   "run": "20261123-000256",
    "step": 400,
-   "val_min": 3.663
+   "val_min": 3.663,
+   "recipe": "v5-shape-quota"
   },
   "feeler": {
    "last_ts": 1795352175.0,
@@ -67,25 +67,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-21T21:40:24",
-   "seg": "memer",
-   "rows": 2157,
-   "built": 1016,
-   "eval_n": 10,
-   "run": "20261121-210031",
-   "step": 300,
-   "val_step": 350,
-   "val_min": 3.346,
-   "base_avg": 38.7,
-   "lora_avg": 50.3,
-   "base_human": 1.0,
-   "lora_human": 4.0,
-   "human_delta": 3.0,
-   "verdict": "KEEP",
-   "why": "均分 +11.6 / 人味 +3.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261121-210031/ckpt300"
-  },
   {
    "ts": "2026-11-21T22:17:13",
    "seg": "tech_nerd",
@@ -686,6 +667,25 @@
    "verdict": "REJECT",
    "why": "均分只 +1.0（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-232335/ckpt400"
+  },
+  {
+   "ts": "2026-11-23T00:33:53",
+   "seg": "shallow",
+   "rows": 1955,
+   "built": 589,
+   "eval_n": 10,
+   "run": "20261123-000256",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 3.663,
+   "base_avg": 54.3,
+   "lora_avg": 58.0,
+   "base_human": 1.0,
+   "lora_human": 5.0,
+   "human_delta": 4.0,
+   "verdict": "REJECT",
+   "why": "均分只 +3.7（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261123-000256/ckpt400"
   }
  ]
 }

@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-22T23:57:14",
+ "ts": "2026-11-23T00:33:51",
  "base": [
   {
    "n": 10,
-   "avg": 51.8,
-   "pass_rate": 0,
-   "avg_logic": 6.0,
-   "avg_human": 5.0,
+   "avg": 54.3,
+   "pass_rate": 100,
+   "avg_logic": 12.5,
+   "avg_human": 1.0,
    "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "懂了，2025 版“烂歌”本质就是过度包装掩盖的格调缺失。制作时我们常纠结简单旋律与复杂编曲的取舍，去年某热歌因堆砌失真音色被全网黑，这次你们会侧重哪类作品的工艺优化？",
-    "2025 选歌时，我比你们更纠结工序取舍，踩过的坑也能分享，聊聊具体环节吧。"
+    "分人，有的歌就是自带 BGM 属性。",
+    "哈哈，这态度太对了！"
    ],
-   "seg": "peer_pro",
+   "seg": "shallow",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 52.8,
-   "pass_rate": 30,
+   "avg": 58.0,
+   "pass_rate": 60,
    "avg_logic": 13.0,
-   "avg_human": 4.0,
+   "avg_human": 5.0,
    "avg_natural": 20.0,
-   "reject": 0,
-   "seg": "peer_pro",
+   "reject": 4,
+   "seg": "shallow",
    "sample": [
-    "这个剪辑师都是厉害的角色",
-    "和老板沟通，说合音方负责技术，老板说随便，让我负责"
+    "支持你，我觉得还是50分差不多",
+    "我觉得up说得很棒"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261122-232335/ckpt400"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-000256/ckpt400"
 }
