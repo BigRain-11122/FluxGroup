@@ -327,3 +327,15 @@ cph4/fleet/state/lane-trust.json
 cph4/fleet/out/drama/**/kf/
 cph4/fleet/out/drama/**/i2v/
 cph4/fleet/out/drama/**/*.mp4
+
+# === 2026-11-22 bm-c 上链卫生（CEO 令：及时上链/不互相捣乱）===
+# 本机运行时大件与模型/语料一律留盘，只把台账/回执/代码小件推上链
+Tools/logs/
+Tools/voicebank/voicebank/
+media/voicebank-models/
+media/mvtools/
+media/pylibs_latentsync/
+media/latentsync-deploy/
+media/mv0001-handover/
+media/review-720p/
+Logs/

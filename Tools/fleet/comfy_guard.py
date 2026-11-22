@@ -6,13 +6,13 @@ Why (measured 2026-11-01, three wedges in one evening):
   H3 i2v stages ~19.995GB of weights (UNET int8 + LoRA + qwen3vl-32b CLIP) through system
   RAM into a 16GB card. While a 14s shot renders, free RAM falls to ~2GB; when it runs out
   ComfyUI dies in one of two ways:
-    (a) process gone,            (b) process alive but 8188 no longer listening.
+    (a) process gone,            (b) process alive but 8189 no longer listening.
   Both look identical to the runner: it just keeps printing "N s running..." until its own
   900s timeout, and the batch silently stalls with zero output. Nothing on the box noticed,
   which is why the GPU sat at 0% for hours with a "healthy" process list.
 
 What this does, every run (intended cadence: 3 minutes):
-  1. if 8188 is not serving -> start ComfyUI hidden and wait for /system_stats
+  1. if 8189 is not serving -> start ComfyUI hidden and wait for /system_stats
   2. if a batch is declared (flag file) and no runner process matches it -> relaunch it
      (the runner skips finished clips, so a relaunch resumes instead of redoing work)
   3. never touch anything while the CEO's yield flag is set
@@ -32,7 +32,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 COMFY = r"D:\ComfyUI\python_embeded\python.exe"
 COMFY_MAIN = r"D:\ComfyUI\ComfyUI\main.py"
 COMFY_CWD = r"D:\ComfyUI\ComfyUI"
-PORT = 8188
+PORT = 8189
 FLAG = os.path.join(ROOT, "cph4", "fleet", "mv-album-001-jay", "local-i2v", "BURN-ZONE.json")
 PAUSE = os.path.join(ROOT, ".codely-cli", "machine-state.flag")
 LOGDIR = os.path.join(ROOT, "media", "logs")
@@ -169,7 +169,7 @@ def _escalate(pids):
         with open(marker, "w", encoding="utf-8") as f:
             json.dump({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
                        "pids": pids,
-                       "why": "ComfyUI 进程存活但不监听 8188，taskkill 无效（CUDA 挂死）",
+                       "why": "ComfyUI 进程存活但不监听 8189，taskkill 无效（CUDA 挂死）",
                        "action": "需重启本机，或提权执行 nvidia-smi --gpu-reset -i 0"},
                       f, ensure_ascii=False, indent=1)
     except Exception:
@@ -187,7 +187,7 @@ def main():
 
     if not serving():
         pids = comfy_pids()
-        log("8188 down (comfy pids=%s) -> restarting" % (pids or "none"))
+        log("8189 down (comfy pids=%s) -> restarting" % (pids or "none"))
         # A wedged process (alive, not listening) must be cleared first or the port stays dead.
         for pid in pids:
             try:
@@ -198,7 +198,7 @@ def main():
         time.sleep(3)
         # 2026-11-21 bm-c：taskkill 打不掉的僵尸（CUDA 挂死在不可中断态）会一直占着显存，
         # 于是每轮都 "restarting" 却永远起不来——实测这样空转 25 分钟、整夜零产出。
-        # 判据=杀完仍存活 且 8188 仍不服务；处置=写升级标记 + 显式告警（不擅自重启机器，
+        # 判据=杀完仍存活 且 8189 仍不服务；处置=写升级标记 + 显式告警（不擅自重启机器，
         # 重启是人的决定）。iterate 会把这个标记写进日报。
         if any(_pid_alive(p) for p in (pids or [])) and not serving():
             _escalate(pids)

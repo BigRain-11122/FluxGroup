@@ -1,4 +1,4 @@
-CHAIN EP003 stages=plan,kf,i2v-plan,i2v,assembly,qc dry=False
+CHAIN EP003 stages=plan,kf,i2v-plan,i2v,audio,assembly,qc dry=False
 [plan]
   $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_kf_plan.py --eps 3
 [kf]
@@ -7,9 +7,11 @@ CHAIN EP003 stages=plan,kf,i2v-plan,i2v,assembly,qc dry=False
   $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_i2v_plan.py --ep 3 --width 480 --height 864 --max-s 3.0
 [i2v]
   $ K:\Fluxgroup\FluxGroup\cph4\fleet\mv-album-001-jay\local-i2v\h3_i2v_album.py --repo K:\Fluxgroup\FluxGroup --lane bmc --manifest cph4/fleet/out/drama/EP003/i2v_manifest.json --out cph4/fleet/out/drama/EP003/i2v --wf cph4/fleet/mv-album-001-jay/local-i2v/wf_h3_i2v_480p_int4.json
+[audio]
+  AUDIO made=0 skipped=17 failed=0
 [assembly]
   $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_av_manifest.py --ep 3 --mix
   $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_assemble.py --manifest cph4/fleet/out/drama/EP003/assemble_manifest.json --out cph4/fleet/out/drama/EP003/ep003.mp4 --qa cph4/fleet/out/drama/EP003/ep003-qa.json
 [qc]
   $ K:\Fluxgroup\FluxGroup\Tools\fleet\drama_quality_gate.py --in cph4/fleet/out/drama/EP003/ep003.mp4 --subs-burned --out cph4/fleet/out/drama/EP003/ep003-gate.json
-CHAIN DONE fails=3 state=cph4\fleet\out\drama\EP003\chain-state.json
+CHAIN DONE fails=1 state=cph4\fleet\out\drama\EP003\chain-state.json

@@ -182,7 +182,10 @@
    "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.err.log",
    "status": "pending",
-   "retries": 0
+   "retries": 1,
+   "claimed_ts": "manual-2150",
+   "last_error": "no-deliverable",
+   "requeued_ts": "2026-11-22T22:11:46"
   },
   {
    "id": "PROD-MV-HEI-PANEL",
