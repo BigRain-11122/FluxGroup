@@ -355,3 +355,7 @@
 {"action": "lane", "lane": "lora", "serving": "cph4/fleet/social/train/RUNS/20261121-132429/ckpt400", "rpid": "324766462240", "arm": "D", "persona": "tech_nerd", "ts": "2026-11-22T11:54:19"}
 {"action": "qualified", "rpid": "324766462240", "persona": "tech_nerd", "arm": "D", "lane": "lora", "score": 99, "voice": 8, "human": 10, "text": "up 把日食瞬间和周围吃相的切片放在一起，这种剪辑思路其实比单纯拍画面更有趣呢。", "ts": "2026-11-22T11:54:19"}
 {"action": "timing", "rpid": "324766462240", "cand": 3, "gen_s": 56.1, "dwell_s": 0, "total_s": 56.1, "pending_verify": true, "ts": "2026-11-22T11:54:19"}
+{"action": "verify", "rpid": "324766140784", "visible": false, "mature": true, "age_min": 84, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T13:14:50"}
+{"action": "verify", "rpid": "324766566736", "visible": false, "mature": true, "age_min": 81, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T13:14:55"}
+{"action": "verify", "rpid": "324766462240", "visible": false, "mature": true, "age_min": 80, "why": "3 页内查不到该 rpid（确实不在公开列表）", "ts": "2026-11-22T13:15:00"}
+{"action": "skip", "why": "daily cap 8/8", "ts": "2026-11-22T13:15:00"}

@@ -1,6 +1,6 @@
 {
  "group": "sends",
- "ts": "2026-11-22T10:17:47",
+ "ts": "2026-11-22T13:14:17",
  "pass": {
   "SD01": true,
   "SD07": true,
@@ -9,11 +9,11 @@
   "SD03": true,
   "SD04": true,
   "SD05": true,
-  "SD06": false
+  "SD06": true
  },
  "overall": false,
  "n_checks": 8,
- "n_fail": 2,
+ "n_fail": 1,
  "n_skip": 0,
  "checks": [
   {
@@ -21,8 +21,8 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一条 0.0h 前（2026-11-22T10:15:51 rpid=324757092736）",
-   "n": 25
+   "detail": "最近一条 1.3h 前（2026-11-22T11:54:19 rpid=324766462240）",
+   "n": 32
   },
   {
    "id": "SD07",
@@ -30,23 +30,23 @@
    "ok": true,
    "sev": "P1",
    "detail": "近 10 条已发均双闸通过",
-   "n": 25
+   "n": 32
   },
   {
    "id": "SD08",
-   "name": "出稿节拍（中位 ≤60s）",
+   "name": "出稿节拍（中位 ≤30s）",
    "ok": false,
    "sev": "P1",
-   "detail": "近 1 拍中位 85s（最快 85s / 最慢 85s）",
-   "n": 1
+   "detail": "近 8 拍中位 87s（最快 56s / 最慢 132s）",
+   "n": 8
   },
   {
    "id": "SD02",
    "name": "失败归因齐全",
    "ok": true,
    "sev": "P1",
-   "detail": "6 条失败，0 条无 why",
-   "n": 6
+   "detail": "7 条失败，0 条无 why",
+   "n": 7
   },
   {
    "id": "SD03",
@@ -75,9 +75,9 @@
   {
    "id": "SD06",
    "name": "副动作齐（看/赞/弹幕）",
-   "ok": false,
+   "ok": true,
    "sev": "P1",
-   "detail": "acct1 缺 watch,like；acct3 缺 watch,like",
+   "detail": "两号三类动作齐",
    "n": 2
   }
  ]
