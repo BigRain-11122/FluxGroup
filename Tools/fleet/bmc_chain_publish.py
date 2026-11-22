@@ -217,6 +217,16 @@ def allowed(rel):
     return True
 
 
+def _receipt_due(interval_s=720):
+    """上一次回执提交距今是否超过 interval（默认 12 分钟）。"""
+    r = git("log", "-1", "--format=%ct", "--",
+            "cph4/fleet/queue-receipts/_last_lane_bm-c.json")
+    txt = (r.stdout or "").strip()
+    if not txt.isdigit():
+        return True
+    return (time.time() - int(txt)) >= interval_s
+
+
 def stage_evidence():
     """只暂存本机证据件；回执目录被整目录忽略，必须 -f。"""
     staged = []
@@ -242,12 +252,20 @@ def stage_evidence():
         r = git("add", "--", *cand)
         if r.returncode != 0:
             log("ADD-WARN %s" % (r.stderr or r.stdout)[:200])
-    # 两份自写回执（被忽略，-f 入库才到得了主控）
+    # 两份自写回执（被忽略，-f 入库才到得了主控）。
+    # 提交节奏闸：回执内容带时间戳，每 5 分钟提交一次会把仓库刷成噪音；主控的
+    # OFFLINE 判据是 30 分钟窗口，所以 12 分钟提交一次足够，其余轮次只刷新盘上内容。
     recs = ["cph4/fleet/queue-receipts/_last_lane_bm-c.json",
-            "cph4/fleet/queue-receipts/autodrive-hb-bm-c.json"]
+            "cph4/fleet/queue-receipts/autodrive-hb-bm-c.json",
+            "cph4/fleet/queue-receipts/production-router-bm-c.json",
+            "cph4/fleet/queue-receipts/pipeline-evolution-bm-c.json"]
     have = [r for r in recs if os.path.exists(os.path.join(ROOT, r))]
-    if have:
+    if have and _receipt_due():
         git("add", "-f", "--", *have)
+    elif have:
+        # 其它证据照常提交时，顺带把回执一起带上（同一次提交，不额外造噪）
+        if [x for x in (git("diff", "--cached", "--name-only").stdout or "").splitlines() if x]:
+            git("add", "-f", "--", *have)
     staged = [x for x in (git("diff", "--cached", "--name-only").stdout or "").splitlines() if x]
     return staged
 

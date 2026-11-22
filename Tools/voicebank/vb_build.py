@@ -26,8 +26,13 @@ import numpy as np
 
 REPO = os.environ.get("VB_GPT_ROOT", r"C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS")
 FFMPEG = r"C:\Fluxgroup\MiniGame\Tools\ffmpeg\bin\ffmpeg.exe"
-ASR_DIR = os.environ.get("VB_ASR", r"E:\Fluxgroup\.codely-cli\models\faster-whisper-small")
-VB = os.environ.get("VB_ROOT", r"E:\Fluxgroup\.codely-cli\voicebank")
+# 2026-11-22 修：原默认值写死 E: 盘（他机路径），本机是 K:\Fluxgroup，import 后第一行就
+# FileNotFoundError，整条语音语料构建跑不了。改为按本仓位置推导 + 环境变量可覆盖。
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(os.path.dirname(_HERE))
+ASR_DIR = os.environ.get("VB_ASR", os.path.join(_ROOT, "media", "voicebank-models",
+                                                "faster-whisper-small"))
+VB = os.environ.get("VB_ROOT", os.path.join(_ROOT, "cph4", "fleet", "voicebank"))
 
 # one minute of usable speech costs a few minutes of source audio (intro/music/pauses)
 RAWS_PER_SPEECH = 3.0

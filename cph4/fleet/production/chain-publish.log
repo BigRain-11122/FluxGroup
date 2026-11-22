@@ -5,3 +5,7 @@
 2026-11-22T22:26:30 RECEIPT RUNNING gpu=100 vram=12716MB busy=i2v,lora
 2026-11-22T22:26:50 TICK commit=committed:3 converge=up-to-date push=pushed lane=lane-empty
 2026-11-22T22:31:31 RECEIPT RUNNING gpu=100 vram=14823MB busy=i2v,lora
+2026-11-22T22:32:00 TICK commit=committed:6 converge=up-to-date push=pushed lane=lane-empty
+2026-11-22T22:36:31 RECEIPT RUNNING gpu=100 vram=8993MB busy=i2v,lora
+2026-11-22T22:36:32 FATAL NameError("name '_receipt_due' is not defined")
+2026-11-22T22:36:43 RECEIPT RUNNING gpu=100 vram=9623MB busy=i2v,lora
