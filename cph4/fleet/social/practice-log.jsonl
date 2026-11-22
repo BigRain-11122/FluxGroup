@@ -385,3 +385,13 @@
 {"action": "skip", "why": "safe_to_send:与本视频无关（不含该视频话题词）", "arm": "C", "text": "关键帧动画流畅了吧", "ts": "2026-11-22T17:44:22", "account": "acct1"}
 {"action": "skip", "why": "safe_to_send:与本视频无关（不含该视频话题词）", "arm": "C", "text": "关键帧在哪调的呀", "ts": "2026-11-22T17:44:24", "account": "acct1"}
 {"action": "skip", "why": "no text passed gates", "arm": "C", "video": "https://www.bilibili.com/video/BV1qdwvzUEgt/", "ts": "2026-11-22T17:44:24", "account": "acct1"}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T21:43:15", "account": null}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T21:44:56", "account": null}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 290s）", "waited_s": 15, "ts": "2026-11-22T21:46:55", "account": null}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T21:47:21", "account": null}
+{"action": "coexist-publish", "why": "coexist（训练持锁，8788 在位）", "ts": "2026-11-22T21:49:20", "account": null}
+{"action": "route", "seg": "craft_learner", "ok": true, "secs": 0.0, "note": "沿用已加载段件（ckpt400）", "ts": "2026-11-22T21:49:20", "account": null}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T21:49:34", "account": null}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 568s）； coexist 不可用（8788 不在位或间隔未到）", "waited_s": 15, "ts": "2026-11-22T21:51:33", "account": null}
+{"action": "skip", "why": "会话闸人工放行", "ts": "2026-11-22T21:52:04", "account": null}
+{"action": "skip", "why": "gpu-busy:GPU 被占用：train（已 718s）； coexist 不可用（8788 不在位或间隔未到）", "waited_s": 15, "ts": "2026-11-22T21:54:03", "account": null}
