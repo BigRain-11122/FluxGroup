@@ -25,12 +25,13 @@
    "val_min": 2.913
   },
   "craft_learner": {
-   "last_ts": 1795352525.478466,
-   "last_rc": "YIELD-DAY",
-   "rows": 2173,
-   "run": null,
-   "step": null,
-   "val_min": null
+   "last_ts": 1795354237.36732,
+   "last_rc": "REJECT",
+   "rows": 2204,
+   "run": "20261122-210807",
+   "step": 200,
+   "val_min": 3.478,
+   "recipe": "v5-shape-quota"
   },
   "memer": {
    "last_ts": 1795350306.0,
@@ -666,6 +667,25 @@
    "verdict": "REJECT",
    "why": "均分只 -7.2（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261122-202841/ckpt400"
+  },
+  {
+   "ts": "2026-11-22T21:30:37",
+   "seg": "craft_learner",
+   "rows": 2204,
+   "built": 1439,
+   "eval_n": 10,
+   "run": "20261122-210807",
+   "step": 200,
+   "val_step": 250,
+   "val_min": 3.478,
+   "base_avg": 85.5,
+   "lora_avg": 81.5,
+   "base_human": 11.0,
+   "lora_human": 13.0,
+   "human_delta": 2.0,
+   "verdict": "REJECT",
+   "why": "均分只 -4.0（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261122-210807/ckpt200"
   }
  ]
 }
