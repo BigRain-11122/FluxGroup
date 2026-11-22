@@ -37,10 +37,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T04:11:00",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T03:51:46",
-   "blocked_ts": "2026-11-21T04:11:46"
+   "claimed_ts": "2026-11-22T00:10:59",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T00:01:46"
   },
   {
    "id": "PROD-DRAMA-EP004",
@@ -56,10 +55,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T06:05:59",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T05:51:46",
-   "blocked_ts": "2026-11-21T06:11:47"
+   "claimed_ts": "2026-11-22T01:16:00",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T01:01:47"
   },
   {
    "id": "PROD-DRAMA-EP005",
@@ -75,10 +73,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T08:00:59",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T07:41:47",
-   "blocked_ts": "2026-11-21T08:01:46"
+   "claimed_ts": "2026-11-22T02:25:58",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T02:11:46"
   },
   {
    "id": "PROD-DRAMA-EP006",
@@ -94,10 +91,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T09:11:01",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T09:01:46",
-   "blocked_ts": "2026-11-21T09:11:46"
+   "claimed_ts": "2026-11-22T04:26:00",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T04:11:47"
   },
   {
    "id": "PROD-DRAMA-EP007",
@@ -113,10 +109,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T10:26:01",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T10:11:56",
-   "blocked_ts": "2026-11-21T10:31:46"
+   "claimed_ts": "2026-11-22T06:21:00",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T06:11:46"
   },
   {
    "id": "PROD-DRAMA-EP008",
@@ -132,10 +127,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T11:51:02",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T11:41:46",
-   "blocked_ts": "2026-11-21T11:51:46"
+   "claimed_ts": "2026-11-22T08:36:01",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T08:21:46"
   },
   {
    "id": "PROD-DRAMA-EP009",
@@ -151,10 +145,9 @@
    "status": "pending",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-21T13:06:02",
-   "last_error": "reset-after-fix: audio+anullsrc+gate-boundary",
-   "requeued_ts": "2026-11-21T12:51:46",
-   "blocked_ts": "2026-11-21T13:11:46"
+   "claimed_ts": "2026-11-22T09:41:01",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T09:31:46"
   },
   {
    "id": "PROD-DRAMA-EP010",
@@ -169,7 +162,44 @@
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP010.err.log",
    "status": "pending",
    "retries": 0,
-   "seeded": "2026-11-21T00:48:36"
+   "seeded": "2026-11-21T00:48:36",
+   "claimed_ts": "2026-11-22T10:46:01",
+   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
+   "requeued_ts": "2026-11-22T10:31:46"
+  },
+  {
+   "id": "PROD-MV-HEI-I2V",
+   "prio": "P0",
+   "title": "黑色幽默 i2v（89 镜·480P 验证档）",
+   "cmd": "\"C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe\" \"K:\\Fluxgroup\\FluxGroup\\Tools\\mv_hei_i2v_plan.py\" && \"C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe\" \"K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.py\" --repo \"K:\\Fluxgroup\\FluxGroup\" --lane bmc --manifest cph4/fleet/mv-album-001-jay/plan/hei-i2v-manifest.json --out cph4/fleet/mv-album-001-jay/clips-hei-480 --wf cph4/fleet/mv-album-001-jay/local-i2v/wf_h3_i2v_480p_int4.json --timeout 4200",
+   "needs": "gpu",
+   "why": "D4：先按已出帧重生成清单，再出真运动（SKIP 断点续跑）",
+   "requires": [
+    "cph4/fleet/mv-album-001-jay/plan/hei-kf-prompts-v2.json"
+   ],
+   "deliverable": "cph4/fleet/mv-album-001-jay/clips-hei-480",
+   "accept": "clips-hei-480 内 mp4 数 ≥ 40（帧齐后可重跑补齐）",
+   "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.out.log",
+   "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.err.log",
+   "status": "pending",
+   "retries": 0
+  },
+  {
+   "id": "PROD-MV-HEI-PANEL",
+   "prio": "P1",
+   "title": "黑色幽默 群审（全 89 镜）",
+   "cmd": "\"C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe\" \"K:\\Fluxgroup\\FluxGroup\\Tools\\mv_panel.py\" --tag hei-full --prompts cph4/fleet/mv-album-001-jay/plan/hei-kf-prompts-v2.json --frames cph4/fleet/mv-album-001-jay/frames-hei-kf --vlm-n 3",
+   "needs": "cpu",
+   "why": "出片前群审：全席 ≥7 均分 ≥9",
+   "requires": [
+    "cph4/fleet/mv-album-001-jay/plan/hei-kf-prompts-v2.json"
+   ],
+   "deliverable": "cph4/fleet/mv-album-001-jay/reviews/PANEL-hei-full.json",
+   "accept": "PANEL-hei-full.json 内 verdict=PASS",
+   "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-PANEL.out.log",
+   "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-PANEL.err.log",
+   "status": "pending",
+   "retries": 0
   }
  ]
 }
