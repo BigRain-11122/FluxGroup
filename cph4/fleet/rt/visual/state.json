@@ -1,13 +1,13 @@
 {
- "ts": "2026-11-22T21:49:48",
+ "ts": "2026-11-22T22:49:48",
  "station": "visual",
- "charter_sha": "648c699d1f96",
- "findings": 10,
+ "charter_sha": "2d76a18c1f8a",
+ "findings": 51,
  "by_severity": {
-  "high": 10,
-  "warn": 0
+  "high": 38,
+  "warn": 13
  },
  "model": "ok",
- "advice": "立即补全缺失的队列收据文件（如 `comfy-probe-bm-c-20261112.json` 等），以消除高严重性缺陷并恢复任务闭环。",
- "sec": 3.64
+ "advice": "立即处理\"asset-lib-asset-gen-2026-11-16\"任务，因其处于“在跑但本工位没有回执”的阻塞状态。",
+ "sec": 3.23
 }

@@ -33,3 +33,9 @@
 2026-11-22T22:46:30 stale lock pid=55868 -> reclaim
 2026-11-22T22:46:31 LANE jobs=4 fresh=1 -> run one card
 2026-11-22T22:46:31 RECEIPT RUNNING gpu=100 vram=14502MB busy=i2v,lora
+2026-11-22T22:47:01 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-batch-held(0m, same dispatch)
+2026-11-22T22:47:19 LANE rc=0 done=asset-lib-face-dataset-2026-11-20,asset-lib-face-dataset-2026-11-17,asset-lib-face-dataset-2026-11-19 asset-lib-face-dataset-2026-11-20 DONE rc=0 31.5s deliverable=True error=- | asset-lib-face-dataset-2026-11-17 DONE rc=0 31.5s deliverable=True error=- | asset-lib-face-dataset-2026-11-19 DONE rc=0 31.5s deliverable=True error=-
+2026-11-22T22:47:19 TICK commit=committed:6 converge=merged-behind-3 push=pushed lane=lane-rc-0(3 done)
+2026-11-22T22:51:31 RECEIPT RUNNING gpu=100 vram=15384MB busy=i2v,lora
+2026-11-22T22:51:41 stale lock pid=57352 -> reclaim
+2026-11-22T22:51:42 RECEIPT RUNNING gpu=99 vram=15365MB busy=i2v,lora

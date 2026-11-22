@@ -261,6 +261,12 @@ def main():
     ap.add_argument("--identify-min", type=float, default=0.58,
                     help="cosine similarity floor for --identify-ref")
     a = ap.parse_args()
+    # 2026-11-22 修：worker 传进来的 --raw 可能是相对路径，而 ffmpeg 在别的 cwd 里跑，
+    # 结果 "Error opening input ... No such file"，整条构建死在第 1 个文件。
+    a.raw = os.path.abspath(a.raw)
+    if getattr(a, "out_root", None):
+        a.out_root = os.path.abspath(a.out_root)
+
 
     root = os.path.join(a.out_root or VB, a.voice)
     raw_dir = os.path.join(root, "wav44")

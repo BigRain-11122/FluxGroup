@@ -364,19 +364,20 @@ def run_lane_once():
     fresh = [j for j in jobs if str(j.get("id")) not in done]
     if not fresh:
         return "lane-all-done(%d)" % len(jobs)
-    # lane_agent 不接受「只跑某几张卡」的参数（全队共享代码，本机不改它）；
-    # 它会把车道里能跑的卡都跑一遍。所以再压一道批次签名闸：同一批派单在
-    # 45 分钟内只跑一次，主控换了卡（签名变）才再跑。
-    sig = ",".join(sorted(str(j.get("id")) for j in jobs))
+    # lane_agent 不接受「只跑某几张卡」的参数（全队共享代码，本机不改它），
+    # 而主控每轮脉都会重写车道文件（ts 变、有时增减卡），所以「批次签名」挡不住重复。
+    # 实测纪律（2026-11-22）：改成**纯冷却闸**——同一台机 10 分钟内最多跑一轮车道卡。
+    # 代价是主控新派的卡最多等 10 分钟；换来的是同一张卡不会被每 5 分钟重跑一遍。
     try:
         prev = json.load(open(LANE_SIG, encoding="utf-8"))
     except Exception:
         prev = {}
-    if prev.get("sig") == sig and (time.time() - float(prev.get("ts") or 0)) < 2700:
-        age = int((time.time() - float(prev.get("ts") or 0)) / 60)
-        return "lane-batch-held(%dm, same dispatch)" % age
+    last = float(prev.get("ts") or 0)
+    if time.time() - last < 600:
+        return "lane-cooldown(%dm)" % int((time.time() - last) / 60)
     try:
-        json.dump({"sig": sig, "ts": time.time()}, open(LANE_SIG, "w", encoding="utf-8"))
+        json.dump({"ts": time.time(), "sig": ",".join(sorted(str(j.get("id")) for j in jobs))},
+                  open(LANE_SIG, "w", encoding="utf-8"))
     except Exception:
         pass
     log("LANE jobs=%d fresh=%d -> run one card" % (len(jobs), len(fresh)))
