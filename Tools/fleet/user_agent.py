@@ -310,41 +310,88 @@ def cross_gap_ok(account=None, minutes=0):
 
 
 # ---------------- 弹幕文本：必须从这条视频推出来 ----------------
+# 2026-11-22 CEO「策略可以多元化…不要这么讲话」：原来只有两套共 10 条模板，
+# 连发几天就是"这个X处理得干净"刷屏。现在三层：
+#   ① 真人短句池（VOICE-SPEC 的 danmaku，取自真实短评论，通用不串场）
+#   ② 按原型分组的模板（点评/感受/反应/追问），带 {kw} 贴住这条视频
+#   ③ 抽不出关键词就只发通用短句，宁可不发
 DM_STYLES = {
     # 技术流：点评手法/细节
     "point": ["这个{kw}处理得干净", "{kw}这里卡点挺准", "{kw}这段我想试试", "{kw}的节奏稳",
-              "刚看到{kw}，学到了"],
+              "刚看到{kw}，学到了", "{kw}那块转场接得上", "{kw}这儿我要回看一遍"],
     # 感受流：说自己的感受，不评价技术
     "feel": ["{kw}这段听着心里一动", "看到{kw}我笑了", "{kw}好有画面感啊",
-             "被{kw}这一段戳到了", "{kw}这里我看了两遍"],
+             "被{kw}这一段戳到了", "{kw}这里我看了两遍", "{kw}出现那秒我起鸡皮疙瘩了"],
+    # 反应流：短促、不过脑
+    "reaction": ["{kw}绝了哈哈", "{kw}那里笑死", "{kw}这段真的顶"],
+    # 追问流：像真在问
+    "ask": ["{kw}是怎么做的啊", "求问{kw}用的什么", "{kw}那段有教程吗"],
 }
 
+DM_GENERIC = ["哈哈哈哈哈", "笑死我了", "这段我看了两遍", "好家伙", "学到了学到了",
+              "这个必须赞", "太顶了", "看得我起鸡皮疙瘩", "救命这也太强了", "我悟了",
+              "收藏了慢慢看", "看完就想动手试试"]
+
+DM_LEX = ["剪辑", "蒙版", "转场", "调色", "配乐", "音效", "镜头", "字幕", "歌词识别", "节奏",
+          "运镜", "光影", "特效", "字幕", "素材", "教程", "剪映", "PR", "AE", "开场", "结尾",
+          "解说", "团战", "操作", "意识", "对线", "剧情", "配音", "表情", "画质", "调色",
+          "AI", "提示词", "建模", "渲染", "分镜", "剧本", "漫剧", "短剧", "MV"]
 
 _DM_USED = {}
+_KWS = {}
+_DM_POOL = {"v": None, "ts": 0.0}
+
+
+def dm_pool():
+    """真人短句池（进程内缓存 10 分钟）。读不到就返回空，不影响老路径。"""
+    import json as _j
+    import time as _t
+    if _DM_POOL["v"] is not None and _t.time() - _DM_POOL["ts"] < 600:
+        return _DM_POOL["v"]
+    p = os.path.join(SOCIAL, "corpus", "hot", "VOICE-SPEC-v1.json")
+    try:
+        spec = _j.load(open(p, encoding="utf-8")) or {}
+        _DM_POOL["v"] = [x for x in (spec.get("danmaku") or []) if 3 <= len(x) <= 14]
+    except Exception:
+        _DM_POOL["v"] = []
+    _DM_POOL["ts"] = _t.time()
+    return _DM_POOL["v"]
+
 
 
 def danmaku_line(title, rng=None, style="point"):
-    """从标题抽关键词拼一条 ≤20 字弹幕。抽不出关键词就不发（宁可不发）。"""
+    """从标题抽关键词拼一条 ≤20 字弹幕。抽不出关键词就不发（宁可不发）。
+
+    两条路：一半概率用真人短句池（通用、不带具体对象，所以不会串场），
+    一半用带 {kw} 的模板（贴住这条视频）。只用模板会刷屏，只用短句池则与视频无关。
+    """
     rng = rng or random.Random()
-    t = re.sub(r"[【】\[\]（）()《》!！?？|/、,，.。\s]", " ", title or "")
-    words = [w for w in t.split() if 2 <= len(w) <= 6 and not w.isdigit()]
-    if words:
-        kw = rng.choice(words)[:6]
-    else:
-        # 兜底：中文标题常常没有分隔符（"AI短视频工作流"），直接取片段当关键词。
-        # 抽不出就整条不发会让弹幕几乎发不出来，等于把"会发弹幕"写成了摆设。
-        # 取最长的中文连续片段（"电影最TOP生化危机" → "生化危机"），避免截出"电影最T"这种半个词
-        runs = re.findall(r"[\u4e00-\u9fff]{2,}", t)
-        if runs:
-            kw = max(runs, key=len)[:6]
-        else:
-            # 一个汉字都没有（纯数字/纯英文/纯符号）就不发：弹幕必须贴内容
-            if not re.search(r"[\u4e00-\u9fff]", t or ""):
-                return None
-            core = re.sub(r"\s+", "", t)
-            if len(core) < 3:
-                return None
-            kw = core[:5]
+    # 通用弹幕只用手工筛过的一小撮真正常用句：机器筛出来的"通用句"仍会带领域名词，
+    # 实测把"屏幕里的游戏画面有点模糊啊"发到了剪辑教程下（串场即假）。
+    if rng.random() < 0.35:
+        cand = [x for x in DM_GENERIC if x != _DM_USED.get("_last")]
+        line = rng.choice(cand or DM_GENERIC)
+        _DM_USED["_last"] = line
+        ok, _ = guard(line)
+        if ok:
+            return line[:20]
+    # 锚点词只从**领域词表**里取（剪辑/蒙版/转场…），不再从标题里切任意片段：
+    # 切出来的"别做一个梦幻""作全流程讲解"既不是词也不像人话（2026-11-22 实测）。
+    t = title or ""
+    hits = [w for w in DM_LEX if w in t]
+    _KWS.setdefault(t, [])
+    fresh_kw = [w for w in hits if w not in _KWS[t]]
+    if not fresh_kw:
+        _KWS[t] = []
+        fresh_kw = list(dict.fromkeys(hits))
+    if not fresh_kw:
+        # 标题里一个领域词都没有 → 只发通用短句，不硬凑（硬凑就是假）
+        line = rng.choice([x for x in DM_GENERIC if x != _DM_USED.get("_last")] or DM_GENERIC)
+        _DM_USED["_last"] = line
+        ok, _ = guard(line)
+        return line[:20] if ok else None
+    kw = rng.choice(fresh_kw)
+    _KWS[t].append(kw)
     pats = list(DM_STYLES.get(style) or DM_STYLES["point"])
     used = _DM_USED.setdefault(style, [])
     fresh = [x for x in pats if x not in used] or pats
@@ -903,10 +950,14 @@ def self_test():
     else:
         cases.append(("20 个随机计划都满足'看多动少'", True))
 
-    # 弹幕：必须贴标题、≤20 字、且过合规闸；标题里没有可用词就不发
+    # 弹幕：必须贴标题、≤20 字、且过合规闸。
+    # 2026-11-22 起"标题没词"分两种：纯数字/纯符号标题不发（没有可贴的内容）；
+    # 有中文但没有领域词时只发通用短句（真人也会回"哈哈哈哈哈"，硬贴关键词才是假）。
     line = danmaku_line("【吊打付费】剪映蒙版教程")
     cases.append(("弹幕从标题抽词", bool(line) and len(line) <= 20))
-    cases.append(("标题没词就不发", danmaku_line("2024") is None))
+    cases.append(("纯数字标题只发通用句", (danmaku_line("2024") or "") in DM_GENERIC))
+    zh = danmaku_line("今天心情不错")
+    cases.append(("无领域词只发通用句", zh is None or zh in DM_GENERIC))
     cases.append(("弹幕必过合规闸", all(guard(danmaku_line(t) or "x")[0]
                                      for t in ("用PR剪片", "调色翻车现场", "转场被玩坏了"))))
 

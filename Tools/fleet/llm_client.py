@@ -409,12 +409,53 @@ def lora_comment_prompt(title, desc="", i=0, seg=None, brief=""):
     except Exception:
         pass
     ins += _EMOJI_RULE
+    # 真实样本（few-shot）：小模型的腔调靠样本改，不靠形容词。样本取自 6 万条真实评论里
+    # PASS 的部分，按 B 站自己的分类（提问/夸奖/挑刺/玩梗/共鸣/打卡）分组，按候选序号轮换，
+    # 这样 8 条候选不会长成同一个样（2026-11-22 CEO「策略可以多元化…不要这么讲话」）。
+    ins += voice_block(i=i, title=title)
     # 角度随机：固定 i%8 会让"第 1 条永远说画面、第 8 条永远带表情"，
     # 换条视频还是同序，等于半个模板。用 (标题+序号) 做种子，不同视频取到不同角度。
     import random as _rnd
     _seed = (title or "") + str(i)
     ins += _ANGLE[_rnd.Random(_seed).randrange(len(_ANGLE))]
     return ins
+
+
+_VOICE = {"spec": None, "ts": 0.0}
+
+
+def _voice_spec():
+    """进程内缓存 10 分钟：每个候选都读盘会把生成时间拉长。"""
+    import json as _json
+    import time as _t
+    if _VOICE["spec"] is not None and _t.time() - _VOICE["ts"] < 600:
+        return _VOICE["spec"]
+    p = os.path.join(ROOT, "cph4", "fleet", "social", "corpus", "hot", "VOICE-SPEC-v1.json")
+    try:
+        _VOICE["spec"] = _json.load(open(p, encoding="utf-8")) or {}
+    except Exception:
+        _VOICE["spec"] = {}
+    _VOICE["ts"] = _t.time()
+    return _VOICE["spec"]
+
+
+def voice_block(i=0, title=""):
+    """按候选序号轮换一个说话原型，给 3 条真实样本 + 字数带。"""
+    spec = _voice_spec()
+    arch = (spec.get("archetypes") or {})
+    if not arch:
+        return ""
+    names = list(arch.keys())
+    import random as _rnd
+    name = names[_rnd.Random((title or "") + "arch" + str(i)).randrange(len(names))]
+    a = arch.get(name) or {}
+    samples = list(a.get("samples") or [])[:3]
+    if not samples:
+        return ""
+    band = a.get("band") or [8, 30]
+    return ("\n下面是这条视频下真实用户的评论，只借用说话方式，不要照抄内容：\n"
+            + "\n".join("- " + s for s in samples)
+            + "\n这次按这个语气写一句，%d–%d 字。" % (int(band[0]), int(band[1])))
 
 
 def angle_for(title, k):
