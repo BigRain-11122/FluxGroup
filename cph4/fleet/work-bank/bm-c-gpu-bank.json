@@ -181,9 +181,11 @@
    "accept": "clips-hei-480 内 mp4 数 ≥ 40（帧齐后可重跑补齐）",
    "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.err.log",
-   "status": "claimed",
-   "retries": 0,
-   "claimed_ts": "manual-2150"
+   "status": "pending",
+   "retries": 1,
+   "claimed_ts": "manual-2150",
+   "last_error": "no-deliverable",
+   "requeued_ts": "2026-11-22T22:11:46"
   },
   {
    "id": "PROD-MV-HEI-PANEL",
@@ -199,6 +201,23 @@
    "accept": "PANEL-hei-full.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-PANEL.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-PANEL.err.log",
+   "status": "pending",
+   "retries": 0
+  },
+  {
+   "id": "PROD-DUANJU-SHANGLU-EP01-KF",
+   "prio": "P2",
+   "title": "《商路》EP01 关键帧（23 镜·仿真人·竖屏）",
+   "cmd": "\"C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe\" \"K:\\Fluxgroup\\FluxGroup\\Tools\\comfy_mode.py\" lowvram && \"C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe\" \"K:\\Fluxgroup\\FluxGroup\\Tools\\mv_kf_batch.py\" --prompts cph4/fleet/duanju-dept-v1/duanju-002-shanglu/plan/ep01-kf-prompts.json --out cph4/fleet/duanju-dept-v1/duanju-002-shanglu/frames-ep01 --unet krea2_turbo_fp8_scaled.safetensors --clip qwen3vl_4b_fp8_scaled.safetensors --width 832 --height 1472 --steps 6",
+   "needs": "gpu",
+   "why": "AI 短剧第一单：krea2 出图需 lowvram（17.1G 权重 > 16G），必须先切模式再烧",
+   "requires": [
+    "cph4/fleet/duanju-dept-v1/duanju-002-shanglu/plan/ep01-kf-prompts.json"
+   ],
+   "deliverable": "cph4/fleet/duanju-dept-v1/duanju-002-shanglu/frames-ep01",
+   "accept": "frames-ep01 内 png ≥ 23",
+   "log_out": "cph4/fleet/production/logs/PROD-DUANJU-SHANGLU-EP01-KF.out.log",
+   "log_err": "cph4/fleet/production/logs/PROD-DUANJU-SHANGLU-EP01-KF.err.log",
    "status": "pending",
    "retries": 0
   }
