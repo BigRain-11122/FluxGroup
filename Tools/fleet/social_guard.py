@@ -542,11 +542,11 @@ def send_checks():
     tm = [r for r in _rows(os.path.join(SOCIAL, "practice-log.jsonl"))
           if r.get("action") == "timing" and (_age_h(r.get("ts")) or 1e9) <= 24 * 7]
     if not tm:
-        out.append(_mk("SD08", "出稿节拍（中位 ≤60s）", None, "P1", "近 7 天没有 timing 记录"))
+        out.append(_mk("SD08", "出稿节拍（中位 ≤30s）", None, "P1", "近 7 天没有 timing 记录"))
     else:
         vals = sorted(float(r.get("total_s") or 0) for r in tm[-10:])
         med = vals[len(vals) // 2]
-        out.append(_mk("SD08", "出稿节拍（中位 ≤60s）", med <= 60, "P1",
+        out.append(_mk("SD08", "出稿节拍（中位 ≤30s）", med <= 30, "P1",
                        "近 %d 拍中位 %.0fs（最快 %.0fs / 最慢 %.0fs）" % (
                            len(vals), med, vals[0], vals[-1]), len(vals)))
 

@@ -638,6 +638,9 @@ def main():
     # 自适应候选数（2026-11-22「太慢了」）：单条生成 ~4s，12 条 = 48s。
     # 单条过闸率 30–47%，先跑 3 条（约 12s、七成概率已有货），不够再追加 3 条，
     # 最多 9 条。典型一拍从 48s 降到 12–24s，而"全被拒"仍 <1%。
+    # 前缀只拼一次（模板固定 i=0 + 视频上下文），候选之间只变末尾的角度/字数，
+    # 这样 8788 的提示词缓存能命中：实测单条 5.1s → 0.6–1.2s。
+    p_base = lc.lora_comment_prompt(title, meta.get("desc") or "", i=0, brief=_brief)
     n_first = int(os.environ.get("FLUX_CANDIDATES") or 3)
     n_batch = int(os.environ.get("FLUX_CANDIDATE_BATCH") or 3)
     n_max = max(n_first, int(os.environ.get("FLUX_CANDIDATE_MAX") or 9))
@@ -663,7 +666,7 @@ def main():
         # 过不了的压根不参与排序，"过了却发不出去"这类白跑从结构上消失。
         okg, ginfo = ap.gates(t, title or "", topics=_topics)
         if okg:
-            _fok, _fwhy = ap.form_check(arm, t)
+            _fok, _fwhy = ap.form_check(arm, t, topics=_topics)
             if not _fok:
                 okg = False
                 log({"action": "skip", "why": "form:" + str(_fwhy)[:40], "arm": arm,

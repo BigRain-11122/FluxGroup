@@ -56,9 +56,10 @@ def one_round(idx, url, meta, brief, topics, mods, n_first=3, n_max=6):
     # 再怪模型超字——生产也是按人群带取值的。
     lo, hi = 10, 40
     best, tries, rejects = None, 0, []
+    p_base = lc.lora_comment_prompt(title, desc, i=0, brief=brief)
     n_cand, k = n_first, 0
     while k < n_max:
-        p = lc.lora_comment_prompt(title, desc, i=k, brief=brief) + pt.persona_line(seg)
+        p = p_base + pt.persona_line(seg) + lc.angle_for(title, k)
         # D 臂（21–90 字）要求含具体对象，提示词不要求就会被形态闸拒（#06 实锚）
         p += "只写 %d-%d 字，一句话；提到一个看得见的东西（画面/剪辑/镜头/转场/配乐）。" % (lo, hi)
         t, lane = pt.make_text(p)
@@ -72,7 +73,7 @@ def one_round(idx, url, meta, brief, topics, mods, n_first=3, n_max=6):
             # 形态闸也必须在候选阶段就过：否则选出来的最佳稿到发送时被 form 拒，
             # 整轮白跑（2026-11-22 #04 实锚：30 字文本过三闸却因 D 臂缺具体对象被拒）。
             _arm = "C" if len(t) <= 20 else "D"
-            okf, whyf = ap.form_check(_arm, t)
+            okf, whyf = ap.form_check(_arm, t, topics=topics)
             if okg and not okf:
                 okg, whyg = False, "形态:" + str(whyf)[:20]
             if okg:

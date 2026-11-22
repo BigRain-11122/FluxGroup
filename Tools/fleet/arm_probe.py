@@ -115,7 +115,7 @@ def cap_check(now=None, log=LOG, sent2=SENT2, policy=None):
     return True, "今日 %d/%d 条，间隔 OK" % (n, mx)
 
 
-def form_check(arm, text):
+def form_check(arm, text, topics=()):
     """形态闸：字数带与"具体内容"要求在臂定义里，不达标就没有可比性。"""
     a = ARMS.get(arm)
     if not a:
@@ -123,8 +123,11 @@ def form_check(arm, text):
     t = (text or "").strip()
     if not (a["min_len"] <= len(t) <= a["max_len"]):
         return False, "%s 臂字数 %d 不在 %d-%d" % (arm, len(t), a["min_len"], a["max_len"])
-    if arm == "D" and not any(w in t for w in CONCRETE):
-        return False, "D 臂要求含具体内容（%s 之一）" % "/".join(CONCRETE[:5])
+    # "具体内容"应当以**这条视频自己的话题词**为准；写死一份词表会把
+    # 明明在讲这条视频的句子判死（2026-11-22 压测第 4 轮连拒 6 条实锚）。
+    pool = list(CONCRETE) + [str(x) for x in (topics or ()) if x and len(str(x)) >= 2]
+    if arm == "D" and not any(w in t for w in pool):
+        return False, "D 臂要求含具体内容（画面/剪辑/镜头…或该视频话题词）"
     return True, "形态 OK"
 
 
@@ -186,7 +189,7 @@ def fetch_roots(aid, limit=20):
 def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(), verify=True):
     import social_comment as sc
     a = ARMS[arm]
-    okf, wf = form_check(arm, text)
+    okf, wf = form_check(arm, text, topics=topics)
     if not okf:
         return {"ok": False, "stage": "form", "why": wf}
     okg, g = gates(text, ctx or video, topics=topics)

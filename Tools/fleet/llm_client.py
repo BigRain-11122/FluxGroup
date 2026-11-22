@@ -417,6 +417,18 @@ def lora_comment_prompt(title, desc="", i=0, seg=None, brief=""):
     return ins
 
 
+def angle_for(title, k):
+    """取第 k 条候选的说话角度（与 lora_comment_prompt 内同一套种子规则）。
+
+    2026-11-22「搞到最优」：提示词里凡是**随候选变化**的部分都必须放在最末尾，
+    否则 8788 的提示词缓存在每条候选上都失效——实测首枪 5.1s、命中缓存 0.6s，
+    3 条候选就要 15s。把模板与视频上下文固定成前缀，只让角度/字数变化，
+    第 2 条起都在缓存里跑。
+    """
+    import random as _rnd
+    return _ANGLE[_rnd.Random((title or "") + str(k)).randrange(len(_ANGLE))]
+
+
 def _model_for(cls):
     """座位 → 模型，读 LOCAL-MODEL-POLICY 单一源；取不到就用主力档，不猜大的。"""
     try:

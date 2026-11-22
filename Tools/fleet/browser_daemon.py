@@ -9,7 +9,9 @@
 
 设计（刻意做小）：
   · 单线程 HTTP 服务（127.0.0.1:8791），Playwright sync API 线程亲和，不并发。
-  · 每个账号一个 context（profile 隔离），空闲 10 分钟自动关掉（还内存给训练）。
+  · 每个账号一个 context（profile 隔离），空闲 60 分钟自动关掉。
+    为什么不是 10 分钟：关掉之后下一次要冷启动 ~20 秒，而一个 Chromium 只占 ~500MB；
+    白天统一内存余量 >8GB，留着比"每次都冷启"划算（2026-11-22 实测 19.7s → 3.6s）。
   · 只做三件事：browse / post / danmaku（其余仍走原路径）。
   · 任何异常都不退出进程：记日志、返回 {ok:false}，调用方回落冷启动。
 
@@ -33,7 +35,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 
 PORT = int(os.environ.get("FLUX_BROWSERD_PORT") or 8791)
-IDLE_S = int(os.environ.get("FLUX_BROWSERD_IDLE_S") or 600)
+IDLE_S = int(os.environ.get("FLUX_BROWSERD_IDLE_S") or 3600)
 
 _PW = {"mod": None, "browser": None, "ctx": {}, "last": {}, "started": 0}
 
@@ -53,7 +55,9 @@ def ctx_for(account, profile=None):
     一个进程只持有一个 profile 的上下文；两个号就是两个 key（profile 不同）。
     """
     import social_comment as sc
-    key = profile or account or "default"
+    # 键必须是**规范化后的 profile 路径**：同一 profile 两个 key 会开两个上下文，
+    # 第二个必然 ProcessSingleton 失败（2026-11-22 实锚）。
+    key = profile or getattr(sc, "PROF", "") or account or "default"
     old = _PW["ctx"].get(key)
     if old is not None and (time.time() - _PW["last"].get(key, 0)) > IDLE_S:
         try:
@@ -67,7 +71,11 @@ def ctx_for(account, profile=None):
         if _PW["browser"] is None:
             _PW["browser"] = mod.sync_playwright().start()
         p = _PW["browser"]
-        cur = sc._launch(p, prof=profile)
+        try:
+            cur = sc._launch(p, prof=key)
+        except Exception as e:
+            # profile 被别的进程（会话里的浏览器）占着：交给调用方回落，不在这里死等
+            raise RuntimeError("profile busy: %s" % str(e)[:60])
         _PW["ctx"][key] = cur
     _PW["last"][key] = time.time()
     return cur
