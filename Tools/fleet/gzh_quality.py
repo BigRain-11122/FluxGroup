@@ -41,6 +41,9 @@ AI_PAT = [
     r"在这个(信息爆炸|快节奏)的时代",
     r"不难(发现|看出)|显而易见",
     r"让我们一起|下面(我们)?将(介绍|探讨)",
+    r"总结一下|简单来说|总的来说",
+    r"在(数字化|智能化|新能源)?浪潮下",
+    r"赋能|助力(行业|用户)",
 ]
 
 
@@ -57,8 +60,13 @@ def _rows(p):
 
 
 def _med(xs):
+    """真中位数。2026-11-23 判据席实测：原实现取 xs[n//2]，n=4 时等于第 3 小值，
+    把 heads 维度从 17.5 抬到 24（+37%），等于把闸放松并把中心挪歪。"""
     xs = sorted(x for x in xs if x is not None)
-    return xs[len(xs) // 2] if xs else None
+    if not xs:
+        return None
+    n = len(xs)
+    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2.0
 
 
 def _pct(xs, fn):
@@ -76,7 +84,7 @@ def profile(arts):
         ps = [x for x in re.split(r"\n+", b) if x.strip()]
         if ps:
             paras.append(_med([len(x) for x in ps]))
-    heads = [len(a.get("heads") or []) for a in arts]
+    heads = [len(set(a.get("heads") or [])) for a in arts]
     return {
         "n": len(arts),
         "title_len_med": _med([len(t) for t in ts]),
@@ -90,6 +98,7 @@ def profile(arts):
 
 # 每维允许的相对偏差（超过才算"不像"）。数值来自对本轮 4 篇真稿的观察，
 # 不是拍脑袋的"标准"；语料够了要重标定，标定记录写进 GZH-TRAIN-SPEC。
+N_MIN = 30      # 比例维度在 n=30 前不可估计；不到就只报数，禁止出"过/不过"
 TOL = {
     "title_len_med": 0.35,
     "title_num_pct": 25.0,     # 百分点
@@ -104,6 +113,11 @@ def compare(ours, ref):
     """逐维比较。返回 (是否达标, 明细)。分母用真稿，方向不对称是对的：
     我们要像它们，不是它们像我们。"""
     o, r = profile(ours), profile(ref)
+    if (o.get("n") or 0) < N_MIN or (r.get("n") or 0) < N_MIN:
+        # 不下结论：这是本文件最重要的一条纪律，避免用随机噪声当判据
+        return None, {"ours": o, "ref": r, "rows": [], "bad": [],
+                      "note": "样本不足（ours=%d ref=%d，需各 ≥%d）：只报数，不判过/不过"
+                              % (o.get("n") or 0, r.get("n") or 0, N_MIN)}
     rows, bad = [], []
     for k, tol in TOL.items():
         a, b = o.get(k), r.get(k)
@@ -138,33 +152,40 @@ def _grams(s, n=6):
     return {s[i:i + n] for i in range(0, max(0, len(s) - n + 1))}
 
 
-def overlap(ours, ref, n=6, limit=13):
-    """洗稿闸：任一篇与任一篇真稿的最长公共子串长度 > limit 即判红。
-    用 6-gram 交集做快速剪枝，不追求学术级最长公共子串。"""
+def overlap(ours, ref, n=6, limit=30):
+    """洗稿闸（兜底近似）：任一篇与任一篇真稿的**最长连续相同字符数** > limit 才判红。
+
+    2026-11-23 判据席实测原实现（6-gram 交集个数 >13）有两个硬伤：
+      ① 语义错——数的是"共享 6-gram 的个数"，随文档长度单调增长，与"抄了多长"无关；
+      ② 误杀——连续 19 字相同就判红，车型清单/官方规程名一律中招。
+    现在用 SequenceMatcher 求最长公共块（字符数），阈值 30 字。
+    仍会漏"每 5 字改 1 字"的改词洗稿——这是已知局限，不能当唯一防线。"""
+    import difflib
     refs = [(a.get("title") or "") + (a.get("text") or "") for a in ref]
-    ref_sets = [_grams(s, n) for s in refs]
-    worst = 0
-    worst_pair = None
+    worst, worst_pair = 0, None
     for a in ours:
         mine = (a.get("title") or "") + (a.get("text") or "")
-        gs = _grams(mine, n)
-        if not gs:
-            continue
-        for i, rs in enumerate(ref_sets):
-            common = gs & rs
-            if not common:
-                continue
-            # 用命中 gram 数量近似判断：命中块越长越危险
-            score = len(common)
-            if score > worst:
-                worst = score
+        if len(mine) < 40:
+            continue                     # 太短无法判重，不当成"通过"
+        for i, rs in enumerate(refs):
+            m = difflib.SequenceMatcher(None, mine, rs, autojunk=False).find_longest_match(
+                0, len(mine), 0, len(rs))
+            if m.size > worst:
+                worst = m.size
                 worst_pair = ((a.get("title") or "")[:20], (ref[i].get("title") or "")[:20])
     return worst, worst_pair
 
 
 def self_test():
     """负控：分布完全相同必须过、完全不同必须红、AI 腔必须被抓出。"""
+    global N_MIN
     cases = []
+    saved_n = N_MIN
+    # 先验"样本不足必须不出结论"，再把闸放到 1 去验边界（否则测试自己就被闸拦住）
+    small = [{"title": "标题带数字 3 个", "lead": "开篇" * 40, "text": "正文" * 50,
+              "heads": ["a"], "words": 200}]
+    cases.append(("样本不足→不出结论（ok is None）", compare(small, small)[0] is None))
+    N_MIN = 1
     base = [{"title": "15 万纯电 SUV，5 台只有 1 台敢买", "lead": "先说结论，我把这 5 台按排除法删到只剩一台。" * 3,
              "text": "段落一\n\n" + "正文内容" * 40, "heads": ["a", "b", "c"], "words": 900} for _ in range(6)]
     alt = [{"title": "这是一篇很长很长而且没有任何数字也没有问句的标题用来测试偏离程度到底会不会被抓出来啊啊啊",
@@ -190,6 +211,7 @@ def self_test():
     cases.append(("同文自比→重合度极高", w > 13))
     cases.append(("无关文本→低重合", overlap(alt, base)[0] <= 13))
 
+    N_MIN = saved_n
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))

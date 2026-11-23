@@ -70,6 +70,55 @@ def _append(p, rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+def _atomic_json(path, obj):
+    tmp = path + ".tmp.%d" % os.getpid()
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, path)
+
+
+def _atomic_text(path, text):
+    tmp = path + ".tmp.%d" % os.getpid()
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(text)
+    os.replace(tmp, path)
+
+
+LOCKF = os.path.join(ROOT, ".codely-cli", "state", "gzh-loop.lock")
+
+
+def _lock():
+    """单实例：手工 --once 与 launchd 撞车时，后者让路，不产生重复 _uid。"""
+    try:
+        import fcntl
+        os.makedirs(os.path.dirname(LOCKF), exist_ok=True)
+        f = open(LOCKF, "w")
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return f
+    except Exception:
+        return None
+
+
+def _unlock(f):
+    try:
+        import fcntl
+        fcntl.flock(f, fcntl.LOCK_UN)
+        f.close()
+    except Exception:
+        pass
+
+
+def _blocked_streak():
+    """末尾连续 BLOCKED-SUPPLY 的拍数：用来把"缺料"从静默升级为告警。"""
+    n = 0
+    for r in reversed(_rows(LEDGER)):
+        if r.get("status") in ("BLOCKED-SUPPLY", "ESCALATE-SUPPLY"):
+            n += 1
+        else:
+            break
+    return n
+
+
 def _age_h(p):
     try:
         return (_now() - datetime.fromtimestamp(os.path.getmtime(p))).total_seconds() / 3600
@@ -94,6 +143,8 @@ def sense():
         "pool": len(pool_u), "pool_todo": len(todo), "articles": len(done_u),
         "struct_age_h": _age_h(STRUCT), "train_rows": len(_rows(TRAINSET)),
         "struct_n": (struct or {}).get("n"),
+        "eligible": sum(1 for a in arts
+                        if len((a.get("title") or "")) >= 6 and len((a.get("lead") or "")) >= 40),
         "ts": _now().isoformat(timespec="seconds"),
     }
 
@@ -107,13 +158,11 @@ def decide(s):
     if s["pool_todo"] > 0:
         return {"phase": "harvest",
                 "why": "池里还有 %d 条没抓" % s["pool_todo"]}
-    if s["articles"] < LEARN_AFTER:
-        return {"phase": "supply", "why": "已采 %d 篇 < %d，先补料再学"
-                                          % (s["articles"], LEARN_AFTER)}
     if s["struct_age_h"] is None or (s["struct_age_h"] or 0) > STALE_H:
         return {"phase": "learn", "why": "结构统计缺失或 %s 小时前"
                                           % (round(s["struct_age_h"], 1) if s["struct_age_h"] else "从未")}
-    if s["articles"] >= TRAIN_AFTER and s["train_rows"] < s["articles"] // 2:
+    eligible = s.get("eligible", 0)
+    if s["articles"] >= TRAIN_AFTER and eligible >= 20 and s["train_rows"] < 2 * eligible:
         return {"phase": "trainset", "why": "已采 %d 篇，训练集只有 %d 行"
                                             % (s["articles"], s["train_rows"])}
     return {"phase": "watch", "why": "料够、结构新、训练集齐；等出稿或等新种子"}
@@ -189,6 +238,75 @@ def build_trainset(arts=None):
     return len(_rows(TRAINSET))
 
 
+# 下一步的唯一事实：写死成"动作+判据+要谁动手"，任何会话读它就能接上，
+# 不需要靠我记、也不需要问 CEO（CEO 2026-11-23：每次对话结尾都要知道下一步）。
+NEXT_MAP = {
+    "supply": {
+        "id": "SUPPLY-1",
+        "action": "接通镜像源采集（车家号/易车号作者页，公开可翻页）",
+        "judge": "池 ≥50 条且能翻页取到第 2 页",
+        "needs": "人工（CEO/运营）：给 3-5 个号或链接。镜像源采集器尚未实现，不许写成自动",
+        "eta": "本轮",
+    },
+    "harvest": {
+        "id": "HARVEST",
+        "action": "继续采集，每拍最多 8 篇直到把池抓空",
+        "judge": "ARTICLES 净增 >0 且失败率 <30%",
+        "needs": "无",
+        "eta": "每 30 分钟一拍",
+    },
+    "learn": {
+        "id": "LEARN-STRUCT",
+        "action": "出结构统计（标题长度/数字率/问句率/小标题密度/段落长度）",
+        "judge": "STRUCT.json 的 n 等于已采篇数",
+        "needs": "无",
+        "eta": "本轮",
+    },
+    "trainset": {
+        "id": "TRAINSET",
+        "action": "生成标题对 + 开篇对训练集",
+        "judge": "TRAINSET 行数 ≈ 2×篇数",
+        "needs": "无",
+        "eta": "本轮",
+    },
+    "watch": {
+        "id": "TRAIN-GATE",
+        "action": "堆语料至 200 篇（同作者 ≥10 篇、≥5 个作者）后才开训标题模型",
+        "judge": "ARTICLES ≥200 且 作者数 ≥5",
+        "needs": "无（自动推进）；不到门槛不训，避免浪费 GPU 并误判方向",
+        "eta": "按采集速度自动",
+    },
+}
+
+
+def write_next(s, task):
+    """落 NEXT-STEP.json + NEXT-STEP.md，并返回该记录。"""
+    base = NEXT_MAP.get(task["phase"], NEXT_MAP["watch"])
+    rec = dict(base)
+    rec.update({
+        "phase": task["phase"], "why": task["why"],
+        "facts": {"pool": s.get("pool"), "pool_todo": s.get("pool_todo"),
+                  "articles": s.get("articles"), "struct_n": s.get("struct_n"),
+                  "train_rows": s.get("train_rows")},
+        "progress": "%d/200 篇" % (s.get("articles") or 0),
+        "ts": _now().isoformat(timespec="seconds"),
+    })
+    os.makedirs(GZH, exist_ok=True)
+    _atomic_json(os.path.join(GZH, "NEXT-STEP.json"), rec)
+    md = ["# 公众号线：下一步（唯一事实）", "",
+          "> 任何会话/任何机器先读本文件再动手；它由 `gzh_loop.py` 每拍重算，不靠记忆。", "",
+          "## %s · %s" % (rec["id"], rec["action"]), "",
+          "- **为什么**：%s" % rec["why"],
+          "- **判据**：%s" % rec["judge"],
+          "- **要谁动手**：%s" % rec["needs"],
+          "- **节奏**：%s" % rec["eta"],
+          "- **进度**：%s" % rec["progress"],
+          "- **事实**：%s" % json.dumps(rec["facts"], ensure_ascii=False),
+          "- **更新时间**：%s" % rec["ts"], ""]
+    _atomic_text(os.path.join(GZH, "NEXT-STEP.md"), "\n".join(md))
+    return rec
+
+
 def refresh_screen(s, task, rec=None):
     lines = ["# 公众号线（GZH-LOOP）", "",
              "| 项 | 值 |", "|---|---|",
@@ -212,9 +330,41 @@ def refresh_screen(s, task, rec=None):
 # ---------------- 主流程 ----------------
 
 def once(dry=False):
+    """带锁与异常兜底的入口：任何一拍都要在台账留一行（含 CRASHED）。"""
+    f = _lock()
+    if f is None:
+        print("[gzh] SKIP-LOCKED（另一个实例在跑）")
+        return 0
+    try:
+        return _once_impl(dry=dry)
+    except Exception as e:
+        _append(LEDGER, {"ts": _now().isoformat(timespec="seconds"),
+                         "phase": "unknown", "status": "CRASHED", "secs": 0,
+                         "err": "%s: %s" % (type(e).__name__, str(e)[:300])})
+        try:
+            nx = {}
+            p = os.path.join(GZH, "NEXT-STEP.json")
+            if os.path.exists(p):
+                nx = json.load(open(p, encoding="utf-8"))
+            nx.update({"state": "CRASHED",
+                       "err": "%s: %s" % (type(e).__name__, str(e)[:200]),
+                       "ts": _now().isoformat(timespec="seconds")})
+            _atomic_json(p, nx)
+        except Exception:
+            pass
+        raise
+    finally:
+        _unlock(f)
+
+
+def _once_impl(dry=False):
     s = sense()
     task = decide(s)
-    rec = {"ts": s["ts"], "phase": task["phase"], "why": task["why"]}
+    write_next(s, task)
+    rec = {"ts": s["ts"], "phase": task["phase"], "why": task["why"],
+           "run_id": "%s-%d" % (s["ts"], os.getpid()),
+           "facts": {k: s.get(k) for k in
+                     ("pool", "pool_todo", "articles", "struct_n", "train_rows", "eligible")}}
     if dry or task["phase"] == "watch":
         rec.update(status="WATCH", secs=0)
         _append(LEDGER, rec)
@@ -222,13 +372,20 @@ def once(dry=False):
         print("[gzh] %s / %s" % (task["phase"], task["why"]))
         return 0
     if task["phase"] == "supply":
-        # 不空转：把"缺料"当成一个需要人决策的状态记账，然后收手。
-        rec.update(status="BLOCKED-SUPPLY", secs=0,
-                   need="URL 种子（给 3-5 个号或链接即可）")
+        # 缺料是真的阻塞，但"每拍成功什么都没做"会让 launchd 永远看到 exit 0。
+        # 连续第 2 拍起升级为 ESCALATE-SUPPLY 并退非零，让异常在 launchctl 里一眼可见。
+        streak = _blocked_streak() + 1
+        esc = streak >= 2
+        rec.update(status="ESCALATE-SUPPLY" if esc else "BLOCKED-SUPPLY", secs=0,
+                   streak=streak,
+                   need="URL 种子（给 3-5 个号或链接即可）" if not esc
+                        else "已连续 %d 拍无料：镜像源采集器未实现，必须人工给种子" % streak)
         _append(LEDGER, rec)
         refresh_screen(s, task, rec)
-        print("[gzh] BLOCKED-SUPPLY：%s" % task["why"])
-        print("[gzh] 需要：3-5 个公众号名或文章链接（我从文末相关阅读滚出更多）")
+        print("[gzh] %s（第 %d 拍）：%s" % (rec["status"], streak, task["why"]))
+        if esc:
+            print("[gzh] 升级：镜像源采集不在代码里，别再等它自己动")
+            return 78          # EX_CONFIG：让 last exit code 非零
         return 0
     if task["phase"] == "harvest":
         r = act_harvest()
@@ -264,6 +421,9 @@ def status():
              (str(s["struct_n"]) + " 篇/" + str(round(s["struct_age_h"], 1)) + "h")
              if s["struct_age_h"] else "无", s["train_rows"]))
     print("[gzh] 当前该做：%s —— %s" % (task["phase"], task["why"]))
+    nx = NEXT_MAP.get(task["phase"], NEXT_MAP["watch"])   # 只读：不写文件、不刷新时间戳
+    print("[gzh] 下一步 %s：%s" % (nx["id"], nx["action"]))
+    print("[gzh] 判据：%s ｜ 动手：%s" % (nx["judge"], nx["needs"]))
     try:
         st = json.load(open(STRUCT, encoding="utf-8"))
         print("[gzh] 结构：标题中位 %s 字｜含数字 %s%%｜问句 %s%%｜正文中位 %s 字｜小标题 %s 个"
@@ -304,6 +464,27 @@ def self_test():
     cases.append(("N6 训练集成对生成", n == 2 * (POOL_MIN + 5)))
     # N7 结构新鲜时不该重复学
     cases.append(("N7 结构新鲜→不进 learn", decide(sense())["phase"] != "learn"))
+
+    # N8 缺料必须能升级：连续两拍 BLOCKED-SUPPLY 之后 streak 必须到 2
+    global LEDGER
+    saved_led = LEDGER
+    LEDGER = os.path.join(d, "led.jsonl")
+    cases.append(("N8a 无阻塞行→streak=0", _blocked_streak() == 0))
+    _append(LEDGER, {"status": "BLOCKED-SUPPLY"})
+    cases.append(("N8b 一拍→streak=1（未升级）", _blocked_streak() == 1))
+    _append(LEDGER, {"status": "BLOCKED-SUPPLY"})
+    cases.append(("N8c 两拍→streak=2（应升级）", _blocked_streak() == 2))
+    _append(LEDGER, {"status": "OK"})
+    _append(LEDGER, {"status": "BLOCKED-SUPPLY"})
+    cases.append(("N8d 中间有成功→重新计 1", _blocked_streak() == 1))
+    LEDGER = saved_led
+
+    # N9 过滤率过高不得进 trainset（否则每拍全文重写、永不推进）
+    s9 = {"pool": 120, "pool_todo": 0, "articles": 100, "struct_age_h": 1.0,
+          "train_rows": 20, "struct_n": 100, "eligible": 10}
+    cases.append(("N9 可产行不足→不进 trainset", decide(s9)["phase"] != "trainset"))
+    s9b = dict(s9, eligible=60, train_rows=20)
+    cases.append(("N9b 可产行足够→进 trainset", decide(s9b)["phase"] == "trainset"))
 
     URLS, ARTICLES, STRUCT, TRAINSET = saved
     ok = sum(1 for _, v in cases if v)

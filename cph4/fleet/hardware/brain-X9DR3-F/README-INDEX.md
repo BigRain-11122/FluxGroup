@@ -18,10 +18,12 @@
 | 系统里改 BMC 的 IP/账号 | IPMICFG | **齐**（含 Win32/64、Linux32/64、DOS、UEFI、FreeBSD） | `管理软件/IPMICFG_1.38.0_*` |
 | 批量刷多块板 | SUM | **齐**（Win + Linux） | `管理软件/SUM_2.15.0_*` |
 | 命令行 IPMI 批量操作 | SMCIPMITool | **齐**（Win + Linux，自带 JRE） | `管理软件/SMCIPMITool_*` |
-| 怀疑内存/CPU 有硬故障时做整机诊断 | Super Diagnostics Offline（UEFI 启动盘） | **齐**（1.12.0，含官方使用手册） | `管理软件/SDO_SuperDiag_1.12.0/X86/…_For_X86.zip`（解压到 U 盘即可启动） |
+| 装系统后的驱动 | Intel C600 芯片组 INF / i350 网卡 | **齐**（芯片组 INF 10.1.20658 + 网卡 31.3，Win10 x64 可用） | `驱动/`，用法见 `驱动/驱动说明.txt` |
+| 怀疑内存/CPU 有硬故障时做整机诊断 | Super Diagnostics Offline（UEFI 启动盘） | **齐**（1.12.0，含官方使用手册） | `管理软件/SDO_SuperDiag_1.12.0/X86/x86_extracted/`（解压到 U 盘即可启动） |
 
-只差一项，且不建议现在补：
-- **Windows 平台驱动**（Intel C600 芯片组 INF / i350 网卡 / RSTe / Matrox VGA）：X9 世代已 EOL，官网该板的驱动页按 OS 选型后不再给独立包。Win10 对 C606 和 i350 多数是**内置驱动**，装完先看设备管理器缺哪个再补，比事先下一堆版本更省事；只有用 SCU 组 RAID 才非装 Intel RSTe 不可。
+至此**十项用途全部齐**。只有两件"按需再取"，不是缺漏：
+- **Intel RSTe**：只有用主板 SCU 口组 RAID 才需要；不组 RAID 就用 Win10 自带 AHCI。
+- **Matrox G200 显卡驱动**：日常走 BMC 的 KVM 看画面，不需要本地显卡驱动。
 
 ---
 
@@ -98,16 +100,18 @@ BIOS `5f9446…3462`、BMC `ac1fe4…c355`），即文件与官方发布逐字�
 
 ---
 
-## 五、驱动说明（避免白找）
+## 五、驱动（已备好，Win10 x64）
 
-X9 世代已 EOL，官网该板的「Drivers & Utilities」页按 OS/设备选型后不再给出独立驱动包（实测：接口无内容返回）。实际需要时从芯片厂商取，版本按 OS 定：
+X9 世代已 EOL，官网该板的「Drivers & Utilities」页按 OS/设备选型后不再给独立包（实测：接口无内容返回），所以驱动从芯片厂商取。已下的放 `驱动/`，哈希见 `驱动-MANIFEST.txt`：
 
-| 部件 | 型号（手册实测） | 驱动来源 |
-|---|---|---|
-| 芯片组 | Intel PCH C606 | Intel Chipset Device Software（INF），C600 系列 |
-| 网卡 | Intel I350 千兆 | Intel Ethernet Controller I350 系列驱动（e1000e/igb） |
-| 板载显卡 | Matrox G200（挂在 WPCM450R BMC 上） | 一般用 BMC 远程 KVM 即可，不需本地显卡驱动 |
-| 存储 | C606 自带 SATA + SCU | Linux 内核自带 AHCI；Windows 用 Intel RSTe（需按 OS 版本选） |
+| 部件 | 实际型号 | 已备的驱动 | Win10 x64 怎么用 |
+|---|---|---|---|
+| 芯片组 | Intel PCH C606 | `SetupChipset_10.1.20658.8883.exe`（98MB） | 双击装；静默 `-s -overwrite` |
+| 网卡 | Intel I350 千兆 | `Wired_driver_31.3_x64.zip`（已解压） | 设备管理器指向 `Wired_driver_31.3_x64/PRO1000/Winx64/NDIS68`（inf=`e1r68x64.inf`）；或用 `SetupBD.exe` 一键装 |
+| 板载显卡 | Matrox G200（挂 BMC） | 不装 | 走 IPMI 的 KVM 远程画面 |
+| 存储 | C606 SATA + SCU | 不装（RSTe 按需） | 不组 SCU RAID 就用 Win10 自带 AHCI |
+
+安装顺序：装完系统 → 看设备管理器 → 先芯片组 → 再网卡。
 
 ---
 
@@ -125,24 +129,36 @@ X9 世代已 EOL，官网该板的「Drivers & Utilities」页按 OS/设备选�
 ```
 brain-X9DR3-F/
 ├── README-INDEX.md              本文件（齐全性检查 + 用法）
+├── 今晚点板操作单.md             ★ 照这个做就行（十节：装配→点亮→BIOS→IPMI→上卡→排障）
+├── 官方文档知识卡.md             ★ 问什么答什么（规格/槽位/内存/跳线/JF1/蜂鸣码/BIOS/IPMI，全部带页码）
 ├── 管理软件-MANIFEST.txt         管理软件总表 + 主要可执行文件 SHA256 + 使用入口
+├── 驱动-MANIFEST.txt             驱动清单 + SHA256
 ├── MNL-1259.pdf                 产品说明书（111 页）
 ├── QRG-1259.pdf                 快速参考接线图（1 页）
 ├── X9_DP_memory_config.pdf      X9 双路内存插法（12 页）
 ├── X9_SMT_IPMI.pdf              X9 平台 IPMI 手册（105 页）
 ├── IPMI_Users_Guide.pdf         IPMI 通用指南（195 页，备用）
-├── X9DRi0_630.zip               BIOS 3.4（含 DOS 刷写器 AFUDOSU.SMC）
-├── SMT_X9_362.zip               BMC 3.62（含 DOS/Win/Linux 刷写器）
-└── 管理软件/                     Windows + Linux 双套（约 1.0GB，不入 git）
+├── X9DRi0_630.zip               BIOS 3.4（原包，含 DOS 刷写器）
+├── X9DRi0.630/                  ↑ 已解压：AFUDOSU.SMC + X9DRi0.630(ROM) + Readme + ami.bat
+├── SMT_X9_362.zip               BMC 3.62（原包）
+├── BMC_3.62/                    ↑ 已解压：Windows1.22/wUpdate.exe、Linux1.21/lUpdate、Dos 1.21/、.bin、固件更新说明 PDF
+├── 驱动/                        Intel 芯片组 INF + I350 网卡（Win10 x64，已解压）
+└── 管理软件/                     Windows + Linux 双套（约 1.9GB 含解压件，不入 git）
     ├── IPMICFG_1.38.0_build.260701/           Win32/64 + Linux32/64 + DOS + UEFI + FreeBSD
     ├── IPMIView_2.25.0_..._Windows.exe
-    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64.tar
+    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64.tar     原包
+    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64/        ↑ 已解压，入口 ./IPMIView20
     ├── SMCIPMITool_2.31.0_..._bundleJRE_Windows/
-    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64.tar
+    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64.tar   原包
+    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64/      ↑ 已解压，入口 ./SMCIPMITool
     ├── SUM_2.15.0_Win_x86_64/
-    ├── SUM_2.15.0_Linux_x86_64_20251104.tar
+    ├── SUM_2.15.0_Linux_x86_64_20251104.tar             原包
+    ├── SUM_2.15.0_Linux_x86_64/                         ↑ 已解压，入口 ./sum
     ├── SuperDoctor5UpdatePackage_5.23.0/
-    ├── SDO_SuperDiag_1.12.0/                  UEFI 整机诊断盘（X86/ARM 两个 zip，含使用手册）
+    │   └── extracted/                                    ↑ 已解压，入口 start_sd5.sh / start_sd5.bat
+    ├── SDO_SuperDiag_1.12.0/                  UEFI 整机诊断盘
+    │   ├── X86/x86_extracted/                          已解压：SuperDiag.efi + startup.nsh + 使用手册
+    │   └── ARM/arm_extracted/                          已解压
     └── SAA_Migration_Guide/
 ```
 
@@ -152,3 +168,4 @@ brain-X9DR3-F/
 - 五个 PDF 页数实测：111 / 1 / 12 / 105 / 195，无零字节或损坏。
 - IPMIView Windows 侧确认为 PE32 可执行；SMCIPMITool 目录内 `SMCIPMITool.exe` 与 `KVMPlugIn.jar` 在位。
 - 2026-11-23 补：SDO 诊断盘 1.12.0 已下（X86/ARM 各一个 zip，`unzip -t` 通过，内含 `SuperDiag.efi`、`startup.nsh` 与官方使用手册 PDF）。
+- 2026-11-23 全部解压到位：BIOS→`X9DRi0.630/`、BMC→`BMC_3.62/`、三个 Linux 包与 SDO/SD5 内层包均已解开；Linux 二进制 `sum`、`SMCIPMITool`、`IPMIView20`、`lUpdate`、SD5 的 `.sh` 已补 `+x`，可直接 `scp -r` 到大脑机使用；原压缩包全部保留以便校验与重传。
