@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-24T02:41:58",
+ "ts": "2026-11-24T02:51:58",
  "verdict": "RED",
  "paused": false,
- "gpu_util": 61,
- "vram_used_mb": 8807,
+ "gpu_util": 2,
+ "vram_used_mb": 1605,
  "vram_total_mb": 16384,
  "comfy": false,
  "bank": {
@@ -25,21 +25,21 @@
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 10,
+   "last_run_age_s": 11,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 77695,
+   "last_run_age_s": 78295,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 40,
+   "last_run_age_s": 100,
    "state": "OK",
    "result": 0
   },
@@ -60,6 +60,6 @@
  ],
  "alerts": [
   "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩",
-  "AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）"
+  "RED 空转：GPU 2% 且无在飞进程，但有 9 单 pending → 生产者未认领"
  ]
 }
