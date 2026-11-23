@@ -53,12 +53,13 @@
    "accept": "cph4/fleet/out/drama/EP004/ep004-gate.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-DRAMA-EP004.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP004.err.log",
-   "status": "claimed",
-   "retries": 3,
+   "status": "blocked",
+   "retries": 4,
    "seeded": "2026-11-21T00:48:36",
    "claimed_ts": "2026-11-24T01:21:01",
    "last_error": "gate-fail:cph4/fleet/out/drama/EP004/ep004-gate.json=None",
-   "requeued_ts": "2026-11-24T01:01:46"
+   "requeued_ts": "2026-11-24T01:01:46",
+   "blocked_ts": "2026-11-24T01:21:46"
   },
   {
    "id": "PROD-DRAMA-EP005",
