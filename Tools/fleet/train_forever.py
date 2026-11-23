@@ -504,7 +504,8 @@ def run_one(a):
     try:
         from datetime import datetime as _dt
         _h = _dt.now().hour
-        if 9 <= _h < 23:
+        # 2026-11-23 CEO「训练为主、实战为否」：运维显式让训练优先时跳过白天让路
+        if 9 <= _h < 23 and os.environ.get("FLUX_TRAIN_FORCE") != "1":
             sd = os.path.join(ROOT, ".codely-cli", "state")
             busy = any(f.startswith("AGENT-SESSION-") for f in os.listdir(sd))
             import practice_due as _pd2
