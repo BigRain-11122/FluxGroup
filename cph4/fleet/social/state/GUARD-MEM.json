@@ -1,6 +1,6 @@
 {
  "group": "mem",
- "ts": "2026-11-23T01:40:13",
+ "ts": "2026-11-23T08:38:14",
  "pass": {
   "ME01": true,
   "ME02": true,
@@ -18,7 +18,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3252MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3440MB）",
    "n": null
   },
   {
@@ -42,7 +42,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 6.7G + inactive 9.7G = 16.4G（线 ≥4G）",
+   "detail": "free 4.8G + inactive 8.8G = 13.6G（线 ≥4G）",
    "n": null
   },
   {
@@ -50,7 +50,7 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-21T23:34:59（26h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（33h前）生成 3 条 swap +0.0MB pageouts +0",
    "n": null
   }
  ]

@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-23T01:40:13",
+ "ts": "2026-11-23T08:38:14",
  "pass": {
   "CR01": false,
   "CR02": true,
@@ -15,7 +15,7 @@
   "TR04": true,
   "TR05": false,
   "TR06": true,
-  "AC01": true,
+  "AC01": false,
   "AC02": true,
   "AC03": true,
   "AC04": true,
@@ -58,7 +58,7 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "2.1%（线 ≤5%）8/388 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：干货/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "detail": "2.1%（线 ≤5%）8/388 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：三连/干货\", 1], [\"AI 腔：干货满满/干货\", 1]]",
    "n": 388,
    "group": "corpus"
   },
@@ -67,7 +67,7 @@
    "name": "烘焙与分段",
    "ok": true,
    "sev": "P1",
-   "detail": "0.1h前 rows=60947 段=15 verdict=3",
+   "detail": "1.0h前 rows=60947 段=15 verdict=3",
    "n": 60947,
    "group": "corpus"
   },
@@ -94,8 +94,8 @@
    "name": "采集新鲜（24h）",
    "ok": true,
    "sev": "P1",
-   "detail": "24h 内采集 34 次 / 总 34 次",
-   "n": 34,
+   "detail": "24h 内采集 78 次 / 总 78 次",
+   "n": 78,
    "group": "corpus"
   },
   {
@@ -121,8 +121,8 @@
    "name": "训练容量（epoch 3–5）",
    "ok": false,
    "sev": "P2",
-   "detail": "iters=400 rows=1385 → 0.29 epoch",
-   "n": 1385,
+   "detail": "iters=400 rows=370 → 1.08 epoch",
+   "n": 370,
    "group": "train"
   },
   {
@@ -139,7 +139,7 @@
    "name": "配方一致（RECIPE=v5-shape-quota）",
    "ok": false,
    "sev": "P1",
-   "detail": "需重造 6 段：tech_nerd, peer_pro, music_seeker, craft_learner, shallow, feeler",
+   "detail": "需重造 6 段：peer_pro, music_seeker, craft_learner, memer, shallow, feeler",
    "n": 8,
    "group": "train"
   },
@@ -173,9 +173,9 @@
   {
    "id": "AC01",
    "name": "活人节奏（alive+在动）",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "两号均在活动（上限 6h）",
+   "detail": "acct1 7.7h 没动作；acct3 7.7h 没动作",
    "n": 2,
    "group": "accounts"
   },
@@ -220,7 +220,7 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一条 2.2h 前（2026-11-22T23:27:30 rpid=321027693377）",
+   "detail": "最近一条 9.2h 前（2026-11-22T23:27:30 rpid=321027693377）",
    "n": 37,
    "group": "sends"
   },
@@ -328,7 +328,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3252MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3440MB）",
    "n": null,
    "group": "mem"
   },
@@ -355,7 +355,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 6.7G + inactive 9.7G = 16.4G（线 ≥4G）",
+   "detail": "free 4.8G + inactive 8.8G = 13.6G（线 ≥4G）",
    "n": null,
    "group": "mem"
   },
@@ -364,7 +364,7 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-21T23:34:59（26h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（33h前）生成 3 条 swap +0.0MB pageouts +0",
    "n": null,
    "group": "mem"
   },
@@ -373,7 +373,7 @@
    "name": "反思覆盖（每轮有归因）",
    "ok": true,
    "sev": "P1",
-   "detail": "判据起 2026-11-21T23:40：40 轮，无可判读 why 0 条；真失败 17 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
+   "detail": "判据起 2026-11-21T23:40：50 轮，无可判读 why 0 条；真失败 22 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
    "n": null,
    "group": "evolve"
   },
@@ -409,7 +409,7 @@
    "name": "训练期换页（≤256MB）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一轮 2026-11-23T01:36:05：swap 3260→3260MB（+0MB）",
+   "detail": "最近一轮 2026-11-23T07:02:26：swap 3609→3609MB（+0MB）",
    "n": null,
    "group": "evolve"
   }
@@ -427,7 +427,7 @@
   },
   "accounts": {
    "overall": false,
-   "n_fail": 1,
+   "n_fail": 2,
    "n_skip": 0
   },
   "sends": {

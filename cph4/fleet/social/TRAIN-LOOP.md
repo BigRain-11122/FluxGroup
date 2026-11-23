@@ -1,4 +1,4 @@
-# 7×24 训练循环（2026-11-23T07:03:09）
+# 7×24 训练循环（2026-11-23T08:38:18）
 
 > 调度：`com.fluxgroup.trainloop` 每 300s · 当前 running
 
@@ -10,9 +10,9 @@
 | craft_learner | 2206 | 是 | 配方更新 v5-shape-quota（2206 行） |
 | shallow | 1955 | 是 | 配方更新 v5-shape-quota（1955 行） |
 | peer_pro | 606 | 是 | 配方更新 v5-shape-quota（606 行） |
+| tech_nerd | 592 | 是 | 配方更新 v5-shape-quota（592 行） |
 | feeler | 551 | 是 | 配方更新 v5-shape-quota（551 行） |
 | music_seeker | 447 | 是 | 配方更新 v5-shape-quota（447 行） |
-| tech_nerd | 592 | 否 | 冷却中（0.0h 前刚训过，语料 592→592 未涨 10%） |
 | beginner | 152 | 否 | 语料 152 < 200 |
 | critic | 129 | 否 | 语料 129 < 200 |
 | student | 107 | 否 | 语料 107 < 200 |

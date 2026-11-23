@@ -1,8 +1,8 @@
 {
  "group": "accounts",
- "ts": "2026-11-23T06:43:49",
+ "ts": "2026-11-23T09:00:59",
  "pass": {
-  "AC01": true,
+  "AC01": false,
   "AC02": true,
   "AC03": true,
   "AC04": true,
@@ -10,15 +10,15 @@
  },
  "overall": false,
  "n_checks": 5,
- "n_fail": 1,
+ "n_fail": 2,
  "n_skip": 0,
  "checks": [
   {
    "id": "AC01",
    "name": "活人节奏（alive+在动）",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "两号均在活动（上限 6h）",
+   "detail": "acct1 8.1h 没动作；acct3 8.1h 没动作",
    "n": 2
   },
   {

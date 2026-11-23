@@ -1,21 +1,20 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795388589.408107,
+   "last_ts": 1795388589.0,
    "last_rc": "REJECT",
    "rows": 592,
    "run": "20261123-063231",
    "step": 400,
-   "val_min": 3.522,
-   "recipe": "v5-shape-quota"
+   "val_min": 3.522
   },
   "peer_pro": {
-   "last_ts": 1795375792.0,
-   "last_rc": "KEEP",
+   "last_ts": 1795394298.0,
+   "last_rc": "TRAIN-FAIL",
    "rows": 606,
-   "run": "20261123-025920",
-   "step": 400,
-   "val_min": 3.783
+   "run": null,
+   "step": null,
+   "val_min": null
   },
   "music_seeker": {
    "last_ts": 1795379925.0,
@@ -51,7 +50,7 @@
   },
   "shallow": {
    "last_ts": 1795377960.0,
-   "last_rc": "REJECT",
+   "last_rc": "POWER",
    "rows": 1955,
    "run": "20261123-033536",
    "step": 400,
@@ -67,44 +66,6 @@
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-22T04:19:57",
-   "seg": "peer_pro",
-   "rows": 603,
-   "built": 631,
-   "eval_n": 10,
-   "run": "20261122-035131",
-   "step": 400,
-   "val_step": 450,
-   "val_min": 3.783,
-   "base_avg": 51.8,
-   "lora_avg": 61.3,
-   "base_human": 5.0,
-   "lora_human": 6.0,
-   "human_delta": 1.0,
-   "verdict": "KEEP",
-   "why": "均分 +9.5 / 人味 +1.0",
-   "adapter": "cph4/fleet/social/train/RUNS/20261122-035131/ckpt400"
-  },
-  {
-   "ts": "2026-11-22T04:54:34",
-   "seg": "feeler",
-   "rows": 550,
-   "built": 665,
-   "eval_n": 10,
-   "run": "20261122-042552",
-   "step": 400,
-   "val_step": 400,
-   "val_min": 3.322,
-   "base_avg": 56.5,
-   "lora_avg": 46.6,
-   "base_human": 10.0,
-   "lora_human": 4.0,
-   "human_delta": -6.0,
-   "verdict": "REJECT",
-   "why": "均分只 -9.9（需 ≥5.0）",
-   "adapter": "cph4/fleet/social/train/RUNS/20261122-042552/ckpt400"
-  },
   {
    "ts": "2026-11-22T05:00:38",
    "seg": "craft_learner",
@@ -701,6 +662,16 @@
    "verdict": "REJECT",
    "why": "均分只 +1.5（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261123-063231/ckpt400"
+  },
+  {
+   "ts": "2026-11-23T08:38:18",
+   "seg": "peer_pro",
+   "rows": 606,
+   "built": 0,
+   "eval_n": 0,
+   "verdict": "TRAIN-FAIL",
+   "why": "[train] 训练结束 rc=1 swap 3608.69MB→3440.50MB",
+   "adapter": null
   }
  ]
 }

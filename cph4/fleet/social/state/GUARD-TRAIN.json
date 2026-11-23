@@ -1,6 +1,6 @@
 {
  "group": "train",
- "ts": "2026-11-23T01:40:09",
+ "ts": "2026-11-23T08:38:09",
  "pass": {
   "TR01": false,
   "TR02": true,
@@ -19,8 +19,8 @@
    "name": "训练容量（epoch 3–5）",
    "ok": false,
    "sev": "P2",
-   "detail": "iters=400 rows=1385 → 0.29 epoch",
-   "n": 1385
+   "detail": "iters=400 rows=370 → 1.08 epoch",
+   "n": 370
   },
   {
    "id": "TR02",
@@ -35,7 +35,7 @@
    "name": "配方一致（RECIPE=v5-shape-quota）",
    "ok": false,
    "sev": "P1",
-   "detail": "需重造 6 段：tech_nerd, peer_pro, music_seeker, craft_learner, shallow, feeler",
+   "detail": "需重造 6 段：peer_pro, music_seeker, craft_learner, memer, shallow, feeler",
    "n": 8
   },
   {
