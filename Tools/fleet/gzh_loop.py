@@ -189,6 +189,76 @@ def build_trainset(arts=None):
     return len(_rows(TRAINSET))
 
 
+# 下一步的唯一事实：写死成"动作+判据+要谁动手"，任何会话读它就能接上，
+# 不需要靠我记、也不需要问 CEO（CEO 2026-11-23：每次对话结尾都要知道下一步）。
+NEXT_MAP = {
+    "supply": {
+        "id": "SUPPLY-1",
+        "action": "接通镜像源采集（车家号/易车号作者页，公开可翻页）",
+        "judge": "池 ≥50 条且能翻页取到第 2 页",
+        "needs": "无（自动做）；公众号原文不作为供给前提，只标'镜像'",
+        "eta": "本轮",
+    },
+    "harvest": {
+        "id": "HARVEST",
+        "action": "继续采集，每拍最多 8 篇直到把池抓空",
+        "judge": "ARTICLES 净增 >0 且失败率 <30%",
+        "needs": "无",
+        "eta": "每 30 分钟一拍",
+    },
+    "learn": {
+        "id": "LEARN-STRUCT",
+        "action": "出结构统计（标题长度/数字率/问句率/小标题密度/段落长度）",
+        "judge": "STRUCT.json 的 n 等于已采篇数",
+        "needs": "无",
+        "eta": "本轮",
+    },
+    "trainset": {
+        "id": "TRAINSET",
+        "action": "生成标题对 + 开篇对训练集",
+        "judge": "TRAINSET 行数 ≈ 2×篇数",
+        "needs": "无",
+        "eta": "本轮",
+    },
+    "watch": {
+        "id": "TRAIN-GATE",
+        "action": "堆语料至 200 篇（同作者 ≥10 篇、≥5 个作者）后才开训标题模型",
+        "judge": "ARTICLES ≥200 且 作者数 ≥5",
+        "needs": "无（自动推进）；不到门槛不训，避免浪费 GPU 并误判方向",
+        "eta": "按采集速度自动",
+    },
+}
+
+
+def write_next(s, task):
+    """落 NEXT-STEP.json + NEXT-STEP.md，并返回该记录。"""
+    base = NEXT_MAP.get(task["phase"], NEXT_MAP["watch"])
+    rec = dict(base)
+    rec.update({
+        "phase": task["phase"], "why": task["why"],
+        "facts": {"pool": s.get("pool"), "pool_todo": s.get("pool_todo"),
+                  "articles": s.get("articles"), "struct_n": s.get("struct_n"),
+                  "train_rows": s.get("train_rows")},
+        "progress": "%d/200 篇" % (s.get("articles") or 0),
+        "ts": _now().isoformat(timespec="seconds"),
+    })
+    os.makedirs(GZH, exist_ok=True)
+    json.dump(rec, open(os.path.join(GZH, "NEXT-STEP.json"), "w", encoding="utf-8"),
+              ensure_ascii=False, indent=1)
+    md = ["# 公众号线：下一步（唯一事实）", "",
+          "> 任何会话/任何机器先读本文件再动手；它由 `gzh_loop.py` 每拍重算，不靠记忆。", "",
+          "## %s · %s" % (rec["id"], rec["action"]), "",
+          "- **为什么**：%s" % rec["why"],
+          "- **判据**：%s" % rec["judge"],
+          "- **要谁动手**：%s" % rec["needs"],
+          "- **节奏**：%s" % rec["eta"],
+          "- **进度**：%s" % rec["progress"],
+          "- **事实**：%s" % json.dumps(rec["facts"], ensure_ascii=False),
+          "- **更新时间**：%s" % rec["ts"], ""]
+    open(os.path.join(GZH, "NEXT-STEP.md"), "w", encoding="utf-8").write("\n".join(md))
+    return rec
+
+
 def refresh_screen(s, task, rec=None):
     lines = ["# 公众号线（GZH-LOOP）", "",
              "| 项 | 值 |", "|---|---|",
@@ -214,6 +284,7 @@ def refresh_screen(s, task, rec=None):
 def once(dry=False):
     s = sense()
     task = decide(s)
+    write_next(s, task)
     rec = {"ts": s["ts"], "phase": task["phase"], "why": task["why"]}
     if dry or task["phase"] == "watch":
         rec.update(status="WATCH", secs=0)
@@ -264,6 +335,9 @@ def status():
              (str(s["struct_n"]) + " 篇/" + str(round(s["struct_age_h"], 1)) + "h")
              if s["struct_age_h"] else "无", s["train_rows"]))
     print("[gzh] 当前该做：%s —— %s" % (task["phase"], task["why"]))
+    nx = write_next(s, task)
+    print("[gzh] 下一步 %s：%s" % (nx["id"], nx["action"]))
+    print("[gzh] 判据：%s ｜ 动手：%s" % (nx["judge"], nx["needs"]))
     try:
         st = json.load(open(STRUCT, encoding="utf-8"))
         print("[gzh] 结构：标题中位 %s 字｜含数字 %s%%｜问句 %s%%｜正文中位 %s 字｜小标题 %s 个"
