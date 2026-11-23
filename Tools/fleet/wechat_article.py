@@ -384,11 +384,56 @@ def _fetch_chejiahao(url):
                 pass
 
 
+# 语料错配的真问题不是题材（通稿也在讲车），而是**文体**：公告/基准发布 vs 编辑式车评。
+# 两次踩坑记录：①按"汽车词"判 → CLUE 的《汽车大模型测评基准发布》被判对味（词对文体全错）；
+# ②按"第一人称"判 → 42号车库是第三人称编辑体，"我"=0，反被判 unknown。
+# 现用结构与语气：标题语气（疑问/判断）+ 公告标记 + 章节骨架（背景/方法/指标/征集）。
+# 诚实边界：样本只有 3 个账号 10 篇，这是**保守初版**，标注了 unknown 就默认不用。
+PRESS_MARKS = ("发布", "公告", "丨", "结果发布", "方案发布", "正式上线", "圆满", "揭牌",
+               "测评基准", "基准发布",
+               "启动征集", "签约", "据悉", "通讯员", "白皮书", "标准", "榜单", "获奖", "峰会")
+PRESS_BODY = ("测评背景", "主办单位", "承办", "联合发布", "征集", "本方案", "指标体系",
+              "测试范围", "报名", "参评")
+REVIEW_BODY = ("试驾", "坐进", "开起来", "车主", "续航", "油耗", "电耗", "后排", "后备箱",
+               "提车", "落地价", "二手", "保值", "对比", "SUV", "MPV")
+REVIEW_TITLE = ("？", "?", "怎么", "为什么", "该不该", "值不值", "要不要", "能不能",
+                "建议", "避坑", "答案", "必答", "选车")
+
+
+def genre_of(art):
+    """这篇是什么文体？返回 (genre, why)。
+
+    review  = 编辑式车评/选购（可作风格样本）
+    press   = 公告/基准/通稿（**禁用**：拿它标定文风，训出来就是公文腔）
+    unknown = 拿不准（默认不用，宁缺不脏）
+    """
+    title = str(art.get("title") or "")
+    lead = str(art.get("lead") or "")[:300]
+    text = str(art.get("text") or "")[:3000]
+    heads = " ".join(str(h) for h in (art.get("heads") or []))
+    sc_press = sum(1 for m in PRESS_MARKS if m in title)
+    sc_press += 2 * sum(1 for m in PRESS_BODY if m in lead or m in text or m in heads)
+    sc_review = sum(1 for m in REVIEW_TITLE if m in title)
+    sc_review += sum(1 for m in REVIEW_BODY if m in lead or m in text)
+    why = "通稿分 %d（标题%d）／车评分 %d（标题%d）" % (
+        sc_press, sum(1 for m in PRESS_MARKS if m in title), sc_review,
+        sum(1 for m in REVIEW_TITLE if m in title))
+    if sc_press >= 3 and sc_press >= sc_review:
+        return "press", why
+    if sc_review >= 3 and sc_review > sc_press:
+        return "review", why
+    return "unknown", why
+
+
 def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
     rng = rng or random.Random()
     src = urls if urls is not None else [
         json.loads(l) for l in open(URLS, encoding="utf-8") if l.strip()]
     done = _seen(ARTICLES)
+    # 同一篇文章会从不同种子/展开链接进来（实测池里 3 篇重复、标题逐字相同），
+    # 只按 URL 去重拦不住。标题+账号做二次键。
+    titles = {((a.get("title") or "").strip(), (a.get("account") or "").strip())
+              for a in (json.loads(l) for l in open(ARTICLES, encoding="utf-8") if l.strip())}
     known = _seen(URLS)
     got, fail = 0, []
     for row in src:
@@ -402,6 +447,12 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
             fail.append({"url": u, "why": why})
             continue
         done.add(art["_uid"])
+        art["genre"], art["genre_why"] = genre_of(art)
+        tkey = ((art.get("title") or "").strip(), (art.get("account") or "").strip())
+        if tkey in titles:
+            fail.append({"url": u, "why": "重复篇（标题+账号已在池里）"})
+            continue
+        titles.add(tkey)
         _append(ARTICLES, art)
         got += 1
         for u2 in (art.get("links") or []):
