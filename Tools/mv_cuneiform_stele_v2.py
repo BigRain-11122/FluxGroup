@@ -205,7 +205,7 @@ def draw_glyph_rows(canvas, cps, rng, rows, margin_frac=0.055):
             yy = y - 1
             x0 = margin + rng.uniform(-6, 16)
             x1 = margin + usable_w - rng.uniform(-10, 40)
-            pts = [(x, yy + math.sin((x - x0) / rng.uniform(90, 240)) * rng.uniform(0.6, 2.2))
+            pts = [(x, yy + math.sin((x - x0) / rng.uniform(120, 300)) * rng.uniform(0.3, 1.0))
                    for x in range(int(x0), int(x1), 3)]
             seps.append(pts)
     return text_layer, seps
@@ -248,9 +248,9 @@ def raking_light(im, mode="left"):
         for x in range(w):
             fx = x / float(w)
             if mode == "left":
-                v = 1.00 - 1.02 * (fx ** 0.62) - 0.42 * (fy ** 1.35)
+                v = 1.05 * ((1.0 - fx) ** 1.10) - 0.35 * (fy ** 1.5) + 0.10
             else:
-                v = 1.00 - 1.02 * ((1 - fx) ** 0.62) - 0.42 * (fy ** 1.35)
+                v = 1.05 * (fx ** 1.10) - 0.35 * (fy ** 1.5) + 0.10
             gp[x, y] = max(0, min(255, int(255 * (0.06 + 0.94 * max(0.0, v)))))
     mask = grad.filter(ImageFilter.GaussianBlur(2.5))
     masked = Image.composite(im, Image.new("RGB", (w, h), (0, 0, 0)), mask)
