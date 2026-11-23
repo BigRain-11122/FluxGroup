@@ -1,28 +1,36 @@
 {
- "ts": "2026-11-23T22:18:27",
- "cycle": 4071,
+ "ts": "2026-11-23T22:27:49",
+ "cycle": 4072,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-23T22:18:27",
+ "master_tick_ts": "2026-11-23T22:27:49",
  "queue": {
   "total": 386,
-  "open": 9,
-  "running": 0,
+  "open": 8,
+  "running": 1,
   "done": 228,
   "failed": 9
  },
  "lanes": {
   "bm-a": {
-   "online": false,
-   "hb_age_s": null,
-   "cpu_load_pct": null,
-   "ram_free_gb": null,
-   "gpu_util_pct": null,
+   "online": true,
+   "hb_age_s": 17.0,
+   "cpu_load_pct": 56,
+   "ram_free_gb": 51.6,
+   "gpu_util_pct": 1,
    "job": null,
-   "last_result": null,
-   "idle_confirmed": false,
-   "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
-   "idle_rounds": 0
+   "last_result": {
+    "job": null,
+    "state": "IDLE",
+    "rc": null,
+    "ts": "2026-11-23T22:25:50",
+    "reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
+    "out_bytes": null,
+    "elapsed_s": null
+   },
+   "idle_confirmed": true,
+   "idle_reason": "EXECUTOR-DEAD (83.1h 零产出)",
+   "idle_rounds": 1
   },
   "bm-b": {
    "online": false,
@@ -38,14 +46,14 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": null,
+   "hb_age_s": 13.7,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
-   "job": null,
+   "job": "asset-lib-char-gen-2026-11-17",
    "last_result": null,
    "idle_confirmed": false,
-   "idle_reason": "SELF-DISPATCH: lane scans its own backlog",
+   "idle_reason": "",
    "idle_rounds": 0
   },
   "bm-m": {
@@ -62,7 +70,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 0,
+  "bm-a": 1,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -266,9 +274,7 @@
     "asset-lib-asset-gen-2026-11-20"
    ],
    "no_supply": false,
-   "blockers": [
-    "asset-lib-char-gen-2026-11-17:no-lane"
-   ],
+   "blockers": [],
    "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0",
    "stuck_stage": "asset-env",
    "stuck_owner": "资产席"
@@ -840,7 +846,7 @@
   "judgment_tier": "cloud-smart"
  },
  "routing": {
-  "local": 9,
+  "local": 8,
   "cloud": 0,
   "queue": 0,
   "blocked": 0,
@@ -849,14 +855,13 @@
  },
  "supply_gap": {
   "cpu": 1,
-  "gpu": 8
+  "gpu": 7
  },
  "supply_added": [],
  "events": [
-  "asset-lib-char-gen-2026-11-17 REQUeued attempt=1"
+  "asset-lib-char-gen-2026-11-17 -> bm-c (gpu)"
  ],
  "violations": [
-  "bm-a OFFLINE",
   "bm-b OFFLINE",
   "bm-m OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 关键帧/导演席·美术 (导演席（自决推进，CEO 巡视可随时否决）)",
