@@ -40,8 +40,34 @@ def _sc():
     return sc
 
 
+def _canon(url):
+    """URL 归一化后再取 uid。
+
+    2026-11-23 采集席实测：原实现直接 sha1(原串)，同一篇文章 9 种写法（?scene=、
+    http/https、尾斜杠、#rd、参数换序、短链 vs 长链）得到 **9 个不同 uid**，
+    而自检里那条"uid 稳定"写的是 _uid(u)==_uid(u)，恒真——假绿盖住了真缺陷。
+
+    归一化规则：
+      短链 /s/<token> → 只认 token；
+      长链 /s?__biz=&mid=&idx= → 只认 biz+mid+idx（sn/chksm/scene 都是变体）。
+    **已知局限**：短链不含 __biz，纯 URL 层无法与长链合一。彻底去重要等抓取成功后
+    用页面回填 (account, publish_ts, title) 做二次键。这条不许假装已经解决。
+    """
+    from urllib.parse import urlsplit, parse_qs, urlunsplit
+    u = urlsplit((url or "").strip())
+    host = u.netloc.lower()
+    if host.endswith("mp.weixin.qq.com"):
+        path = u.path.rstrip("/")
+        if path.startswith("/s/"):
+            return "wx:tok:" + path[3:].strip("/")
+        q = parse_qs(u.query)
+        if path == "/s" and q.get("__biz") and q.get("mid") and q.get("idx"):
+            return "wx:%s:%s:%s" % (q["__biz"][0], q["mid"][0], q["idx"][0])
+    return urlunsplit((u.scheme or "https", host, u.path.rstrip("/"), "", ""))
+
+
 def _uid(url):
-    return hashlib.sha1(url.encode("utf-8")).hexdigest()[:16]
+    return hashlib.sha1(_canon(url).encode("utf-8")).hexdigest()[:16]
 
 
 def _seen(path, key="_uid"):
@@ -257,9 +283,18 @@ def self_test():
     """不联网：验解析契约与去重（这几条坏了会让"大量采集"变成大量重复垃圾）。"""
     cases = []
     # 1 uid 稳定且同源不同查询串视为同文
-    u = "https://mp.weixin.qq.com/s/abc?scene=21"
-    cases.append(("uid 稳定", _uid(u) == _uid(u)))
-    cases.append(("uid 长度 16", len(_uid(u)) == 16))
+    tok = "https://mp.weixin.qq.com/s/U5QJ0w8OMUkyOa-lS08FHw"
+    cases.append(("负控：同文不同 scene 必须同 uid",
+                  _uid(tok + "?scene=21") == _uid(tok)))
+    cases.append(("负控：http/https 必须同 uid",
+                  _uid(tok.replace("https://", "http://")) == _uid(tok)))
+    cases.append(("负控：尾斜杠/#rd 必须同 uid",
+                  _uid(tok + "/#rd") == _uid(tok)))
+    long1 = ("https://mp.weixin.qq.com/s?__biz=MzA5&mid=2247507112&idx=1&sn=aa&scene=21")
+    long2 = ("https://mp.weixin.qq.com/s?__biz=MzA5&mid=2247507112&idx=1&chksm=bb&scene=1")
+    cases.append(("负控：长链变体必须同 uid", _uid(long1) == _uid(long2)))
+    cases.append(("已知局限：短链与长链仍不同（如实记）", _uid(tok) != _uid(long1)))
+    cases.append(("uid 长度 16", len(_uid(tok)) == 16))
     # 2 缺字段的文章仍能入库（words=0 时不崩）
     a = {"_uid": "x", "title": "t", "words": 0, "heads": [], "imgs": 0, "account": "a"}
     cases.append(("空结构可汇总", "1 篇" in summarize([a])))
