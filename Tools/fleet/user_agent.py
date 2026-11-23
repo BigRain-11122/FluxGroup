@@ -132,11 +132,14 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
     n_videos = n_videos or max(4, min(18, int(minutes / 1.1)))
     max_like = max(1, int(n_videos * 0.6))
     max_talk = max(2, int(n_videos * 0.35))
+    max_coin = max(1, int(n_videos * 0.18))
+    max_fav = max(1, int(n_videos * 0.12))
+    max_follow = 1
     # 单条停留：真人快刷时 20 秒–2 分钟居多，偶尔看完整（长尾）
     dwells = [round(min(9.0, max(0.3, rng.lognormvariate(-0.2, 0.7))), 1) for _ in range(n_videos)]
     steps = []
     t = 0.0
-    n_like = n_talk = 0
+    n_like = n_talk = n_coin = n_fav = n_follow = 0
     for i, d in enumerate(dwells):
         steps.append({"t_min": round(t, 1), "act": "watch", "dwell_min": d, "idx": i + 1})
         t += d
@@ -149,6 +152,16 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
             # 2026-11-22：说话里评论占比 30%→45%。真人刷十条会搭两三句话，
             # 全是弹幕没有评论＝只点赞的机器人；之前每场约 1 条评论，太慢。
             steps.append({"t_min": round(t, 1), "act": "danmaku" if rng.random() < 0.55 else "comment"})
+        # 投币/收藏/关注：真人比例远低于点赞，且投币受硬币量限制
+        if rng.random() < 0.18 and n_coin < max_coin:
+            n_coin += 1
+            steps.append({"t_min": round(t, 1), "act": "coin"})
+        elif rng.random() < 0.12 and n_fav < max_fav:
+            n_fav += 1
+            steps.append({"t_min": round(t, 1), "act": "fav"})
+        if rng.random() < 0.05 and n_follow < max_follow:
+            n_follow += 1
+            steps.append({"t_min": round(t, 1), "act": "follow"})
         t += rng.uniform(0.05, 0.6)          # 手指/刷页面的间隙
     steps.append({"t_min": round(t, 1), "act": "end"})
     acts = [s["act"] for s in steps]
@@ -156,7 +169,10 @@ def plan_session(minutes=18, seg="generic", rng=None, n_videos=None):
         "minutes": minutes, "seg": seg, "videos": n_videos,
         "n_watch": acts.count("watch"), "n_like": acts.count("like"),
         "n_danmaku": acts.count("danmaku"), "n_comment": acts.count("comment"),
-        "caps": {"like": max_like, "talk": max_talk},
+        "n_coin": acts.count("coin"), "n_fav": acts.count("fav"),
+        "n_follow": acts.count("follow"),
+        "caps": {"like": max_like, "talk": max_talk,
+                 "coin": max_coin, "fav": max_fav, "follow": max_follow},
         "steps": steps,
         "note": "点赞常见、说话少见；说话类合计 ≤30% 视频数",
     }
@@ -223,10 +239,105 @@ def log(rec):
 
 # ---------------- 自检 ----------------
 
+
+def _bili_post(pg, path, body, csrf):
+    """在已登录页面里发一个带 csrf 的 POST（和 like() 同一条路径，不另起浏览器）。"""
+    full = body + ("&" if body else "") + "csrf=" + csrf
+    r = pg.evaluate("""async (a)=>{
+        const r=await fetch('https://api.bilibili.com'+a.path,
+          {method:'POST',credentials:'include',
+           headers:{'Content-Type':'application/x-www-form-urlencoded'},
+           body:a.body});
+        return {status:r.status, text:await r.text()};}""", {"path": path, "body": full})
+    try:
+        j = json.loads(r.get("text") or "{}")
+    except Exception:
+        return False, "非 JSON（HTTP %s）" % r.get("status")
+    return int(j.get("code") or 0) == 0, j.get("message") or "code=%s" % j.get("code")
+
+
+def _bili_get(pg, path):
+    r = pg.evaluate("""async (p)=>{const r=await fetch('https://api.bilibili.com'+p,
+        {credentials:'include'});return await r.text();}""", path)
+    try:
+        return json.loads(r or "{}")
+    except Exception:
+        return {}
+
+
+def _with_video(aid, fn):
+    """开一次页面执行 fn(pg, csrf, cookies)；三个新动作共用，避免各写一遍启动逻辑。"""
+    import social_comment as sc
+    mod, _ = sc._pw()
+    with mod.sync_playwright() as p:
+        ctx = sc._launch(p)
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                    wait_until="domcontentloaded", timeout=60000)
+            time.sleep(2)
+            cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+            csrf = cookies.get("bili_jct", "")
+            if not csrf:
+                return False, "缺 csrf（bili_jct）"
+            return fn(pg, csrf, cookies)
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+
+
+def coin(aid, dry=False):
+    """投币（真人只给"值得"的视频投，硬币还有限，所以量要小）。"""
+    if dry:
+        return True, {"dry": True}
+    def go(pg, csrf, _c):
+        return _bili_post(pg, "/x/web-interface/coin/add",
+                          "aid=%s&multiply=1&select_like=0" % aid, csrf)
+    return _with_video(aid, go)
+
+
+def fav(aid, dry=False):
+    """收藏到默认收藏夹。要先拿自己的 mid 和默认夹 id。"""
+    if dry:
+        return True, {"dry": True}
+    def go(pg, csrf, _c):
+        nav = _bili_get(pg, "/x/web-interface/nav")
+        mid = ((nav.get("data") or {}).get("mid"))
+        if not mid:
+            return False, "取不到自身 mid"
+        fl = _bili_get(pg, "/x/v3/fav/folder/created/list-all?up_mid=%s" % mid)
+        lst = ((fl.get("data") or {}).get("list") or [])
+        if not lst:
+            return False, "没有可用收藏夹"
+        fid = lst[0].get("id")
+        return _bili_post(pg, "/x/v3/fav/resource/deal",
+                          "rid=%s&type=2&add_media_ids=%s&del_media_ids=" % (aid, fid), csrf)
+    return _with_video(aid, go)
+
+
+def follow(aid, dry=False):
+    """关注这条视频的 UP 主（真人不会见一个关注一个，配额必须很小）。"""
+    if dry:
+        return True, {"dry": True}
+    def go(pg, csrf, _c):
+        v = _bili_get(pg, "/x/web-interface/view?aid=%s" % aid)
+        mid = (((v.get("data") or {}).get("owner") or {}).get("mid"))
+        if not mid:
+            return False, "取不到 UP 主 mid"
+        return _bili_post(pg, "/x/relation/modify",
+                          "fid=%s&act=1&re_src=11" % mid, csrf)
+    return _with_video(aid, go)
+
+
 # ---------------- 风控：日配额 + 重复内容 + 跨号错峰 ----------------
 # 依据（2026-11 平台规则/社区实锚）：评论最敏感（折叠/仅自己可见都从它开始），
 # 弹幕次之（单条可见度高、易被判刷），点赞最轻。所以配额按这个顺序收紧。
-AGENT_LIMITS = {"like": 20, "danmaku": 5, "comment": 3}
+# 投币受硬币总量限制（每天登录只送少量），关注最敏感（见号就关注最像机器），
+# 收藏介于两者之间。都按"每号每天"计。
+AGENT_LIMITS = {"like": 20, "danmaku": 5, "comment": 3,
+                "coin": 6, "fav": 4, "follow": 2}
 CROSS_GAP_MIN = 10          # 两个号的动作至少错开 10 分钟
 
 
@@ -814,7 +925,7 @@ def run_session(minutes=18, dry=False, force=False):
         if act in ("comment",) and not can_comment:
             out["steps"].append({"act": act, "ok": False, "why": warm_why})
             continue
-        if act in ("like", "danmaku", "comment") and not dry and not logged:
+        if act in ("like", "danmaku", "comment", "coin", "fav", "follow") and not dry and not logged:
             out["steps"].append({"act": act, "ok": False, "why": "未登录，跳过动手"})
             continue
         if act == "end":
@@ -861,6 +972,22 @@ def run_session(minutes=18, dry=False, force=False):
             out["steps"].append({"act": "like", "ok": ok, "aid": aid})
             log({"action": "like", "aid": aid, "ok": ok, "seg": plan["seg"],
                  "account": acct.get("uname") or acct.get("mid")})
+        elif act in ("coin", "fav", "follow"):
+            if not aid:
+                out["steps"].append({"act": act, "ok": False, "why": "无 aid"})
+                continue
+            acct_name = acct.get("uname") or acct.get("mid")
+            q_ok, q_why = quota_ok(act, acct_name)
+            c_ok, c_why = cross_gap_ok(acct_name)
+            if not (q_ok and c_ok):
+                out["steps"].append({"act": act, "ok": False, "why": q_why or c_why})
+                continue
+            fn = {"coin": coin, "fav": fav, "follow": follow}[act]
+            ok, res = (True, {"dry": True}) if dry else fn(aid)
+            why = "" if ok else str(res)[:60]
+            out["steps"].append({"act": act, "ok": ok, "aid": aid, "why": why})
+            log({"action": act, "aid": aid, "ok": ok, "why": why, "seg": plan["seg"],
+                 "account": acct_name})
         elif act == "danmaku":
             if not aid:
                 continue
