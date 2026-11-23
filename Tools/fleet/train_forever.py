@@ -672,6 +672,13 @@ def run_one(a):
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
+    # 边训练边总结经验：每落一卡就把台账重算成"可被推翻的断言"（幂等；失败不影响训练）
+    try:
+        subprocess.run([sys.executable, os.path.join(HERE, "train_lessons.py"), "--write"],
+                       capture_output=True, timeout=60)
+    except Exception:
+        pass
+
     if verdict == "INSUFFICIENT":
         print("[loop] 段 %s 样本不足（n=%d），既不归档也不记被否——先加大评测条数" % (seg, eval_n))
     elif keep and ck:
