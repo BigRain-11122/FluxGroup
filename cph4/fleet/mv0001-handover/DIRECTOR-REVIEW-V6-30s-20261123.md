@@ -40,12 +40,27 @@ YAVG frames=720  min=4.23  max=50.89  mean=34.44
 2. **22s 发光符号插页**为图形化楔形符号，非可释读文本。作为 MV 图形语汇可接受（初审亦判"可接受"）。
 3. **无例外**：本卷不含真人脸、不含 AI 人脸近景，故 PUBLISH-CHECKLIST「禁 KF9 侧脸/撞脸」条款天然满足。
 
-## 五、未办（列出以便决策）
+## 五、暗水印（CEO 10-17 令）——**已办**
 
-- **暗水印出库件**：`mv_videoseal_wm_r1017.py` 需要 `videoseal` 包，本机未安装。按「每类模型栈一个独立 venv」铁律，应在独立 venv 装（不要动 ComfyUI 的 torch）。**未做即为唯一硬缺口**：清单要求出库件跑 embed + extract 100%。
+本机新装 VideoSeal 1.0.1 后完成：`_wmvs` 出库件已生成。
+
+| 项 | 值 |
+|---|---|
+| 出库件 | `media\mv0001-handover\deliverable\爱在西元前-30s-v6-wmvs.mp4`（33.49MB） |
+| 母版（N-1 留档） | `爱在西元前-30s-v6-优化版.mp4`（36.91MB，无水印） |
+| 嵌入 | crf12 / preset slow / 720 帧全片逐帧 / 消息「大喵没鱼吃」120bit 装 256bit 槽 |
+| **解码验证** | **bit-acc = 100.0%** |
+| 音轨 | MD5 与原片**完全一致**（未重编码） |
+| 帧数/时长 | 720 帧 / 30.000s / 1344×768 |
+| 画质 | 逐帧并排目检无差；PSNR 31.8dB 属颗粒重编码的正常量级（非降质：crf12 体积仅 36.9→33.5MB，颗粒保留） |
+
+**本机安装链（可复现，避坑记录）**：`pip install videoseal --no-deps`（实测不触动 torch 2.11.0+cu13）→ 缺 `omegaconf`（补装）→ `pycocotools` 无 Windows 轮子（脚本内打桩）→ 包内缺 `configs/attenuation.yaml`（从 GitHub API 取官方件放 `site-packages/configs/`）→ HF 直连挂死（TCP 通但零数据），改 `HF_ENDPOINT=https://hf-mirror.com`；权重 `y_256b_img.pth` 走 dl.fbaipublicfiles.com 可达。
+
+## 六、仍待（不阻断 30s 卷）
+
 - 234s 全片 v731：E05 只到 480P 验证档，768P 正片与片尾大图替换件未烧（GPU 正被 heroine LoRA 训练占用，且母版不在本机）。
 
-## 六、交付件
+## 七、交付件
 
 - 成片：`K:\Fluxgroup\FluxGroup\media\mv0001-handover\deliverable\爱在西元前-30s-v6-优化版.mp4`
 - 封面：`...\media\mv0001-handover\publish-v6\cover-A-museum-{16x9,9x16}.jpg`、`cover-B-tablet-{16x9,9x16}.jpg`
