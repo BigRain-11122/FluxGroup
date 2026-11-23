@@ -278,3 +278,7 @@ hint: Use -f if you really want to add them.
 hint: Disable this message with "git config set advice.addIgnor
 2026-11-23T18:17:17 TICK commit=committed:11 converge=merged-behind-21 push=pushed lane=lane-empty
 2026-11-23T18:21:31 RECEIPT RUNNING gpu=5 vram=10161MB busy=lora
+2026-11-23T18:21:54 LANE jobs=1 fresh=1 -> run one card
+2026-11-23T18:22:05 LANE rc=0 done=- 
+2026-11-23T18:22:05 TICK commit=committed:4 converge=merged-behind-1 push=pushed lane=lane-rc-0(0 done)
+2026-11-23T18:26:31 RECEIPT RUNNING gpu=4 vram=10161MB busy=lora
