@@ -76,6 +76,8 @@ PLATFORMS = [
      "actions": [], "note": "小红书：无账号", "evidence": "未注册，未验"},
     {"id": "douyin", "profile": "browser-douyin", "state": "need-account", "weight": 0,
      "actions": [], "note": "抖音：无账号", "evidence": "未注册，未验"},
+    {"id": "weixin_channels", "profile": "browser-multi", "state": "need-account", "weight": 0,
+     "actions": [], "note": "视频号：依附公众号，建号后顺手绑", "evidence": "未注册，未验"},
 ]
 
 SLICE_MIN = 90            # 每个平台占用时长（分钟）
