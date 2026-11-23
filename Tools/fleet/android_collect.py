@@ -40,8 +40,23 @@ ADB = os.path.join(SDK, "platform-tools", "adb")
 STATE = os.path.join(ROOT, "cph4", "fleet", "state", "android-collect")
 RAW = os.path.join(ROOT, "cph4", "fleet", "social", "raw")
 
+# 页面体检：这些词说明还停在登录页/弹窗上，抽到的都是界面文案不是内容
+LOGIN_WORDS = ("账号密码登录", "手机号登录", "请输入手机号", "手机短信登录", "请输入密码")
 RISK_WORDS = ("验证码", "安全验证", "请完成验证", "行为异常", "操作频繁", "captcha", "CAPTCHA",
               "人机验证", "滑动验证", "账号异常", "登录后查看")
+
+# 界面骨架词：app 的导航/分区名，不是用户内容。
+# 实锚 2026-11-23：首页 dump 抽到「直播/推荐/热门/动画/影视/新征程/首页/关注/会员购/我的」当语料。
+CHROME_WORDS = frozenset((
+    "推荐", "直播", "热门", "动画", "影视", "新征程", "番剧", "游戏中心", "会员购", "首页",
+    "关注", "动态", "我的", "频道", "搜索", "发布", "追番", "纪录片", "电影", "电视剧",
+    "综艺", "搞笑", "音乐", "舞蹈", "游戏", "知识", "科技", "运动", "汽车", "生活", "美食",
+    "动物圈", "鬼畜", "时尚", "资讯", "娱乐", "赛事", "课程", "更多", "全部", "排行榜",
+    "稍后再看", "历史", "收藏", "消息", "设置", "取消", "确定", "分享", "评论", "弹幕",
+))
+# 统计行噪声："295.1万" / "5163" / "29:44" / "-"
+NUM_RE = re.compile(r"^[\d.]+\s*[万亿]?$")
+DUR_RE = re.compile(r"^\d{1,2}:\d{2}(:\d{2})?$")
 
 
 def sh(cmd, timeout=40, binary=False):
@@ -102,19 +117,63 @@ def dump(serial, tag):
 
 
 def parse_ui(xml_path):
-    """抽 text 节点 + 邻接 like 数；返回 (items, risk_hit)"""
+    """按卡片结构抽内容；返回 (items, risk_hit)
+
+    为什么不再"把所有 text 都收"（2026-11-23 实锚）：首页 82 条里混进「直播/推荐/热门」
+    和「295.1万」「29:44」，这类界面骨架喂不进语料。
+
+    真实布局（两列卡片）：统计行(播放/弹幕/时长) 在标题上方约 40-160px，作者在标题下方
+    约 60-200px，同一列。所以判据是：**标题必须配得到统计行**才算一条内容，
+    配不到的（顶栏横幅、导航词）自然被排除。
+    """
     with open(xml_path, encoding="utf-8") as f:
         s = f.read()
     risk = next((w for w in RISK_WORDS if w in s), None)
-    items = []
-    # bounds 用来判断"这是一条独立条目"（纵向成块），并附带位置便于人味排序
-    for m in re.finditer(r'text="([^"]*)"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', s):
+
+    nodes = []
+    for m in re.finditer(r'<node[^>]*text="([^"]*)"[^>]*?bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', s):
         txt = m.group(1).strip()
-        if not txt or len(txt) < 2:
+        if not txt:
             continue
-        y0 = int(m.group(3))
-        items.append({"text": txt, "y": y0})
-    # 纯数字/时长等噪声（如 "1.2万"、"7:08"）留给上层过滤，这里不主观删
+        x0, y0, x1, y1 = map(int, m.group(2, 3, 4, 5))
+        nodes.append({"text": txt, "x0": x0, "y0": y0, "x1": x1, "cx": (x0 + x1) / 2.0})
+    if not nodes:
+        return [], risk
+
+    w = max(n["x1"] for n in nodes) or 1080
+
+    def is_num(n):
+        t = n["text"]
+        return bool(NUM_RE.match(t) or DUR_RE.match(t) or t == "-")
+
+    def is_chrome(n):
+        return re.sub(r"\s+", "", n["text"]) in CHROME_WORDS
+
+    def col(n):
+        return 0 if n["cx"] < w / 2.0 else 1
+
+    candidates = [n for n in nodes if not is_num(n) and not is_chrome(n) and len(n["text"]) >= 4]
+
+    items = []
+    for t in candidates:
+        if len(t["text"]) < 8:          # 短串多半是作者名/标签，标题会再长
+            continue
+        c = col(t)
+        stats = [n for n in nodes
+                 if is_num(n) and col(n) == c and -160 <= n["y0"] - t["y0"] <= -40]
+        if not stats:                   # 配不到统计行 = 不是卡片（横幅/导航/标题外文本）
+            continue
+        views = next((n["text"] for n in stats if not DUR_RE.match(n["text"])), "")
+        dur = next((n["text"] for n in stats if DUR_RE.match(n["text"])), "")
+        author = next((n["text"] for n in candidates
+                       if col(n) == c and 60 <= n["y0"] - t["y0"] <= 200 and len(n["text"]) <= 12), "")
+        items.append({"text": t["text"], "author": author, "like": views or None,
+                      "duration": dur, "y": t["y0"]})
+
+    if not items:
+        # 兜底：评论/详情页是竖排长文本，没有卡片统计行；只留足够长的，去掉骨架词
+        items = [{"text": n["text"], "author": "", "like": None, "y": n["y0"]}
+                 for n in candidates if len(n["text"]) >= 12]
     return items, risk
 
 
@@ -207,6 +266,10 @@ def main():
             print("dump 失败：%s" % err, file=sys.stderr)
             return 2
         items, risk = parse_ui(xml)
+        if any(w in open(xml, encoding="utf-8").read() for w in LOGIN_WORDS):
+            print("页面体检失败：当前在登录页（抽到的会是界面文案，不写库）。"
+                  "先完成登录或退到内容页再采。", file=sys.stderr)
+            return 3
         if risk:
             risk_seen = risk
             print("命中风控词「%s」→ 立即停止（不硬闯）" % risk, file=sys.stderr)
