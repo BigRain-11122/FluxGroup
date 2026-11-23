@@ -49,6 +49,14 @@ def last_lock_wait():
     return LOCK_WAIT["s"]
 
 
+DAEMON_SVC = {"s": 0.0}
+
+
+def last_daemon_svc():
+    """上一条走 daemon 的动作在 daemon 内真正干了多少秒（0 表示没走 daemon）。"""
+    return DAEMON_SVC["s"]
+
+
 def merge_queue_done(mark):
     """按 root_rpid 行级合并写回队列（RG-15：禁整文件覆盖）。
 
@@ -309,6 +317,10 @@ def post_reply(aid, root_rpid, message, dry=True, read_first=False, ctx=None):
                            "dry": dry, "read_first": read_first})
     if hit is not None:
         ok = bool(hit.get("ok"))
+        try:
+            DAEMON_SVC["s"] = round(float(hit.get("svc_ms") or 0) / 1000.0, 1)
+        except Exception:
+            DAEMON_SVC["s"] = 0.0
         return ok, hit.get("res")
     _mod, _stealth = _pw()
     with _mod.sync_playwright() as p:
