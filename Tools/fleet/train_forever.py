@@ -170,15 +170,39 @@ def eligible(seg, rows, st, rejects, now=None):
     return True, "可训（%d 行）" % n
 
 
-def pick(rows, st, rejects, now=None):
-    """队列排序：最久没训的优先，同档按语料多的优先。没有就返回 None。"""
+def built_map(path=None):
+    """每段最近一次"烘焙后可用行数"（台账里的 built）。
+
+    为什么不用 rows 排序（2026-11-23 实证 R2）：烘焙平均只剩 68%（最低 16.7%），
+    rows 会高估可用语料，导致"看着最多的段"其实没料。
+    """
+    m = {}
+    try:
+        with open(path or LEDGER, encoding="utf-8") as f:
+            for line in f:
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                seg, b = r.get("seg"), r.get("built")
+                if seg and b:
+                    m[seg] = int(b)
+    except Exception:
+        pass
+    return m
+
+
+def pick(rows, st, rejects, now=None, built=None):
+    """队列排序：最久没训的优先，同档按**烘焙后可用语料**多的优先。"""
+    built = built if built is not None else built_map()
     now = now or time.time()
     cands = []
     for seg in sorted(rows):
         ok, why = eligible(seg, rows, st, rejects, now)
         if ok:
             last = ((st.get("segments") or {}).get(seg) or {}).get("last_ts") or 0
-            cands.append((last, -rows[seg], seg, why))
+            eff = built.get(seg) or rows[seg]      # 没烘过的段没有 built，回退原始行数
+            cands.append((last, -eff, seg, why))
     if not cands:
         g = (st.get("segments") or {}).get(GENERIC) or {}
         total = sum(int(v) for k, v in rows.items() if k != "generic")
@@ -717,6 +741,20 @@ def self_test():
     rows2 = {"a": 400}
     ok5, _ = eligible("a", rows2, st3, rj2)
     cases.append(("被否但语料涨够 → 可训", ok5))
+    # 选段排序：同档（都没训过）时按烘焙后可用语料，而不是原始 rows。
+    # 负控 2026-11-23：a 的 rows 更大但 built 更小，必须选 b。
+    rows_c = {"a": 900, "b": 500}
+    task, _ = pick(rows_c, {}, {}, time.time(), built={"a": 120, "b": 480})
+    cases.append(("同档按 built 排序（rows 大但烘焙少的不优先）",
+                  task is not None and task["seg"] == "b"))
+    # 反向负控：把 built 反过来，必须选回 a（否则等于排序没生效）
+    task2, _ = pick(rows_c, {}, {}, time.time(), built={"a": 480, "b": 120})
+    cases.append(("built 反过来后应选 a（排序真的在起作用）",
+                  task2 is not None and task2["seg"] == "a"))
+    # 无 built 历史 → 回退 original rows（不许因为缺数据就什么都不选）
+    task3, _ = pick(rows_c, {}, {}, time.time(), built={})
+    cases.append(("无 built 历史时回退 rows", task3 is not None and task3["seg"] == "a"))
+
     B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
     keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
     cases.append(("均分 +6 且人味不退 → KEEP", keep))
