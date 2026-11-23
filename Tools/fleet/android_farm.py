@@ -237,6 +237,13 @@ def cmd_localize(a):
     ok = booted(serial, 120)
     rc, loc2, _ = sh([ADB, "-s", serial, "shell", "getprop", "persist.sys.locale"], 10)
     print("%s 重启%s，locale=%s" % (serial, "完成" if ok else "超时", loc2.strip()))
+    # 内地识别清单（app 实际会读的几项）：能改的逐项打印，改不动的明确标注
+    for k in ("persist.sys.locale", "persist.sys.country", "persist.sys.timezone",
+              "gsm.sim.operator.iso-country", "gsm.sim.operator.numeric"):
+        rc, v, _ = sh([ADB, "-s", serial, "shell", "getprop", k], 10)
+        print("  %-30s %s" % (k, v.strip()))
+    print("  提示：SIM/运营商 MCC 由模拟器调制解调器固定(310260/US)，runtime setprop 会被 RIL 覆盖；"
+          "内地识别主要靠 IP+locale+时区（本机出口为中国电信）。")
     if a.clear_pkg:
         sh([ADB, "-s", serial, "shell", "pm", "clear", a.clear_pkg], 30)
         print("已清 %s 的数据（App 才会按新语言重新初始化）" % a.clear_pkg)

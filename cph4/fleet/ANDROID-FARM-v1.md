@@ -42,6 +42,32 @@ python3 Tools/fleet/android_farm.py localize acct1 --clear-pkg tv.danmaku.bili
 
 **其它设置面**：时区已随系统为 `Asia/Shanghai`（实测 `date` 返回 CST）；日期/度量随 locale；输入法目前只有 Gboard（英文），**手动打中文需在 Gboard 里启用中文拼音（需联网下载语言包）**；自动出稿不受影响（uiautomator2 的 setText 走 base64 广播，不依赖输入法）。
 
+## 二·补二 「被识别为中国内地」到底改哪几项（2026-11-23 实测）
+
+App 判定设备在哪，主要读四类信号。逐项实测结果：
+
+| 信号 | 怎么改 | 现状 | 能不能改 |
+|---|---|---|---|
+| **出口 IP** | 不用改（走宿主网络） | `58.33.9.200 中国 上海 电信` | ✅ 天然内地，**最强信号** |
+| **系统语言/区域** | `persist.sys.locale=zh-CN` + `persist.sys.country=CN` + `system_locales` | 已生效 | ✅ 可改（需 root + 重启） |
+| **时区/日期格式** | `persist.sys.timezone=Asia/Shanghai` | 已生效（`date` 返回 CST） | ✅ 可改 |
+| **SIM/运营商 MCC** | `gsm.sim.operator.*` / CellIdentity MCC | **310260（T-Mobile US）** | ❌ **改不动** |
+
+### 为什么 MCC 改不动（实测证据）
+`adb root` 后 `setprop gsm.operator.iso-country cn` 当场能读到 cn，但：
+1. `dumpsys telephony.registry` 的 `mServiceState` 仍是 `mOperatorAlphaLong=T-Mobile`、`CellIdentityWcdma{ mMcc=310 mMnc=260 }`；
+2. 执行 `stop && start` 重启框架后，`getprop gsm.sim.operator.iso-country` **回落到 us**——模拟器的调制解调器（RIL）在注册网络时重新覆盖这些属性。
+
+**结论**：标准 AVD 的 SIM 就是固定美国 T-Mobile。真要让 MCC 变中国，只有三条路且都不划算：
+① 改系统镜像 build.prop（需 `-writable-system` + scratch 分区，本机 remount 已失败）；
+② Magisk + `resetprop` 并屏蔽 RIL 覆盖（AVD 可 root，但要装 Magisk + LSPosed，属指纹改造 P1 的活）；
+③ 换第三方镜像（redroid/云手机，本身可配 MCC）。
+
+### 实证：B站 已经把我们当国内
+清数据后 B站 起的是**国内版中文界面**（全屏提示"目前处于全屏模式…"、协议页《哔哩哔哩弹幕网用户使用协议》），不是国际版 `For You/Trending`。说明中文语境下 **IP+locale+时区** 已足够让国内 App 走国内形态。
+
+**若将来某平台真的按 MCC 卡**（表现为"检测到非大陆设备"），再上 P1 的 Magisk 方案，不要为了体检好看去伪造体检数据。
+
 ## 三、硬缺口（实测证据，别当成"已经能养号"）
 
 | 项 | 现状 | 证据 |
