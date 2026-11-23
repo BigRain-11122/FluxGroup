@@ -97,7 +97,22 @@ def _log_op(kind, t0, note=""):
 
 
 def op(payload):
-    """执行一个动作。返回 {ok, res}；异常一律转成 ok:false，不拖垮服务。"""
+    """执行一个动作。返回 {ok, res, svc_ms}；异常一律转成 ok:false，不拖垮服务。
+
+    svc_ms = daemon 内真正干活的时间。客户端拿"自己的总往返"减去它，
+    才是排队时间——否则"发帖 43 秒"永远分不清是动作慢还是排在别人后面
+    （2026-11-23 实锚：post_s 已扣 lock_wait_s，却仍含 daemon 内排队）。
+    """
+    _t0 = time.time()
+    out = _op(payload)
+    try:
+        out["svc_ms"] = int((time.time() - _t0) * 1000)
+    except Exception:
+        pass
+    return out
+
+
+def _op(payload):
     import social_comment as sc
     kind = payload.get("op")
     if kind not in ("post", "browse", "danmaku", "roots", "nav", "hot"):

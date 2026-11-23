@@ -994,13 +994,23 @@ def main():
         # 浏览器里其实只跑了三五秒（2026-11-22 实锚：post 97.7s 里 90s 在等锁）。
         _q_s = float(res.get("lock_wait_s") or 0.0)
         _post_s_pure = round(max(0.0, _post_s - _q_s), 1)
+        # daemon 自报"真正干活"的秒数：post_s_pure 里还混着 daemon 单线程排队，
+        # 不拆开就永远分不清"动作慢"和"排在别人后面"（2026-11-23 实锚）。
+        try:
+            import social_comment as _sc2
+            _svc = round(float(_sc2.last_daemon_svc() or 0.0), 1)
+        except Exception:
+            _svc = 0.0
         _rec = {"action": "timing", "rpid": res.get("rpid"), "cand": n_cand,
                 "gen_s": round(t_gen1 - t_gen0, 1), "dwell_s": dwell,
                 "post_s": _post_s_pure, "post_queue_s": _q_s,
+                "post_action_s": _svc or None,
+                "post_wait_s": round(max(0.0, _post_s_pure - _svc), 1) if _svc else None,
                 "total_s": round(time.time() - t_tick0, 1), "pending_verify": True}
         if _post_s > 40:
-            # 单条 post 自己只要 3 秒；超过 40 秒必然是排在别人的浏览后面（daemon 单线程）
-            _rec["note"] = "post 慢：daemon 排队"
+            # 单条 post 自己只要 3 秒；超过 40 秒多半排在别人的浏览后面（daemon 单线程）
+            _rec["note"] = ("post 慢：daemon 排队" if (_svc and (_post_s_pure - _svc) > _svc)
+                            else "post 慢：动作本身（人味节奏/翻页）")
         log(_rec)
     except Exception:
         pass
