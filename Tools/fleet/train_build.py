@@ -283,6 +283,26 @@ def ai_smell(text):
     return ""
 
 
+def train_floor(t):
+    """训练语料的**合规底线**——不是出稿闸。
+
+    为什么分开（2026-11-23 实证）：短评补齐原用 ct.gen_gate()（出稿闸），而 shallow 段
+    REJECT 里 95% 是短评 → 短评补不进来（只到 25%，真实 B 站 37%）。根因=拿"我们敢发的
+    标准"去筛"真人怎么说话"。底线只拦：AI 腔/烂梗、纯表情数字、广告导流、单字废话。
+    """
+    t = (t or "").strip()
+    if len(t) < 3 or ai_smell(t):
+        return False
+    core = re.sub(r"\[[^\]]{1,10}\]", "", t)          # 去 [doge] 这类表情码
+    core = re.sub(r"[\s\W_]+", "", core)
+    if len(core) < 2 or re.fullmatch(r"\d+", core):
+        return False
+    for w in ("关注我", "加我", "私信", "微信", "扫码", "领券", "返现"):
+        if w in t:
+            return False
+    return True
+
+
 def top_up_short(rows, seg, quota, src, spec=None, max_len=10):
     """把"短评"（≤10 字）补到 quota 占比。
 
@@ -317,7 +337,7 @@ def top_up_short(rows, seg, quota, src, spec=None, max_len=10):
         # 补一堆"好家伙！"并不能改善句式分布（2026-11-21 实测：补 130 条，短评只涨 6pp）
         if ("！" in t or "!" in t or "？" in t or "?" in t):
             continue
-        if ai_smell(t) or not ct.gen_gate(t)[0]:
+        if not train_floor(t):
             continue
         if seg and sg.classify(t, spec)["primary"] != seg:
             continue
