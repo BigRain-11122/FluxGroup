@@ -59,20 +59,22 @@ BIOS `5f9446…3462`、BMC `ac1fe4…c355`），即文件与官方发布逐字�
 
 ## 四、官网需要登录才能下的（本机无法匿名取）
 
-以下属 Supermicro「Management Software」，官网要求注册账号并同意 EULA 后才给下载：
+**已用 CEO 账号登录后下载完毕**（2026-11-23，Windows 与 Linux 两套齐全，均在 `管理软件/` 子目录）：
 
-| 工具 | 用途 | 官方入口 |
-|---|---|---|
-| IPMIView | 图形化 IPMI 管理（远程开关机/KVM/传感器） | supermicro.com/en/support/resources/downloadcenter/swdownload |
-| SMCIPMITool | 命令行 IPMI 批量操作 | 同上 |
-| IPMICFG | 在系统内直接改 BMC 的 IP/账号（不需要进 BMC 界面） | 同上 |
-| SUM（Supermicro Update Manager） | 批量刷 BIOS/BMC | 同上 |
-| SuperDoctor 5 | 系统健康监控 | 同上 |
+| 工具 | 版本 | Windows | Linux | 说明 |
+|---|---|---|---|---|
+| IPMIView | 2.25.0 (260812) | `IPMIView_…_Windows.exe` 178MB | `…_bundleJRE_Linux_x64.tar` 194MB | 图形化 IPMI：开关机/KVM/传感器。Linux 版自带 JRE |
+| SMCIPMITool | 2.31.0 (260727) | `…_bundleJRE_Windows/` 134MB | `…_bundleJRE_Linux_x64.tar` 218MB | 命令行 IPMI，自带 JRE 不用另装 Java |
+| IPMICFG | 1.38.0 (260701) | `…\Windows\{32bit,64bit}` | `…\Linux\` | 一个包内含 DOS/Windows/Linux/UEFI/FreeBSD 五套 |
+| SUM | 2.15.0 (251104) | `sum_2.15.0_Win_x86_64/` 41MB | `sum_2.15.0_Linux_x86_64_…tar` | 批量刷 BIOS/BMC，Linux 版另可刷 BMC |
+| SuperDoctor 5 升级包 | 5.23.0 (1154) | 同一包 | 同一包 | 配合 SSM 远程升级已装 SD5 的机器 |
+| SAA 迁移指南 | 1.0.0 | 同一包 | 同一包 | SUM/SMCIPMITool/IPMICFG → SAA 的命令对照 |
 
-替代路径（今晚够用）：
-- 刷 BMC 不需要 IPMICFG——`SMT_X9_362.zip` 里已含 Windows/Linux/DOS 三种刷写器。
-- 改 BMC IP 也可以进 BMC Web 界面改，`X9_SMT_IPMI.pdf` 有步骤。
-- 需要 IPMICFG 时，注册一个 Supermicro 账号即可下载（免费）。
+用法要点：
+- **Windows 10 直接可用**：Windows 侧 exe 是 32 位 PE，bundleJRE 包自带 Java 运行时，不用预装 JDK。
+- IPMICFG 在系统内改 BMC 的 IP/账号最快（不用进 BMC 网页）：`IPMICFG64.exe -m` 看帮助。
+- `*.tar` 是 Linux 包，`tar -tzf` 已验证完整（三份全 OK）。
+- Safari 自动解压了 zip，所以 Windows 侧是**解压好的目录**，直接进目录找 exe 即可。
 
 ---
 
