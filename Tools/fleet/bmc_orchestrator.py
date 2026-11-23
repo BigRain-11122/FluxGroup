@@ -193,6 +193,48 @@ def comfy_free(port, timeout=60):
         return False
 
 
+def visible_consoles():
+    """可见的 conhost / pwsh / powershell 窗口 = 静默律泄露。
+
+    CEO 2026-11-22：「自动化任务要静默开展，不要弹窗骚扰我」。
+    conhost 存在 ≠ 窗口可见：隐藏链启动时 conhost 仍在但窗口是 hide 的。
+    所以判据必须是 IsWindowVisible，不能按进程数猜。
+    用户自用的 Windows Terminal 窗口属于 WindowsTerminal.exe，不在本判据内。
+    """
+    try:
+        names = {"conhost.exe", "pwsh.exe", "powershell.exe"}
+        targets = {}
+        for line in (run(["tasklist", "/FO", "CSV", "/NH"], timeout=25) or "").splitlines():
+            parts = [x.strip('"') for x in line.split('","')]
+            if len(parts) >= 2 and parts[0].strip('"').lower() in names:
+                try:
+                    targets[int(parts[1])] = parts[0].strip('"')
+                except ValueError:
+                    pass
+        if not targets:
+            return []
+        import ctypes
+        from ctypes import wintypes
+        u = ctypes.windll.user32
+        hits = []
+        cb_type = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
+
+        def cb(hwnd, _):
+            pid = wintypes.DWORD()
+            u.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+            if pid.value in targets and u.IsWindowVisible(hwnd):
+                n = u.GetWindowTextLengthW(hwnd)
+                buf = ctypes.create_unicode_buffer(n + 2)
+                u.GetWindowTextW(hwnd, buf, n + 2)
+                hits.append({"pid": pid.value, "proc": targets[pid.value], "title": buf.value})
+            return True
+
+        u.EnumWindows(cb_type(cb), 0)
+        return hits
+    except Exception:
+        return []
+
+
 def paused():
     try:
         with open(PAUSE_FLAG, encoding="utf-8", errors="replace") as f:
@@ -407,6 +449,12 @@ def cmd_tick(args):
             if not info.get("up"):
                 doc["anomalies"].append(
                     "comfy-%s-down%s" % (port_s, "" if port_s == "8189" else "（无自动守卫）"))
+
+        # 静默律：任何可见的控制台窗口都算泄露（CEO 2026-11-22 令）
+        leaks = visible_consoles()
+        for w in leaks:
+            doc["anomalies"].append("console-window-visible: pid=%s %s %r"
+                                    % (w["pid"], w["proc"], (w["title"] or "")[:60]))
 
         # 空闲 ComfyUI 实例归还显存（不杀进程）
         held_ports = {int(h["port"]) for h in doc["holders"] if h.get("port")}
