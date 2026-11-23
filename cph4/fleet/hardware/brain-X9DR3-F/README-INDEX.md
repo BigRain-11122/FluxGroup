@@ -131,6 +131,7 @@ brain-X9DR3-F/
 ├── README-INDEX.md              本文件（齐全性检查 + 用法）
 ├── 今晚点板操作单.md             ★ 照这个做就行（十节：装配→点亮→BIOS→IPMI→上卡→排障）
 ├── 官方文档知识卡.md             ★ 问什么答什么（规格/槽位/内存/跳线/JF1/蜂鸣码/BIOS/IPMI，全部带页码）
+├── 论坛与实战经验.md             手册不写的坑（PCIe 按 CPU 分区、BMC 不可降级、SATA RAID 禁区、Java KVM 修法、V100 黑屏判据）
 ├── 管理软件-MANIFEST.txt         管理软件总表 + 主要可执行文件 SHA256 + 使用入口
 ├── 驱动-MANIFEST.txt             驱动清单 + SHA256
 ├── MNL-1259.pdf                 产品说明书（111 页）
@@ -138,6 +139,7 @@ brain-X9DR3-F/
 ├── X9_DP_memory_config.pdf      X9 双路内存插法（12 页）
 ├── X9_SMT_IPMI.pdf              X9 平台 IPMI 手册（105 页）
 ├── IPMI_Users_Guide.pdf         IPMI 通用指南（195 页，备用）
+├── IPMIView_User_Guide.pdf      IPMIView 官方手册（100 页，含 WPCM450/X9 支持说明）
 ├── X9DRi0_630.zip               BIOS 3.4（原包，含 DOS 刷写器）
 ├── X9DRi0.630/                  ↑ 已解压：AFUDOSU.SMC + X9DRi0.630(ROM) + Readme + ami.bat
 ├── SMT_X9_362.zip               BMC 3.62（原包）
