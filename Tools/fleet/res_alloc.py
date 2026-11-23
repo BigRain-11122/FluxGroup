@@ -50,32 +50,43 @@ SWAP_HARD = 2048         # MB，超过即禁止新开任何浏览器活
 # 保证任何时刻只有一个浏览器 profile（内存与 browserd 单线程两条限制都要求这样）。
 PLATFORMS = [
     # 每条都必须有"实测证据"。没验过的写 need-login / need-account，不许先排班后失望。
-    {"id": "bilibili", "profile": "browser-bilibili", "state": "live", "weight": 5,
+    {"id": "bilibili", "profile": "browser-bilibili", "state": "live", "weight": 4,
      "actions": ["read", "like", "danmaku", "comment", "coin", "fav", "follow"],
-     "note": "双号养号主线", "evidence": "2026-11-23 双号 GREEN、六动作已上线、今日发帖/副动作有数"},
+     "todo_actions": ["search", "progress", "uninterest", "share", "live", "space"],
+     "note": "双号养号主线（App 端也已登录，快照 logged-in）",
+     "evidence": "2026-11-23 双号 GREEN、七动作已上线；App 端密码登录成功 + 快照 23:14:46"},
     {"id": "gzh", "profile": "browser-gzh", "state": "building", "weight": 3,
      "actions": ["read"],
-     "note": "采集通；无发布 API，发布须后台人工", "evidence": "单篇 3.0 秒取全字段；批量 3/4 入库"},
+     "todo_actions": ["article_more", "like_zaikan", "collect"],
+     "note": "采集通；后台会话今晚已登录但约 4h 过期（长期应改 AppID/AppSecret）",
+     "evidence": "单篇 3.0 秒取全字段；2026-11-23 晚 gzh-state.json 命中 bizuin+slave_sid"},
     {"id": "toutiao", "profile": "browser-multi", "state": "read", "weight": 2,
      "actions": ["read"],
      "note": "头条搜索可读，可做选题/语料源；发布未验",
      "evidence": "2026-11-23 实测：title 正常、正文 1894 字、10 个结果卡、无登录墙"},
-    {"id": "chejiahao", "profile": "browser-gzh", "state": "read", "weight": 2,
+    {"id": "chejiahao", "profile": "browser-gzh", "state": "read", "weight": 1,
      "actions": ["read"],
      "note": "汽车之家车家号，对标对象镜像语料",
      "evidence": "实测作者页翻页取 /info/，一次建池 30 条、正文 1662–3693 字"},
-    {"id": "zhihu", "profile": "browser-zhihu", "state": "need-login", "weight": 0,
+    {"id": "zhihu", "profile": "browser-zhihu", "state": "read", "weight": 2,
      "actions": ["read"],
-     "note": "知乎：未登录几乎无内容，需扫码登录一次",
-     "evidence": "2026-11-23 实测：首页正文仅 468 字、搜索页被拦、内容块 0"},
+     "todo_actions": ["like", "collect", "follow", "comment", "search"],
+     "note": "知乎：2026-11-23 晚已登录，先做长文语料采集，互动原语待补",
+     "evidence": "login_pass 实测 z_c0 命中，zhihu-state.json 0600"},
     {"id": "weibo", "profile": "browser-multi", "state": "need-login", "weight": 0,
      "actions": ["read"],
      "note": "微博：未登录直接跳登录页",
      "evidence": "2026-11-23 实测：title=登录-微博、正文 96 字、卡片 0"},
-    {"id": "xhs", "profile": "browser-xhs", "state": "need-account", "weight": 0,
-     "actions": [], "note": "小红书：无账号", "evidence": "未注册，未验"},
-    {"id": "douyin", "profile": "browser-douyin", "state": "need-account", "weight": 0,
-     "actions": [], "note": "抖音：无账号", "evidence": "未注册，未验"},
+    {"id": "xhs", "profile": "browser-xiaohongshu", "state": "read", "weight": 2,
+     "actions": ["read"],
+     "todo_actions": ["like", "collect", "follow", "comment", "search", "note_detail"],
+     "note": "小红书：已登录，先采笔记语料",
+     "evidence": "login_pass 实测 web_session 命中（profile=browser-xiaohongshu）"},
+    {"id": "douyin", "profile": "browser-douyin", "state": "read", "weight": 2,
+     "actions": ["read"],
+     "todo_actions": ["like", "collect", "follow", "comment", "search", "swipe_away"],
+     "note": "抖音：2026-11-23 晚已登录（网页端），先做视频语料采集",
+     "evidence": "login_pass 实测 sessionid+sessionid_ss 命中，douyin-state.json 0600"},
     {"id": "weixin_channels", "profile": "browser-multi", "state": "need-account", "weight": 0,
      "actions": [], "note": "视频号：依附公众号，建号后顺手绑", "evidence": "未注册，未验"},
 ]
@@ -167,10 +178,12 @@ def platform_now(hour=None, minute=0):
     live = [p for p in PLATFORMS if p["state"] in ("live", "read", "building") and (p.get("weight") or 0) > 0]
     if not live:
         return None
-    # 加权轮转：权重高的占更多片
+    # 加权轮转：按 pass 交错，而不是把同平台排成连续块。
+    # 实锚 2026-11-23：原写法让 B站 连占 6 小时（00:00-06:00），违背"24 小时轮着来"。
     seq = []
-    for p in live:
-        seq += [p] * max(1, int(p.get("weight") or 1))
+    depth = max(1, max(int(p.get("weight") or 1) for p in live))
+    for k in range(1, depth + 1):
+        seq += [p for p in live if int(p.get("weight") or 1) >= k]
     idx = ((hour * 60 + minute) // SLICE_MIN) % len(seq)
     return seq[idx]
 
@@ -247,15 +260,23 @@ def self_test():
     cases.append(("已有 1 个浏览器 → 新活等它退出",
                   decide(0, 4000, True, ["browser-bilibili"], [], 14)[0] == "PARALLEL-1"))
     cases.append(("平台轮转能产出平台", platform_now(9, 0) is not None))
-    cases.append(("未开账号的平台不排班", all(p["id"] not in ("xhs", "douyin", "zhihu", "weibo")
-                                        for p in [platform_now(h, 0) for h in range(24)])))
+    # 规则式断言：凡"未登录/无账号"的平台，权重必须为 0 且永不进轮转。
+    # 不写死平台名——2026-11-23 晚知乎/小红书/抖音已登录，写死名字会让真规则被数据变化误判。
+    _nogood = {p["id"] for p in PLATFORMS if p["state"] in ("need-login", "need-account")}
+    cases.append(("未登录/无账号的平台权重必须 0",
+                  all((p.get("weight") or 0) == 0 for p in PLATFORMS if p["id"] in _nogood)))
+    cases.append(("未登录/无账号的平台不排班",
+                  all(p["id"] not in _nogood for p in [platform_now(h, 0) for h in range(24)])))
     cases.append(("可读平台能进轮转", any(p["id"] in ("bilibili", "toutiao", "chejiahao", "gzh")
                                           for p in [platform_now(h, 0) for h in range(24)])))
     cases.append(("swap 解析出數字", isinstance(swap_mb(), float)))
     # --- may() 租约负控：假绿会让采集侧在别人的时段开浏览器，正是"轮转不生效"的形态 ---
     okenv = (0, 4000, True, [], [], None)
-    cases.append(("may: need-login 平台一律拒（权重0不排班）",
-                  may("zhihu", 9, 0, env=(0, 4000, True, [], []))[0] == 76))
+    if _nogood:
+        _ng = sorted(_nogood)[0]
+        cases.append(("may: 未登录/无账号平台一律拒(76)", may(_ng, 9, 0, env=(0, 4000, True, [], []))[0] == 76))
+    else:
+        cases.append(("may: 未登录/无账号平台一律拒(76)", True))
     cases.append(("may: 未知平台必须报错而非放行",
                   may("bogus", 9, 0, env=(0, 4000, True, [], []))[0] == 77))
     cases.append(("may: 资源 DENY-NEW 时即便轮到也不放行",
