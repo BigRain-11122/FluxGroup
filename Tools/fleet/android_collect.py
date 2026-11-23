@@ -154,6 +154,8 @@ def main():
     ap.add_argument("--rounds", type=int, default=3)
     ap.add_argument("--parse-only", help="只解析已有 ui.xml，不动设备（自检/复算用）")
     ap.add_argument("--dry", action="store_true", help="只滑不写库")
+    ap.add_argument("--ensure-login", action="store_true",
+                    help="采集前先确保登录态：不是登录态就调 android_login.py（凭据取本地文件）")
     a = ap.parse_args()
 
     if a.parse_only:
@@ -173,6 +175,15 @@ def main():
     if not active_hours_ok():
         print("凌晨 2-6 点不采集（真人也不在这时候刷）", file=sys.stderr)
         return 2
+
+    if a.ensure_login:
+        rc, out, err = sh(["python3", os.path.join(HERE, "android_login.py"),
+                           "--avd", a.avd], 300)
+        tail = (out or err).strip().splitlines()[-1:] or [""]
+        print("登录检查：%s" % tail[0][:100])
+        if rc != 0:
+            print("未就绪登录态（rc=%d），本轮不采集" % rc, file=sys.stderr)
+            return rc
 
     try:
         sys.path.insert(0, HERE)
