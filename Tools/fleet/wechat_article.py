@@ -77,9 +77,7 @@ def discover(keyword, pages=3, sleep_lo=4.0, sleep_hi=9.0, rng=None, via="serp")
         if via == "sogou":
             hit = sc._daemon("sogou", {"q": keyword, "page": p}, timeout=90)
         else:
-            hit = sc._daemon("serp",
-                             {"q": "site:mp.weixin.qq.com " + keyword, "first": 1 + (p - 1) * 10},
-                             timeout=90)
+            hit = _serp_standalone(keyword, p)
         if hit is None:
             return added, "daemon 无响应（浏览器没起或 profile 被占）"
         if not hit.get("ok"):
@@ -145,7 +143,9 @@ def _standalone(url):
                 const heads=Array.from((c||document).querySelectorAll('h1,h2,h3,strong,b'))
                     .map(e=>e.innerText.trim()).filter(t=>t.length>1&&t.length<40);
                 const m=(document.documentElement.innerHTML.match(/var\\s+ct\\s*=\\s*"(\\d+)"/)||[])[1];
-                return {title:q('#activity-name')||document.title, account:q('#js_name'),
+                const links=Array.from(document.querySelectorAll('a[href*="mp.weixin.qq.com/s"]'))
+                    .map(a=>a.href.split('#')[0]).filter((v,i,arr)=>arr.indexOf(v)===i).slice(0,60);
+                return {links:links, title:q('#activity-name')||document.title, account:q('#js_name'),
                         publish_ts:m?parseInt(m):null, words:txt.length, paras:paras.length,
                         imgs:imgs, heads:heads.slice(0,40), lead:paras.slice(0,3).join('\\n'),
                         text:txt};}""")
@@ -158,6 +158,41 @@ def _standalone(url):
             return rec, ""
         except Exception as e:
             return None, "%s: %s" % (type(e).__name__, str(e)[:100])
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+
+
+def _serp_standalone(keyword, page=1):
+    """在自己那个浏览器里查搜索引擎，只取 mp.weixin.qq.com 的链接。
+
+    必须独立跑：把 SERP 塞进养号线的共享单线程 daemon 会把它整个拖死（实锚 2026-11-23）。
+    """
+    sc = _sc()
+    mod, _ = sc._pw()
+    prof = os.path.expanduser("~/.fluxgroup/browser-gzh")
+    os.makedirs(prof, exist_ok=True)
+    kw = dict(user_data_dir=prof, headless=True, locale="zh-CN",
+              timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 900})
+    if os.path.exists(sc.CHROME):
+        kw["executable_path"] = sc.CHROME
+    q = "site:mp.weixin.qq.com " + keyword
+    from urllib.parse import quote
+    url = "https://cn.bing.com/search?q=%s&first=%d" % (quote(q), 1 + (page - 1) * 10)
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page()
+            pg.set_default_timeout(12000)
+            pg.goto(url, wait_until="domcontentloaded", timeout=25000)
+            items = pg.evaluate("""()=>Array.from(document.querySelectorAll('#b_results li.b_algo h2 a'))
+                .map(a=>({title:(a.innerText||'').trim(), href:a.href}))""")
+            out = [it for it in items if "mp.weixin.qq.com" in (it.get("href") or "")]
+            return {"ok": True, "res": {"n": len(out), "items": out}}
+        except Exception as e:
+            return {"ok": False, "res": "%s: %s" % (type(e).__name__, str(e)[:80])}
         finally:
             try:
                 ctx.close()
@@ -181,6 +216,7 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
     src = urls if urls is not None else [
         json.loads(l) for l in open(URLS, encoding="utf-8") if l.strip()]
     done = _seen(ARTICLES)
+    known = _seen(URLS)
     got, fail = 0, []
     for row in src:
         if got >= int(limit):
@@ -195,6 +231,13 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
         done.add(art["_uid"])
         _append(ARTICLES, art)
         got += 1
+        for u2 in (art.get("links") or []):
+            uid2 = _uid(u2)
+            if uid2 in known or uid2 in done:
+                continue
+            known.add(uid2)
+            _append(URLS, {"_uid": uid2, "url": u2, "kw": "expand",
+                           "found_at": datetime.now().isoformat(timespec="seconds")})
         time.sleep(rng.uniform(sleep_lo, sleep_hi))
     return got, fail
 
