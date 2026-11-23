@@ -1,4 +1,4 @@
-# 二进制/素材不入库，只留索引与清单（2026-11-23）
+# 二进制与解压树不入库，只留 Markdown（索引/清单/指引）
 *.pdf
 *.zip
 *.tar
@@ -9,8 +9,9 @@
 *.efi
 *.nsh
 *.jar
-管理软件/
-X9DRi0.630/
-BMC_3.62/
+管理软件/*
+!管理软件/MANIFEST.txt
 驱动/Wired_driver_31.3_x64/
 驱动/wired_readme.txt
+固件/BIOS_3.4_已解压/
+固件/BMC_3.62_已解压/
