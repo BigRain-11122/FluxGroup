@@ -41,6 +41,8 @@ CASES = [
     ("L2", "chain 全链路工况", "chain_cases.py", []),
     ("L1", "social risk 风险标注", "social_risk.py", ["--self-test"]),
     ("L1", "social topics 选题", "social_topics.py", ["--self-test"]),
+    ("L1", "res_alloc 资源仲裁/平台租约", "res_alloc.py", ["--self-test"]),
+    ("L1", "account_plan 开号清单对账", "account_plan.py", ["--self-test"]),
     ("L1", "compute offer 算力商品", "compute_offer.py", ["--self-test"]),
     ("L1", "storage 存储分级", "storage_curator.py", ["--self-test"]),
     ("L1", "copy 合规闸", "copy_compliance.py", ["--self-test"]),

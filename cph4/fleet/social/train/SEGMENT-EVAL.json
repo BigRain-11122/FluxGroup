@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-23T19:38:35",
+ "ts": "2026-11-23T20:52:26",
  "base": [
   {
    "n": 10,
-   "avg": 38.7,
+   "avg": 56.5,
    "pass_rate": 20,
-   "avg_logic": 2.0,
-   "avg_human": 1.0,
-   "avg_natural": 19.2,
+   "avg_logic": 6.5,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "不，是我被火到了，不配位，不讨厌。",
-    "火大不如直接拉黑，毕竟有些歌配了个“讨厌”的壳子。"
+    "你总说被讨厌的歌里藏着太多往事，连我也想起那晚耳机里的余音了。",
+    "我也总想起某次深夜在车里单曲循环，后来才发现那首歌火到不配听。"
    ],
-   "seg": "memer",
+   "seg": "feeler",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 50.1,
-   "pass_rate": 30,
-   "avg_logic": 6.5,
-   "avg_human": 4.0,
-   "avg_natural": 19.0,
-   "reject": 3,
-   "seg": "memer",
+   "avg": 55.8,
+   "pass_rate": 50,
+   "avg_logic": 14.0,
+   "avg_human": 6.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "feeler",
    "sample": [
-    "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
-    "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+    "哈哈，当年那个歌手确实唱得好 但是这首歌现在听就很烦[尴尬]",
+    "这首歌唱的就是当年我失恋的时候"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-190651/ckpt400"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-201916/ckpt400"
 }

@@ -196,9 +196,23 @@ _NUM = re.compile(r"\d")
 _Q = re.compile(r"[？?]|吗|到底|是不是|能不能|该不该|为何|为什么|怎么")
 
 
+def _style_arts(arts):
+    """只用 genre=review 的篇目标定文风；通稿（press）与未知一律不进。
+
+    2026-11-23 群审第一条就是"语料错配"：拿机构通稿标定，训出来必然是公文腔。
+    genre 由 wechat_article.genre_of 判定（带 3 条负控）；没有 genre 列的老行按 unknown 处理。
+    """
+    use = [a for a in arts if a.get("genre") == "review"]
+    drop = [a for a in arts if a.get("genre") != "review"]
+    return use, drop
+
+
 def learn_struct(arts=None):
     """纯规则统计：标题/开篇的形态分布。可复算，不猜。"""
     arts = arts if arts is not None else _rows(ARTICLES)
+    if not arts:
+        return None
+    arts, _dropped = _style_arts(arts)
     if not arts:
         return None
     ts = [a.get("title") or "" for a in arts]
@@ -232,6 +246,9 @@ def _top(xs, k):
 def build_trainset(arts=None):
     """标题对 + 开篇对：给本地模型学的原料。只做对齐，不改写任何原文。"""
     arts = arts if arts is not None else _rows(ARTICLES)
+    if not arts:
+        return 0
+    arts, _dropped = _style_arts(arts)
     if not arts:
         return 0
     os.makedirs(GZH, exist_ok=True)
@@ -478,7 +495,8 @@ def self_test():
     # N3 抓完但少于学习门槛 → supply（诚实报不足，不是 watch）
     for i in range(POOL_MIN + 5):
         _append(ARTICLES, {"_uid": "u%d" % i, "title": "标题%d 3 个理由" % i,
-                           "lead": "开篇正文" * 30, "words": 600, "heads": ["a"], "imgs": 2})
+                           "lead": "开篇正文" * 30, "words": 600, "heads": ["a"], "imgs": 2,
+                           "genre": "review"})
     cases.append(("N3 采满但无结构→learn", decide(sense())["phase"] == "learn"))
     # N4 结构统计真的读语料：改语料必须改数字
     st = learn_struct()
@@ -510,6 +528,19 @@ def self_test():
     cases.append(("N9 可产行不足→不进 trainset", decide(s9)["phase"] != "trainset"))
     s9b = dict(s9, eligible=60, train_rows=20)
     cases.append(("N9b 可产行足够→进 trainset", decide(s9b)["phase"] == "trainset"))
+
+    # N10 负控：通稿（press）与未知（unknown）不得参与文风标定/训练集
+    _append(ARTICLES, {"_uid": "p1", "title": "某指数结果发布丨N9 测评结果发布",
+                       "lead": "测评背景 主办单位 联合发布" * 10, "words": 900,
+                       "heads": ["背景", "方法"], "imgs": 1, "genre": "press"})
+    _append(ARTICLES, {"_uid": "p2", "title": "没有文体的老行",
+                       "lead": "开篇正文" * 30, "words": 600, "heads": [], "imgs": 0})
+    st2 = learn_struct()
+    cases.append(("N10a 通稿/未知不进文风标定（篇数不变）",
+                  st2 and st2["n"] == POOL_MIN + 5))
+    n2 = build_trainset()
+    cases.append(("N10b 通稿/未知不进训练集（行数不变）",
+                  n2 == 2 * (POOL_MIN + 5)))
 
     URLS, ARTICLES, STRUCT, TRAINSET = saved
     ok = sum(1 for _, v in cases if v)
