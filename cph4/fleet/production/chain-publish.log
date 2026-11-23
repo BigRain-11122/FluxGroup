@@ -780,3 +780,5 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-24T06:12:02 LANE rc=0 done=- 
 2026-11-24T06:12:02 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
 2026-11-24T06:16:31 RECEIPT RUNNING gpu=47 vram=8898MB busy=lora
+2026-11-24T06:17:04 TICK commit=committed:8 converge=up-to-date push=pushed lane=lane-cooldown(5m)
+2026-11-24T06:21:31 RECEIPT RUNNING gpu=96 vram=8893MB busy=lora
