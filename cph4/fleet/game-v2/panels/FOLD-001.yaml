@@ -5,7 +5,7 @@ panel: greenlight
 phase: "G-B"
 contract_file: "cph4/fleet/game-v2/contracts/fold-001.yaml"
 contract_hash: "2071576133e55bd4"
-run_at: "2026-11-21T01:10:00+08:00"
+run_at: "2026-11-23T17:00:00+08:00"
 max_age_days: 60
 signed_by: "制作人"
 
@@ -183,12 +183,15 @@ seats:
             at: "2026-11-20"
       - id: S5.4
         rule_ref: GB-02
-        score: null
-        note: 1080p 帧率 / 1% low / DrawCall 未测（无渲染批处理量不到）。
+        score: 5
+        note: 1080p 实测（带硬超时跑）：900 帧 0.38s，平均 2352fps、1% low 838fps、帧时 p50 0.36ms、DrawCall 11，远高于 58/50/12 底线。注：当前 demo 场景（纸面 + 6 槽 + 折线），不是完整游戏负载。
         evidence:
-          - level: E3
-            path: cph4/fleet/game-v2/projects/fold-001/unity/PERF-NOTES.md
-            at: "2026-11-20"
+          - level: E1
+            path: cph4/fleet/game-v2/projects/fold-001/game/Logs/bench.json
+            at: "2026-11-23"
+          - level: E1
+            path: Tools/gds/guarded_run.py
+            at: "2026-11-23"
       - id: S5.5
         rule_ref: GB-02
         score: 4
