@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-23T15:53:23",
- "cycle": 4013,
+ "ts": "2026-11-23T15:59:21",
+ "cycle": 4014,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-23T15:53:23",
+ "master_tick_ts": "2026-11-23T15:59:21",
  "queue": {
   "total": 386,
   "open": 9,
@@ -14,23 +14,23 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 2.6,
-   "cpu_load_pct": 64,
-   "ram_free_gb": 45.1,
-   "gpu_util_pct": 17,
+   "hb_age_s": 0.4,
+   "cpu_load_pct": 56,
+   "ram_free_gb": 45.3,
+   "gpu_util_pct": 96,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-23T15:50:55",
+    "ts": "2026-11-23T15:55:54",
     "reason": "EXECUTOR-DEAD (76.5h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (76.5h 零产出)",
-   "idle_rounds": 59
+   "idle_reason": "EXECUTOR-DEAD (76.6h 零产出)",
+   "idle_rounds": 60
   },
   "bm-b": {
    "online": false,
@@ -70,7 +70,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 59,
+  "bm-a": 60,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -860,7 +860,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x59 (EXECUTOR-DEAD (76.5h 零产出))",
+  "bm-a IDLE-CONFIRMED x60 (EXECUTOR-DEAD (76.6h 零产出))",
   "bm-b OFFLINE",
   "bm-c OFFLINE",
   "bm-m OFFLINE",
@@ -871,5 +871,7 @@
   "STAGE-STALLED fleet-ops 卡在 端到端自检/中枢 (中枢（机器判）)",
   "STAGE-STALLED asset-lib 卡在 训练环境自检/资产席 (资产席)"
  ],
- "lane_files_written": []
+ "lane_files_written": [
+  "bm-a"
+ ]
 }
