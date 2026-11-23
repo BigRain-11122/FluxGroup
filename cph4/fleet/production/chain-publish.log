@@ -492,3 +492,7 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-24T00:41:31 RECEIPT RUNNING gpu=11 vram=2584MB busy=lora
 2026-11-24T00:41:52 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-24T00:46:32 RECEIPT RUNNING gpu=30 vram=15340MB busy=lora
+2026-11-24T00:47:01 LANE jobs=1 fresh=1 -> run one card
+2026-11-24T00:47:12 LANE rc=0 done=- 
+2026-11-24T00:47:12 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-24T00:51:31 RECEIPT RUNNING gpu=0 vram=1499MB busy=lora
