@@ -194,6 +194,67 @@ def log(rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+COLLECT_EVERY_MIN = 25   # 采集（看视频）独立节拍：约半小时一条，仍是"人"的频率
+
+
+def _collect_due():
+    """离上次采集够久了吗？读 practice-log 的最后一条 ingest/browse 行，不用额外状态文件。"""
+    last = None
+    try:
+        for line in open(LEDGER, encoding="utf-8"):
+            if not line.strip():
+                continue
+            try:
+                r = json.loads(line)
+            except Exception:
+                continue
+            if r.get("action") in ("ingest", "browse"):
+                last = r.get("ts")
+    except FileNotFoundError:
+        return True
+    if not last:
+        return True
+    try:
+        t = datetime.fromisoformat(str(last))
+    except Exception:
+        return True
+    return (datetime.now() - t).total_seconds() >= COLLECT_EVERY_MIN * 60
+
+
+def _independent_collect(rng):
+    """不在会话里也看一眼视频并顺手采评论。纯读，走平台租约；成功即记 browse/ingest。
+
+    返回 True 表示这一拍真做了采集（调用方不用再记 off-session）。
+    """
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import res_alloc
+        rc, why = res_alloc.may("bilibili")
+        if rc != 0:
+            print("[tick] 采集让位：%s" % why)
+            return False
+    except Exception as e:
+        print("[tick] 仲裁器不可用（%s），按放行处理" % type(e).__name__)
+    row0 = pick()
+    if not row0:
+        return False
+    import social_comment as sc
+    ok, info = sc.browse_video(row0["video"], seconds=rng.uniform(25, 90), rng=rng)
+    tit, got = (info.rsplit("|", 1) + [""])[:2] if info else ("", "")
+    try:
+        got = int(got)
+    except Exception:
+        got = 0
+    log({"action": "browse", "ok": ok, "video": row0.get("video"),
+         "note": tit if ok else info, "harvested": got, "why": "independent-collect"})
+    if got:
+        n_new, note = sc.ingest_harvest()
+        log({"action": "ingest", "added": n_new, "note": note})
+        print("[tick] 独立采到 %d 条评论 → 入库新增 %d 行（%s）" % (got, n_new, note))
+    print("[tick] 独立采集：刷到《%s》→ %s" % ((tit or "")[:24], "看了" if ok else "打开失败"))
+    return bool(ok)
+
+
 def refresh_screen(note=""):
     posts, vis = {}, {}
     for r in rows_today():
@@ -549,8 +610,7 @@ def main():
     except Exception:
         pass
 
-    # 2.5 会话节律：一天 3-6 次"进来刷一会儿"，而不是每 20 分钟拍一次决定发不发。
-    #     会话内按预算动手（多数会话只看不动手），没预算就做一次真实浏览。
+    # 2.5 会话节律：一天 3-6 次"进来刷一会儿"，而不是每 20 分钟拍一次决定发不发。    #     会话内按预算动手（多数会话只看不动手），没预算就做一次真实浏览。
     import social_session as sess
     rng = random.Random()
     forced = os.environ.get("FLUX_PRACTICE_FORCE") == "1"
@@ -568,6 +628,12 @@ def main():
     if forced:
         log({"action": "skip", "why": "会话闸人工放行"})
     elif not s_now:
+        # 采集与出稿解耦：评论出稿必须等"人"的会话，看视频不需要。
+        # 2026-11-23 实锚：采集被焊在会话里，今天 off-session 18 次 = 整天 0 条采集，
+        # 而会话一天只有 3-6 次。看视频是纯读动作，按自己的节拍走（冷却 + 平台租约）。
+        if _collect_due():
+            if _independent_collect(rng):
+                return 0
         log({"action": "skip", "why": "off-session"})
         print("[tick] 不在会话时段（一天 3-6 次，见 social_session --plan）")
         return 0
