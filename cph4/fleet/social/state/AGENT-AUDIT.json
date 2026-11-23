@@ -3,24 +3,27 @@
  "agent": "social-keeper",
  "counts": {
   "OK": 19,
-  "STALE": 1,
-  "NOT_PASS": 8
+  "NOT_PASS": 8,
+  "STALE": 1
  },
  "tiers": {
   "P0": {
-   "OK": 5
+   "OK": 4,
+   "NOT_PASS": 1
   },
   "P1": {
    "OK": 10,
-   "STALE": 1,
-   "NOT_PASS": 3
+   "NOT_PASS": 3,
+   "STALE": 1
   },
   "P2": {
-   "NOT_PASS": 5,
-   "OK": 4
+   "OK": 5,
+   "NOT_PASS": 4
   }
  },
- "p0_bad": [],
+ "p0_bad": [
+  "M01"
+ ],
  "duties": [
   {
    "id": "G01",
@@ -145,8 +148,8 @@
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.TR04=False（需 True）"
   },
   {
    "id": "T02",
@@ -171,10 +174,10 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 24.8,
+   "age_h": 31.7,
    "limit_h": 24.0,
    "state": "STALE",
-   "why": "证据 24.8h 前（上限 24.0h）"
+   "why": "证据 31.7h 前（上限 24.0h）"
   },
   {
    "id": "B01",
@@ -201,8 +204,8 @@
    "symptom": "SD06 红=某号当天看/赞/弹幕有一类为 0；AC01 红=进程在但超过 2h（活动时段）没动作，多为 profile 锁、登录态失效或时段判断错",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "NOT_PASS",
-   "why": "pass.SD06=False（需 True）；pass.AC01=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "B03",
@@ -229,8 +232,8 @@
    "symptom": "AC01 红=某号进程不在或长时间没动作；健康表 green 但账号不动，说明判据只看心跳",
    "age_h": 0.0,
    "limit_h": 1.0,
-   "state": "NOT_PASS",
-   "why": "level='red'（不许等于 'red'）"
+   "state": "OK",
+   "why": "level='green'（不许等于 'red'）"
   },
   {
    "id": "S02",
@@ -258,7 +261,7 @@
    "age_h": 0.0,
    "limit_h": 24.0,
    "state": "NOT_PASS",
-   "why": "pass.CR07=False（需 True）；pass.CR01=False（需 True）；pass.CR08=False（需 True）"
+   "why": "pass.CR07=False（需 True）"
   },
   {
    "id": "S04",
@@ -286,7 +289,7 @@
    "age_h": 0.0,
    "limit_h": 24.0,
    "state": "NOT_PASS",
-   "why": "pass.SC01=False（需 True）；pass.SC03=False（需 True）；pass.SC04=False（需 True）"
+   "why": "pass.SC03=False（需 True）；pass.SC04=False（需 True）"
   },
   {
    "id": "S06",
@@ -313,8 +316,8 @@
    "symptom": "ME01 红=两次采样 swap/pageouts 在涨；ME03 红=真实生成时 pageouts 增长（硬扛 swap）；ME03 SKIP=一周没跑过 --gen，等于没测",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.EV05=False（需 True）"
   },
   {
    "id": "M02",

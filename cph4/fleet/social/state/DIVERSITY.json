@@ -568,19 +568,19 @@
   "ok": false
  },
  "actions": {
-  "n": 588,
+  "n": 808,
   "kinds": {
-   "skip": 229,
-   "watch": 123,
-   "route": 43,
-   "verify": 33,
-   "coexist": 27,
-   "post": 18
+   "skip": 293,
+   "watch": 195,
+   "route": 55,
+   "coexist": 42,
+   "verify": 35,
+   "warmup": 26
   },
-  "kind_top_share": 0.389,
-  "kinds_count": 19,
-  "gap_cv": 3.79,
-  "gaps_n": 469,
+  "kind_top_share": 0.363,
+  "kinds_count": 24,
+  "gap_cv": 3.92,
+  "gaps_n": 666,
   "ok": true
  },
  "fails": 11

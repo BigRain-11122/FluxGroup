@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-23T15:39:14",
+ "ts": "2026-11-23T22:33:35",
  "pass": {
   "ME01": true,
   "ME02": true,
@@ -12,7 +12,7 @@
    "id": "ME01",
    "name": "swap 不在涨",
    "ok": true,
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3195MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 4301MB）",
    "sev": "P1"
   },
   {
@@ -33,39 +33,39 @@
    "id": "ME05",
    "name": "内存余量",
    "ok": true,
-   "detail": "free 1.6G + inactive 7.9G = 9.5G（线 ≥4G）",
+   "detail": "free 3.1G + inactive 8.7G = 11.8G（线 ≥4G）",
    "sev": "P2"
   },
   {
    "id": "ME03",
    "name": "真实生成不增量",
    "ok": true,
-   "detail": "上次 2026-11-21T23:34:59（40h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-23T22:33:15（0h前）生成 1 条 swap +0.0MB pageouts +0",
    "sev": "P1"
   }
  ],
  "sample": {
   "now": {
-   "swap_used_mb": 3195.19,
-   "swap_total_mb": 4096.0,
-   "pageouts": 198756,
-   "pageins": 880906762,
-   "free_gb": 1.61,
-   "inactive_gb": 7.94,
-   "wired_gb": 7.27,
-   "headroom_gb": 9.54,
-   "ts": "2026-11-23T15:39:14"
+   "swap_used_mb": 4301.12,
+   "swap_total_mb": 5120.0,
+   "pageouts": 264671,
+   "pageins": 910979343,
+   "free_gb": 3.12,
+   "inactive_gb": 8.68,
+   "wired_gb": 3.16,
+   "headroom_gb": 11.8,
+   "ts": "2026-11-23T22:33:35"
   },
   "before": {
-   "swap_used_mb": 3195.19,
-   "swap_total_mb": 4096.0,
-   "pageouts": 198756,
-   "pageins": 880906521,
-   "free_gb": 2.14,
-   "inactive_gb": 7.96,
-   "wired_gb": 6.39,
-   "headroom_gb": 10.1,
-   "ts": "2026-11-23T15:39:10"
+   "swap_used_mb": 4301.12,
+   "swap_total_mb": 5120.0,
+   "pageouts": 264671,
+   "pageins": 910979016,
+   "free_gb": 2.24,
+   "inactive_gb": 8.09,
+   "wired_gb": 6.19,
+   "headroom_gb": 10.33,
+   "ts": "2026-11-23T22:33:32"
   }
  },
  "models": {
@@ -78,13 +78,13 @@
   "53684"
  ],
  "last_gen": {
-  "ts": "2026-11-21T23:34:59",
-  "n_gen": 3,
-  "swap_before": 2518.62,
-  "swap_after": 2518.62,
+  "ts": "2026-11-23T22:33:15",
+  "n_gen": 1,
+  "swap_before": 4301.12,
+  "swap_after": 4301.12,
   "gen_errors": 0,
-  "pageouts_before": 175778,
-  "pageouts_after": 175778,
+  "pageouts_before": 264671,
+  "pageouts_after": 264671,
   "swap_delta_mb": 0.0,
   "pageouts_delta": 0
  }
