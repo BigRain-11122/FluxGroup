@@ -1,14 +1,13 @@
 {
- "ts": "2026-11-24T01:56:31.107",
+ "ts": "2026-11-24T02:01:31.118",
  "node": "bm-c",
  "kind": "autodrive-heartbeat",
  "gpu": {
-  "util_pct": 1,
-  "mem_used_mb": 7229,
+  "util_pct": 43,
+  "mem_used_mb": 8827,
   "mem_total_mb": 16384
  },
  "batches": [
-  "drama",
   "lora"
  ],
  "state": "RUNNING",
