@@ -270,3 +270,5 @@ Please make sure you have the push=pushed lane=lane-cooldown(6m)
 2026-11-23T07:17:00 LANE rc=0 done=- 
 2026-11-23T07:17:00 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
 2026-11-23T07:21:31 RECEIPT RUNNING gpu=1 vram=1230MB busy=lora
+2026-11-23T18:12:56 FATAL TimeoutExpired(['git', '-C', 'K:\\Fluxgroup\\FluxGroup', 'merge', '-X', 'ours', '--no-edit', 'origin/main', '-m', 'bm-c chain: fold master pulses'], 180)
+2026-11-23T18:16:31 RECEIPT RUNNING gpu=1 vram=10280MB busy=lora
