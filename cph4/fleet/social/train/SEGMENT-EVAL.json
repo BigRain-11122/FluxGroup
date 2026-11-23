@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-23T18:28:18",
+ "ts": "2026-11-23T19:01:05",
  "base": [
   {
    "n": 10,
-   "avg": 54.3,
-   "pass_rate": 100,
-   "avg_logic": 12.5,
-   "avg_human": 1.0,
+   "avg": 37.5,
+   "pass_rate": 0,
+   "avg_logic": 0.0,
+   "avg_human": 0.0,
    "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "分人，有的歌就是自带 BGM 属性。",
-    "哈哈，这态度太对了！"
+    "《风景》/《难忘的情怀》/《借东西的小人阿莉埃蒂》",
+    "《2025 年度最令人讨厌歌曲 TOP10》"
    ],
-   "seg": "shallow",
+   "seg": "music_seeker",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 30.8,
-   "pass_rate": 40,
-   "avg_logic": 5.0,
-   "avg_human": 1.0,
-   "avg_natural": 12.0,
-   "reject": 6,
-   "seg": "shallow",
+   "avg": 67.5,
+   "pass_rate": 60,
+   "avg_logic": 19.5,
+   "avg_human": 9.0,
+   "avg_natural": 20.0,
+   "reject": 1,
+   "seg": "music_seeker",
    "sample": [
-    "这个up主的评论也值得一个顶",
-    "看来大家最讨厌的不是一首歌"
+    "BGM一出来我就知道你用的什么曲子",
+    "我不看这个bgm"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-175912/ckpt400"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-183411/ckpt400"
 }
