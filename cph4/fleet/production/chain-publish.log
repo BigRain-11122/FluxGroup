@@ -514,3 +514,7 @@ hint: Use -f if you really want to add them.
 hint: Disable this message with "git config set advice.addIgnor
 2026-11-24T01:07:01 TICK commit=committed:10 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-24T01:11:31 RECEIPT RUNNING gpu=1 vram=2934MB busy=lora
+2026-11-24T01:11:48 LANE jobs=1 fresh=1 -> run one card
+2026-11-24T01:11:58 LANE rc=0 done=- 
+2026-11-24T01:11:58 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-24T01:16:31 RECEIPT RUNNING gpu=2 vram=2944MB busy=lora
