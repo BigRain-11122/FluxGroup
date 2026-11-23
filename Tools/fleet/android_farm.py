@@ -250,6 +250,44 @@ def cmd_localize(a):
     return 0 if ok else 1
 
 
+
+def cmd_tap(a):
+    """按文字点控件：dump → 找 text 匹配的节点 → 点 bounds 中心。
+
+    用 bounds 定位而不是写死坐标：App 改版只换位置，不该换脚本（盲点坐标=改版即坏）。
+    """
+    port = port_for(a.avd)
+    if port is None:
+        print("AVD 不存在: " + a.avd, file=sys.stderr)
+        return 1
+    serial = "emulator-%d" % port
+    sh([ADB, "-s", serial, "shell", "uiautomator", "dump", "/sdcard/_tap.xml"], 40)
+    tmp = "/tmp/_tap_%s.xml" % a.avd
+    sh([ADB, "-s", serial, "pull", "/sdcard/_tap.xml", tmp], 40)
+    try:
+        s = open(tmp, encoding="utf-8").read()
+    except Exception as e:
+        print("dump 读取失败: %s" % e, file=sys.stderr)
+        return 2
+    cands = []
+    for m in re.finditer(r'text="([^"]*)"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', s):
+        txt = m.group(1).strip()
+        if not txt:
+            continue
+        hit = (txt == a.text) if a.exact else (a.text in txt)
+        if hit:
+            x0, y0, x1, y1 = map(int, m.group(2, 3, 4, 5))
+            cands.append((txt, (x0 + x1) // 2, (y0 + y1) // 2))
+    if not cands:
+        print("未找到匹配「%s」的控件（可见文本前 200 字：%s）"
+              % (a.text, " | ".join(t for t in re.findall(r'text="([^"]+)"', s)[:8])), file=sys.stderr)
+        return 1
+    txt, x, y = cands[0]
+    sh([ADB, "-s", serial, "shell", "input", "tap", str(x), str(y)], 20)
+    print("已点击「%s」(%d,%d)，共 %d 个候选" % (txt, x, y, len(cands)))
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
@@ -262,6 +300,8 @@ def main():
     s = sub.add_parser("stop"); s.add_argument("avd"); s.set_defaults(fn=cmd_stop)
     s = sub.add_parser("shot"); s.add_argument("avd"); s.add_argument("out"); s.set_defaults(fn=cmd_shot)
     s = sub.add_parser("fp"); s.add_argument("avd"); s.set_defaults(fn=cmd_fp)
+    s = sub.add_parser("tap"); s.add_argument("avd"); s.add_argument("text")
+    s.add_argument("--exact", action="store_true"); s.set_defaults(fn=cmd_tap)
     s = sub.add_parser("localize"); s.add_argument("avd"); s.add_argument("--clear-pkg", default="")
     s.set_defaults(fn=cmd_localize)
     a = ap.parse_args()
