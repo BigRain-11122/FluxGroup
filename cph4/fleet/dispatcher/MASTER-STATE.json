@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-23T22:33:42",
- "cycle": 4073,
+ "ts": "2026-11-23T22:40:08",
+ "cycle": 4074,
  "master_node": "bm-m",
  "masquerade_by": null,
- "master_tick_ts": "2026-11-23T22:33:42",
+ "master_tick_ts": "2026-11-23T22:40:08",
  "queue": {
   "total": 386,
   "open": 8,
@@ -14,23 +14,23 @@
  "lanes": {
   "bm-a": {
    "online": true,
-   "hb_age_s": 11.4,
-   "cpu_load_pct": 13,
-   "ram_free_gb": 51.6,
-   "gpu_util_pct": 0,
+   "hb_age_s": 37.0,
+   "cpu_load_pct": 29,
+   "ram_free_gb": 55,
+   "gpu_util_pct": 87,
    "job": null,
    "last_result": {
     "job": null,
     "state": "IDLE",
     "rc": null,
-    "ts": "2026-11-23T22:30:50",
-    "reason": "EXECUTOR-DEAD (83.1h 零产出)",
+    "ts": "2026-11-23T22:35:50",
+    "reason": "EXECUTOR-DEAD (83.2h 零产出)",
     "out_bytes": null,
     "elapsed_s": null
    },
    "idle_confirmed": true,
-   "idle_reason": "EXECUTOR-DEAD (83.2h 零产出)",
-   "idle_rounds": 2
+   "idle_reason": "EXECUTOR-DEAD (83.3h 零产出)",
+   "idle_rounds": 3
   },
   "bm-b": {
    "online": false,
@@ -46,7 +46,7 @@
   },
   "bm-c": {
    "online": true,
-   "hb_age_s": 13.7,
+   "hb_age_s": 399.4,
    "cpu_load_pct": null,
    "ram_free_gb": null,
    "gpu_util_pct": null,
@@ -70,7 +70,7 @@
   }
  },
  "idle_rounds": {
-  "bm-a": 2,
+  "bm-a": 3,
   "bm-b": 0,
   "bm-c": 0,
   "bm-m": 0
@@ -860,7 +860,7 @@
  "supply_added": [],
  "events": [],
  "violations": [
-  "bm-a IDLE-CONFIRMED x2 (EXECUTOR-DEAD (83.2h 零产出))",
+  "bm-a IDLE-CONFIRMED x3 (EXECUTOR-DEAD (83.3h 零产出))",
   "bm-b OFFLINE",
   "bm-m OFFLINE",
   "STAGE-STALLED bigstream-mv 卡在 立意/分镜/导演席 (导演席（自决推进，CEO 巡视可随时否决）)",
