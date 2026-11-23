@@ -349,3 +349,5 @@ cph4/fleet/social/SOCIAL-LOOP-LEDGER.jsonl
 cph4/fleet/social/TUNE-LEDGER.jsonl
 cph4/fleet/social/raw/session/
 cph4/fleet/agent-runs/
+# 公众号采集产物：只增语料，不进 git（同养号线台账的教训）
+cph4/fleet/social/gzh/*.jsonl
