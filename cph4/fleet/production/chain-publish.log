@@ -806,3 +806,7 @@ hint: Use -f if you really want to add them.
 hint: Disable this message with "git config set advice.addIgnor
 2026-11-24T06:46:47 TICK commit=committed:10 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-24T06:51:31 RECEIPT RUNNING gpu=3 vram=3006MB busy=lora
+2026-11-24T06:51:57 LANE jobs=1 fresh=1 -> run one card
+2026-11-24T06:52:06 LANE rc=0 done=- 
+2026-11-24T06:52:06 TICK commit=committed:5 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-24T06:56:31 RECEIPT RUNNING gpu=2 vram=3011MB busy=lora
