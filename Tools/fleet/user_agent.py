@@ -857,7 +857,24 @@ def login_state(headless=True):
                 pass
 
 
+def _slot():
+    """读资源仲裁结果（res_alloc.py 每 10 分钟刷新）。"""
+    try:
+        return json.load(open(os.path.join(ROOT, ".codely-cli", "state", "RES-SLOT.json"),
+                              encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 def run_session(minutes=18, dry=False, force=False):
+    # 资源闸：swap 过线时不开新会话。
+    # 2026-11-23 全盘排布：训练+双号会话+采集同时跑把 swap 顶到 4.4GB，
+    # 违反「不触发 swap 用满算力」。仲裁说降档就不进，宁可少刷一场。
+    if not dry:
+        sl = _slot()
+        if sl.get("slot") in ("DENY-NEW", "DRAIN"):
+            return {"ok": False, "steps": [],
+                    "why": "资源降档（%s）：%s" % (sl.get("slot"), (sl.get("why") or "")[:80])}
     """按计划执行一次会话：看 → 偶尔赞 → 偶尔弹幕 → 极偶尔评论。
 
     纪律：任何一步失败都不中断整场（人也不会因为一条视频加载失败就关电脑），
