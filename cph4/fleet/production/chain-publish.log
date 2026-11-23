@@ -272,3 +272,9 @@ Please make sure you have the push=pushed lane=lane-cooldown(6m)
 2026-11-23T07:21:31 RECEIPT RUNNING gpu=1 vram=1230MB busy=lora
 2026-11-23T18:12:56 FATAL TimeoutExpired(['git', '-C', 'K:\\Fluxgroup\\FluxGroup', 'merge', '-X', 'ours', '--no-edit', 'origin/main', '-m', 'bm-c chain: fold master pulses'], 180)
 2026-11-23T18:16:31 RECEIPT RUNNING gpu=1 vram=10280MB busy=lora
+2026-11-23T18:16:32 ADD-WARN The following paths are ignored by one of your .gitignore files:
+cph4/fleet/production/logs
+hint: Use -f if you really want to add them.
+hint: Disable this message with "git config set advice.addIgnor
+2026-11-23T18:17:17 TICK commit=committed:11 converge=merged-behind-21 push=pushed lane=lane-empty
+2026-11-23T18:21:31 RECEIPT RUNNING gpu=5 vram=10161MB busy=lora
