@@ -154,6 +154,9 @@ def cmd_start(a):
             "-memory", str(a.memory), "-gpu", a.gpu]
     if not a.headful:
         args.insert(3, "-no-window")
+    snap = getattr(a, "snapshot", None)
+    if snap:
+        args += ["-snapshot", snap]      # 有登录态快照就直接载入，免每次重登
     if a.wipe:
         args.append("-wipe-data")
     with open(log, "ab") as lf:
@@ -288,6 +291,22 @@ def cmd_tap(a):
     return 0
 
 
+def cmd_snapshot(a):
+    """存/载 AVD 快照——登录态的一次性人工换永久免登（2026-11-23 CEO「别来烦我」）。"""
+    name = a.avd
+    if name not in instances():
+        print("AVD 不存在: %s" % name, file=sys.stderr)
+        return 1
+    serial = "emulator-%d" % port_for(name)
+    if running().get(serial) != "device":
+        print("%s 未运行（快照要在开机状态下操作）" % serial, file=sys.stderr)
+        return 2
+    rc, out, err = sh([ADB, "-s", serial, "emu", "avd", "snapshot", a.action, a.name])
+    ok = rc == 0 or "OK" in (out or "")
+    print("snapshot %s %s: %s" % (a.action, a.name, "OK" if ok else ((out + err).strip()[:120])))
+    return 0 if ok else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
@@ -296,7 +315,10 @@ def main():
     s = sub.add_parser("start"); s.add_argument("avd"); s.add_argument("--headful", action="store_true")
     s.add_argument("--memory", type=int, default=2048); s.add_argument("--gpu", default="swiftshader_indirect")
     s.add_argument("--wait", type=int, default=150); s.add_argument("--wipe", action="store_true")
+    s.add_argument("--snapshot", help="开机时载入的快照名，如 logged-in")
     s.set_defaults(fn=cmd_start)
+    s = sub.add_parser("snapshot"); s.add_argument("avd"); s.add_argument("action", choices=["save","load","delete"])
+    s.add_argument("name", nargs="?", default="logged-in"); s.set_defaults(fn=cmd_snapshot)
     s = sub.add_parser("stop"); s.add_argument("avd"); s.set_defaults(fn=cmd_stop)
     s = sub.add_parser("shot"); s.add_argument("avd"); s.add_argument("out"); s.set_defaults(fn=cmd_shot)
     s = sub.add_parser("fp"); s.add_argument("avd"); s.set_defaults(fn=cmd_fp)

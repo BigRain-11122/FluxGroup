@@ -36,6 +36,8 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 SDK = os.environ.get("ANDROID_HOME") or os.path.expanduser("~/android-sdk")
 ADB = os.path.join(SDK, "platform-tools", "adb")
 CRED_DEFAULT = os.path.expanduser("~/.fluxgroup/bili-device-login.json")
+ACCOUNTS = os.path.expanduser("~/.fluxgroup/bili-accounts.json")
+VAULT = os.path.expanduser("~/.fluxgroup/credentials/vault.json")
 HOME_HINTS = ("推荐", "热门", "我的", "直播")
 LOGIN_HINTS = ("手机号登录", "账号密码登录", "请输入手机号", "验证登录")
 MANUAL_HINTS = ("验证码", "安全验证", "滑块", "行为异常", "操作频繁", "人机")
@@ -83,6 +85,16 @@ def tap_text(serial, text, exact=False):
     return False
 
 
+def clear_field(serial, x, y, n=40):
+    """先点进输入框，全选删除——否则重复运行会把旧内容和新内容叠加（实锚：密码 10 位变 12 位）。"""
+    sh([ADB, "-s", serial, "shell", "input", "tap", str(x), str(y)], 20)
+    time.sleep(0.4)
+    sh([ADB, "-s", serial, "shell", "input", "keyevent", "123"], 10)   # MOVE_END
+    for _ in range(n):
+        sh([ADB, "-s", serial, "shell", "input", "keyevent", "67"], 10)  # DEL
+    return True
+
+
 def fill_first_input(serial, value, nth=0):
     """按 EditText 的 bounds 点一下再输入；nth 用来区分账号/密码两个框。"""
     _, raw = ui_texts(serial)
@@ -97,12 +109,67 @@ def fill_first_input(serial, value, nth=0):
     if len(boxes) <= nth:
         return False
     x0, y0, x1, y1 = boxes[nth]
-    sh([ADB, "-s", serial, "shell", "input", "tap", str((x0 + x1) // 2), str((y0 + y1) // 2)], 20)
+    cx, cy = (x0 + x1) // 2, (y0 + y1) // 2
+    clear_field(serial, cx, cy)          # 先清空，避免叠字
+    sh([ADB, "-s", serial, "shell", "input", "tap", str(cx), str(cy)], 20)
     time.sleep(0.6)
     # @ . - 等字符要给 input text 转义
     esc = "".join(("\\" + c) if c in "@.-_:" else c for c in value)
     sh([ADB, "-s", serial, "shell", "input", "text", esc], 30)
     return True
+
+
+def vault_cred(avd):
+    """从凭据库取该实例的凭据；顺带返回 device_login 状态。
+
+    为什么先看状态：库里的 rejected 是"服务端已明确拒绝"的记录，
+    再拿同一个密码去撞只会把风控越撞越重（实锚 2026-11-23：第 3 次即弹点选验证）。
+    """
+    if not os.path.exists(VAULT):
+        return None
+    try:
+        d = json.load(open(VAULT, encoding="utf-8"))
+    except Exception:
+        return None
+    acc = d.get("accounts") or {}
+    # 先看该实例自己的记录；它若只有 profile/mid 而没有手机号密码，不能遮住
+    # 同一账号另一条（实锚 2026-11-23：acct1 空壳遮住了 acct2 的 rejected）。
+    order = ["bilibili/%s" % avd] + [k for k in acc if k != "bilibili/%s" % avd]
+    cand = []
+    for key in order:
+        e = acc.get(key)
+        if not isinstance(e, dict):
+            continue
+        if e.get("platform") not in (None, "bilibili"):
+            continue
+        cand.append((key, e))
+    withc = [(k, e) for k, e in cand if e.get("phone") and e.get("password")]
+    pick = withc[0] if withc else (cand[0] if cand else None)
+    if not pick:
+        return None
+    key, e = pick
+    slot = e.get("device_login") or {}
+    state, ev = slot.get("state", "unknown"), slot.get("evidence", "")
+    # 同号任何一条被判 rejected，都按 rejected 处理（避免换 alias 绕过风控记录）
+    if withc and state != "rejected":
+        for k2, e2 in withc:
+            s2 = e2.get("device_login") or {}
+            if s2.get("state") == "rejected" and e2.get("password") == e.get("password"):
+                state, ev, key = "rejected", s2.get("evidence", ""), k2
+                break
+    return {"key": key, "state": state, "evidence": ev,
+            "account": e.get("phone") or "", "password": e.get("password") or ""}
+
+
+def mark_vault(avd, state, evidence):
+    """把本轮结果写回凭据库，下一轮据此决定是否还值得重试。"""
+    if not os.path.exists(VAULT):
+        return
+    key = "bilibili/%s" % avd
+    rc, _, _ = sh(["python3", os.path.join(HERE, "cred_vault.py"), "mark",
+                   "--key", key, "--field", "device_login", "--state", state,
+                   "--evidence", evidence[:120]], 30)
+    return rc == 0
 
 
 def classify(texts):
@@ -121,6 +188,8 @@ def main():
     ap.add_argument("--avd", default="acct1")
     ap.add_argument("--cred", default=CRED_DEFAULT)
     ap.add_argument("--snapshot", action="store_true")
+    ap.add_argument("--from-accounts", metavar="ALIAS",
+                    help="从机队既有账号台账(~/.fluxgroup/bili-accounts.json)取 phone/password，不再复制密码")
     a = ap.parse_args()
 
     serial = serial_of(a.avd)
@@ -138,17 +207,53 @@ def main():
         print("已是登录态（首页可见），无需再登")
         return 0
 
-    if not os.path.exists(a.cred):
+    # 凭据来源优先级：显式 --cred / --from-accounts ＞ 凭据库 ＞ 默认文件
+    if not a.from_accounts and a.cred == CRED_DEFAULT:
+        vc = vault_cred(a.avd)
+        if vc and vc["state"] in ("rejected", "needs_human"):
+            print("凭据库：%s 的 device_login=%s（%s）\n"
+                  "不再自动重试（会加重风控）：更新密码后 cred_vault.py mark 成 ok/unknown 再跑；"
+                  "或一次性人工登录后存快照（android_farm.py snapshot save）。"
+                  % (vc["key"], vc["state"], (vc["evidence"] or "无证据")[:60]), file=sys.stderr)
+            return 3
+        if vc and vc["account"] and vc["password"]:
+            cred = {"method": "password", "account": vc["account"], "password": vc["password"]}
+            a._cred_ready = True
+            print("凭据来源：凭据库 %s（phone 长度 %d）" % (vc["key"], len(vc["account"])))
+
+    if a.from_accounts:
+        # 复用既有台账，避免"同一份密码存两处"
+        try:
+            acc = json.load(open(ACCOUNTS, encoding="utf-8")).get("accounts", {})
+            e = acc.get(a.from_accounts) or {}
+            phone, pwd = e.get("phone"), e.get("password")
+        except Exception as ex:
+            print("读账号台账失败: %s" % ex, file=sys.stderr)
+            return 2
+        if not (phone and pwd):
+            print("台账里 %s 没有 phone/password（只有 profile 的话走浏览器 cookie，不能用于设备登录）"
+                  % a.from_accounts, file=sys.stderr)
+            return 2
+        cred = {"method": "password", "account": phone, "password": pwd}
+        st = os.stat(ACCOUNTS)
+        if st.st_mode & 0o077:
+            print("账号台账权限过宽(%o)" % (st.st_mode & 0o777), file=sys.stderr)
+            return 2
+        print("凭据来源：账号台账 %s（phone 长度 %d）" % (a.from_accounts, len(phone)))
+        a._cred_ready = True
+
+    if not a.from_accounts and not getattr(a, "_cred_ready", False) and not os.path.exists(a.cred):
         print("缺凭据文件：%s\n请写入（0600，仓库外）：\n"
               '  {"method":"password","account":"手机号或账号","password":"密码"}\n'
               '  {"method":"sms","phone":"手机号"}' % a.cred, file=sys.stderr)
         return 2
-    st = os.stat(a.cred)
-    if st.st_mode & 0o077:
-        print("凭据文件权限过宽（%o），请 chmod 600 %s" % (st.st_mode & 0o777, a.cred),
-              file=sys.stderr)
-        return 2
-    cred = json.load(open(a.cred, encoding="utf-8"))
+    if not a.from_accounts and not getattr(a, "_cred_ready", False):
+        st = os.stat(a.cred)
+        if st.st_mode & 0o077:
+            print("凭据文件权限过宽（%o），请 chmod 600 %s" % (st.st_mode & 0o777, a.cred),
+                  file=sys.stderr)
+            return 2
+        cred = json.load(open(a.cred, encoding="utf-8"))
     method = (cred.get("method") or "password").lower()
 
     if method == "sms" and not cred.get("phone"):
@@ -205,10 +310,13 @@ def main():
                 print("快照：%s" % ("已保存" if rc == 0 else (out + err)[:120]))
             return 0
         if state == "manual":
+            mark_vault(a.avd, "needs_human", "登录页出现验证码/安全验证，必须人工过一次")
             print("需要人工一次：界面出现验证码/安全验证。请在那个窗口里完成，然后重跑本命令。",
                   file=sys.stderr)
             return 3
-    print("超时仍在登录页（可能密码错/风控）", file=sys.stderr)
+    mark_vault(a.avd, "rejected", "点登录后 40s 仍在登录页（密码错或风控）")
+    print("超时仍在登录页（可能密码错/风控）；已写回凭据库，下一轮不再盲目重试",
+          file=sys.stderr)
     return 1
 
 
