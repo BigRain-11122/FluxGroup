@@ -130,6 +130,7 @@ X9 世代已 EOL，官网该板的「Drivers & Utilities」页按 OS/设备选�
 brain-X9DR3-F/
 ├── README-INDEX.md              本文件（齐全性检查 + 用法）
 ├── 今晚点板操作单.md             ★ 照这个做就行（十节：装配→点亮→BIOS→IPMI→上卡→排障）
+├── 官方文档知识卡.md             ★ 问什么答什么（规格/槽位/内存/跳线/JF1/蜂鸣码/BIOS/IPMI，全部带页码）
 ├── 管理软件-MANIFEST.txt         管理软件总表 + 主要可执行文件 SHA256 + 使用入口
 ├── 驱动-MANIFEST.txt             驱动清单 + SHA256
 ├── MNL-1259.pdf                 产品说明书（111 页）
