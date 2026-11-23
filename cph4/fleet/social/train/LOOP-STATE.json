@@ -1,12 +1,12 @@
 {
  "segments": {
   "tech_nerd": {
-   "last_ts": 1795411445.0,
-   "last_rc": "KEEP",
-   "rows": 593,
+   "last_ts": 1795420866.0,
+   "last_rc": "REJECT",
+   "rows": null,
    "run": "20261123-125709",
-   "step": 400,
-   "val_min": 3.522
+   "step": null,
+   "val_min": null
   },
   "peer_pro": {
    "last_ts": 1795413714.0,
@@ -33,13 +33,12 @@
    "val_min": 3.478
   },
   "memer": {
-   "last_ts": 1795420773.055928,
+   "last_ts": 1795420773.0,
    "last_rc": "REJECT",
    "rows": 2207,
    "run": "20261123-152235",
    "step": 400,
-   "val_min": 2.99,
-   "recipe": "v5-shape-quota"
+   "val_min": 2.99
   },
   "__all__": {
    "last_ts": 1795155403.0,
@@ -58,38 +57,16 @@
    "val_min": 3.663
   },
   "feeler": {
-   "last_ts": 1795407494.0,
+   "last_ts": 1795423214.715512,
    "last_rc": "REJECT",
    "rows": 551,
-   "run": "20261123-114707",
+   "run": "20261123-160525",
    "step": 400,
-   "val_min": 3.322
+   "val_min": 3.322,
+   "recipe": "v5-shape-quota"
   }
  },
  "runs": [
-  {
-   "ts": "2026-11-22T07:11:35",
-   "seg": "tech_nerd",
-   "verdict": "KEEP",
-   "why": "均分 +5.0 / 人味 -1.0",
-   "run": "20261122-063552",
-   "re_verify": true,
-   "lora_avg": 61.7,
-   "base_avg": 56.7,
-   "eval_n": 30,
-   "adapter": "cph4/fleet/social/train/RUNS/20261122-063552/ckpt400",
-   "note": "re-verify(n=30)：均分 +5.0 / 人味 -1.0"
-  },
-  {
-   "ts": "2026-11-22T08:13:50",
-   "seg": "peer_pro",
-   "rows": 605,
-   "built": 0,
-   "eval_n": 0,
-   "verdict": "BLOCKED",
-   "why": "让路出稿：距上帖 92 分钟（间隔 30 分钟）",
-   "adapter": null
-  },
   {
    "ts": "2026-11-22T09:51:31",
    "seg": "memer",
@@ -728,6 +705,38 @@
    "verdict": "REJECT",
    "why": "均分只 +2.8（需 ≥5.0）",
    "adapter": "cph4/fleet/social/train/RUNS/20261123-152235/ckpt400"
+  },
+  {
+   "ts": "2026-11-23T16:01:06",
+   "seg": "tech_nerd",
+   "verdict": "REJECT",
+   "why": "均分只 +4.9（需 ≥5.0）",
+   "run": "20261123-125709",
+   "re_verify": true,
+   "lora_avg": 61.6,
+   "base_avg": 56.7,
+   "eval_n": 30,
+   "adapter": "cph4/fleet/social/train/RUNS/20261123-125709/ckpt400",
+   "note": "re-verify(n=30)：均分只 +4.9（需 ≥5.0）"
+  },
+  {
+   "ts": "2026-11-23T16:40:14",
+   "seg": "feeler",
+   "rows": 551,
+   "built": 665,
+   "eval_n": 10,
+   "run": "20261123-160525",
+   "step": 400,
+   "val_step": 400,
+   "val_min": 3.322,
+   "base_avg": 56.5,
+   "lora_avg": 41.6,
+   "base_human": 10.0,
+   "lora_human": 5.0,
+   "human_delta": -5.0,
+   "verdict": "REJECT",
+   "why": "均分只 -14.9（需 ≥5.0）",
+   "adapter": "cph4/fleet/social/train/RUNS/20261123-160525/ckpt400"
   }
  ]
 }

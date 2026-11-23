@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-23T16:01:05",
+ "ts": "2026-11-23T16:40:13",
  "base": [
   {
-   "n": 30,
-   "avg": 56.7,
-   "pass_rate": 3,
-   "avg_logic": 9.0,
-   "avg_human": 8.0,
-   "avg_natural": 19.9,
+   "n": 10,
+   "avg": 56.5,
+   "pass_rate": 20,
+   "avg_logic": 6.5,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "你提到戴耳机音量太大，我试过 29 分贝实测就明显刺痛耳膜了。",
-    "你用的哪个耳机？我也在纠结参数，但实际听感确实因人而异。"
+    "你总说被讨厌的歌里藏着太多往事，连我也想起那晚耳机里的余音了。",
+    "我也总想起某次深夜在车里单曲循环，后来才发现那首歌火到不配听。"
    ],
-   "seg": "tech_nerd",
+   "seg": "feeler",
    "cached": true
   }
  ],
  "lora": [
   {
-   "n": 30,
-   "avg": 61.6,
-   "pass_rate": 60,
-   "avg_logic": 22.2,
-   "avg_human": 7.7,
-   "avg_natural": 17.9,
-   "reject": 8,
-   "seg": "tech_nerd",
+   "n": 10,
+   "avg": 41.6,
+   "pass_rate": 10,
+   "avg_logic": 2.0,
+   "avg_human": 5.0,
+   "avg_natural": 19.6,
+   "reject": 0,
+   "seg": "feeler",
    "sample": [
-    "画面和声音好坏，分镜头操控，调光压暗",
-    "天梭的镜头只能用4个参数：分辨率，帧率，像素位移，曝光补偿"
+    "我想起了珍藏集，虽然当年只有一元钱的CD",
+    "我年少时的歌单里，也是以额度为限"
    ]
   }
  ],
- "samples": 30,
- "adapter": "cph4/fleet/social/train/RUNS/20261123-125709/ckpt400"
+ "samples": 10,
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-160525/ckpt400"
 }
