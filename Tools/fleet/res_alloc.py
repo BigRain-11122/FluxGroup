@@ -42,8 +42,23 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 STATE = os.path.join(ROOT, ".codely-cli", "state")
 SLOT = os.path.join(STATE, "RES-SLOT.json")
 
-SWAP_LINE = 512          # MB，超过即降档
-SWAP_HARD = 2048         # MB，超过即禁止新开会话/新采集
+SWAP_LINE = 512          # MB，超过即降档（只收尾）
+SWAP_HARD = 2048         # MB，超过即禁止新开任何浏览器活
+
+# 平台轮转（CEO 2026-11-23：训练和实战并行，各大平台轮流）。
+# 并行 ≠ 同时开所有平台：真正的并行是"训练常驻 + 永远有一条实战线"，平台按时间片换手，
+# 保证任何时刻只有一个浏览器 profile（内存与 browserd 单线程两条限制都要求这样）。
+PLATFORMS = [
+    {"id": "bilibili", "profile": "browser-bilibili", "state": "live", "weight": 5,
+     "note": "双号养号主线：看/赞/弹/评论/投币/收藏/关注"},
+    {"id": "gzh", "profile": "browser-gzh", "state": "building", "weight": 3,
+     "note": "公众号：采集通，供给待接镜像源；不能出稿"},
+    {"id": "xhs", "profile": "browser-xhs", "state": "need-account", "weight": 1,
+     "note": "小红书：无账号无 profile，需 CEO 注册，暂不排班"},
+    {"id": "douyin", "profile": "browser-douyin", "state": "need-account", "weight": 1,
+     "note": "抖音：同上"},
+]
+SLICE_MIN = 90            # 每个平台占用时长（分钟）
 
 
 def _sh(cmd, timeout=15):
@@ -72,6 +87,34 @@ def swap_mb():
     return float(m.group(1)) if m else used
 
 
+def mem_free_mb():
+    """当前可用内存（free+inactive+speculative）。
+
+    为什么不能只看 swap：swap used 是历史累计，降下来很慢，即使压力已经消失也不会归零。
+    拿它当唯一闸会永久卡在降档，把"训练与实战并行"变成一句空话。
+    前馈用可用内存，swap 只作参考。
+    """
+    try:
+        out = _sh("vm_stat")
+        page = 4096
+        import re
+        m = re.search(r"page size of (\d+) bytes", out)
+        if m:
+            page = int(m.group(1))
+        vals = {}
+        for line in out.splitlines():
+            if ":" in line:
+                k, v = line.split(":", 1)
+                v = v.strip().rstrip(".")
+                if v.isdigit():
+                    vals[k.strip()] = int(v)
+        free = (vals.get("Pages free", 0) + vals.get("Pages inactive", 0)
+                + vals.get("Pages speculative", 0))
+        return round(free * page / 1024 / 1024, 1)
+    except Exception:
+        return -1.0
+
+
 def train_running():
     out = _sh("ps -axo command | grep -E 'mlx_lm|train_forever|lora' | grep -v grep")
     return bool(out.strip())
@@ -95,42 +138,69 @@ def llm_resident():
         return []
 
 
-def decide(swap, train, profs, models, hour=None):
-    """返回 (班次, 允许的动作集合, 理由)。纯函数，自检可直接注入。"""
+def platform_now(hour=None, minute=0):
+    """按时间片轮转出当前该用哪个平台（只在 state=live/building 里轮）。"""
     hour = datetime.now().hour if hour is None else hour
-    night = hour < 7 or hour >= 23
+    minute = datetime.now().minute if minute is None else minute
+    live = [p for p in PLATFORMS if p["state"] in ("live", "building")]
+    if not live:
+        return None
+    # 加权轮转：权重高的占更多片
+    seq = []
+    for p in live:
+        seq += [p] * max(1, int(p.get("weight") or 1))
+    idx = ((hour * 60 + minute) // SLICE_MIN) % len(seq)
+    return seq[idx]
+
+
+FREE_MIN = 1500          # MB，低于它禁止新开浏览器活（会开始换页）
+FREE_HARD = 800          # MB，低于它连训练也收尾
+
+
+def decide(swap, free_mb, train, profs, models, hour=None):
+    """返回 (班次, 允许的动作集合, 理由)。纯函数，自检可直接注入。
+
+    判据顺序：先看**当前可用内存**（前馈，能预测会不会换页），swap 只作背景。
+    """
+    hour = datetime.now().hour if hour is None else hour
     busy_browser = len(profs)
 
-    if swap > SWAP_HARD:
-        return ("DENY-NEW", set(), "swap %dMB > %dMB：先收尾，不开新会话/不采集/不训练新轮" % (swap, SWAP_HARD))
-    if swap > SWAP_LINE:
-        return ("DRAIN", {"finish"}, "swap %dMB > %dMB：只许收尾，喝完再上新活" % (swap, SWAP_LINE))
-    if train and night:
-        return ("TRAIN-NIGHT", {"train", "post"}, "夜间训练独占；发帖仍放行（消耗小、时效强）")
-    if train and busy_browser:
-        return ("TRAIN+LIGHT", {"train", "post", "session1"}, "训练中且已有 1 个浏览器：只许 1 个号轻量会话")
-    if train:
-        return ("TRAIN-DAY", {"train", "post", "session1", "collect"},
-                "训练中、浏览器空闲：允许 1 号会话 + 采集（采集比会话更值，供语料）")
+    if free_mb >= 0 and free_mb < FREE_HARD:
+        return ("DENY-NEW", {"finish"},
+                "可用内存 %dMB < %dMB：只收尾（swap 已 %dMB 是历史累计，不作唯一判据）"
+                % (free_mb, FREE_HARD, swap))
+    if free_mb >= 0 and free_mb < FREE_MIN:
+        return ("DRAIN", {"finish", "train"},
+                "可用内存 %dMB < %dMB：训练可续，浏览器只收尾" % (free_mb, FREE_MIN))
+    # 并行常态：训练 + 1 条实战线（平台轮转）+ 发帖
     if busy_browser:
-        return ("BROWSE", {"post", "session2"}, "无训练：可双号会话；采集让路")
-    return ("FULL", {"post", "session2", "collect", "train"}, "无训练、浏览器空闲：全线可用")
+        return ("PARALLEL-1", {"train", "post", "finish"},
+                "训练与实战并行中：%s 在跑。再开一个平台不是内存问题（可用 %dMB），"
+                "而是 browserd 单线程会互相排队，所以一次只放一条实战线"
+                % (",".join(profs), free_mb))
+    return ("PARALLEL", {"train", "post", "session1", "collect"},
+            "训练常驻 + 本时段平台实战 + 发帖；采集与实战共用同一个浏览器，谁进来谁先用")
 
 
 def once():
-    swap, train, profs, models = swap_mb(), train_running(), browsers(), llm_resident()
-    slot, allowed, why = decide(swap, train, profs, models)
+    swap, free, train, profs, models = (swap_mb(), mem_free_mb(), train_running(),
+                                        browsers(), llm_resident())
+    slot, allowed, why = decide(swap, free, train, profs, models)
+    pf = platform_now()
     rec = {"ts": datetime.now().isoformat(timespec="seconds"), "slot": slot,
+           "platform": (pf or {}).get("id"), "platform_note": (pf or {}).get("note"),
            "allowed": sorted(allowed), "why": why,
-           "facts": {"swap_mb": round(swap, 1), "train": train, "browsers": profs,
+           "facts": {"swap_mb": round(swap, 1), "free_mb": free, "train": train, "browsers": profs,
                      "models": models}}
     os.makedirs(STATE, exist_ok=True)
     tmp = SLOT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(rec, f, ensure_ascii=False, indent=1)
     os.replace(tmp, SLOT)
-    print("[res] %s ｜ swap %dMB ｜ 训练 %s ｜ 浏览器 %s ｜ 模型 %s"
-          % (slot, swap, "是" if train else "否", ",".join(profs) or "无", ",".join(models) or "无"))
+    print("[res] %s ｜ 可用 %dMB ｜ swap %dMB（历史） ｜ 训练 %s ｜ 浏览器 %s ｜ 模型 %s"
+          % (slot, free, swap, "是" if train else "否", ",".join(profs) or "无",
+             ",".join(models) or "无"))
+    print("[res] 本时段平台：%s（%s）" % ((pf or {}).get("id"), (pf or {}).get("note")))
     print("[res] 允许：%s ｜ %s" % (",".join(sorted(allowed)) or "无", why))
     return 0
 
@@ -146,14 +216,16 @@ def status():
 def self_test():
     """负控：把 swap 拉高必须降档；训练+夜间必须只给训练与发帖。"""
     cases = []
-    cases.append(("swap 3000 → DENY-NEW", decide(3000, True, ["browser-bilibili"], ["qwen"], 3)[0] == "DENY-NEW"))
-    cases.append(("swap 1000 → DRAIN", decide(1000, True, [], [], 12)[0] == "DRAIN"))
-    cases.append(("swap 0 + 夜间训练 → TRAIN-NIGHT", decide(0, True, [], [], 3)[0] == "TRAIN-NIGHT"))
-    cases.append(("夜间训练不发会话", "session1" not in decide(0, True, [], [], 3)[1]))
-    cases.append(("夜间训练仍允许发帖", "post" in decide(0, True, [], [], 3)[1]))
-    cases.append(("白天训练+1浏览器 → 只 1 号轻量", decide(0, True, ["browser-bilibili"], [], 14)[0] == "TRAIN+LIGHT"))
-    cases.append(("白天训练+浏览器空闲 → 允许采集", "collect" in decide(0, True, [], [], 14)[1]))
-    cases.append(("无训练+浏览器空闲 → 双号", decide(0, False, [], [], 14)[0] == "FULL"))
+    cases.append(("可用 500MB → DENY-NEW", decide(9000, 500, True, [], [], 3)[0] == "DENY-NEW"))
+    cases.append(("可用 1000MB → DRAIN 但训练可续", "train" in decide(0, 1000, True, [], [], 12)[1]))
+    cases.append(("swap 高但可用 4G → 仍可并行（swap 只是历史）",
+                  decide(9000, 4000, True, [], [], 14)[0] == "PARALLEL"))
+    cases.append(("训练中仍允许实战会话", "session1" in decide(0, 4000, True, [], [], 14)[1]))
+    cases.append(("训练中仍允许发帖", "post" in decide(0, 4000, True, [], [], 3)[1]))
+    cases.append(("已有 1 个浏览器 → 新活等它退出",
+                  decide(0, 4000, True, ["browser-bilibili"], [], 14)[0] == "PARALLEL-1"))
+    cases.append(("平台轮转能产出平台", platform_now(9, 0) is not None))
+    cases.append(("未开账号的平台不排班", all(p["id"] != "xhs" for p in [platform_now(h, 0) for h in range(24)])))
     cases.append(("swap 解析出數字", isinstance(swap_mb(), float)))
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
