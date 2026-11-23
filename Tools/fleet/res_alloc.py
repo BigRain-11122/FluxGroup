@@ -49,15 +49,35 @@ SWAP_HARD = 2048         # MB，超过即禁止新开任何浏览器活
 # 并行 ≠ 同时开所有平台：真正的并行是"训练常驻 + 永远有一条实战线"，平台按时间片换手，
 # 保证任何时刻只有一个浏览器 profile（内存与 browserd 单线程两条限制都要求这样）。
 PLATFORMS = [
+    # 每条都必须有"实测证据"。没验过的写 need-login / need-account，不许先排班后失望。
     {"id": "bilibili", "profile": "browser-bilibili", "state": "live", "weight": 5,
-     "note": "双号养号主线：看/赞/弹/评论/投币/收藏/关注"},
+     "actions": ["read", "like", "danmaku", "comment", "coin", "fav", "follow"],
+     "note": "双号养号主线", "evidence": "2026-11-23 双号 GREEN、六动作已上线、今日发帖/副动作有数"},
     {"id": "gzh", "profile": "browser-gzh", "state": "building", "weight": 3,
-     "note": "公众号：采集通，供给待接镜像源；不能出稿"},
-    {"id": "xhs", "profile": "browser-xhs", "state": "need-account", "weight": 1,
-     "note": "小红书：无账号无 profile，需 CEO 注册，暂不排班"},
-    {"id": "douyin", "profile": "browser-douyin", "state": "need-account", "weight": 1,
-     "note": "抖音：同上"},
+     "actions": ["read"],
+     "note": "采集通；无发布 API，发布须后台人工", "evidence": "单篇 3.0 秒取全字段；批量 3/4 入库"},
+    {"id": "toutiao", "profile": "browser-multi", "state": "read", "weight": 2,
+     "actions": ["read"],
+     "note": "头条搜索可读，可做选题/语料源；发布未验",
+     "evidence": "2026-11-23 实测：title 正常、正文 1894 字、10 个结果卡、无登录墙"},
+    {"id": "chejiahao", "profile": "browser-gzh", "state": "read", "weight": 2,
+     "actions": ["read"],
+     "note": "汽车之家车家号，对标对象镜像语料",
+     "evidence": "实测作者页翻页取 /info/，一次建池 30 条、正文 1662–3693 字"},
+    {"id": "zhihu", "profile": "browser-zhihu", "state": "need-login", "weight": 0,
+     "actions": ["read"],
+     "note": "知乎：未登录几乎无内容，需扫码登录一次",
+     "evidence": "2026-11-23 实测：首页正文仅 468 字、搜索页被拦、内容块 0"},
+    {"id": "weibo", "profile": "browser-multi", "state": "need-login", "weight": 0,
+     "actions": ["read"],
+     "note": "微博：未登录直接跳登录页",
+     "evidence": "2026-11-23 实测：title=登录-微博、正文 96 字、卡片 0"},
+    {"id": "xhs", "profile": "browser-xhs", "state": "need-account", "weight": 0,
+     "actions": [], "note": "小红书：无账号", "evidence": "未注册，未验"},
+    {"id": "douyin", "profile": "browser-douyin", "state": "need-account", "weight": 0,
+     "actions": [], "note": "抖音：无账号", "evidence": "未注册，未验"},
 ]
+
 SLICE_MIN = 90            # 每个平台占用时长（分钟）
 
 
@@ -142,7 +162,7 @@ def platform_now(hour=None, minute=0):
     """按时间片轮转出当前该用哪个平台（只在 state=live/building 里轮）。"""
     hour = datetime.now().hour if hour is None else hour
     minute = datetime.now().minute if minute is None else minute
-    live = [p for p in PLATFORMS if p["state"] in ("live", "building")]
+    live = [p for p in PLATFORMS if p["state"] in ("live", "read", "building") and (p.get("weight") or 0) > 0]
     if not live:
         return None
     # 加权轮转：权重高的占更多片
@@ -225,7 +245,10 @@ def self_test():
     cases.append(("已有 1 个浏览器 → 新活等它退出",
                   decide(0, 4000, True, ["browser-bilibili"], [], 14)[0] == "PARALLEL-1"))
     cases.append(("平台轮转能产出平台", platform_now(9, 0) is not None))
-    cases.append(("未开账号的平台不排班", all(p["id"] != "xhs" for p in [platform_now(h, 0) for h in range(24)])))
+    cases.append(("未开账号的平台不排班", all(p["id"] not in ("xhs", "douyin", "zhihu", "weibo")
+                                        for p in [platform_now(h, 0) for h in range(24)])))
+    cases.append(("可读平台能进轮转", any(p["id"] in ("bilibili", "toutiao", "chejiahao", "gzh")
+                                          for p in [platform_now(h, 0) for h in range(24)])))
     cases.append(("swap 解析出數字", isinstance(swap_mb(), float)))
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
