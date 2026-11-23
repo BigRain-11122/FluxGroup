@@ -44,6 +44,13 @@ AI_PAT = [
     r"总结一下|简单来说|总的来说",
     r"在(数字化|智能化|新能源)?浪潮下",
     r"赋能|助力(行业|用户)",
+    # 2026-11-23 工艺席实测：公文腔 3/3 全漏，而规格里公文腔是一票否决
+    r"为(贯彻|落实|深入)(贯彻|落实)?",
+    r"现将(有关|相关)?(事项|情况|要求)",
+    r"致力于(打造|成为|提供)",
+    r"闭环|抓手|高质量发展|持续推进",
+    r"一站式(解决方案|服务)|全链路",
+    r"进一(步|加强)|着力|切实",
 ]
 
 
@@ -99,6 +106,11 @@ def profile(arts):
 # 每维允许的相对偏差（超过才算"不像"）。数值来自对本轮 4 篇真稿的观察，
 # 不是拍脑袋的"标准"；语料够了要重标定，标定记录写进 GZH-TRAIN-SPEC。
 N_MIN = 30      # 比例维度在 n=30 前不可估计；不到就只报数，禁止出"过/不过"
+
+# 2026-11-23 内容工艺席实测：现有语料是 4 篇机构通稿，不是对标对象本人，故这四维
+# 全部失真——title_q_pct 方向甚至相反（真稿 0%，而文档写"问句占比最高"）。
+# 换成语料=对标对象本人并重标定之前，这四维**只报数、不判生死**。
+SUSPENDED = {"title_len_med", "title_num_pct", "title_q_pct", "heads_med"}
 TOL = {
     "title_len_med": 0.35,
     "title_num_pct": 25.0,     # 百分点
@@ -123,6 +135,9 @@ def compare(ours, ref):
         a, b = o.get(k), r.get(k)
         if a is None or b is None:
             rows.append((k, a, b, None, "跳过（一侧为空）"))
+            continue
+        if k in SUSPENDED:
+            rows.append((k, a, b, None, "停用（语料未换成对标对象，需重标定）"))
             continue
         if k.endswith("_pct"):
             diff, ok = abs(a - b), abs(a - b) <= tol
@@ -196,14 +211,21 @@ def self_test():
     ok2, _ = compare(alt, base)
     cases.append(("全偏离→判红", ok2 is False))
 
-    # 单维篡改：只把标题拉长，也必须红（证明逐维真的在读）
-    mut = [dict(x, title=x["title"] * 3) for x in base]
+    # 单维篡改：只把**未停用**的开篇拉长，也必须红（证明判决维真的在读）
+    mut = [dict(x, lead="短") for x in base]
     ok3, d3 = compare(mut, base)
-    cases.append(("只改标题长度→红", ok3 is False and "title_len_med" in d3["bad"]))
+    cases.append(("只改开篇长度→红", ok3 is False and "lead_len_med" in d3["bad"]))
+
+    # 停用维度不得影响结论：把停用维度的值改到离谱，结论仍须为"过"
+    mut2 = [dict(x, heads=["a"], title=x["title"][:3]) for x in base]
+    ok4, _ = compare(mut2, base)
+    cases.append(("停用维度不影响结论", ok4 is True))
 
     # AI 腔
     ai = [{"title": "x", "text": "作为一个人工智能，首先，我们应该看到其次，总结一下。"}]
     cases.append(("AI 腔被命中", len(ai_flavor(ai)) >= 2))
+    gongwen = [{"title": "x", "text": "为贯彻落实相关要求，现将有关事项通知如下，我们致力于打造一站式解决方案，赋能行业高质量发展。"}]
+    cases.append(("公文腔被命中（原 3/3 全漏）", len(ai_flavor(gongwen)) >= 2))
     cases.append(("干净稿不误伤", len(ai_flavor(base)) == 0))
 
     # 洗稿
