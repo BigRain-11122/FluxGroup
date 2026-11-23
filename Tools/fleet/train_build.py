@@ -40,6 +40,9 @@ MIN_LEN, MAX_LEN = 4, 60
 _LEN = "8-35 字，一到两句话"
 # 2026-11-20：实测实投文案语感 0.5/20（闸按"口语助词种类"计分）、人味 10.6/20。
 # 问题不在模型，在指令从没要求过这两件事。训练与推理共用这份文本，改这里等于同时改两边。
+# 2026-11-23 CEO「偶尔有一些情绪化的符号或者烂大街的回复其实也还行，少点就好，
+# 我说了要有人味」：所以从"绝对禁"改成"限频"——禁止清单仍在，但允许偶尔用一个，
+# 全清零会让模型连真人那点毛边都没有。
 # 2026-11-20：18 条实采里 6 条以"绝了"收句——这不是模型坏，是语料里这个词占比高，
 # 指令没禁它。烂梗词与空夸词一样，必须在指令里点名禁，否则闸只能一条条拒（通过率 67%）。
 # 2026-11-20 二次校正：原句把"具体细节"列成（镜头/剪辑/台词/配乐），18 条实采里
@@ -283,6 +286,32 @@ def ai_smell(text):
     return ""
 
 
+_EMOJI_PAT = re.compile("[\U0001F300-\U0001FAFF\u2600-\u27BF]")
+
+
+def _has_emoji(t):
+    return bool(_EMOJI_PAT.search(t) or re.search(r"\[[^\]]{1,10}\]", t or ""))
+
+
+def cap_quota(rows, pred, quota, salt="q"):
+    """把满足 pred 的行压到不超过 quota 占比——**低频允许，不是清零**。
+
+    CEO 2026-11-23：「偶尔有一些情绪化的符号或者烂大街的回复其实也还行，少点就好，
+    我说了要有人味」。所以烂梗/表情不该被 100% 剔掉：真人本来就会偶尔用，
+    全清零反而是机器味。这里只限频。
+    """
+    if not rows or quota is None or quota < 0:
+        return rows, 0
+    hit_idx = [i for i, r in enumerate(rows) if pred(r.get("text") or "")]
+    limit = int(len(rows) * quota)
+    if len(hit_idx) <= limit:
+        return rows, 0
+    hit_idx.sort(key=lambda i: hashlib.sha1(("%s:%d" % (salt, i)).encode()).hexdigest())
+    keep = set(hit_idx[:limit])
+    out = [r for i, r in enumerate(rows) if (i not in set(hit_idx)) or (i in keep)]
+    return out, len(hit_idx) - len(keep)
+
+
 def train_floor(t):
     """训练语料的**合规底线**——不是出稿闸。
 
@@ -428,6 +457,10 @@ def main():
                     help="句内 4-gram 里低频（有信息）占比下限；低于此值视为口头禅句，0=关闭")
     ap.add_argument("--df-cap", type=float, default=0.02,
                     help="4-gram 文档频率高于该比例视为高频短语")
+    ap.add_argument("--cliche-quota", type=float, default=0.10,
+                    help="烂大街词（绝了/氛围感…）允许占比上限：低频允许，不是清零")
+    ap.add_argument("--emoji-quota", type=float, default=0.20,
+                    help="带表情的行允许占比上限（真实 B 站约 20%%）")
     ap.add_argument("--seed", type=int, default=20261117)
     a = ap.parse_args()
     if a.self_test:
@@ -463,7 +496,9 @@ def main():
         seen.add(h)
         if a.ban_ai:
             why = ai_smell(t)
-            if why:
+            # 只拦结构性 AI 腔（"作为一个…""首先/其次"这类）；烂梗放行，
+            # 交给后面的 --cliche-quota 限频（全禁会把人味一起禁掉）。
+            if why and why.startswith("AI 腔"):
                 dropped.setdefault("ai_smell", 0)
                 dropped["ai_smell"] += 1
                 dropped.setdefault("ai_smell_why", {})
@@ -662,6 +697,28 @@ def main():
             dropped["voice_topup"] = added_v
             print("[build] 补语感样本 %d 条（带语气词的行补到 %.0f%%）"
                   % (added_v, a.voice_quota * 100))
+
+    # 烂梗/表情：低频允许（CEO 2026-11-23「偶尔有一些情绪化的符号或者烂大街的回复
+    # 其实也还行，少点就好，我说了要有人味」）。放在最后压配额，不参与前面的淘汰。
+    if rows:
+        try:
+            import comment_taste as _ctc
+            cli = tuple(getattr(_ctc, "CLICHE_CORPUS", ()) or ())
+        except Exception:
+            cli = ()
+        if cli and a.cliche_quota is not None:
+            rows, cut_c = cap_quota(rows, lambda t: any(w in t for w in cli),
+                                    a.cliche_quota, salt="cliche")
+            if cut_c:
+                dropped["cliche_cap"] = cut_c
+                print("[build] 烂梗限频：保留 ≤%.0f%%，压掉 %d 条（低频允许，不清零）"
+                      % (a.cliche_quota * 100, cut_c))
+        if a.emoji_quota is not None:
+            rows, cut_e = cap_quota(rows, _has_emoji, a.emoji_quota, salt="emoji")
+            if cut_e:
+                dropped["emoji_cap"] = cut_e
+                print("[build] 表情限频：保留 ≤%.0f%%，压掉 %d 条（真实 B 站约 20%%）"
+                      % (a.emoji_quota * 100, cut_e))
 
     rnd = random.Random(a.seed)
     quota = (os.environ.get("FLUX_BUILD_KIND_QUOTA") == "1"
