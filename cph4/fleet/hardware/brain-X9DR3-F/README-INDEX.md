@@ -18,12 +18,10 @@
 | 系统里改 BMC 的 IP/账号 | IPMICFG | **齐**（含 Win32/64、Linux32/64、DOS、UEFI、FreeBSD） | `管理软件/IPMICFG_1.38.0_*` |
 | 批量刷多块板 | SUM | **齐**（Win + Linux） | `管理软件/SUM_2.15.0_*` |
 | 命令行 IPMI 批量操作 | SMCIPMITool | **齐**（Win + Linux，自带 JRE） | `管理软件/SMCIPMITool_*` |
-| 装系统后的驱动 | Intel C600 芯片组 INF / i350 网卡 / RSTe | **未下载**（见 §五，多为 Win10 内置，按需再取） | — |
-| 怀疑内存/CPU 有硬故障时做整机诊断 | Super Diagnostics Offline（UEFI 启动盘） | **未下载**（可选，见下方说明） | — |
+| 怀疑内存/CPU 有硬故障时做整机诊断 | Super Diagnostics Offline（UEFI 启动盘） | **齐**（1.12.0，含官方使用手册） | `管理软件/SDO_SuperDiag_1.12.0/X86/…_For_X86.zip`（解压到 U 盘即可启动） |
 
-两个未下载项的判断：
-1. **Windows 驱动**：X9 世代已停产，官网该板的驱动页按 OS 选型后不再给独立包。Win10 对 C606 芯片组和 i350 网卡多数是**内置驱动**，装完先看设备管理器；只有用 SCU 组 RAID 才需要 Intel RSTe。
-2. **SDO 诊断盘**：只有出现"能点亮但怀疑硬件有问题"时才用；如果你今晚只是装配+装系统，可以不下。
+只差一项，且不建议现在补：
+- **Windows 平台驱动**（Intel C600 芯片组 INF / i350 网卡 / RSTe / Matrox VGA）：X9 世代已 EOL，官网该板的驱动页按 OS 选型后不再给独立包。Win10 对 C606 和 i350 多数是**内置驱动**，装完先看设备管理器缺哪个再补，比事先下一堆版本更省事；只有用 SCU 组 RAID 才非装 Intel RSTe 不可。
 
 ---
 
@@ -144,6 +142,7 @@ brain-X9DR3-F/
     ├── SUM_2.15.0_Win_x86_64/
     ├── SUM_2.15.0_Linux_x86_64_20251104.tar
     ├── SuperDoctor5UpdatePackage_5.23.0/
+    ├── SDO_SuperDiag_1.12.0/                  UEFI 整机诊断盘（X86/ARM 两个 zip，含使用手册）
     └── SAA_Migration_Guide/
 ```
 
@@ -152,3 +151,4 @@ brain-X9DR3-F/
 - 三个 Linux `.tar` 全部 `tar -tzf` 通过；SD5 内层 zip `unzip -t` 通过。
 - 五个 PDF 页数实测：111 / 1 / 12 / 105 / 195，无零字节或损坏。
 - IPMIView Windows 侧确认为 PE32 可执行；SMCIPMITool 目录内 `SMCIPMITool.exe` 与 `KVMPlugIn.jar` 在位。
+- 2026-11-23 补：SDO 诊断盘 1.12.0 已下（X86/ARM 各一个 zip，`unzip -t` 通过，内含 `SuperDiag.efi`、`startup.nsh` 与官方使用手册 PDF）。
