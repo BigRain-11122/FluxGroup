@@ -99,15 +99,18 @@ def run_seat(station, seat_id, payload, root=None):
     t0 = time.time()
     endpoint = lm.endpoint()
     text = ""
+    meta = {}
     try:
         text = lm.generate(build_prompt(seat, payload), cls=seat.get("cls") or "triage",
-                           timeout=120, why="agent-team:%s" % seat_id)
+                           timeout=120, why="agent-team:%s" % seat_id, meta=meta)
     except Exception as e:
         text = ""
         audit(station, {"seat": seat_id, "err": str(e)[:120]}, root)
     ok, why = judge(seat, text)
     row = {"ts": datetime.now().isoformat(timespec="seconds"), "station": station,
            "seat": seat_id, "cls": seat.get("cls"), "endpoint": endpoint,
+           "model": meta.get("model") or "-",
+           "num_ctx": meta.get("num_ctx"),
            "ms": int((time.time() - t0) * 1000), "ok": ok, "why": why,
            "degraded": (not ok), "chars": len(text or "")}
     audit(station, row, root)
