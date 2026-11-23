@@ -298,3 +298,5 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-23T19:12:09 LANE rc=0 done=- 
 2026-11-23T19:12:09 TICK commit=committed:7 converge=merged-behind-4 push=pushed lane=lane-rc-0(0 done)
 2026-11-23T19:16:31 RECEIPT RUNNING gpu=3 vram=10216MB busy=lora
+2026-11-23T19:36:21 FATAL TimeoutExpired(['git', '-C', 'K:\\Fluxgroup\\FluxGroup', 'fetch', 'origin', '--quiet'], 150)
+2026-11-23T19:36:31 RECEIPT RUNNING gpu=1 vram=10199MB busy=lora
