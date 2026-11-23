@@ -1,8 +1,23 @@
 {
  "node": "bm-c",
- "ts": "2026-11-23T09:12:07",
- "jobs": [],
- "idle_reason": "OFFLINE (hb age Nones, no fresh lane receipt)",
- "lane_ok": false,
- "capacity_note": "OFFLINE (hb age Nones, no fresh lane receipt)"
+ "ts": "2026-11-23T18:20:18",
+ "jobs": [
+  {
+   "id": "asset-lib-char-gen-2026-11-17",
+   "title": "[资产储备（角色 LoRA / 音色库）] 角色包出图（本机 ComfyUI，1024²，同 seed 组）",
+   "cmd": "python Tools/fleet/char_gen.py --node bm-c --limit 12 --receipt media/asset/characters/MANIFEST-2026-11-17.json",
+   "cwd": "",
+   "needs": "gpu",
+   "deliverable": "media/asset/characters/MANIFEST-2026-11-17.json",
+   "need_mb": null,
+   "model": "none",
+   "prompt": "",
+   "when_all": [],
+   "llm": null,
+   "timeout_s": null
+  }
+ ],
+ "idle_reason": "",
+ "lane_ok": true,
+ "capacity_note": "ram-unknown"
 }
