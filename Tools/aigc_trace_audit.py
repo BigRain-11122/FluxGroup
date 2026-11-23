@@ -198,6 +198,10 @@ def main() -> int:
     ap.add_argument("--src")
     ap.add_argument("--project")
     ap.add_argument("--json")
+    ap.add_argument("--waive", nargs="*", default=[],
+                    help="要豁免的判据 id（须同时给 --waiver-reason 与 --waiver-evidence）")
+    ap.add_argument("--waiver-reason")
+    ap.add_argument("--waiver-evidence")
     ap.add_argument("--self-test", action="store_true")
     args = ap.parse_args()
 
@@ -214,11 +218,28 @@ def main() -> int:
     if args.project:
         findings += audit_mtime(Path(args.project))
 
+    waivers = []
+    if args.waive:
+        # 豁免不是静默放过：必须写理由与证据文件，且证据必须真实存在。
+        if not args.waiver_reason or not args.waiver_evidence:
+            print(json.dumps({"error": "waiver needs --waiver-reason and --waiver-evidence"},
+                             ensure_ascii=False))
+            return 2
+        if not Path(args.waiver_evidence).exists():
+            print(json.dumps({"error": "waiver evidence not found",
+                              "path": args.waiver_evidence}, ensure_ascii=False))
+            return 2
+        for wid in args.waive:
+            waivers.append({"id": wid, "reason": args.waiver_reason,
+                            "evidence": args.waiver_evidence})
+        findings = [f for f in findings if f["id"] not in set(args.waive)]
+
     highs = [f for f in findings if f["level"] == "high"]
     report = {"files": {"doc": args.doc, "src": args.src, "project": args.project},
-              "findings": findings,
+              "findings": findings, "waivers": waivers,
               "high": len(highs),
-              "verdict": "HIGH_RISK" if highs else ("NOTICE" if findings else "CLEAN")}
+              "verdict": "HIGH_RISK" if highs else ("WAIVED" if waivers else
+                                                    ("NOTICE" if findings else "CLEAN"))}
     text = json.dumps(report, ensure_ascii=False, indent=1)
     print(text)
     if args.json:

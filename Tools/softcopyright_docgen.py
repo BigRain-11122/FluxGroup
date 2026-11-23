@@ -174,6 +174,94 @@ def to_pdf(md_text: str, name: str, ver: str, out_pdf: Path) -> int:
     return total_pages
 
 
+def to_pdf_rich(md_path: Path, name: str, ver: str, out_pdf: Path) -> int:
+    """Platypus 版渲染器：标题/正文/表格/图片都进 PDF，页眉带页码。软著要的是图。"""
+    import re as _re
+
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.lib.units import mm
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    from reportlab.platypus import (Image, Paragraph, SimpleDocTemplate, Spacer, Table,
+                                    TableStyle)
+
+    font_path = Path("C:/Windows/Fonts/simsun.ttc")
+    if not font_path.exists():
+        font_path = Path("C:/Windows/Fonts/msyh.ttc")
+    pdfmetrics.registerFont(TTFont("CJK", str(font_path), subfontIndex=0))
+
+    h1 = ParagraphStyle("h1", fontName="CJK", fontSize=16, leading=22, spaceAfter=10)
+    h2 = ParagraphStyle("h2", fontName="CJK", fontSize=13, leading=19, spaceBefore=10, spaceAfter=6)
+    h3 = ParagraphStyle("h3", fontName="CJK", fontSize=11, leading=16, spaceBefore=8, spaceAfter=4)
+    body = ParagraphStyle("body", fontName="CJK", fontSize=9.5, leading=14, spaceAfter=4)
+
+    base = md_path.parent
+    story, table_buf = [], []
+
+    def flush_table():
+        nonlocal table_buf
+        if len(table_buf) < 2:
+            table_buf = []
+            return
+        rows = [[c.strip() for c in r.strip().strip("|").split("|")] for r in table_buf
+                if not set(r.replace("|", "").strip()) <= {"-", ":"}]
+        if rows:
+            t = Table(rows, repeatRows=1)
+            t.setStyle(TableStyle([("FONTNAME", (0, 0), (-1, -1), "CJK"),
+                                   ("FONTSIZE", (0, 0), (-1, -1), 8),
+                                   ("LEADING", (0, 0), (-1, -1), 10),
+                                   ("GRID", (0, 0), (-1, -1), 0.25, (0.6, 0.6, 0.6)),
+                                   ("VALIGN", (0, 0), (-1, -1), "TOP")]))
+            story.append(t)
+            story.append(Spacer(1, 4))
+        table_buf = []
+
+    for raw in md_path.read_text(encoding="utf-8-sig").splitlines():
+        line = raw.rstrip()
+        if line.startswith("|"):
+            table_buf.append(line)
+            continue
+        flush_table()
+        if not line:
+            continue
+        img = _re.match(r"!\[[^\]]*\]\(([^)]+)\)", line)
+        if img:
+            p = base / img.group(1)
+            if p.exists():
+                from PIL import Image as PILImage
+                iw, ih = PILImage.open(p).size
+                w = 95 * mm
+                story.append(Image(str(p), width=w, height=w * ih / iw))
+                story.append(Spacer(1, 4))
+            continue
+        if line.startswith("# "):
+            story.append(Paragraph(line[2:], h1))
+        elif line.startswith("## "):
+            story.append(Paragraph(line[3:], h2))
+        elif line.startswith("### "):
+            story.append(Paragraph(line[4:], h3))
+        elif line.startswith("- "):
+            story.append(Paragraph("• " + line[2:], body))
+        else:
+            txt = line.lstrip("> ").replace("&", "&amp;").replace("<", "&lt;")
+            story.append(Paragraph(txt, body))
+    flush_table()
+
+    def on_page(canvas, doc):
+        canvas.setFont("CJK", 8.5)
+        canvas.drawString(20 * mm, A4[1] - 12 * mm,
+                          f"{name} {ver} 软件设计说明书  第 {doc.page} 页 共 {doc.page} 页")
+
+    out_pdf.parent.mkdir(parents=True, exist_ok=True)
+    doc = SimpleDocTemplate(str(out_pdf), pagesize=A4,
+                            leftMargin=20 * mm, rightMargin=16 * mm,
+                            topMargin=20 * mm, bottomMargin=16 * mm,
+                            title=f"{name} {ver} 软件设计说明书")
+    doc.build(story, onFirstPage=on_page, onLaterPages=on_page)
+    return doc.page
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--project", required=True)
