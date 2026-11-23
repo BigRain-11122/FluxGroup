@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-23T07:03:07",
+ "ts": "2026-11-23T11:16:46",
  "base": [
   {
    "n": 10,
-   "avg": 54.0,
-   "pass_rate": 10,
-   "avg_logic": 9.0,
-   "avg_human": 5.0,
+   "avg": 37.5,
+   "pass_rate": 0,
+   "avg_logic": 0.0,
+   "avg_human": 0.0,
    "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "你用的那个耳机参数是多少？我试过同参数组合，降噪效果确实不如预期。",
-    "你设置的声场参数我测了，人声分离度明显，但高频平板感确实存在。"
+    "《风景》/《难忘的情怀》/《借东西的小人阿莉埃蒂》",
+    "《2025 年度最令人讨厌歌曲 TOP10》"
    ],
-   "seg": "tech_nerd",
+   "seg": "music_seeker",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 55.5,
-   "pass_rate": 30,
-   "avg_logic": 14.0,
-   "avg_human": 6.0,
+   "avg": 66.8,
+   "pass_rate": 60,
+   "avg_logic": 18.0,
+   "avg_human": 8.0,
    "avg_natural": 20.0,
-   "reject": 4,
-   "seg": "tech_nerd",
+   "reject": 0,
+   "seg": "music_seeker",
    "sample": [
-    "我想问问博主，米家智能卫浴系列的换镜镜头用的是索尼还是佳能",
-    "同问，请问机顶盒的组态具体是怎么配置的？校准了多久？"
+    "听到第一个BGM我就知道是谁了",
+    "这个BGM我是鼠鼠鼠"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-063231/ckpt400"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-110225/ckpt400"
 }
