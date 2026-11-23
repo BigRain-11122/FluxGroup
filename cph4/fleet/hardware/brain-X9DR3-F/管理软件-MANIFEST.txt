@@ -35,3 +35,19 @@ fa8d991ae9561bf400d404113bd2a73a68999250940b0db794f3cc3378e45a03  SUM_2.15.0_Win
 3. 批量刷 BIOS/BMC           : SUM_2.15.0_Win_x86_64/sum.exe
 4. 单块板刷 BMC（无系统时）   : 顶层 SMT_X9_362.zip 里 Windows1.22/wUpdate.exe 或 Dos 1.21/dUpdate.exe
 5. 怀疑内存/CPU 硬故障         : SDO_SuperDiag_1.12.0/X86/..._For_X86.zip → 解压到 FTA32 U 盘，UEFI 启动跑 SuperDiag.efi
+
+## 四、已解压位置（2026-11-23 全部解开，原始压缩包保留未删）
+
+| 内容 | 解压后目录 | 入口文件 |
+|---|---|---|
+| BIOS 3.4 | `../X9DRi0.630/` | `AFUDOSU.SMC`（DOS 刷写）、`X9DRi0.630`（ROM）、`Readme…txt` |
+| BMC 3.62 | `../BMC_3.62/` | `Windows1.22/wUpdate.exe`、`Linux1.21/lUpdate`、`Dos 1.21/dUpdate.exe`、`SMT_X9_362.bin` |
+| IPMIView Linux | `IPMIView_2.25.0_…_bundleJRE_Linux_x64/` | `./IPMIView20`（已 +x，自带 JRE） |
+| SMCIPMITool Linux | `SMCIPMITool_2.31.0_…_bundleJRE_Linux_x64/` | `./SMCIPMITool`（已 +x） |
+| SUM Linux | `SUM_2.15.0_Linux_x86_64/` | `./sum`（已 +x） |
+| SDO 诊断盘 | `SDO_SuperDiag_1.12.0/X86/x86_extracted/`、`…/ARM/arm_extracted/` | `SuperDiag.efi` + `startup.nsh`（拷到 FAT32 U 盘，UEFI 启动） |
+| SD5 升级包 | `SuperDoctor5UpdatePackage_5.23.0/extracted/` | `start_sd5.sh` / `start_sd5.bat`、`installSD5Service.sh` |
+| Windows 侧（IPMICFG/SMCIPMITool/SUM/SAA） | 下载时已由 Safari 自动解压 | 见 §三 入口 |
+
+注意：Safari 自动解压过 zip，Linux 侧是我用 tar/unzip 解的；Linux 二进制已补 +x，
+直接 `scp -r` 到大脑机即可用，不需要在那边再解开压缩包。

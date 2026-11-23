@@ -131,18 +131,26 @@ brain-X9DR3-F/
 ├── X9_DP_memory_config.pdf      X9 双路内存插法（12 页）
 ├── X9_SMT_IPMI.pdf              X9 平台 IPMI 手册（105 页）
 ├── IPMI_Users_Guide.pdf         IPMI 通用指南（195 页，备用）
-├── X9DRi0_630.zip               BIOS 3.4（含 DOS 刷写器 AFUDOSU.SMC）
-├── SMT_X9_362.zip               BMC 3.62（含 DOS/Win/Linux 刷写器）
-└── 管理软件/                     Windows + Linux 双套（约 1.0GB，不入 git）
+├── X9DRi0_630.zip               BIOS 3.4（原包，含 DOS 刷写器）
+├── X9DRi0.630/                  ↑ 已解压：AFUDOSU.SMC + X9DRi0.630(ROM) + Readme + ami.bat
+├── SMT_X9_362.zip               BMC 3.62（原包）
+├── BMC_3.62/                    ↑ 已解压：Windows1.22/wUpdate.exe、Linux1.21/lUpdate、Dos 1.21/、.bin、固件更新说明 PDF
+└── 管理软件/                     Windows + Linux 双套（约 1.9GB 含解压件，不入 git）
     ├── IPMICFG_1.38.0_build.260701/           Win32/64 + Linux32/64 + DOS + UEFI + FreeBSD
     ├── IPMIView_2.25.0_..._Windows.exe
-    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64.tar
+    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64.tar     原包
+    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64/        ↑ 已解压，入口 ./IPMIView20
     ├── SMCIPMITool_2.31.0_..._bundleJRE_Windows/
-    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64.tar
+    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64.tar   原包
+    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64/      ↑ 已解压，入口 ./SMCIPMITool
     ├── SUM_2.15.0_Win_x86_64/
-    ├── SUM_2.15.0_Linux_x86_64_20251104.tar
+    ├── SUM_2.15.0_Linux_x86_64_20251104.tar             原包
+    ├── SUM_2.15.0_Linux_x86_64/                         ↑ 已解压，入口 ./sum
     ├── SuperDoctor5UpdatePackage_5.23.0/
-    ├── SDO_SuperDiag_1.12.0/                  UEFI 整机诊断盘（X86/ARM 两个 zip，含使用手册）
+    │   └── extracted/                                    ↑ 已解压，入口 start_sd5.sh / start_sd5.bat
+    ├── SDO_SuperDiag_1.12.0/                  UEFI 整机诊断盘
+    │   ├── X86/x86_extracted/                          已解压：SuperDiag.efi + startup.nsh + 使用手册
+    │   └── ARM/arm_extracted/                          已解压
     └── SAA_Migration_Guide/
 ```
 
@@ -152,3 +160,4 @@ brain-X9DR3-F/
 - 五个 PDF 页数实测：111 / 1 / 12 / 105 / 195，无零字节或损坏。
 - IPMIView Windows 侧确认为 PE32 可执行；SMCIPMITool 目录内 `SMCIPMITool.exe` 与 `KVMPlugIn.jar` 在位。
 - 2026-11-23 补：SDO 诊断盘 1.12.0 已下（X86/ARM 各一个 zip，`unzip -t` 通过，内含 `SuperDiag.efi`、`startup.nsh` 与官方使用手册 PDF）。
+- 2026-11-23 全部解压到位：BIOS→`X9DRi0.630/`、BMC→`BMC_3.62/`、三个 Linux 包与 SDO/SD5 内层包均已解开；Linux 二进制 `sum`、`SMCIPMITool`、`IPMIView20`、`lUpdate`、SD5 的 `.sh` 已补 `+x`，可直接 `scp -r` 到大脑机使用；原压缩包全部保留以便校验与重传。
