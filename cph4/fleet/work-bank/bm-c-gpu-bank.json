@@ -110,10 +110,10 @@
    "accept": "cph4/fleet/out/drama/EP007/ep007-gate.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-DRAMA-EP007.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP007.err.log",
-   "status": "pending",
+   "status": "claimed",
    "retries": 0,
    "seeded": "2026-11-21T00:48:36",
-   "claimed_ts": "2026-11-22T06:21:00",
+   "claimed_ts": "2026-11-24T04:46:02",
    "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
    "requeued_ts": "2026-11-22T06:11:46"
   },
