@@ -517,6 +517,19 @@ def main():
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    # 平台租约：不是本平台时段就让位（DEFER 退 75，调用方按"可重试"处理，不记 FAIL 退避）
+    try:
+        sys.path.insert(0, HERE)
+        import res_alloc
+        _rc, _why = res_alloc.may(a.platform)
+    except Exception as _e:
+        _rc, _why = 0, "仲裁器不可用（%s）：放行" % type(_e).__name__
+    if _rc == 75:
+        print("[collect] 让位：%s" % _why)
+        return 75
+    if _rc != 0:
+        print("[collect] 资源拒绝：%s" % _why)
+        return 76
     if a.discover_public:
         urls, why = discover_public(a.discover_public, limit=8, headed=a.headed)
         if urls is None:

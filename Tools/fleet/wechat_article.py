@@ -226,15 +226,162 @@ def _serp_standalone(keyword, page=1):
                 pass
 
 
+def _browser():
+    """统一的独立浏览器上下文（profile=browser-gzh，不碰养号线）。"""
+    sc = _sc()
+    mod, _ = sc._pw()
+    prof = os.path.expanduser("~/.fluxgroup/browser-gzh")
+    os.makedirs(prof, exist_ok=True)
+    kw = dict(user_data_dir=prof, headless=True, locale="zh-CN",
+              timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 900},
+              args=["--disable-blink-features=AutomationControlled"])
+    exe = getattr(sc, "CHROME", "") or ""
+    if exe and os.path.exists(exe):
+        kw["executable_path"] = exe
+    return mod, kw
+
+
+def _strip_html(h):
+    import re as _re
+    t = _re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", h or "", flags=_re.S | _re.I)
+    t = _re.sub(r"<br\s*/?>|</p>|</div>", "\n", t, flags=_re.I)
+    t = _re.sub(r"<[^>]+>", "", t)
+    for a, b in (("&nbsp;", " "), ("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"')):
+        t = t.replace(a, b)
+    return "\n".join(x.strip() for x in t.split("\n") if x.strip())
+
+
+def discover_chejiahao(author_id, pages=1, rng=None, limit=40):
+    """车家号作者页取文章链接（对标对象本人的镜像，公开可翻页）。
+
+    2026-11-23 实测：作者页 287 个链接里有 /info/<id>，详情页正文在 __NEXT_DATA__ 的
+    articleContent.content（HTML），比公众号网页稳定，不需要登录。
+    标注为"镜像"：只用于学写法，不声称是公众号原文。
+    """
+    rng = rng or random.Random()
+    mod, kw = _browser()
+    known = _seen(URLS)
+    added = 0
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page()
+            pg.set_default_timeout(15000)
+            for page in range(1, int(pages) + 1):
+                url = ("https://chejiahao.autohome.com.cn/authors/%s" % author_id
+                       + ("?page=%d" % page if page > 1 else ""))
+                pg.goto(url, wait_until="domcontentloaded", timeout=35000)
+                pg.wait_for_timeout(2500)
+                items = pg.evaluate("""()=>Array.from(document.querySelectorAll('a'))
+                    .map(a=>({t:(a.innerText||'').trim(), h:a.href.split('#')[0]}))
+                    .filter(x=>/\/info\/\d+/.test(x.h) && x.t.length>8)""")
+                seen_here = set()
+                for it in items:
+                    u = it["h"]
+                    if u in seen_here:
+                        continue
+                    seen_here.add(u)
+                    uid = _uid(u)
+                    if uid in known or added >= limit:
+                        continue
+                    known.add(uid)
+                    _append(URLS, {"_uid": uid, "url": u, "title": it["t"],
+                                   "source": "chejiahao", "mirror": True,
+                                   "author_id": str(author_id),
+                                   "found_at": datetime.now().isoformat(timespec="seconds")})
+                    added += 1
+                time.sleep(rng.uniform(3, 6))
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    return added
+
+
+def _extract_chejiahao(pg):
+    """从 __NEXT_DATA__ 取 articleContent：标题/正文/发布时间/作者。"""
+    raw = pg.evaluate("()=>{const e=document.getElementById('__NEXT_DATA__');"
+                      "return e?e.textContent:''}")
+    if not raw:
+        return None, "无 __NEXT_DATA__"
+    try:
+        j = json.loads(raw)
+    except Exception as e:
+        return None, "NEXT_DATA 解析失败：%s" % str(e)[:60]
+
+    def walk(o):
+        if isinstance(o, dict):
+            if "articleContent" in o and isinstance(o["articleContent"], dict):
+                return o["articleContent"]
+            for v in o.values():
+                r = walk(v)
+                if r:
+                    return r
+        elif isinstance(o, list):
+            for v in o:
+                r = walk(v)
+                if r:
+                    return r
+        return None
+
+    ac = walk(j)
+    if not ac:
+        return None, "NEXT_DATA 里没有 articleContent"
+    html = ac.get("content") or ""
+    text = _strip_html(html)
+    if len(text) < 100:
+        return None, "正文过短（%d 字）" % len(text)
+    heads = []
+    try:
+        import re as _re
+        heads = [x.strip() for x in _re.findall(r"<(?:h[1-3]|strong|b)[^>]*>(.*?)</", html, _re.S)]
+        heads = [_strip_html(h) for h in heads if 1 < len(_strip_html(h)) < 40][:40]
+    except Exception:
+        pass
+    paras = [x for x in text.split("\n") if x.strip()]
+    return {"title": ac.get("title") or "", "account": ac.get("authorName") or "42号车库(镜像)",
+            "publish_ts": ac.get("publishTime") or ac.get("createTime"),
+            "words": len(text), "paras": len(paras), "imgs": html.count("<img"),
+            "heads": heads, "lead": "\n".join(paras[:3]), "text": text,
+            "mirror": True}, ""
+
+
 def fetch(url, retries=1):
     """抓一篇。默认走自己的浏览器；不碰养号线的 daemon。"""
+    from urllib.parse import urlsplit as _us
+    host = _us(url).netloc.lower()
     for i in range(retries + 1):
-        art, why = _standalone(url)
+        art, why = (_fetch_chejiahao(url) if "autohome.com.cn" in host else _standalone(url))
         if art is not None:
             return art, ""
         if i < retries:
             time.sleep(5)
     return None, why
+
+
+def _fetch_chejiahao(url):
+    mod, kw = _browser()
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page()
+            pg.set_default_timeout(12000)
+            pg.goto(url, wait_until="domcontentloaded", timeout=35000)
+            pg.wait_for_timeout(2500)
+            art, why = _extract_chejiahao(pg)
+            if art is None:
+                return None, why
+            art.update({"_uid": _uid(url), "url": url,
+                        "fetched_at": datetime.now().isoformat(timespec="seconds")})
+            return art, ""
+        except Exception as e:
+            return None, "%s: %s" % (type(e).__name__, str(e)[:80])
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
 
 
 def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
@@ -321,6 +468,7 @@ def main():
     ap.add_argument("--url")
     ap.add_argument("--sogou")
     ap.add_argument("--serp")
+    ap.add_argument("--cj-author", help="车家号作者 id（对标对象镜像）")
     ap.add_argument("--pages", type=int, default=3)
     ap.add_argument("--harvest", type=int, default=0)
     ap.add_argument("--limit", type=int, default=0, help="每次最多抓几篇（防手滑抓太多）")
@@ -338,12 +486,26 @@ def main():
                  len(art.get("heads") or []), art.get("imgs") or 0))
         print("[gzh] 开头：%s" % (art.get("lead") or "")[:160].replace("\n", " / "))
         return 0
+    if a.cj_author:
+        n = discover_chejiahao(a.cj_author, pages=a.pages)
+        print("[gzh] 车家号建池 %d 条 → %s" % (n, os.path.relpath(URLS, ROOT)))
+        return 0 if n else 1
     if a.sogou or a.serp:
         kw = a.serp or a.sogou
         n, why = discover(kw, pages=a.pages, via=("sogou" if a.sogou else "serp"))
         print("[gzh] 建池 %d 条（%s）→ %s" % (n, why, os.path.relpath(URLS, ROOT)))
         return 0 if n or why == "ok" else 1
     if a.harvest:
+        # 平台租约：不是公众号时段就让位（退 75=可重试；绝不当成 FAIL 进退避）
+        try:
+            sys.path.insert(0, HERE)
+            import res_alloc
+            rc, why = res_alloc.may("gzh")
+        except Exception as e:
+            rc, why = 0, "仲裁器不可用（%s）：放行" % type(e).__name__
+        if rc != 0:
+            print("[gzh] 让位/拒绝 rc=%d：%s" % (rc, why))
+            return 75 if rc == 75 else 76
         lim = a.limit or a.harvest
         got, fail = harvest(min(lim, a.harvest))
         arts = [json.loads(l) for l in open(ARTICLES, encoding="utf-8")

@@ -52,6 +52,16 @@ def _now():
     return datetime.now()
 
 
+def _lease(platform):
+    """向资源仲裁器申请本平台租约。返回 (rc, why)；仲裁器不可用时放行（不因工具缺失停工）。"""
+    try:
+        sys.path.insert(0, HERE)
+        import res_alloc
+        return res_alloc.may(platform)
+    except Exception as e:
+        return 0, "仲裁器不可用（%s）：放行" % type(e).__name__
+
+
 def _rows(p):
     out = []
     try:
@@ -388,6 +398,21 @@ def _once_impl(dry=False):
             return 78          # EX_CONFIG：让 last exit code 非零
         return 0
     if task["phase"] == "harvest":
+        # 平台租约：不是公众号时段就让位。记 DEFER 且退 0——
+        # 记 FAIL 会触发退避，把语料永久压死（2026-11-23 踩过）。
+        rc, why = _lease("gzh")
+        if rc == 75:
+            rec.update(status="DEFER", secs=0, tail=why)
+            _append(LEDGER, rec)
+            refresh_screen(s, task, rec)
+            print("[gzh] 让位：%s" % why)
+            return 0
+        if rc != 0:
+            rec.update(status="DENY", secs=0, tail=why)
+            _append(LEDGER, rec)
+            refresh_screen(s, task, rec)
+            print("[gzh] 资源拒绝：%s" % why)
+            return 0
         r = act_harvest()
         rec.update(status="OK" if r["ok"] else "FAIL", secs=r["secs"], tail=r["tail"])
         _append(LEDGER, rec)
