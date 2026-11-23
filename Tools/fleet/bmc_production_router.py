@@ -15,11 +15,14 @@ import json, os, subprocess, time, glob, datetime
 REPO = r'K:\Fluxgroup\FluxGroup'
 OUT_JSON = os.path.join(REPO, r'cph4\fleet\queue-receipts\production-router-bm-c.json')
 OUT_DIR = r'D:\ComfyUI\ComfyUI\output'
+# U060 静默律：本脚本由 pythonw 承载（无控制台），子进程必须显式隐藏，
+# 否则每次 nvidia-smi / powershell 调用都会弹可见黑窗（2026-11-23 实测）。
+NO_WINDOW = 0x08000000
 
 def gpu_stats():
     try:
         r = subprocess.run(['nvidia-smi','--query-gpu=utilization.gpu,memory.used,memory.total','--format=csv,noheader,nounits'],
-                           capture_output=True, text=True, timeout=15)
+                           capture_output=True, text=True, timeout=15, creationflags=NO_WINDOW)
         u, mu, mt = [int(x.strip()) for x in r.stdout.strip().split(',')]
         return u, mu, mt
     except Exception:
@@ -38,7 +41,7 @@ def batch_alive(pattern):
     try:
         r = subprocess.run(['powershell','-NoProfile','-Command',
             f"(Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object {{ $_.CommandLine -match '{pattern}' }} | Measure-Object).Count"],
-            capture_output=True, text=True, timeout=15)
+            capture_output=True, text=True, timeout=15, creationflags=NO_WINDOW)
         return int(r.stdout.strip() or 0)
     except Exception:
         return -1

@@ -18,6 +18,10 @@ STATE = r'K:\Fluxgroup\.codely-cli\autodrive\state.json'
 BATCH_DIR = r'K:\Fluxgroup\.codely-cli\autodrive'
 os.makedirs(BATCH_DIR, exist_ok=True)
 
+# U060 静默律：本脚本由 pythonw 承载（无控制台），子进程必须显式隐藏，
+# 否则每次 nvidia-smi / powershell 调用都会弹可见黑窗（2026-11-23 实测）。
+NO_WINDOW = 0x08000000
+
 class MEMORYSTATUSEX(ctypes.Structure):
     _fields_ = [('dwLength', ctypes.wintypes.DWORD), ('dwMemoryLoad', ctypes.wintypes.DWORD),
                 ('ullTotalPhys', ctypes.c_ulonglong), ('ullAvailPhys', ctypes.c_ulonglong),
@@ -33,7 +37,8 @@ def ram_free_gb():
 def gpu_stats():
     try:
         out = subprocess.run(['nvidia-smi', '--query-gpu=utilization.gpu,memory.used,memory.total',
-                              '--format=csv,noheader,nounits'], capture_output=True, text=True, timeout=20)
+                              '--format=csv,noheader,nounits'], capture_output=True, text=True,
+                             timeout=20, creationflags=NO_WINDOW)
         u, mu, mt = [int(x.strip()) for x in out.stdout.strip().split(',')]
         return u, round(mu/1024, 2), round(mt/1024, 2)
     except Exception:
@@ -54,7 +59,7 @@ def proc_alive(pid):
     try:
         out = subprocess.run(['powershell','-NoProfile','-Command',
             f"(Get-CimInstance Win32_Process -Filter 'ProcessId={pid}' -ErrorAction SilentlyContinue) -ne $null"],
-            capture_output=True, text=True, timeout=15)
+            capture_output=True, text=True, timeout=15, creationflags=NO_WINDOW)
         return 'True' in out.stdout
     except Exception:
         return False

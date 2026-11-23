@@ -39,6 +39,9 @@ RECEIPTS = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
 LOG = os.path.join(ROOT, "cph4", "fleet", "production", "chain-publish.log")
 LOCK = os.path.join(ROOT, "cph4", "fleet", "production", "chain-publish.lock")
 PY = sys.executable or "python"
+# U060 静默律：本任务由 pythonw 承载（无控制台），任何子进程都必须显式隐藏，
+# 否则每次 git / nvidia-smi / powershell 调用都会弹一个可见黑窗（2026-11-23 实测）。
+NO_WINDOW = 0x08000000
 
 # 主控写的文件：冲突一律取远端，绝不覆盖主控的笔
 MASTER_OWNED = (
@@ -86,8 +89,12 @@ def log(msg):
 
 
 def git(*args, timeout=150):
+    # U060 静默律（2026-11-23 实锚）：本脚本由 pythonw 承载（无控制台），
+    # 子进程若不显式 CREATE_NO_WINDOW，每次 git 调用都会弹一个可见黑窗
+    # （180s 监听到 git.exe 连发 4 个 ConsoleWindowClass）。
     return subprocess.run(["git", "-C", ROOT] + list(args), capture_output=True,
-                          text=True, encoding="utf-8", errors="replace", timeout=timeout)
+                          text=True, encoding="utf-8", errors="replace", timeout=timeout,
+                          creationflags=NO_WINDOW)
 
 
 def acquire_lock():
@@ -130,7 +137,7 @@ def gpu_state():
     try:
         p = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used,memory.total",
                             "--format=csv,noheader,nounits"], capture_output=True, text=True,
-                           timeout=20)
+                           timeout=20, creationflags=NO_WINDOW)
         parts = [x.strip() for x in (p.stdout or "").splitlines()[0].split(",")]
         info["util"] = int(parts[0])
         info["mem_used_mb"] = int(parts[1])
@@ -149,7 +156,7 @@ def inflight_summary():
                              "Get-CimInstance Win32_Process -Filter \"Name='python.exe' or Name='pythonw.exe'\" | "
                              "Select-Object -ExpandProperty CommandLine"],
                             capture_output=True, text=True, encoding="utf-8", errors="replace",
-                            timeout=40)
+                            timeout=40, creationflags=NO_WINDOW)
         for ln in (ps.stdout or "").splitlines():
             low = ln.lower()
             if "h3_i2v_album" in low:
@@ -384,7 +391,7 @@ def run_lane_once():
     r = subprocess.run([PY, os.path.join(ROOT, "Tools", "fleet", "lane_agent.py"),
                         "--node", "bm-c", "--root", ROOT, "--max-seconds", "900"],
                        cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
-                       errors="replace", timeout=1200)
+                       errors="replace", timeout=1200, creationflags=NO_WINDOW)
     out = (r.stdout or "") + (r.stderr or "")
     finished = []
     for ln in out.splitlines():
