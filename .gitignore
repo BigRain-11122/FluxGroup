@@ -351,3 +351,11 @@ cph4/fleet/social/raw/session/
 cph4/fleet/agent-runs/
 # 公众号采集产物：只增语料，不进 git（同养号线台账的教训）
 cph4/fleet/social/gzh/*.jsonl
+
+# === 2026-11-23 训练权重止增（主控实测：313 个 safetensors 已入库存 9.5GB，.git 涨到 17GB）===
+# 判据：训练产物在本机产生、本机消费，跨机无读者；单个 ckpt 约 32MB × 90 个 RUNS 目录。
+# 17GB 仓库让每次 pull --rebase --autostash 都在搬 GB 级数据，是"未提交改动被 rebase 冲掉"的燃料之一。
+# 本规则只挡未来新增（gitignore 对已跟踪文件无效）；存量 9.5GB 的清理需 CEO 裁决是否重写历史。
+cph4/fleet/social/train/RUNS/**/*.safetensors
+cph4/fleet/social/train/RUNS/**/ckpt*/
+cph4/fleet/social/train/RUNS/**/optimizer*

@@ -250,6 +250,21 @@ def self_test():
     cases.append(("可读平台能进轮转", any(p["id"] in ("bilibili", "toutiao", "chejiahao", "gzh")
                                           for p in [platform_now(h, 0) for h in range(24)])))
     cases.append(("swap 解析出數字", isinstance(swap_mb(), float)))
+    # --- may() 租约负控：假绿会让采集侧在别人的时段开浏览器，正是"轮转不生效"的形态 ---
+    okenv = (0, 4000, True, [], [], None)
+    cases.append(("may: need-login 平台一律拒（权重0不排班）",
+                  may("zhihu", 9, 0, env=(0, 4000, True, [], []))[0] == 76))
+    cases.append(("may: 未知平台必须报错而非放行",
+                  may("bogus", 9, 0, env=(0, 4000, True, [], []))[0] == 77))
+    cases.append(("may: 资源 DENY-NEW 时即便轮到也不放行",
+                  may(platform_now(3, 0)["id"], 3, 0, env=(9000, 500, True, [], []))[0] == 76))
+    _cur = platform_now(9, 0)
+    _other = [p["id"] for p in PLATFORMS if p["id"] != _cur["id"] and (p.get("weight") or 0) > 0
+              and p["state"] in ("live", "read", "building")][0]
+    cases.append(("may: 非本时段平台必须 DEFER(75) 让位",
+                  may(_other, 9, 0, env=(0, 4000, True, [], []))[0] == 75))
+    cases.append(("may: 本时段平台放行(0)",
+                  may(_cur["id"], 9, 0, env=(0, 4000, True, [], []))[0] == 0))
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))
@@ -257,16 +272,49 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
+def may(platform, hour=None, minute=0, env=None):
+    """租约判定：现在能不能开这条平台线。返回 (rc, 理由)。
+
+    采集侧/出稿侧必须调用它，否则"轮到公众号时 B 站让位"只是纸面规则。
+    rc=0 可开 / 75 不是本平台时段（DEFER，可重试）/ 76 资源不允许 / 77 未知平台
+    env=(swap,free,train,profs,models) 供自检注入，生产不传。
+    """
+    hour = datetime.now().hour if hour is None else hour
+    minute = datetime.now().minute if minute is None else minute
+    pf = [p for p in PLATFORMS if p["id"] == platform]
+    if not pf:
+        return 77, "未知平台 %s" % platform
+    pf = pf[0]
+    if (pf.get("weight") or 0) <= 0 or pf["state"] not in ("live", "read", "building"):
+        return 76, "%s 权重 0（state=%s）：未验证/未登录/未注册，不排班" % (platform, pf["state"])
+    swap, free, train, profs, models = env or (swap_mb(), mem_free_mb(), train_running(),
+                                               browsers(), llm_resident())
+    slot = decide(swap, free, train, profs, models, hour)[0]
+    if slot in ("DENY-NEW", "DRAIN"):
+        return 76, "资源判定 %s：只收尾，不开新浏览器活" % slot
+    cur = platform_now(hour, minute)
+    if cur is None:
+        return 76, "当前无可轮转平台"
+    if cur["id"] != platform:
+        return 75, "本时段轮到 %s（%s），%s 让位" % (cur["id"], cur.get("note") or "", platform)
+    return 0, "轮到 %s，可开" % platform
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--may", metavar="PLATFORM", help="询问现在能不能开这条平台线")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
     if a.status:
         return status()
+    if a.may:
+        rc, why = may(a.may)
+        print("[may] %s → rc=%d ｜ %s" % (a.may, rc, why))
+        return rc
     return once()
 
 
