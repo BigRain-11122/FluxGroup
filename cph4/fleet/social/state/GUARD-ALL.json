@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-23T08:38:14",
+ "ts": "2026-11-23T15:39:14",
  "pass": {
   "CR01": false,
   "CR02": true,
@@ -28,9 +28,9 @@
   "SD04": true,
   "SD05": true,
   "SD06": false,
-  "SC01": true,
+  "SC01": false,
   "SC02": true,
-  "SC03": true,
+  "SC03": false,
   "SC04": false,
   "ME01": true,
   "ME02": true,
@@ -58,8 +58,8 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "2.1%（线 ≤5%）8/388 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：三连/干货\", 1], [\"AI 腔：干货满满/干货\", 1]]",
-   "n": 388,
+   "detail": "2.1%（线 ≤5%）8/389 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：干货/必须\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 389,
    "group": "corpus"
   },
   {
@@ -67,8 +67,8 @@
    "name": "烘焙与分段",
    "ok": true,
    "sev": "P1",
-   "detail": "1.0h前 rows=60947 段=15 verdict=3",
-   "n": 60947,
+   "detail": "0.2h前 rows=60948 段=15 verdict=3",
+   "n": 60948,
    "group": "corpus"
   },
   {
@@ -94,8 +94,8 @@
    "name": "采集新鲜（24h）",
    "ok": true,
    "sev": "P1",
-   "detail": "24h 内采集 78 次 / 总 78 次",
-   "n": 78,
+   "detail": "24h 内采集 144 次 / 总 144 次",
+   "n": 144,
    "group": "corpus"
   },
   {
@@ -121,8 +121,8 @@
    "name": "训练容量（epoch 3–5）",
    "ok": false,
    "sev": "P2",
-   "detail": "iters=400 rows=370 → 1.08 epoch",
-   "n": 370,
+   "detail": "iters=400 rows=296 → 1.35 epoch",
+   "n": 296,
    "group": "train"
   },
   {
@@ -139,7 +139,7 @@
    "name": "配方一致（RECIPE=v5-shape-quota）",
    "ok": false,
    "sev": "P1",
-   "detail": "需重造 6 段：peer_pro, music_seeker, craft_learner, memer, shallow, feeler",
+   "detail": "需重造 5 段：tech_nerd, peer_pro, craft_learner, shallow, feeler",
    "n": 8,
    "group": "train"
   },
@@ -148,7 +148,7 @@
    "name": "ACTIVE 指针一致",
    "ok": true,
    "sev": "P1",
-   "detail": "base 模式 run 必须为空（base，2026-11-23T00:49:59）",
+   "detail": "base 模式 run 必须为空（base，2026-11-23T14:51:10）",
    "n": null,
    "group": "train"
   },
@@ -175,7 +175,7 @@
    "name": "活人节奏（alive+在动）",
    "ok": false,
    "sev": "P1",
-   "detail": "acct1 7.7h 没动作；acct3 7.7h 没动作",
+   "detail": "acct3 进程不在",
    "n": 2,
    "group": "accounts"
   },
@@ -184,8 +184,8 @@
    "name": "跨号隔离（24h 不同视频）",
    "ok": true,
    "sev": "P0",
-   "detail": "24h 内 50 条视频无跨号重叠",
-   "n": 50,
+   "detail": "24h 内 95 条视频无跨号重叠",
+   "n": 95,
    "group": "accounts"
   },
   {
@@ -203,7 +203,7 @@
    "ok": true,
    "sev": "P0",
    "detail": "近 7 天夜间动作 0 次",
-   "n": 65,
+   "n": 149,
    "group": "accounts"
   },
   {
@@ -212,7 +212,7 @@
    "ok": false,
    "sev": "P1",
    "detail": "重复评论：{'117626990822035': 2, '116396449207584': 2}",
-   "n": 32,
+   "n": 33,
    "group": "accounts"
   },
   {
@@ -220,8 +220,8 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一条 9.2h 前（2026-11-22T23:27:30 rpid=321027693377）",
-   "n": 37,
+   "detail": "最近一条 4.2h 前（2026-11-23T11:27:48 rpid=324870367424）",
+   "n": 38,
    "group": "sends"
   },
   {
@@ -230,7 +230,7 @@
    "ok": false,
    "sev": "P1",
    "detail": "4 条已发缺闸证据：324828756864,324830052352,324830593184",
-   "n": 37,
+   "n": 38,
    "group": "sends"
   },
   {
@@ -238,7 +238,7 @@
    "name": "出稿节拍（中位 ≤30s）",
    "ok": false,
    "sev": "P1",
-   "detail": "近 10 拍中位 116s（最快 56s / 最慢 238s）；gen 中位 71s；post 中位 81s",
+   "detail": "近 10 拍中位 126s（最快 56s / 最慢 265s）；gen 中位 71s；post 中位 81s",
    "n": 10,
    "group": "sends"
   },
@@ -247,8 +247,8 @@
    "name": "失败归因齐全",
    "ok": true,
    "sev": "P1",
-   "detail": "12 条失败，0 条无 why",
-   "n": 12,
+   "detail": "16 条失败，0 条无 why",
+   "n": 16,
    "group": "sends"
   },
   {
@@ -274,8 +274,8 @@
    "name": "评论配额（≤策略上限/天）",
    "ok": true,
    "sev": "P1",
-   "detail": "今日实发 0/39；分号 acct1=0, acct3=0",
-   "n": 0,
+   "detail": "今日实发 1/39；分号 acct1=0, acct3=0（另有 1 条未署名，历史行无账号列）",
+   "n": 1,
    "group": "sends"
   },
   {
@@ -283,16 +283,16 @@
    "name": "副动作齐（看/赞/弹幕）",
    "ok": false,
    "sev": "P1",
-   "detail": "acct1 缺 like；acct3 缺 like",
+   "detail": "acct3 缺 like",
    "n": 2,
    "group": "sends"
   },
   {
    "id": "SC01",
    "name": "声明与实载一致",
-   "ok": true,
+   "ok": false,
    "sev": "P2",
-   "detail": "未归类 4 个：browserd,loopreg,ollamamodel,qualityagent；应载未载 0 个",
+   "detail": "未归类 5 个：browserd,gzhloop,loopreg,ollamamodel,qualityagent；应载未载 1 个：agent-acct3",
    "n": 13,
    "group": "sched"
   },
@@ -308,9 +308,9 @@
   {
    "id": "SC03",
    "name": "定时器退出码正常",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "17 个 rc 正常，报告型：acceptrun",
+   "detail": "真异常：selfgen(rc=-15,pid=None)",
    "n": 17,
    "group": "sched"
   },
@@ -328,7 +328,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3440MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3195MB）",
    "n": null,
    "group": "mem"
   },
@@ -355,7 +355,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 4.8G + inactive 8.8G = 13.6G（线 ≥4G）",
+   "detail": "free 1.6G + inactive 7.9G = 9.5G（线 ≥4G）",
    "n": null,
    "group": "mem"
   },
@@ -364,7 +364,7 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-21T23:34:59（33h前）生成 3 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-21T23:34:59（40h前）生成 3 条 swap +0.0MB pageouts +0",
    "n": null,
    "group": "mem"
   },
@@ -373,7 +373,7 @@
    "name": "反思覆盖（每轮有归因）",
    "ok": true,
    "sev": "P1",
-   "detail": "判据起 2026-11-21T23:40：50 轮，无可判读 why 0 条；真失败 22 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
+   "detail": "判据起 2026-11-21T23:40：60 轮，无可判读 why 0 条；真失败 28 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
    "n": null,
    "group": "evolve"
   },
@@ -409,7 +409,7 @@
    "name": "训练期换页（≤256MB）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一轮 2026-11-23T07:02:26：swap 3609→3609MB（+0MB）",
+   "detail": "最近一轮 2026-11-23T15:16:06：swap 3483→3219MB（-264MB）",
    "n": null,
    "group": "evolve"
   }
@@ -437,7 +437,7 @@
   },
   "sched": {
    "overall": false,
-   "n_fail": 1,
+   "n_fail": 3,
    "n_skip": 0
   },
   "mem": {

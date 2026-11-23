@@ -1,8 +1,8 @@
 {
  "train": {
-  "runs": 74,
-  "keep": 36,
-  "reject": 28,
+  "runs": 82,
+  "keep": 39,
+  "reject": 33,
   "avg_gain": 20.5,
   "max_gain": 46.7,
   "best_by_seg": {
@@ -16,26 +16,30 @@
   }
  },
  "corpus": {
-  "rows": 60947,
-  "pass": 11277,
-  "own_practice": 25
+  "rows": 60948,
+  "pass": 11278,
+  "own_practice": 26
  },
  "actions": {
   "all": {
-   "watch": 54,
-   "danmaku": 9,
-   "defer": 2
+   "watch": 123,
+   "danmaku": 16,
+   "defer": 5,
+   "profile_busy": 1,
+   "like": 4
   },
   "today": {
-   "watch": 21,
-   "danmaku": 2,
-   "defer": 1
+   "watch": 90,
+   "danmaku": 9,
+   "defer": 4,
+   "profile_busy": 1,
+   "like": 4
   }
  },
  "practice": {
-  "posts_all": 37,
-  "posts_ok": 37,
-  "posts_today": 0,
-  "fails": 12
+  "posts_all": 38,
+  "posts_ok": 38,
+  "posts_today": 1,
+  "fails": 16
  }
 }

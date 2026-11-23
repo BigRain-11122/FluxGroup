@@ -2,7 +2,8 @@
  "version": "v2.3-20261121",
  "agent": "social-keeper",
  "counts": {
-  "OK": 20,
+  "OK": 19,
+  "STALE": 1,
   "NOT_PASS": 8
  },
  "tiers": {
@@ -11,11 +12,12 @@
   },
   "P1": {
    "OK": 10,
-   "NOT_PASS": 4
+   "STALE": 1,
+   "NOT_PASS": 3
   },
   "P2": {
-   "OK": 5,
-   "NOT_PASS": 4
+   "NOT_PASS": 5,
+   "OK": 4
   }
  },
  "p0_bad": [],
@@ -169,10 +171,10 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 17.8,
+   "age_h": 24.8,
    "limit_h": 24.0,
-   "state": "NOT_PASS",
-   "why": "12h 内只有 0 条（需 ≥1）"
+   "state": "STALE",
+   "why": "证据 24.8h 前（上限 24.0h）"
   },
   {
    "id": "B01",
@@ -227,8 +229,8 @@
    "symptom": "AC01 红=某号进程不在或长时间没动作；健康表 green 但账号不动，说明判据只看心跳",
    "age_h": 0.0,
    "limit_h": 1.0,
-   "state": "OK",
-   "why": "level='yellow'（不许等于 'red'）"
+   "state": "NOT_PASS",
+   "why": "level='red'（不许等于 'red'）"
   },
   {
    "id": "S02",
@@ -284,7 +286,7 @@
    "age_h": 0.0,
    "limit_h": 24.0,
    "state": "NOT_PASS",
-   "why": "pass.SC04=False（需 True）"
+   "why": "pass.SC01=False（需 True）；pass.SC03=False（需 True）；pass.SC04=False（需 True）"
   },
   {
    "id": "S06",

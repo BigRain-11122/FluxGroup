@@ -1,23 +1,23 @@
 {
  "group": "sched",
- "ts": "2026-11-23T08:38:09",
+ "ts": "2026-11-23T15:39:10",
  "pass": {
-  "SC01": true,
+  "SC01": false,
   "SC02": true,
-  "SC03": true,
+  "SC03": false,
   "SC04": false
  },
  "overall": false,
  "n_checks": 4,
- "n_fail": 1,
+ "n_fail": 3,
  "n_skip": 0,
  "checks": [
   {
    "id": "SC01",
    "name": "声明与实载一致",
-   "ok": true,
+   "ok": false,
    "sev": "P2",
-   "detail": "未归类 4 个：browserd,loopreg,ollamamodel,qualityagent；应载未载 0 个",
+   "detail": "未归类 5 个：browserd,gzhloop,loopreg,ollamamodel,qualityagent；应载未载 1 个：agent-acct3",
    "n": 13
   },
   {
@@ -31,9 +31,9 @@
   {
    "id": "SC03",
    "name": "定时器退出码正常",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "17 个 rc 正常，报告型：acceptrun",
+   "detail": "真异常：selfgen(rc=-15,pid=None)",
    "n": 17
   },
   {
