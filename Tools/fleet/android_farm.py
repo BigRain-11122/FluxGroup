@@ -209,6 +209,40 @@ def cmd_fp(a):
     return 0
 
 
+
+def cmd_localize(a):
+    """把实例变成国内环境：zh-CN 语言 + CN 区域 + Asia/Shanghai 时区 + system_locales。
+
+    为什么（2026-11-23 实测）：系统默认 en-US 时 B站会起成国际版界面（For You/Trending），
+    且**改完语言必须清 App 数据或重装**，否则 App 沿用首次启动时缓存的语言（清数据后立刻变中文）。
+    另：`setprop persist.sys.locale` 在 Android 14 会被 SELinux 拒，必须先 `adb root`（google_apis 镜像可 root）。
+    """
+    port = port_for(a.avd)
+    if port is None:
+        print("AVD 不存在: " + a.avd, file=sys.stderr)
+        return 1
+    serial = "emulator-%d" % port
+    rc, out, err = sh([ADB, "-s", serial, "root"], 20)
+    print("root: " + (out or err))
+    time.sleep(4)
+    sh([ADB, "wait-for-device"], 20)
+    sh([ADB, "-s", serial, "shell",
+        "setprop persist.sys.locale zh-CN; setprop persist.sys.language zh; "
+        "setprop persist.sys.country CN; setprop persist.sys.timezone Asia/Shanghai"], 20)
+    sh([ADB, "-s", serial, "shell", "settings", "put", "system", "system_locales", "zh-CN"], 20)
+    rc, loc, _ = sh([ADB, "-s", serial, "shell", "getprop", "persist.sys.locale"], 10)
+    print("已写 locale=%s；重启使框架生效…" % loc.strip())
+    sh([ADB, "-s", serial, "reboot"], 10)
+    time.sleep(20)
+    ok = booted(serial, 120)
+    rc, loc2, _ = sh([ADB, "-s", serial, "shell", "getprop", "persist.sys.locale"], 10)
+    print("%s 重启%s，locale=%s" % (serial, "完成" if ok else "超时", loc2.strip()))
+    if a.clear_pkg:
+        sh([ADB, "-s", serial, "shell", "pm", "clear", a.clear_pkg], 30)
+        print("已清 %s 的数据（App 才会按新语言重新初始化）" % a.clear_pkg)
+    return 0 if ok else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
@@ -221,6 +255,8 @@ def main():
     s = sub.add_parser("stop"); s.add_argument("avd"); s.set_defaults(fn=cmd_stop)
     s = sub.add_parser("shot"); s.add_argument("avd"); s.add_argument("out"); s.set_defaults(fn=cmd_shot)
     s = sub.add_parser("fp"); s.add_argument("avd"); s.set_defaults(fn=cmd_fp)
+    s = sub.add_parser("localize"); s.add_argument("avd"); s.add_argument("--clear-pkg", default="")
+    s.set_defaults(fn=cmd_localize)
     a = ap.parse_args()
     return a.fn(a)
 

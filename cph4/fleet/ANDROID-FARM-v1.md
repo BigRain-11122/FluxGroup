@@ -25,6 +25,23 @@
 
 **必须记住的一个坑**：`nohup ... &` 或裸后台起的模拟器会被工具调用回收（实测 boot 成功后立刻 "Cancelling all calls"）。管理器已用 `subprocess.Popen(..., start_new_session=True)` 解决；手工起也请走管理器。
 
+## 二·补 国内环境（2026-11-23 实锚，已做成命令）
+
+**现象**：系统默认 en-US 时 B站 起成国际版界面（`For You / Trending / Live`），改了语言后 App 仍是英文。
+
+**三条实测结论**：
+1. `setprop persist.sys.locale` 在 Android 14 被 SELinux 拒（`Failed to set property`）→ 必须先 `adb root`（`google_apis` 镜像可 root，Play 镜像不行）。
+2. 框架层语言认 **`persist.sys.locale` + `settings put system system_locales zh-CN` 两者，且都要重启**才生效（只设前者：设置页仍英文）。
+3. **改完语言必须清 App 数据**（`pm clear`）：App 沿用首次启动缓存的语言，不清就是英文界面（清完立刻中文：`目前处于全屏模式…`）。
+
+**已固化为命令**（新实例一条命令变国内环境）：
+```bash
+python3 Tools/fleet/android_farm.py localize acct1 --clear-pkg tv.danmaku.bili
+```
+它做：`adb root` → 写 zh-CN/CN/Asia-Shanghai → 写 `system_locales` → 重启 → 校验 → 可选清指定包数据。
+
+**其它设置面**：时区已随系统为 `Asia/Shanghai`（实测 `date` 返回 CST）；日期/度量随 locale；输入法目前只有 Gboard（英文），**手动打中文需在 Gboard 里启用中文拼音（需联网下载语言包）**；自动出稿不受影响（uiautomator2 的 setText 走 base64 广播，不依赖输入法）。
+
 ## 三、硬缺口（实测证据，别当成"已经能养号"）
 
 | 项 | 现状 | 证据 |
