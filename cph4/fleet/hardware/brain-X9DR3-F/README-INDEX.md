@@ -2,6 +2,28 @@
 
 下载日期：2026-11-23　｜　用途：今晚点板/调试前把官方资料一次备齐
 来源：Supermicro 官网（www.supermicro.com）　｜　全部文件已落盘并算 SHA256
+最近实检：2026-11-23 晚（逐项解压/校验，不是照清单念）
+
+---
+
+## 零、齐全性检查（按"要干什么"核对）
+
+| 用途 | 需要什么 | 齐不齐 | 在哪 |
+|---|---|---|---|
+| 认出这块板、看跳线接口 | 说明书 + 快速参考 | **齐** | `MNL-1259.pdf`（111 页）、`QRG-1259.pdf`（1 页拓扑） |
+| 插内存不点不亮 | X9 双路内存插法 | **齐** | `X9_DP_memory_config.pdf`（12 页） |
+| 刷 BIOS | ROM + 刷写器 | **齐**（3.4，SHA256 与官网一致） | `X9DRi0_630.zip` 内 AFUDOSU.SMC + Readme |
+| 刷 BMC（无系统也能刷） | 固件 + DOS/Win/Linux 刷写器 | **齐**（3.62，SHA256 一致） | `SMT_X9_362.zip` 内 dUpdate/lUpdate/wUpdate |
+| 配 IPMI、远程开关机/看画面 | IPMI 手册 + IPMIView | **齐** | `X9_SMT_IPMI.pdf`、`管理软件/IPMIView_*`（Win+Linux） |
+| 系统里改 BMC 的 IP/账号 | IPMICFG | **齐**（含 Win32/64、Linux32/64、DOS、UEFI、FreeBSD） | `管理软件/IPMICFG_1.38.0_*` |
+| 批量刷多块板 | SUM | **齐**（Win + Linux） | `管理软件/SUM_2.15.0_*` |
+| 命令行 IPMI 批量操作 | SMCIPMITool | **齐**（Win + Linux，自带 JRE） | `管理软件/SMCIPMITool_*` |
+| 装系统后的驱动 | Intel C600 芯片组 INF / i350 网卡 / RSTe | **未下载**（见 §五，多为 Win10 内置，按需再取） | — |
+| 怀疑内存/CPU 有硬故障时做整机诊断 | Super Diagnostics Offline（UEFI 启动盘） | **未下载**（可选，见下方说明） | — |
+
+两个未下载项的判断：
+1. **Windows 驱动**：X9 世代已停产，官网该板的驱动页按 OS 选型后不再给独立包。Win10 对 C606 芯片组和 i350 网卡多数是**内置驱动**，装完先看设备管理器；只有用 SCU 组 RAID 才需要 Intel RSTe。
+2. **SDO 诊断盘**：只有出现"能点亮但怀疑硬件有问题"时才用；如果你今晚只是装配+装系统，可以不下。
 
 ---
 
@@ -97,3 +119,36 @@ X9 世代已 EOL，官网该板的「Drivers & Utilities」页按 OS/设备选�
 用能模拟 Chrome 握手的客户端（pip `curl_cffi`，`impersonate="chrome131"`）即 200。
 真正文件地址不是静态链接，而是 `https://www.supermicro.com/support/resources/getfile.php?SoftwareItemID=<id>`，
 `<id>` 从固件页 `data-fwdownloadtarget` 属性里取。
+
+---
+
+## 七、目录结构与清单文件
+
+```
+brain-X9DR3-F/
+├── README-INDEX.md              本文件（齐全性检查 + 用法）
+├── 管理软件-MANIFEST.txt         管理软件总表 + 主要可执行文件 SHA256 + 使用入口
+├── MNL-1259.pdf                 产品说明书（111 页）
+├── QRG-1259.pdf                 快速参考接线图（1 页）
+├── X9_DP_memory_config.pdf      X9 双路内存插法（12 页）
+├── X9_SMT_IPMI.pdf              X9 平台 IPMI 手册（105 页）
+├── IPMI_Users_Guide.pdf         IPMI 通用指南（195 页，备用）
+├── X9DRi0_630.zip               BIOS 3.4（含 DOS 刷写器 AFUDOSU.SMC）
+├── SMT_X9_362.zip               BMC 3.62（含 DOS/Win/Linux 刷写器）
+└── 管理软件/                     Windows + Linux 双套（约 1.0GB，不入 git）
+    ├── IPMICFG_1.38.0_build.260701/           Win32/64 + Linux32/64 + DOS + UEFI + FreeBSD
+    ├── IPMIView_2.25.0_..._Windows.exe
+    ├── IPMIView_2.25.0_..._bundleJRE_Linux_x64.tar
+    ├── SMCIPMITool_2.31.0_..._bundleJRE_Windows/
+    ├── SMCIPMITool_2.31.0_..._bundleJRE_Linux_x64.tar
+    ├── SUM_2.15.0_Win_x86_64/
+    ├── SUM_2.15.0_Linux_x86_64_20251104.tar
+    ├── SuperDoctor5UpdatePackage_5.23.0/
+    └── SAA_Migration_Guide/
+```
+
+实检结论（2026-11-23）：
+- `X9DRi0_630.zip`、`SMT_X9_362.zip` 的 SHA256 **与官网公布值逐字节一致**，`unzip -t` 通过。
+- 三个 Linux `.tar` 全部 `tar -tzf` 通过；SD5 内层 zip `unzip -t` 通过。
+- 五个 PDF 页数实测：111 / 1 / 12 / 105 / 195，无零字节或损坏。
+- IPMIView Windows 侧确认为 PE32 可执行；SMCIPMITool 目录内 `SMCIPMITool.exe` 与 `KVMPlugIn.jar` 在位。

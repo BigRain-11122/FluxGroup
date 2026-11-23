@@ -1,0 +1,33 @@
+# 管理软件包清单（2026-11-23 由 Supermicro 账号下载；Windows + Linux 双套）
+# 校验：三个 .tar 已 tar -tzf 通过；SD5 内层 zip unzip -t 通过
+
+## 一、目录/文件总表
+
+目录     1.2M  IPMICFG_1.38.0_build.260701
+文件     178M  IPMIView_2.25.0_build.260812_Windows.exe
+文件     194M  IPMIView_2.25.0_build.260812_bundleJRE_Linux_x64.tar
+目录     2.0M  SAA_Migration_Guide
+文件     218M  SMCIPMITool_2.31.0_build.260727_bundleJRE_Linux_x64.tar
+目录      13M  SMCIPMITool_2.31.0_build.260727_bundleJRE_Windows
+文件      53M  SUM_2.15.0_Linux_x86_64_20251104.tar
+目录     736K  SUM_2.15.0_Win_x86_64
+目录     214M  SuperDoctor5UpdatePackage_5.23.0
+
+## 二、主要可执行文件的 SHA256
+
+304550bf84c45e9f7ff35884703187942dcc11e0a86f413f38bebc05c13a976e  IPMICFG_1.38.0_build.260701/Windows/64bit/IPMICFG-Win.exe
+496b26e6ecc92f686fdf6d74a2298b305ff8988947106056643a32aa1e0df998  IPMICFG_1.38.0_build.260701/Linux/64bit/IPMICFG-Linux.x86_64
+1c53bc02d24a3ebdb0740ce0828f66895f48ea11f814462e73bf468871cd1af4  IPMIView_2.25.0_build.260812_Windows.exe
+c7caadac5a1e8a036e41e63f3a9b5c6e7b74412d9aa0059cfb098e5d19837204  IPMIView_2.25.0_build.260812_bundleJRE_Linux_x64.tar
+405d6c6f0bc17a78d62079564bb7602ad155501cbc3d00001cc9a2d7f7854792  SMCIPMITool_2.31.0_build.260727_bundleJRE_Windows/SMCIPMITool.exe
+a3a234893c0cfae2f845cd00133544321214a188c88037e3641be93fbef045b5  SMCIPMITool_2.31.0_build.260727_bundleJRE_Linux_x64.tar
+fa8d991ae9561bf400d404113bd2a73a68999250940b0db794f3cc3378e45a03  SUM_2.15.0_Win_x86_64/sum.exe
+12b89cf683004bc002c4923166cf9d6ae67cf307a1e836a362e5cebeadea1a71  SUM_2.15.0_Linux_x86_64_20251104.tar
+3f96014861e420707eb672a43ab98dc9cc8ec306f46678628d0476ad0619a3c8  SuperDoctor5UpdatePackage_5.23.0/SuperDoctor5-5.23.0_build.1154-20260402100459.zip
+
+## 三、今晚会用到的入口
+
+1. 改 BMC 的 IP/账号（进系统后）: IPMICFG_.../Windows/64bit/IPMICFG-Win.exe -m
+2. 进 BMC 图形界面/远程画面   : IPMIView_..._Windows.exe（自带 JRE，Win10 免装 Java）
+3. 批量刷 BIOS/BMC           : SUM_2.15.0_Win_x86_64/sum.exe
+4. 单块板刷 BMC（无系统时）   : 顶层 SMT_X9_362.zip 里的 Windows1.22/wUpdate.exe 或 Dos 1.21/dUpdate.exe
