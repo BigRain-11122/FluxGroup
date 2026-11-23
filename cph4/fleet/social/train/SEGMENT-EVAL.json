@@ -1,38 +1,38 @@
 {
- "ts": "2026-11-23T17:15:24",
+ "ts": "2026-11-23T17:53:30",
  "base": [
   {
    "n": 10,
-   "avg": 85.5,
-   "pass_rate": 100,
-   "avg_logic": 34.5,
-   "avg_human": 11.0,
+   "avg": 51.8,
+   "pass_rate": 0,
+   "avg_logic": 6.0,
+   "avg_human": 5.0,
    "avg_natural": 20.0,
    "reject": 0,
    "sample": [
-    "我想学剪辑做视频，用的什么软件？具体做法能分享下教程吗？",
-    "想学剪辑，有没有针对 Vlog 和短视频的实操教程和推荐软件？"
+    "懂了，2025 版“烂歌”本质就是过度包装掩盖的格调缺失。制作时我们常纠结简单旋律与复杂编曲的取舍，去年某热歌因堆砌失真音色被全网黑，这次你们会侧重哪类作品的工艺优化？",
+    "2025 选歌时，我比你们更纠结工序取舍，踩过的坑也能分享，聊聊具体环节吧。"
    ],
-   "seg": "craft_learner",
+   "seg": "peer_pro",
    "cached": true
   }
  ],
  "lora": [
   {
    "n": 10,
-   "avg": 73.0,
-   "pass_rate": 80,
-   "avg_logic": 27.0,
-   "avg_human": 10.0,
+   "avg": 58.8,
+   "pass_rate": 40,
+   "avg_logic": 17.5,
+   "avg_human": 5.0,
    "avg_natural": 20.0,
-   "reject": 1,
-   "seg": "craft_learner",
+   "reject": 0,
+   "seg": "peer_pro",
    "sample": [
-    "请问剪辑教程哪个软件",
-    "请问b站有没有剪辑剪辑，剪辑教程，剪辑软件"
+    "好的 我是剪辑师",
+    "OP，作完歌后内心戏比较多吧，感觉做音乐和剪辑有点像"
    ]
   }
  ],
  "samples": 10,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-164619/ckpt200"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261123-172125/ckpt400"
 }
