@@ -672,3 +672,9 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-24T04:07:10 LANE rc=0 done=- 
 2026-11-24T04:07:10 TICK commit=committed:9 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
 2026-11-24T04:11:31 RECEIPT RUNNING gpu=3 vram=1600MB busy=drama,lora
+2026-11-24T04:11:31 ADD-WARN The following paths are ignored by one of your .gitignore files:
+cph4/fleet/production/logs
+hint: Use -f if you really want to add them.
+hint: Disable this message with "git config set advice.addIgnor
+2026-11-24T04:11:48 TICK commit=committed:8 converge=up-to-date push=pushed lane=lane-cooldown(4m)
+2026-11-24T04:16:31 RECEIPT RUNNING gpu=3 vram=1607MB busy=lora
