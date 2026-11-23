@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-24T02:00:38",
+ "ts": "2026-11-24T02:05:38",
  "node": "bm-c",
  "kind": "production-router",
  "gpu": {
-  "util": 94,
+  "util": 15,
   "mem_used_mb": 8827,
   "mem_total_mb": 16384
  },
@@ -17,7 +17,9 @@
  "throughput": {
   "pl_ql_last10min": 0
  },
- "stalls": [],
+ "stalls": [
+  "gpu-lane-stalled: factory alive but no output & GPU idle"
+ ],
  "plan": "gpu-mainline",
  "lanes": {
   "gpu-mainline": "heroine-lora-factory (ql in-flight, then tm/hk...)",
