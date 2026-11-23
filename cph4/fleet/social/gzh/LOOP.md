@@ -9,7 +9,7 @@
 
 **本拍**：supply —— 池 5 条 < 50：种子不够，采集会立刻见底
 
-结果：`BLOCKED-SUPPLY`｜0.0s
+结果：`ESCALATE-SUPPLY`｜0.0s
 
 ```
 
