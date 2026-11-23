@@ -335,7 +335,8 @@ def already_closed(root, jid):
     try:
         blob = subprocess.run(["git", "-C", root, "show",
                                "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
-                              capture_output=True, timeout=30).stdout.decode("utf-8", "replace")
+                              capture_output=True, timeout=30,
+                              creationflags=CREATE_NO_WINDOW).stdout.decode("utf-8", "replace")
         for r in _states(blob).values():
             return str(r.get("state") or "").upper() in ("DONE", "UNVERIFIED", "CANCELLED")
     except Exception:
@@ -424,7 +425,8 @@ def run_job(job, root, node, hub, port, allow_gpu_workhours, max_seconds):
     def _runs(exe):
         try:
             return subprocess.run([exe, "-c", "import sys;sys.exit(0)"],
-                                  capture_output=True, timeout=15).returncode == 0
+                                  capture_output=True, timeout=15,
+                                  creationflags=CREATE_NO_WINDOW).returncode == 0
         except Exception:
             return False
     if cmd.startswith("python3 "):
@@ -885,7 +887,8 @@ def self_dispatch(root, node, allow_gpu_workhours, max_seconds, hub, port, dry, 
     _orows = {}
     try:
         _raw = subprocess.run(["git", "-C", root, "show", "origin/main:cph4/fleet/PRODUCTION-QUEUE.jsonl"],
-                              capture_output=True, timeout=20).stdout.decode("utf-8", "replace")
+                              capture_output=True, timeout=20,
+                              creationflags=CREATE_NO_WINDOW).stdout.decode("utf-8", "replace")
         for _l in _raw.split("\n"):
             _l = _l.strip()
             if not _l.startswith("{"):
