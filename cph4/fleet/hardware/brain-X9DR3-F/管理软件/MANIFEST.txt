@@ -40,8 +40,8 @@ fa8d991ae9561bf400d404113bd2a73a68999250940b0db794f3cc3378e45a03  SUM_2.15.0_Win
 
 | 内容 | 解压后目录 | 入口文件 |
 |---|---|---|
-| BIOS 3.4 | `../X9DRi0.630/` | `AFUDOSU.SMC`（DOS 刷写）、`X9DRi0.630`（ROM）、`Readme…txt` |
-| BMC 3.62 | `../BMC_3.62/` | `Windows1.22/wUpdate.exe`、`Linux1.21/lUpdate`、`Dos 1.21/dUpdate.exe`、`SMT_X9_362.bin` |
+| BIOS 3.4 | `../固件/BIOS_3.4_已解压/` | `AFUDOSU.SMC`（DOS 刷写）、`X9DRi0.630`（ROM）、`Readme…txt` |
+| BMC 3.62 | `../固件/BMC_3.62_已解压/` | `Windows1.22/wUpdate.exe`、`Linux1.21/lUpdate`、`Dos 1.21/dUpdate.exe`、`SMT_X9_362.bin` |
 | IPMIView Linux | `IPMIView_2.25.0_…_bundleJRE_Linux_x64/` | `./IPMIView20`（已 +x，自带 JRE） |
 | SMCIPMITool Linux | `SMCIPMITool_2.31.0_…_bundleJRE_Linux_x64/` | `./SMCIPMITool`（已 +x） |
 | SUM Linux | `SUM_2.15.0_Linux_x86_64/` | `./sum`（已 +x） |
