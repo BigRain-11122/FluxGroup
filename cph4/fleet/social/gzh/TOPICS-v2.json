@@ -1,0 +1,562 @@
+{
+  "_comment": "选题库 v2（2026-11-24）。判据正身=TOPIC-SELECTION-SPEC-v1.md 六条硬判据。v1 因不点名车型、全是 evergreen 清单、无对立面被 CEO 否掉。",
+  "version": "v2",
+  "updated": "2026-11-24",
+  "honesty_rule": "每条选题必须写明 subject（具体车型/机构）、scene（开篇具体物）、opponent（对立面）、verify_before_write（写前查的具体页面）。promise 里不许出现我们做不到的动作：实测里程、实车摆放、拆车、上举升机、长期跟车。",
+  "forbidden_promises": [
+    "我实测",
+    "我跑了",
+    "我开了几万公里",
+    "我把这几台车摆一起",
+    "我拆了",
+    "我上了举升机",
+    "我连续跟车"
+  ],
+  "hook_types": {
+    "A": "具体动作 + 现场物（42号实测句式中位）",
+    "B": "数字规格 + 悬念",
+    "C": "断言 + 对比收口"
+  },
+  "evidence_types": [
+    "spec",
+    "price",
+    "reg",
+    "financial",
+    "owner",
+    "official"
+  ],
+  "categories": [
+    {
+      "id": "C1",
+      "name": "选购避坑",
+      "why_click": "怕买错，是最大的付费动力"
+    },
+    {
+      "id": "C2",
+      "name": "配置表对比",
+      "why_click": "同价位到底差在哪，可当场核对"
+    },
+    {
+      "id": "C3",
+      "name": "持有成本",
+      "why_click": "买得起养不起，是真实焦虑"
+    },
+    {
+      "id": "C4",
+      "name": "二手残值",
+      "why_click": "换车时才知道亏了多少"
+    },
+    {
+      "id": "C5",
+      "name": "智驾与座舱的实际能力",
+      "why_click": "宣传与可用的差距"
+    },
+    {
+      "id": "C6",
+      "name": "补能与续航口径",
+      "why_click": "标称与实际差多少"
+    },
+    {
+      "id": "C7",
+      "name": "行业与竞品",
+      "why_click": "看懂价格战背后的账"
+    }
+  ],
+  "topics": [
+    {
+      "id": "T01",
+      "cat": "C1",
+      "title": "秦PLUS 和海豹06 差两万，我把两页配置表叠在一起看",
+      "subject": [
+        "比亚迪 秦PLUS",
+        "比亚迪 海豹06"
+      ],
+      "hook_type": "A",
+      "scene": "把两页配置表打印出来，用红笔把多出来的项圈掉，桌上一共 7 个红圈",
+      "opponent": "把两万差价说成「品牌溢价」的销售话术",
+      "promise": "7 个红圈逐条给理由：哪 3 个是刚需、哪 4 个是凑数",
+      "evidence": [
+        "spec",
+        "price"
+      ],
+      "verifiable": "两车配置表逐项对照，红圈必须能在官网页面上指到位置",
+      "risk": "不许写「我开过」；不许把差价归因到主观感受",
+      "verify_before_write": [
+        "比亚迪官网配置对比页",
+        "两车官方指导价"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T02",
+      "cat": "C1",
+      "title": "15 万落地：轩逸、朗逸、秦PLUS，谁的减配藏得最深",
+      "subject": [
+        "日产 轩逸",
+        "大众 朗逸",
+        "比亚迪 秦PLUS"
+      ],
+      "hook_type": "C",
+      "scene": "三张配置单摊开，同一栏「后悬架」三个答案，用手一行行遮过去比",
+      "opponent": "把减配写进「年款优化」的厂商话术",
+      "promise": "三台车各列 1 条最不该减的项 + 各自替代方案",
+      "evidence": [
+        "spec",
+        "price"
+      ],
+      "verifiable": "减配项对应可查的结构或参数（悬架形式、气囊数、电池类型）",
+      "risk": "负面结论必须有可引依据，不许凭印象说「这车减配」",
+      "verify_before_write": [
+        "三家官网配置表",
+        "工信部公告参数"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T03",
+      "cat": "C1",
+      "title": "4S 店不给你翻的配置表第 3 页，写了什么",
+      "subject": [
+        "4S 店配置单",
+        "乘用车国标"
+      ],
+      "hook_type": "A",
+      "scene": "销售递过来的是折叠成三页的单子，第 3 页在最后，通常被压在文件夹最下面",
+      "opponent": "只给你看第 1 页高配表的销售",
+      "promise": "6 条可当场翻到位置的检查项",
+      "evidence": [
+        "spec",
+        "reg"
+      ],
+      "verifiable": "每条都要能在配置表或国标里指到位置",
+      "risk": "不许编「4S 店骗你 8000」这类无单据指控",
+      "verify_before_write": [
+        "乘用车配置表通用格式",
+        "国标 GB 7258 相关条款"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T04",
+      "cat": "C2",
+      "title": "同是 800V，小鹏 G6 和智己 LS6 的充电曲线不是一回事",
+      "subject": [
+        "小鹏 G6",
+        "智己 LS6"
+      ],
+      "hook_type": "B",
+      "scene": "两条充电曲线叠在同一张图上，5%–80% 那段一条陡一条缓",
+      "opponent": "只标「800V 平台」不标曲线的宣传口径",
+      "promise": "同样是 800V，差在电池温度窗口和桩的匹配",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "充电功率曲线可查官网或第三方实测公开数据",
+      "risk": "不许把第三方实测数据写成「我测的」",
+      "verify_before_write": [
+        "两车官网三电参数",
+        "公开充电实测报告"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T05",
+      "cat": "C2",
+      "title": "极氪 7X、零跑 C10 等 5 台：20 万级谁还在用扭力梁",
+      "subject": [
+        "小鹏 MONA M03",
+        "极氪 7X",
+        "零跑 C10",
+        "深蓝 S7",
+        "银河 E5"
+      ],
+      "hook_type": "C",
+      "scene": "一张 5 行 3 列的表，悬架那一列只有两种答案，一眼能看出分界",
+      "opponent": "把「舒适调校」当悬架形式遮羞布的话术",
+      "promise": "5 台车悬架形式 + 各自实际影响",
+      "evidence": [
+        "spec"
+      ],
+      "verifiable": "悬架形式在配置表/工信部公告可查",
+      "risk": "不许说「扭力梁一定差」，要给适用场景",
+      "verify_before_write": [
+        "5 家官网配置表",
+        "工信部公告"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T06",
+      "cat": "C2",
+      "title": "小鹏 G6、智己 LS6 的 12 项『标配』，哪些其实要加钱",
+      "subject": [
+        "小鹏 G6",
+        "智己 LS6",
+        "20 万级配置表"
+      ],
+      "hook_type": "A",
+      "scene": "把 12 行『标配』抄进表格，抄到第 7 行发现某台车要加钱",
+      "opponent": "把选装包算进「标配价」的营销页",
+      "promise": "12 项逐项标注：真标配 / 选装 / 高配才有",
+      "evidence": [
+        "spec",
+        "price"
+      ],
+      "verifiable": "每一项对应车型配置表的具体行",
+      "risk": "选装价格必须标来源与时间",
+      "verify_before_write": [
+        "各车型配置表",
+        "官方选装包价格页"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T07",
+      "cat": "C3",
+      "title": "Model Y 开 5 年要花多少：和途观L 并排算账",
+      "subject": [
+        "特斯拉 Model Y",
+        "大众 途观L"
+      ],
+      "hook_type": "B",
+      "scene": "两张 5 年账并排，电费那一栏一高一低，折旧那栏却反过来",
+      "opponent": "只算电费不算折旧的「电车省钱」话术",
+      "promise": "两台车 5 年四项费用逐项对比，读者能换成自己的里程",
+      "evidence": [
+        "price",
+        "owner",
+        "official"
+      ],
+      "verifiable": "电耗/保费用公开数据，折旧用二手车平台同款报价",
+      "risk": "折旧必须注明取价平台与月份",
+      "verify_before_write": [
+        "Model Y 官方电耗",
+        "途观L 官方油耗",
+        "二手车平台同款报价"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T08",
+      "cat": "C3",
+      "title": "Model Y、秦PLUS、轩逸：每年 1 万公里，5 年谁更省",
+      "subject": [
+        "Model Y",
+        "秦PLUS",
+        "轩逸"
+      ],
+      "hook_type": "C",
+      "scene": "三本账并排，5 年那一列的数字差出一台车的首付",
+      "opponent": "「一公里几分钱」的单一维算法",
+      "promise": "同里程下三台车的 5 年总支出对比",
+      "evidence": [
+        "price",
+        "official"
+      ],
+      "verifiable": "每项费用标口径：电价/油价取哪个城市的哪个价",
+      "risk": "必须给电价与油价假设，否则不可复算",
+      "verify_before_write": [
+        "当地电价（居民/公共桩）",
+        "当地 92/95 油价",
+        "三车官方能耗"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T09",
+      "cat": "C3",
+      "title": "磷酸铁锂和三元锂：换一次电池，每度到底多少钱",
+      "subject": [
+        "磷酸铁锂",
+        "三元锂",
+        "厂商电池报价"
+      ],
+      "hook_type": "B",
+      "scene": "一张手写的除法：总价 ÷ 度数，算出每度多少钱",
+      "opponent": "「终身质保」背后没说的衰减阈值",
+      "promise": "每度成本区间 + 质保条款里真正能换的条件",
+      "evidence": [
+        "price",
+        "official",
+        "reg"
+      ],
+      "verifiable": "报价来源 + 质保条款原文位置",
+      "risk": "不许把单一车型报价当行业均价",
+      "verify_before_write": [
+        "厂商公开电池报价",
+        "质保条款原文"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T10",
+      "cat": "C4",
+      "title": "零跑 C10、深蓝 S7：三年掉一半，残值差在哪",
+      "subject": [
+        "零跑 C10",
+        "深蓝 S7",
+        "二手车平台报价"
+      ],
+      "hook_type": "C",
+      "scene": "同一个车位，三年前新车价和现在二手车价并排贴着",
+      "opponent": "「保值率是玄学」的推脱说法",
+      "promise": "3 条可查的结构原因（电池类型/停产/换代节奏）",
+      "evidence": [
+        "price",
+        "official"
+      ],
+      "verifiable": "残值率取二手车平台同款同年份报价，注明抓取日期",
+      "risk": "残值受地区影响，必须说明取样城市",
+      "verify_before_write": [
+        "二手车平台同款报价",
+        "车型换代时间线"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T11",
+      "cat": "C4",
+      "title": "秦PLUS 和轩逸：新车差 3 万，三年后二手差 5 万",
+      "subject": [
+        "比亚迪 秦PLUS",
+        "日产 轩逸"
+      ],
+      "hook_type": "B",
+      "scene": "两张二手车报价截图，价差比新车还大",
+      "opponent": "「买贵一点保值」的错误直觉",
+      "promise": "价差扩大的两个机制 + 什么情况下反过来",
+      "evidence": [
+        "price"
+      ],
+      "verifiable": "两组报价截图 + 抓取日期",
+      "risk": "个案不能推总体，必须标样本量",
+      "verify_before_write": [
+        "二手车平台报价",
+        "同款在售量"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T12",
+      "cat": "C5",
+      "title": "L2 和 L3 差在哪：写在法规里，不写在宣传单上",
+      "subject": [
+        "工信部 L3 试点",
+        "各厂宣传口径"
+      ],
+      "hook_type": "C",
+      "scene": "两张宣传单并排，同样写「自动驾驶」，法规里的责任主体完全不同",
+      "opponent": "把 L2 包装成「准 L3」的宣传话术",
+      "promise": "责任划分 + 现阶段能用到什么程度",
+      "evidence": [
+        "reg",
+        "official"
+      ],
+      "verifiable": "对应法规条款原文",
+      "risk": "不许解读成法律意见；不许说某车「已经 L3」除非有公告",
+      "verify_before_write": [
+        "工信部 L3 试点公告",
+        "相关国标原文"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T13",
+      "cat": "C5",
+      "title": "车机卡不卡，先看这三颗芯片：8155 之后是什么",
+      "subject": [
+        "高通 8155",
+        "高通 8295",
+        "各厂座舱芯片"
+      ],
+      "hook_type": "B",
+      "scene": "把三颗芯片的型号抄在便签上，贴在屏幕边上对比",
+      "opponent": "只讲「大屏」不讲芯片的配置宣传",
+      "promise": "三代芯片的算力档位 + 实际能跑什么",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "芯片型号在配置表可查，算力有厂商公开规格",
+      "risk": "算力不等于流畅度，必须说明这点",
+      "verify_before_write": [
+        "高通官方芯片规格",
+        "各车配置表芯片型号"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T14",
+      "cat": "C5",
+      "title": "城市 NOA 开了 20 城，实际能用的有几城",
+      "subject": [
+        "小鹏",
+        "华为",
+        "理想",
+        "各厂城市 NOA"
+      ],
+      "hook_type": "B",
+      "scene": "一张中国地图，20 个城市点亮，但角落备注写着「部分路段」",
+      "opponent": "把「开城」当「全城可用」的宣传",
+      "promise": "开城口径拆解：是全域还是几条路",
+      "evidence": [
+        "official"
+      ],
+      "verifiable": "各厂官方公告原文 + 开通范围说明",
+      "risk": "不许实测代替公告；不许说某厂「虚假宣传」",
+      "verify_before_write": [
+        "各厂城市 NOA 开通公告",
+        "官方适用范围说明"
+      ],
+      "timeliness": "event"
+    },
+    {
+      "id": "T15",
+      "cat": "C6",
+      "title": "标称 700 公里，冬天开暖气还剩多少：按电耗反算",
+      "subject": [
+        "CLTC 标称",
+        "冬季电耗"
+      ],
+      "hook_type": "B",
+      "scene": "仪表盘上标称 700，实际开出去第一格电掉得比想象快",
+      "opponent": "只讲 CLTC 不讲冬季衰减的口径",
+      "promise": "CLTC 与冬季实际的换算方法 + 各温度档的系数",
+      "evidence": [
+        "official",
+        "reg"
+      ],
+      "verifiable": "CLTC 工况定义可查国标，电耗取官方值",
+      "risk": "系数必须标来源，不许自己拍",
+      "verify_before_write": [
+        "CLTC 工况国标",
+        "各车官方电耗",
+        "公开冬季实测报告"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T16",
+      "cat": "C6",
+      "title": "没有家充，Model Y 和秦PLUS 还值得买吗：4 个条件自测",
+      "subject": [
+        "特斯拉 Model Y",
+        "比亚迪 秦PLUS"
+      ],
+      "hook_type": "C",
+      "scene": "小区地库转一圈，能装桩的位子一个手数得过来",
+      "opponent": "「外面充电一样方便」的销售话术",
+      "promise": "4 个条件逐条自测，任何一条不过就别买",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "条件对应可查的桩密度/电价/排队数据",
+      "risk": "不许替读者下「一定不能买」的结论",
+      "verify_before_write": [
+        "当地公共桩密度数据",
+        "公共桩电价"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T17",
+      "cat": "C7",
+      "title": "价格战第三年，谁在赔本卖车：从单车毛利看",
+      "subject": [
+        "上市车企财报",
+        "单车毛利"
+      ],
+      "hook_type": "B",
+      "scene": "财报附录里一行「单车毛利」，比去年缩了一半",
+      "opponent": "把亏损说成「战略投入」的公关口径",
+      "promise": "几家上市车企的单车毛利对比 + 谁在真亏",
+      "evidence": [
+        "financial",
+        "official"
+      ],
+      "verifiable": "财报原文页码 + 计算口径",
+      "risk": "必须用合并口径，不许拿不同口径横比",
+      "verify_before_write": [
+        "各车企最新季报/年报",
+        "销量公告"
+      ],
+      "timeliness": "event"
+    },
+    {
+      "id": "T18",
+      "cat": "C7",
+      "title": "大众 ID.4 和 ID.6：同平台差 5 万，拆配置不拆车",
+      "subject": [
+        "大众 ID.4",
+        "大众 ID.6"
+      ],
+      "hook_type": "C",
+      "scene": "两张配置表铺开，同平台那几行完全一样，价差全在下半页",
+      "opponent": "「换个壳就加价」的模糊定价",
+      "promise": "5 万差价拆成 N 项，逐项标值不值",
+      "evidence": [
+        "spec",
+        "price"
+      ],
+      "verifiable": "同平台依据（官方平台名）+ 逐项配置",
+      "risk": "平台判断必须有官方或公告依据",
+      "verify_before_write": [
+        "两车官方平台说明",
+        "配置表对照"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T19",
+      "cat": "C7",
+      "title": "广州车展 2026：秦PLUS、银河 E5 之外，15 万还该看哪几台",
+      "subject": [
+        "比亚迪 秦PLUS",
+        "吉利银河 E5",
+        "2026 广州车展"
+      ],
+      "hook_type": "A",
+      "scene": "展馆 B 区入口，把 8 台车的名字写在手背上，怕走到一半记混",
+      "opponent": "只展高配、不摆价格牌的展台",
+      "promise": "8 台车按 15 万落地排序，逐台给一条去或留的理由",
+      "evidence": [
+        "spec",
+        "price",
+        "official"
+      ],
+      "verifiable": "展位图与厂商指导价均可现场或官网核对",
+      "risk": "车展是否举办、展位是否变动，写前必须先查官方公告",
+      "verify_before_write": [
+        "广州车展 2026 官方展位图",
+        "各车厂商指导价"
+      ],
+      "timeliness": "event"
+    },
+    {
+      "id": "T20",
+      "cat": "C7",
+      "title": "固态电池：宁德时代、比亚迪都说要上，2026 到底谁量产了",
+      "subject": [
+        "宁德时代",
+        "比亚迪"
+      ],
+      "hook_type": "B",
+      "scene": "把各家发布会上的时间点抄在一条时间轴上，2026 那一格被圈了三次",
+      "opponent": "把「半固态」说成「固态」的命名话术",
+      "promise": "各家时间点与真实装车口径对照，指出哪一步还没兑现",
+      "evidence": [
+        "official",
+        "reg"
+      ],
+      "verifiable": "官方电池发布公告 + 工信部新车公告里的电池类型",
+      "risk": "不许说某厂「虚假宣传」，只列公开口径与公告差异",
+      "verify_before_write": [
+        "各厂官方电池发布公告",
+        "工信部新车公告电池类型"
+      ],
+      "timeliness": "event"
+    }
+  ]
+}
