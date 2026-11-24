@@ -210,11 +210,11 @@
    "accept": "PANEL-hei-full.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-PANEL.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-PANEL.err.log",
-   "status": "claimed",
-   "retries": 2,
+   "status": "pending",
+   "retries": 3,
    "claimed_ts": "2026-11-24T14:11:02",
    "last_error": "no-deliverable",
-   "requeued_ts": "2026-11-24T13:51:47"
+   "requeued_ts": "2026-11-24T14:11:46"
   },
   {
    "id": "PROD-DUANJU-SHANGLU-EP01-KF",
