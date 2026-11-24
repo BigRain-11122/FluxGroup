@@ -1,0 +1,530 @@
+{
+  "_comment": "选题库 v4（2026-11-24）。CEO 令：主要是包装自己立专业人设，其他才是流量。全矩阵 60 条见 TOPIC-MATRIX-v4.md，此处为 P0 20 条。",
+  "version": "v4",
+  "updated": "2026-11-24",
+  "honesty_rule": "每条必须写 subject/scene/opponent/verify_before_write；不许说『丑』必须给改法；不许编数据；不许装实测。",
+  "forbidden_promises": [
+    "我实测",
+    "我跑了",
+    "我开了几万公里",
+    "我把这几台车摆一起",
+    "我拆了",
+    "我上了举升机",
+    "我连续跟车"
+  ],
+  "hook_types": {
+    "A": "具体动作+现场物",
+    "B": "数字规格+悬念",
+    "C": "断言+对比收口"
+  },
+  "evidence_types": [
+    "spec",
+    "price",
+    "reg",
+    "financial",
+    "owner",
+    "official"
+  ],
+  "categories": [
+    {
+      "id": "A",
+      "name": "HMI 视觉设计",
+      "why_click": "正职核心，别人连词都没有"
+    },
+    {
+      "id": "B",
+      "name": "智能座舱",
+      "why_click": "每天要点二十次的屏幕，没人认真写它好不好用"
+    },
+    {
+      "id": "C",
+      "name": "汽车设计",
+      "why_click": "造型与比例，最容易被看见也最容易被误判"
+    },
+    {
+      "id": "D",
+      "name": "内饰设计",
+      "why_click": "内行看门道的地方"
+    }
+  ],
+  "topics": [
+    {
+      "id": "A01",
+      "cat": "A",
+      "title": "同一块屏，为什么新势力要点三层、传统车企要五层",
+      "subject": [
+        "新势力",
+        "传统车企"
+      ],
+      "hook_type": "C",
+      "scene": "同一个「关闭车道保持」，一台点两下，一台点五下，指尖在屏幕上找了三圈",
+      "opponent": "把「功能多」当「设计好」的堆料逻辑",
+      "promise": "两种信息架构的差异 + 各自代价 + 正确层级怎么定",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方界面截图逐层还原，点击路径可复现",
+      "risk": "界面随 OTA 变化，必须标版本与日期",
+      "verify_before_write": [
+        "各厂官方界面截图",
+        "公开信息架构资料"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A02",
+      "cat": "A",
+      "title": "小米 YU7 的中控屏：把最常用的三个功能藏到哪了",
+      "subject": [
+        "小米 YU7",
+        "中控屏"
+      ],
+      "hook_type": "A",
+      "scene": "想关掉一个提示音，手指在屏幕上点了四下才找到开关，而它本该在第一屏",
+      "opponent": "把「极简」当「少放东西」的设计",
+      "promise": "三个高频功能的实际路径 + 各自该放哪一屏",
+      "evidence": [
+        "official"
+      ],
+      "verifiable": "官方座舱页截图 + 路径还原",
+      "risk": "不许写「我试了」，只引官方演示",
+      "verify_before_write": [
+        "小米 YU7 官网座舱页",
+        "官方 OTA 说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A05",
+      "cat": "A",
+      "title": "问界 M9 的 HUD 塞了十几项：开车时你能读到第几项",
+      "subject": [
+        "问界 M9",
+        "HUD"
+      ],
+      "hook_type": "B",
+      "scene": "高速上 HUD 同时亮着导航、限速、车道、来电，眼睛不知道该落哪一项",
+      "opponent": "「信息越多越智能」的堆料逻辑",
+      "promise": "HUD 信息按「必须看/可后看/不该看」分三档 + 各厂现状",
+      "evidence": [
+        "official",
+        "reg"
+      ],
+      "verifiable": "官方 HUD 说明 + 人机工程公开资料",
+      "risk": "不给具体车型下「危险」结论，只谈信息优先级",
+      "verify_before_write": [
+        "问界 M9 官方 HUD 说明",
+        "HUD 相关国标/公开研究"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A06",
+      "cat": "A",
+      "title": "同一块屏，为什么有的字看着累：字重与行高的账",
+      "subject": [
+        "字重",
+        "行高"
+      ],
+      "hook_type": "C",
+      "scene": "两块屏同样字号，一块读三行眼睛就发酸，一块能读完整段",
+      "opponent": "只调字号不调字重行高的做法",
+      "promise": "字重/行高/字距三项正确取值 + 自测方法",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "官方截图测量，参数可复现",
+      "risk": "测量受截图分辨率影响，须标原始尺寸",
+      "verify_before_write": [
+        "各车官方界面截图",
+        "公开排版规范"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A08",
+      "cat": "A",
+      "title": "深色模式发灰：不是屏幕问题，是色阶没做",
+      "subject": [
+        "深色模式",
+        "色阶"
+      ],
+      "hook_type": "C",
+      "scene": "夜里开导航，背景是灰的、地图是灰的、连按钮都是灰的，整屏糊成一片",
+      "opponent": "把「深色模式」当「把白色调暗」的做法",
+      "promise": "深色模式三种常见错误 + 正确色阶怎么定",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方深色模式截图逐层取色，色值可复现",
+      "risk": "色差受拍摄影响，必须说明取色条件",
+      "verify_before_write": [
+        "各车官方深色模式截图",
+        "公开深色模式设计规范"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A10",
+      "cat": "A",
+      "title": "一张截图能看出的五种图标混用：拿小米 YU7 举例",
+      "subject": [
+        "小米 YU7",
+        "图标系统"
+      ],
+      "hook_type": "B",
+      "scene": "同一个界面里，有的图标是线性、有的是面性、有的带描边，三种风格打架",
+      "opponent": "「图标随手找」的设计流程",
+      "promise": "五种混用逐一标注 + 统一风格三条规则",
+      "evidence": [
+        "official"
+      ],
+      "verifiable": "官方截图局部放大，标注编号对应正文",
+      "risk": "不嘲讽具体设计师，只谈系统性问题",
+      "verify_before_write": [
+        "小米 YU7 官方界面截图",
+        "公开图标设计规范"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A12",
+      "cat": "A",
+      "title": "这个转场为什么廉价：动效曲线的三种错",
+      "subject": [
+        "转场",
+        "动效曲线"
+      ],
+      "hook_type": "C",
+      "scene": "点开菜单的那一下，动画先慢后猛，像被人推了一把",
+      "opponent": "把「有动画」当「有动效」的实现",
+      "promise": "三种错误缓动 + 每种正确曲线",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方动效录屏逐帧，曲线可反推",
+      "risk": "录屏帧率影响判断，须标帧率",
+      "verify_before_write": [
+        "各厂官方动效演示",
+        "公开缓动函数规范"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "A13",
+      "cat": "A",
+      "title": "3D 车模一眼假：渲染缺了哪几样",
+      "subject": [
+        "3D 车模",
+        "实时渲染"
+      ],
+      "hook_type": "C",
+      "scene": "屏幕里那台车，漆面反光像贴纸，阴影是硬边，一眼就知道是假的",
+      "opponent": "把「能显示 3D」当「渲染做得好」",
+      "promise": "缺的三样（PBR 材质/环境光遮蔽/反射探针）+ 各自代价",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方演示视频对照，技术点可验证",
+      "risk": "不点名具体供应商",
+      "verify_before_write": [
+        "各厂座舱 3D 演示",
+        "公开实时渲染技术资料"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "B01",
+      "cat": "B",
+      "title": "想关一个提示音，为什么要点四下",
+      "subject": [
+        "提示音",
+        "交互路径"
+      ],
+      "hook_type": "B",
+      "scene": "每次上车都要听那声提示音，关掉它用了四步，下次启动又回来了",
+      "opponent": "把「设置项」藏进三级菜单的默认做法",
+      "promise": "四个高频开关的实际路径 + 各自该放哪",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "官方界面还原 + 车主反馈",
+      "risk": "路径随版本变化，须标版本",
+      "verify_before_write": [
+        "各厂官方界面",
+        "车主社区高频问题"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "B07",
+      "cat": "B",
+      "title": "说「我有点冷」它该做什么：座舱智能体的三档理解力",
+      "subject": [
+        "座舱智能体",
+        "意图理解"
+      ],
+      "hook_type": "A",
+      "scene": "你说「有点冷」，它回「已为您打开空调」——但没问你要几度，也没管副驾",
+      "opponent": "把「能听懂」当「懂你」的宣传",
+      "promise": "三档理解力（执行/追问/预判）+ 各厂现在到哪档",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方演示逐条对照",
+      "risk": "不许写「我试了」，只引官方演示",
+      "verify_before_write": [
+        "各厂座舱智能体官方演示",
+        "公开大模型能力说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "B13",
+      "cat": "B",
+      "title": "汽车快报实测 13.6 秒：低头一次等于盲开多少米",
+      "subject": [
+        "汽车快报",
+        "分心驾驶"
+      ],
+      "hook_type": "B",
+      "scene": "英国媒体实测：关一次车道保持平均要 13.6 秒，个别车型超 20 秒",
+      "opponent": "把「触屏化」当「进步」的成本转移",
+      "promise": "13.6 秒换算的盲开距离 + 各家触屏化程度",
+      "evidence": [
+        "official",
+        "reg"
+      ],
+      "verifiable": "报告原文 + 车速换算可复算",
+      "risk": "数据必须标来源与年份，换算须给假设车速",
+      "verify_before_write": [
+        "英国《汽车快报》实测报告",
+        "分心驾驶相关研究"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "C02",
+      "cat": "C",
+      "title": "尺寸几乎相同的 Model Y 和小鹏 G6，为什么一台显大",
+      "subject": [
+        "特斯拉 Model Y",
+        "小鹏 G6"
+      ],
+      "hook_type": "C",
+      "scene": "两台车停一起，参数差不到两厘米，一台看着像中型一台像紧凑型",
+      "opponent": "只看尺寸参数不看比例",
+      "promise": "三个影响视觉尺寸的比例变量 + 各车型对照",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "尺寸参数 + 实拍对照",
+      "risk": "实拍受镜头焦段影响，须标焦段",
+      "verify_before_write": [
+        "两车官方尺寸参数",
+        "同角度实拍对照"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "C05",
+      "cat": "C",
+      "title": "同一个白色，为什么有的高级有的廉价",
+      "subject": [
+        "车漆",
+        "白色"
+      ],
+      "hook_type": "C",
+      "scene": "同样叫「珍珠白」，一台在阳光下有层次，一台发黄发闷",
+      "opponent": "把「白色」当同一种颜色的做法",
+      "promise": "车漆工艺差异（素色/珠光/云母）+ 各自成本",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方色卡 + 工艺说明",
+      "risk": "照片色差大，须说明拍摄条件",
+      "verify_before_write": [
+        "各车官方色卡",
+        "公开车漆工艺资料"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "C09",
+      "cat": "C",
+      "title": "豪华感是怎么做出来的：三个可量化的维度",
+      "subject": [
+        "豪华感",
+        "感知质量"
+      ],
+      "hook_type": "B",
+      "scene": "坐进两台 30 万的车，一台让你想摸一摸，一台让你想快点下车",
+      "opponent": "把「堆料」当「豪华」",
+      "promise": "三个可量化维度（材质/做工/光）+ 评分方法",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "实拍 + 公开感知质量标准",
+      "risk": "不给具体车型总分，只给方法",
+      "verify_before_write": [
+        "公开感知质量（PQ）资料",
+        "各车内饰官方图"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "C11",
+      "cat": "C",
+      "title": "广州车展 2026：8 台新车按设计语言排个序",
+      "subject": [
+        "广州车展",
+        "设计语言"
+      ],
+      "hook_type": "B",
+      "scene": "同一个展馆走下来，8 台车的前脸像同一个设计师画的",
+      "opponent": "「家族化」变成「同质化」的行业惯性",
+      "promise": "8 台车按设计语言分组 + 各自辨识度",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方展位图 + 实拍",
+      "risk": "车展是否举办、展位是否变动，写前必须查官方公告",
+      "verify_before_write": [
+        "广州车展 2026 官方展位图",
+        "各车官方发布"
+      ],
+      "timeliness": "event"
+    },
+    {
+      "id": "D01",
+      "cat": "D",
+      "title": "同一块皮革，为什么有的坐着高级有的像塑料",
+      "subject": [
+        "皮革",
+        "材质"
+      ],
+      "hook_type": "C",
+      "scene": "两台车都写「真皮座椅」，一台摸着有毛孔，一台像 PU",
+      "opponent": "把「真皮」当统一品质的配置表写法",
+      "promise": "皮革分级（头层/二层/PU）+ 怎么一眼分辨",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "官方材料说明 + 实拍",
+      "risk": "不许凭手感下结论，须给可核验材料标识",
+      "verify_before_write": [
+        "各车内饰材料说明",
+        "公开皮革分级资料"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "D04",
+      "cat": "D",
+      "title": "双拼色内饰：分割线放哪决定高级感",
+      "subject": [
+        "双拼色",
+        "内饰"
+      ],
+      "hook_type": "C",
+      "scene": "同样双拼，一台的分割线藏在腰线下，一台横穿整个门板",
+      "opponent": "「双拼」不分位置的做法",
+      "promise": "分割线的三条原则 + 各车型对照",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "实拍 + 官方图",
+      "risk": "照片受光线影响，须标光源",
+      "verify_before_write": [
+        "各车内饰官方图",
+        "公开色彩分割资料"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "D08",
+      "cat": "D",
+      "title": "手机放哪：这个最基本的问题各家答案差多少",
+      "subject": [
+        "手机",
+        "储物"
+      ],
+      "hook_type": "C",
+      "scene": "上车第一件事是找地方放手机，有的车有专属位，有的只能扔杯架",
+      "opponent": "把「无线充电板」当「手机位」",
+      "promise": "各家手机位设计对照 + 好用三条标准",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "实拍 + 车主反馈",
+      "risk": "不许编造使用体验，只引公开反馈",
+      "verify_before_write": [
+        "各车官方内饰图",
+        "车主社区讨论"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "D10",
+      "cat": "D",
+      "title": "接缝与缝隙：一眼看出做工的三个位置",
+      "subject": [
+        "接缝",
+        "做工"
+      ],
+      "hook_type": "B",
+      "scene": "坐进车里摸三个地方，就知道这台车装配用不用心",
+      "opponent": "把「做工」当玄学的说法",
+      "promise": "三个关键接缝位置 + 各自判断标准",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "实拍测量，缝隙可量",
+      "risk": "测量须同光照、同角度",
+      "verify_before_write": [
+        "各车实拍",
+        "公开装配质量标准"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "D13",
+      "cat": "D",
+      "title": "氛围灯开满，内饰光污染有多严重",
+      "subject": [
+        "氛围灯",
+        "光污染"
+      ],
+      "hook_type": "C",
+      "scene": "夜里把氛围灯调到最亮，前挡风玻璃上全是倒影，看路都费劲",
+      "opponent": "把「灯多」当「氛围好」",
+      "promise": "光污染的三种来源 + 各家控制策略",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "实拍 + 官方说明",
+      "risk": "拍摄须同曝光，否则不可比",
+      "verify_before_write": [
+        "各车官方氛围灯说明",
+        "夜间实拍"
+      ],
+      "timeliness": "evergreen"
+    }
+  ]
+}
