@@ -878,7 +878,14 @@ def main():
             p += "提到一个具体的东西（画面/剪辑/镜头/转场/配乐）。"
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
-        t, lane = make_text(p, lanes=("lora",))
+        # 车道按人群段定（2026-11-24）：实测有 3 个段 adapter 比基座差，
+        # 硬走 lora 等于在这些人群上写得更差。策略文件由 eval_trend 的事实生成。
+        try:
+            import seg_policy as _sp
+            _lanes = tuple(_sp.lanes_for(seg))
+        except Exception:
+            _lanes = ("lora", "4b")
+        t, lane = make_text(p, lanes=_lanes)
         t = lc.fix_emoji(t)          # [打 call] → [打call]：写法瑕疵不该整条作废
         if not t or not (lo <= len(t) <= hi):
             log({"action": "skip", "why": "length:%d not in %d-%d" % (len(t or ""), lo, hi),
