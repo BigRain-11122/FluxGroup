@@ -1,18 +1,16 @@
 {
- "ts": "2026-11-24T10:07:26",
+ "ts": "2026-11-24T16:07:26",
  "node": "bm-c",
  "kind": "pipeline-evolution",
  "cycle": "6h",
  "canon_age_days": {
-  "drama_v3": 1.5,
-  "heroine_factory": 1.5,
-  "production_router": 0.5
+  "drama_v3": 1.8,
+  "heroine_factory": 1.7,
+  "production_router": 0.7
  },
  "router_signals": {
-  "ts": "2026-11-24T10:05:37",
-  "stalls": [
-   "gpu-lane-stalled: factory alive but no output & GPU idle"
-  ],
+  "ts": "2026-11-24T16:05:37",
+  "stalls": [],
   "throughput": {
    "pl_ql_last10min": 0
   },
@@ -21,37 +19,31 @@
  "recent_receipts": [
   {
    "file": "autodrive-hb-bm-c.json",
-   "ts": "2026-11-24T10:06:30.894",
+   "ts": "2026-11-24T16:06:30.439",
    "name": null
   },
   {
    "file": "_last_lane_bm-c.json",
-   "ts": "2026-11-24T10:06:30",
+   "ts": "2026-11-24T16:06:30",
    "name": null
   },
   {
    "file": "production-router-bm-c.json",
-   "ts": "2026-11-24T10:05:37",
+   "ts": "2026-11-24T16:05:37",
    "name": null
   },
   {
-   "file": "heroine-eu-bm-c.json",
-   "ts": "2026-11-24T10:01:47",
-   "name": "heroine-lora-eu-v1"
+   "file": "heroine-wm-bm-c.json",
+   "ts": "2026-11-24T13:37:11",
+   "name": "heroine-lora-wm-v1"
   },
   {
-   "file": "heroine-hx-bm-c.json",
-   "ts": "2026-11-24T06:24:03",
-   "name": "heroine-lora-hx-v1"
+   "file": "pipeline-evolution-bm-c.json",
+   "ts": "2026-11-24T10:07:26",
+   "name": null
   }
  ],
  "issues": [
-  {
-   "kind": "router-stall",
-   "detail": [
-    "gpu-lane-stalled: factory alive but no output & GPU idle"
-   ]
-  },
   {
    "kind": "slow-throughput",
    "lane": "pl_ql_last10min",
@@ -59,7 +51,6 @@
   }
  ],
  "proposals": [
-  "[proposal] 产线卡点 ['gpu-lane-stalled: factory alive but no output & GPU idle']——按 ProductionRouter 备道接续并复盘卡因（工艺/参数/通道）",
   "[proposal] 车道 pl_ql_last10min 出货 0/10min 偏慢——优化等待参数或换更快的生成通道"
  ],
  "note": "observation+proposal only; canon changes go through director/council channel"
