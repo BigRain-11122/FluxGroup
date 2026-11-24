@@ -8,10 +8,16 @@
 但代码里只有评论用的 8 字重合原语（social_comment_gen.shared_run），
 **没有任何东西检查「这篇是不是已经用别的号发过」**。
 
-判据（k=6 连续字，沿用 MULTI-ACCOUNT.md 口径）：
-  候选稿的 6-gram 有 ≥60% 出现在
-    · 别的号近 14 天的发布里 → FAIL（搬运）
-    · 同一个号近 30 天的发布里 → FAIL（自我重复，同样伤推荐）
+判据（k=6 连续字）。三种关系的判定必须分开，这是平台多了以后才暴露的：
+
+| 关系 | 线 | 结论 | 为什么 |
+|---|---|---|---|
+| 同号重复 | 60% / 30 天 | **FAIL** | 自己发自己，粉丝最先烦 |
+| 同平台跨号 | 60% / 14 天 | **FAIL** | 平台判搬运不看是不是同一个人 |
+| 跨平台 | 70% / 14 天 | **WARN** | 一稿改造发多平台是正常运营；但 70% 以上就不是改造，是复制粘贴 |
+
+> 这条 70% 的线是有代价的：实测「保留一半原文」正好压到 70% 附近，
+> 所以真想跨平台复用，必须**真改写**而不是换几个词。
 
 刻意不做的事：
   · 判不了「换个说法重发」的语义搬运——那要模型。现在先守住字面这条。
@@ -39,7 +45,8 @@ REGISTRY = os.path.join(ROOT, "cph4", "fleet", "social", "ACCOUNTS-REGISTRY-v1.j
 LEDGER = os.path.join(ROOT, "cph4", "fleet", "social", "state", "PUBLISHED.jsonl")
 
 K = 6
-THRESH = 0.60
+THRESH = 0.60              # 同号 / 同平台跨号：搬运线
+CROSS_PLATFORM_THRESH = 0.70   # 跨平台：改造线（一稿多平台是正常运营，70% 以上才算复制粘贴）
 CROSS_DAYS = 14
 SELF_DAYS = 30
 MIN_GRAMS = 8      # 少于这么多个 6-gram 就判不了，直接 SKIP
@@ -97,13 +104,26 @@ def load_ledger():
     return rows
 
 
-def check(account, text, ledger=None, now=None):
-    """返回 (level, hits, stats)。level ∈ PASS/SKIP/FAIL。"""
+def check(account, text, ledger=None, now=None, platform=None):
+    """返回 (level, hits, stats)。level ∈ PASS / PASS-EMPTY / WARN / SKIP / FAIL。
+
+    三种关系的判定不同，这是平台多了以后必须分开的：
+      同号重复        → FAIL（自己发自己）
+      同平台跨号      → FAIL（平台判搬运不看是不是同一个人）
+      跨平台          → WARN（一稿改造多平台发布是正常运营；
+                        但门槛抬到 70%，因为 70% 以上就不是改造而是复制粘贴了）
+    """
     ledger = load_ledger() if ledger is None else ledger
     now = now or datetime.now()
+    my_platform = platform
+    if my_platform is None:
+        try:
+            my_platform = (load_registry().get(account) or {}).get("platform")
+        except Exception:  # noqa: BLE001
+            my_platform = None
     cg = grams(text)
-    stats = {"account": account, "grams": len(cg), "compared": 0,
-             "max_cross": 0.0, "max_self": 0.0}
+    stats = {"account": account, "platform": my_platform, "grams": len(cg),
+             "compared": 0, "max_cross": 0.0, "max_self": 0.0, "max_other_platform": 0.0}
     if len(cg) < MIN_GRAMS:
         stats["why"] = f"只有 {len(cg)} 个 6-gram，太短判不了（交给评论闸）"
         return "SKIP", [], stats
@@ -118,6 +138,13 @@ def check(account, text, ledger=None, now=None):
             continue
         age_days = (now - ts).total_seconds() / 86400
         same = r.get("account") == account
+        rp = r.get("platform")
+        if same:
+            relation = "同号"
+        elif my_platform and rp and rp == my_platform:
+            relation = "同平台跨号"
+        else:
+            relation = "跨平台"
         window = SELF_DAYS if same else CROSS_DAYS
         if age_days > window:
             continue
@@ -125,21 +152,28 @@ def check(account, text, ledger=None, now=None):
         c = containment(cg, grams(r.get("text", "")))
         if same:
             stats["max_self"] = max(stats["max_self"], c)
-        else:
+        elif relation == "同平台跨号":
             stats["max_cross"] = max(stats["max_cross"], c)
-        if c >= THRESH:
+        else:
+            stats["max_other_platform"] = max(stats["max_other_platform"], c)
+
+        limit = CROSS_PLATFORM_THRESH if relation == "跨平台" else THRESH
+        if c >= limit:
             k, frag = longest_shared(text, r.get("text", ""))
             hits.append({
-                "account": r.get("account"), "platform": r.get("platform"),
+                "account": r.get("account"), "platform": rp,
                 "ts": r.get("ts"), "age_days": round(age_days, 1),
                 "containment": round(c, 3), "same_account": same,
+                "relation": relation, "blocking": relation != "跨平台",
                 "title": (r.get("title") or "")[:40],
                 "longest": f"{k} 字连续重合：{frag[:30]}" if k else "",
             })
 
-    if hits:
-        hits.sort(key=lambda x: -x["containment"])
+    hits.sort(key=lambda x: -x["containment"])
+    if any(h["blocking"] for h in hits):
         return "FAIL", hits, stats
+    if hits:
+        return "WARN", hits, stats
     if stats["compared"] == 0:
         # 台账为空时的 PASS 是"没东西可比"，不是"不撞车"。必须显式标出来，
         # 否则就是"机制绿灯空转"的经典形态：闸天天绿，因为它根本没读数据。
@@ -190,9 +224,25 @@ def _ledger_with(now):
          "account": "bili-1", "platform": "bilibili", "kind": "published",
          "title": "配置表叠着看", "text": PRIOR_A},
         {"ts": (now - timedelta(days=5)).isoformat(timespec="seconds"),
-         "account": "gzh-1", "platform": "gzh", "kind": "published",
+         "account": "bili-2", "platform": "bilibili", "kind": "published",
          "title": "关掉一个功能要几步", "text": PRIOR_B},
+        {"ts": (now - timedelta(days=2)).isoformat(timespec="seconds"),
+         "account": "gzh-1", "platform": "gzh", "kind": "published",
+         "title": "长文原稿", "text": PRIOR_C},
     ]
+
+
+PRIOR_C = ("同一块屏，为什么新势力要点三层、传统车企要五层。" * 3
+           + "我把两条路径画在白板上，一共十一步，差的不是功能数量，是层级怎么定。"
+           + "层级定错的代价不只在多点两下，在于用户每次都要重新找一遍。" * 2)
+
+
+def _keep(prior, frac):
+    """保留原文 frac 比例，其余换成新内容（模拟改造与抄写之间的边界）。"""
+    parts = re.split(r"(?<=。)", prior)
+    return "".join(p if i < len(parts) * frac
+                   else "这一段我换成完全不同的表述，讲的是另外一层意思。"
+                   for i, p in enumerate(parts))
 
 
 def self_test():
@@ -207,33 +257,32 @@ def self_test():
     if lvl != "PASS":
         fails.append(f"正控[全新主题] 被判 {lvl}: {hits[:1]}")
 
-    # 2 负控：同一篇发到另一个号 → FAIL（跨号）
-    lvl2, hits2, _ = check("gzh-1", PRIOR_A, ledger=L, now=now)
+    # 2 负控：同一平台内换个号发 → FAIL（平台判搬运不看是不是同一个人）
+    lvl2, hits2, _ = check("bili-2", PRIOR_A, ledger=L, now=now)
     if lvl2 != "FAIL":
-        fails.append("负控[跨号搬运] 未判 FAIL")
-    elif not any(not h["same_account"] for h in hits2):
-        fails.append("负控[跨号搬运] 命中却归成同号")
+        fails.append(f"负控[同平台跨号] 未判 FAIL，实际 {lvl2}")
+    elif not any(h["relation"] == "同平台跨号" for h in hits2):
+        fails.append("负控[同平台跨号] 关系被判错")
 
-    # 3 负控：换掉三成措辞仍要判红（60% 门槛的边界）
-    parts = re.split(r"(?<=。)", PRIOR_A)
-    rewritten = "".join(p if i % 3 else "这一句我完全重写了，换了个说法讲另外一件事。" 
-                        for i, p in enumerate(parts))
-    lvl3, hits3, st3 = check("bili-2", rewritten, ledger=L, now=now)
-    if lvl3 != "FAIL":
-        fails.append(f"负控[换三成措辞] 未判红（重合 {st3['max_cross']:.2f}）")
+    # 3 负控：同号 30 天内自我重复 → FAIL
+    lvl3, hits3, _ = check("bili-2", PRIOR_B, ledger=L, now=now)
+    if lvl3 != "FAIL" or not any(h["relation"] == "同号" for h in hits3):
+        fails.append(f"负控[同号自我重复] 实际 {lvl3}")
 
-    # 4 正控：同选题但另起一稿必须 PASS
-    same_topic = ("同一块屏，为什么有人点两下有人点五下。" * 2
-                  + "我把这两条路径画在白板上，一共十一步，差的是层级不是功能。" * 2
-                  + "真正的成本不在屏幕，在用户每次都要重新找一遍。" * 2)
-    lvl4, hits4, st4 = check("gzh-1", same_topic, ledger=L, now=now)
-    if lvl4 != "PASS":
-        fails.append(f"正控[同题材另起一稿] 被误判（重合 {st4['max_cross']:.2f}）")
+    # 4 正控：跨平台高重合只能是 WARN，不许直接拦（一稿多平台是正常运营）
+    lvl4, hits4, st4 = check("gzh-1", _keep(PRIOR_A, 0.7), ledger=L, now=now,
+                             platform="gzh")
+    if lvl4 != "WARN":
+        fails.append(f"正控[跨平台高重合] 应为 WARN，实际 {lvl4}"
+                     f"（跨平台最高重合 {st4['max_other_platform']:.2f}）")
+    elif any(h["blocking"] for h in hits4):
+        fails.append("正控[跨平台高重合] 被标成阻塞")
 
-    # 5 负控：同号 30 天内自我重复 → FAIL
-    lvl5, hits5, _ = check("gzh-1", PRIOR_B, ledger=L, now=now)
-    if lvl5 != "FAIL" or not any(h["same_account"] for h in hits5):
-        fails.append("负控[同号自我重复] 未判红或未归成同号")
+    # 5 正控：跨平台真改造（重合掉到 70% 以下）必须 PASS
+    lvl5, _, st5 = check("gzh-1", _keep(PRIOR_A, 0.3), ledger=L, now=now, platform="gzh")
+    if lvl5 != "PASS":
+        fails.append(f"正控[跨平台真改造] 应为 PASS，实际 {lvl5}"
+                     f"（重合 {st5['max_other_platform']:.2f}）")
 
     # 6 边界：太短必须 SKIP 而不是 PASS（假绿的经典形态）
     lvl6, _, _ = check("gzh-1", "这条屏真难用。", ledger=L, now=now)
@@ -244,24 +293,27 @@ def self_test():
     old = [{"ts": (now - timedelta(days=40)).isoformat(timespec="seconds"),
             "account": "bili-1", "platform": "bilibili", "kind": "published",
             "text": PRIOR_A}]
-    lvl7, _, st7 = check("gzh-1", PRIOR_A, ledger=old, now=now)
+    lvl7, _, st7 = check("bili-2", PRIOR_A, ledger=old, now=now)
     if lvl7 == "FAIL":
         fails.append("负控[超窗口] 40 天前的稿子仍在拦")
     elif not st7.get("empty"):
         fails.append("负控[超窗口] 超窗口后应落回「无可比对象」，实际仍在比对")
 
-    # 8 record 撞车必须拒绝入账（台账不许被污染）
+    # 8 record 只拦阻塞级（同平台/同号），跨平台 WARN 仍要能入账
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         global LEDGER
         keep = LEDGER
         LEDGER = os.path.join(td, "PUBLISHED.jsonl")
-        ok, info = record("gzh-1", PRIOR_A, ledger=L, now=now)
+        ok, _ = record("bili-2", PRIOR_A, ledger=L, now=now)
         if ok:
-            fails.append("负控[record] 撞车稿被写入台账")
+            fails.append("负控[record] 同平台撞车稿被写入台账")
         ok2, _ = record("gzh-1", new_doc, ledger=L, now=now)
         if not ok2:
             fails.append("正控[record] 正常稿被拒绝")
+        ok3, _ = record("gzh-1", _keep(PRIOR_A, 0.7), ledger=L, now=now)
+        if not ok3:
+            fails.append("正控[record] 跨平台改造稿被拒绝（WARN 不该阻塞入账）")
         LEDGER = keep
 
     # 9 负控：空台账不许伪装成 PASS（"机制绿灯空转"的经典形态）
@@ -274,7 +326,7 @@ def self_test():
         for f in fails:
             print("  -", f, file=sys.stderr)
         return 4
-    print("SELF-TEST OK 9/9  (3 正控 + 5 负控含空台账 + record 拒绝污染)")
+    print("SELF-TEST OK 9/9  (4 正控 + 4 负控 + 空台账不伪装 PASS)")
     return 0
 
 
@@ -330,21 +382,27 @@ def main():
         return 0
 
     lvl, hits, st = check(a.account, text)
-    print(f"{lvl}  {a.account}  6-gram {st['grams']} 个 / 比对 {st['compared']} 条 "
-          f"/ 跨号最高重合 {st['max_cross']:.0%} / 同号最高重合 {st['max_self']:.0%}")
+    print(f"{lvl}  {a.account}({st['platform'] or '-'})  "
+          f"6-gram {st['grams']} 个 / 比对 {st['compared']} 条\n"
+          f"      同号 {st['max_self']:.0%}（线 60%）"
+          f" / 同平台跨号 {st['max_cross']:.0%}（线 60%）"
+          f" / 跨平台 {st['max_other_platform']:.0%}（线 70%）")
     if st.get("why"):
         print(f"  {st['why']}")
     if st.get("empty"):
         print(f"  ⚠ 台账为空（{LEDGER}），这条 PASS 只是「没东西可比」，不代表不撞车。\n"
               f"    先跑 --record 把已发内容记进去，闸才开始有判断力。")
     for h in hits:
-        print(f"  FAIL 撞 {h['account']}({h['platform']}) {h['age_days']} 天前 "
-              f"重合 {h['containment']:.0%} · {h['longest']}")
+        tag = "FAIL" if h["blocking"] else "WARN"
+        print(f"  {tag} [{h['relation']}] 撞 {h['account']}({h['platform']}) "
+              f"{h['age_days']} 天前 重合 {h['containment']:.0%} · {h['longest']}")
         if h["title"]:
             print(f"       已发标题：{h['title']}")
     if lvl == "FAIL":
         print("\n结论：这篇不能发。要么换角度重写，要么换号首发。", file=sys.stderr)
         return 1
+    if lvl == "WARN":
+        print("\n结论：跨平台高重合，允许发但读者会看到重复。有精力就再改写一轮。")
     return 0
 
 
