@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-24T09:51:59",
+ "ts": "2026-11-24T10:01:58",
  "verdict": "RED",
  "paused": false,
- "gpu_util": 91,
- "vram_used_mb": 9807,
+ "gpu_util": 3,
+ "vram_used_mb": 2613,
  "vram_total_mb": 16384,
  "comfy": false,
  "bank": {
@@ -25,41 +25,41 @@
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 11,
+   "last_run_age_s": 10,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 17096,
+   "last_run_age_s": 17695,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 101,
+   "last_run_age_s": 159,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "总控 Orchestrator",
    "task": "Bmc-Orchestrator",
-   "last_run_age_s": 10,
+   "last_run_age_s": 9,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 144,
+   "last_run_age_s": 143,
    "state": "OK",
    "result": 0
   }
  ],
  "alerts": [
   "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩",
-  "AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）"
+  "RED 空转：GPU 3% 且无在飞进程，但有 5 单 pending → 生产者未认领"
  ]
 }
