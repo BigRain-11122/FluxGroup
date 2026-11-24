@@ -189,11 +189,12 @@
    "accept": "clips-hei-480 内 mp4 数 ≥ 40（帧齐后可重跑补齐）",
    "log_out": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-MV-HEI-I2V.err.log",
-   "status": "claimed",
-   "retries": 3,
+   "status": "blocked",
+   "retries": 4,
    "claimed_ts": "2026-11-24T12:21:01",
    "last_error": "no-deliverable",
-   "requeued_ts": "2026-11-24T12:01:46"
+   "requeued_ts": "2026-11-24T12:01:46",
+   "blocked_ts": "2026-11-24T12:21:46"
   },
   {
    "id": "PROD-MV-HEI-PANEL",
