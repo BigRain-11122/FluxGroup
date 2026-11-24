@@ -48,6 +48,7 @@ CASES = [
     ("L1", "gzh_quality 长文质量闸", "gzh_quality.py", ["--self-test"]),
     ("L1", "eval_trend 训练趋势账", "eval_trend.py", ["--self-test"]),
     ("L1", "seg_policy 按段车道策略", "seg_policy.py", ["--self-test"]),
+    ("L1", "train_pipeline 训练后评测", "train_pipeline.py", ["--self-test"]),
     ("L1", "compute offer 算力商品", "compute_offer.py", ["--self-test"]),
     ("L1", "storage 存储分级", "storage_curator.py", ["--self-test"]),
     ("L1", "copy 合规闸", "copy_compliance.py", ["--self-test"]),
