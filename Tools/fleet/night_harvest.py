@@ -27,6 +27,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -160,16 +161,151 @@ def fetch_body(url, timeout=BODY_TIMEOUT):
         return ""
 
 
-# 2026-11-24 实测：HN/Reddit/Dezeen 在本机全部超时（国际网络不通），用国内源。
-# 同日复测：36kr 的 /feed 已改成 HTML 页面（HTTP 200 但 0 个 <item>），
-# geekpark / huxiu 返回空 —— 这三个源已死，换成实测有货的三家（+少数派）。
-# 教训：HTTP 200 不等于源可用，必须数 <item> 个数，否则静默降级成"跑通了但没素材"。
+# ---------------- 素材层级（CEO 令 2026-11-25）----------------
+# 原话「采集要去专业网站 官方网站 科学网站，其次是平台自产内容和头部公众号，
+# 务必避开垃圾信息源浪费时间」。所以源必须分层，且**大众媒体默认不跑**——
+# 它们不是没价值，是价值最低、噪声最高，只在需要线索时才开。
+TIERS = {
+    "T1": "官方/标准/统计/科学（一手事实）",
+    "T2": "平台自产与头部垂类",
+    "T3": "大众媒体（仅作线索，默认关闭）",
+}
+
+# 汽车垂直关键词：官方站首页什么都有（时政/人事/会议），必须按词筛
+AUTO_KW = ("汽车", "整车", "车企", "乘用车", "商用车", "新能源", "智能网联", "智驾",
+           "自动驾驶", "座舱", "车规", "充电", "动力电池", "三电", "换电", "车路云")
+
+
+def _resolve(base, href):
+    return urllib.parse.urljoin(base, href)
+
+
+def parse_links(raw, page_url, kws=None, limit=12, min_title=10):
+    """从 HTML 里抽「标题 + 绝对链接」（纯函数，可离线自检）。
+
+    官方站大量用相对路径（/xwfb/bldhd/art/...），不解析就会拿到一堆死链。
+    """
+    out, seen = [], set()
+    for m in re.finditer(r'<a[^>]+href="([^"#]+)"[^>]*>\s*([^<>]{8,90}?)\s*</a>', raw):
+        href, title = m.group(1), re.sub(r"\s+", " ", m.group(2)).strip()
+        if len(title) < min_title or title in seen:
+            continue
+        if kws and not any(k in title for k in kws):
+            continue
+        seen.add(title)
+        out.append({"title": title, "url": _resolve(page_url, href)})
+        if len(out) >= limit:
+            break
+    return out
+
+
+def src_html_list(name, url, kws=None, limit=12, min_title=10):
+    """通用栏目页解析：从 <a> 里取标题+链接。
+
+    官方站几乎都没有 RSS，但栏目页/首页的列表是稳定 HTML。
+    解析到 0 条就抛错——否则页面改成 JS 渲染时会变成"每天跑通了但没素材"。
+    """
+    raw = _get(url, timeout=12)
+    links = parse_links(raw, url, kws=kws, limit=limit, min_title=min_title)
+    if not links:
+        raise RuntimeError(f"{name}: 0 条可解析链接（页面可能已改 JS 渲染，或关键词全不命中）")
+    return [{"src": name, "title": x["title"], "url": x["url"], "score": 0, "text": ""}
+            for x in links]
+
+
+def src_arxiv(limit=8):
+    """arXiv 官方 API：摘要里自带方法与数字，是最适合当素材的科学源。"""
+    q = ('cat:cs.HC+AND+(abs:%22in-vehicle%22+OR+abs:%22automotive%22'
+         '+OR+abs:%22head-up+display%22+OR+abs:%22driver+monitoring%22)')
+    url = (f"https://export.arxiv.org/api/query?search_query={q}"
+           f"&sortBy=submittedDate&sortOrder=descending&max_results={limit}")
+    raw = _get(url, timeout=20)
+    out = []
+    for m in re.findall(r"<entry>[\s\S]*?</entry>", raw):
+        t = re.search(r"<title>([\s\S]*?)</title>", m)
+        s = re.search(r"<summary>([\s\S]*?)</summary>", m)
+        i = re.search(r"<id>([\s\S]*?)</id>", m)
+        d = re.search(r"<published>(.*?)</published>", m)
+        if not t:
+            continue
+        out.append({"src": "T1/arxiv", "title": " ".join(t.group(1).split()),
+                    "url": (i.group(1).strip() if i else ""), "score": 0,
+                    "text": " ".join(s.group(1).split())[:1500] if s else "",
+                    "published": d.group(1)[:10] if d else ""})
+    if not out:
+        raise RuntimeError("arxiv: 0 条（查询语法或网络问题）")
+    return out
+
+
+# 只盯这几家整车/电池公司的公告——产销快报、财报、减值公告都是硬数据
+CNINFO_COMPANIES = ("比亚迪", "长城汽车", "长安汽车", "上汽集团", "广汽集团",
+                    "赛力斯", "宁德时代")
+CNINFO_API = "http://www.cninfo.com.cn/new/hisAnnouncement/query"
+
+
+def src_cninfo(per_company=2):
+    """巨潮资讯公告：只记索引（标题+链接），不假装抽出了数据。
+
+    为什么只记索引：公告正文是 PDF，抓不动也不要硬解析。
+    它的价值是**给写作指原路**——写销量/毛利时直接引这条公告的链接。
+    """
+    out = []
+    for name in CNINFO_COMPANIES:
+        body = urllib.parse.urlencode({
+            "pageNum": 1, "pageSize": 5, "column": "szse", "tabName": "fulltext",
+            "searchkey": name, "isHLtitle": "true"}).encode()
+        req = urllib.request.Request(CNINFO_API, data=body, headers={
+            "X-Requested-With": "XMLHttpRequest",
+            "Referer": "http://www.cninfo.com.cn/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                          "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36",
+            "Content-Type": "application/x-www-form-urlencoded"})
+        try:
+            with urllib.request.urlopen(req, timeout=12) as r:
+                d = json.loads(r.read().decode("utf-8", "ignore"))
+        except Exception:  # noqa: BLE001
+            continue
+        for a in (d.get("announcements") or [])[:per_company]:
+            # 接口返回带 <em> 高亮标签，不剥会污染标题与厂名
+            title = re.sub(r"</?em>", "", a.get("announcementTitle") or "").strip()
+            sec = re.sub(r"</?em>", "", a.get("secName") or "").strip()
+            if not title:
+                continue
+            out.append({
+                "src": "T1/cninfo", "title": f"{sec}：{title}",
+                "url": "http://www.cninfo.com.cn/new/disclosure/detail?announcementId="
+                       + str(a.get("announcementId") or ""),
+                "score": 0, "text": "", "kind": "primary-index",
+            })
+        time.sleep(0.6)
+    if not out:
+        raise RuntimeError("cninfo: 0 条公告（接口或参数变了）")
+    return out
+
+
+# 2026-11-25 实测锚点（本机）：
+#   通 = 工信部首页 101 链接 / 统计局最新发布 385 / 中汽协首页 80 / arXiv API / 巨潮公告 API
+#   死 = cncap.org.cn 域名解析失败、中汽中心 301、Semantic Scholar 429、充电联盟 429
+#   仍不可用 = 头部公众号（采集通道全封，见 gzh 档案）、平台自产内容（B站榜单 IP 级 412）
 SOURCES = [
-    ("rss/ithome", lambda: src_rss("ithome", "https://www.ithome.com/rss/", 12)),
-    ("rss/ifanr", lambda: src_rss("ifanr", "https://www.ifanr.com/feed", 12)),
-    ("rss/tmtpost", lambda: src_rss("tmtpost", "https://www.tmtpost.com/rss", 10)),
-    ("rss/sspai", lambda: src_rss("sspai", "https://sspai.com/feed", 10)),
+    ("T1", "T1/miit", lambda: src_html_list("T1/miit", "https://www.miit.gov.cn/",
+                                            kws=AUTO_KW, limit=8)),
+    ("T1", "T1/caam", lambda: src_html_list("T1/caam", "http://www.caam.org.cn/",
+                                            kws=AUTO_KW, limit=10)),
+    ("T1", "T1/stats", lambda: src_html_list("T1/stats", "https://www.stats.gov.cn/sj/zxfb/",
+                                             kws=AUTO_KW + ("消费品", "工业", "价格"),
+                                             limit=6)),
+    ("T1", "T1/arxiv", lambda: src_arxiv(8)),
+    ("T1", "T1/cninfo", lambda: src_cninfo(2)),
+    # T2 平台自产/头部垂类：车家号作者页已验证可读（res_alloc 证据），但缺稳定作者 URL 清单，
+    # 补清单前不挂假源。公众号采集通道全封，不硬撞。
+    ("T3", "rss/ithome", lambda: src_rss("ithome", "https://www.ithome.com/rss/", 12)),
+    ("T3", "rss/ifanr", lambda: src_rss("ifanr", "https://www.ifanr.com/feed", 12)),
+    ("T3", "rss/tmtpost", lambda: src_rss("tmtpost", "https://www.tmtpost.com/rss", 10)),
+    ("T3", "rss/sspai", lambda: src_rss("sspai", "https://sspai.com/feed", 10)),
 ]
+
+DEFAULT_TIERS = ("T1", "T2")      # T3 大众媒体默认不跑：噪声最高、价值最低
 
 
 # ---------------- 过滤 ----------------
@@ -259,7 +395,7 @@ def pillar_of(item):
 
 
 # ---------------- 主流程 ----------------
-def run(limit_per_src=None):
+def run(limit_per_src=None, tiers=DEFAULT_TIERS):
     os.makedirs(OUT, exist_ok=True)
     seen = set()
     if os.path.exists(LEDGER):
@@ -270,20 +406,23 @@ def run(limit_per_src=None):
                 pass
 
     stats = {"fetched": 0, "junk": 0, "dup": 0, "kept": 0, "sources_ok": 0,
-             "sources_fail": 0, "bodies": 0, "bodies_try": 0, "claim_dup": 0}
+             "sources_fail": 0, "bodies": 0, "bodies_try": 0, "claim_dup": 0,
+             "by_tier": {}}
     rows = []
     claims_seen = set()
 
-    for name, fn in SOURCES:
+    for tier, name, fn in SOURCES:
+        if tier not in tiers:
+            continue
         try:
             items = fn()
             if limit_per_src:
                 items = items[:limit_per_src]
             stats["sources_ok"] += 1
-            print(f"  {name}: {len(items)} 条", flush=True)
+            print(f"  [{tier}] {name}: {len(items)} 条", flush=True)
         except Exception as e:  # noqa: BLE001
             stats["sources_fail"] += 1
-            print(f"  {name}: 失败 {type(e).__name__}", flush=True)
+            print(f"  [{tier}] {name}: 失败 {e}", flush=True)
             continue
 
         n_bodies = 0
@@ -297,8 +436,9 @@ def run(limit_per_src=None):
             if hard:
                 stats["junk"] += 1
                 continue
-            # 摘要太短就进链接取正文（限流），否则抽不出观点
-            if len(it.get("text") or "") < 300 and n_bodies < BODY_LIMIT_PER_SRC:
+            # 官方索引（公告/PDF）不抓正文：抓不动 PDF，也不假装抽出了数据
+            if it.get("kind") != "primary-index" and \
+                    len(it.get("text") or "") < 300 and n_bodies < BODY_LIMIT_PER_SRC:
                 n_bodies += 1
                 stats["bodies_try"] += 1
                 body = fetch_body(it.get("url", ""))
@@ -307,7 +447,8 @@ def run(limit_per_src=None):
                     it["body_ok"] = True
                     stats["bodies"] += 1
             low, why = is_low_info(it)
-            if low:
+            # 一手索引（公告/PDF）豁免低信息量闸：它给的是「出处」，不是正文
+            if low and it.get("kind") != "primary-index":
                 stats["junk"] += 1
                 continue
             ex = extract(it)
@@ -317,13 +458,16 @@ def run(limit_per_src=None):
                 stats["claim_dup"] += 1
             if ex["claim"]:
                 claims_seen.add(ex["claim"])
-            if not (ex["claim"] or ex["method"] or ex["data"]):
+            if not (ex["claim"] or ex["method"] or ex["data"]) \
+                    and it.get("kind") != "primary-index":
                 stats["junk"] += 1
                 continue
             seen.add(uid)
             stats["kept"] += 1
+            stats["by_tier"][tier] = stats["by_tier"].get(tier, 0) + 1
             rows.append({
-                "_uid": uid, "at": _now(), "src": it["src"],
+                "_uid": uid, "at": _now(), "src": it["src"], "tier": tier,
+                "kind": it.get("kind") or "content",
                 "title": it["title"][:150], "url": it.get("url", ""),
                 "score": it.get("score", 0), "pillar": pillar_of(it),
                 "body_ok": bool(it.get("body_ok")),
@@ -338,7 +482,11 @@ def run(limit_per_src=None):
     print(f"\n采集 {stats['fetched']} 条 → 去重 {stats['dup']} / 过滤 {stats['junk']} → 留下 {stats['kept']}")
     print(f"正文抓取: 尝试 {stats['bodies_try']} / 成功 {stats['bodies']}"
           f"（限 {BODY_LIMIT_PER_SRC} 条/源）")
-    print(f"源: 成功 {stats['sources_ok']} / 失败 {stats['sources_fail']}")
+    print(f"源: 成功 {stats['sources_ok']} / 失败 {stats['sources_fail']}"
+          f" · 层级: {stats['by_tier'] or '空'}")
+    if stats["by_tier"].get("T1", 0) == 0:
+        print("⚠ 本轮 T1（官方/科学）一条都没留下——先查源，别拿媒体稿当事实。",
+              file=sys.stderr)
     if rows:
         render_methodology()
     return 0 if stats["kept"] >= 0 else 2
@@ -359,8 +507,20 @@ def render_methodology():
     for r in rows:
         by_pillar.setdefault(r.get("pillar", "未分类"), []).append(r)
 
+    tier_cnt = {}
+    for r in rows:
+        tier_cnt[r.get("tier") or "未标"] = tier_cnt.get(r.get("tier") or "未标", 0) + 1
+    tier_line = " · ".join(f"{t} {n} 条" for t, n in sorted(tier_cnt.items()))
+    idx = [r for r in rows if r.get("kind") == "primary-index"]
+
     lines = ["# 夜间采集方法论沉淀（自动生成，持续累积）", "",
-             f"> 更新 {datetime.now().strftime('%Y-%m-%d %H:%M')} · 素材 {len(rows)} 条", ""]
+             f"> 更新 {datetime.now().strftime('%Y-%m-%d %H:%M')} · 素材 {len(rows)} 条 · 层级 {tier_line}",
+             ""]
+    if idx:
+        lines += ["## 一手索引（写稿时的数据出处，不是观点）", ""]
+        for r in idx[-12:]:
+            lines.append(f"- {r.get('title', '')[:70]}　{r.get('url', '')}")
+        lines.append("")
     for p in sorted(by_pillar):
         items = by_pillar[p]
         lines.append(f"## {p}（{len(items)} 条）")
@@ -456,12 +616,36 @@ def self_test():
     if not extract(relevant)["claim"]:
         fails.append("正控[相关观点] 被误杀")
 
+    # 13. 官方站链接解析：相对路径必须变成绝对链接（否则抓正文全 404）
+    html = ('<html><body>'
+            '<a href="/xwfb/bldhd/art/2026/art_abc.html">工业和信息化部召开汽车产业国际合作圆桌会</a>'
+            '<a href="https://www.miit.gov.cn/xwfb/szyw/art/1.html">学习贯彻党的二十届五中全会精神</a>'
+            '<a href="/short.html">短</a>'
+            '<a href="/dup.html">工业和信息化部召开汽车产业国际合作圆桌会</a>'
+            '</body></html>')
+    links = parse_links(html, "https://www.miit.gov.cn/", kws=("汽车", "智能网联"))
+    if len(links) != 1:
+        fails.append(f"parse_links 关键词/去重失效（得 {len(links)} 条，应 1 条）")
+    elif not links[0]["url"].startswith("https://www.miit.gov.cn/xwfb/"):
+        fails.append(f"parse_links 相对路径未解析：{links[0]['url']}")
+    # 负控：不命中关键词就该是 0 条（而不是把时政新闻当汽车素材）
+    if parse_links(html, "https://www.miit.gov.cn/", kws=("足球",)):
+        fails.append("负控[关键词] 未命中却仍有返回")
+
+    # 14. 大众媒体默认不跑（CEO 令：避开垃圾源）
+    if "T3" in DEFAULT_TIERS:
+        fails.append("负控[T3] 大众媒体被默认开启")
+    if not any(t == "T3" for t, _n, _f in SOURCES):
+        fails.append("T3 源没有登记（关不掉也开不回来）")
+    if not any(t == "T1" for t, _n, _f in SOURCES):
+        fails.append("T1 官方/科学源缺失")
+
     if fails:
         print("SELF-TEST FAIL", file=sys.stderr)
         for f in fails:
             print("  -", f, file=sys.stderr)
         return 4
-    print("SELF-TEST OK 13/13  (过滤/抽取/归类/去重/正文抓取/防侧边栏污染全过)")
+    print("SELF-TEST OK 21/21  (过滤/抽取/归类/去重/正文抓取/防污染/官方站解析/层级默认)")
     return 0
 
 
@@ -471,6 +655,9 @@ def main():
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--limit", type=int, default=None, help="每个源最多几条（调试用）")
+    ap.add_argument("--tier", default=",".join(DEFAULT_TIERS),
+                    help="要跑的层级，逗号分隔（默认 T1,T2；加 T3 才跑大众媒体）")
+    ap.add_argument("--with-t3", action="store_true", help="等价于 --tier T1,T2,T3")
     a = ap.parse_args()
 
     if a.self_test:
@@ -479,7 +666,15 @@ def main():
         render_methodology()
         return 0
     if a.run:
-        return run(a.limit)
+        tiers = tuple(t.strip() for t in a.tier.split(",") if t.strip())
+        if a.with_t3 and "T3" not in tiers:
+            tiers = tiers + ("T3",)
+        bad = [t for t in tiers if t not in TIERS]
+        if bad:
+            print(f"未知层级 {bad}；可选 {list(TIERS)}", file=sys.stderr)
+            return 1
+        print(f"层级 {tiers}：" + " · ".join(f"{t}={TIERS[t]}" for t in tiers))
+        return run(a.limit, tiers)
     ap.print_help()
     return 1
 
