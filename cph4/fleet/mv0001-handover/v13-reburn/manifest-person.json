@@ -1,0 +1,27 @@
+{
+ "policy": "v13 人物镜补齐 · 两镜连烧（模型驻留不重载）。目的=把剪辑从「物-物-物」改成「人-物-人-物」交替。表演写法按 mv-performance 席：只写意图+时序，不写情绪词。",
+ "wave": "v13-person-shots",
+ "total": 2,
+ "units": [
+  {
+   "id": "V13_KF8_CASE",
+   "track": "MV0001",
+   "win_s": 2.5,
+   "speed": 1.0,
+   "src_s": 2.5,
+   "policy_band": "3s",
+   "frame": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf/KF8_case.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A locked-off medium shot of a museum vitrine; the framing stays exactly as the first frame and the camera holds perfectly still. A cracked black basalt tablet covered in carved wedge marks stands upright behind the glass, and the reflection of a young woman with long dark hair falls across the tablet's dark surface; warm tungsten halogen at 3000K lights the case from above, the room beyond falling to warm black. She is searching the carving: first her eyes travel slowly left to right along one band of wedge marks, then around one second she leans in a little closer, her head staying in the same profile angle, and a faint breath of fog blooms on the cold glass beside her cheek and fades. Her lips stay together and closed; only her eyes, her small lean and that bloom of fog on the glass move. Fine 35mm grain, warm halation along the glass edge, black point slightly lifted, warm natural skin, the same hall and the same lighting as the first frame."
+  },
+  {
+   "id": "V13_KF10_WALK",
+   "track": "MV0001",
+   "win_s": 2.5,
+   "speed": 1.0,
+   "src_s": 2.5,
+   "policy_band": "3s",
+   "frame": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf/KF10_walkaway.png",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A locked-off wide shot down a dark museum hall; the framing stays exactly as the first frame and the camera holds perfectly still. A young woman with long dark hair, a cream knit sweater and a shoulder bag walks slowly away from the camera down the aisle between lit glass cases, warm tungsten pools of light at 3000K marking the way, the far end of the hall falling to warm black. Around one second she slows and stops mid-stride beside a case, half-turns her head toward the lit object inside, holds there for a beat, and then continues walking out of the light. Her stride stays slow and even, her arms swing naturally, her head turning only after her feet have stopped. Fine 35mm grain, warm halation around each case light, black point slightly lifted, the same hall and the same lighting as the first frame."
+  }
+ ]
+}
