@@ -194,6 +194,32 @@ def log(rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+def _recent_openings(n=20):
+    """跨天取最近 n 条已发文案的开头 2 字 → {开头: 次数}。读台账尾部，不分日期。"""
+    out = {}
+    try:
+        lines = open(LEDGER, encoding="utf-8").read().splitlines()
+    except FileNotFoundError:
+        return out
+    got = 0
+    for line in reversed(lines):
+        if got >= n:
+            break
+        if not line.strip():
+            continue
+        try:
+            r = json.loads(line)
+        except Exception:
+            continue
+        if r.get("action") == "post" and r.get("text"):
+            import comment_taste as _ct
+            op = _ct.opening_key(r["text"])
+            if op:
+                out[op] = out.get(op, 0) + 1
+                got += 1
+    return out
+
+
 COLLECT_EVERY_MIN = 25   # 采集（看视频）独立节拍：约半小时一条，仍是"人"的频率
 
 
@@ -811,16 +837,10 @@ def main():
     except Exception as e:
         log({"action": "route", "seg": seg, "ok": False, "note": str(e)[:80]})
 
-    # 连发同款开头的检查：读最近 20 条投出去的文案，开头两个字重复的扣优先级。
-    # 单条看不出问题，连着发就是模板（2026-11-20 实测 12 条里 9 条是"那个/那"）。
-    recent_ops = {}
-    try:
-        for r in rows_today()[-40:] + []:
-            if r.get("action") == "post" and r.get("text"):
-                op = ct.opening_key(r["text"])
-                recent_ops[op] = recent_ops.get(op, 0) + 1
-    except Exception:
-        pass
+    # 连发同款开头的检查：读**跨天**的最近 20 条已发文案。
+    # 原来只读 rows_today()，每天重置——于是"你那…"一天冒一个、天天不断
+    # （2026-11-24 实测 36 条里 5 条以"你那"开头，而当天内是判重了的）。
+    recent_ops = _recent_openings(20)
 
     # 视频内容简报：从这条视频的真实评论里抽"观众在聊什么"，让稿子指着具体内容说
     try:
@@ -888,7 +908,9 @@ def main():
         # 品味分只用来排序，不再一票否决（2026-11-21 回归：当及格线会误杀亲笔句 88%）。
         s = ct.score(t, seg=seg or None)
         key = (s["voice"] + s["human"], s["total"])
-        if recent_ops.get(ct.opening_key(t)):
+        # 只禁"系统性重复"（近 20 条里出现 ≥2 次）。一律全禁会把 14/26 个常见开头
+        # 全部封死，8 条候选可能全撞、一条都发不出——过度拦截和漏拦一样是坏闸。
+        if recent_ops.get(ct.opening_key(t), 0) >= 2:
             # 撞开头是可判定的硬伤（2026-11-22 质量分实测：22% 已发稿撞开头），
             # 只扣分仍可能被选中，直接丢弃这条候选，让模型再写一条
             log({"action": "skip", "why": "opening-dup:%s" % ct.opening_key(t)[:4],
