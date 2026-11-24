@@ -309,6 +309,38 @@ def _post_in(ctx, aid, root_rpid, message, dry=True, read_first=False):
     return res.get("status") == 200, res
 
 
+def _ownworks_in(ctx, limit=60, wait_ms=6000):
+    """在已登录上下文里读"自己的作品"。返回 (ok, [{"bvid","aid","title"}])。
+
+    为什么走页面而不是接口：/x/space/arc/search 需要 wbi 签名，签名实现一有偏差就 412，
+    而登录态下打开空间页会直接跳到本人主页，DOM 里就有 /video/BV 链接，稳且不用签名。
+    """
+    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+    try:
+        pg.goto("https://space.bilibili.com/", wait_until="domcontentloaded", timeout=30000)
+        pg.wait_for_timeout(wait_ms)
+        # 滚动两次，把首屏之后的作品也带出来
+        for _ in range(2):
+            pg.mouse.wheel(0, 1200)
+            pg.wait_for_timeout(1200)
+        items = pg.evaluate("""() => {
+            const seen = new Map();
+            document.querySelectorAll('a[href*="/video/BV"]').forEach(a => {
+                const m = (a.href || '').match(/\/video\/(BV[0-9A-Za-z]+)/);
+                if (!m) return;
+                const t = (a.getAttribute('title') || a.textContent || '').trim().slice(0, 60);
+                if (!seen.has(m[1])) seen.set(m[1], t);
+            });
+            return [...seen.entries()].map(([bvid, title]) => ({bvid, title}));
+        }""")
+        out = []
+        for it in (items or [])[:limit]:
+            out.append({"bvid": it.get("bvid"), "title": (it.get("title") or "").strip()})
+        return True, out
+    except Exception as e:
+        return False, str(e).strip().splitlines()[0][:120]
+
+
 def post_reply(aid, root_rpid, message, dry=True, read_first=False, ctx=None):
     """在自己视频下回复某条评论。ctx 传入时复用常驻浏览器（不再冷启动）。"""
     if ctx is not None:
@@ -1032,9 +1064,12 @@ def _roots_in(ctx, aid, limit=20):
         +a+'&pn=1&ps=20&sort=1',{credentials:'include'});return await r.text();}""", aid)
     d = json.loads(raw or "{}")
     reps = ((d.get("data") or {}).get("replies") or [])[:limit]
+    # 附带 rcount/ctime：回复线要知道"这条有没有人回过了"，否则会给同一条反复回复。
     return live_comments([
         {"rpid": str(x.get("rpid")), "author": ((x.get("member") or {}).get("uname") or ""),
-         "text": ((x.get("content") or {}).get("message") or "")} for x in reps])
+         "text": ((x.get("content") or {}).get("message") or ""),
+         "rcount": int(x.get("rcount") or 0), "ctime": int(x.get("ctime") or 0),
+         "like": int(x.get("like") or 0)} for x in reps])
 
 
 def _danmaku_in(ctx, aid, text, progress_ms=None, dry=False):

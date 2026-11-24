@@ -115,7 +115,7 @@ def op(payload):
 def _op(payload):
     import social_comment as sc
     kind = payload.get("op")
-    if kind not in ("post", "browse", "danmaku", "roots", "nav", "hot"):
+    if kind not in ("post", "browse", "danmaku", "roots", "roots2", "nav", "hot", "aid"):
         return {"ok": False, "res": "未知动作 %r" % kind}
     # 发帖优先：practice_tick 在调用 post 前会立一个 POST-PENDING 标记。
     # 常驻浏览器是单线程，任何动作排进去都占着唯一线程；发帖排在后面就是 90 秒。
@@ -146,6 +146,24 @@ def _op(payload):
             const r=await fetch(u,{credentials:'include'});
             return await r.text();}""", {"aid": payload.get("aid"), "pn": payload.get("pn") or 1})
         return {"ok": True, "res": txt}
+    # 2026-11-24：曾在 daemon 里加过 ownworks（开空间页抓作品），实测把单线程卡死——
+    # 一个 goto 挂住就挡住发帖与浏览全线。读作品改成独立进程 own_videos.py，别再往这里加导航类动作。
+    if kind == "aid":
+        # bvid → aid：同源 fetch，不导航、不签名。匿名直连接口会被挡（2026-11-24 实锚），
+        # 登录态里 fetch 才拿得到；本地 base58 解码试过但模板位序记不准，不拿错数冒险。
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        if "bilibili.com" not in (pg.url or ""):
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=30000)
+        bv = payload.get("bvid") or ""
+        raw = pg.evaluate("""async(b)=>{const r=await fetch(
+            'https://api.bilibili.com/x/web-interface/view?bvid='+b,
+            {credentials:'include'});return await r.text();}""", bv)
+        try:
+            d = json.loads(raw or "{}")
+            aid = ((d.get("data") or {}).get("aid")) or 0
+        except Exception:
+            aid = 0
+        return {"ok": bool(aid), "res": {"aid": aid, "raw_code": (json.loads(raw or '{}') or {}).get("code") if raw else None}}
     if kind == "nav":
         # 登录态核验也走常驻上下文：2026-11-22 实锚——daemon 把 profile 打开后，
         # 会话自己再 launch 一次就 ProcessSingleton，整天只剩 profile_busy。
@@ -170,6 +188,41 @@ def _op(payload):
                                 seconds=payload.get("seconds"),
                                 harvest=bool(payload.get("harvest", True)))
         return {"ok": bool(ok), "res": res}
+    if kind == "roots2":
+        # 纯接口取 root 评论：**不导航**。原 roots 会 goto 视频页，导航一慢就把单线程堵死，
+        # 实测把整条回复线拖成 5 分钟无输出（2026-11-24）。这里只要页面在 bilibili 域内即可。
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        if "bilibili.com" not in (pg.url or ""):
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=20000)
+        aid = payload.get("aid")
+        limit = int(payload.get("limit") or 20)
+        def _fetch_once():
+            return pg.evaluate("""async(d)=>{const r=await fetch('https://api.bilibili.com/x/v2/reply'
+                +'?type=1&oid='+d.aid+'&pn=1&ps='+d.ps+'&sort=1',{credentials:'include'});
+                return await r.text();}""", {"aid": aid, "ps": min(50, limit)})
+
+        raw = _fetch_once()
+        try:
+            d = json.loads(raw or "{}")
+        except Exception:
+            d = {}
+        if not d or d.get("code") is None:
+            # 页面被别的流程带走了（发帖/浏览会换页），同源 fetch 会拿到非 JSON。
+            # 回首页重试一次就够——不做无限重试，也不让这步挡住单线程太久。
+            try:
+                pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=20000)
+                raw = _fetch_once()
+                d = json.loads(raw or "{}")
+            except Exception:
+                d = {}
+        reps = ((d.get("data") or {}).get("replies") or [])[:limit]
+        out = [{"rpid": str(x.get("rpid")),
+                "author": ((x.get("member") or {}).get("uname") or ""),
+                "text": ((x.get("content") or {}).get("message") or ""),
+                "rcount": int(x.get("rcount") or 0),
+                "ctime": int(x.get("ctime") or 0),
+                "like": int(x.get("like") or 0)} for x in reps]
+        return {"ok": True, "res": {"code": d.get("code"), "replies": out}}
     if kind == "roots":
         res = sc._roots_in(ctx, payload.get("aid"), limit=int(payload.get("limit") or 20))
         return {"ok": True, "res": res}
