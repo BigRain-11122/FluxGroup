@@ -105,3 +105,4 @@
 {"ev": "requeue", "id": "PROD-DRAMA-EP010", "attempt": 2, "why": "fail:kf", "ts": "2026-11-24T11:01:46"}
 {"ev": "requeue", "id": "PROD-DRAMA-EP010", "attempt": 3, "why": "fail:kf", "ts": "2026-11-24T11:11:47"}
 {"ev": "blocked", "id": "PROD-DRAMA-EP010", "attempts": 4, "why": "fail:kf", "ts": "2026-11-24T11:31:46"}
+{"ev": "requeue", "id": "PROD-MV-HEI-I2V", "attempt": 2, "why": "no-deliverable", "ts": "2026-11-24T11:51:47"}
