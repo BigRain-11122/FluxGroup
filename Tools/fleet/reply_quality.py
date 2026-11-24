@@ -135,6 +135,7 @@ def score_one(text, recent, seg, title=""):
     # 4 长度带（按人群段实测中位 ±12）
     p50 = ((_norms().get(seg or "generic") or {}).get("len_p50")) or 15
     d["len"] = len(t)
+    d["seg"] = seg or ""
     d["len_ok"] = abs(len(t) - int(p50)) <= 12
     # 5 相关性：与视频标题有 2 字以上实词交集
     if title:
@@ -158,9 +159,10 @@ def evaluate(n=30, since=None):
     items = []
     for i, r in enumerate(posts):
         recent = posts[max(0, i - 20):i]
-        seg = ""
+        # 人群段：台账里有 seg 就用它（2026-11-24 起 post 行落 seg）；
+        # 老行没有 seg 才退回 generic，并在输出里标注"按 generic 判"。
+        seg = r.get("seg") or ""
         title = _title_of(r.get("video") or "")
-        # 人群段：优先取 qualified 行的 persona
         d = score_one(r.get("text"), recent, seg, title)
         d["ts"] = r.get("ts")
         d["rpid"] = r.get("rpid")
@@ -251,6 +253,10 @@ def main(argv=None):
               % (agg["n"], agg["median"], PASS_LINE, 100 * agg["concrete_rate"],
                  100 * agg["human_rate"], 100 * agg["fresh_rate"], 100 * agg["len_ok_rate"],
                  100 * agg["ontopic_rate"], 100 * agg["ai_smell_rate"]))
+        # 长度带的分母里有多少条其实没有 seg：不标出来，就会把"判据缺输入"读成"评论长度不合格"
+        missing = sum(1 for i in agg["items"] if not i.get("seg"))
+        if missing:
+            print("  注：%d/%d 条缺 seg（老台账），长度带按 generic 判——这不是长度问题" % (missing, agg["n"]))
         worst = sorted(agg["items"], key=lambda i: i["score"])[:3]
         for w in worst:
             why = []

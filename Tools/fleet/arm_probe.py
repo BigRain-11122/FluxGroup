@@ -195,7 +195,8 @@ def fetch_roots(aid, limit=20):
          "text": ((x.get("content") or {}).get("message") or "")} for x in reps])
 
 
-def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(), verify=True):
+def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(), verify=True,
+        seg=None):
     import social_comment as sc
     a = ARMS[arm]
     okf, wf = form_check(arm, text, topics=topics)
@@ -245,7 +246,10 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
         pass
     rec = {"action": "post", "arm": arm, "form": a["why"], "video": video, "aid": aid,
            "root": root_rpid, "text": text, "rpid": rpid, "code": code, "toast": toast,
-           "ok": okp, "gates": g, "cap": wc}
+           "ok": okp, "gates": g, "cap": wc,
+           # 人群段必须落账：长度带判据按段取 p50，缺了 seg 就只能退回 generic，
+           # 于是"长度带 10% 达标"其实是判据缺输入（2026-11-24 实锚：36 条全无 seg）。
+           "seg": seg}
     _log(rec)
     if not okp or not rpid:
         return {"ok": False, "stage": "post", "why": rec}
