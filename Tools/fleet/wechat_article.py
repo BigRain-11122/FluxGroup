@@ -425,6 +425,47 @@ def genre_of(art):
     return "unknown", why
 
 
+BLOCKLIST = os.path.join(GZH, "ACCOUNT-BLOCKLIST.json")
+BLOCK_MIN = 3      # 同一账号采够这么多篇仍全是通稿/未知，就不再吃采集配额
+
+
+def account_stats(arts):
+    """按账号统计文体分布：{账号: {"n","press","review","unknown"}}。"""
+    out = {}
+    for a in arts:
+        k = (a.get("account") or "").strip()
+        if not k:
+            continue
+        d = out.setdefault(k, {"n": 0, "press": 0, "review": 0, "unknown": 0})
+        d["n"] += 1
+        g = a.get("genre") or "unknown"
+        d[g] = d.get(g, 0) + 1
+    return out
+
+
+def blocked_accounts(arts=None):
+    """采够 BLOCK_MIN 篇、且一篇车评都没有的账号 → 拉黑（不再采它的新链接）。
+
+    判据来自实测：CLUE中文语言理解测评基准 被采了 4 篇，全是"汽车大模型测评基准发布"，
+    这是 NLP 基准公告，不是车评。不拉黑它就会一直占采集配额、还把通稿喂进语料池。
+    """
+    arts = arts if arts is not None else [json.loads(l) for l in open(ARTICLES, encoding="utf-8") if l.strip()]
+    out = {}
+    for acct, d in account_stats(arts).items():
+        if d["n"] >= BLOCK_MIN and d.get("review", 0) == 0:
+            out[acct] = {"n": d["n"], "press": d.get("press", 0), "unknown": d.get("unknown", 0)}
+    return out
+
+
+def write_blocklist():
+    out = blocked_accounts()
+    os.makedirs(GZH, exist_ok=True)
+    with open(BLOCKLIST, "w", encoding="utf-8") as f:
+        json.dump({"_why": "采够 %d 篇仍无车评的账号，后续链接不再采" % BLOCK_MIN,
+                   "accounts": out}, f, ensure_ascii=False, indent=1)
+    return out
+
+
 def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
     rng = rng or random.Random()
     src = urls if urls is not None else [
@@ -435,12 +476,16 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
     titles = {((a.get("title") or "").strip(), (a.get("account") or "").strip())
               for a in (json.loads(l) for l in open(ARTICLES, encoding="utf-8") if l.strip())}
     known = _seen(URLS)
+    _bl = blocked_accounts()      # 一次算完，别在循环里反复读语料池
     got, fail = 0, []
     for row in src:
         if got >= int(limit):
             break
         u = row.get("url")
         if not u or _uid(u) in done:
+            continue
+        if row.get("account") and row.get("account") in _bl:
+            fail.append({"url": u, "why": "账号已止损（%s）" % row.get("account")})
             continue
         art, why = fetch(u)
         if art is None:
@@ -461,6 +506,7 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
                 continue
             known.add(uid2)
             _append(URLS, {"_uid": uid2, "url": u2, "kw": "expand",
+                           "account": art.get("account"),   # 记账号：池里才知道这条属于谁
                            "found_at": datetime.now().isoformat(timespec="seconds")})
         time.sleep(rng.uniform(sleep_lo, sleep_hi))
     return got, fail
