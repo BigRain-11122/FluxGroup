@@ -1682,3 +1682,5 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-25T07:07:07 LANE rc=0 done=- 
 2026-11-25T07:07:07 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
 2026-11-25T07:11:31 RECEIPT RUNNING gpu=48 vram=9322MB busy=lora
+2026-11-25T07:11:53 TICK commit=committed:5 converge=up-to-date push=pushed lane=lane-cooldown(4m)
+2026-11-25T07:16:31 RECEIPT IDLE gpu=1 vram=2133MB busy=-
