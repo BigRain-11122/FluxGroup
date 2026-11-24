@@ -151,14 +151,30 @@ def compare(ours, ref):
 
 
 def ai_flavor(arts):
-    """AI 腔命中：只要命中就列出来，不扣分算总分——它是"一票否决"，不是权重项。"""
+    """AI 腔命中：只要命中就列出来，不扣分算总分——它是"一票否决"，不是权重项。
+
+    2026-11-24：本文件原有的 AI_PAT 是 2026-11-11 从 4B 实测里归纳的十来条句式；
+    现在叠加去 AI 感闸的 104 条分级词库（deai_check，判据源在 vendor 的 md 里）。
+    两套并行会各说各话，所以分工是：AI_PAT 管**整句结构**，deai_check 管**词与体裁**，
+    结果合并进同一份 hits，调用方只读这一份。
+    """
     hits = []
+    try:
+        import deai_check as _dz
+        _vocab = _dz.load_vocab()
+    except Exception:
+        _dz, _vocab = None, None
     for a in arts:
         t = (a.get("text") or "") + "\n" + (a.get("title") or "")
         for pat in AI_PAT:
             m = re.search(pat, t)
             if m:
                 hits.append({"title": (a.get("title") or "")[:30], "pat": pat, "hit": m.group(0)[:20]})
+        if _dz is not None:
+            v = _dz.check(t, _vocab)
+            if v["verdict"] == "reject":
+                hits.append({"title": (a.get("title") or "")[:30], "pat": "deai",
+                             "hit": "、".join(h["term"] for h in v["hits"][:3])[:40]})
     return hits
 
 
@@ -226,6 +242,14 @@ def self_test():
     cases.append(("AI 腔被命中", len(ai_flavor(ai)) >= 2))
     gongwen = [{"title": "x", "text": "为贯彻落实相关要求，现将有关事项通知如下，我们致力于打造一站式解决方案，赋能行业高质量发展。"}]
     cases.append(("公文腔被命中（原 3/3 全漏）", len(ai_flavor(gongwen)) >= 2))
+
+    # 负控：只用新词库才抓得到的稿子（旧的 AI_PAT 一条都不匹配）——
+    # 否则"叠加了 deai"可能只是摆设，实际全靠旧句式规则在干活。
+    vocab_only = [{"title": "深耕三年，这款车的底层逻辑", "text": "我们深耕细分市场，多维度打造闭环，全程一站式服务。"}]
+    hv = ai_flavor(vocab_only)
+    cases.append(("只有新词库能抓的稿 → 被判 deai", any(h["pat"] == "deai" for h in hv)))
+    clean = [{"title": "10 万落地，我把 4 台车开了一遍", "text": "试驾那天下了雨，胎噪在 80 码之后才明显。"}]
+    cases.append(("正常车评稿不被 deai 误判", not any(h["pat"] == "deai" for h in ai_flavor(clean))))
     cases.append(("干净稿不误伤", len(ai_flavor(base)) == 0))
 
     # 洗稿

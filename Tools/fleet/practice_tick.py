@@ -939,7 +939,7 @@ def main():
     t_post0 = time.time()
     for attempt in range(2):
         try:
-            res = ap.run(arm, url, text, dry=False, wait_s=10, ctx=title,
+            res = ap.run(arm, url, text, dry=False, wait_s=10, ctx=title, seg=seg,
                          topics=_topics, verify=False)
             break
         except Exception as e:

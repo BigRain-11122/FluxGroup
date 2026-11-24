@@ -44,6 +44,8 @@ CASES = [
     ("L1", "res_alloc 资源仲裁/平台租约", "res_alloc.py", ["--self-test"]),
     ("L1", "account_plan 开号清单对账", "account_plan.py", ["--self-test"]),
     ("L1", "deai 去AI感闸（104 词分级）", "deai_check.py", ["--self-test"]),
+    ("L1", "gzh_topics 选题可兑现判据", "gzh_topics.py", ["--self-test"]),
+    ("L1", "gzh_quality 长文质量闸", "gzh_quality.py", ["--self-test"]),
     ("L1", "compute offer 算力商品", "compute_offer.py", ["--self-test"]),
     ("L1", "storage 存储分级", "storage_curator.py", ["--self-test"]),
     ("L1", "copy 合规闸", "copy_compliance.py", ["--self-test"]),
