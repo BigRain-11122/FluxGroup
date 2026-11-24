@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html as html_mod
 import json
 import os
 import re
@@ -110,6 +111,45 @@ def src_rss(name, url, limit=12):
     return out
 
 
+# ---------------- 正文抓取 ----------------
+# 为什么必须抓正文：实测 RSS 只给标题+摘要，抽不出「观点/方法」，
+# 一轮下来留下的全是标题（观感像采到了，其实一条都用不上）。
+BODY_LIMIT_PER_SRC = 5      # 每条源最多抓几条正文，避免被封
+BODY_TIMEOUT = 10
+
+
+def html_to_text(html, max_chars=4000):
+    """HTML → 纯文本（纯函数，可离线自检）。
+
+    只保留有实质内容的片段：去掉 script/style/noscript/导航，按标签切块，
+    丢掉长度 <20 的块（导航、按钮、版权行都属于这类）。
+    坑：阈值定 30 会把「为什么要点三层：因为信息架构没做完」这种 28 字真句子误删，
+    实测中文单句常短于 30，所以取 20。
+    """
+    t = re.sub(r"(?is)<(script|style|noscript|svg|iframe)[\s\S]*?</\1>", " ", html)
+    t = re.sub(r"(?is)<!--[\s\S]*?-->", " ", t)
+    t = re.sub(r"(?i)</?(p|div|br|li|h[1-6]|tr|section|article)[^>]*>", "\n", t)
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = html_mod.unescape(t)
+    t = t.replace("\u3000", " ")
+    blocks = []
+    for line in t.split("\n"):
+        s = re.sub(r"[ \t\u00a0]+", " ", line).strip()
+        if len(s) >= 20:
+            blocks.append(s)
+    return "\n".join(blocks)[:max_chars]
+
+
+def fetch_body(url, timeout=BODY_TIMEOUT):
+    """进链接取正文。失败一律返回 ""，不让单条坏链毁掉整轮采集。"""
+    if not re.match(r"^https?://", url or ""):
+        return ""
+    try:
+        return html_to_text(_get(url, timeout=timeout))
+    except Exception:  # noqa: BLE001
+        return ""
+
+
 # 2026-11-24 实测：HN/Reddit/Dezeen 在本机全部超时（国际网络不通），
 # 换成国内可达的四个源（36氪/少数派/IT之家/极客公园，均实测 HTTP 200）
 SOURCES = [
@@ -121,8 +161,8 @@ SOURCES = [
 
 
 # ---------------- 过滤 ----------------
-def is_junk(item):
-    """返回 (是否垃圾, 原因)。三重过滤：广告 / 标题党 / 低信息量。"""
+def is_hard_junk(item):
+    """广告 / 标题党：标题摘要就能判死，不必抓正文。"""
     blob = (item.get("title", "") + " " + item.get("text", "")).lower()
     for w in AD_WORDS:
         if w in blob:
@@ -130,11 +170,24 @@ def is_junk(item):
     for w in CLICKBAIT:
         if w in blob:
             return True, f"标题党:{w}"
-    # 低信息量：既没有信号词，正文也太短
+    return False, ""
+
+
+def is_low_info(item):
+    """既没有信号词，正文也太短 —— 抓过正文之后才有资格下这个判断。"""
+    blob = (item.get("title", "") + " " + item.get("text", "")).lower()
     hits = sum(1 for s in SIGNAL if s in blob)
     if hits == 0 and len(item.get("text", "")) < 100:
         return True, "低信息量"
     return False, ""
+
+
+def is_junk(item):
+    """返回 (是否垃圾, 原因)。三重过滤：广告 / 标题党 / 低信息量。"""
+    hard, why = is_hard_junk(item)
+    if hard:
+        return True, why
+    return is_low_info(item)
 
 
 def extract(item):
@@ -186,7 +239,8 @@ def run(limit_per_src=None):
             except Exception:  # noqa: BLE001
                 pass
 
-    stats = {"fetched": 0, "junk": 0, "dup": 0, "kept": 0, "sources_ok": 0, "sources_fail": 0}
+    stats = {"fetched": 0, "junk": 0, "dup": 0, "kept": 0, "sources_ok": 0,
+             "sources_fail": 0, "bodies": 0, "bodies_try": 0}
     rows = []
 
     for name, fn in SOURCES:
@@ -201,14 +255,28 @@ def run(limit_per_src=None):
             print(f"  {name}: 失败 {type(e).__name__}", flush=True)
             continue
 
+        n_bodies = 0
         for it in items:
             stats["fetched"] += 1
             uid = _uid(it.get("url") or it.get("title", ""))
             if uid in seen:
                 stats["dup"] += 1
                 continue
-            j, why = is_junk(it)
-            if j:
+            hard, _why = is_hard_junk(it)
+            if hard:
+                stats["junk"] += 1
+                continue
+            # 摘要太短就进链接取正文（限流），否则抽不出观点
+            if len(it.get("text") or "") < 300 and n_bodies < BODY_LIMIT_PER_SRC:
+                n_bodies += 1
+                stats["bodies_try"] += 1
+                body = fetch_body(it.get("url", ""))
+                if body:
+                    it["text"] = (it.get("text") or "") + "\n" + body
+                    it["body_ok"] = True
+                    stats["bodies"] += 1
+            low, why = is_low_info(it)
+            if low:
                 stats["junk"] += 1
                 continue
             ex = extract(it)
@@ -221,6 +289,7 @@ def run(limit_per_src=None):
                 "_uid": uid, "at": _now(), "src": it["src"],
                 "title": it["title"][:150], "url": it.get("url", ""),
                 "score": it.get("score", 0), "pillar": pillar_of(it),
+                "body_ok": bool(it.get("body_ok")),
                 "claim": ex["claim"], "method": ex["method"], "data": ex["data"],
             })
         time.sleep(1)
@@ -230,6 +299,8 @@ def run(limit_per_src=None):
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
     print(f"\n采集 {stats['fetched']} 条 → 去重 {stats['dup']} / 过滤 {stats['junk']} → 留下 {stats['kept']}")
+    print(f"正文抓取: 尝试 {stats['bodies_try']} / 成功 {stats['bodies']}"
+          f"（限 {BODY_LIMIT_PER_SRC} 条/源）")
     print(f"源: 成功 {stats['sources_ok']} / 失败 {stats['sources_fail']}")
     if rows:
         render_methodology()
@@ -314,12 +385,34 @@ def self_test():
     if _uid("a") != _uid("a"):
         fails.append("uid 不稳定")
 
+    # 9. html_to_text 必须剥掉 script/style（否则 JS 会污染观点抽取）
+    raw = ("<html><head><style>.a{color:red}</style><script>var x=1;</script></head>"
+           "<body><nav>首页</nav>"
+           "<p>为什么车机要点三层：因为信息架构没做完，设计师也没参与。</p>"
+           "<p>短</p></body></html>")
+    txt = html_to_text(raw)
+    if "color:red" in txt or "var x" in txt:
+        fails.append("html_to_text 未剥掉 style/script")
+    if "信息架构" not in txt:
+        fails.append("html_to_text 丢了正文")
+    if "\n短" in txt or txt.strip().endswith("短"):
+        fails.append("html_to_text 未丢弃过短的噪声块")
+
+    # 10. 抓来的正文必须能被 extract 抽出观点（正文抓取的实际目的）
+    ex2 = extract({"title": "车机层级", "text": html_to_text(raw)})
+    if not (ex2["claim"] or ex2["method"]):
+        fails.append("正文抓取后仍未抽出观点")
+
+    # 11. 非 http 链接不发请求（防止把本地路径/空值当 URL 去抓）
+    if fetch_body("") != "" or fetch_body("/tmp/x.html") != "":
+        fails.append("fetch_body 未拒绝非 http 链接")
+
     if fails:
         print("SELF-TEST FAIL", file=sys.stderr)
         for f in fails:
             print("  -", f, file=sys.stderr)
         return 4
-    print("SELF-TEST OK 8/8  (过滤/抽取/归类/去重全过)")
+    print("SELF-TEST OK 11/11  (过滤/抽取/归类/去重/正文抓取全过)")
     return 0
 
 
