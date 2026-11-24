@@ -344,7 +344,28 @@ def extract(page, platform, limit=200):
     return best
 
 
+def agent_session_active(max_age_s=900):
+    """养号会话进行中？（AGENT-SESSION-* 新鲜即视为占用）
+
+    为什么采集要让路：CEO 2026-11-20「我的机器就专门做养号」。
+    2026-11-24 实锚：采集抢 browser-bilibili 的 profile，agent 反复「让路：profile 在采集手里」，
+    一上午 acct1 只看 14 条、acct3 看 11 条——看着"浏览器在跑"，实际是采集把养号顶开了。
+    """
+    import glob
+    d = os.path.join(os.path.dirname(os.path.dirname(HERE)), ".codely-cli", "state")
+    for f in glob.glob(os.path.join(d, "AGENT-SESSION-*")):
+        try:
+            if time.time() - os.path.getmtime(f) < max_age_s:
+                return True, os.path.basename(f)
+        except OSError:
+            continue
+    return False, ""
+
+
 def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
+    busy, who = agent_session_active()
+    if busy:
+        return None, "养号会话进行中（%s）：采集让路，等这一场跑完" % who
     try:
         from playwright.sync_api import sync_playwright
     except Exception:

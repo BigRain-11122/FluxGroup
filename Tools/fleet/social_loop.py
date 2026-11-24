@@ -639,6 +639,14 @@ def main(argv=None):
             print(rec["tail"][-300:])
         # DEFER 是健康状态（真人会话占着浏览器，本拍让路），不能算失败：
         # 否则 launchd 只看到一个坏退出码，调度层会把"正常排队"误判成环路坏了。
+        # 填空：本拍结束后顺手干一件 CPU 活（烘焙/经验/调性/体检），不阻塞本循环。
+        # 特意不接 pulse：pulse 已被 CEO（2026-11-20「主控相关的先停了」）停掉，接进去只会是假绿。
+        try:
+            subprocess.Popen([sys.executable, os.path.join(HERE, "full_load.py"), "--once"],
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                             start_new_session=True)
+        except Exception:
+            pass
         return 0 if rec["status"] in ("OK", "WATCH", "DEFER") else 1
     finally:
         lock_release()
