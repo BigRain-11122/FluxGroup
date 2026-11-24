@@ -117,6 +117,7 @@
 | 2026-10-16 | city-seat-ops / city-seat-content / city-seat-data | 城市线 | 城市运营/内容/数据席位（增长槽） | 待 canon 落地建卡 | PLAN |
 | 2026-10-23 | content-recon | 内容/竞品 | 短剧/漫剧竞品拆解：钩子/集结构/节奏/字幕/AI痕迹→配方卡 | skill（canon=cph4/skills/content-recon） | ACTIVE |
 | 2026-10-23 | game-recon | 游戏/竞品 | 小游戏拆解：包体/引擎/UI/循环/数值/商业化→规格表 | skill（canon=cph4/skills/game-recon） | ACTIVE |
+| 2026-11-25 | mv-aesthetic-seats | 内容/MV | MV 美学九席（导演/编剧/剪辑/摄影/调色/表演/美术考据/受众/文字）：判据+检查单+辩论点固化，机检先行再由席位判读 | 登记册=cph4/agents/seats/mv-aesthetic-seats.json·执行器=Tools/selfmedia/aesthetic_panel.py·宿主=bm-c | ACTIVE |
 
 | 2026-10-29 | subsidiary-coo | 子公司运营 | 席位本体：七司条线判读/归因/升级（bm-m 总控承载·不新建注册表与调度器） | canon=cph4/fleet/subsidiary-coo/BLUEPRINT.md | ACTIVE |
 | 2026-10-29 | ops-bigmoney | 子公司运营 | 金融公司：数据/回测/审计闸三段判读 | canon=AGENTS.md §ops-bigmoney·条线=bigmoney | ACTIVE |
@@ -145,3 +146,6 @@
 
 **首跑实测（mv0001 v715）**：dark=43 / flat=39 / 最长同色连段=6；整体 gamma 1.15 提亮后 dark=29 / flat=31。结论=全片偏暗是"看不懂"的主因，须在装配级做一次整体提亮，而非逐镜补。
 - v1.0.7（2026-10-29·bm-b 交互窗）：子公司运营席 subsidiary-coo + 八条线子代理（ops-bigmoney/bigstream/biggame/biglife/bigdomain/bigcompute/bighouse/fluxverse）登记（CEO 令 2026-10-29「让他好好去管理一下金融公司等子公司，自己管不过来就去造agent，专门负责子公司的生产运转」——承载机=bm-m（已是总控·MASTER-NODE.json）·条线正身=LINE-REGISTRY·执行面=master_agent 规则 R-SUBCO-20261029-001~003）。
+
+### 更新日志
+- 2026-11-25：登记 `mv-aesthetic-seats`（MV 美学九席·可执行版），配套执行器 `Tools/selfmedia/aesthetic_panel.py`（机检→证据包→记分卡），首批用于《爱在西元前》全片 v1 评审。
