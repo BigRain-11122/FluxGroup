@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-24T22:21:59",
+ "ts": "2026-11-24T22:31:59",
  "verdict": "RED",
  "paused": false,
- "gpu_util": 100,
- "vram_used_mb": 9157,
+ "gpu_util": 6,
+ "vram_used_mb": 4946,
  "vram_total_mb": 16384,
  "comfy": false,
  "bank": {
@@ -31,14 +31,14 @@
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 62096,
+   "last_run_age_s": 62695,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 101,
+   "last_run_age_s": 160,
    "state": "OK",
    "result": 0
   },
@@ -58,7 +58,6 @@
   }
  ],
  "alerts": [
-  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩",
-  "AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）"
+  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩"
  ]
 }
