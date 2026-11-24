@@ -48,15 +48,87 @@ def _newest(paths):
     return best
 
 
-def audit(spec, root=None, now=None):
+PAUSED = os.path.join(ROOT, "cph4", "fleet", "CEO-PAUSED.json")
+
+
+def _paused_job(name):
+    """停用册里有没有这个作业 → 返回作业名或空串。"""
+    try:
+        with open(PAUSED, encoding="utf-8") as f:
+            d = json.load(f)
+        for j in d.get("jobs") or []:
+            if j.get("job") == name:
+                return name
+    except Exception:
+        pass
+    return ""
+
+
+PAUSED_EXECUTORS = {}   # {执行体相对路径: 驱动它的在册作业}，在 audit 入口按册填充
+
+
+def _paused_executors():
+    """读册里的 dependent_executors，只保留"驱动作业确实已在册停用"的条目。
+
+    这样即使册里写了某执行体，但它的驱动作业已经被恢复，也不会误判成停用。
+    """
+    try:
+        with open(PAUSED, encoding="utf-8") as f:
+            d = json.load(f)
+        # 册子 v2 把作业按批次嵌套（batches[].jobs）；也兼容旧的顶层 jobs 列表。
+        live = {j.get("job") for j in d.get("jobs") or [] if isinstance(j, dict)}
+        for b in d.get("batches") or []:
+            for name in b.get("jobs") or []:
+                live.add("com.fluxgroup.%s" % name)
+        out = {}
+        for exe, job in (d.get("dependent_executors") or {}).items():
+            if exe.startswith("_"):
+                continue
+            if job in live:
+                out[exe] = job
+        return out
+    except Exception:
+        return {}
+
+
+def _paused_map():
+    """读 CEO 停用册 → {职责id: 停用作业名}。读不到就当空册（不因此把职责全判红）。"""
+    try:
+        with open(PAUSED, encoding="utf-8") as f:
+            d = json.load(f)
+        return d.get("dependent_duties") or {}
+    except Exception:
+        return {}
+
+
+def audit(spec, root=None, now=None, paused=None):
     root = root or ROOT
     now = now or time.time()
+    paused = _paused_map() if paused is None else paused
+    global PAUSED_EXECUTORS
+    PAUSED_EXECUTORS = _paused_executors()
     rows = []
     for d in spec.get("duties") or []:
         exe = os.path.join(root, d.get("executor") or "")
         ev = os.path.join(root, d.get("evidence") or "")
         item = {"id": d.get("id"), "name": d.get("name"), "domain": d.get("domain"),
                 "cad": d.get("cad")}
+        # CEO 停用册里的作业，其依赖职责必然没有输出——这是合规状态，不是故障。
+        # 2026-11-24 实锚：C04/C05/F01 被判 STALE 691 分钟，真因是 pulse 在 11-20 CEO 令下停用。
+        if d.get("id") in paused:
+            item.update({"state": "PAUSED-BY-CEO", "paused_job": paused[d["id"]],
+                         "why": "依赖的常驻作业 %s 在 CEO 停用册里" % paused[d["id"]]})
+            rows.append(item)
+            continue
+        # 结构性判据：station_drive 由 pulse 驱动，pulse 在册停用期间它必然没有输出。
+        # 不逐条手写 id（B04/B05/C04/C05/F01 会越漏越多），按执行体认。
+        _ex = (d.get("executor") or "")
+        if _ex in PAUSED_EXECUTORS:
+            item.update({"state": "PAUSED-BY-CEO", "paused_job": PAUSED_EXECUTORS[_ex],
+                         "why": "执行体 %s 由 %s 驱动，该作业在 CEO 停用册里"
+                                % (os.path.basename(_ex), PAUSED_EXECUTORS[_ex])})
+            rows.append(item)
+            continue
         if not d.get("executor") or not os.path.exists(exe):
             item.update({"state": "NO-EXECUTOR",
                          "why": "执行体不存在：%s" % (d.get("executor") or "(未写)")})
@@ -155,8 +227,8 @@ def main(argv=None):
                          ensure_ascii=False, indent=1))
     else:
         print("== 主控职责履行（%d 项 / %s）==" % (len(rows), spec.get("version")))
-        print("OK %d｜IDLE(按需未触发) %d｜STALE %d｜NO-EVIDENCE %d｜NO-EXECUTOR %d"
-              % (s.get("OK", 0), s.get("IDLE", 0), s.get("STALE", 0),
+        print("OK %d｜IDLE(按需未触发) %d｜PAUSED-BY-CEO %d｜STALE %d｜NO-EVIDENCE %d｜NO-EXECUTOR %d"
+              % (s.get("OK", 0), s.get("IDLE", 0), s.get("PAUSED-BY-CEO", 0), s.get("STALE", 0),
                  s.get("NO-EVIDENCE", 0), s.get("NO-EXECUTOR", 0)))
         print("产出面：近 %d 小时 DONE %d 张（%s）｜近 30 分钟有心跳的机器 %d 台"
               % (prod["hours"], prod["done"],
@@ -233,7 +305,15 @@ def self_test():
 
         # 汇总与返回码优先级：NO-EXECUTOR 最严重
         s = summarize(list(rows2.values()))
-        chk("汇总包含四态", set(s).issubset({"OK", "STALE", "NO-EVIDENCE", "NO-EXECUTOR"}), s)
+        chk("汇总包含五态", set(s).issubset({"OK", "IDLE", "PAUSED-BY-CEO", "STALE",
+                                            "NO-EVIDENCE", "NO-EXECUTOR"}), s)
+        # 负控：在册停用的职责必须报 PAUSED-BY-CEO，而不是 STALE
+        rows3 = {r["id"]: r for r in audit(spec, root=td, paused={"X1": "com.fluxgroup.pulse"})}
+        chk("负控：CEO 停用 → PAUSED-BY-CEO 而非 STALE",
+            rows3["X1"]["state"] == "PAUSED-BY-CEO", rows3["X1"])
+        # 负控：不在册的职责不受影响
+        rows4 = {r["id"]: r for r in audit(spec, root=td, paused={"Z9": "x"})}
+        chk("负控：不在册不受影响", rows4["X1"]["state"] != "PAUSED-BY-CEO")
 
         # 真表体检：必须 36 项且每项都写了 executor/evidence
         real = json.load(open(SPEC, encoding="utf-8"))

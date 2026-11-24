@@ -89,7 +89,16 @@ def _sha(p):
 
 def _sampled(root=None):
     p = os.path.join(root or ROOT, LEDGER)
-    return {(r.get("station"), r.get("id")) for r in _rows(p)}
+    # 只认真抽到的样本。"无样本可抽"的记录也落盘（证明这一轮抽检跑了），
+    # 但它不是样本，不能算进 already_sampled —— 否则"抽满了"会被当成"没抽"（假红）。
+    out = set()
+    for r in _rows(p):
+        if r.get("kind") == "no-sample":
+            continue
+        if str(r.get("id") or "") in ("", "-", "NO-SAMPLE"):
+            continue
+        out.add((r.get("station"), r.get("id")))
+    return out
 
 
 def sample(root=None, limit_override=None):
@@ -170,6 +179,19 @@ def sample(root=None, limit_override=None):
         with open(p, "a", encoding="utf-8") as f:
             for r in results:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    else:
+        # 2026-11-18 实锚：账只在"抽到样本"时追加，而近 24 小时 DONE 为 0 →
+        # 台账 mtime 停在 11-14，审计把"这轮确实抽过、只是无样本"误判成"职责没做"（D01 STALE）。
+        # 记一条 no-sample：证明抽检跑了，同时把真实原因写清楚；pass=None 明确不是合格样本。
+        p = os.path.join(root or ROOT, LEDGER)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"kind": "no-sample", "station": "-", "id": "NO-SAMPLE",
+                                "pass": None, "picked": 0,
+                                "why": "本轮无可抽样本（近 24h DONE=%d）"
+                                       % int(meta.get("candidates") or 0),
+                                "ts": datetime.now().isoformat(timespec="seconds")},
+                               ensure_ascii=False) + "\n")
     meta["picked"] = len(results)
     sample.last_meta = meta
     return results, fails

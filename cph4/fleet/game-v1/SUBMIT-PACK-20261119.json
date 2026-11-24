@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-19T11:05:04+0800",
+ "ts": "2026-11-19T10:48:55+0800",
  "products": 36,
  "ready": 1,
  "not_ready": 35,
  "missing_by_kind": {
   "截图目录(≥4张)": 35,
-  "可运行包(apk/zip/unitypackage/html)": 21
+  "可运行包(apk/zip/unitypackage/html)": 25
  },
  "items": [
   {
@@ -107,6 +107,7 @@
    "product": "CrazyWorker",
    "verdict": "NOT-READY",
    "lacks": [
+    "可运行包(apk/zip/unitypackage/html)",
     "截图目录(≥4张)"
    ]
   },
@@ -148,6 +149,7 @@
    "product": "PetWorkCrew",
    "verdict": "NOT-READY",
    "lacks": [
+    "可运行包(apk/zip/unitypackage/html)",
     "截图目录(≥4张)"
    ]
   },
@@ -164,6 +166,7 @@
    "product": "CrazyEstate",
    "verdict": "NOT-READY",
    "lacks": [
+    "可运行包(apk/zip/unitypackage/html)",
     "截图目录(≥4张)"
    ]
   },
@@ -196,6 +199,7 @@
    "product": "BloomHaven",
    "verdict": "NOT-READY",
    "lacks": [
+    "可运行包(apk/zip/unitypackage/html)",
     "截图目录(≥4张)"
    ]
   },
@@ -317,7 +321,7 @@
   }
  ],
  "compare": {
-  "against": "SUBMIT-PACK-20261118.json",
+  "against": "SUBMIT-PACK-20261117.json",
   "products": {
    "prev": 36,
    "now": 36
@@ -328,8 +332,8 @@
   },
   "missing_by_kind": {
    "可运行包(apk/zip/unitypackage/html)": {
-    "prev": 21,
-    "now": 21,
+    "prev": 25,
+    "now": 25,
     "delta": 0
    },
    "截图目录(≥4张)": {

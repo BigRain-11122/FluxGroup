@@ -1,8 +1,33 @@
 # 同步后第一件事（ONBOARD-AFTER-SYNC）· 2026-11-11
 
-> 任何机器 `git pull` 之后，按本页顺序做，不要先干活。
+> 两个时点都按本页做：**动手改之前**先过第 -1 步同步闸；**同步之后**从第 0 步往下走。
 > 上位：`cph4/registry/CANON-V3-20261111.md`（唯一权威）。你的岗位：`cph4/fleet/stations/<你的工位>/CHARTER.md`。
 > 系统差异：主控是 macOS（`python3`），其余三台是 Windows（`python`，不存在 `python3`，实测 rc=9009）。
+
+## 第 -1 步：动手前先同步（CEO 2026-11-18 令 · 硬门）
+
+原话：「每次动手改之前都要更新 git，然后再去做」。**任何改文件、改脚本、改台账的动作之前**，先跑：
+
+    python Tools\fleet\prechange.py           # Windows
+    python3 Tools/fleet/prechange.py          # macOS
+
+它只读（fetch + 统计，不动你的工作树），给一个结论，按结论做，不许凭感觉直接改：
+
+| verdict | 含义 | 动作 |
+|---|---|---|
+| `READY` | 已与 origin/main 对齐且工作树干净 | 直接改 |
+| `SYNC` | 只落后、本地无自己的提交 | `git merge --ff-only origin/main`，再跑一次确认 READY |
+| `WORKTREE` | 分叉（ahead>0）或工作树有未提交改动 | `prechange.py --worktree <名字>` 建隔离工作树，**在里面改、在里面提交推送**，完了 `git worktree remove _wt-<名字> --force` |
+| `FAIL` | fetch 失败 | 先修网络/凭据；状态不明时禁止改文件 |
+
+**为什么不是直接 `git pull`**：本机 main 长期 ahead 数十 / behind 数百（多机推送 + 自动 rebase 造成），
+`git pull` 会拉出一堆冲突并把别人没提交的东西搅进来；`git reset --mixed origin/main` 又会丢掉别人本地未推的提交。
+隔离工作树是唯一既不丢别人提交、又保证「基于最新」的路径。
+
+纪律三条：
+1. 一次会话里每改一轮就跑一次，不许拿「刚才同步过」当理由跳过。
+2. 提交只 `git add` 点名的文件（工作树里常有他窗未提交的改动）。
+3. 推完把工作树删掉，别在仓里留 `_wt-*` 垃圾。
 
 ## 第 0 步：确认你是哪个工位
 

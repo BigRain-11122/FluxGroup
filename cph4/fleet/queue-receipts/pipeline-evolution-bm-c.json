@@ -1,0 +1,57 @@
+{
+ "ts": "2026-11-24T16:07:26",
+ "node": "bm-c",
+ "kind": "pipeline-evolution",
+ "cycle": "6h",
+ "canon_age_days": {
+  "drama_v3": 1.8,
+  "heroine_factory": 1.7,
+  "production_router": 0.7
+ },
+ "router_signals": {
+  "ts": "2026-11-24T16:05:37",
+  "stalls": [],
+  "throughput": {
+   "pl_ql_last10min": 0
+  },
+  "plan": "gpu-mainline"
+ },
+ "recent_receipts": [
+  {
+   "file": "autodrive-hb-bm-c.json",
+   "ts": "2026-11-24T16:06:30.439",
+   "name": null
+  },
+  {
+   "file": "_last_lane_bm-c.json",
+   "ts": "2026-11-24T16:06:30",
+   "name": null
+  },
+  {
+   "file": "production-router-bm-c.json",
+   "ts": "2026-11-24T16:05:37",
+   "name": null
+  },
+  {
+   "file": "heroine-wm-bm-c.json",
+   "ts": "2026-11-24T13:37:11",
+   "name": "heroine-lora-wm-v1"
+  },
+  {
+   "file": "pipeline-evolution-bm-c.json",
+   "ts": "2026-11-24T10:07:26",
+   "name": null
+  }
+ ],
+ "issues": [
+  {
+   "kind": "slow-throughput",
+   "lane": "pl_ql_last10min",
+   "rate": 0
+  }
+ ],
+ "proposals": [
+  "[proposal] 车道 pl_ql_last10min 出货 0/10min 偏慢——优化等待参数或换更快的生成通道"
+ ],
+ "note": "observation+proposal only; canon changes go through director/council channel"
+}

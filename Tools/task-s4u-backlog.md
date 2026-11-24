@@ -25,3 +25,16 @@
 | 2026-11-11 12:45:28 | HQ-ProductionClaim | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-12 12:26:16 | FluxGroup-StationDrive-Delivery | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-12 12:27:35 | FluxGroup-StationAgent-Delivery | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-15 23:40:19 | FluxGroup-ComfyGuard | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-16 00:08:36 | Bmc-AutodriveGuard | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-21 00:50:47 | Bmc-ProdFinalize | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-21 00:52:05 | Bmc-ProdIterate | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 21:30:52 | Bmc-Supervisor | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 21:59:40 | Bmc-ProductionRouter | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 22:06:33 | Bmc-PipelineEvolution | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 22:25:32 | Bmc-ChainPublish | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 22:58:21 | Bigmoney-StrategyBench | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 22:58:52 | Bmc-Orchestrator | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 23:20:10 | Bigmoney-BlockBoard | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 23:30:39 | Bigmoney-LineArbiter | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-22 23:31:56 | Bigmoney-ArbiterAudit | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |

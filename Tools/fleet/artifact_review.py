@@ -50,6 +50,20 @@ def jload(p, d=None):
         return d
 
 
+SELF_REPORT_PREFIX = ("cph4/fleet/state/", "cph4/fleet/queue-receipts/")
+
+
+def is_selfreport(deliverable):
+    """交付物是"自述/体检/回执"而不是真产物？
+
+    判据只认路径前缀，不认文件内容（内容层判断在后面 L1/L2 才做）。
+    为什么单独成函数：这个区分曾被判据断言过（回执卡不许充产物），
+    2026-11-16 patrol.py 重写时随之消失，回归就永久红了——判据要有可断言的落点。
+    """
+    rel = str(deliverable or "").strip().replace("\\", "/")
+    return any(rel.startswith(p) for p in SELF_REPORT_PREFIX)
+
+
 def rows(p):
     out = []
     try:
@@ -262,7 +276,7 @@ def main():
     for card in done:
         rel = str(card.get("deliverable") or "").strip()
         if not rel or REMOTE_RE.match(rel) or rel.startswith(SUBREPO_PREFIX) or \
-                rel.startswith("cph4/fleet/state/"):
+                is_selfreport(rel):
             results.append({"id": card.get("id"), "verdict": "SKIP",
                             "why": "非本机可判产物：%s" % rel[:40]})
             skipped += 1

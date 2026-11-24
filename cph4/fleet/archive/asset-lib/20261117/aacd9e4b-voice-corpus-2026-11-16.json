@@ -1,0 +1,22 @@
+{
+ "ts": "2026-11-16T22:31:17",
+ "group": "batch-2026-11-16",
+ "shard": "0/1",
+ "inbox": "media/asset/inbox",
+ "inbox_files": 2,
+ "my_files": 2,
+ "segments": 6,
+ "skipped_files": [],
+ "peak_warnings": [],
+ "total_s": 52.5,
+ "sliced_dir": "media/asset/voices/batch-2026-11-16/sliced",
+ "asr_qc": {
+  "available": false,
+  "checked": 0,
+  "fail": 0,
+  "rows": []
+ },
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS"
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.fluxgroup.socialagentday</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python</string>
+    <string>-u</string>
+    <string>/Users/junsheng.sun/FluxGroup/Tools/fleet/social_agent_day.py</string>
+    <string>--loop</string>
+    <string>--interval</string>
+    <string>60</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Users/junsheng.sun/FluxGroup</string>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ProcessType</key><string>Background</string>
+  <key>LowPriorityIO</key><true/>
+  <key>Nice</key><integer>10</integer>
+  <key>StandardOutPath</key><string>/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-agent-day.log</string>
+  <key>StandardErrorPath</key><string>/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-agent-day.log</string>
+</dict>
+</plist>

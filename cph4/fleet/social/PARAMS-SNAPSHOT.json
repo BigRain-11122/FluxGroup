@@ -1,0 +1,15 @@
+{
+ "ts": "2026-11-21T23:39:40",
+ "_why": "参数基线：任何与它的差异都必须有 CHANGE-LEDGER 条目，否则判未审查",
+ "params": {
+  "ollama.MAX_LOADED_MODELS": "1",
+  "ollama.KEEP_ALIVE": "2m",
+  "train.RECIPE": "v5-shape-quota",
+  "diversity.SHAPE_MAX": 0.57,
+  "diversity.SHORT_MIN": 0.25,
+  "gate.POS_MIN_PASS": 0.9,
+  "mem.RESIDENT_BUDGET_GB": 6.0,
+  "mem.MAX_RESIDENT_MODELS": 1,
+  "sched.practicetick_s": 1800
+ }
+}

@@ -1,11 +1,11 @@
-# 提审包盘点（2026-11-20T12:05:50+0800）
+# 提审包盘点（2026-11-24T11:53:45+0800）
 
 在册 36 款：可提交 1 / 待补 35
 
 ## 缺件聚合
 
 - 截图目录(≥4张)：35 款
-- 可运行包(apk/zip/unitypackage/html)：21 款
+- 可运行包(apk/zip/unitypackage/html)：25 款
 
 ## 与上一版对比（SUBMIT-PACK-20261119.json）
 
@@ -14,7 +14,7 @@
 
 | 缺件类型 | 上一版 | 本次 | 增减 |
 |---|---|---|---|
-| 可运行包(apk/zip/unitypackage/html) | 21 | 21 | +0 |
+| 可运行包(apk/zip/unitypackage/html) | 25 | 25 | +0 |
 | 截图目录(≥4张) | 35 | 35 | +0 |
 
 ## 逐款
@@ -32,18 +32,18 @@
 | GimmeAll | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | 医院大当家 | NOT-READY | 截图目录(≥4张) |
 | 涨停板 | NOT-READY | 截图目录(≥4张) |
-| CrazyWorker | NOT-READY | 截图目录(≥4张) |
+| CrazyWorker | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | 摸鱼也升职_CCPC提交格式 | NOT-READY | 截图目录(≥4张) |
 | LineRescue | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | 我想有个农场 | NOT-READY | 截图目录(≥4张) |
 | 大不了开饭馆 | NOT-READY | 截图目录(≥4张) |
-| PetWorkCrew | NOT-READY | 截图目录(≥4张) |
+| PetWorkCrew | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | 萌宠开店啦_CCPC提交格式 | NOT-READY | 截图目录(≥4张) |
-| CrazyEstate | NOT-READY | 截图目录(≥4张) |
+| CrazyEstate | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | 我有一栋楼_CCPC提交格式 | READY | — |
 | UnboxIt | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | PalacePlunder | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
-| BloomHaven | NOT-READY | 截图目录(≥4张) |
+| BloomHaven | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | 我的小花园_CCPC提交格式 | NOT-READY | 截图目录(≥4张) |
 | MonsterInn | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |
 | CardRogue | NOT-READY | 可运行包(apk/zip/unitypackage/html)、截图目录(≥4张) |

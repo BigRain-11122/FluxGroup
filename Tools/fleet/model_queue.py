@@ -259,8 +259,14 @@ def stats(extra=None):
     return s
 
 
+MODE_FILE = os.path.join(STATE, "MEM-MODE")
+
+
 def work_once(min_batch=5, max_batch=12, force_p3=False, gen=None):
     """取一批→跑→记账。返回 (n, busy_seconds, note)。"""
+    if os.path.exists(MODE_FILE):
+        # 采集期让路：浏览器 1.1GB/实例，跟模型抢内存必换页（实测 164MB→26MB）
+        return 0, 0.0, "DEFER_COLLECT"
     batch = pop_batch(min_batch=min_batch, max_batch=max_batch)
     if not batch:
         return 0, 0.0, "IDLE"

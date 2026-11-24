@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 
@@ -56,6 +57,46 @@ PROFILE_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-profi
 READER_DIR = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-reader")
 
 
+MODE_FILE = os.path.join(ROOT, ".codely-cli", "state", "MEM-MODE")
+WORKER_COST_MB = 1100      # 实测单实例 RSS ≈1.05GB（3 实例线性增长：1.06/2.10/3.16GB）
+UNLOAD_MODELS = ("qwen3.5:9b-mlx", "qwen3.5:4b-mlx", "qwen3.5:2b")
+
+
+def free_mb():
+    out = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5).stdout
+    free = 0
+    for line in out.splitlines():
+        if "Pages free" in line:
+            free = int(re.sub(r"[^0-9]", "", line.split(":")[1] or "0") or 0) * 4096 / 1048576
+    return free
+
+
+def unload_models(log=print):
+    """采集是内存大户（1.1GB/实例），模型常驻也是（4.6-9GB）。两者同时干必换页。
+
+    实测（2026-11-17）：停掉 4B/9B 后空闲内存 164MB → 4732MB。
+    模型按需重载只要 1.5s，所以采集前卸、采集后让它自然重载，是最省的顺序。
+    """
+    for m in UNLOAD_MODELS:
+        subprocess.run(["ollama", "stop", m], capture_output=True, timeout=30)
+    log("[collect] 已卸载常驻模型，腾出内存给浏览器（模型下次请求自动重载 ~1.5s）")
+
+
+def set_mode(mode):
+    os.makedirs(os.path.dirname(MODE_FILE), exist_ok=True)
+    if mode:
+        open(MODE_FILE, "w").write(mode)
+    elif os.path.exists(MODE_FILE):
+        os.remove(MODE_FILE)
+
+
+def workers_by_mem(requested=2, reserve_mb=900):
+    """按空闲内存算并发上限：留 reserve 给系统，每个 worker 1.1GB。"""
+    free = free_mb()
+    cap = max(0, int((free - reserve_mb) // WORKER_COST_MB))
+    return max(1, min(requested, cap)), free, cap
+
+
 def profile_for(platform=None):
     """每平台独立 profile（2026-11-17 并发改造）：同一 user_data_dir 不能两开，
     多平台并发必须各自一个目录，否则第二个直接 ProcessSingleton 失败。"""
@@ -67,9 +108,14 @@ def profile_for(platform=None):
 # 各平台评论节点的选择器（多套备选，取命中最多的一套；全不中=结构变了，直接报错）
 SELECTORS = {
     "bilibili": [
+        # 2026-11-19 起 B站 评论整块搬进 shadow DOM（<bili-comments> → thread-renderer →
+        # comment-renderer → bili-rich-text 各一层 shadow），旧选择器 #comment .reply-item
+        # 一条都命中不了：实测 20 楼已加载、正文 36 段可取，旧代码却报"只抽到 0 条"。
+        # Playwright 的 CSS 能穿透 shadow，但 textContent 不能——正文必须走 SHADOW_JS。
+        "bili-comment-renderer",
+        "bili-comment-reply-renderer",
         "#comment .reply-item",
         ".reply-list .reply-item",
-        "#comment .sub-reply-item",
     ],
     "xiaohongshu": [
         ".comment-item",
@@ -78,6 +124,129 @@ SELECTORS = {
     ],
     "weibo": [".comment-item", ".item-content"],
 }
+
+
+def _pid_alive(pid):
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except Exception:
+        return False
+
+
+def _human_wanting(prof):
+    """有人要做"有时效"的事（发帖/真人会话）时，采集主动让路。
+
+    2026-11-22 实锚：采集长期占着 browser-profile，agent_daemon 等锁 180s 必超时 →
+    副动作（看/赞/弹幕）整天 0 条、会话哨兵不生成 → 出稿被判 off-session 一条不发。
+    三方抢同一把锁靠"等锁超时"解决不了，必须让有时效的优先；采集让路后会自动退到
+    reader profile 抓公开内容，不是停工。
+    僵尸判据：发帖标记要求 pid 活着且 120s 内；会话哨兵要求 30 分钟内，防止一次崩溃永久挡采集。
+    """
+    if os.environ.get("FLUX_PROFILE_NO_YIELD") == "1":
+        return ""
+    sd = os.path.join(ROOT, ".codely-cli", "state")
+    p = os.path.join(sd, "POST-PENDING")
+    try:
+        pid = int(open(p, encoding="utf-8").read().strip() or 0)
+        if pid and time.time() - os.path.getmtime(p) < 120 and _pid_alive(pid):
+            return "post-pending"
+    except Exception:
+        pass
+    try:
+        for f in os.listdir(sd):
+            if f.startswith("AGENT-SESSION-"):
+                if time.time() - os.path.getmtime(os.path.join(sd, f)) < 1800:
+                    return "agent-session"
+    except Exception:
+        pass
+    # 发帖/会话方在等锁前会先落一个 want 标记（见 social_comment._launch）
+    try:
+        for f in os.listdir(prof):
+            if f.startswith(".flux-want-"):
+                if time.time() - os.path.getmtime(os.path.join(prof, f)) < 180:
+                    return "want"
+    except Exception:
+        pass
+    return ""
+
+
+def _acquire_profile_lock(prof, wait_s=None, poll=5.0, yield_ok=False):
+    """同一 profile 只能一个进程用，后来者排队等，不是直接失败。
+
+    yield_ok 只给"可推迟"的采集用：发帖/会话自己要来时 MUST NOT 自我让路，
+    否则 POST-PENDING 是自己写的 → 自己判自己该让 → 第一条必然失败（2026-11-22 实锚）。
+
+    2026-11-19 实锚：守护进程与手动运行撞同一个 profile，输的一方只打印
+    "两个 profile 都起不来（可能被别的浏览器进程占用）"，看不出是谁占的、也查不出根因；
+    而它每 20 分钟才重试一次，等于一次瞬时冲突丢掉一轮采集。
+    锁文件只记 pid：进程活着＝占用中，进程不在＝残留可接管（不需要手工清理）。
+    """
+    if wait_s is None:
+        wait_s = float(os.environ.get("FLUX_PROFILE_WAIT", "180"))
+    lock = os.path.join(prof, ".flux-collect.lock")
+    t0 = time.time()
+    while True:
+        try:
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(fd, str(os.getpid()).encode())
+            os.close(fd)
+            return lock
+        except FileExistsError:
+            pass
+        holder = ""
+        try:
+            holder = open(lock, encoding="utf-8").read().strip()
+        except Exception:
+            pass
+        if holder.isdigit() and int(holder) == os.getpid():
+            # 可重入：同一进程先后开两次浏览器（复核多条评论就是这种情况）不能被自己的锁挡住
+            return lock
+        # 有时效的动作在等：本轮让路，别把等锁超时变成"副动作整天空转"。
+        # 只有采集自己让路，发帖方不许自我让路（见 docstring）。
+        if yield_ok and _human_wanting(prof):
+            return None
+        alive = False
+        if holder.isdigit():
+            try:
+                os.kill(int(holder), 0)
+                alive = True
+            except Exception:
+                alive = False
+        if not alive:
+            try:
+                os.remove(lock)          # 残留锁：持有者已不在，接管
+            except Exception:
+                pass
+            continue
+        # 僵尸持有者：进程活着但浏览器早没了（2026-11-24 实锚：browserd 10:50 开的上下文崩掉后
+        # 锁文件仍写它的 pid，养号被挡 70 分钟、一上午只看 14 条）。判据=锁龄 + 该 profile 下
+        # 没有活的 Chrome 在用；两条同时满足才回收，避免把正在跑的采集误杀。
+        try:
+            age = time.time() - os.path.getmtime(lock)
+            if age > float(os.environ.get("FLUX_LOCK_STALE_S", "1200")):
+                holders = subprocess.run(["pgrep", "-f", "user-data-dir=%s" % prof],
+                                         capture_output=True, text=True).stdout.split()
+                if not holders:
+                    os.remove(lock)
+                    continue
+        except Exception:
+            pass
+        if time.time() - t0 > wait_s:
+            return None
+        time.sleep(poll)
+
+
+def release_profile_lock(prof):
+    """用完就放锁：复核/发帖是一条条来的，不释放会把后面每一次都挡在自己的锁外面。"""
+    lock = os.path.join(prof, ".flux-collect.lock")
+    try:
+        if open(lock, encoding="utf-8").read().strip() == str(os.getpid()):
+            os.remove(lock)
+            return True
+    except Exception:
+        pass
+    return False
 
 
 def _launch(p, headed=False, platform=None):
@@ -94,13 +263,25 @@ def _launch(p, headed=False, platform=None):
     if exe:
         base["executable_path"] = exe
     cands = [profile_for(platform)] if platform else [PROFILE_DIR, READER_DIR]
+    errs = []
     for prof in cands:
         try:
             os.makedirs(prof, exist_ok=True)
-            return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
-        except Exception:
+        except Exception as e:
+            errs.append("%s: mkdir %s" % (os.path.basename(prof), str(e)[:60]))
             continue
-    raise SystemExit("两个 profile 都起不来（可能被别的浏览器进程占用）")
+        if _acquire_profile_lock(prof, yield_ok=True) is None:
+            errs.append("%s: 让路或等锁超时（发帖/会话要这个 profile）" % os.path.basename(prof))
+            continue
+        try:
+            return p.chromium.launch_persistent_context(user_data_dir=prof, **base)
+        except Exception as e:
+            # 2026-11-19 实锚：这里原来 `continue` 把异常吞掉，日志只留一句
+            # "可能被别的浏览器进程占用"，排查两小时查不出根因。错误必须带出来。
+            errs.append("%s: %s: %s" % (os.path.basename(prof),
+                                        type(e).__name__, str(e).strip().splitlines()[0][:160]))
+            continue
+    raise SystemExit("profile 起不来 → " + " | ".join(errs))
 
 
 def _clean(s):
@@ -108,8 +289,52 @@ def _clean(s):
     return s[:300]
 
 
+# 只收文本节点、跳过 style/script：shadow 里 textContent 会把 CSS 一起带出来
+# （实测 bili-rich-text 的 textContent 头 90 字全是 `:host { --bili-rich-text-... }`）。
+SHADOW_JS = """() => {
+  const pick = (node) => {
+    let t = '';
+    const walk = (n) => {
+      if (!n) return;
+      if (n.nodeType === 3) { t += n.nodeValue; return; }
+      const tag = (n.tagName||'').toLowerCase();
+      if (tag === 'style' || tag === 'script' || tag === 'noscript') return;
+      if (n.shadowRoot) walk(n.shadowRoot);
+      const kids = n.childNodes || [];
+      for (let i = 0; i < kids.length; i++) walk(kids[i]);
+    };
+    walk(node);
+    return t.replace(/\\s+/g, ' ').trim();
+  };
+  const out = [];
+  const scan = (root) => {
+    for (const el of root.querySelectorAll('*')) {
+      if ((el.tagName||'').toLowerCase() === 'bili-rich-text') {
+        const t = pick(el);
+        if (t.length > 1) out.push(t);
+      }
+      if (el.shadowRoot) scan(el.shadowRoot);
+    }
+  };
+  scan(document);
+  return out;
+}"""
+
+
 def extract(page, platform, limit=200):
-    """按选择器抽评论，返回 [(text, author, likes)]。命中最多的一套胜出。"""
+    """按选择器抽评论，返回 [(text, author, likes)]。命中最多的一套胜出。
+
+    B站 优先走 SHADOW_JS（新组件在 shadow DOM 里，选择器的 inner_text 拿不到正文）；
+    拿不到才回落旧选择器——别让一次改版把整条采集线打死。
+    """
+    if platform == "bilibili":
+        try:
+            texts = page.evaluate(SHADOW_JS) or []
+            got = [(t[:200], "", 0) for t in texts if len(_clean(t)) >= 2][:limit]
+            if got:
+                return got
+        except Exception:
+            pass
     best = []
     for sel in SELECTORS.get(platform, []):
         try:
@@ -132,7 +357,28 @@ def extract(page, platform, limit=200):
     return best
 
 
+def agent_session_active(max_age_s=900):
+    """养号会话进行中？（AGENT-SESSION-* 新鲜即视为占用）
+
+    为什么采集要让路：CEO 2026-11-20「我的机器就专门做养号」。
+    2026-11-24 实锚：采集抢 browser-bilibili 的 profile，agent 反复「让路：profile 在采集手里」，
+    一上午 acct1 只看 14 条、acct3 看 11 条——看着"浏览器在跑"，实际是采集把养号顶开了。
+    """
+    import glob
+    d = os.path.join(os.path.dirname(os.path.dirname(HERE)), ".codely-cli", "state")
+    for f in glob.glob(os.path.join(d, "AGENT-SESSION-*")):
+        try:
+            if time.time() - os.path.getmtime(f) < max_age_s:
+                return True, os.path.basename(f)
+        except OSError:
+            continue
+    return False, ""
+
+
 def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
+    busy, who = agent_session_active()
+    if busy:
+        return None, "养号会话进行中（%s）：采集让路，等这一场跑完" % who
     try:
         from playwright.sync_api import sync_playwright
     except Exception:
@@ -174,6 +420,53 @@ def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
                 ctx.close()
             except Exception:
                 pass
+
+
+def discover_public(keyword, limit=8, headed=False):
+    """按关键词找公开视频，把 URL 写进 SOURCES（按人群缺口定向采料的入口）。
+
+    2026-11-19 复原：这个函数在 11-16 的 collect 重写里被删了，于是"按人群缺口定向
+    找视频"这条路断了，只能反复采同几个源（段位覆盖停在 8/14）。关键词→人群的映射
+    放在 segment_fill.py，本函数只负责"关键词→URL→SOURCES"。
+    """
+    from playwright.sync_api import sync_playwright
+    import urllib.parse
+    q = urllib.parse.quote(keyword)
+    urls = []
+    with sync_playwright() as p:
+        ctx = _launch(p, headed=headed, platform="bilibili")
+        try:
+            pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pg.goto("https://search.bilibili.com/all?keyword=%s" % q,
+                    wait_until="domcontentloaded", timeout=60000)
+            time.sleep(5)
+            for _ in range(4):
+                got = pg.eval_on_selector_all("a[href*='/video/BV']",
+                                              "els=>[...new Set(els.map(e=>e.href))]")
+                urls = got if len(got) > len(urls) else urls
+                pg.mouse.wheel(0, 1800)
+                time.sleep(2)
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    urls = [u.split("?")[0] for u in urls][:limit]
+    if not urls:
+        return None, "搜索没拿到视频链接（可能触发风控）"
+    path = os.path.join(SOCIAL, "SOURCES-v1.json")
+    cfg = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"platforms": {}}
+    node = cfg.setdefault("platforms", {}).setdefault("bilibili", {})
+    old = [u for u in (node.get("urls") or []) if u]
+    merged = list(dict.fromkeys(old + urls))
+    # 2026-11-19 实锚：原 `[:80]` 保留的是**最旧**的 80 条，于是补采到的新源永远被截掉
+    # （日志写"新增 16 个源"，SOURCES 却一直 80 条、一个新 URL 都没进来）。改保留最新、上限 120。
+    merged = merged[-120:]
+    node["urls"] = merged
+    node["enabled"] = True
+    node["public_keywords"] = list(dict.fromkeys((node.get("public_keywords") or []) + [keyword]))
+    json.dump(cfg, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return urls, ""
 
 
 def discover(platform, limit=5, headed=False):
@@ -252,10 +545,35 @@ def main():
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out", default=RAW)
     ap.add_argument("--discover", default=None, help="登录态下自动发现自己的作品页（bilibili）")
+    ap.add_argument("--discover-public", default=None,
+                    help="按关键词发现公开视频并写进 SOURCES（定向补人群缺口用）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    # 平台租约：不是本平台时段就让位（DEFER 退 75，调用方按"可重试"处理，不记 FAIL 退避）
+    try:
+        sys.path.insert(0, HERE)
+        import res_alloc
+        _rc, _why = res_alloc.may(a.platform)
+    except Exception as _e:
+        _rc, _why = 0, "仲裁器不可用（%s）：放行" % type(_e).__name__
+    if _rc == 75:
+        print("[collect] 让位：%s" % _why)
+        return 75
+    if _rc != 0:
+        print("[collect] 资源拒绝：%s" % _why)
+        return 76
+    if a.discover_public:
+        urls, why = discover_public(a.discover_public, limit=8, headed=a.headed)
+        if urls is None:
+            print("[collect] 关键词发现失败：%s" % why)
+            return 3
+        print("[collect] 关键词「%s」发现 %d 个公开视频，已并入 SOURCES" % (a.discover_public, len(urls)))
+        for u in urls[:5]:
+            print("  -", u)
+        return 0
+
     if a.discover:
         urls, why = discover(a.discover, limit=5, headed=a.headed)
         if urls is None:

@@ -43,6 +43,7 @@ import difflib
 import os
 import re
 import sys
+import tempfile
 
 SECTIONS = ("User", "Feedback", "Project", "Reference")
 DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
@@ -192,8 +193,39 @@ def topic_of(body):
     return MISC
 
 
+def _home():
+    """v2.4 2026-11-17: USERPROFILE 只在 Windows 存在；macOS 上取空串会让所有路径退化成
+    相对路径，闸一跑就 FileNotFoundError（本机实锚）。"""
+    return os.environ.get("USERPROFILE") or os.path.expanduser("~")
+
+
+def _atomic_write(path, data):
+    """v2.4: 先写临时文件再 os.replace，绝不出现「已截断未写入」的 0 字节 L0。
+    2026-11-17 实锚：仓根 CODELY.md 被清成 0 字节（79 条全丢），与 open(path,"wb")
+    先 truncate 后 flush 的窗口一致——进程在两步之间被杀就留空文件。"""
+    d = os.path.dirname(os.path.abspath(path))
+    fd, tmp = tempfile.mkstemp(dir=d, prefix=".mbg-", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+            f.flush()
+            os.fsync(f.fileno())
+        if os.path.exists(path):
+            try:
+                os.chmod(tmp, os.stat(path).st_mode & 0o777)
+            except OSError:
+                pass
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        raise
+
+
 def _log(msg):
-    p = os.path.join(os.environ.get("USERPROFILE", ""), ".codely-cli", "memory", "gate-log.txt")
+    p = os.path.join(_home(), ".codely-cli", "memory", "gate-log.txt")
     try:
         with open(p, "a", encoding="utf-8") as f:
             f.write("%s | %s\n" % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), msg))
@@ -202,7 +234,24 @@ def _log(msg):
 
 
 def _home_mem_dir():
-    return os.path.join(os.environ.get("USERPROFILE", ""), ".codely-cli", "memory")
+    return os.path.join(_home(), ".codely-cli", "memory")
+
+
+def _mem_dir_for(path, root=None):
+    """v2.4: 主题库/快照/旗标的落点跟着被治理的 CODELY.md 走。
+    本机（darwin）实数：闸一直是 `--path <repo>/CODELY.md` 跑的，旧实现拿空的
+    USERPROFILE 拼出相对路径 `.codely-cli/memory`，靠 CWD 恰好等于仓根才落到
+    repo/.codely-cli/memory；一旦换目录就写进别处或直接 FileNotFoundError。
+    规则：文件本身在 .codely-cli/ 下→同层 memory；否则优先主仓 .codely-cli/memory
+    （子项目指针按主仓 topics 校验）；再否则用文件所在目录的 .codely-cli/memory。"""
+    d = os.path.dirname(os.path.abspath(path))
+    if os.path.basename(d) == ".codely-cli":
+        return os.path.join(d, "memory")
+    if root:
+        root_mem = os.path.join(root, ".codely-cli", "memory")
+        if os.path.isdir(root_mem):
+            return root_mem
+    return os.path.join(d, ".codely-cli", "memory")
 
 
 def dedup_keeps(keeps):
@@ -302,7 +351,7 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     default_root = os.path.dirname(here)
     args = sys.argv[1:]
-    home = os.environ.get("USERPROFILE", "")
+    home = _home()
     path = os.path.join(home, ".codely-cli", "CODELY.md")
     root = default_root
     budget_bytes, budget_entries = 51200, 120
@@ -331,7 +380,7 @@ def main():
             scheduled = True
         i += 1
 
-    mem_dir = _home_mem_dir()
+    mem_dir = _mem_dir_for(path, root)
     topics_dir = os.path.join(mem_dir, "topics")
 
     raw = open(path, "rb").read()
@@ -469,8 +518,12 @@ def main():
     if crlf:
         new_text = new_text.replace("\n", "\r\n")
     nb = (b"\xef\xbb\xbf" if bom else b"") + new_text.encode("utf-8")
-    with open(path, "wb") as f:
-        f.write(nb)
+    # v2.4 空写闸：解析出 0 条却要覆盖一份有条目的 L0 = 解析失败，不是真实执法。
+    # 宁可保留原文件报红（rc=1 会进 CRIT 视野），也不写出一份"看起来合法"的空记忆。
+    if n_keep == 0 and n_in > 0:
+        print("ABORT: would write 0 entries (input %d) - 疑似解析失败, 原文件已保留" % n_in)
+        return 1
+    _atomic_write(path, nb)
     print("GATE-EXEC %d->%dB %d->%d条 MOVED=%d topics=%d snapshot=%s"
           % (len(raw), len(nb), n_in, n_keep, moved_n, len(idx), snapdir))
     if crit:

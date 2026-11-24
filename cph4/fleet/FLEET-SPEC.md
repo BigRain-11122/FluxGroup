@@ -1,16 +1,16 @@
 # 机队配置与系统说明书（FLEET-SPEC）
 
-> 生成时间：2026-11-16T15:16:14｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
+> 生成时间：2026-11-24T15:36:10｜生成器：`Tools/fleet/fleet_doc.py`｜**本文件是生成物，不要手改正文**
 > 数据源（改这里，不改正文）：`STATIONS.json` · `Tools/fleet-nodes.json` · `OS-MATRIX-v1.json` · `CPU-PLAN-v1.json` · `AGENT-CAPACITY-v1.json` · `MODEL-COMPUTE.json` · `ASSET-VAULT.json`
 > 改完跑 `python3 Tools/fleet/fleet_doc.py --write`；只查不改跑 `--check`（有漂移 rc=1）。
-> **综合评分 88.1 / 100**（验证 24.1/25｜规则 20.0/20｜工作流 25.0/25｜机队 12.0/15｜环境 2.0/10｜文档 5.0/5；评分时间 2026-11-16T00:48:41）；外部阻塞 3 项
+> **综合评分 84.9 / 100**（验证 24.4/25｜规则 20.0/20｜工作流 25.0/25｜机队 10.5/15｜环境 0.0/10｜文档 5.0/5；评分时间 2026-11-24T11:50:56）；外部阻塞 3 项
 
 ## 一、速查表
 
 | 工位 | 机器 | 系统 | CPU | 内存 | GPU | 角色 | 状态 |
 |---|---|---|---|---|---|---|---|
-| delivery | 公司生产力机 | Windows | Ryzen 9950X 16C/32T | 94G | RTX 4070 SUPER | 游戏产线主业（CEO 2026-11 | ready |
-| visual | 传家宝 | Windows | Ryzen 3950X 16C/32T | 24G | RTX 3070 (modded 16G) | 全视频主责（CEO 2026-11- | ready |
+| delivery | 公司生产力机 | Windows | Ryzen 9950X 16C/32T | 94G | RTX 4070 SUPER | 城市+游戏主业（CEO 2026-1 | ready |
+| visual | 传家宝 | Windows | Ryzen 3950X 16C/32T | 24G | RTX 3070 (modded 16G) | 内容线全责（CEO 2026-11- | offline |
 | audio | 小钢炮 | Windows | Ryzen 3800X 8C/16T | 24G | RTX 3070 | 声音工位：全视频线的配音/混音/BG | offline |
 | brain | 算力大脑 | 待定（未装机/未入网）（未核实） | 2× Xeon E5-2695v2 24C/48T | 256G | 3× Tesla V100 | 机队本地模型能力中心 + BigMo | not_installed |
 | control | MacBook | macOS | Apple M1 Pro 10C/10T | 32G | M1 Pro 集成 | 主控台（2026-11-11 收窄） | ready |
@@ -36,10 +36,10 @@
 | 磁盘 | C:（系统+代码+.git）；D:（重资产与产物，余 3379G） |
 | 工作目录 | C:/Users/sjs20/Desktop/FluxGroup |
 | 网络 | tailnet 100.110.185.62（端口 8790） |
-| 角色 | 游戏产线主业（CEO 2026-11-11）：Biggame 与车机游戏的全部提审/图标/截图/构建/适配/准入材料都在这里；不再接视频与对外物料。 |
+| 角色 | 城市+游戏主业（CEO 2026-11-20 收窄）：硅基城市（FluxVerse/City3D/BigLife/BigHouse）与游戏公司（Biggame/车机游戏/提审/构建/图标/截图）全部在此；自媒体/AI 漫剧/短剧/短视频/MV/账号运营全线已移交传家宝，正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md。 |
 | 班次 | 工作日 09:00-19:00 只接轻 CPU（day_ok）；19:00-09:00 与周末重活 |
 | 允许的活 | 游戏提审全套(材料/图标/截图/清单)、构建打包、车机适配、3D 场景装配、城市数据与资产、事件接入 |
-| 禁区 | 视频剪辑与字幕、画面生成、声音 |
+| 禁区 | 视频剪辑与字幕、画面生成、声音、自媒体/漫剧/短剧/短视频/MV 生产（2026-11-20 全线移交传家宝）、账号侧动作（养号/评论/私信/发布准备，归传家宝且启用须 CEO 令） |
 | 磁盘水位 | 低于 20 GB 停手 |
 | 模型座位 | qwen3.5:8b 级（Q4）（8G，ctx 8192，并发 2） |
 | 模型额度 | 600 次/天，180 模型分钟/天，实测 22 tok/s |
@@ -77,16 +77,16 @@
 | 磁盘 | K:（仓库+产物，余 1217G）；C:（执行器） |
 | 工作目录 | K:/Fluxgroup/FluxGroup |
 | 网络 | tailnet 100.123.74.104（端口 8790） |
-| 角色 | 全视频主责（CEO 2026-11-11）：MV/漫剧/短剧/短视频的画面+剪辑+字幕+装配；声音仍由声音工位做。 |
+| 角色 | 内容线全责（CEO 2026-11-20）：自媒体/AI 漫剧/短剧/短视频/MV 全线生产（关键帧、i2v、剪辑、字幕、装配、剧本与选题、选角与 LoRA、账号侧草稿）都在此机；账号对外发布仍归 CEO。声音仍由声音工位做。正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md。 |
 | 班次 | 全天；GPU 串行，同一时刻只跑 1 张 |
-| 允许的活 | 关键帧海选/正档、图生视频、口型、角色 LoRA、视觉一致性机检、剪辑、字幕、成片装配 |
+| 允许的活 | 关键帧海选/正档、图生视频、口型、角色 LoRA、视觉一致性机检、剪辑、字幕、成片装配、自媒体/漫剧/短剧/短视频全链（2026-11-20 接手）、账号侧草稿与养号流水线（对外发布仍归 CEO） |
 | 禁区 | 声音制作、文本批量生成、打包构建 |
 | 磁盘水位 | 低于 20 GB 停手 |
 | 模型座位 | qwen3.5:8b 级（Q4）（8G，ctx 8192，并发 1） |
 | 模型额度 | 400 次/天，120 模型分钟/天，实测 24 tok/s |
 | 已装软件 | python（Windows 无 python3，实测 rc=9009）、ComfyUI(8188)、ffmpeg、git |
 | 唤醒任务 | Bigmoney-IterationLoop、Bigmoney-SaturationEngine、Bigmoney-ResidentDispatcher、Bigmoney-Autofill、Bigmoney-PoolWorker、MiniGameEngineTick、MiniGameComfyDraftTick、MiniGameAuditTick、MiniGameGateTick、MiniGameRadarTick、MiniGameRadarDeepTick、MiniGameSiliconWatchTick、HQ-ProductionClaim、HQ-StationDrive |
-| 当前状态 | ready |
+| 当前状态 | offline |
 
 **可承担的 CPU 活（夜窗并行上限）**
 
@@ -227,7 +227,7 @@
 | OS-6 | 系统专属命令不算通用 | sysctl / getloadavg / launchctl / os.fork 只在 POSIX；schtasks / Get-CimInstance / powershell 只在 Windows。失真判据一律双实现或显式拒绝。 |
 | OS-7 | 未验证 OS 不得排卡 | os=unverified 的机器不得作为任何卡的落点（除非卡本身就是装机/验机卡）。 |
 
-队列与存储：分片 `cph4/fleet/rt/<工位>/`（一机一写者，主控只读 origin 快照）；素材字节留产出机，素材库落点 `—`（status=EMPTY；重建目标 传家宝:K:/FluxAssets）。
+队列与存储：分片 `cph4/fleet/rt/<工位>/`（一机一写者，主控只读 origin 快照）；素材字节留产出机，素材库落点 `/Users/junsheng.sun/FluxAssets`（status=ACTIVE；重建目标 传家宝:K:/FluxAssets）。
 
 ## 四、模型端点阶梯
 
@@ -243,13 +243,13 @@
 
 | 工位 | 环境档 | 判定 | python | ollama | ffmpeg | 探针年龄 | 缺口 |
 |---|---|---|---|---|---|---|---|
-| control | darwin-arm64 | PASS | 3.13.18 | 0.40.16 | 7.1 | 0.0h | — |
-| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 50.5h | 探针已 50.5h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
-| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 63.8h | 探针已 63.8h 未更新（阈值 24h）；python 3.13.15 不满足 <3.13（等 6 项） |
+| control | darwin-arm64 | GAP | 3.15.2 | 0.40.17 | 7.1 | 3.8h | python 3.15.2 不满足 <3.14；torch 未装或未采到（要求 >=2.4） |
+| delivery | windows-cuda | GAP | 3.14.10 | 0.40.13 | 9.0.2-full_build-www.gyan.dev | 242.8h | 探针已 242.8h 未更新（阈值 24h）；python 3.14.10 不满足 <3.13（等 6 项） |
+| visual | windows-cuda | GAP | 3.13.15 | 0.40.10 | 2025-08-11-git-3542260376-full_build-www.gyan.dev | 256.1h | 探针已 256.1h 未更新（阈值 24h）；python 3.13.15 不满足 <3.13（等 6 项） |
 | audio | — | 未探测 | — | — | — | — | 没有 env/audio.json：该机还没跑过探针 |
 | brain | — | 未定档 | — | — | — | — | 该机没有对应环境档位（OS 待定或未入网）：先定系统再定环境 |
 
-标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。1 台达标 / 4 台待办。
+标准=`cph4/fleet/AI-ENV-SPEC-v1.json`；事实=`cph4/fleet/env/<工位>.json`（由 `env_probe.py` 各机自采）；超过 24h 未更新判 STALE。0 台达标 / 5 台待办。
 
 标准档：`darwin-arm64`（主控，MLX）/ `windows-cuda`（三台生产机）/ `linux-cuda`（大脑若装 Ubuntu）。各机每日跑 `python3 Tools/fleet/env_probe.py --write`，产物随 git 同步；探针超过 24h 判 STALE。
 
@@ -257,7 +257,6 @@
 
 1. brain：系统未核实（待定（未装机/未入网））——入网时二选一：Ubuntu（CUDA/驱动省事，工具多为 py）或 Windows（与另外三台一致，可复用 .ps1）。选前不得按任何一方排卡。
 2. 算力大脑：端点未装备（未入网：tailnet IP 未分配。装备完成后在此填 http://<brain-tailnet>:11434，order 保持 1。）
-3. 素材库为空（已按 CEO 令清空），重建落点 K:/FluxAssets
 
 ## 七、配置一致性校验
 

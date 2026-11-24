@@ -1,0 +1,455 @@
+{
+ "ts": "2026-11-23T22:33:36",
+ "pass": {
+  "CR01": null,
+  "CR02": true,
+  "CR03": true,
+  "CR04": true,
+  "CR05": true,
+  "CR06": true,
+  "CR07": false,
+  "CR08": null,
+  "TR01": false,
+  "TR02": true,
+  "TR03": false,
+  "TR04": false,
+  "TR05": false,
+  "TR06": true,
+  "AC01": true,
+  "AC02": true,
+  "AC03": true,
+  "AC04": true,
+  "AC05": false,
+  "SD01": true,
+  "SD07": false,
+  "SD08": false,
+  "SD02": true,
+  "SD03": true,
+  "SD04": true,
+  "SD05": true,
+  "SD06": true,
+  "SC01": true,
+  "SC02": true,
+  "SC03": false,
+  "SC04": false,
+  "ME01": true,
+  "ME02": true,
+  "ME04": false,
+  "ME05": true,
+  "ME03": true,
+  "EV01": true,
+  "EV02": true,
+  "EV03": true,
+  "EV04": true,
+  "EV05": false
+ },
+ "checks": [
+  {
+   "id": "CR01",
+   "name": "生成侧 AI 腔命中率",
+   "ok": null,
+   "sev": "P1",
+   "detail": "48h 内无 AI-RATE 落盘（ai_rate.py --json-out），量不到≠通过",
+   "n": null,
+   "group": "corpus"
+  },
+  {
+   "id": "CR02",
+   "name": "语料侧 AI 腔污染率",
+   "ok": true,
+   "sev": "P1",
+   "detail": "2.0%（线 ≤5%）8/391 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：必须/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 391,
+   "group": "corpus"
+  },
+  {
+   "id": "CR03",
+   "name": "烘焙与分段",
+   "ok": true,
+   "sev": "P1",
+   "detail": "0.0h前 rows=60950 段=15 verdict=3",
+   "n": 60950,
+   "group": "corpus"
+  },
+  {
+   "id": "CR04",
+   "name": "内容简报覆盖",
+   "ok": true,
+   "sev": "P2",
+   "detail": "100.0% 有话题或简介（线 ≥90%），106 条",
+   "n": 106,
+   "group": "corpus"
+  },
+  {
+   "id": "CR05",
+   "name": "人设隔离（亲笔样句不入共享集）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "命中 0 条（线 0）",
+   "n": 0,
+   "group": "corpus"
+  },
+  {
+   "id": "CR06",
+   "name": "采集新鲜（24h）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "24h 内采集 211 次 / 总 211 次",
+   "n": 211,
+   "group": "corpus"
+  },
+  {
+   "id": "CR07",
+   "name": "多样性三项核心",
+   "ok": false,
+   "sev": "P2",
+   "detail": "陈述 77%(≤60) 短评 6%(≥25) 跨度 11(≥12)",
+   "n": 3975,
+   "group": "corpus"
+  },
+  {
+   "id": "CR08",
+   "name": "生成侧缺陷率",
+   "ok": null,
+   "sev": "P1",
+   "detail": "48h 内无 AI-RATE 落盘",
+   "n": null,
+   "group": "corpus"
+  },
+  {
+   "id": "TR01",
+   "name": "训练容量（epoch 3–5）",
+   "ok": false,
+   "sev": "P2",
+   "detail": "iters=400 rows=1439 → 0.28 epoch",
+   "n": 1439,
+   "group": "train"
+  },
+  {
+   "id": "TR02",
+   "name": "轮次判据质量",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 5 轮：判据齐全（历史欠账 7 行）",
+   "n": 5,
+   "group": "train"
+  },
+  {
+   "id": "TR03",
+   "name": "配方一致（RECIPE=v5-shape-quota）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "需重造 6 段：tech_nerd, peer_pro, music_seeker, memer, shallow, feeler",
+   "n": 8,
+   "group": "train"
+  },
+  {
+   "id": "TR04",
+   "name": "ACTIVE 指针一致",
+   "ok": false,
+   "sev": "P1",
+   "detail": "mode 只能是 base/lora（实际 None）（None，2026-11-23T22:29:09）",
+   "n": null,
+   "group": "train"
+  },
+  {
+   "id": "TR05",
+   "name": "评测功率（n≥30）",
+   "ok": false,
+   "sev": "P2",
+   "detail": "最小 n=10，2 组（线 ≥30）",
+   "n": 2,
+   "group": "train"
+  },
+  {
+   "id": "TR06",
+   "name": "GPU 租约健康",
+   "ok": true,
+   "sev": "P1",
+   "detail": "当前无持有者",
+   "n": null,
+   "group": "train"
+  },
+  {
+   "id": "AC01",
+   "name": "活人节奏（alive+在动）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "两号均在活动（上限 2h）",
+   "n": 2,
+   "group": "accounts"
+  },
+  {
+   "id": "AC02",
+   "name": "跨号隔离（24h 不同视频）",
+   "ok": true,
+   "sev": "P0",
+   "detail": "24h 内 144 条视频无跨号重叠",
+   "n": 144,
+   "group": "accounts"
+  },
+  {
+   "id": "AC03",
+   "name": "同 mid 单 profile",
+   "ok": true,
+   "sev": "P0",
+   "detail": "2 个 mid 各一个活跃 profile",
+   "n": 2,
+   "group": "accounts"
+  },
+  {
+   "id": "AC04",
+   "name": "夜间静默（1–6 点）",
+   "ok": true,
+   "sev": "P0",
+   "detail": "近 7 天夜间动作 0 次",
+   "n": 244,
+   "group": "accounts"
+  },
+  {
+   "id": "AC05",
+   "name": "同视频 7 天 ≤1 条评论",
+   "ok": false,
+   "sev": "P1",
+   "detail": "重复评论：{'117626990822035': 2, '116396449207584': 2}",
+   "n": 35,
+   "group": "accounts"
+  },
+  {
+   "id": "SD01",
+   "name": "评论出稿（24h 至少 1 条）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "最近一条 1.7h 前（2026-11-23T20:53:47 rpid=324918982064）",
+   "n": 40,
+   "group": "sends"
+  },
+  {
+   "id": "SD07",
+   "name": "已发都带合格证据",
+   "ok": false,
+   "sev": "P1",
+   "detail": "4 条已发缺闸证据：324828756864,324830052352,324830593184",
+   "n": 40,
+   "group": "sends"
+  },
+  {
+   "id": "SD08",
+   "name": "出稿节拍（中位 ≤30s）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "近 10 拍中位 127s（最快 56s / 最慢 316s）；gen 中位 16s；post 中位 77s",
+   "n": 10,
+   "group": "sends"
+  },
+  {
+   "id": "SD02",
+   "name": "失败归因齐全",
+   "ok": true,
+   "sev": "P1",
+   "detail": "18 条失败，0 条无 why",
+   "n": 18,
+   "group": "sends"
+  },
+  {
+   "id": "SD03",
+   "name": "连续真失败 <2",
+   "ok": true,
+   "sev": "P1",
+   "detail": "近 7 天真失败 0 条，尾部连续 0",
+   "n": 0,
+   "group": "sends"
+  },
+  {
+   "id": "SD04",
+   "name": "引流硬拒回归 3/3",
+   "ok": true,
+   "sev": "P0",
+   "detail": "拦住 3/3",
+   "n": 3,
+   "group": "sends"
+  },
+  {
+   "id": "SD05",
+   "name": "评论配额（≤策略上限/天）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "今日实发 3/39；分号 acct1=0, acct3=0（另有 3 条未署名，历史行无账号列）",
+   "n": 3,
+   "group": "sends"
+  },
+  {
+   "id": "SD06",
+   "name": "副动作齐（看/赞/弹幕）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "两号三类动作齐",
+   "n": 2,
+   "group": "sends"
+  },
+  {
+   "id": "SC01",
+   "name": "声明与实载一致",
+   "ok": true,
+   "sev": "P2",
+   "detail": "未归类 7 个：browserd,gzhloop,loopreg,ollamamodel,qualityagent,resalloc；应载未载 0 个",
+   "n": 13,
+   "group": "sched"
+  },
+  {
+   "id": "SC02",
+   "name": "退役调度器未复活",
+   "ok": true,
+   "sev": "P1",
+   "detail": "无退役件在跑",
+   "n": 5,
+   "group": "sched"
+  },
+  {
+   "id": "SC03",
+   "name": "定时器退出码正常",
+   "ok": false,
+   "sev": "P1",
+   "detail": "真异常：gzhloop(rc=78,pid=None)",
+   "n": 20,
+   "group": "sched"
+  },
+  {
+   "id": "SC04",
+   "name": "节拍与排班表一致",
+   "ok": false,
+   "sev": "P1",
+   "detail": "corpusbake plist=1800s 表=21600s",
+   "n": 4,
+   "group": "sched"
+  },
+  {
+   "id": "ME01",
+   "name": "swap 不在涨",
+   "ok": true,
+   "sev": "P1",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 4301MB）",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME02",
+   "name": "常驻模型预算",
+   "ok": true,
+   "sev": "P1",
+   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME04",
+   "name": "单一 ollama 服务端",
+   "ok": false,
+   "sev": "P2",
+   "detail": "11434 监听进程 2 个：53612,53684",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME05",
+   "name": "内存余量",
+   "ok": true,
+   "sev": "P2",
+   "detail": "free 3.1G + inactive 8.7G = 11.8G（线 ≥4G）",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "ME03",
+   "name": "真实生成不增量",
+   "ok": true,
+   "sev": "P1",
+   "detail": "上次 2026-11-23T22:33:15（0h前）生成 1 条 swap +0.0MB pageouts +0",
+   "n": null,
+   "group": "mem"
+  },
+  {
+   "id": "EV01",
+   "name": "反思覆盖（每轮有归因）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "判据起 2026-11-21T23:40：71 轮，无可判读 why 0 条；真失败 35 轮（让路不计），未归因 0 轮；历史欠账 42 条（不判红）",
+   "n": null,
+   "group": "evolve"
+  },
+  {
+   "id": "EV02",
+   "name": "变更审查（参数留痕）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "参数 9 项，与基线差 0 处（无差异）",
+   "n": null,
+   "group": "evolve"
+  },
+  {
+   "id": "EV03",
+   "name": "迭代节奏（7 天有前进）",
+   "ok": true,
+   "sev": "P2",
+   "detail": "近 7 天变更 5 条，其中实质前进（配方/数据/阈值/角度）3 条",
+   "n": null,
+   "group": "evolve"
+  },
+  {
+   "id": "EV04",
+   "name": "创新落地（带测量）",
+   "ok": true,
+   "sev": "P2",
+   "detail": "近 14 天 4 条：全部带 measured 与 verdict",
+   "n": null,
+   "group": "evolve"
+  },
+  {
+   "id": "EV05",
+   "name": "训练期换页（≤256MB）",
+   "ok": false,
+   "sev": "P1",
+   "detail": "最近一轮 2026-11-23T22:31:10：swap 3972→4349MB（+377MB）",
+   "n": null,
+   "group": "evolve"
+  }
+ ],
+ "groups": {
+  "corpus": {
+   "overall": false,
+   "n_fail": 1,
+   "n_skip": 2
+  },
+  "train": {
+   "overall": false,
+   "n_fail": 4,
+   "n_skip": 0
+  },
+  "accounts": {
+   "overall": false,
+   "n_fail": 1,
+   "n_skip": 0
+  },
+  "sends": {
+   "overall": false,
+   "n_fail": 2,
+   "n_skip": 0
+  },
+  "sched": {
+   "overall": false,
+   "n_fail": 2,
+   "n_skip": 0
+  },
+  "mem": {
+   "overall": false,
+   "n_fail": 1,
+   "n_skip": 0
+  },
+  "evolve": {
+   "overall": false,
+   "n_fail": 1,
+   "n_skip": 0
+  }
+ },
+ "overall": false
+}

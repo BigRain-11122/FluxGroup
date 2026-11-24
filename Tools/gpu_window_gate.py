@@ -20,12 +20,16 @@ CEO 用机让路律优先，所以**不得杀桌面程序**，只能判窗。
 """
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
 
 DEFAULT_MARGIN = 1.15
 DEFAULT_HOLD_S = 0
+# U060 静默律：pythonw 承载的调用方（无控制台）若这里不隐藏，
+# 每次 nvidia-smi 都会弹一个可见黑窗（2026-11-23 实测）。
+NO_WINDOW = 0x08000000 if os.name == "nt" else 0
 
 
 def free_mb():
@@ -33,7 +37,7 @@ def free_mb():
     try:
         out = subprocess.run(
             ["nvidia-smi", "--query-gpu=memory.total,memory.free", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True, text=True, timeout=15, creationflags=NO_WINDOW,
         )
         if out.returncode != 0:
             return None, None

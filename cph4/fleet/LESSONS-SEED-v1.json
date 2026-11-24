@@ -112,7 +112,7 @@
    "fix": "体检卡不算产物；这种线要么定第一件真产物，要么改声明 PARKED",
    "landing": {
     "kind": "symbol",
-    "ref": "Tools/fleet/patrol.py:is_selfreport"
+    "ref": "Tools/fleet/artifact_review.py:is_selfreport"
    },
    "evidence": [
     "cph4/fleet/LINE-NEXT-STEPS.json"

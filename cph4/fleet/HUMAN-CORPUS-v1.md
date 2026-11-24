@@ -50,5 +50,162 @@
 python3 Tools/fleet/human_corpus.py --src bili_comments_crawl    # 拉+洗+打标（reference）
 python3 Tools/fleet/human_corpus.py --from-dir cph4/fleet/social/corpus --use train  # 自有采集
 python3 Tools/fleet/human_corpus.py --stats                      # 看可训练量
+python3 Tools/fleet/human_corpus.py --gate                       # 三条门槛（量/红线/盲评）rc=0 才许开训
 python3 Tools/fleet/human_corpus.py --self-test                  # 9/9 判据自检
 ```
+
+## 八 批量补货（2026-11-17 立）
+
+24h 学习循环每 20 分钟只抽 1 条视频 3 页评论，一天撑死几百句；要凑 2000 条得用
+`Tools/fleet/social_sweep.py` 成批拉，但节奏仍按真人：视频之间过 `social_riskguard`
+（20-60s 抖动 + 会话休息）。
+
+```bash
+launchctl bootout gui/$(id -u)/com.fluxgroup.sociallearn     # 同一 profile 不能两开
+python3 Tools/fleet/social_sweep.py --videos 8 --comment-pages 8
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.fluxgroup.sociallearn.plist
+python3 Tools/fleet/human_corpus.py --from-dir cph4/fleet/social/raw
+```
+
+两个接口事实（踩过，别再试）：
+
+1. 评论：`/x/v2/reply?type=1&oid=aid&pn=N&ps=20&sort=2` 带登录 cookie 直接 code=0，
+   一次 20 条；DOM 侧评论区在封闭 shadow DOM 里，`inner_text` 取不到（永远 0 条）。
+2. 弹幕：`x/v1/dm/list.so` 与 `comment.bilibili.com/<cid>.xml` 都返回 **raw deflate**，
+   Playwright 的 `APIRequestContext` 解不开（`failed to decompress 'deflate'`），加
+   `Accept-Encoding: identity` 也照旧。正法是 `/x/v2/dm/web/seg.so?type=1&oid=cid&pid=aid&segment_index=N`
+   （protobuf，字段 1=DanmakuElem、其中字段 7=正文），6 分钟一段，实测一段 77 条。
+   弹幕要过"像人话"筛：≥4 字符、含中文或字母、非纯刷屏（字符种类 ≤2 直接丢）。
+3. 采源要按**评论数倒序**（`--sort-by-reply --min-reply 500`）：爆火视频一条能给上千条，
+   同样的时间先吃油水大的。实测好评论密度 7%→11%（评论比弹幕产出高得多）。
+
+## 九 训练工作流（2026-11-17 立·对齐社区口径）
+
+社区做法对照（只偷机制，不引框架）：
+
+| 社区做法 | 出处 | 我们落地成什么 |
+|---|---|---|
+| 少而精胜过海量（1k 精选 > 50k 抓取） | LIMA (NeurIPS 2023) | 品味闸只放 PASS 进集，2245 条也照训 |
+| 用强模型给每条打分再筛 | AlpaGasus (ICLR 2024) | 五维确定性判据替代（无云依赖，可复算） |
+| 近重复必须清（MinHash/SimHash+LSH） | NeMo Curator / Milvus | `train_build.near_dedup`（SimHash 64bit，汉明≤6） |
+| 复杂度/质量/多样性三维选 | DEITA | 单视频占比上限 + 句长分桶切分 |
+| **checkpoint 按任务质量选，不按 loss 选** | 2026 实践综述 | `train_eval.py` 逐点跑同一批题、按均分+PASS 率排名 |
+| 先有评测闭环再训；fine-tune 管形式不管事实 | 同上 | `comment_taste` + 固定题面 + 事实包在发送口兜底 |
+
+一条命令跑完，三个硬门不过就停：
+
+```bash
+python3 Tools/fleet/train_pipe.py            # 门1 门槛 → 造集 → 训练 → 门3 选点 → 盲评表
+python3 Tools/fleet/train_pipe.py --build-only
+```
+
+- 门1 语料量 + 红线召回（`human_corpus.py --gate` rc=0）
+- 门2 训练集 ≥500 条（太少只会抄碎片）
+- 门3 最优 checkpoint 必须超过基座，否则不采用、不出盲评表
+
+**选点实测（20261117-165812，12 条/点）**：base 54.7/33% · iter100 65.8/50% ·
+iter200 **70.2/58%（逻辑 26.7 最高）** · iter300 66.1/67%。只看 PASS 率会选 300，
+只看 loss/最后一个点会掉进 300——**两个指标一起看才不选错**。
+
+解码侧也补了一条：多生成 2 条候选再择优（先按句内 4 字自我重复度升序、再按长度降序）。
+开候选择优后同尺比分 75.9/87% vs 基座 67.7/73%（+8.2pt / +14pt）。
+
+**两次踩坑，别再试**：
+1. 自写 `logits_processors` 做重复惩罚，scatter-add 一写错就把分布打崩——基座和 LoRA
+   同时只吐 `!!!!!!!!`。要治复读用候选择优，不要动 logits。
+2. 直接把最后一个 checkpoint 拿去发：iter300 的均分和逻辑分都低于 iter200。选点必须
+   走 `train_eval.py`。
+
+
+
+
+### 训练后复测（20261117-191945 · 16 层/500 步/3156 条 · 每段 5 条）
+
+补采按段定向（争议/新手/亲子/整活 5 组关键词→99 源→+1.2 万条评论），
+语料 20253→31004、过闸 3381、训练集 3156。总评**首破 10pt**：base 63.5 → LoRA 73.7
+（+10.2），选点 iter500（前 400 步都不如它，说明大集+多层需要更多步）。
+
+| 段（5 条/段） | base | LoRA | 判断 |
+|---|---|---|---|
+| critic | 50.0 | **85.6** | +35.6 |
+| shallow | 41.6 | **79.8** | +38.2 |
+| ai_creator | 52.0 | **77.2** | +25.2 |
+| family | 54.2 | **75.4** | +21.2 |
+| student | 41.8 | **72.2** | +30.4 |
+| peer_pro | 55.0 | **72.8** | +17.8 |
+| feeler | 58.0 | **68.8** | +10.8 |
+| music_seeker | 30.0 | **56.8** | +26.8 |
+| requester | 72.2 | **79.6** | +7.4 |
+| memer | 44.2 | 48.0 | +3.8（仍弱） |
+| traditional | 48.0 | 51.4 | +3.4（仍弱） |
+| **beginner** | 97.2 | **74.6** | **-22.6 退化** |
+| **tech_nerd** | 60.0 | 45.6 | **-14.4 退化** |
+
+两条退化的成因（下一步要治的）：这两个段要的是"耐心/具体"，而训练集主体是
+B站口语短句——语气学到了，专业性与耐心反而被冲淡。方向：段位提示前置到最前、
+提高这两段配额、或按段训多个 adapter。
+
+硬件上限（实测，别再试）：32GB 统一内存上 4B-4bit **全层 LoRA @256 ctx 直接
+Metal OOM**（16.2M 参数）；可行上限 = 16 层 @224。
+
+## 十 人群细分（2026-11-17 立·颗粒度对齐）
+
+要求：**懂得和不同人群打交道，按各人群的口味说话**。落法是"一套段位同时管四处"，
+否则打标用一套、生成用一套、评测用一套，颗粒度永远对不齐。
+
+正身 `cph4/fleet/social/AUDIENCE-SEGMENTS-v1.json`（13 段）+ `Tools/fleet/segments.py`：
+每段带 **信号词（判据式，不写例句）**、**语言参数（字数带/语气/称呼/emoji 上限/是否用梗）**、
+**该做/不该做**、**风险级**。识别多段命中报 primary+secondary，无信号落 generic（不猜）。
+
+| 段 | 语料占比 | 说明 |
+|---|---|---|
+| generic 未识别 | 39.6% | 纯观感/闲扯，判不出人；按意图回，不硬套段 |
+| shallow 浅层 | 19.5% | 谢谢/已三连/前排，一句轻回或不回 |
+| tech_nerd 技术党 | 12.8% | 抠像/分镜/一致性/参数 |
+| music_seeker 求歌 | 9.1% | BGM/曲名/出处，编错=硬伤 |
+| peer_pro 同行 | 4.5% | 甲方/后期/接单 |
+| memer 玩梗 | 3.9% | 要素察觉/狗头 |
+| feeler 共情 | 3.9% | 想起/哭了/当年 |
+| ai_creator AI创作圈 | 2.1% | 抽卡/首尾针/参考图 |
+| 其余（beginner/student/requester/critic/family/traditional） | 各 ≤2% | 样本稀缺，见下表短板 |
+
+**分段评测（20261117-175135 iter100，2 条/段）**
+
+| 段 | 基座 | LoRA | 结论 |
+|---|---|---|---|
+| tech_nerd | 55.0/0% | **97.5/100%** | +42.5，最大收益 |
+| feeler | 70.0/50% | **95.0/100%** | +25 |
+| student | 60.0/50% | **83.5/100%** | +23.5 |
+| traditional | 60.0/50% | **79.0/100%** | +19 |
+| music_seeker | 64.0/50% | **79.0/100%** | +15 |
+| shallow | 40.0/100% | **60.0/100%** | +20（该短的段按短判） |
+| peer_pro / family / requester | — | 小幅提升 | — |
+| critic | 85.0/100% | 77.5/100% | **-7.5 退化** |
+| ai_creator | 95.0/100% | 92.5/100% | -2.5 |
+| beginner | 85.0/100% | 82.5/100% | -2.5 |
+| memer | 39.5/50% | 45.0/50% | 双方都不及格 |
+
+**判据必须分段，不能一把尺子量所有段**：玩梗/浅层本来就该 6-12 字、没有逻辑主干，
+用通用线量它们必然 0 分——看着像模型差，其实是尺子不对。`comment_taste.SEG_TUNE`
+按段给 PASS 线与逻辑下限，`--per-segment` 出分段报表。
+
+**已知短板（下一步补采目标，不是调参）**：critic 17 条、beginner 33 条、family 8 条、
+memer 113 条——低样本段训不出来，挑刺段还会退化。补采要按"段"去挑视频，而不是按播放量。
+
+### 满负荷训练（2026-11-17 夜·零 swap 条件下）
+
+配置探测（每次 20 步探针）：
+- **全层 @128 直接 nan**（lr 1e-5 与 3e-6 都 nan）——4bit 基座全层适配在 mlx 上数值不稳，不是显存问题。
+- 16 层 @224 稳定，是可行上限。
+
+执行：16 层 @224，先跑到 ~590 步时 **swap 涨了 1.3GB、空闲只剩 393MB**，违反"不触发 swap"，
+于是停训并按 checkpoint 续训（`--resume-adapter-file` + `--grad-checkpoint`），同时把 ollama
+服务停掉——**空闲从 449MB 回到 11GB**，此后 swap 不再增长（4318MB 是历史占用，不再涨）。
+
+按质量选点（18 条/点）：
+- 续训 run 的 iter400 = **76.9**，基座 66.3（**+10.6**）
+- 原始 run 的 iter500 = 62.4（+3.0）→ **续训优于原跑**，说明"停-续训"没伤模型
+- 训练末期反而掉（iter600 = 64.2）→ 与之前一致：**大集上不能按末尾点选**
+
+分段（3 条/段）：10/13 上升，memer +47.7、traditional +38、student +31.7、critic +22.7、
+family +12.3；**退步**：feeler -8、tech_nerd -4、beginner -2.3（仍是"要耐心/具体"的段）。

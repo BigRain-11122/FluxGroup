@@ -215,8 +215,13 @@ def main(argv):
             for s in subs:
                 st, en = float(s.get("from", 0)), float(s.get("to", dur))
                 f.write("Dialogue: 0,%s,%s,D,,0,0,0,,%s\n" % (ts(st), ts(min(en, dur)), s.get("text", "")))
-        vf = "ass=%s:fontsdir=%s" % (ass.replace("\\", "/").replace(":", "\\:"),
-                                     os.path.dirname(font).replace("\\", "/").replace(":", "\\:"))
+        # 2026-11-20 bm-c（Windows 实锚）：不加引号时 ffmpeg 报
+        #   No option name near '/Windows/Fonts'
+        # 卡在 ass=C\:/...:fontsdir=C\:/Windows/Fonts。正法=选项值整体单引号包裹
+        # （跨平台同样成立），盘符冒号仍转义。
+        vf = "ass=filename='%s':fontsdir='%s'" % (
+            ass.replace("\\", "/").replace(":", "\\:"),
+            os.path.dirname(font).replace("\\", "/").replace(":", "\\:"))
     voice = man.get("voice")
     music = man.get("music")
     inputs = ["-i", silent]
@@ -246,8 +251,14 @@ def main(argv):
         audio = ["-filter_complex", ";".join(filters), "-map", "0:v:0", "-map", "[a]"]
         af = None
     else:
-        audio = ["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-shortest",
-                 "-map", "0:v:0", "-map", "1:a:0"]
+        # 2026-11-21 bm-c：无配音时用 lavfi 静音轨兜底。原写法把 -f lavfi -i ... 放进
+        # audio（输出段），命令变成
+        #   ffmpeg -i v.mp4 -vf ass=... -f lavfi -i anullsrc ...
+        # ffmpeg 把 -vf 判给了 anullsrc 这个**输入**，报
+        #   "Option vf cannot be applied to input url anullsrc"，装配必败。
+        # 正法：输入归输入（并进 inputs），输出选项才放后面。
+        inputs += ["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo"]
+        audio = ["-shortest", "-map", "0:v:0", "-map", "1:a:0"]
         af = None
     cmd = [F, "-y"] + inputs
     if af is None and labels:

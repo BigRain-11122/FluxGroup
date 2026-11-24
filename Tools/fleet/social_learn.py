@@ -183,6 +183,18 @@ def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200
     locked = threading.Lock()
 
     def work(plat, url):
+        try:
+            sys.path.insert(0, HERE)
+            import social_riskguard as guard
+            okr, whyr = guard.check(plat)
+            if not okr:
+                with locked:
+                    results.append({"platform": plat, "verdict": "COOLDOWN", "note": whyr})
+                    ledger({"ts": _now(), "platform": plat, "verdict": "COOLDOWN",
+                            "found": 0, "new": 0, "note": str(whyr)[:160]})
+                return
+        except Exception:
+            pass
         time.sleep(random.uniform(0, STAGGER_S))   # 错峰起跑，别让几个浏览器同时抢 IO
         rows, why = ctx["collector"](url, plat, limit=ctx["limit"], min_n=ctx["min_n"])
         with locked:
@@ -198,12 +210,35 @@ def cycle(collector=None, profiler=None, sources=None, platforms=None, limit=200
             ledger({"ts": _now(), "platform": plat, "verdict": verdict, "found": len(rows),
                     "new": len(new), "total": total, "url": url})
 
+    # 采集与推理互斥：浏览器 1.1GB/实例，模型 4.6-9GB，同时干必换页（实测空闲 164MB→26MB）
+    memmod = None
+    try:
+        sys.path.insert(0, HERE)
+        import social_collect as _sc
+        memmod = _sc
+        want, free, cap = _sc.workers_by_mem(concurrency)
+        if len(run) > 1 and want < concurrency:
+            print("[learn] 内存限额：空闲%.0fMB → 并发 %d（请求 %d）" % (free, want, concurrency),
+                  flush=True)
+            concurrency = want
+        if run and concurrency > 1:
+            _sc.unload_models()
+            _sc.set_mode("collect")
+    except Exception as e:
+        print("[learn] 内存模块不可用：%s" % str(e)[:60], flush=True)
+
     if concurrency > 1 and len(run) > 1:
         with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as ex:
             list(ex.map(lambda t: work(*t), run))
     else:
         for t in run:
             work(*t)
+
+    if memmod:
+        try:
+            memmod.set_mode(None)      # 采集结束，放开互斥
+        except Exception:
+            pass
 
     # 有新增就重算画像（画像读 corpus，不读 raw）
     added = sum(r.get("new") or 0 for r in results)
@@ -275,6 +310,12 @@ def status():
 def self_test():
     global CORPUS, LEDGER, PAUSE
     cases = []
+    # 自检必须与机器状态无关：内存紧张时 mem_pressure() 会把并发压到 1，
+    # 并发相关断言就会假红（2026-11-17 实锚：同一份代码 8/10 与 10/10 交替）。
+    # 这里把内存闸钉死为"无压力"，让自检只测逻辑。
+    global mem_pressure
+    _real_mp = mem_pressure
+    mem_pressure = lambda: (False, "")
     orig = (CORPUS, LEDGER, PAUSE)
     CORPUS = os.path.join(ROOT, ".codely-cli", "tmp", "learn-selftest", "corpus")
     LEDGER = os.path.join(ROOT, ".codely-cli", "tmp", "learn-selftest", "ledger.jsonl")
@@ -332,6 +373,7 @@ def self_test():
     n_led = sum(1 for _ in open(LEDGER, encoding="utf-8")) if os.path.exists(LEDGER) else 0
     cases.append(("台账必须逐轮落行", n_led >= 4))
     CORPUS, LEDGER, PAUSE = orig
+    mem_pressure = _real_mp          # 还原真实内存闸
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         if not v:

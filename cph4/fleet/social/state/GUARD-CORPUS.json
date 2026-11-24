@@ -1,0 +1,84 @@
+{
+ "group": "corpus",
+ "ts": "2026-11-23T22:33:31",
+ "pass": {
+  "CR01": null,
+  "CR02": true,
+  "CR03": true,
+  "CR04": true,
+  "CR05": true,
+  "CR06": true,
+  "CR07": false,
+  "CR08": null
+ },
+ "overall": false,
+ "n_checks": 8,
+ "n_fail": 1,
+ "n_skip": 2,
+ "checks": [
+  {
+   "id": "CR01",
+   "name": "生成侧 AI 腔命中率",
+   "ok": null,
+   "sev": "P1",
+   "detail": "48h 内无 AI-RATE 落盘（ai_rate.py --json-out），量不到≠通过",
+   "n": null
+  },
+  {
+   "id": "CR02",
+   "name": "语料侧 AI 腔污染率",
+   "ok": true,
+   "sev": "P1",
+   "detail": "2.0%（线 ≤5%）8/391 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：必须/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 391
+  },
+  {
+   "id": "CR03",
+   "name": "烘焙与分段",
+   "ok": true,
+   "sev": "P1",
+   "detail": "0.0h前 rows=60950 段=15 verdict=3",
+   "n": 60950
+  },
+  {
+   "id": "CR04",
+   "name": "内容简报覆盖",
+   "ok": true,
+   "sev": "P2",
+   "detail": "100.0% 有话题或简介（线 ≥90%），106 条",
+   "n": 106
+  },
+  {
+   "id": "CR05",
+   "name": "人设隔离（亲笔样句不入共享集）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "命中 0 条（线 0）",
+   "n": 0
+  },
+  {
+   "id": "CR06",
+   "name": "采集新鲜（24h）",
+   "ok": true,
+   "sev": "P1",
+   "detail": "24h 内采集 211 次 / 总 211 次",
+   "n": 211
+  },
+  {
+   "id": "CR07",
+   "name": "多样性三项核心",
+   "ok": false,
+   "sev": "P2",
+   "detail": "陈述 77%(≤60) 短评 6%(≥25) 跨度 11(≥12)",
+   "n": 3975
+  },
+  {
+   "id": "CR08",
+   "name": "生成侧缺陷率",
+   "ok": null,
+   "sev": "P1",
+   "detail": "48h 内无 AI-RATE 落盘",
+   "n": null
+  }
+ ]
+}

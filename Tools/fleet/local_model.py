@@ -22,6 +22,7 @@ import json
 import os
 import sys
 import time
+import urllib.parse
 import urllib.request
 from datetime import datetime
 
@@ -55,6 +56,30 @@ def local_station():
         return None
 
 
+def _self_hosts():
+    """本机自己的 tailnet 地址集合。
+
+    Why（2026-11-15 实测）：MODEL-COMPUTE 的 order=2（主控兜底）指向"主控 tailnet IP"，
+    而主控就是本机。macOS 上本机访问自己的 tailnet IP 恒失败（HTTP 000，网关监听 0.0.0.0
+    正常），于是本机 11434 一旦一时探不通，端点阶梯会选中兜底项，16ms 连接被拒、静默返回
+    空串——账上只看到 ok=false，看不出是"自己连自己"。本机闭环已由 order=0 的 127.0.0.1
+    代表，自身 tailnet 地址一律不进候选。
+    """
+    try:
+        import fleet_identity as fid
+        me = fid.station_or_none()
+        with open(os.path.join(ROOT, "cph4", "fleet", "STATIONS.json"),
+                  encoding="utf-8-sig") as f:
+            # stations 是工位列表（id=control/delivery/visual…），不是按机器名索引的字典
+            st = next((s for s in (json.load(f).get("stations") or [])
+                       if (s or {}).get("id") == me), {})
+        ips = {st.get("tailnet_ip")}
+        ips.discard(None)
+        return ips
+    except Exception:
+        return set()
+
+
 def gateways():
     """按 order 返回候选端点。显式 URL 优先。
     阶梯=本机(0) -> 算力大脑(1) -> 主控(2)：本地闭环优先，升级才出机器。"""
@@ -64,6 +89,10 @@ def gateways():
         with open(COMPUTE, encoding="utf-8") as f:
             gs = json.load(f).get("gateways") or []
         out = [g["url"] for g in sorted(gs, key=lambda g: g.get("order", 99)) if g.get("url")]
+        mine = _self_hosts()
+        if mine:
+            out = [u for u in out
+                   if (urllib.parse.urlparse(u).hostname or "") not in mine]
         return out or ["http://127.0.0.1:11434"]
     except Exception:
         return ["http://127.0.0.1:11434"]
@@ -233,21 +262,41 @@ def hold_active():
         return False, {}
 
 
+def _token():
+    """网关令牌（~/.fluxgroup-llm-token）。裸 11434 不需要；8792 网关必需。
+
+    没有令牌时返回空串：对裸 ollama 无害，对网关会如实 401 而不是静默降级。
+    """
+    try:
+        with open(os.path.expanduser("~/.fluxgroup-llm-token"), encoding="utf-8") as f:
+            return f.read().strip()
+    except Exception:
+        return ""
+
+
 def _post(path, payload, timeout):
+    headers = {"Content-Type": "application/json"}
+    tok = _token()
+    if tok:
+        headers["X-Flux-Token"] = tok
     req = urllib.request.Request(endpoint() + path, data=json.dumps(payload).encode(),
-                                 headers={"Content-Type": "application/json"})
+                                 headers=headers)
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read())
 
 
 def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
-             num_ctx=0, temperature=0.2, think=False, why="", **opts):
+             num_ctx=0, temperature=0.2, think=False, why="", meta=None, **opts):
     """本机生成。超时/失败返回 ""（调用方必须能接受空结果，不许编造）。
 
     num_ctx=0 表示"没指定"：用座位在策略里声明的上下文。指定了就用 min(座位, 指定)——
     策略是天花板，调用方只能要求更小。
     Why（2026-11-14 实测纠错）：原来签名默认 8192 且写成 min(座位值, 8192)，于是策略里
     给 9B 档写的 32768 永远被自己的默认值压成 8192，配置写了等于没写。
+
+    meta：可选 dict 出参，就地写入 model/seat/num_ctx/endpoint/ok。
+    Why（2026-11-15）：席位运行账原来只记端点不记模型，账上 500+ 条没有一条能核验
+    "这一席到底调了哪个模型"——配置写对了没写对变成不可证的事。
     """
     hold(cls, why or prompt[:40])
     t0 = time.time()
@@ -265,6 +314,13 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
         keep_alive = "10m" if kv is None else kv
     else:
         keep_alive = keep_alive if kv is None else kv
+    def _meta(**kw):
+        if meta is not None:
+            try:
+                meta.update(dict({"model": model, "seat": seat, "num_ctx": num_ctx}, **kw))
+            except Exception:
+                pass
+
     try:
         body = {"model": model, "prompt": prompt, "stream": False,
                 "think": think, "keep_alive": keep_alive,
@@ -272,6 +328,7 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
         out = (_post("/api/generate", body, timeout).get("response") or "").strip()
         _audit({"cls": cls, "seat": seat, "op": "generate", "model": body["model"],
                 "sec": round(time.time() - t0, 1), "chars": len(out), "why": why})
+        _meta(ok=True, endpoint=endpoint())
         return out
     except Exception as e:
         # 探活只测 /api/tags，端点可能"标签活着、生成长挂"：降级它并换备用端点重试一次，
@@ -286,6 +343,7 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
                 _audit({"cls": cls, "seat": seat, "op": "generate-retry", "model": body["model"],
                         "sec": round(time.time() - t0, 1), "chars": len(out),
                         "from": dead, "to": alt, "why": why})
+                _meta(ok=True, endpoint=alt, retried_from=dead)
                 return out
             except Exception as e2:
                 _demote(alt)
@@ -293,6 +351,7 @@ def generate(prompt, cls="master", model=None, timeout=90, keep_alive="15m",
                         "endpoint": alt, "why": why})
         _audit({"cls": cls, "op": "generate", "err": str(e)[:120],
                 "endpoint": dead, "why": why})
+        _meta(ok=False, endpoint=dead, err=str(e)[:120])
         return ""
     finally:
         release()

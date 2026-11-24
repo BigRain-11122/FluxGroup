@@ -9,8 +9,8 @@
   4. 没有登记的东西不算存在（闸 I4/I5 依赖这个）。
 
 用法：
-  python3 vault.py add <文件或目录> [--kind mp4|img|audio|other] [--license cleared|unknown]
-                                   [--line bigstream-mv] [--note "..."]
+  python3 vault.py add <文件或目录> [--kind audio|image|video|text] [--license cleared|unknown]
+                                   [--class voices|audio-bgm|...] [--line bigstream-mv] [--note "..."]
   python3 vault.py list [--kind mp4] [--limit 20]
   python3 vault.py find <关键词>
   python3 vault.py verify            # 台账说有的，盘上还在不在
@@ -82,9 +82,13 @@ def sha256(path, chunk=1 << 20):
     return h.hexdigest()
 
 
+KIND_ALIAS = {"audio": "audio", "image": "img", "img": "img", "video": "mp4",
+              "mp4": "mp4", "text": "text", "other": "other"}
+
+
 def kind_of(path, given=""):
     if given and given != "auto":
-        return given
+        return KIND_ALIAS.get(str(given).lower(), given)
     e = os.path.splitext(path)[1].lower()
     if e in VIDEO_EXT:
         return "mp4"
@@ -136,7 +140,7 @@ def proxy(sha, src, kind):
         return ""
 
 
-def add_one(path, kind, license_, line, note):
+def add_one(path, kind, license_, line, note, klass=""):
     sha = sha256(path)
     e = os.path.splitext(path)[1].lower()
     rel = os.path.join(sha[:2], sha + e)
@@ -145,14 +149,18 @@ def add_one(path, kind, license_, line, note):
     if not os.path.exists(dst):
         shutil.copy2(path, dst)
     prox = proxy(sha, dst, kind)
-    return {"sha256": sha, "kind": kind, "path": dst, "store": rel_of(dst) or
-            os.path.join("store", rel), "bytes": os.path.getsize(dst),
-            "license": license_, "line": line, "note": note,
-            "proxy": prox, "created_at": datetime.now().isoformat(timespec="seconds"),
-            "origin": path,
-            "provenance": {"line": line or "unassigned", "stage": "vault:add",
-                           "card": "manual", "inputs": []},
-            "gate_status": "pending"}
+    row = {"sha256": sha, "kind": kind, "path": dst, "store": rel_of(dst) or
+           os.path.join("store", rel), "bytes": os.path.getsize(dst),
+           "license": license_, "line": line, "note": note,
+           "proxy": prox, "created_at": datetime.now().isoformat(timespec="seconds"),
+           "origin": path,
+           "provenance": {"line": line or "unassigned", "stage": "vault:add",
+                          "card": "manual", "inputs": []},
+           "gate_status": "pending"}
+    # 类别是"能被数到"的唯一钥匙：asset_gap_audit 按 class 数台账（2026-11-19）
+    if klass:
+        row["class"] = klass
+    return row
 
 
 def cmd_add(a):
@@ -176,11 +184,12 @@ def cmd_add(a):
         if sha in have:
             skipped += 1
             continue
-        rows.append(add_one(p, k, a.license, a.line, a.note))
+        rows.append(add_one(p, k, a.license, a.line, a.note, a.klass))
         have.add(sha)
         added += 1
     save(rows)
-    print("入库 %d 个，跳过重复 %d 个（台账共 %d 条）" % (added, skipped, len(rows)))
+    print("入库 %d 个，跳过重复 %d 个（台账共 %d 条）%s"
+          % (added, skipped, len(rows), ("，class=%s" % a.klass) if a.klass else ""))
     return 0
 
 
@@ -212,11 +221,15 @@ def _volume_of(path):
 def cmd_verify(a):
     rows = load()
     roots = store_roots()
-    found, rebuildable, missing, snapshots = [], [], [], []
+    found, rebuildable, missing, snapshots, retired = [], [], [], [], []
     for r in rows:
         p = resolve(r)
         if p:
             found.append((r, p))
+            continue
+        if r.get("status") == "retired":
+            # 已退场：原件在已清空的移动盘、永久不可达。留着行做历史，不算缺失也不算可达。
+            retired.append(r)
             continue
         if r.get("snapshot_only"):
             snapshots.append(r)
@@ -226,8 +239,8 @@ def cmd_verify(a):
             rebuildable.append(r)
         else:
             missing.append(r)
-    print("台账 %d 条 · 可达 %d（根 %s）· 可从 origin 重建 %d · 历史快照 %d · 真缺失 %d"
-          % (len(rows), len(found), "、".join(roots), len(rebuildable),
+    print("台账 %d 条 · 可达 %d（根 %s）· 可从 origin 重建 %d · 已退场 %d · 历史快照 %d · 真缺失 %d"
+          % (len(rows), len(found), "、".join(roots), len(rebuildable), len(retired),
              len(snapshots), len(missing)))
     by_root = {}
     for r, p in found:
@@ -248,6 +261,7 @@ def cmd_verify(a):
             "ts": datetime.now().isoformat(timespec="seconds"),
             "roots": roots, "rows": len(rows), "reachable": len(found),
             "rebuildable": len(rebuildable), "snapshots": len(snapshots),
+            "retired": len(retired),
             "missing": [{"sha256": r.get("sha256"), "path": r.get("path")}
                         for r in missing],
             "missing_count": len(missing),
@@ -268,6 +282,8 @@ def cmd_rebuild(a):
     made = skipped = failed = drifted = 0
     changed = False
     for r in rows:
+        if r.get("status") == "retired":
+            continue
         if resolve(r):
             skipped += 1
             continue
@@ -310,6 +326,9 @@ def main(argv):
     ad = sub.add_parser("add")
     ad.add_argument("path", nargs="+")
     ad.add_argument("--kind", default="auto")
+    ad.add_argument("--class", dest="klass", default="",
+                    help="类别（characters/scenes/props/motions/transitions/styles/"
+                         "voices/audio-sfx/audio-bgm/typography），写进台账供缺口审计按类计数")
     ad.add_argument("--license", default="unknown", choices=["cleared", "unknown"])
     ad.add_argument("--line", default="")
     ad.add_argument("--note", default="")

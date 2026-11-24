@@ -1,0 +1,56 @@
+{
+ "version": "SEG-POLICY-v1",
+ "generated_by": "Tools/fleet/seg_policy.py",
+ "rule": "退步段先走基座；样本<3 不改行为；连续≥2次为负且均Δ≤-5 才算退步",
+ "segments": {
+  "tech_nerd": {
+   "lanes": [
+    "lora",
+    "4b"
+   ],
+   "why": "未判退步：近次均 Δ +13.6（13 次评测）"
+  },
+  "peer_pro": {
+   "lanes": [
+    "lora",
+    "4b"
+   ],
+   "why": "未判退步：近次均 Δ +1.9（17 次评测）"
+  },
+  "memer": {
+   "lanes": [
+    "lora",
+    "4b"
+   ],
+   "why": "未判退步：近次均 Δ +7.1（12 次评测）"
+  },
+  "craft_learner": {
+   "lanes": [
+    "4b",
+    "lora"
+   ],
+   "why": "持续退步：近次均 Δ -12.5（9 次评测）"
+  },
+  "feeler": {
+   "lanes": [
+    "4b",
+    "lora"
+   ],
+   "why": "持续退步：近次均 Δ -7.8（10 次评测）"
+  },
+  "shallow": {
+   "lanes": [
+    "4b",
+    "lora"
+   ],
+   "why": "持续退步：近次均 Δ -17.9（12 次评测）"
+  },
+  "music_seeker": {
+   "lanes": [
+    "lora",
+    "4b"
+   ],
+   "why": "未判退步：近次均 Δ +25.4（9 次评测）"
+  }
+ }
+}

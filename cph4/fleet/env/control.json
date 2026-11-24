@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-16T15:16:14",
+ "ts": "2026-11-20T15:32:37",
  "station": "control",
  "hostname": "junshengsundeMacBook-Pro.local",
  "os": "darwin",
@@ -22,9 +22,21 @@
   "version": "0.40.16",
   "models": [
    {
+    "name": "qwen2.5:0.5b",
+    "size_gb": 0.4,
+    "digest": "a8b0c51577010a27",
+    "quant": "Q4_K_M"
+   },
+   {
     "name": "qwen3:8b",
     "size_gb": 5.23,
     "digest": "500a1f067a9f7826",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3:4b",
+    "size_gb": 2.5,
+    "digest": "359d7dd4bcdab3d8",
     "quant": "Q4_K_M"
    },
    {
@@ -38,12 +50,6 @@
     "size_gb": 3.97,
     "digest": "7f3251fa6878a78a",
     "quant": "nvfp4"
-   },
-   {
-    "name": "qwen3:4b",
-    "size_gb": 2.5,
-    "digest": "359d7dd4bcdab3d8",
-    "quant": "Q4_K_M"
    },
    {
     "name": "qwen3.5:9b-mlx",

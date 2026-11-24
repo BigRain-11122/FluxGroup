@@ -1,0 +1,30 @@
+Loading pretrained model
+Loading datasets
+Training
+╭─ [1mmlx_lm.lora[0m ────────────────────────────────────────────────────────────────╮
+│    model           [1m/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit[0m     │
+│    type            [1mlora · 16 layers · rank 8[0m                                 │
+│    dataset                                                                   │
+│  [1m/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train-peer_pro[0m              │
+│    optimizer       [1madam · lr 1.0e-05[0m                                         │
+│    batch · iters   [1m1 · 500[0m                                                   │
+│    max seq         [1m320[0m                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Trainable parameters: 0.193% (8.116M/4205.750M)
+  [1miter   train_loss     tok/s     tokens[0m
+     1    [1mval[0m [1m5.924[0m    4.88s
+    10    [1m4.773 ▼[0m    [1m    5[0m      0.2k
+    20    [1m4.264 ▼[0m    [1m   10[0m      0.4k
+    30    [1m3.857 ▼[0m    [1m    8[0m      0.6k
+    40    [1m3.696 ▼[0m    [1m    8[0m      0.8k
+    50    [1mval[0m [1m3.675[0m    4.93s
+    50    [1m3.384 ▼[0m    [1m    9[0m      0.9k
+    60    [1m3.605 ▲[0m    [1m    8[0m      1.1k
+    70    [1m4.146 ▲[0m    [1m    8[0m      1.3k
+    80    [1m3.901 ▼[0m    [1m   12[0m      1.6k
+    90    [1m3.884 ▼[0m    [1m   11[0m      1.7k
+   100    [1mval[0m [1m3.498[0m    4.91s
+   100    [1m3.163 ▼[0m    [1m    7[0m      1.9k
+  [1msave[0m  0000100_adapters.safetensors
+   110    [1m3.238 ▲[0m    [1m    7[0m      2.1k
+   120    [1m3.206 ▼[0m    [1m    5[0m      2.3k

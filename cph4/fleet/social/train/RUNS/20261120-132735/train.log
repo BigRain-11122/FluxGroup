@@ -1,0 +1,16 @@
+Loading pretrained model
+Loading datasets
+Training
+╭─ [1mmlx_lm.lora[0m ────────────────────────────────────────────────────────────────╮
+│    model           [1m/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit[0m     │
+│    type            [1mlora · 16 layers · rank 8[0m                                 │
+│    dataset                                                                   │
+│  [1m/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train-peer_pro[0m              │
+│    optimizer       [1madam · lr 1.0e-05[0m                                         │
+│    batch · iters   [1m1 · 500[0m                                                   │
+│    max seq         [1m320[0m                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Trainable parameters: 0.193% (8.116M/4205.750M)
+  [1miter   train_loss     tok/s     tokens[0m
+     1    [1mval[0m [1m5.995[0m    6.35s
+    10    [1m4.509 ▼[0m    [1m    7[0m      0.2k

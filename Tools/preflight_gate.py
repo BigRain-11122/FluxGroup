@@ -20,6 +20,21 @@ VALID = {
     "texture": {"film_night", "film_day", "mist", "soft"},
 }
 
+# 2026-11-21 bm-c：**增量扩档，不改 MV 行为**（profile 默认 "mv" = 原有判据，一字不动）。
+# 缘起：漫剧/短剧的画风轴与 MV 不同（年代档不是 tw2001，质感不是 film_night 那一套），
+# 若硬套 MV 词表，闸会一直红，于是最早的写法是"另写一个不经闸的批次脚本"——那等于绕过
+# PREFLIGHT-GATE-v1 §三「绕过闸＝违规」。正解是给同一道闸加 profile，而不是开第二道闸。
+VALID_BY_PROFILE = {
+    "mv": VALID,
+    "drama": {
+        "shot": {"ecu", "cu", "hs", "med", "mw", "wide", "ext"},
+        "angle": {"eye", "low", "high", "top", "ots", "dutch"},
+        "move": {"static", "pushin", "pullout", "pan", "tilt", "track", "handheld"},
+        "grade": {"tw90s_noir", "tw2000", "tw2001", "monochrome", "neutral"},
+        "texture": {"film_grain", "film_day", "film_night", "clean"},
+    },
+}
+
 # 场景词 → 会把该场景带偏的冲突词
 SCENE_CONFLICT = {
     "museum": ("torchlit", "torch", "temple", "mud-brick", "babylonian hall", "godray", "fire pit"),
@@ -28,7 +43,15 @@ SCENE_CONFLICT = {
     "temple_corridor": ("museum", "glass case", "display case"),
     "classroom": ("torch", "temple", "museum"),
     "rooftop": ("torch", "temple", "museum"),
+    # drama 档（漫剧/短剧场景轴）
+    "drama_rooftop": ("temple", "museum", "glass case"),
+    "drama_hall": ("temple", "museum", "glass case"),
+    "drama_street": ("temple", "museum", "interior"),
+    "drama_interior": ("aerial", "skyline"),
+    "drama_exterior": ("interior wall", "ceiling lamp"),
+    "piano_room": ("outdoor daylight", "beach", "forest canopy", "studio softbox"),
 }
+SCENE_CONFLICT_BY_PROFILE = {"mv": SCENE_CONFLICT, "drama": SCENE_CONFLICT}
 
 # 黑名单：命中 = 禁止再烧，只能换方案
 BLOCKED = {
@@ -54,9 +77,12 @@ def check_blocked(shot_id, defect=None):
     return fails
 
 
-def guard(shot_id, prompt_text, tokens, kf_verified=False, kf_note="", defect=None, kinds=None):
+def guard(shot_id, prompt_text, tokens, kf_verified=False, kf_note="", defect=None, kinds=None,
+          profile="mv"):
     fails = []
     low = prompt_text.lower()
+    valid = VALID_BY_PROFILE.get(profile, VALID)
+    scene_map = SCENE_CONFLICT_BY_PROFILE.get(profile, SCENE_CONFLICT)
 
     # ① 首帧
     if not kf_verified:
@@ -67,20 +93,27 @@ def guard(shot_id, prompt_text, tokens, kf_verified=False, kf_note="", defect=No
     # ② token
     for k in ("shot", "angle", "move", "grade", "texture"):
         v = tokens.get(k)
-        if v not in VALID[k]:
-            fails.append("②token 非法 %s=%s 不在 %s" % (k, v, sorted(VALID[k])))
+        if v not in valid[k]:
+            fails.append("②token 非法 %s=%s 不在 %s" % (k, v, sorted(valid[k])))
     for k in ("scene", "light"):
         if not tokens.get(k):
             fails.append("②缺 %s" % k)
 
     # ③ 零否定
-    hit = [w for w in NEG_TOKENS if w in low]
+    # 2026-11-21 bm-c 修：原判定 `w in low` 是子串匹配，"piano room" 里的 "no "
+    # 被当成否定句（《黑色幽默》17/24 镜因此被误挡）。改词边界匹配，只抓真正的否定词。
+    hit = [w for w in NEG_TOKENS
+           if re.search(r"(?<![a-z])" + re.escape(w.strip()) + r"(?![a-z])", low)]
     if hit:
         fails.append("③否定句命中 %s（否定词会诱发目标出现）" % hit)
 
     # ④ 场景锚
+    # 2026-11-21 bm-c 修：原判定 `w in low` 是子串匹配，把人物锚 "silver-templed man"
+    # 里的 temple 判成"场景带偏"，EP002_17 因此被闸挡掉（假阳性）。改词边界匹配，
+    # 允许复数（torch/torches、temple/temples），但不吃 -templed / -torchlit 这类词内命中。
     scene = tokens.get("scene", "")
-    bad = [w for w in SCENE_CONFLICT.get(scene, ()) if w in low]
+    bad = [w for w in scene_map.get(scene, ())
+           if re.search(r"(?<![a-z])" + re.escape(w) + r"(?:s|es)?(?![a-z])", low)]
     if bad:
         fails.append("④场景锚冲突 scene=%s 却出现 %s" % (scene, bad))
 

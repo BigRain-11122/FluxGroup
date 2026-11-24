@@ -96,3 +96,32 @@ python3 Tools/fleet/model_bench.py --suite quality    --limit 38
 - 内存总闸：swap>1GB 或空闲<2GB 时 P3 一律 `P3_DEFERRED` 并留痕，先跑 P1/P2。
 
 自检 8/8：P1 单条优先、P3 未攒够必等、攒够才发车、空队列 IDLE、内存紧张 P3 挂起且不吃队列、批窗跑完必 stop 大档、完成必落盘、忙时计数只增不减。
+
+## 本机算力上限（2026-11-17 实测 · 零 swap 判据）
+
+做法：`Tools/fleet/vram_ceiling.py --sweep` 逐配置卸载→记 swap 基线→加载生成（运行中每
+2 秒采 swap）→判 SWAP/SAFE。判据是 **swap 增长 ≤200MB**，不是"空闲内存还够"。
+
+### 一个开关把上限抬了一倍
+`OLLAMA_FLASH_ATTENTION=1` + `OLLAMA_KV_CACHE_TYPE=q8_0` 之前：4B@32k 从 41 掉到 22.8 tok/s
+（FP16 KV 吃满内存）。开了之后：**4B@128k 仍 41.7、9B@128k 24.8，swap 全零**。
+
+### 聚合吞吐随"并驻模型数"线性上涨（同模型不涨）
+| 并驻 | 配置 | 聚合 tok/s | 剩余空闲 |
+|---|---|---|---|
+| 1 | 4B@128k | 41.7 | — |
+| 2 | 9B@128k + 4B@128k | **64.6** | 8.6GB |
+| 3 | + 2b@32k | **93.6** | 6.5GB |
+| 4 | + qwen3:4b | **150.5** | 6.0GB |
+| 4（五路并发） | 9B@64k + 4B@64k + q4 + 2b | 133.4 | 3.2GB |
+
+**结论：GPU 不吃"同一模型的并发"（2 个 4B 请求各 20.8 = 和单路一样），但吃"不同模型并驻"
+——每多一个驻留模型就多一条流水线。** 所以"派活"要跨模型分，不要堆同名请求。
+
+### 三档（`vram_ceiling.py --apply`）
+- **default**：9B@32k + 4B@32k → 64 tok/s，留 ~9-14GB 给采集与训练（24/7 用这档）
+- **max**：9B@64k + 4B@64k + q4 + 2b → 133-150 tok/s，剩余 ~3GB，**禁同时开浏览器/训练**
+- **train**：全卸载，LoRA 16 层 @224（全层 @256 会 Metal OOM）
+
+切换写 `state/MODEL-MODE`，预热用 `num_predict=1` 把 num_ctx 钉进 runner（Ollama 不会因后续
+请求要更大 ctx 自动重载，必须 stop 再预热）。

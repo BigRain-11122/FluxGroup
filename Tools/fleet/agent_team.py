@@ -13,7 +13,7 @@ CEO 2026-11-11：「每个机器都要有自己的智能体专家团队，非常
 通路规则（不许绕）：
   * 一律经 `local_model.generate(cls=...)`，走 本机(0) → 算力大脑(1) → 主控(2) 阶梯。
   * 模型不可用时不编：输出带 degraded=true、ok=false，交回规则或人。
-  * 每次调用写一行审计到 cph4/fleet/rt/<工位>/team.jsonl（座位/耗时/端点/是否降级）。
+  * 每次调用写一行审计到 cph4/fleet/rt/<工位>/log/<YYYYMMDD>.jsonl（座位/端点/model/num_ctx/耗时/是否降级）。
 
 返回码：0 正常 / 1 有席位降级 / 2 通路断（无端点或无模型）/ 3 自检失败
 """
@@ -99,15 +99,18 @@ def run_seat(station, seat_id, payload, root=None):
     t0 = time.time()
     endpoint = lm.endpoint()
     text = ""
+    meta = {}
     try:
         text = lm.generate(build_prompt(seat, payload), cls=seat.get("cls") or "triage",
-                           timeout=120, why="agent-team:%s" % seat_id)
+                           timeout=120, why="agent-team:%s" % seat_id, meta=meta)
     except Exception as e:
         text = ""
         audit(station, {"seat": seat_id, "err": str(e)[:120]}, root)
     ok, why = judge(seat, text)
     row = {"ts": datetime.now().isoformat(timespec="seconds"), "station": station,
            "seat": seat_id, "cls": seat.get("cls"), "endpoint": endpoint,
+           "model": meta.get("model") or "-",
+           "num_ctx": meta.get("num_ctx"),
            "ms": int((time.time() - t0) * 1000), "ok": ok, "why": why,
            "degraded": (not ok), "chars": len(text or "")}
     audit(station, row, root)

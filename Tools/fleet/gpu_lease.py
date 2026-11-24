@@ -1,248 +1,208 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""gpu_lease.py - one owner per GPU at a time (cross-platform, stdlib only).
+"""gpu_lease.py — 一块 GPU 一把租约：训练 / 嵌入 / 自举 不许同时抢。
 
-Why: bm-a sat at 9% GPU with 11.2/12.3GB used. The resident Ollama model (7.3GB) and
-the keep-warm task were holding the card, so a production KF batch could not load.
-Nothing arbitrated "production vs sentinel". This is that arbiter: acquire -> evict
-lower-priority residents (Ollama + keep-warm tasks) -> wait for VRAM -> optionally start
-ComfyUI in lowvram; release -> stop what we started -> restore the residents.
+为什么要有（2026-11-21 实测）：训练循环每 5 分钟挑一段，自举和嵌入又各自起进程，
+三者抢同一块 GPU。实测训练从 **10 步/分 掉到 3.3 步/分**（同样的 iters 从 45 分钟变 2.5 小时），
+而且两个 mlx_lm 同时跑还有 OOM 风险。以前没人管，是因为"谁先起谁占"。
 
-Usage:
-  python3 gpu_lease.py --node bm-a --status
-  python3 gpu_lease.py --node bm-a --acquire --need-mb 12000 --start-comfy
-  python3 gpu_lease.py --node bm-a --release
+设计：文件锁 + 租约记录（租约只是为了让人能看见谁占着、多久了；真锁靠 flock）。
+  · 拿不到就**不抢**：调用方立刻返回"让路"，而不是排队——队也不是它该排的东西。
+  · 租约带 TTL：进程被 kill -9 时文件会留旧记录，超过 TTL 视为失效，后面的人可以拿。
+  · 同一进程拿同一名字可重入（避免嵌套调用自己锁死自己）。
+
+用法
+  import gpu_lease as g
+  got, why = g.acquire("train", ttl_s=7200)
+  if not got: print(why); return 0
+  try: ...
+  finally: g.release("train")
+  python3 Tools/fleet/gpu_lease.py --status
+  python3 Tools/fleet/gpu_lease.py --self-test
 """
+from __future__ import annotations
+
 import argparse
+import fcntl
 import json
 import os
-import subprocess
 import sys
+import tempfile
 import time
-import urllib.request
-from datetime import datetime
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-DATA = os.path.join(ROOT, "Tools", "nats", "data")
-COMFY_ROOT = r"D:\AI\comfyui-krea\ComfyUI_windows_portable"
-CREATE_NO_WINDOW = 0x08000000 if os.name == "nt" else 0
-KEEPWARM = ["MiniGameOllamaKeepWarm", "MiniGameOllamaServe"]
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(HERE))
+STATE = os.path.join(ROOT, "cph4", "fleet", "state")
+LOCK = os.path.join(STATE, "gpu.lock")
+REC = os.path.join(STATE, "gpu-lease.json")
 
-
-def lease_path(node):
-    return os.path.join(DATA, "gpu.%s.lease.json" % node)
+_handles = {}      # name -> 打开的锁文件句柄（进程内保活）
+DEPTH = {}         # name -> 重入计数
 
 
-def sh(args, timeout=30):
+def _read():
     try:
-        p = subprocess.run(args, capture_output=True, text=True, timeout=timeout,
-                           creationflags=CREATE_NO_WINDOW)
-        return p.returncode, (p.stdout or ""), (p.stderr or "")
-    except Exception as e:
-        return 1, "", str(e)
-
-
-def ps(cmd, timeout=30):
-    return sh(["powershell", "-NoProfile", "-Command", cmd], timeout)
-
-
-def vram():
-    rc, out, _ = sh(["nvidia-smi", "--query-gpu=memory.used,memory.total", "--format=csv,noheader,nounits"])
-    if rc != 0 or not out.strip():
-        return None, None
-    parts = [x.strip() for x in out.splitlines()[0].split(",")]
-    return int(parts[0]), int(parts[1])
-
-
-def driven_comfy_up(port=8188):
-    try:
-        with urllib.request.urlopen("http://127.0.0.1:%d/system_stats" % port, timeout=3):
-            return True
+        return json.load(open(REC, encoding="utf-8"))
     except Exception:
-        return False
+        return {}
 
 
-def stop_ollama():
-    rc, out, _ = sh(["ollama", "ps"])
-    names = []
-    for line in out.splitlines()[1:]:
-        parts = line.split()
-        if parts:
-            names.append(parts[0])
-    for n in set(names):
-        sh(["ollama", "stop", n], timeout=20)
-    return names
+def _write(d):
+    os.makedirs(STATE, exist_ok=True)
+    tmp = REC + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, REC)
 
 
-def set_tasks(enable):
-    verb = "Enable-ScheduledTask" if enable else "Disable-ScheduledTask"
-    for t in KEEPWARM:
-        ps("%s -TaskName '%s' -ErrorAction SilentlyContinue | Out-Null" % (verb, t))
+def who():
+    """当前租约（含龄期；过期的不算）。"""
+    d = _read()
+    now = time.time()
+    if not d:
+        return None
+    if float(d.get("expires") or 0) < now:
+        return dict(d, stale=True, age_s=round(now - float(d.get("ts") or now), 1))
+    return dict(d, stale=False, age_s=round(now - float(d.get("ts") or now), 1))
 
 
-def free_comfy_vram(port=8188, wait_s=45):
-    """空闲的 ComfyUI 会把上一批的模型一直享在显存里（krea2 一挂就是 12.2GB）。
+ENV_KEY = "FLUX_GPU_LEASE"
 
-    2026-11-14 实锚：8188 活着但空闲、显存只剩 3.1GB，need_mb=12000 的批永远拿不到
-    租约，卡被判 LEASE-FAIL；而模型只要 /free 一下就掉。所以领租约前先卸载模型缓存——
-    只在队列确实为空时动手，跑着的活一根手指都不碰。
+
+def _inherited_names():
+    return {x for x in (os.environ.get(ENV_KEY) or "").split(":") if x}
+
+
+def _mark_inherited(name):
+    names = _inherited_names() | {name}
+    os.environ[ENV_KEY] = ":".join(sorted(names))
+
+
+def acquire(name, ttl_s=3600, wait_s=0):
+    """拿租约。返回 (是否拿到, 说明)。wait_s=0 表示不排队，拿不到就让路。
+
+    继承（2026-11-21 实锚）：常驻会话父进程持着 publish 去起 practice_tick 子进程出稿，
+    子进程又来抢同一把锁 → 自己把自己锁死，每条评论都被判 gpu-busy 跳过，
+    **而且 rc=0 看着像成功**——闭环断在这里一整天都没人发现。
+    正解：父进程拿到租约后把名字写进环境变量，子进程认这个名字为"继承"，
+    既能干活，release 时也不会把父进程的锁拆掉。
     """
-    try:
-        q = json.loads(urllib.request.urlopen(
-            "http://127.0.0.1:%d/queue" % port, timeout=10).read())
-        if (q.get("queue_running") or []) or (q.get("queue_pending") or []):
-            return False
-        req = urllib.request.Request(
-            "http://127.0.0.1:%d/free" % port,
-            data=json.dumps({"unload_models": True, "free_memory": True}).encode(),
-            headers={"Content-Type": "application/json"})
-        urllib.request.urlopen(req, timeout=20).read()
-    except Exception:
-        return False
-    deadline = time.time() + wait_s
-    while time.time() < deadline:
-        used, total = vram()
-        if used is not None and total - used >= 12000:
+    if name in _inherited_names():
+        DEPTH[name] = DEPTH.get(name, 0) + 1
+        return True, "继承父进程的租约（%s）" % name
+    if DEPTH.get(name):
+        DEPTH[name] += 1
+        return True, "重入（同一进程已持有）"
+    os.makedirs(STATE, exist_ok=True)
+    fh = open(LOCK, "a+")
+    deadline = time.time() + max(0, wait_s)
+    while True:
+        try:
+            fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
             break
-        time.sleep(3)
+        except BlockingIOError:
+            if time.time() >= deadline:
+                cur = who()
+                fh.close()
+                return False, ("GPU 被占用：%s（已 %.0fs）" % (
+                    (cur or {}).get("name", "未知"), (cur or {}).get("age_s", 0)))
+            time.sleep(2)
+    # 2026-11-22 实锚：训练被 kill 后租约文件留了 4 小时 TTL，出稿以为"train 还在"
+    # 干等 90 秒。文件锁已拿到，再看记录里的 pid 死没死——死了就是野记录，覆盖即可。
+    try:
+        old = _read()
+        if old and old.get("pid") and old.get("name") != name:
+            try:
+                os.kill(int(old["pid"]), 0)
+            except Exception:
+                _write({})
+    except Exception:
+        pass
+    _handles[name] = fh                    # 句柄保活 = 锁保活
+    DEPTH[name] = 1
+    now = time.time()
+    _write({"name": name, "pid": os.getpid(), "ts": now, "expires": now + ttl_s})
+    _mark_inherited(name)          # 传给子进程，避免父子互抢
+    return True, "拿到租约（TTL %ds）" % ttl_s
+
+
+def release(name):
+    if name in _inherited_names() and name not in _handles:
+        return False               # 继承来的锁不归本进程释放
+    if DEPTH.get(name, 0) > 1:
+        DEPTH[name] -= 1
+        return False
+    DEPTH.pop(name, None)
+    fh = _handles.pop(name, None)
+    if fh is not None:
+        try:
+            fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+        finally:
+            fh.close()
+    d = _read()
+    if d.get("pid") == os.getpid():
+        _write({})
+    # 真释放后要把它从继承标记里摘掉，否则同进程再拿会同"继承"而不上锁
+    names = _inherited_names() - {name}
+    if names:
+        os.environ[ENV_KEY] = ":".join(sorted(names))
+    else:
+        os.environ.pop(ENV_KEY, None)
     return True
 
 
-def start_comfy(port=8188, need_mb=12000):
-    if driven_comfy_up(port):
-        return None, True
-    py = os.path.join(COMFY_ROOT, "python_embeded", "python.exe")
-    if not os.path.exists(py):
-        py = "python"
-    args = [py, "main.py", "--listen", "0.0.0.0", "--port", str(port),
-            "--lowvram", "--disable-auto-launch"]
-    p = subprocess.Popen(args, cwd=os.path.join(COMFY_ROOT, "ComfyUI"),
-                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                         creationflags=CREATE_NO_WINDOW)
-    deadline = time.time() + 240
-    while time.time() < deadline:
-        if driven_comfy_up(port):
-            return p.pid, True
-        if p.poll() is not None:
-            return p.pid, False
-        time.sleep(3)
-    return p.pid, False
-
-
-def acquire(node, need_mb, with_comfy, owner="", job_id="", relaxed=False):
-    """Exclusive GPU lease. Identity matters: on 2026-11-02 the lease carried the literal
-    owner "gpu_lease" and `--if-held-ok` defaulted to true, so a second job was told
-    "lease ok" while another job was already using the card. Same job re-acquires and
-    renews; a different job is busy."""
-    lp = lease_path(node)
-    if os.path.exists(lp):
-        try:
-            old = json.load(open(lp, encoding="utf-8"))
-            age = time.time() - old.get("epoch", 0)
-            if age < old.get("ttl_s", 7200):
-                if job_id and old.get("job_id") == job_id:
-                    old["epoch"] = time.time()
-                    old["ts"] = datetime.now().isoformat(timespec="seconds")
-                    _atomic_write(lp, old)
-                    print("LEASE-RENEW job=%s" % job_id)
-                    return 0
-                print("LEASE-BUSY owner=%s job=%s age=%ds"
-                      % (old.get("owner"), old.get("job_id"), int(age)))
-                return 0 if relaxed else 2
-        except Exception:
-            pass
-    stopped = stop_ollama()
-    set_tasks(False)
-    # 先把空闲 ComfyUI 的模型缓存卸掉（它不会自己让），否则 need_mb 永远等不到。
-    freed = free_comfy_vram()
-    deadline = time.time() + 90
-    used = total = None
-    while time.time() < deadline:
-        used, total = vram()
-        if used is not None and (total - used) >= need_mb:
-            break
-        time.sleep(3)
-    used, total = vram()
-    ok = used is not None and (total - used) >= need_mb
-    comfy_pid = None
-    if ok and with_comfy:
-        comfy_pid, up = start_comfy(need_mb=need_mb)
-        ok = ok and up
-    if not ok:
-        # 2026-11-14 实锚：失败也写租约 -> 下一次请求看到"有主"直接 BUSY，卡被毒化 2 小时。
-        # 租约只在真正拿到卡时落盘。
-        print("LEASE-FAIL free=%sMB need=%sMB freed_cache=%s"
-              % ((total - used) if used is not None else "?", need_mb, freed))
-        return 1
-    lease = {"node": node, "owner": owner or "unattributed", "job_id": job_id,
-             "need_mb": need_mb,
-             "vram_used_mb": used, "vram_total_mb": total,
-             "comfy_pid": comfy_pid, "stopped_ollama": stopped,
-             "epoch": time.time(), "ttl_s": 7200,
-             "ts": datetime.now().isoformat(timespec="seconds")}
-    os.makedirs(DATA, exist_ok=True)
-    _atomic_write(lp, lease)
-    print("LEASE-OK free=%sMB need=%sMB comfy_pid=%s"
-          % ((total - used) if used is not None else "?", need_mb, comfy_pid))
-    return 0
-
-
-def _atomic_write(path, obj):
-    tmp = path + ".tmp"
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, path)
-
-
-def release(node, owner="", force=False):
-    """Only the holder may release. Before 2026-11-02 any lane could delete any lease,
-    which silently handed a busy card to the next job."""
-    lp = lease_path(node)
-    lease = {}
-    if os.path.exists(lp):
-        try:
-            lease = json.load(open(lp, encoding="utf-8"))
-        except Exception:
-            pass
-        if owner and not force and lease.get("owner") not in (None, "", owner):
-            print("LEASE-RELEASE-DENIED holder=%s caller=%s" % (lease.get("owner"), owner))
-            return 2
-        os.remove(lp)
-    pid = lease.get("comfy_pid")
-    if pid:
-        sh(["taskkill", "/PID", str(pid), "/T", "/F"], timeout=20)
-    set_tasks(True)
-    print("LEASE-RELEASED comfy_stopped=%s keepwarm_restored=True" % bool(pid))
-    return 0
+def self_test():
+    """负控四件：重入必成；**无继承**的子进程必被拒；**有继承**的子进程必放行；
+    释放后可再拿。用独立车道名，免得被线上租约带红（2026-11-20 假红教训）。"""
+    import subprocess
+    import tempfile
+    global LOCK, REC
+    saved = (LOCK, REC)
+    d = tempfile.mkdtemp(prefix="gl-")
+    LOCK, REC = os.path.join(d, "gpu.lock"), os.path.join(d, "lease.json")
+    try:
+        ok1, _ = acquire("t_main", ttl_s=60)
+        ok2, why2 = acquire("t_main", ttl_s=60)          # 重入
+        env0 = {k: v for k, v in os.environ.items() if k != ENV_KEY}
+        code_no = subprocess.run([sys.executable, os.path.abspath(__file__), "--try", "t_main"],
+                                 capture_output=True, text=True, env=env0).returncode
+        code_yes = subprocess.run([sys.executable, os.path.abspath(__file__), "--try", "t_main"],
+                                  capture_output=True, text=True,
+                                  env=dict(os.environ, **{ENV_KEY: "t_main"})).returncode
+        release("t_main")
+        release("t_main")
+        ok3, _ = acquire("t_main", ttl_s=60)
+        ok4 = os.environ.get(ENV_KEY, "").find("t_main") >= 0
+        release("t_main")
+    finally:
+        LOCK, REC = saved
+    ok = ok1 and ok2 and code_no == 3 and code_yes == 0 and ok3 and ok4
+    print(json.dumps({"self_test": "PASS" if ok else "FAIL", "首拿": ok1, "重入": ok2,
+                      "子进程无继承被拒(rc=3)": code_no == 3,
+                      "子进程有继承放行(rc=0)": code_yes == 0,
+                      "释放后可再拿": ok3, "环境已标记继承": ok4,
+                      "重入说明": why2}, ensure_ascii=False))
+    return 0 if ok else 1
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--node", required=True)
-    ap.add_argument("--acquire", action="store_true")
-    ap.add_argument("--release", action="store_true")
     ap.add_argument("--status", action="store_true")
-    ap.add_argument("--need-mb", type=int, default=12000)
-    ap.add_argument("--start-comfy", action="store_true")
-    ap.add_argument("--owner", default="", help="who holds it (node or agent id)")
-    ap.add_argument("--job", default="", help="card id; the same id re-acquires its own lease")
-    ap.add_argument("--relaxed", action="store_true",
-                    help="DEPRECATED: treat a held lease as success (breaks exclusivity)")
-    ap.add_argument("--force", action="store_true", help="release regardless of holder")
+    ap.add_argument("--try-acquire", dest="try_name", default="",
+                    help="试拿一次（拿不到 rc=3）")
+    ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
-    if a.status:
-        used, total = vram()
-        print("VRAM used=%s total=%s free=%s" % (used, total, (total - used) if used else "?"))
-        lp = lease_path(a.node)
-        print("LEASE " + (open(lp, encoding="utf-8").read().strip() if os.path.exists(lp) else "none"))
-        return 0
-    if a.acquire:
-        return acquire(a.node, a.need_mb, a.start_comfy, a.owner, a.job, a.relaxed)
-    if a.release:
-        return release(a.node, a.owner, a.force)
-    print("usage: --status | --acquire [--need-mb N] [--start-comfy] | --release")
-    return 2
+    if a.self_test:
+        return self_test()
+    if a.try_name:
+        got, why = acquire(a.try_name, ttl_s=60)
+        print(why)
+        if got:
+            release(a.try_name)
+        return 0 if got else 3
+    cur = who()
+    print(json.dumps(cur or {"free": True}, ensure_ascii=False, indent=1))
+    return 0
 
 
 if __name__ == "__main__":

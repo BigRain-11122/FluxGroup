@@ -25,9 +25,33 @@ import wave
 import numpy as np
 
 REPO = os.environ.get("VB_GPT_ROOT", r"C:\Fluxgroup\FluxGroup\media\drama-tools\GPT-SoVITS")
-FFMPEG = r"C:\Fluxgroup\MiniGame\Tools\ffmpeg\bin\ffmpeg.exe"
-ASR_DIR = os.environ.get("VB_ASR", r"E:\Fluxgroup\.codely-cli\models\faster-whisper-small")
-VB = os.environ.get("VB_ROOT", r"E:\Fluxgroup\.codely-cli\voicebank")
+# 2026-11-22 修：原值写死 bm-b 的 C: 盘路径，在 bm-c 上 subprocess 直接 WinError 2。
+# 改为环境变量 → PATH → 常见位置 三级解析。
+_ff = os.environ.get("FFMPEG") or shutil.which("ffmpeg")
+if not _ff:
+    for _c in (r"D:\ComfyUI\ffmpeg.exe", r"K:\Fluxgroup\.tools\ffmpeg\bin\ffmpeg.exe"):
+        if os.path.isfile(_c):
+            _ff = _c
+            break
+FFMPEG = _ff or "ffmpeg"
+# 2026-11-22 bm-c 修复：以下四个常量原来全是**他机路径**（E: 盘 / bm-b 的 C: 盘），
+# 在 bm-c 上 import 就 FileNotFoundError 或 subprocess WinError 2 —— 这就是音色库产线
+# 长期空转的根因。现在全部按本仓位置推导，环境变量仍可覆盖。
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(os.path.dirname(_HERE))
+_MEDIA = os.path.join(_ROOT, "media", "voicebank-models")
+
+ASR_DIR = os.environ.get("VB_ASR", os.path.join(_MEDIA, "faster-whisper-small"))
+REPO = os.environ.get("VB_GPT_ROOT", os.path.join(_MEDIA, "GPT-SoVITS"))
+VB = os.environ.get("VB_ROOT", os.path.join(_ROOT, "cph4", "fleet", "voicebank"))
+
+_ff = os.environ.get("FFMPEG") or shutil.which("ffmpeg")
+if not _ff:
+    for _c in (r"D:\ComfyUI\ffmpeg.exe", r"K:\Fluxgroup\.tools\ffmpeg\bin\ffmpeg.exe"):
+        if os.path.isfile(_c):
+            _ff = _c
+            break
+FFMPEG = _ff or "ffmpeg"
 
 # one minute of usable speech costs a few minutes of source audio (intro/music/pauses)
 RAWS_PER_SPEECH = 3.0
@@ -237,6 +261,12 @@ def main():
     ap.add_argument("--identify-min", type=float, default=0.58,
                     help="cosine similarity floor for --identify-ref")
     a = ap.parse_args()
+    # 2026-11-22 修：worker 传进来的 --raw 可能是相对路径，而 ffmpeg 在别的 cwd 里跑，
+    # 结果 "Error opening input ... No such file"，整条构建死在第 1 个文件。
+    a.raw = os.path.abspath(a.raw)
+    if getattr(a, "out_root", None):
+        a.out_root = os.path.abspath(a.out_root)
+
 
     root = os.path.join(a.out_root or VB, a.voice)
     raw_dir = os.path.join(root, "wav44")
