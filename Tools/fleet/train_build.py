@@ -422,7 +422,10 @@ def main():
     ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--src", default=SRC)
     ap.add_argument("--out", default=OUTDIR)
-    ap.add_argument("--valid-ratio", type=float, default=0.05)
+    # 2026-11-24：0.05 在 2.6k 样本上只有 132 条验证，val 从 3.28 到 3.74 的差别
+    # 在这个量级下是噪声——用它挑 checkpoint 等于抽签（实测同一 run 内摆动 0.45）。
+    # 提到 0.10（约 265 条）才够分辨相邻 checkpoint；代价是少 130 条训练样本，可忽略。
+    ap.add_argument("--valid-ratio", type=float, default=0.10)
     ap.add_argument("--ban-ai", type=int, default=1,
                     help="语料级反 AI 腔硬筛（1=开，默认）。关掉只为做对照实验")
     ap.add_argument("--short-quota", type=float, default=0.45,
