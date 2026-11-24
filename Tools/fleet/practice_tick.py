@@ -194,6 +194,18 @@ def log(rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+def _seg_skip_no_base(lanes, used_lane):
+    """退步段本该走基座却没走成时，本拍不发。纯函数，可被自检直接注入。
+
+    条件：首选车道不是 lora（=策略认为该走基座），且实际用的不是首选。
+    这样训练期间（基座不可用）退步段就不会继续产出比基座更差的话。
+    """
+    try:
+        return bool(lanes) and lanes[0] != "lora" and used_lane != lanes[0]
+    except Exception:
+        return False
+
+
 def _recent_openings(n=20):
     """跨天取最近 n 条已发文案的开头 2 字 → {开头: 次数}。读台账尾部，不分日期。"""
     out = {}
@@ -878,7 +890,22 @@ def main():
             p += "提到一个具体的东西（画面/剪辑/镜头/转场/配乐）。"
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
-        t, lane = make_text(p, lanes=("lora",))
+        # 车道按人群段定（2026-11-24）：实测有 3 个段 adapter 比基座差，
+        # 硬走 lora 等于在这些人群上写得更差。策略文件由 eval_trend 的事实生成。
+        try:
+            import seg_policy as _sp
+            _lanes = tuple(_sp.lanes_for(seg))
+        except Exception:
+            _lanes = ("lora", "4b")
+        t, lane = make_text(p, lanes=_lanes)
+        # 退步段本该走基座；但训练期间 8788 里烧的是带 adapter 的模型、ollama 基座又被
+        # TRAIN-EXCLUSIVE 挡住，于是会静默回落 lora——退步段照旧发比基座更差的话。
+        # 判断：宁可不发。等基座车道可用（或训练追上）再恢复，策略文件已经是基座优先。
+        if _seg_skip_no_base(_lanes, lane):
+            log({"action": "skip", "why": "seg-regressing-no-base:%s" % seg,
+                 "arm": arm, "text": (t or "")[:20]})
+            print("[tick] %s 段 adapter 弱于基座且基座车道不可用，本拍不发" % seg)
+            continue
         t = lc.fix_emoji(t)          # [打 call] → [打call]：写法瑕疵不该整条作废
         if not t or not (lo <= len(t) <= hi):
             log({"action": "skip", "why": "length:%d not in %d-%d" % (len(t or ""), lo, hi),
