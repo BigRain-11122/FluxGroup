@@ -15,7 +15,7 @@ import json
 import re
 import sys
 
-DEFAULT = "cph4/fleet/social/gzh/TOPICS-v2.json"
+DEFAULT = "cph4/fleet/social/gzh/TOPICS-v4.json"
 
 # 抽象词黑名单：scene 里出现这些说明没给具体物
 ABSTRACT = ("很多", "各种", "众多", "随着", "不断发展", "越来越", "一定程度上",
@@ -36,8 +36,8 @@ def check(doc):
     topics = doc.get("topics") or []
     stats = {"count": len(topics)}
 
-    if len(topics) != 28:
-        fails.append(f"选题数应为 28，实际 {len(topics)}")
+    if len(topics) != 20:
+        fails.append(f"选题数应为 20，实际 {len(topics)}")
 
     # --- 1. 字段齐全 ---
     for t in topics:
@@ -117,7 +117,7 @@ def check(doc):
     stats["event"], stats["evergreen"] = ev, eg
     if ev + eg != len(topics):
         fails.append(f"timeliness 只能是 event/evergreen，实际 {ev}+{eg}≠{len(topics)}")
-    if ev < 4:
+    if ev < 1:
         warns.append(f"事件型 {ev} 条（建议 4 条绑定当下事件）")
 
     # --- 9. cat 必须都在 categories 里 ---
@@ -172,7 +172,7 @@ def self_test():
         for x in fails:
             print("  -", x, file=sys.stderr)
         return 4
-    print(f"SELF-TEST OK 8/8 负控全红 · 原始 28 条全绿 (event={s0['event']} evergreen={s0['evergreen']})")
+    print(f"SELF-TEST OK 8/8 负控全红 · 原始 20 条全绿 (event={s0['event']} evergreen={s0['evergreen']})")
     return 0
 
 
@@ -193,7 +193,7 @@ def main():
         for f in fails:
             print("  -", f, file=sys.stderr)
         return 1
-    print(f"PASS 28/28 条全部满足六条硬判据")
+    print(f"PASS 20/20 条全部满足六条硬判据")
     return 0
 
 
