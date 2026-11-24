@@ -175,3 +175,4 @@
 2026-11-24T11:41:58 RED   gpu=2% inflight=0 pending=3 comfy=DOWN | RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩 ; RED 空转：GPU 2% 且无在飞进程，但有 3 单 pending → 生产者未认领
 2026-11-24T11:51:59 RED   gpu=16% inflight=0 pending=3 comfy=DOWN | RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩 ; AMBER GPU 忙但无己方在飞进程（可能是他窗/他任务占用）
 2026-11-24T12:01:58 RED   gpu=1% inflight=0 pending=3 comfy=DOWN | RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩 ; RED 空转：GPU 1% 且无在飞进程，但有 3 单 pending → 生产者未认领
+2026-11-24T12:11:59 RED   gpu=1% inflight=0 pending=3 comfy=DOWN | RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩 ; RED 空转：GPU 1% 且无在飞进程，但有 3 单 pending → 生产者未认领
