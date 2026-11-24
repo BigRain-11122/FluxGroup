@@ -231,8 +231,9 @@
    "accept": "frames-ep01 内 png ≥ 23",
    "log_out": "cph4/fleet/production/logs/PROD-DUANJU-SHANGLU-EP01-KF.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DUANJU-SHANGLU-EP01-KF.err.log",
-   "status": "pending",
-   "retries": 0
+   "status": "claimed",
+   "retries": 0,
+   "claimed_ts": "2026-11-24T14:51:02"
   }
  ]
 }
