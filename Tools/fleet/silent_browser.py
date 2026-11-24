@@ -124,6 +124,72 @@ def run_script(actions, verbose=True):
     return 0, out
 
 
+# ---------------- 扫码登录（唯一允许可见窗口的路径） ----------------
+LOGIN_URL = "https://mp.weixin.qq.com/"
+
+
+def login(timeout=300, poll=2):
+    """可见窗口扫码登录，登录态写入同一 profile。
+
+    这是本文件里唯一允许 headless=False 的地方——扫码必须人眼看得到。
+    扫完之后所有操作回到 headless，不再弹窗。
+    """
+    import time
+    from playwright.sync_api import sync_playwright
+
+    os.makedirs(PROFILE, exist_ok=True)
+    print(f"窗口即将弹出，请用微信扫码。profile={PROFILE}", flush=True)
+    with sync_playwright() as pw:
+        ctx = pw.chromium.launch_persistent_context(
+            PROFILE,
+            executable_path=CHROME,
+            headless=False,          # 唯一例外：人要看二维码
+            args=["--no-first-run", "--no-default-browser-check"],
+            viewport={"width": 1280, "height": 800},
+            locale="zh-CN",
+            timezone_id="Asia/Shanghai",
+        )
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        pg.goto(LOGIN_URL, wait_until="domcontentloaded", timeout=30000)
+        print(f"已打开：{pg.title()}", flush=True)
+
+        deadline = time.time() + timeout
+        ok = False
+        while time.time() < deadline:
+            # 扫码后页面会跳转，导航期间任何 DOM 读取都会抛
+            # "Execution context was destroyed"——必须整体兜住，不能只兜 url
+            try:
+                u = pg.url
+                # 登录成功会跳到 /cgi-bin/home?...token=...
+                if "token=" in u and "cgi-bin/home" in u:
+                    ok = True
+                    break
+                el = pg.query_selector(".weui-desktop-account__nickname")
+                if el:
+                    ok = True
+                    break
+            except Exception:  # noqa: BLE001 —— 导航中，继续等
+                pass
+            time.sleep(poll)
+
+        if ok:
+            nick = ""
+            try:
+                el = pg.query_selector(".weui-desktop-account__nickname")
+                if el:
+                    nick = (el.inner_text() or "").strip()
+            except Exception:  # noqa: BLE001
+                pass
+            print(f"LOGIN OK 账号={nick or '(未取到昵称)'} url={pg.url[:90]}", flush=True)
+            pg.wait_for_timeout(2500)   # 让 cookie 落盘
+            rc = 0
+        else:
+            print(f"LOGIN TIMEOUT {timeout}s 未检测到登录态", flush=True)
+            rc = 5
+        ctx.close()
+        return rc
+
+
 # ---------------- 自检 ----------------
 def self_test():
     """自检：必须证明"静默"是真的，不是自我宣称。"""
@@ -162,6 +228,28 @@ def self_test():
         fails.append("_launch 里存在 headless=False")
     if "headless" not in launch_src:
         fails.append("_launch 完全没有 headless 参数")
+
+    # 2b. 全模块里 headless=False 只准出现在 login()——扫码是唯一例外
+    # 用 AST 精确匹配关键字参数，避免被检查字符串自身命中（自指）
+    visible_funcs = set()
+
+    def _has_headless_false(fn_node):
+        for n in ast.walk(fn_node):
+            if isinstance(n, ast.Call):
+                for kw in n.keywords:
+                    if (kw.arg == "headless" and isinstance(kw.value, ast.Constant)
+                            and kw.value.value is False):
+                        return True
+        return False
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            if _has_headless_false(node):
+                visible_funcs.add(node.name)
+    if visible_funcs - {"login"}:
+        fails.append(f"除 login() 外还有函数用可见窗口: {sorted(visible_funcs - {'login'})}")
+    if "login" not in visible_funcs:
+        fails.append("login() 没有可见窗口，扫码流程缺失")
 
     # 3. 真跑一次，并确认没有可见窗口
     rc, out = run_script([
@@ -204,6 +292,9 @@ def self_test():
 def main():
     ap = argparse.ArgumentParser(description="静默浏览器（headless，不动鼠标）")
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--login", action="store_true",
+                    help="可见窗口扫码登录（唯一会弹窗的路径，扫完即静默）")
+    ap.add_argument("--timeout", type=int, default=300, help="扫码等待秒数")
     ap.add_argument("--json", action="store_true", help="输出 JSON")
     sub = ap.add_subparsers(dest="cmd")
     g = sub.add_parser("goto")
@@ -216,6 +307,8 @@ def main():
 
     if a.self_test:
         return self_test()
+    if a.login:
+        return login(timeout=a.timeout)
     if a.cmd == "goto":
         acts = [{"act": "goto", "url": a.url}, {"act": "wait", "ms": 1500}]
         if a.dump_text:
