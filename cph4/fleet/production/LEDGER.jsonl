@@ -97,3 +97,4 @@
 {"ev": "requeue", "id": "PROD-DRAMA-EP008", "attempt": 2, "why": "gate-fail:cph4/fleet/out/drama/EP008/ep008-gate.json=None", "ts": "2026-11-24T07:21:46"}
 {"ev": "requeue", "id": "PROD-DRAMA-EP008", "attempt": 3, "why": "gate-fail:cph4/fleet/out/drama/EP008/ep008-gate.json=None", "ts": "2026-11-24T07:31:46"}
 {"ev": "blocked", "id": "PROD-DRAMA-EP008", "attempts": 4, "why": "gate-fail:cph4/fleet/out/drama/EP008/ep008-gate.json=None", "ts": "2026-11-24T07:51:46"}
+{"ev": "requeue", "id": "PROD-DRAMA-EP009", "attempt": 1, "why": "fail:kf", "ts": "2026-11-24T08:11:47"}
