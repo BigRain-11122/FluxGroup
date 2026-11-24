@@ -48,8 +48,14 @@
         "min_gap_min": 12,
         "note": "sessions_per_day=9（ACCOUNT-PERSONAS.json）；min_gap 取 FREQ-POLICY"
       },
-      "quota": {"comment": 20, "danmaku": 50, "like": 120},
-      "refs": {"persona": "cph4/fleet/social/ACCOUNT-PERSONAS.json#acct1"},
+      "quota": {
+        "comment": 20,
+        "danmaku": 50,
+        "like": 120
+      },
+      "refs": {
+        "persona": "cph4/fleet/social/ACCOUNT-PERSONAS.json#acct1"
+      },
       "evidence": "GUARD-ACCOUNTS AC03：mid 388497033 一个活跃 profile；acct2 是同 mid 的备用 profile，不算第二个号"
     },
     {
@@ -69,8 +75,14 @@
         "min_gap_min": 12,
         "note": "sessions_per_day=8（ACCOUNT-PERSONAS.json）"
       },
-      "quota": {"comment": 18, "danmaku": 30, "like": 70},
-      "refs": {"persona": "cph4/fleet/social/ACCOUNT-PERSONAS.json#acct3"},
+      "quota": {
+        "comment": 18,
+        "danmaku": 30,
+        "like": 70
+      },
+      "refs": {
+        "persona": "cph4/fleet/social/ACCOUNT-PERSONAS.json#acct3"
+      },
       "evidence": "GUARD-ACCOUNTS AC03：mid 3493084790786473 独立 profile"
     },
     {
@@ -85,7 +97,11 @@
       "stage": "采号",
       "status": "read-only",
       "publishes": false,
-      "cadence": {"per_day": 0, "min_gap_min": null, "note": "只读采集，不排发帖时隙"},
+      "cadence": {
+        "per_day": 0,
+        "min_gap_min": null,
+        "note": "只读采集，不排发帖时隙"
+      },
       "quota": null,
       "refs": null,
       "evidence": "res_alloc PLATFORMS：state=read，2026-11-23 实测搜索可读、正文 1894 字"
@@ -102,7 +118,11 @@
       "stage": "采号",
       "status": "read-only",
       "publishes": false,
-      "cadence": {"per_day": 0, "min_gap_min": null, "note": "只读采集"},
+      "cadence": {
+        "per_day": 0,
+        "min_gap_min": null,
+        "note": "只读采集"
+      },
       "quota": null,
       "refs": null,
       "evidence": "res_alloc：state=read，作者页一次建池 30 条。注意 profile 与 gzh-1 共用，指纹耦合"
@@ -119,7 +139,11 @@
       "stage": "采号",
       "status": "read-only",
       "publishes": false,
-      "cadence": {"per_day": 0, "min_gap_min": null, "note": "只读采集"},
+      "cadence": {
+        "per_day": 0,
+        "min_gap_min": null,
+        "note": "只读采集"
+      },
       "quota": null,
       "refs": null,
       "evidence": "res_alloc：state=read，login_pass 实测 z_c0 命中"
@@ -136,7 +160,11 @@
       "stage": "采号",
       "status": "read-only",
       "publishes": false,
-      "cadence": {"per_day": 0, "min_gap_min": null, "note": "只读采集"},
+      "cadence": {
+        "per_day": 0,
+        "min_gap_min": null,
+        "note": "只读采集"
+      },
       "quota": null,
       "refs": null,
       "evidence": "res_alloc：state=read，web_session 命中"
@@ -153,7 +181,11 @@
       "stage": "采号",
       "status": "read-only",
       "publishes": false,
-      "cadence": {"per_day": 0, "min_gap_min": null, "note": "只读采集"},
+      "cadence": {
+        "per_day": 0,
+        "min_gap_min": null,
+        "note": "只读采集"
+      },
       "quota": null,
       "refs": null,
       "evidence": "res_alloc：state=read，sessionid 命中"
@@ -166,5 +198,108 @@
     "practical_posts_per_day": 54,
     "steady_publishing_accounts": 5,
     "note": "5 个发帖号（每号约 10 条/日）。读号另算，只占内存不占时隙。"
+  },
+  "dispatch": {
+    "_why": "九平台错峰分发表（2026-11-25 立）。各平台高峰都挤在 20-22 点，不错峰就是自己跟自己抢时隙。gen_chars=该形态要重新生成的字数（0=可直接复用源稿）。",
+    "_basis": "生成成本锚点：COMPUTE-PLAN 实测 4B 空闲 25.7 tok/s，中文≈1字/token，多候选择优 ×4 → 单篇全形态约 17 分钟 GPU。",
+    "source_form": "gzh_longform",
+    "slots": [
+      {
+        "at": "07:30",
+        "platform": "gzh",
+        "form": "长文 3600 字",
+        "gen_chars": 3600,
+        "publish_mode": "manual(后台)",
+        "state": "有号·可发",
+        "account": "gzh-1"
+      },
+      {
+        "at": "10:00",
+        "platform": "chejiahao",
+        "form": "长文复用(改标题)",
+        "gen_chars": 0,
+        "publish_mode": "待核",
+        "state": "无号",
+        "account": null,
+        "note": "与公众号共用 browser-gzh profile，必须错开时段"
+      },
+      {
+        "at": "12:15",
+        "platform": "toutiao",
+        "form": "长文复用(改标题)",
+        "gen_chars": 0,
+        "publish_mode": "待核",
+        "state": "无号",
+        "account": null
+      },
+      {
+        "at": "12:45",
+        "platform": "douyin",
+        "form": "口播脚本 1200 字",
+        "gen_chars": 1200,
+        "publish_mode": "api_write(需审核)",
+        "state": "无号",
+        "account": null
+      },
+      {
+        "at": "19:30",
+        "platform": "xhs",
+        "form": "图文 400 字+9 图",
+        "gen_chars": 400,
+        "publish_mode": "manual",
+        "state": "无号",
+        "account": null
+      },
+      {
+        "at": "20:30",
+        "platform": "bilibili",
+        "form": "视频成片",
+        "gen_chars": 0,
+        "publish_mode": "api_write(OAuth)",
+        "state": "有号·可发",
+        "account": "bili-1",
+        "note": "走 MV/剪辑线，不在这条文字产线上，单独排"
+      },
+      {
+        "at": "21:15",
+        "platform": "zhihu",
+        "form": "问答 1200 字",
+        "gen_chars": 1200,
+        "publish_mode": "manual",
+        "state": "无号",
+        "account": null
+      },
+      {
+        "at": "21:45",
+        "platform": "weibo",
+        "form": "短句 140 字",
+        "gen_chars": 140,
+        "publish_mode": "待核",
+        "state": "无号",
+        "account": null
+      },
+      {
+        "at": "22:15",
+        "platform": "weixin_channels",
+        "form": "口播脚本复用",
+        "gen_chars": 0,
+        "publish_mode": "manual",
+        "state": "无号",
+        "account": null
+      }
+    ],
+    "cost": {
+      "gen_chars_per_article": 6540,
+      "candidates": 4,
+      "tokens_per_article": 26160,
+      "gpu_min_per_article": 17,
+      "gpu_min_per_day_3_articles": 51
+    },
+    "blockers_in_order": [
+      "开号(7 平台 need-account，一天最多开 1 个 → 最少 7 天，需 CEO 手机+实名)",
+      "登录态验证(gzh 后台 4h 过期；短信类只能人工)",
+      "形态改造(17 分钟/篇，可自动)",
+      "时隙(已错峰)"
+    ]
   }
 }
