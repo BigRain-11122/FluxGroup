@@ -1014,3 +1014,5 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-24T11:02:16 LANE rc=0 done=- 
 2026-11-24T11:02:16 TICK commit=committed:4 converge=merged-behind-2 push=pushed lane=lane-rc-0(0 done)
 2026-11-24T11:06:31 RECEIPT RUNNING gpu=2 vram=5065MB busy=lora
+2026-11-24T11:07:13 TICK commit=committed:10 converge=up-to-date push=pushed lane=lane-cooldown(5m)
+2026-11-24T11:11:32 RECEIPT RUNNING gpu=16 vram=5258MB busy=drama,lora
