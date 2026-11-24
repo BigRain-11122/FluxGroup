@@ -124,29 +124,73 @@ def own_videos():
         return []
 
 
-def _setup_profile():
-    """回复线沿用常驻浏览器的同一个 profile（browser-bilibili）。
+REPLY_PROFILE = os.path.join(os.path.expanduser("~"), ".fluxgroup", "browser-reply")
 
-    试过克隆一个独立 profile（browser-reply）避开排队：能登录、能取 nav，
-    但 roots2 的同源 fetch 返回非 JSON（code=None、0 条），原因未查明。
-    与其为一个"看起来更干净"的隔离把线做坏，不如共用 daemon——它本来就是单线程排队，
-    两个发帖智能体也走它，不存在双写冲突。
+
+class Session:
+    """一个短命的独立浏览器会话：读评论、发回复都在它里面，跑完就关。
+
+    为什么不走常驻 daemon：2026-11-24 实测三次把 daemon 卡死（单线程 + 导航类动作 +
+    与发帖智能体抢同一个 profile），表现是"连得上但不回话"，还拖累了发帖线。
+    独立会话不共享状态，慢一点但不会连累别人；实测直连 fetch 一次就拿到 code=0。
     """
+
+    def __init__(self):
+        self._pw = None
+        self.ctx = None
+
+    def __enter__(self):
+        sys.path.insert(0, HERE)
+        import social_comment as sc
+        from playwright.sync_api import sync_playwright
+        self._pw = sync_playwright().start()
+        self.ctx = sc._launch(self._pw, headless=True, prof=REPLY_PROFILE)
+        self.pg = self.ctx.pages[0] if self.ctx.pages else self.ctx.new_page()
+        self.pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=25000)
+        return self
+
+    def __exit__(self, *a):
+        try:
+            self.ctx.close()
+        except Exception:
+            pass
+        try:
+            self._pw.stop()
+        except Exception:
+            pass
+
+    def comments(self, aid, limit=20):
+        raw = self.pg.evaluate("""async(d)=>{const r=await fetch('https://api.bilibili.com/x/v2/reply'
+            +'?type=1&oid='+d.aid+'&pn=1&ps='+d.ps+'&sort=1',{credentials:'include'});
+            return await r.text();}""", {"aid": aid, "ps": min(50, limit)})
+        try:
+            d = json.loads(raw or "{}")
+        except Exception:
+            return [], False
+        if d.get("code") is None:
+            return [], False
+        reps = ((d.get("data") or {}).get("replies")) or []
+        return [{"rpid": str(x.get("rpid")),
+                 "author": ((x.get("member") or {}).get("uname") or ""),
+                 "text": ((x.get("content") or {}).get("message") or ""),
+                 "rcount": int(x.get("rcount") or 0)} for x in reps[:limit]], True
+
+    def reply(self, aid, rpid, text):
+        import social_comment as sc
+        try:
+            # dry 默认是 True！不显式传 False 就是演练，却会返回 ok=True ——
+            # 2026-11-24 实锚：两条"成功"其实是 dry，台账假绿。
+            ok, res = sc._post_in(self.ctx, aid, rpid, text, dry=False)
+            return bool(ok), str(res)[:120]
+        except Exception as e:
+            return False, "%s: %s" % (type(e).__name__, str(e)[:80])
+
+
+def _setup_profile():
     return None
 
 
-def _aid(bvid):
-    """bvid → aid，走常驻浏览器的同源 fetch（登录态）。取不到返回 None。"""
-    _setup_profile()
-    sys.path.insert(0, HERE)
-    import social_comment as sc
-    hit = sc._daemon("aid", {"bvid": bvid}, timeout=60)
-    if hit and hit.get("ok"):
-        return ((hit.get("res") or {}).get("aid")) or None
-    return None
-
-
-def _comments(aid, limit=20):
+def _unused_comments(aid, limit=20):
     """取 root 评论：走 daemon 的 roots2（纯接口、不导航）。
 
     返回 (replies, ok)：ok=False 表示"没读到"而不是"确实没有评论"——
@@ -167,6 +211,27 @@ READ_GAP = (4.0, 9.0)      # 读评论之间的间隔：接口有限流，抢太
 BACKOFF_ON_EMPTY = 300     # 连续读空 → 退避 5 分钟，别把限流当"没有评论"
 
 
+def _aid_in(ses, bvid):
+    """会话内取 aid：同源 fetch，不导航。"""
+    raw = ses.pg.evaluate("""async(b)=>{const r=await fetch(
+        'https://api.bilibili.com/x/web-interface/view?bvid='+b,{credentials:'include'});
+        return await r.text();}""", bvid)
+    try:
+        d = json.loads(raw or "{}")
+        return ((d.get("data") or {}).get("aid")) or None
+    except Exception:
+        return None
+
+
+def _survey_one(v, aid, cs, done, rows):
+    unanswered = [c for c in cs if int(c.get("rcount") or 0) == 0]
+    ours = [c for c in cs if str(c.get("rpid")) in done]
+    rows.append({"bvid": v["bvid"], "aid": aid, "title": v.get("title"),
+                 "comments": len(cs), "unanswered": len(unanswered), "we_replied": len(ours),
+                 "sample": [{"rpid": c["rpid"], "author": c.get("author"),
+                             "text": (c.get("text") or "")[:40]} for c in unanswered[:3]]})
+
+
 def survey(limit_videos=None):
     """只读：逐视频取首页 root 评论，统计待回量。"""
     sys.path.insert(0, HERE)
@@ -176,19 +241,25 @@ def survey(limit_videos=None):
         vids = vids[:limit_videos]
     done = handled_rpids()
     rows, tot, open_, mine = [], 0, 0, 0
-    for v in vids:
-        aid = _aid(v["bvid"])
-        if not aid:
-            rows.append({"bvid": v["bvid"], "aid": None, "err": "aid 取不到"})
-            continue
-        try:
-            cs, okread = _comments(aid)
-        except Exception as e:
-            rows.append({"bvid": v["bvid"], "aid": aid, "err": "%s: %s" % (type(e).__name__, str(e)[:60])})
-            continue
-        if not okread:
-            rows.append({"bvid": v["bvid"], "aid": aid, "err": "读取失败（接口回空，疑似限流）"})
-            continue
+    with Session() as ses:
+        for v in vids:
+            aid = _aid_in(ses, v["bvid"])
+            if not aid:
+                rows.append({"bvid": v["bvid"], "aid": None, "err": "aid 取不到"})
+                continue
+            try:
+                cs, okread = ses.comments(aid)
+            except Exception as e:
+                rows.append({"bvid": v["bvid"], "aid": aid, "err": "%s: %s" % (type(e).__name__, str(e)[:60])})
+                continue
+            if not okread:
+                rows.append({"bvid": v["bvid"], "aid": aid, "err": "读取失败（接口回空）"})
+                continue
+            _survey_one(v, aid, cs, done, rows)
+            tot += len(cs)
+            open_ += len([c for c in cs if int(c.get("rcount") or 0) == 0])
+            mine += len([c for c in cs if str(c.get("rpid")) in done])
+            time.sleep(random.uniform(*READ_GAP))
         import random as _r
         time.sleep(_r.uniform(*READ_GAP))     # 限速：读评论也要像人
         unanswered = [c for c in cs if int(c.get("rcount") or 0) == 0]
@@ -266,9 +337,6 @@ def reply(n=1):
     if NIGHT[0] <= hour < NIGHT[1]:
         print("[reply] 夜间不动作（%d 点）" % hour)
         return 0
-    sys.path.insert(0, HERE)
-    import arm_probe as ap
-    import social_comment as sc
     vids = own_videos()
     if not vids:
         print("[reply] 没有 OWN-VIDEOS.json，先跑 own_videos.py")
@@ -277,47 +345,44 @@ def reply(n=1):
     n = min(int(n), MAX_PER_TICK)
     sent = 0
     rng = random.Random()
-    for v in vids:
-        if sent >= n:
-            break
-        aid = _aid(v["bvid"])
-        if not aid:
-            continue
-        try:
-            cs, okread = _comments(aid)
-        except Exception:
-            continue
-        if not okread:
-            print("   [read] %s 读不到（疑似限流），本拍退避" % v["bvid"])
-            time.sleep(BACKOFF_ON_EMPTY)
-            return 0
-        for c in cs:
+    with Session() as ses:
+        for v in vids:
             if sent >= n:
                 break
-            rid = str(c.get("rpid"))
-            if rid in done or int(c.get("rcount") or 0) > 0:
+            aid = _aid_in(ses, v["bvid"])
+            if not aid:
                 continue
-            txt = (c.get("text") or "").strip()
-            if not txt:
+            cs, okread = ses.comments(aid, limit=20)
+            if not okread:
+                print("   [read] %s 读不到，跳过这个视频" % v["bvid"])
                 continue
-            if SPAM.search(txt):
-                _append({"action": "skip", "rpid": rid, "why": "广告/导流"})
-                continue
-            if SENSITIVE.search(txt):
-                _append({"action": "skip", "rpid": rid, "why": "敏感话题(外貌/年龄/健康等)"})
-                continue
-            t = _reply_text(c.get("text"), v.get("title") or "")
-            if not t:
-                _append({"action": "skip", "rpid": rid, "why": "闸拒或无稿"})
-                continue
-            ok, res = sc.post_reply(aid, rid, t, dry=False)
-            _append({"action": "reply", "rpid": rid, "aid": aid, "bvid": v["bvid"],
-                     "text": t, "ok": bool(ok), "res": str(res)[:120]})
-            print("   %s 回复 %s：%s → %s" % ("✓" if ok else "✗", rid, t[:24], str(res)[:40]))
-            if ok:
-                sent += 1
-                done.add(rid)
-            time.sleep(rng.uniform(*GAP_S))
+            for c in cs:
+                if sent >= n:
+                    break
+                rid = str(c.get("rpid"))
+                if rid in done or int(c.get("rcount") or 0) > 0:
+                    continue
+                txt = (c.get("text") or "").strip()
+                if not txt:
+                    continue
+                if SPAM.search(txt):
+                    _append({"action": "skip", "rpid": rid, "why": "广告/导流"})
+                    continue
+                if SENSITIVE.search(txt):
+                    _append({"action": "skip", "rpid": rid, "why": "敏感话题"})
+                    continue
+                t = _reply_text(txt, v.get("title") or "")
+                if not t:
+                    _append({"action": "skip", "rpid": rid, "why": "闸拒或无稿"})
+                    continue
+                ok, res = ses.reply(aid, rid, t)
+                _append({"action": "reply", "rpid": rid, "aid": aid, "bvid": v["bvid"],
+                         "src": txt[:60], "text": t, "ok": bool(ok), "res": res})
+                print("   %s 回复 %s：%s → %s" % ("✓" if ok else "✗", rid, t[:24], res[:36]))
+                if ok:
+                    sent += 1
+                    done.add(rid)
+                time.sleep(rng.uniform(*GAP_S))
     print("[reply] 本拍回复 %d 条" % sent)
     return 0
 
@@ -358,6 +423,30 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
+LOCK = os.path.join(SOCIAL, "reply-tick.lock")
+
+
+def _take_lock():
+    """单实例：上一条还没跑完就别再起一条（浏览器会话很重，叠起来会互相踢）。"""
+    try:
+        if os.path.exists(LOCK):
+            age = time.time() - os.path.getmtime(LOCK)
+            if age < 1800:
+                return False
+        with open(LOCK, "w") as f:
+            f.write(str(os.getpid()))
+        return True
+    except Exception:
+        return True
+
+
+def _drop_lock():
+    try:
+        os.unlink(LOCK)
+    except Exception:
+        pass
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--survey", action="store_true")
@@ -372,7 +461,13 @@ def main():
     if a.survey:
         return survey()
     if a.reply:
-        return reply(a.reply)
+        if not _take_lock():
+            print("[reply] 上一拍还没结束（锁在），本次跳过")
+            return 0
+        try:
+            return reply(a.reply)
+        finally:
+            _drop_lock()
     print(__doc__)
     return 0
 
