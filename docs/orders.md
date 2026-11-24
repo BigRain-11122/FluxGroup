@@ -300,3 +300,34 @@ ilm grain 重复句。复核=warm skin 0 条、grain 重复 0 条。③包内语
 
 | 2026-11-24 22:28（自动分发 OB-20261124-222844-550） | CEO 令（原话）：「请把本机最新的《爱在西元前》234s 全片母版（v730 或更新）导出为 H.264 768P 低码率交付版：目标单文件 <=85MB（约 2.4-2.8Mbps，保留原音轨），放到 cph4/fleet/mv0001-handover/transfer/ 并提交推送；如仍超 90MB 则切 <=85MB 分片 + manifest.json（每片 sha256 与拼接顺序）。完成即 poke 下游机器。用途：本机只有 30s 片段，需要母版做终审与 4K 超分。」 | **机队自动分发令（id=OB-20261124-222844-550）**：车道=bm-a；bm-a=拆解/装配/核验/回执；HQ 车道可执行件立即开工；各车道轮首自领、禁等人工分配；回执落 cph4/fleet/order-bus/receipts/ | dispatched OB-20261124-222844-550 | [via fleet-order-bus.py] |
 | 2026-11-24 22:32（自动分发 OB-20261124-223249-233） | CEO 令（原话）：「【P0·最高优先】把《爱在西元前》最新相关的全部件交付 bm-c。交接走 git 分片（media/ 被 gitignore，禁止往那里放；统一放 cph4/fleet/mv0001-handover/transfer/，该路径已确认为可入库）。硬约束：单文件 <=90MB，超了必须切片为 parts/NN_<name>.b64 或 .bin，并写 MANIFEST.json（每片 sha256、字节数、拼接顺序、还原命令）。\n\n第一批（先交，越小越先）：\n1) transfer/INVENTORY.json —— 全量清单：凡是路径或内容与 mv0001/爱在西元前 相关的文件（含 mv0001-handover、mv-album-001-jay 里该曲的段），逐条给：repo 相对路径、字节数、mtime、视频类补 duration/分辨率/码率、sha256。\n2) 全片母版【最新版】的 768P 低码率交付版：<=85MB，约 2.4-2.8Mbps，保留原音轨，文件名 full-mv-<版本号>-768p-low.mp4。\n3) 装配链源件（都是小件，直接放 transfer/src/）：全片装配脚本 build_full_mv_*.py、时间线/段表 json、字幕 ass、字层 PNG、title/tail card PNG、调色参数件、发布包清单。\n\n第二批：\n4) 全片 4K/60 母版（若已存在）→ 切片 parts/。\n5) 该曲全部 KF 源 PNG（按镜命名）。\n6) 该曲全部 i2v 片段源（按镜命名，768P 优先）。\n\n第三批：\n7) 角色资产：jman/ljher LoRA 权重与官方参考图。\n8) 全部审档与回执（DIRECTOR-REVIEW 系列、调色档、QC 档、发布包）。\n\n交付节奏：每批推完立刻在 transfer/BATCH-<n>-DONE.json 写一行（含件名与 sha256 汇总）并 poke bm-c；bm-c 侧已挂自动收件哨（SM-MV-FULL-COLLECT），会按 MANIFEST 自动拼装验收。本令覆盖此前 OB-20261124-222844-550。」 | **机队自动分发令（id=OB-20261124-223249-233）**：车道=bm-a；bm-a=拆解/装配/核验/回执；HQ 车道可执行件立即开工；各车道轮首自领、禁等人工分配；回执落 cph4/fleet/order-bus/receipts/ | dispatched OB-20261124-223249-233 | [via fleet-order-bus.py] |
+| 2026-11-24 22:42（自动分发 OB-20261124-224243-258） | CEO 令（原话）：「【重要·通道变更】bm-c 已在本机开好机队收件口，直接 PUT 即可，不需要切片：
+
+  收件口 = http://100.123.74.104:11436   （tailnet 内网，单件上限 8GB）
+
+  协议：PUT /artifact?node=bm-a&card=MV0001&name=<URL编码的文件名>
+  请求头：X-Sha256: <小写十六进制>
+  请求体：文件原始字节
+
+  实测已通（bm-c 侧自测返回 200，落盘到 media/inbox/intake/bm-a/<日期>/MV0001__<文件名>）。
+
+请把《爱在西元前》相关的【全部最新件】推过来，严格按此顺序：
+
+第1步（最高优先）：全片最新母版 —— 234s，v730 或更新；768P 或 4K 都行；按原码率直传，8GB 内不必切片。
+第2步：装配链源件 —— build_full_mv_*.py、时间线/段表 json、字幕 ass、字层 PNG、title/tail card PNG、调色参数件。
+第3步：该曲全部 KF 源 PNG（按镜命名）。
+第4步：该曲全部 i2v 片段源（按镜命名）。
+第5步：jman / ljher 的 LoRA 权重与官方参考图。
+第6步：全部 DIRECTOR-REVIEW / 调色 / QC / 发布包 / 回执。
+
+推送模板（PowerShell，逐件循环）：
+
+  $f = "要推的文件绝对路径"
+  $h = (Get-FileHash -Algorithm SHA256 $f).Hash.ToLower()
+  $n = [uri]::EscapeDataString((Split-Path $f -Leaf))
+  $u = "http://100.123.74.104:11436/artifact?node=bm-a&card=MV0001&name=$n"
+  Invoke-WebRequest -Method Put -Uri $u -InFile $f -Headers @{ "X-Sha256" = $h } -TimeoutSec 1800
+
+兜底记账：每推完一件，把 (文件名, 字节数, sha256) 追加进 cph4/fleet/mv0001-handover/transfer/PUSHED.jsonl 并推 git；
+全部推完写 cph4/fleet/mv0001-handover/transfer/BATCH-DONE.json，然后 poke bm-c。
+
+本令取代 OB-20261124-222844-550 与 OB-20261124-223249-233 里的交付路径：改用直推收件口，不再需要 git 分片。」 | **机队自动分发令（id=OB-20261124-224243-258）**：车道=bm-a；bm-a=拆解/装配/核验/回执；HQ 车道可执行件立即开工；各车道轮首自领、禁等人工分配；回执落 cph4/fleet/order-bus/receipts/ | dispatched OB-20261124-224243-258 | [via fleet-order-bus.py] |
