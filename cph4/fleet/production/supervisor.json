@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-24T10:11:58",
+ "ts": "2026-11-24T10:21:59",
  "verdict": "RED",
  "paused": false,
  "gpu_util": 6,
- "vram_used_mb": 2740,
+ "vram_used_mb": 4313,
  "vram_total_mb": 16384,
  "comfy": false,
  "bank": {
   "done": 1,
-  "blocked": 6,
-  "pending": 5
+  "blocked": 7,
+  "pending": 4
  },
  "bank_total": 12,
- "pending": 5,
- "in_flight": 0,
+ "pending": 4,
+ "in_flight": 1,
  "seats": [
   {
    "seat": "生产者 BmcIdleGuard",
@@ -32,14 +32,14 @@
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 18295,
+   "last_run_age_s": 18896,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 40,
+   "last_run_age_s": 101,
    "state": "OK",
    "result": 0
   },
@@ -53,13 +53,12 @@
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 143,
+   "last_run_age_s": 144,
    "state": "OK",
    "result": 0
   }
  ],
  "alerts": [
-  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩",
-  "RED 空转：GPU 6% 且无在飞进程，但有 5 单 pending → 生产者未认领"
+  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩"
  ]
 }
