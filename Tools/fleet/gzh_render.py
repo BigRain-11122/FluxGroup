@@ -97,11 +97,19 @@ def render_file(md_path, out_path, theme="grace", color="#FF5A1F", preview=None)
         html = m.render(md, theme, color)
     finally:
         m.close()
+    # 负控：正文（剔掉 style）必须非空，否则是空输入/转换失败
+    import re as _re
+    body_text = _re.sub(r"<[^>]+>", "",
+                        _re.sub(r"<style[\s\S]*?</style>", "", html)).strip()
+    if len(body_text) < 10:
+        print(f"FAIL 正文为空（{len(body_text)} 字符），拒绝写文件", file=sys.stderr)
+        return 2
+
     wrapped = WRAP.format(html=html)
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     open(out_path, "w", encoding="utf-8").write(wrapped)
     size = os.path.getsize(out_path)
-    print(f"OK {out_path}  {size} 字节  源 {len(md)} 字")
+    print(f"OK {out_path}  {size} 字节  源 {len(md)} 字 / 正文 {len(body_text)} 字")
 
     if preview:
         _screenshot(out_path, preview)
