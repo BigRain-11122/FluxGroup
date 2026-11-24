@@ -882,7 +882,16 @@ def main():
         # 字数带只许有一处：原型带（真人实测）优先，否则人设带。两处都给会互相打架，
         # 模型挑一个执行，长度带命中率掉到 67%（2026-11-22 实测）。
         _vb = lc.voice_band(k, title)
-        _lo, _hi = (_vb if _vb else (lo, hi))
+        # 原型带与闸带取**交集**，不许整条覆盖。
+        # 2026-11-24 实锚：acct1 的形态臂闸是 8-13 字，而原型带是 16-38，覆盖之后
+        # 提示词要 16-38、闸只要 8-13，模型怎么写都被拒——今天 acct1 一条没发就死在这。
+        if _vb:
+            _lo, _hi = max(int(_vb[0]), int(lo)), min(int(_vb[1]), int(hi))
+            if _lo > _hi:                     # 交集为空说明两套标定互相矛盾，退回闸带并留痕
+                _lo, _hi = int(lo), int(hi)
+                log({"action": "skip", "why": "band-conflict:%s-%s vs %s-%s" % (_vb[0], _vb[1], lo, hi)})
+        else:
+            _lo, _hi = int(lo), int(hi)
         p += "只写 %d-%d 字，一句话。" % (_lo, _hi)
         if arm == "D":
             # D 臂要求含具体对象，提示词不要求就会被形态闸整批拒（2026-11-22 实锚：
