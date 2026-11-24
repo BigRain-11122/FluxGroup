@@ -1,0 +1,71 @@
+{
+  "_comment": "公众号自动化工具上游清单（2026-11-24 拉取）。只收高星且个人号可用的。",
+  "updated": "2026-11-24",
+  "selection_criteria": [
+    "star >= 40（低于此不采）",
+    "个人主体可用（不依赖微信认证 API）",
+    "许可明确（无许可的仅评估不落地）",
+    "近期有维护（2026 年仍有提交）"
+  ],
+  "vendored": [
+    {
+      "name": "doocs/md",
+      "path": "vendor/md",
+      "stars": 13556,
+      "language": "TypeScript",
+      "license": "WTFPL",
+      "commit": "38107095bbf48afb83a10fd4b338cf425fbdafbf",
+      "cloned_at": "2026-11-24",
+      "why": "排版刚需：Markdown → 微信公众号 HTML。自带 md-cli（命令行）与 mcp-server（AI 可调），可全自动。",
+      "capabilities": [
+        "Markdown 基础语法 + GFM 扩展",
+        "数学公式（KaTeX）",
+        "Mermaid / PlantUML 图表",
+        "代码高亮（多主题）",
+        "自定义主题 CSS",
+        "md-cli：一行命令批量转换",
+        "mcp-server：暴露给 AI 代理"
+      ],
+      "key_packages": {
+        "packages/core": "核心转换逻辑",
+        "packages/md-cli": "CLI（bin=md-cli）",
+        "packages/mcp-server": "MCP 服务器（bin=md-mcp）"
+      },
+      "needs": "Node >= 22.22.2（本机 24.22.1 ✅）",
+      "risk": "无（纯本地转换，不联网、不需要公众号权限）"
+    }
+  ],
+  "evaluated_not_vendored": [
+    {
+      "name": "littlecodersh/itchatmp",
+      "stars": 1586,
+      "license": "MIT",
+      "reason": "需要公众号 API 权限（个人号未认证拿不到），装上也调不通。"
+    },
+    {
+      "name": "jiji262/wechat-publisher",
+      "stars": 300,
+      "license": "无许可（None）",
+      "reason": "无许可证 = 法律风险；且自动发布需 API 权限。仅作参考，不落地。"
+    },
+    {
+      "name": "RogerLiNing/wechat_mp",
+      "stars": 53,
+      "license": "MIT",
+      "reason": "历史图文搜索有用，但 core 依赖登录态 cookie，与我们已有 silent_browser 重复。"
+    },
+    {
+      "name": "likemaoke/wechat-article-to-md",
+      "stars": 41,
+      "license": "MIT",
+      "reason": "采集转 md，但已采通道全封（搜狗/Bing/profile_ext），且我们有自己的采集器。暂不落地。"
+    },
+    {
+      "name": "italks/md-wechat",
+      "stars": 7,
+      "license": "None",
+      "reason": "star 太低（7）+ 无许可，且是 doocs/md 的二次封装，直接用上游即可。"
+    }
+  ],
+  "decision_summary": "只 vendor doocs/md 一个。理由：排版是唯一能全自动且无权限门槛的环节；采集/发布都被平台风控锁死，装工具也是白装。"
+}

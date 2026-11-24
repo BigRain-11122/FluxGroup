@@ -372,3 +372,6 @@ cph4/fleet/social/train/RUNS/**/optimizer*
 /torchinductor_*/
 /_offload/
 /_pub/
+
+# 第三方 vendor：只提交 UPSTREAM.json 与安装脚本，源码/依赖不入库
+cph4/fleet/social/gzh/vendor/md/
