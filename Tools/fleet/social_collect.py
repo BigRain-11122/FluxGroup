@@ -219,6 +219,19 @@ def _acquire_profile_lock(prof, wait_s=None, poll=5.0, yield_ok=False):
             except Exception:
                 pass
             continue
+        # 僵尸持有者：进程活着但浏览器早没了（2026-11-24 实锚：browserd 10:50 开的上下文崩掉后
+        # 锁文件仍写它的 pid，养号被挡 70 分钟、一上午只看 14 条）。判据=锁龄 + 该 profile 下
+        # 没有活的 Chrome 在用；两条同时满足才回收，避免把正在跑的采集误杀。
+        try:
+            age = time.time() - os.path.getmtime(lock)
+            if age > float(os.environ.get("FLUX_LOCK_STALE_S", "1200")):
+                holders = subprocess.run(["pgrep", "-f", "user-data-dir=%s" % prof],
+                                         capture_output=True, text=True).stdout.split()
+                if not holders:
+                    os.remove(lock)
+                    continue
+        except Exception:
+            pass
         if time.time() - t0 > wait_s:
             return None
         time.sleep(poll)
