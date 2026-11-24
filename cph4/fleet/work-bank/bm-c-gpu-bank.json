@@ -148,12 +148,12 @@
    "accept": "cph4/fleet/out/drama/EP009/ep009-gate.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-DRAMA-EP009.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP009.err.log",
-   "status": "claimed",
-   "retries": 2,
+   "status": "pending",
+   "retries": 3,
    "seeded": "2026-11-21T00:48:36",
    "claimed_ts": "2026-11-24T08:36:02",
    "last_error": "fail:kf",
-   "requeued_ts": "2026-11-24T08:21:47"
+   "requeued_ts": "2026-11-24T08:41:46"
   },
   {
    "id": "PROD-DRAMA-EP010",
