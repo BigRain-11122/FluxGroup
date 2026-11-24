@@ -39,3 +39,4 @@
 | 2026-11-22 23:30:39 | Bigmoney-LineArbiter | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-22 23:31:56 | Bigmoney-ArbiterAudit | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
 | 2026-11-24 21:33:07 | Bigmoney-StrategyBench | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
+| 2026-11-24 22:15:56 | SelfMedia-Hub-Tick | S4U denied unelevated (UAC) - convert via elevated Tools\task-s4u-convert.ps1 |
