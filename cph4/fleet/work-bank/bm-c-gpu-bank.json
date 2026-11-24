@@ -167,12 +167,12 @@
    "accept": "cph4/fleet/out/drama/EP010/ep010-gate.json 内 verdict=PASS",
    "log_out": "cph4/fleet/production/logs/PROD-DRAMA-EP010.out.log",
    "log_err": "cph4/fleet/production/logs/PROD-DRAMA-EP010.err.log",
-   "status": "claimed",
-   "retries": 0,
+   "status": "pending",
+   "retries": 1,
    "seeded": "2026-11-21T00:48:36",
    "claimed_ts": "2026-11-24T10:36:01",
-   "last_error": "reset-after-3-bug-fix(kf-gate/audio/anullsrc)",
-   "requeued_ts": "2026-11-22T10:31:46"
+   "last_error": "fail:kf",
+   "requeued_ts": "2026-11-24T10:41:47"
   },
   {
    "id": "PROD-MV-HEI-I2V",
