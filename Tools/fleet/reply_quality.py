@@ -113,7 +113,17 @@ def score_one(text, recent, seg, title=""):
     d["concrete_word"] = (concrete_hit or [])[:2]
     # 2 人味
     d["oral"] = any(w in t for w in ORAL)
-    d["ai_smell"] = [w for w in AI_SMELL if w in t]
+    # AI 腔：本文件自带的平台口味词（绝了/氛围感/拉满…）∪ 去 AI 感闸的 104 条分级词库。
+    # 两套并行会有两个判据各说各话，所以这里以 deai_check 为准，AI_SMELL 只补它没有的平台词。
+    _smell = {w for w in AI_SMELL if w in t}
+    try:
+        import deai_check as _dz
+        _v = _dz.check(t)
+        if _v["verdict"] != "clean":
+            _smell |= {h["term"] for h in _v["hits"] if h.get("term")}
+    except Exception:
+        pass
+    d["ai_smell"] = sorted(_smell)[:6]
     d["mech"] = [w for w in MECH if w in t]
     d["human"] = d["oral"] and not d["ai_smell"] and not d["mech"]
     # 3 不撞模板

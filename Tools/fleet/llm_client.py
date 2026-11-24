@@ -23,6 +23,7 @@
 """
 import json
 import os
+import sys
 import time
 import urllib.error
 import urllib.request
@@ -343,6 +344,24 @@ def human_len_target(i=0):
 PLATFORM_VOICE = os.path.join(ROOT, "cph4", "fleet", "social", "PLATFORM-VOICE-v1.json")
 
 
+def deai_block(n=12):
+    """把"去 AI 感"的禁用面拼进提示词——拦在写之前，比写完再判省一次重写。
+
+    词来自 vendor 的分级词库（cph4/fleet/social/deai/），不在本文件里另抄一份：
+    改词库就改 md，提示词自动跟着变。2026-11-24 立。
+    """
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import deai_check as dz
+        v = dz.load_vocab()
+        terms = (v.get("L1") or [])[:n]
+        head = ("别用这些词：" + "、".join(terms) + "。") if terms else ""
+    except Exception:
+        head = ""
+    return (head + "别写时间轴（不写 02:15 这种）、别假装看过具体画面、"
+            "别用「拭目以待/未来可期」这类收尾，别客服腔（不用「希望以上信息对您有所帮助」）。")
+
+
 def platform_block(seg=None):
     """把这个平台上"这一类人怎么说话"拼进提示词（表情码/口癖/字数）。
 
@@ -402,6 +421,7 @@ def lora_comment_prompt(title, desc="", i=0, seg=None, brief=""):
         ins += brief
     ins += human_persona_block()
     ins += platform_block(seg)
+    ins += deai_block()
     # 分区常识（在聊什么/别碰什么）——CEO 2026-11-21「好好理解 b 站」「目前不做引流」
     try:
         import bili_norms as _bn

@@ -122,6 +122,15 @@ def gate(text, ctx="", taken=(), corpus=(), face="viewer", taste_gate=True):
         return False, "指控/维权类（易构成诽谤）", {}
     if MD_TELL.search(t):
         return False, "带 Markdown 痕迹（一眼 AI）", {}
+    # 去 AI 感闸（2026-11-24）：判据来自 vendor 进仓的词库与 B 站体裁规则，
+    # 不与 taste 闸重复——taste 量的是"像不像真评论"，这里量的是"像不像 AI 稿"。
+    try:
+        import deai_check as _dz
+        _dv = _dz.check(t)
+        if _dv["verdict"] == "reject":
+            return False, "AI 腔:%s" % _dv["why"].split("：")[-1][:40], {}
+    except Exception:
+        pass   # 词库不可用时放行：不许因判据工具缺失把出稿全停掉（缺判据要报，不是停工）
     if face == "reply":
         v = vg.check(t, "comment", ctx)
         if v["verdict"] == "BLOCK":
@@ -367,7 +376,15 @@ def self_test():
     print("  [%s] 正向样例 → %s（%s）" % ("PASS" if got else "FAIL",
                                           "放行" if got else "拦下", why))
     ok += 1 if got else 0
-    total = len(cases) + 1
+
+    # 去 AI 感负控：词对但一读就是 AI 稿的句子，必须被拦，且原因要写明是 AI 腔
+    ai_txt = "这首个打造了一站式的沉浸式循环体验，希望以上信息对您有所帮助"
+    g2, why2, _ = gate(ai_txt, taste_gate=False)
+    hit2 = (not g2) and ("AI 腔" in (why2 or ""))
+    print("  [%s] AI 腔稿 → %s（%s）" % ("PASS" if hit2 else "FAIL",
+                                        "拦下" if not g2 else "放行", why2 or "-"))
+    ok += 1 if hit2 else 0
+    total = len(cases) + 2   # 正向样例 + AI 腔负控各一条
     print("[self-test] %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
