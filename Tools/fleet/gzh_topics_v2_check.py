@@ -36,8 +36,8 @@ def check(doc):
     topics = doc.get("topics") or []
     stats = {"count": len(topics)}
 
-    if len(topics) != 20:
-        fails.append(f"选题数应为 20，实际 {len(topics)}")
+    if len(topics) != 28:
+        fails.append(f"选题数应为 28，实际 {len(topics)}")
 
     # --- 1. 字段齐全 ---
     for t in topics:
@@ -172,7 +172,7 @@ def self_test():
         for x in fails:
             print("  -", x, file=sys.stderr)
         return 4
-    print(f"SELF-TEST OK 8/8 负控全红 · 原始 20 条全绿 (event={s0['event']} evergreen={s0['evergreen']})")
+    print(f"SELF-TEST OK 8/8 负控全红 · 原始 28 条全绿 (event={s0['event']} evergreen={s0['evergreen']})")
     return 0
 
 
@@ -193,7 +193,7 @@ def main():
         for f in fails:
             print("  -", f, file=sys.stderr)
         return 1
-    print(f"PASS 20/20 条全部满足六条硬判据")
+    print(f"PASS 28/28 条全部满足六条硬判据")
     return 0
 
 

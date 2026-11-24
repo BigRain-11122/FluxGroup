@@ -60,6 +60,11 @@
       "id": "C7",
       "name": "行业与竞品",
       "why_click": "看懂价格战背后的账"
+    },
+    {
+      "id": "C8",
+      "name": "界面拆解（人设主赛道）",
+      "why_click": "同质化最重、最容易被吹牛、最影响日常，却没人认真写"
     }
   ],
   "topics": [
@@ -557,6 +562,197 @@
         "工信部新车公告电池类型"
       ],
       "timeliness": "event"
+    },
+    {
+      "id": "T21",
+      "cat": "C8",
+      "title": "理想 i6 的语音开空调：同一件事，换个说法就不灵了吗",
+      "subject": [
+        "理想 i6",
+        "语音助手"
+      ],
+      "hook_type": "C",
+      "scene": "副驾说『有点热』，主驾说『空调调低两度』，两次反应完全不一样",
+      "opponent": "发布会演示只演『最顺的那一句』",
+      "promise": "把同一意图拆成 5 种自然说法，指出哪种会失败、为什么",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方演示视频逐帧对照 + 语音能力说明",
+      "risk": "不许写『我试了』；只能引用官方演示与公开用户反馈",
+      "verify_before_write": [
+        "理想 i6 官方座舱演示视频",
+        "官方语音能力说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T22",
+      "cat": "C8",
+      "title": "小米 YU7 的中控屏：同一个功能，最多要点几层",
+      "subject": [
+        "小米 YU7",
+        "中控屏"
+      ],
+      "hook_type": "B",
+      "scene": "想关掉一个提示音，手指在屏幕上点了四下才找到开关",
+      "opponent": "把『三级菜单』包装成『极简设计』的话术",
+      "promise": "把高频功能画成一张点击路径图，标出层级最深的三项",
+      "evidence": [
+        "official"
+      ],
+      "verifiable": "官方界面截图逐层还原，路径可复现",
+      "risk": "界面可能随 OTA 变化，必须标版本与日期",
+      "verify_before_write": [
+        "小米 YU7 官网座舱页",
+        "官方 OTA 说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T23",
+      "cat": "C8",
+      "title": "蔚来 ET5 的怀挡：挂挡这件事被挪到了第几屏",
+      "subject": [
+        "蔚来 ET5",
+        "怀挡"
+      ],
+      "hook_type": "C",
+      "scene": "第一次开的人，右手在方向盘后面摸了三秒才找到挡位",
+      "opponent": "『学习成本是习惯问题』的推脱",
+      "promise": "新手第一次上车的三个卡点 + 各自代价",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "官方交车视频 + 车主论坛高频提问",
+      "risk": "不许说『设计错了』，只说成本与代价",
+      "verify_before_write": [
+        "蔚来官方交车演示",
+        "车主社区高频问题"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T24",
+      "cat": "C8",
+      "title": "问界 M9 的 HUD：信息塞满时，该看哪一项",
+      "subject": [
+        "问界 M9",
+        "HUD"
+      ],
+      "hook_type": "B",
+      "scene": "高速上 HUD 同时亮起导航、限速、车道、来电，眼睛不知道该落哪",
+      "opponent": "『信息越多越智能』的堆料逻辑",
+      "promise": "把 HUD 信息按『必须看/可后看/不该看』分三档",
+      "evidence": [
+        "official",
+        "reg"
+      ],
+      "verifiable": "官方 HUD 说明 + 人机工程学公开资料",
+      "risk": "不许给具体车型下『危险』结论，只谈信息优先级",
+      "verify_before_write": [
+        "问界 M9 官方 HUD 说明",
+        "HUD 相关国标/公开研究"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T25",
+      "cat": "C8",
+      "title": "极氪 7X 的氛围灯：宣传图那几种，实车能调出几种",
+      "subject": [
+        "极氪 7X",
+        "氛围灯"
+      ],
+      "hook_type": "C",
+      "scene": "宣传图是暮光紫，实车调出来是偏粉的紫，中间差了一档",
+      "opponent": "『64 色可调』里的凑数色",
+      "promise": "宣传色与实际色的差异清单 + 为什么会偏",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "官方色卡 + 车主实拍对照",
+      "risk": "色差受拍摄影响，必须说明拍摄条件",
+      "verify_before_write": [
+        "极氪 7X 官方色卡",
+        "车主实拍对照图"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T26",
+      "cat": "C8",
+      "title": "理想 L9 的副驾屏：几种用法，哪种不是智商税",
+      "subject": [
+        "理想 L9",
+        "副驾屏"
+      ],
+      "hook_type": "C",
+      "scene": "副驾屏开着，但副驾在刷手机——这块屏到底给谁用",
+      "opponent": "把『多一块屏』等同于『更豪华』",
+      "promise": "三种真实使用场景 + 各自成立条件",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "官方功能说明 + 公开用户调研",
+      "risk": "不许嘲讽用户选择，只谈场景匹配",
+      "verify_before_write": [
+        "理想 L9 官方座舱说明",
+        "公开座舱使用调研"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T27",
+      "cat": "C8",
+      "title": "小鹏 G6 车机冷启动：这段等待该显示什么",
+      "subject": [
+        "小鹏 G6",
+        "车机启动"
+      ],
+      "hook_type": "A",
+      "scene": "上车打火，屏幕黑着转了三秒，这三秒里没有任何反馈",
+      "opponent": "『开机快是硬件问题』的甩锅",
+      "promise": "启动等待期的三种正确做法（进度/可操作/延后加载）",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方启动演示 + 公开系统说明",
+      "risk": "不许给未验证的秒数，只谈『等待期有没有反馈』",
+      "verify_before_write": [
+        "小鹏 G6 官方座舱演示",
+        "公开车机系统说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T28",
+      "cat": "C8",
+      "title": "比亚迪秦PLUS 的语音连续对话：为什么总是接不上",
+      "subject": [
+        "比亚迪 秦PLUS",
+        "语音连续对话"
+      ],
+      "hook_type": "C",
+      "scene": "说完『导航去公司』想接着说『顺便找个加油站』，结果要重新喊一次",
+      "opponent": "把『连续对话』当『一次唤醒永久在线』的宣传",
+      "promise": "连续对话的三种断点 + 各自触发条件",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方语音功能说明 + 公开演示",
+      "risk": "不许写『我试了』；只引官方说明与公开演示",
+      "verify_before_write": [
+        "比亚迪官方语音功能说明",
+        "公开座舱演示"
+      ],
+      "timeliness": "evergreen"
     }
   ]
 }
