@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-24T18:22:03",
+ "ts": "2026-11-24T18:33:03",
  "verdict": "RED",
  "paused": false,
- "gpu_util": 0,
+ "gpu_util": 2,
  "vram_used_mb": 2852,
  "vram_total_mb": 16384,
  "comfy": false,
@@ -17,30 +17,30 @@
   {
    "seat": "生产者 BmcIdleGuard",
    "task": "BmcIdleGuard",
-   "last_run_age_s": 62,
+   "last_run_age_s": 79,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 15,
-   "state": "OK",
-   "result": 0
+   "last_run_age_s": null,
+   "state": "UNKNOWN",
+   "result": null
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 47700,
+   "last_run_age_s": 48359,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 104,
+   "last_run_age_s": 44,
    "state": "OK",
-   "result": 0
+   "result": 267009
   },
   {
    "seat": "总控 Orchestrator",
@@ -52,12 +52,13 @@
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 148,
+   "last_run_age_s": 208,
    "state": "OK",
    "result": 0
   }
  ],
  "alerts": [
-  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩"
+  "RED ComfyUI 不服务（8188 无响应）→ 引擎守卫失职或引擎崩",
+  "AMBER 收口员 Bmc-ProdFinalize 读不到 LastRunTime"
  ]
 }
