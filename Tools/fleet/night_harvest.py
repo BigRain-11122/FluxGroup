@@ -96,9 +96,15 @@ def src_reddit(sub="cardesign", limit=15):
 
 
 def src_rss(name, url, limit=12):
-    """通用 RSS（用最小正则解析，不引第三方库）。"""
+    """通用 RSS（用最小正则解析，不引第三方库）。
+
+    解析到 0 条就抛错——源改成 HTML 页面时 HTTP 仍是 200，
+    不抛错就会变成"每轮都跑、每轮都没素材"的静默降级。
+    """
     raw = _get(url, ua="Mozilla/5.0 (compatible; FluxHarvest/1.0)")
     items = re.findall(r"<item[\s\S]*?</item>", raw)[:limit]
+    if not items:
+        raise RuntimeError(f"{name}: 0 个 <item>（可能已改成 HTML 页面）")
     out = []
     for it in items:
         def g(tag):
@@ -135,8 +141,12 @@ def html_to_text(html, max_chars=4000):
     blocks = []
     for line in t.split("\n"):
         s = re.sub(r"[ \t\u00a0]+", " ", line).strip()
-        if len(s) >= 20:
-            blocks.append(s)
+        if len(s) < 20:
+            continue
+        # 无句末标点又短的块是导航/标题/相关阅读，不是正文句子
+        if len(s) < 45 and not re.search(r"[。！？!?；;：:]", s):
+            continue
+        blocks.append(s)
     return "\n".join(blocks)[:max_chars]
 
 
@@ -150,13 +160,15 @@ def fetch_body(url, timeout=BODY_TIMEOUT):
         return ""
 
 
-# 2026-11-24 实测：HN/Reddit/Dezeen 在本机全部超时（国际网络不通），
-# 换成国内可达的四个源（36氪/少数派/IT之家/极客公园，均实测 HTTP 200）
+# 2026-11-24 实测：HN/Reddit/Dezeen 在本机全部超时（国际网络不通），用国内源。
+# 同日复测：36kr 的 /feed 已改成 HTML 页面（HTTP 200 但 0 个 <item>），
+# geekpark / huxiu 返回空 —— 这三个源已死，换成实测有货的三家（+少数派）。
+# 教训：HTTP 200 不等于源可用，必须数 <item> 个数，否则静默降级成"跑通了但没素材"。
 SOURCES = [
-    ("rss/36kr", lambda: src_rss("36kr", "https://36kr.com/feed", 12)),
-    ("rss/sspai", lambda: src_rss("sspai", "https://sspai.com/feed", 10)),
     ("rss/ithome", lambda: src_rss("ithome", "https://www.ithome.com/rss/", 12)),
-    ("rss/geekpark", lambda: src_rss("geekpark", "https://www.geekpark.net/rss", 10)),
+    ("rss/ifanr", lambda: src_rss("ifanr", "https://www.ifanr.com/feed", 12)),
+    ("rss/tmtpost", lambda: src_rss("tmtpost", "https://www.tmtpost.com/rss", 10)),
+    ("rss/sspai", lambda: src_rss("sspai", "https://sspai.com/feed", 10)),
 ]
 
 
@@ -190,28 +202,46 @@ def is_junk(item):
     return is_low_info(item)
 
 
+def _bigrams(s):
+    s = re.sub(r"[^\w\u4e00-\u9fa5]", "", s or "")
+    return {s[i:i + 2] for i in range(len(s) - 1)}
+
+
 def extract(item):
-    """从素材里抽「观点/方法/数据」——抽不出来就说明不值得留。"""
+    """从素材里抽「观点/方法/数据」——抽不出来就说明不值得留。
+
+    坑（2026-11-24 实跑抓到）：进链接抓正文后，页面里的「相关阅读」「侧边栏推荐」
+    会被一起抓进来，于是三篇不同文章的「观点」抽出来是同一句
+    （世界粮食计划署那条）。光靠句式特征拦不住，必须要求**观点与标题有词面交集**——
+    一篇讲透析粉液的文章，不会用粮食危机当自己的判断句。
+    """
     blob = item.get("title", "") + "\n" + item.get("text", "")
     out = {"claim": "", "method": "", "data": []}
+    title_toks = _bigrams(item.get("title", ""))
+
+    def relevant(s):
+        """标题里没有一个二元词出现在这句上，就判为跑题（侧边栏/相关阅读）。"""
+        return not title_toks or bool(_bigrams(s) & title_toks)
 
     # 数据：数字 + 单位
     out["data"] = list(dict.fromkeys(
         re.findall(r"\d+(?:\.\d+)?\s*(?:%|TOPS|ms|秒|分钟|小时|公里|km|英寸|寸|元|美元|万|亿|nits|Hz)", blob)))[:5]
 
-    # 观点：含"因为/为什么/原理"的判断句
+    # 观点：含"因为/为什么/原理"的判断句，且必须与标题相关
     for sent in re.split(r"[。.!?\n]", blob):
         s = sent.strip()
         if 15 <= len(s) <= 120 and any(k in s for k in ("因为", "为什么", "原理", "本质", "关键", "问题在于")):
-            out["claim"] = s
-            break
+            if relevant(s):
+                out["claim"] = s
+                break
 
     # 方法：含"如何/步骤/方法/框架/维度"
     for sent in re.split(r"[。.!?\n]", blob):
         s = sent.strip()
         if 10 <= len(s) <= 120 and any(k in s for k in ("如何", "步骤", "方法", "框架", "维度", "流程")):
-            out["method"] = s
-            break
+            if relevant(s):
+                out["method"] = s
+                break
 
     return out
 
@@ -240,8 +270,9 @@ def run(limit_per_src=None):
                 pass
 
     stats = {"fetched": 0, "junk": 0, "dup": 0, "kept": 0, "sources_ok": 0,
-             "sources_fail": 0, "bodies": 0, "bodies_try": 0}
+             "sources_fail": 0, "bodies": 0, "bodies_try": 0, "claim_dup": 0}
     rows = []
+    claims_seen = set()
 
     for name, fn in SOURCES:
         try:
@@ -280,6 +311,12 @@ def run(limit_per_src=None):
                 stats["junk"] += 1
                 continue
             ex = extract(it)
+            # 同一句话不能算到两篇文章头上（正文里混进相同推荐块的另一道保险）
+            if ex["claim"] and ex["claim"] in claims_seen:
+                ex["claim"] = ""
+                stats["claim_dup"] += 1
+            if ex["claim"]:
+                claims_seen.add(ex["claim"])
             if not (ex["claim"] or ex["method"] or ex["data"]):
                 stats["junk"] += 1
                 continue
@@ -407,12 +444,24 @@ def self_test():
     if fetch_body("") != "" or fetch_body("/tmp/x.html") != "":
         fails.append("fetch_body 未拒绝非 http 链接")
 
+    # 12. 侧边栏污染必须挡住：与标题无关的判断句不能当成本文观点
+    polluted = {"title": "宝莱特透析粉液基地遭飞检停产",
+                "text": "世界粮食计划署：三大关键贸易通道受阻加剧全球粮食安全危机，因为运费涨了。"}
+    if extract(polluted)["claim"]:
+        fails.append("负控[侧边栏污染] 跑题句子被当成观点")
+
+    # 13. 与标题相关的判断句仍要抽得到（别为了防污染把真观点也杀了）
+    relevant = {"title": "透析粉液的飞检为什么会停线",
+                "text": "问题在于飞检记录是编的，因为批记录与设备日志对不上。"}
+    if not extract(relevant)["claim"]:
+        fails.append("正控[相关观点] 被误杀")
+
     if fails:
         print("SELF-TEST FAIL", file=sys.stderr)
         for f in fails:
             print("  -", f, file=sys.stderr)
         return 4
-    print("SELF-TEST OK 11/11  (过滤/抽取/归类/去重/正文抓取全过)")
+    print("SELF-TEST OK 13/13  (过滤/抽取/归类/去重/正文抓取/防侧边栏污染全过)")
     return 0
 
 
