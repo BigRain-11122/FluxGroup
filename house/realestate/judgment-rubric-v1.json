@@ -1,0 +1,687 @@
+{
+  "version": "v1.0-20261116",
+  "note": "地产线判据库。每条判据=可核验的阈值+数据源+证据等级+常见误判。执行器=Tools/house/panel_review.py",
+  "evidence_scale": {
+    "A": {
+      "desc": "官方/实测/合同",
+      "confidence": 1.0
+    },
+    "B": {
+      "desc": "多源一致/专业机构",
+      "confidence": 0.75
+    },
+    "C": {
+      "desc": "单源/估算/推断",
+      "confidence": 0.5
+    }
+  },
+  "layers": [
+    {
+      "id": "M",
+      "name": "宏观（全国）",
+      "weight": 15,
+      "items": [
+        {
+          "id": "M01",
+          "name": "全国商品房销售面积同比",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": -8,
+          "weight": 2,
+          "evidence": "A",
+          "source": "国家统计局",
+          "veto": false,
+          "failure": "用单月数据代替年度"
+        },
+        {
+          "id": "M02",
+          "name": "全国住宅库存去化周期",
+          "unit": "月",
+          "type": "num",
+          "op": "<=",
+          "threshold": 24,
+          "weight": 2,
+          "evidence": "A",
+          "source": "统计局/中指",
+          "veto": false,
+          "failure": "狭义/广义库存混用"
+        },
+        {
+          "id": "M03",
+          "name": "5年期以上LPR",
+          "unit": "%",
+          "type": "num",
+          "op": "<=",
+          "threshold": 4.0,
+          "weight": 2,
+          "evidence": "A",
+          "source": "央行",
+          "veto": false,
+          "failure": "用旧值"
+        },
+        {
+          "id": "M04",
+          "name": "首套商贷利率",
+          "unit": "%",
+          "type": "num",
+          "op": "<=",
+          "threshold": 3.5,
+          "weight": 2,
+          "evidence": "A",
+          "source": "银行书面",
+          "veto": false,
+          "failure": "口头报价非书面"
+        },
+        {
+          "id": "M05",
+          "name": "限购/限售方向",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "宽松",
+            "中性"
+          ],
+          "weight": 1,
+          "evidence": "A",
+          "source": "住建局原文",
+          "veto": false,
+          "failure": "用自媒体转述"
+        },
+        {
+          "id": "M06",
+          "name": "城市房价收入比",
+          "unit": "倍",
+          "type": "num",
+          "op": "<=",
+          "threshold": 9.0,
+          "weight": 2,
+          "evidence": "B",
+          "source": "均价×90/家庭年收入",
+          "veto": false,
+          "failure": "人均/家庭收入混用"
+        },
+        {
+          "id": "M07",
+          "name": "城市住宅租金回报率",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": 2.5,
+          "weight": 2,
+          "evidence": "B",
+          "source": "中指云",
+          "veto": false,
+          "failure": "用挂牌租金非成交租金"
+        },
+        {
+          "id": "M08",
+          "name": "人口净流入",
+          "unit": "万人/年",
+          "type": "num",
+          "op": ">=",
+          "threshold": 0,
+          "weight": 2,
+          "evidence": "A",
+          "source": "统计公报",
+          "veto": false,
+          "failure": "户籍口径冒充常住"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "中观（城市/板块）",
+      "weight": 20,
+      "items": [
+        {
+          "id": "C01",
+          "name": "城市新房去化周期",
+          "unit": "月",
+          "type": "num",
+          "op": "<=",
+          "threshold": 18,
+          "weight": 3,
+          "evidence": "A",
+          "source": "克而瑞/中指",
+          "veto": false,
+          "failure": "只看城市均值不看板块"
+        },
+        {
+          "id": "C02",
+          "name": "板块二手房成交周期",
+          "unit": "月",
+          "type": "num",
+          "op": "<=",
+          "threshold": 9,
+          "weight": 3,
+          "evidence": "B",
+          "source": "贝壳/我爱我家成交",
+          "veto": false,
+          "failure": "用挂牌时长冒充成交周期"
+        },
+        {
+          "id": "C03",
+          "name": "板块1km在售套数",
+          "unit": "套",
+          "type": "num",
+          "op": "<=",
+          "threshold": 600,
+          "weight": 2,
+          "evidence": "B",
+          "source": "平台在售",
+          "veto": false,
+          "failure": "把全市当板块"
+        },
+        {
+          "id": "C04",
+          "name": "地铁站步行距离",
+          "unit": "m",
+          "type": "num",
+          "op": "<=",
+          "threshold": 800,
+          "weight": 3,
+          "evidence": "A",
+          "source": "地图实测",
+          "veto": false,
+          "failure": "直线距离冒充步行"
+        },
+        {
+          "id": "C05",
+          "name": "到主要就业区通勤",
+          "unit": "分钟",
+          "type": "num",
+          "op": "<=",
+          "threshold": 30,
+          "weight": 3,
+          "evidence": "B",
+          "source": "高峰实测",
+          "veto": false,
+          "failure": "用平峰时间"
+        },
+        {
+          "id": "C06",
+          "name": "板块规划新增住宅用地",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "少",
+            "中"
+          ],
+          "weight": 2,
+          "evidence": "B",
+          "source": "控规公示",
+          "veto": false,
+          "failure": "把已出让当未出让"
+        },
+        {
+          "id": "C07",
+          "name": "板块租售比",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": 2.5,
+          "weight": 2,
+          "evidence": "B",
+          "source": "租金/成交价",
+          "veto": false,
+          "failure": "用挂牌价"
+        },
+        {
+          "id": "C08",
+          "name": "3km内三甲/重点学校",
+          "unit": "个",
+          "type": "num",
+          "op": ">=",
+          "threshold": 1,
+          "weight": 1,
+          "evidence": "A",
+          "source": "地图/卫健委",
+          "veto": false,
+          "failure": "规划学校当已建"
+        },
+        {
+          "id": "C09",
+          "name": "板块租金同比",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": -3,
+          "weight": 1,
+          "evidence": "B",
+          "source": "中指/贝壳",
+          "veto": false,
+          "failure": "样本过少"
+        }
+      ]
+    },
+    {
+      "id": "P",
+      "name": "微观（小区）",
+      "weight": 15,
+      "items": [
+        {
+          "id": "P01",
+          "name": "房龄",
+          "unit": "年",
+          "type": "num",
+          "op": "<=",
+          "threshold": 20,
+          "weight": 2,
+          "evidence": "A",
+          "source": "竣工备案",
+          "veto": false,
+          "failure": "用开盘年冒充竣工年"
+        },
+        {
+          "id": "P02",
+          "name": "产权性质",
+          "unit": "",
+          "type": "cat",
+          "op": "eq",
+          "threshold": "住宅70年",
+          "weight": 4,
+          "evidence": "A",
+          "source": "不动产权证",
+          "veto": true,
+          "failure": "小区混有40年公寓，看错楼栋"
+        },
+        {
+          "id": "P03",
+          "name": "容积率",
+          "unit": "",
+          "type": "num",
+          "op": "<=",
+          "threshold": 2.8,
+          "weight": 1,
+          "evidence": "A",
+          "source": "规划许可",
+          "veto": false,
+          "failure": ""
+        },
+        {
+          "id": "P04",
+          "name": "车位配比",
+          "unit": "比值",
+          "type": "num",
+          "op": ">=",
+          "threshold": 1.0,
+          "weight": 1,
+          "evidence": "A",
+          "source": "小区档案",
+          "veto": false,
+          "failure": ""
+        },
+        {
+          "id": "P05",
+          "name": "物业费",
+          "unit": "元/㎡·月",
+          "type": "num",
+          "op": "<=",
+          "threshold": 3.0,
+          "weight": 1,
+          "evidence": "A",
+          "source": "物业合同",
+          "veto": false,
+          "failure": ""
+        },
+        {
+          "id": "P06",
+          "name": "总户数",
+          "unit": "户",
+          "type": "num",
+          "op": "band",
+          "threshold": [
+            500,
+            3000
+          ],
+          "weight": 1,
+          "evidence": "A",
+          "source": "小区档案",
+          "veto": false,
+          "failure": "小盘流动性差/大盘杂乱"
+        },
+        {
+          "id": "P07",
+          "name": "在售套数÷月成交",
+          "unit": "月",
+          "type": "num",
+          "op": "<=",
+          "threshold": 20,
+          "weight": 2,
+          "evidence": "B",
+          "source": "平台成交+在售",
+          "veto": false,
+          "failure": "成交样本<5笔时不可算"
+        },
+        {
+          "id": "P08",
+          "name": "月成交样本量",
+          "unit": "笔",
+          "type": "num",
+          "op": ">=",
+          "threshold": 5,
+          "weight": 3,
+          "evidence": "B",
+          "source": "平台成交",
+          "veto": false,
+          "failure": "样本不足时价格锚降级为C"
+        }
+      ]
+    },
+    {
+      "id": "U",
+      "name": "微观（房源）",
+      "weight": 18,
+      "items": [
+        {
+          "id": "U01",
+          "name": "单价相对同段成交中位",
+          "unit": "%",
+          "type": "num",
+          "op": "<=",
+          "threshold": -3,
+          "weight": 4,
+          "evidence": "A",
+          "source": "同面积段成交",
+          "veto": false,
+          "failure": "拿小区均价（含小户型）比"
+        },
+        {
+          "id": "U02",
+          "name": "面积段",
+          "unit": "㎡",
+          "type": "num",
+          "op": "band",
+          "threshold": [
+            60,
+            140
+          ],
+          "weight": 2,
+          "evidence": "A",
+          "source": "产证",
+          "veto": false,
+          "failure": "大面积流动性差"
+        },
+        {
+          "id": "U03",
+          "name": "楼层位置",
+          "unit": "",
+          "type": "cat",
+          "op": "eq",
+          "threshold": "中高区",
+          "weight": 1,
+          "evidence": "A",
+          "source": "现场",
+          "veto": false,
+          "failure": "顶楼/设备层/底层"
+        },
+        {
+          "id": "U04",
+          "name": "主朝向",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "南",
+            "东南",
+            "南北"
+          ],
+          "weight": 2,
+          "evidence": "A",
+          "source": "产证/现场",
+          "veto": false,
+          "failure": "只看主卧不看客厅"
+        },
+        {
+          "id": "U05",
+          "name": "装修状况",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "毛坯",
+            "简装"
+          ],
+          "weight": 1,
+          "evidence": "A",
+          "source": "现场",
+          "veto": false,
+          "failure": "精装溢价不可控"
+        },
+        {
+          "id": "U06",
+          "name": "户型可分隔",
+          "unit": "",
+          "type": "bool",
+          "op": "eq",
+          "threshold": true,
+          "weight": 2,
+          "evidence": "B",
+          "source": "竣工图",
+          "veto": false,
+          "failure": "拍脑袋画线"
+        },
+        {
+          "id": "U07",
+          "name": "承重/立管满足改造",
+          "unit": "",
+          "type": "bool",
+          "op": "eq",
+          "threshold": true,
+          "weight": 3,
+          "evidence": "B",
+          "source": "结构图+物业",
+          "veto": false,
+          "failure": "砖混误判"
+        },
+        {
+          "id": "U08",
+          "name": "户型图与产证一致",
+          "unit": "",
+          "type": "bool",
+          "op": "eq",
+          "threshold": true,
+          "weight": 3,
+          "evidence": "A",
+          "source": "产证附图",
+          "veto": true,
+          "failure": "图示多个'储物间'与标签矛盾"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "name": "财务",
+      "weight": 20,
+      "items": [
+        {
+          "id": "F01",
+          "name": "毛租售比",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": 3.0,
+          "weight": 4,
+          "evidence": "A",
+          "source": "成交租金/成交价",
+          "veto": false,
+          "failure": "用挂牌租金"
+        },
+        {
+          "id": "F02",
+          "name": "净租售比（扣空置运营）",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": 2.2,
+          "weight": 4,
+          "evidence": "B",
+          "source": "模型",
+          "veto": false,
+          "failure": "漏算物业维修"
+        },
+        {
+          "id": "F03",
+          "name": "租金覆盖月供比例",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": 60,
+          "weight": 3,
+          "evidence": "B",
+          "source": "模型",
+          "veto": false,
+          "failure": "用等额本金算"
+        },
+        {
+          "id": "F04",
+          "name": "月补÷家庭月收入",
+          "unit": "%",
+          "type": "num",
+          "op": "<=",
+          "threshold": 15,
+          "weight": 3,
+          "evidence": "B",
+          "source": "财务模型",
+          "veto": false,
+          "failure": "忽略年终奖波动"
+        },
+        {
+          "id": "F05",
+          "name": "10年IRR（g=2%）",
+          "unit": "%",
+          "type": "num",
+          "op": ">=",
+          "threshold": 5.0,
+          "weight": 2,
+          "evidence": "B",
+          "source": "模型",
+          "veto": false,
+          "failure": "不含税费与空置"
+        },
+        {
+          "id": "F06",
+          "name": "盈亏平衡涨幅（10年）",
+          "unit": "%",
+          "type": "num",
+          "op": "<=",
+          "threshold": 2.0,
+          "weight": 2,
+          "evidence": "B",
+          "source": "模型",
+          "veto": false,
+          "failure": "只算租金不算本金"
+        },
+        {
+          "id": "F07",
+          "name": "首付+税费÷可动用现金",
+          "unit": "%",
+          "type": "num",
+          "op": "<=",
+          "threshold": 70,
+          "weight": 2,
+          "evidence": "B",
+          "source": "个人财务",
+          "veto": false,
+          "failure": "不留应急金"
+        }
+      ]
+    },
+    {
+      "id": "R",
+      "name": "风险与合规",
+      "weight": 12,
+      "items": [
+        {
+          "id": "R01",
+          "name": "无抵押/查封/共有纠纷",
+          "unit": "",
+          "type": "bool",
+          "op": "eq",
+          "threshold": true,
+          "weight": 3,
+          "evidence": "A",
+          "source": "不动产登记",
+          "veto": true,
+          "failure": "只看房本不看登记"
+        },
+        {
+          "id": "R02",
+          "name": "满五唯一",
+          "unit": "",
+          "type": "bool",
+          "op": "eq",
+          "threshold": true,
+          "weight": 2,
+          "evidence": "A",
+          "source": "契税票/房本",
+          "veto": false,
+          "failure": "按竣工年推算"
+        },
+        {
+          "id": "R03",
+          "name": "物业允许分租（改造场景）",
+          "unit": "",
+          "type": "bool",
+          "op": "eq",
+          "threshold": true,
+          "weight": 3,
+          "evidence": "B",
+          "source": "物业书面",
+          "veto": true,
+          "failure": "口头同意"
+        },
+        {
+          "id": "R04",
+          "name": "12个月内可卖出",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "高",
+            "中"
+          ],
+          "weight": 2,
+          "evidence": "B",
+          "source": "成交周期",
+          "veto": false,
+          "failure": "用挂牌量代替去化"
+        },
+        {
+          "id": "R05",
+          "name": "群租/分割政策风险",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "低",
+            "中"
+          ],
+          "weight": 1,
+          "evidence": "B",
+          "source": "地方条例",
+          "veto": false,
+          "failure": "用外地口径"
+        },
+        {
+          "id": "R06",
+          "name": "邻居/物业投诉风险",
+          "unit": "",
+          "type": "cat",
+          "op": "in",
+          "threshold": [
+            "低"
+          ],
+          "weight": 1,
+          "evidence": "C",
+          "source": "现场走访",
+          "veto": false,
+          "failure": "只看小区环境"
+        }
+      ]
+    }
+  ]
+}

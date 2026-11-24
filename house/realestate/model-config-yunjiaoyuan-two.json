@@ -1,0 +1,52 @@
+{
+  "property": {
+    "name": "尹山湖韵佳苑 135.15㎡ / 172万（二套口径·改两套）",
+    "area": 135.15,
+    "price": 1720000,
+    "deed_tax_rate": 0.01,
+    "agency_buy": 0.015,
+    "other_buy": 0.002
+  },
+  "rent": {
+    "units": [
+      { "name": "套A 一室一厅", "area": 65, "rent": 3700, "vacancy_days": 40 },
+      { "name": "套B 一室一厅", "area": 65, "rent": 3700, "vacancy_days": 40 }
+    ],
+    "growth": 0.02,
+    "bad_debt": 0.01
+  },
+  "opex": {
+    "property_fee_per_sqm": 2.05,
+    "maintenance_pct": 0.05,
+    "appliance_reserve": 3000,
+    "insurance": 800,
+    "management_pct": 0.0,
+    "letting_cost_months": 1.0,
+    "utilities_vacant": 160
+  },
+  "tax": {
+    "vat_rate": 0.015,
+    "income_tax_rate": 0.10,
+    "property_tax_rate": 0.0
+  },
+  "capex": {
+    "initial": 220000,
+    "major_cycle_years": 10,
+    "major_per_sqm": 400
+  },
+  "finance": {
+    "down": 0.30,
+    "rate": 0.033,
+    "years": 30,
+    "valuation_ratio": 0.95
+  },
+  "exit": {
+    "years": 10,
+    "price_growth": 0.02,
+    "sell_agency": 0.015,
+    "sell_tax": 0.01
+  },
+  "discount_rate": 0.05,
+  "mc_sd_price_growth": 0.05,
+  "mc_sd_rent_growth": 0.015
+}

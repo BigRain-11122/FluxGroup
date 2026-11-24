@@ -246,10 +246,58 @@ def cmd_build(a):
 
 
 # ---------------------------------------------------------------- train
+def _newest_mtime(d, exts=(".png", ".jpg", ".jpeg", ".webp", ".txt")):
+    newest = 0.0
+    if not os.path.isdir(d):
+        return newest
+    for n in os.listdir(d):
+        if n.lower().endswith(exts):
+            try:
+                newest = max(newest, os.path.getmtime(os.path.join(d, n)))
+            except OSError:
+                pass
+    return newest
+
+
+def _already_trained(name, ds_dir=None):
+    """判这份数据集是否已训过且产物仍在。
+
+    2026-11-17 立：T05/T08 曾被队列重复完整重训各 9 遍，白烧约 64 GPU 小时——
+    根因是"能跑就再跑一遍"，没有任何地方看产物在不在盘。四个条件全过才判已训：
+    权重在 / 数据集没比它新 / 训练配方 bat 没比它新 / 日志里至少成功过一次。
+    """
+    weight = os.path.join(TRAIN_HOME, "outputs", name, name + "_rank32.safetensors")
+    if not os.path.exists(weight):
+        return False, "无权重"
+    w_m = os.path.getmtime(weight)
+    if _newest_mtime(ds_dir or os.path.join(TRAIN_HOME, "dataset", name)) > w_m:
+        return False, "数据集比权重新"
+    bat = os.path.join(MUSUBI, "train_%s.bat" % name)
+    if os.path.exists(bat) and os.path.getmtime(bat) > w_m:
+        return False, "训练配方 bat 比权重新"
+    logp = os.path.join(TRAIN_HOME, "logs", name, "train.log")
+    if not os.path.exists(logp):
+        return False, "无训练日志"
+    done = False
+    with open(logp, "r", encoding="utf-8", errors="replace") as f:
+        for line in f:
+            if "TRAIN EXITCODE 0 " in line:
+                done = True
+    if not done:
+        return False, "日志里没有一次 rc=0"
+    return True, "权重 %s" % time.strftime("%Y-%m-%d %H:%M", time.localtime(w_m))
+
+
 def cmd_train(a):
     toml = os.path.join(MUSUBI, "dataset_%s.toml" % a.name)
     if not os.path.exists(toml):
         raise SystemExit("BLOCKED: 先跑 build")
+    if not getattr(a, "force", False):
+        skip, why = _already_trained(a.name, a.dir if hasattr(a, "dir") else None)
+        if skip:
+            log("SKIP %s 已训过且产物在盘（%s），不重复烧；要重训加 --force" % (a.name, why))
+            return 0
+        log("需要训练 %s（%s）" % (a.name, why))
     for p, label in ((RAW_DIT, "RAW 底模"), (VAE, "VAE")):
         if not os.path.exists(p):
             raise SystemExit("BLOCKED: 缺%s %s（RAW 24.5GB 需从 HF 重下）" % (label, p))
@@ -401,7 +449,9 @@ def main():
 
     t = sub.add_parser("train", help="缓存 + 训练")
     t.add_argument("--name", required=True)
+    t.add_argument("--dir", default=None, help="数据集目录（默认 dataset/<name>）")
     t.add_argument("--skip-cache", action="store_true")
+    t.add_argument("--force", action="store_true", help="已有权重也重训")
     t.set_defaults(func=cmd_train)
 
     g = sub.add_parser("gate", help="身份一致性验收")

@@ -1,0 +1,18 @@
+[
+ {
+  "id": "rooms",
+  "model": "qwen3.5:4b",
+  "chars": 1903,
+  "tok_s": 122.3,
+  "elapsed_s": 35.3,
+  "out": "cph4\\fleet\\game-v2\\projects\\fold-001\\local\\rooms-4b.json"
+ },
+ {
+  "id": "review",
+  "model": "qwen3.5:9b",
+  "chars": 0,
+  "tok_s": 74.6,
+  "elapsed_s": 65.0,
+  "out": "cph4\\fleet\\game-v2\\projects\\fold-001\\local\\review-9b.md"
+ }
+]

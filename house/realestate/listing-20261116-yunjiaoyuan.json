@@ -1,0 +1,38 @@
+{
+  "version": "v1.0-20261116",
+  "listing": {
+    "name": "尹山湖韵佳苑 · 3室2厅 · 135.15㎡ · 南 · 14/28层 · 简装",
+    "total": 1720000,
+    "area": 135.15,
+    "psm": 12727,
+    "community_low": 15951,
+    "community_mid": 17359,
+    "community_high": 18367,
+    "community_deal_low": 12953,
+    "community_deal_high": 16438,
+    "district_mid": 16900,
+    "rent_whole": 4600,
+    "vac_days": 30,
+    "opex": 400,
+    "rent_growth": 0.02,
+    "rate": 0.03,
+    "years_loan": 30,
+    "buy_tax": 0.025,
+    "sell_tax": 0.025,
+    "build_year": 2016
+  },
+  "breakeven": {
+    "5": {
+      "irr0": 0.006357496002499574,
+      "irr5": 0.01743700095799039
+    },
+    "10": {
+      "irr0": -0.0019049860920816175,
+      "irr5": 0.012573329891113816
+    },
+    "15": {
+      "irr0": -0.00745635358291824,
+      "irr5": 0.011134597014309189
+    }
+  }
+}

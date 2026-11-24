@@ -1,6 +1,6 @@
 {
   "version": "AUTOPILOT-v1",
-  "updated": "2026-11-17",
+  "updated": "2026-11-18",
   "_comment": "养号全自动化的唯一开关文件（CEO 令 2026-11-17「全自动化 不管什么形式和方法」，见 docs/orders.md 同日条）。改这个文件=改生产行为，必须同时在 orders 留一行。",
   "tier": 3,
   "tier2_enabled": true,
@@ -12,9 +12,9 @@
   "kill_switch_note": "置 true 立即整体停发（只排队不发），用于异常时止血。",
   "daily_cap": {
     "douyin.comment": 10,
-    "douyin.dm": 10,
+    "douyin.dm": 0,
     "wechat_mp.comment": 10,
-    "wechat_mp.dm": 20,
+    "wechat_mp.dm": 0,
     "default": 5
   },
   "cooldown_minutes": 30,

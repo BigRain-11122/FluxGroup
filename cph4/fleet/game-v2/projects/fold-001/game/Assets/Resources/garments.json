@@ -1,0 +1,2496 @@
+{
+  "schema_version": 1,
+  "count": 100,
+  "garments": [
+    {
+      "id": "G001",
+      "name": "白T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        1
+      ],
+      "codex": "洗过一百次，领口照样挺。"
+    },
+    {
+      "id": "G002",
+      "name": "灰T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        1
+      ],
+      "codex": "最不出错的那件，配什么都行。"
+    },
+    {
+      "id": "G003",
+      "name": "条纹T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        2
+      ],
+      "codex": "横条要顺着折，不然歪一寸。"
+    },
+    {
+      "id": "G004",
+      "name": "印花T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        2
+      ],
+      "codex": "图案朝上，收起来还看得见。"
+    },
+    {
+      "id": "G005",
+      "name": "长袖T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        2
+      ],
+      "codex": "袖子要先内收，才折得出直角。"
+    },
+    {
+      "id": "G006",
+      "name": "高领T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        22
+      ],
+      "codex": "领口卷一圈，格子才放得平。"
+    },
+    {
+      "id": "G007",
+      "name": "OVERSIZE",
+      "category": "T恤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        2
+      ],
+      "codex": "下摆宽得能盖住两条裤子。"
+    },
+    {
+      "id": "G008",
+      "name": "儿童T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        3
+      ],
+      "codex": "袖口只有大人的三指宽。"
+    },
+    {
+      "id": "G009",
+      "name": "速干T",
+      "category": "T恤",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        9
+      ],
+      "codex": "卷得紧一点，箱角正好塞进去。"
+    },
+    {
+      "id": "G010",
+      "name": "运动背心",
+      "category": "T恤",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "混纺",
+      "room_ids": [
+        1
+      ],
+      "codex": "两片布，一折就成一条。"
+    },
+    {
+      "id": "G011",
+      "name": "家居T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        1
+      ],
+      "codex": "领口松了，穿着最舒服。"
+    },
+    {
+      "id": "G012",
+      "name": "起球旧T",
+      "category": "T恤",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.33,
+          "dir": "left"
+        },
+        {
+          "axis": "y",
+          "at": 0.66,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        24
+      ],
+      "codex": "起球的地方朝里，别蹭到别的。"
+    },
+    {
+      "id": "G013",
+      "name": "白衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        5
+      ],
+      "codex": "袖口对齐，肩线才不歪。"
+    },
+    {
+      "id": "G014",
+      "name": "蓝条纹",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        5
+      ],
+      "codex": "条纹对不齐，一眼就看出来。"
+    },
+    {
+      "id": "G015",
+      "name": "牛津纺",
+      "category": "衬衫",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        12
+      ],
+      "codex": "厚得能立住，三折才有型。"
+    },
+    {
+      "id": "G016",
+      "name": "法兰绒",
+      "category": "衬衫",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        23
+      ],
+      "codex": "绒面朝里，免得粘毛。"
+    },
+    {
+      "id": "G017",
+      "name": "短袖衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "麻",
+      "room_ids": [
+        5
+      ],
+      "codex": "袖子折两下，刚好齐边。"
+    },
+    {
+      "id": "G018",
+      "name": "真丝衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 4,
+      "material": "丝",
+      "room_ids": [
+        16
+      ],
+      "codex": "先垫衬纸，指腹才不会勾线。"
+    },
+    {
+      "id": "G019",
+      "name": "亚麻衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "麻",
+      "room_ids": [
+        7
+      ],
+      "codex": "皱是它的样子，不用烫平。"
+    },
+    {
+      "id": "G020",
+      "name": "儿童衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        3
+      ],
+      "codex": "小得一只手就能捏住。"
+    },
+    {
+      "id": "G021",
+      "name": "工装衬衫",
+      "category": "衬衫",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        9
+      ],
+      "codex": "口袋厚，折线要绕过去。"
+    },
+    {
+      "id": "G022",
+      "name": "立领衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        7
+      ],
+      "codex": "领子立着，折前先压平肩缝。"
+    },
+    {
+      "id": "G023",
+      "name": "花衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        10
+      ],
+      "codex": "花要朝外，收着也像在度假。"
+    },
+    {
+      "id": "G024",
+      "name": "免烫衬衫",
+      "category": "衬衫",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "混纺",
+      "room_ids": [
+        10
+      ],
+      "codex": "抖两下就平，省一道工序。"
+    },
+    {
+      "id": "G025",
+      "name": "牛仔裤",
+      "category": "裤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        19
+      ],
+      "codex": "裤缝对齐，立起来不倒。"
+    },
+    {
+      "id": "G026",
+      "name": "西裤",
+      "category": "裤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        12
+      ],
+      "codex": "中线要顺，压出一道直线。"
+    },
+    {
+      "id": "G027",
+      "name": "休闲裤",
+      "category": "裤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        19
+      ],
+      "codex": "裤腿交叉叠，省下半格。"
+    },
+    {
+      "id": "G028",
+      "name": "运动裤",
+      "category": "裤",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        11
+      ],
+      "codex": "抽绳先塞进去，卷起来才圆。"
+    },
+    {
+      "id": "G029",
+      "name": "短裤",
+      "category": "裤",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        8
+      ],
+      "codex": "对折两次，正好一格宽。"
+    },
+    {
+      "id": "G030",
+      "name": "打底裤",
+      "category": "裤",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        11
+      ],
+      "codex": "薄得像袜子，卷三圈就完。"
+    },
+    {
+      "id": "G031",
+      "name": "儿童裤",
+      "category": "裤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        3
+      ],
+      "codex": "裤腰有松紧，别折出硬边。"
+    },
+    {
+      "id": "G032",
+      "name": "工装裤",
+      "category": "裤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "棉",
+      "room_ids": [
+        9
+      ],
+      "codex": "侧袋鼓，折线要避开它。"
+    },
+    {
+      "id": "G033",
+      "name": "睡裤",
+      "category": "裤",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        6
+      ],
+      "codex": "软塌塌的，怎么折都不难看。"
+    },
+    {
+      "id": "G034",
+      "name": "阔腿裤",
+      "category": "裤",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "麻",
+      "room_ids": [
+        19
+      ],
+      "codex": "裤脚宽，得卷成粗粗一卷。"
+    },
+    {
+      "id": "G035",
+      "name": "五分裤",
+      "category": "裤",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        10
+      ],
+      "codex": "短得不用三折。"
+    },
+    {
+      "id": "G036",
+      "name": "灯芯绒裤",
+      "category": "裤",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        19
+      ],
+      "codex": "绒条顺一个方向，别反着压。"
+    },
+    {
+      "id": "G037",
+      "name": "半身裙",
+      "category": "裙",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        17
+      ],
+      "codex": "裙腰夹住，下摆自然垂。"
+    },
+    {
+      "id": "G038",
+      "name": "连衣裙",
+      "category": "裙",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.82,
+          "dir": "up"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "混纺",
+      "room_ids": [
+        17
+      ],
+      "codex": "一件占两个挂位，得先让位。"
+    },
+    {
+      "id": "G039",
+      "name": "百褶裙",
+      "category": "裙",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        21
+      ],
+      "codex": "褶要顺着原线，折反就散了。"
+    },
+    {
+      "id": "G040",
+      "name": "牛仔裙",
+      "category": "裙",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        22
+      ],
+      "codex": "厚裙摆折两下才服帖。"
+    },
+    {
+      "id": "G041",
+      "name": "纱裙",
+      "category": "裙",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "丝",
+      "room_ids": [
+        16
+      ],
+      "codex": "裹上衬纸再卷，纱不勾丝。"
+    },
+    {
+      "id": "G042",
+      "name": "儿童裙",
+      "category": "裙",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        4
+      ],
+      "codex": "裙摆一圈小花，折好还在。"
+    },
+    {
+      "id": "G043",
+      "name": "吊带裙",
+      "category": "裙",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 4,
+      "material": "丝",
+      "room_ids": [
+        17
+      ],
+      "codex": "细肩带绕一圈，免得滑落。"
+    },
+    {
+      "id": "G044",
+      "name": "长裙",
+      "category": "裙",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.82,
+          "dir": "up"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "混纺",
+      "room_ids": [
+        16
+      ],
+      "codex": "下摆折一节，才不拖到柜底。"
+    },
+    {
+      "id": "G045",
+      "name": "针织裙",
+      "category": "裙",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "羊毛",
+      "room_ids": [
+        17
+      ],
+      "codex": "针织会垂，折完放平再收。"
+    },
+    {
+      "id": "G046",
+      "name": "睡裙",
+      "category": "裙",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        6
+      ],
+      "codex": "一折就完，明天还要穿。"
+    },
+    {
+      "id": "G047",
+      "name": "围裙",
+      "category": "裙",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "麻",
+      "room_ids": [
+        23
+      ],
+      "codex": "带子绕好，挂起来不缠。"
+    },
+    {
+      "id": "G048",
+      "name": "圆领毛衣",
+      "category": "毛衣",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "羊毛",
+      "room_ids": [
+        21
+      ],
+      "codex": "袖子搭在胸前，再三折。"
+    },
+    {
+      "id": "G049",
+      "name": "高领毛衣",
+      "category": "毛衣",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "羊毛",
+      "room_ids": [
+        22
+      ],
+      "codex": "领子先翻进去，不然鼓一包。"
+    },
+    {
+      "id": "G050",
+      "name": "开衫",
+      "category": "毛衣",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.62,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "羊毛",
+      "room_ids": [
+        20
+      ],
+      "codex": "扣好再折，门襟才不会错位。"
+    },
+    {
+      "id": "G051",
+      "name": "羊绒衫",
+      "category": "毛衣",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "绒",
+      "room_ids": [
+        23
+      ],
+      "codex": "垫纸、轻压，别搓出球。"
+    },
+    {
+      "id": "G052",
+      "name": "儿童毛衣",
+      "category": "毛衣",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "混纺",
+      "room_ids": [
+        4
+      ],
+      "codex": "小袖子并到背后，一折就成。"
+    },
+    {
+      "id": "G053",
+      "name": "毛背心",
+      "category": "毛衣",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "羊毛",
+      "room_ids": [
+        20
+      ],
+      "codex": "没有袖子，折起来最快。"
+    },
+    {
+      "id": "G054",
+      "name": "粗针毛衣",
+      "category": "毛衣",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "羊毛",
+      "room_ids": [
+        18
+      ],
+      "codex": "厚得压不住，得排气两秒。"
+    },
+    {
+      "id": "G055",
+      "name": "卫衣",
+      "category": "毛衣",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        8
+      ],
+      "codex": "帽子翻到背后，省一层。"
+    },
+    {
+      "id": "G056",
+      "name": "厚帽衫",
+      "category": "毛衣",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "棉",
+      "room_ids": [
+        18
+      ],
+      "codex": "帽子占位，折线要往里让。"
+    },
+    {
+      "id": "G057",
+      "name": "针织开衫",
+      "category": "毛衣",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.62,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        21
+      ],
+      "codex": "软，折完自己会塌下来。"
+    },
+    {
+      "id": "G058",
+      "name": "风衣",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.82,
+          "dir": "up"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        25
+      ],
+      "codex": "腰带系在衣架上，不占地。"
+    },
+    {
+      "id": "G059",
+      "name": "大衣",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.82,
+          "dir": "up"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "羊毛",
+      "room_ids": [
+        18
+      ],
+      "codex": "最长的一件，下摆折一节。"
+    },
+    {
+      "id": "G060",
+      "name": "羽绒服",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.82,
+          "dir": "up"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "绒",
+      "room_ids": [
+        18
+      ],
+      "codex": "压扁了会回弹，挂比折好。"
+    },
+    {
+      "id": "G061",
+      "name": "夹克",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        22
+      ],
+      "codex": "肩线卡住衣架，袖子垂下。"
+    },
+    {
+      "id": "G062",
+      "name": "西装外套",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.82,
+          "dir": "up"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "羊毛",
+      "room_ids": [
+        25
+      ],
+      "codex": "两肩同高，垫布再挂。"
+    },
+    {
+      "id": "G063",
+      "name": "儿童外套",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "混纺",
+      "room_ids": [
+        4
+      ],
+      "codex": "小小一件，挂位还有空。"
+    },
+    {
+      "id": "G064",
+      "name": "雨衣",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        13
+      ],
+      "codex": "水珠抖掉再挂，免得潮。"
+    },
+    {
+      "id": "G065",
+      "name": "冲锋衣",
+      "category": "外套",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 4,
+      "material": "混纺",
+      "room_ids": [
+        13
+      ],
+      "codex": "硬的，折下去自己会弹回。"
+    },
+    {
+      "id": "G066",
+      "name": "皮衣",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 5,
+      "material": "混纺",
+      "room_ids": [
+        25
+      ],
+      "codex": "只能挂，折了留印子。"
+    },
+    {
+      "id": "G067",
+      "name": "外套马甲",
+      "category": "外套",
+      "fold_family": "挂",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.88,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        25
+      ],
+      "codex": "无袖，肩线最好对。"
+    },
+    {
+      "id": "G068",
+      "name": "浴巾",
+      "category": "毛巾",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        14
+      ],
+      "codex": "长边对长边，落在同一格。"
+    },
+    {
+      "id": "G069",
+      "name": "面巾",
+      "category": "毛巾",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        14
+      ],
+      "codex": "三折成一叠，边口朝里。"
+    },
+    {
+      "id": "G070",
+      "name": "手巾",
+      "category": "毛巾",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        7
+      ],
+      "codex": "卷成小筒，塞在缝里。"
+    },
+    {
+      "id": "G071",
+      "name": "方巾",
+      "category": "毛巾",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        7
+      ],
+      "codex": "一方布，对折就是两块。"
+    },
+    {
+      "id": "G072",
+      "name": "儿童浴巾",
+      "category": "毛巾",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        24
+      ],
+      "codex": "带帽的那种，帽子折在里头。"
+    },
+    {
+      "id": "G073",
+      "name": "运动毛巾",
+      "category": "毛巾",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "混纺",
+      "room_ids": [
+        11
+      ],
+      "codex": "吸汗的那面朝外，好干。"
+    },
+    {
+      "id": "G074",
+      "name": "厨房巾",
+      "category": "毛巾",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "麻",
+      "room_ids": [
+        24
+      ],
+      "codex": "油点洗不掉，留着擦灶台。"
+    },
+    {
+      "id": "G075",
+      "name": "沙滩巾",
+      "category": "毛巾",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        13
+      ],
+      "codex": "又长又宽，卷成一大筒。"
+    },
+    {
+      "id": "G076",
+      "name": "旧毛巾",
+      "category": "毛巾",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        14
+      ],
+      "codex": "边都磨软了，还是舍不得扔。"
+    },
+    {
+      "id": "G077",
+      "name": "压缩毛巾",
+      "category": "毛巾",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        12
+      ],
+      "codex": "压成硬币大，遇水才张开。"
+    },
+    {
+      "id": "G078",
+      "name": "双条浴巾组",
+      "category": "毛巾",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        14
+      ],
+      "codex": "两条一起折，厚度翻倍。"
+    },
+    {
+      "id": "G079",
+      "name": "短袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        12
+      ],
+      "codex": "两只叠一起，卷成一团。"
+    },
+    {
+      "id": "G080",
+      "name": "中筒袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        10
+      ],
+      "codex": "袜口翻下来，卷得才紧。"
+    },
+    {
+      "id": "G081",
+      "name": "长袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "混纺",
+      "room_ids": [
+        11
+      ],
+      "codex": "长，要多绕两圈才收得住。"
+    },
+    {
+      "id": "G082",
+      "name": "船袜",
+      "category": "袜子",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        8
+      ],
+      "codex": "小得像块布头，四双一格。"
+    },
+    {
+      "id": "G083",
+      "name": "丝袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 4,
+      "material": "丝",
+      "room_ids": [
+        16
+      ],
+      "codex": "先裹纸，指甲一勾就废。"
+    },
+    {
+      "id": "G084",
+      "name": "儿童袜",
+      "category": "袜子",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        4
+      ],
+      "codex": "一只手掌能攥住两双。"
+    },
+    {
+      "id": "G085",
+      "name": "运动袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        8
+      ],
+      "codex": "厚的，卷完立得起来。"
+    },
+    {
+      "id": "G086",
+      "name": "羊毛袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "羊毛",
+      "room_ids": [
+        20
+      ],
+      "codex": "绒厚，卷完还得压一下。"
+    },
+    {
+      "id": "G087",
+      "name": "连裤袜",
+      "category": "袜子",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        },
+        {
+          "axis": "x",
+          "at": 0.78,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "丝",
+      "room_ids": [
+        23
+      ],
+      "codex": "腿长一米，卷成拳头大。"
+    },
+    {
+      "id": "G088",
+      "name": "居家袜",
+      "category": "袜子",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "绒",
+      "room_ids": [
+        20
+      ],
+      "codex": "绒面朝里，脚底才不沾灰。"
+    },
+    {
+      "id": "G089",
+      "name": "单只袜",
+      "category": "袜子",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "right"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        9
+      ],
+      "codex": "找不着另一只，先收着。"
+    },
+    {
+      "id": "G090",
+      "name": "床单",
+      "category": "床品",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.6,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        15
+      ],
+      "codex": "四角对齐，折成一块方板。"
+    },
+    {
+      "id": "G091",
+      "name": "被套",
+      "category": "床品",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.6,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "棉",
+      "room_ids": [
+        15
+      ],
+      "codex": "大得摊满一地，两个人折。"
+    },
+    {
+      "id": "G092",
+      "name": "枕套",
+      "category": "床品",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.7,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 2,
+      "material": "棉",
+      "room_ids": [
+        6
+      ],
+      "codex": "套口朝里，别露出来。"
+    },
+    {
+      "id": "G093",
+      "name": "枕巾",
+      "category": "床品",
+      "fold_family": "对折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "up"
+        }
+      ],
+      "slots": 1,
+      "difficulty": 1,
+      "material": "棉",
+      "room_ids": [
+        6
+      ],
+      "codex": "薄薄一条，压在最上面。"
+    },
+    {
+      "id": "G094",
+      "name": "薄被",
+      "category": "床品",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        21
+      ],
+      "codex": "卷紧才不散，用带子捆住。"
+    },
+    {
+      "id": "G095",
+      "name": "夏凉被",
+      "category": "床品",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.6,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 5,
+      "material": "混纺",
+      "room_ids": [
+        15
+      ],
+      "codex": "滑，立起来会自己往下溜。"
+    },
+    {
+      "id": "G096",
+      "name": "毛毯",
+      "category": "床品",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "绒",
+      "room_ids": [
+        13
+      ],
+      "codex": "毛边卷在里头，不扎手。"
+    },
+    {
+      "id": "G097",
+      "name": "儿童被",
+      "category": "床品",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "棉",
+      "room_ids": [
+        3
+      ],
+      "codex": "小被子，卷完像只枕头。"
+    },
+    {
+      "id": "G098",
+      "name": "床裙",
+      "category": "床品",
+      "fold_family": "三折",
+      "folds": [
+        {
+          "axis": "x",
+          "at": 0.66,
+          "dir": "up"
+        },
+        {
+          "axis": "x",
+          "at": 0.5,
+          "dir": "down"
+        },
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "麻",
+      "room_ids": [
+        5
+      ],
+      "codex": "裙边一圈，折时别压出死褶。"
+    },
+    {
+      "id": "G099",
+      "name": "沙发毯",
+      "category": "床品",
+      "fold_family": "卷",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.45,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.72,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 3,
+      "material": "绒",
+      "room_ids": [
+        24
+      ],
+      "codex": "沙发上那条，卷好放回筐。"
+    },
+    {
+      "id": "G100",
+      "name": "被子收纳袋",
+      "category": "床品",
+      "fold_family": "立式",
+      "folds": [
+        {
+          "axis": "y",
+          "at": 0.5,
+          "dir": "left"
+        },
+        {
+          "axis": "x",
+          "at": 0.6,
+          "dir": "up"
+        }
+      ],
+      "slots": 2,
+      "difficulty": 2,
+      "material": "混纺",
+      "room_ids": [
+        15
+      ],
+      "codex": "塞满就立不住，留一格余量。"
+    }
+  ]
+}

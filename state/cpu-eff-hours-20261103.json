@@ -1,0 +1,1157 @@
+{
+ "tool": "cpu_effective_hours",
+ "generated_at": "2026-11-03T00:17:08",
+ "root": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
+ "host": "bm-a",
+ "generated_ts_utc_offset": null,
+ "window_days": 7,
+ "node_filter": null,
+ "verdict": "ATTENTION",
+ "totals": {
+  "receipts_scanned": 130,
+  "counted": 33,
+  "net_seconds": 532.6,
+  "net_hours": 0.148
+ },
+ "buckets": {
+  "verified": 33,
+  "remote_unverif": 58,
+  "missing_local": 5,
+  "rc_fail": 26,
+  "replay": 0,
+  "copy": 6,
+  "zero_seconds": 8,
+  "unparsed": 50
+ },
+ "per_node": {
+  "bm-a": {
+   "count": 31,
+   "seconds": 532.2
+  },
+  "bm-m": {
+   "count": 1,
+   "seconds": 0.3
+  },
+  "bm-c": {
+   "count": 1,
+   "seconds": 0.1
+  }
+ },
+ "rows": [
+  {
+   "id": "C-FIN-EQUITY-ALPHA",
+   "node": "bm-a",
+   "ts": "2026-11-02 18:56:33",
+   "seconds": 116.3,
+   "hours": 0.0323,
+   "deliverable": "quant/bigmoney/results/etf_equity_alpha.json",
+   "sha": "c7ac03dedf5cf021:5269",
+   "receipt": "C-FIN-EQUITY-ALPHA-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "C-MV-TRANSITION-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 19:45:04",
+   "seconds": 33.0,
+   "hours": 0.0092,
+   "deliverable": "cph4/fleet/queue-receipts/mv-transition.json",
+   "sha": "35796b5eeab60fe1:28697",
+   "receipt": "C-MV-TRANSITION-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "C-MV-TRANSITION",
+   "node": "bm-a",
+   "ts": "2026-11-02 13:50:13",
+   "seconds": 40.5,
+   "hours": 0.0112,
+   "deliverable": "cph4/fleet/queue-receipts/mv-transition.log",
+   "sha": "d9fd61c17a556ee0:7749",
+   "receipt": "C-MV-TRANSITION-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "C-VB-DISCOVER-V02-20261102",
+   "node": "bm-m",
+   "ts": "2026-11-02 19:30:25",
+   "seconds": 0.3,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
+   "sha": "ba9ba0aa90c37eea:321",
+   "receipt": "C-VB-DISCOVER-V02-20261102-bm-m.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "MV-DIRECTOR-PACKET",
+   "node": "bm-a",
+   "ts": "2026-11-02 14:04:36",
+   "seconds": 0.2,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261102.md",
+   "sha": "abe0e3c5b6be2608:1212",
+   "receipt": "MV-DIRECTOR-PACKET-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "MV-NEWPROC-PACKET",
+   "node": "bm-a",
+   "ts": "2026-11-01 22:59:31",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-mv-20261101.md",
+   "sha": "8267626dcec16894:1145",
+   "receipt": "MV-NEWPROC-PACKET-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-ALIGN-20261030-BMA",
+   "node": "bm-a",
+   "ts": "2026-10-30 13:25:17",
+   "seconds": 12.6,
+   "hours": 0.0035,
+   "deliverable": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-a.json",
+   "sha": "45cf984ccfd5addd:1423",
+   "receipt": "Q-ALIGN-20261030-BMA-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-TRIAGE-BIGMONEY-20261101",
+   "node": "bm-a",
+   "ts": "2026-11-02 07:29:30",
+   "seconds": 0.7,
+   "hours": 0.0002,
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261101.md",
+   "sha": "e3cb42c1507ccc94:517",
+   "receipt": "Q-TRIAGE-BIGMONEY-20261101-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-TRIAGE-CARGAMING-20261101",
+   "node": "bm-a",
+   "ts": "2026-11-01 00:24:23",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/queue-receipts/triage-car-gaming-20261101.md",
+   "sha": "54d178850ad0ad31:416",
+   "receipt": "Q-TRIAGE-CARGAMING-20261101-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-TRIAGE-CARGAMING-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 10:34:32",
+   "seconds": 0.3,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/triage-car-gaming-20261102.md",
+   "sha": "e62e5bd77cb7d1b6:685",
+   "receipt": "Q-TRIAGE-CARGAMING-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-TRIAGE-FLUXVERSE-20261101",
+   "node": "bm-a",
+   "ts": "2026-11-01 00:19:25",
+   "seconds": 3.0,
+   "hours": 0.0008,
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261101.md",
+   "sha": "531bca936f901b9b:517",
+   "receipt": "Q-TRIAGE-FLUXVERSE-20261101-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-TRIAGE-RECON-20261101",
+   "node": "bm-a",
+   "ts": "2026-11-01 00:29:23",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261101.md",
+   "sha": "047d523539f9346c:416",
+   "receipt": "Q-TRIAGE-RECON-20261101-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "Q-TRIAGE-RECON-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 10:44:32",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261102.md",
+   "sha": "c04af63438c5e940:691",
+   "receipt": "Q-TRIAGE-RECON-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-LLM-BMA-PROBE",
+   "node": "bm-a",
+   "ts": "2026-10-30 23:55:10",
+   "seconds": 5.8,
+   "hours": 0.0016,
+   "deliverable": "C:/Users/sjs20/Desktop/FluxGroup/cph4/fleet/queue-receipts/bm-a-local-llm-probe.md",
+   "sha": "f5eb32f0f40ac15d:333",
+   "receipt": "R-LLM-BMA-PROBE-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-MV-AUDIT-R2-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 13:20:00",
+   "seconds": 27.6,
+   "hours": 0.0077,
+   "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-r2-20261102.json",
+   "sha": "97b1d22a6d56b1a7:23668",
+   "receipt": "R-MV-AUDIT-R2-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-MV-GATE-R2-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 13:10:37",
+   "seconds": 66.2,
+   "hours": 0.0184,
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-r2-20261102.json",
+   "sha": "c22c2699dffec842:355",
+   "receipt": "R-MV-GATE-R2-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-MV-STAB-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 15:15:02",
+   "seconds": 30.5,
+   "hours": 0.0085,
+   "deliverable": "cph4/fleet/queue-receipts/mv-stab-20261102.json",
+   "sha": "20797a06bfdc516e:84",
+   "receipt": "R-MV-STAB-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-MV-TRANS-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 15:20:01",
+   "seconds": 30.1,
+   "hours": 0.0084,
+   "deliverable": "cph4/fleet/queue-receipts/mv-trans-20261102.json",
+   "sha": "5bee0813fe11c093:28702",
+   "receipt": "R-MV-TRANS-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-MV-V718-REBUILD",
+   "node": "bm-a",
+   "ts": "2026-10-29 10:06:19",
+   "seconds": 74.6,
+   "hours": 0.0207,
+   "deliverable": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v718.mp4",
+   "sha": "79ed8614fdf76dcb:659718890",
+   "receipt": "R-MV-V718-REBUILD-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMM-AUDIT-20261101",
+   "node": "bm-a",
+   "ts": "2026-11-01 23:20:00",
+   "seconds": 29.0,
+   "hours": 0.0081,
+   "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-20261101.json",
+   "sha": "62c8eedc7516c92c:24045",
+   "receipt": "R-NEXT-BIGSTREAMM-AUDIT-20261101-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-PLAN-BIGCOMPUTE-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 02:14:30",
+   "seconds": 0.2,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-20261102.md",
+   "sha": "94b5d05a74f1c089:324",
+   "receipt": "R-PLAN-BIGCOMPUTE-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-PLAN-BIGGAME-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 03:39:32",
+   "seconds": 0.4,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/triage-biggame-20261102.md",
+   "sha": "65e66a323a99f763:618",
+   "receipt": "R-PLAN-BIGGAME-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-PLAN-BIGLIFE-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 07:24:30",
+   "seconds": 0.6,
+   "hours": 0.0002,
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261102.md",
+   "sha": "f2f4b4ad4b5e75a9:443",
+   "receipt": "R-PLAN-BIGLIFE-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-PLAN-BIGMONEY-20261103",
+   "node": "bm-a",
+   "ts": "2026-11-03 00:14:37",
+   "seconds": 4.0,
+   "hours": 0.0011,
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigmoney-20261103.md",
+   "sha": "4b0af29d4f8344bc:668",
+   "receipt": "R-PLAN-BIGMONEY-20261103-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-PLAN-BIGSTREAMMV-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 10:39:31",
+   "seconds": 0.2,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261102.md",
+   "sha": "0f4ab0237ecf4d28:999",
+   "receipt": "R-PLAN-BIGSTREAMMV-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-PLAN-FLUXVERSE-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 10:24:35",
+   "seconds": 3.1,
+   "hours": 0.0009,
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261102.md",
+   "sha": "18cfb8be0a5c3b6a:538",
+   "receipt": "R-PLAN-FLUXVERSE-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-QUANT-ETF-DAILY-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 17:00:26",
+   "seconds": 52.1,
+   "hours": 0.0145,
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json",
+   "sha": "64b62465eaacf5fe:4337",
+   "receipt": "R-QUANT-ETF-DAILY-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 20:14:30",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md",
+   "sha": "ba5f2a3ab3a7539d:876",
+   "receipt": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "node": "bm-c",
+   "ts": "2026-11-02 23:09:41",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md",
+   "sha": "ba5f2a3ab3a7539d:876",
+   "receipt": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102-bm-c.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "R-TRIAGE-FLEETOPS-BMM-20261102",
+   "node": "bm-a",
+   "ts": "2026-11-02 18:14:33",
+   "seconds": 0.3,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/triage-fleet-ops-20261102.md",
+   "sha": "58572e1aec4ada90:402",
+   "receipt": "R-TRIAGE-FLEETOPS-BMM-20261102-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "RCANARY2-20261102T181500",
+   "node": "bm-a",
+   "ts": "2026-11-02 19:49:32",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/state/canary/REMOTE2-20261102T181500.txt",
+   "sha": "1e1d6be00f193d91:31",
+   "receipt": "RCANARY2-20261102T181500-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "RCANARY3-20261102T182704",
+   "node": "bm-a",
+   "ts": "2026-11-02 18:29:33",
+   "seconds": 0.1,
+   "hours": 0.0,
+   "deliverable": "cph4/fleet/state/canary/REMOTE3-20261102T182704.txt",
+   "sha": "9af470399c4dd68c:31",
+   "receipt": "RCANARY3-20261102T182704-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  },
+  {
+   "id": "RCANARY4-20261102T183254",
+   "node": "bm-a",
+   "ts": "2026-11-02 18:44:35",
+   "seconds": 0.2,
+   "hours": 0.0001,
+   "deliverable": "cph4/fleet/queue-receipts/RCANARY4-20261102T183254.txt",
+   "sha": "498a76ec9bc30ea6:60",
+   "receipt": "RCANARY4-20261102T183254-bm-a.json",
+   "schema": "lane",
+   "state": "VERIFIED"
+  }
+ ],
+ "copies": [
+  {
+   "id": "C-FIN-ETF-COMPOSITE-20261102",
+   "node": "bm-c",
+   "copy_of": "R-QUANT-ETF-DAILY-20261102",
+   "deliverable": "quant/bigmoney/results/etf_composite_pf.json"
+  },
+  {
+   "id": "MV-DIRECTOR-PACKET-20261102",
+   "node": "bm-m",
+   "copy_of": "MV-DIRECTOR-PACKET",
+   "deliverable": "cph4/fleet/queue-receipts/review-packet-kn-20261102.md"
+  },
+  {
+   "id": "Q-TRIAGE-FLUXVERSE-20261102",
+   "node": "bm-a",
+   "copy_of": "R-PLAN-FLUXVERSE-20261102",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261102.md"
+  },
+  {
+   "id": "R-MV-V718-STILL-5273",
+   "node": "bm-a",
+   "copy_of": "R-MV-GATE-R2-20261102",
+   "deliverable": "cph4/fleet/queue-receipts/mv-v718-still-5273.json"
+  },
+  {
+   "id": "R-MV-GATE-1D-20261102",
+   "node": "bm-a",
+   "copy_of": "R-MV-GATE-R2-20261102",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-latest.json"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMM-AUDIT-20261102",
+   "node": "bm-a",
+   "copy_of": "R-NEXT-BIGSTREAMM-AUDIT-20261101",
+   "deliverable": "cph4/fleet/queue-receipts/mv-full-audit-20261102.json"
+  }
+ ],
+ "skipped": [
+  {
+   "id": "C-MV-STABILITY",
+   "node": "bm-a",
+   "receipt": "C-MV-STABILITY-bm-a.json",
+   "reason": "rc-fail rc=9009",
+   "deliverable": "cph4/fleet/queue-receipts/mv-stability.json"
+  },
+  {
+   "id": "C-MV-STABILITY",
+   "node": "bm-m",
+   "receipt": "C-MV-STABILITY-bm-m.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/mv-stability.json"
+  },
+  {
+   "id": "C-TTS-QC-ALL",
+   "node": "bm-c",
+   "receipt": "C-TTS-QC-ALL-bm-c.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json"
+  },
+  {
+   "id": "C-TTS-QC-ALL",
+   "node": "bm-m",
+   "receipt": "C-TTS-QC-ALL-bm-m.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-all.json"
+  },
+  {
+   "id": "CANARY-20261102T180632",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T180632-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T180632.txt"
+  },
+  {
+   "id": "CANARY-20261102T180639",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T180639-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T180639.txt"
+  },
+  {
+   "id": "CANARY-20261102T180713",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T180713-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T180713.txt"
+  },
+  {
+   "id": "CANARY-20261102T180758",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T180758-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T180758.txt"
+  },
+  {
+   "id": "CANARY-20261102T180841",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T180841-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T180841.txt"
+  },
+  {
+   "id": "CANARY-20261102T180857",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T180857-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T180857.txt"
+  },
+  {
+   "id": "CANARY-20261102T181443",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T181443-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T181443.txt"
+  },
+  {
+   "id": "CANARY-20261102T192120",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T192120-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T192120.txt"
+  },
+  {
+   "id": "CANARY-20261102T192907",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T192907-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T192907.txt"
+  },
+  {
+   "id": "CANARY-20261102T192943",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T192943-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T192943.txt"
+  },
+  {
+   "id": "CANARY-20261102T194038",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T194038-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T194038.txt"
+  },
+  {
+   "id": "CANARY-20261102T194101",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T194101-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T194101.txt"
+  },
+  {
+   "id": "CANARY-20261102T194604",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T194604-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T194604.txt"
+  },
+  {
+   "id": "CANARY-20261102T195149",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T195149-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T195149.txt"
+  },
+  {
+   "id": "CANARY-20261102T195633",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T195633-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T195633.txt"
+  },
+  {
+   "id": "CANARY-20261102T200229",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T200229-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T200229.txt"
+  },
+  {
+   "id": "CANARY-20261102T200715",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T200715-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T200715.txt"
+  },
+  {
+   "id": "CANARY-20261102T205553",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T205553-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T205553.txt"
+  },
+  {
+   "id": "CANARY-20261102T210758",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T210758-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T210758.txt"
+  },
+  {
+   "id": "CANARY-20261102T211956",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T211956-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T211956.txt"
+  },
+  {
+   "id": "CANARY-20261102T213151",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T213151-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T213151.txt"
+  },
+  {
+   "id": "CANARY-20261102T214345",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T214345-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T214345.txt"
+  },
+  {
+   "id": "CANARY-20261102T215543",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T215543-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T215543.txt"
+  },
+  {
+   "id": "CANARY-20261102T220737",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T220737-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T220737.txt"
+  },
+  {
+   "id": "CANARY-20261102T221942",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T221942-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T221942.txt"
+  },
+  {
+   "id": "CANARY-20261102T223137",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T223137-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T223137.txt"
+  },
+  {
+   "id": "CANARY-20261102T224331",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T224331-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T224331.txt"
+  },
+  {
+   "id": "CANARY-20261102T225530",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T225530-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T225530.txt"
+  },
+  {
+   "id": "CANARY-20261102T231851",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T231851-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T231851.txt"
+  },
+  {
+   "id": "CANARY-20261102T233051",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T233051-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T233051.txt"
+  },
+  {
+   "id": "CANARY-20261102T234249",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T234249-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T234249.txt"
+  },
+  {
+   "id": "CANARY-20261102T235443",
+   "node": "bm-m",
+   "receipt": "CANARY-20261102T235443-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261102T235443.txt"
+  },
+  {
+   "id": "CANARY-20261103T000803",
+   "node": "bm-m",
+   "receipt": "CANARY-20261103T000803-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/RUN-20261103T000803.txt"
+  },
+  {
+   "id": "KN-FILM-GATE-LATEST-20261102",
+   "node": "bm-c",
+   "receipt": "KN-FILM-GATE-LATEST-20261102-bm-c.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": ""
+  },
+  {
+   "id": "LINE-TRIAGE-MV-20261102",
+   "node": "bm-m",
+   "receipt": "LINE-TRIAGE-MV-20261102-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": ""
+  },
+  {
+   "id": "LINE-TRIAGE-MV",
+   "node": "bm-c",
+   "receipt": "LINE-TRIAGE-MV-bm-c.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": ""
+  },
+  {
+   "id": "Q-SMOKE-LANE-001",
+   "node": "bm-a",
+   "receipt": "Q-SMOKE-LANE-001-bm-a.json",
+   "reason": "MISSING-LOCAL",
+   "deliverable": "D:\\FleetWorker\\review\\smoke_lane.txt"
+  },
+  {
+   "id": "Q-TEST-LOCALLLM",
+   "node": "bm-a",
+   "receipt": "Q-TEST-LOCALLLM-bm-a.json",
+   "reason": "MISSING-LOCAL",
+   "deliverable": "D:\\FleetWorker\\review\\local_llm_test.txt"
+  },
+  {
+   "id": "Q-TRIAGE-CARGAMING-20261031",
+   "node": "bm-a",
+   "receipt": "Q-TRIAGE-CARGAMING-20261031-bm-a.json",
+   "reason": "rc-fail rc=2",
+   "deliverable": "cph4/fleet/queue-receipts/triage-car-gaming-20261031.md"
+  },
+  {
+   "id": "Q-TRIAGE-FLUXVERSE-20261031",
+   "node": "bm-a",
+   "receipt": "Q-TRIAGE-FLUXVERSE-20261031-bm-a.json",
+   "reason": "rc-fail rc=2",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261031.md"
+  },
+  {
+   "id": "Q-TRIAGE-RECON-20261031",
+   "node": "bm-a",
+   "receipt": "Q-TRIAGE-RECON-20261031-bm-a.json",
+   "reason": "rc-fail rc=2",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261031.md"
+  },
+  {
+   "id": "Q-TRIAGE-RECON-20261102",
+   "node": "bm-m",
+   "receipt": "Q-TRIAGE-RECON-20261102-bm-m.json",
+   "reason": "rc-fail rc=127",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261102.md"
+  },
+  {
+   "id": "R-ART-PUSH-A-20261102",
+   "node": "bm-a",
+   "receipt": "R-ART-PUSH-A-20261102-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/artifacts/bm-a/MANIFEST.jsonl"
+  },
+  {
+   "id": "R-ART-PUSH-B-20261102",
+   "node": "bm-m",
+   "receipt": "R-ART-PUSH-B-20261102-bm-m.json",
+   "reason": "rc-fail rc=127",
+   "deliverable": "cph4/fleet/artifacts/bm-b/MANIFEST.jsonl"
+  },
+  {
+   "id": "R-ART-PUSH-C-20261102",
+   "node": "bm-m",
+   "receipt": "R-ART-PUSH-C-20261102-bm-m.json",
+   "reason": "rc-fail rc=127",
+   "deliverable": "cph4/fleet/artifacts/bm-c/MANIFEST.jsonl"
+  },
+  {
+   "id": "R-BIZ-20261029-001",
+   "node": "bm-m",
+   "receipt": "R-BIZ-20261029-001-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-ppl-notes.md"
+  },
+  {
+   "id": "R-BIZ-20261029-002",
+   "node": "bm-m",
+   "receipt": "R-BIZ-20261029-002-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-ppl-notes-v2.md"
+  },
+  {
+   "id": "R-BIZ-20261029-003",
+   "node": "bm-m",
+   "receipt": "R-BIZ-20261029-003-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-defect-review.md"
+  },
+  {
+   "id": "R-BIZ-20261029-004",
+   "node": "bm-m",
+   "receipt": "R-BIZ-20261029-004-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-dispatch-dx.md"
+  },
+  {
+   "id": "R-BIZ-20261029-005",
+   "node": "bm-m",
+   "receipt": "R-BIZ-20261029-005-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-output-brief.md"
+  },
+  {
+   "id": "R-CHECK-20261030",
+   "node": "bm-m",
+   "receipt": "R-CHECK-20261030-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-selfcheck-20261030.md"
+  },
+  {
+   "id": "R-DX-20261030-001",
+   "node": "bm-m",
+   "receipt": "R-DX-20261030-001-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-fleet-dx-round2.md"
+  },
+  {
+   "id": "R-INN-20261029-001",
+   "node": "bm-m",
+   "receipt": "R-INN-20261029-001-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-process-v3.md"
+  },
+  {
+   "id": "R-INN-20261029-002",
+   "node": "bm-m",
+   "receipt": "R-INN-20261029-002-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-wins-v2.md"
+  },
+  {
+   "id": "R-MV-GATE-1D",
+   "node": "bm-a",
+   "receipt": "R-MV-GATE-1D-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-latest.json"
+  },
+  {
+   "id": "R-MV-V718-AIGC",
+   "node": "bm-a",
+   "receipt": "R-MV-V718-AIGC-bm-a.json",
+   "reason": "MISSING-LOCAL",
+   "deliverable": "D:\\FleetWorker\\review\\v718_label\\full_mv_v718_aigc.mp4"
+  },
+  {
+   "id": "R-MV-V718-FIDELITY",
+   "node": "bm-a",
+   "receipt": "R-MV-V718-FIDELITY-bm-a.json",
+   "reason": "MISSING-LOCAL",
+   "deliverable": "D:\\FleetWorker\\review\\fidelity_v718.json"
+  },
+  {
+   "id": "R-MV-V718-GATE",
+   "node": "bm-a",
+   "receipt": "R-MV-V718-GATE-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "D:\\FleetWorker\\review\\delivery_gate_v718.json"
+  },
+  {
+   "id": "R-MV-V718-SHOTAUDIT",
+   "node": "bm-a",
+   "receipt": "R-MV-V718-SHOTAUDIT-bm-a.json",
+   "reason": "MISSING-LOCAL",
+   "deliverable": "D:\\FleetWorker\\review\\shot_audit_v718.json"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
+   "node": "bm-a",
+   "receipt": "R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-20261102.json"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
+   "node": "bm-c",
+   "receipt": "R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-c.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-20261102.json"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261102",
+   "node": "bm-m",
+   "receipt": "R-NEXT-BIGSTREAMD-TTS-QC-20261102-bm-m.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-20261102.json"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261101",
+   "node": "bm-a",
+   "receipt": "R-NEXT-BIGSTREAMM-GATE-20261101-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261101.json"
+  },
+  {
+   "id": "R-NEXT-BIGSTREAMM-GATE-20261102",
+   "node": "bm-a",
+   "receipt": "R-NEXT-BIGSTREAMM-GATE-20261102-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/mv-gate-20261102.json"
+  },
+  {
+   "id": "R-PLAN-BIGCOMPUTE-20261103",
+   "node": "bm-m",
+   "receipt": "R-PLAN-BIGCOMPUTE-20261103-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigcompute-20261103.md"
+  },
+  {
+   "id": "R-PLAN-BIGDOMAIN-20261102",
+   "node": "bm-m",
+   "receipt": "R-PLAN-BIGDOMAIN-20261102-bm-m.json",
+   "reason": "rc-fail rc=127",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261102.md"
+  },
+  {
+   "id": "R-PLAN-BIGLIFE-20261103",
+   "node": "bm-m",
+   "receipt": "R-PLAN-BIGLIFE-20261103-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-biglife-20261103.md"
+  },
+  {
+   "id": "R-PLAN-BIGSTREAMDRA-20261101",
+   "node": "bm-a",
+   "receipt": "R-PLAN-BIGSTREAMDRA-20261101-bm-a.json",
+   "reason": "rc-fail rc=2",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261101.md"
+  },
+  {
+   "id": "R-PLAN-BIGSTREAMDRA-20261102",
+   "node": "bm-m",
+   "receipt": "R-PLAN-BIGSTREAMDRA-20261102-bm-m.json",
+   "reason": "rc-fail rc=127",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md"
+  },
+  {
+   "id": "R-PLAN-BIGSTREAMMV-20261102",
+   "node": "bm-m",
+   "receipt": "R-PLAN-BIGSTREAMMV-20261102-bm-m.json",
+   "reason": "rc-fail rc=127",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261102.md"
+  },
+  {
+   "id": "R-PLAN-FLUXVERSE-20261103",
+   "node": "bm-m",
+   "receipt": "R-PLAN-FLUXVERSE-20261103-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-fluxverse-20261103.md"
+  },
+  {
+   "id": "R-PLAN-RECON-20261103",
+   "node": "bm-m",
+   "receipt": "R-PLAN-RECON-20261103-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-recon-20261103.md"
+  },
+  {
+   "id": "R-SUBCO-20261029-001",
+   "node": "bm-m",
+   "receipt": "R-SUBCO-20261029-001-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-subco-brief.md"
+  },
+  {
+   "id": "R-SUBCO-20261029-002",
+   "node": "bm-m",
+   "receipt": "R-SUBCO-20261029-002-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-stale-attribution.md"
+  },
+  {
+   "id": "R-SUBCO-20261029-003",
+   "node": "bm-m",
+   "receipt": "R-SUBCO-20261029-003-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-drama-unblock.md"
+  },
+  {
+   "id": "R-TEXT-20261029-001",
+   "node": "bm-m",
+   "receipt": "R-TEXT-20261029-001-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/bm-m-arch-summary.md"
+  },
+  {
+   "id": "R-TRIAGE-BIGDOMAIN-BMM-20261102",
+   "node": "bm-m",
+   "receipt": "R-TRIAGE-BIGDOMAIN-BMM-20261102-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261102.md"
+  },
+  {
+   "id": "R-TRIAGE-BIGHOUSE-BMM-20261102",
+   "node": "bm-m",
+   "receipt": "R-TRIAGE-BIGHOUSE-BMM-20261102-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bighouse-20261102.md"
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102",
+   "node": "bm-m",
+   "receipt": "R-TRIAGE-BIGSTREAMDRAMA-BMC-20261102-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-drama-20261102.md"
+  },
+  {
+   "id": "R-TRIAGE-BIGSTREAMMV-BMC-20261103",
+   "node": "bm-m",
+   "receipt": "R-TRIAGE-BIGSTREAMMV-BMC-20261103-bm-m.json",
+   "reason": "zero-seconds",
+   "deliverable": "cph4/fleet/queue-receipts/triage-bigstream-mv-20261103.md"
+  },
+  {
+   "id": "R-TTS-QC-R2-20261102",
+   "node": "bm-a",
+   "receipt": "R-TTS-QC-R2-20261102-bm-a.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-r2-20261102.json"
+  },
+  {
+   "id": "R-TTS-QC-R2-20261102",
+   "node": "bm-m",
+   "receipt": "R-TTS-QC-R2-20261102-bm-m.json",
+   "reason": "rc-fail rc=1",
+   "deliverable": "cph4/fleet/queue-receipts/tts-qc-r2-20261102.json"
+  },
+  {
+   "id": "RCANARY-20261102T181134",
+   "node": "bm-m",
+   "receipt": "RCANARY-20261102T181134-bm-m.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "cph4/fleet/state/canary/REMOTE-20261102T181134.txt"
+  },
+  {
+   "id": "R-PLAN-BIGMONEY-20261103",
+   "node": "llm",
+   "receipt": "_last_lane_bm-a.json",
+   "reason": "rc-fail rc=RESULT",
+   "deliverable": ""
+  },
+  {
+   "id": "car-gaming",
+   "node": "car-gaming",
+   "receipt": "biz-car-gaming-20261031.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261031.md"
+  },
+  {
+   "id": "car-gaming",
+   "node": "car-gaming",
+   "receipt": "biz-car-gaming-20261101.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261101.md"
+  },
+  {
+   "id": "car-gaming",
+   "node": "car-gaming",
+   "receipt": "biz-car-gaming-20261102.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261102.md"
+  },
+  {
+   "id": "car-gaming",
+   "node": "car-gaming",
+   "receipt": "biz-car-gaming-20261103.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-car-gaming-20261103.md"
+  },
+  {
+   "id": "mv-promo",
+   "node": "bigstream-mv",
+   "receipt": "biz-mv-promo-20261031.json",
+   "reason": "rc-fail rc=",
+   "deliverable": ""
+  },
+  {
+   "id": "mv-publish-checklist",
+   "node": "bigstream-mv",
+   "receipt": "biz-mv-publish-checklist-20261031.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261031.md"
+  },
+  {
+   "id": "mv-publish-checklist",
+   "node": "bigstream-mv",
+   "receipt": "biz-mv-publish-checklist-20261101.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261101.md"
+  },
+  {
+   "id": "mv-publish-checklist",
+   "node": "bigstream-mv",
+   "receipt": "biz-mv-publish-checklist-20261102.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261102.md"
+  },
+  {
+   "id": "mv-publish-checklist",
+   "node": "bigstream-mv",
+   "receipt": "biz-mv-publish-checklist-20261103.json",
+   "reason": "REMOTE-UNVERIF",
+   "deliverable": "/Users/junsheng.sun/FluxGroup/cph4/fleet/queue-receipts/biz-mv-publish-checklist-20261103.md"
+  }
+ ]
+}

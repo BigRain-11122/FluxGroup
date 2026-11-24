@@ -1,0 +1,211 @@
+{
+ "job": "R3",
+ "title": "同指标多值扫描：文档里的互斥数字",
+ "ran_at": "2026-11-20T22:36:06+08:00",
+ "result": {
+  "summary": {
+   "metrics_scanned": 5,
+   "metrics_with_multiple_values": 4
+  },
+  "conflicts": {
+   "款每年": {
+    "distinct": [
+     "4",
+     "6",
+     "8",
+     "9",
+     "10",
+     "12",
+     "15",
+     "20"
+    ],
+    "occurrences": 81,
+    "samples": [
+     {
+      "value": "9",
+      "file": "cph4\\fleet\\game-v2\\BALANCE-SHEET-v1.md",
+      "line": 9
+     },
+     {
+      "value": "9",
+      "file": "cph4\\fleet\\game-v2\\BALANCE-SHEET-v1.md",
+      "line": 32
+     },
+     {
+      "value": "8",
+      "file": "cph4\\fleet\\game-v2\\BALANCE-SHEET-v1.md",
+      "line": 33
+     },
+     {
+      "value": "4",
+      "file": "cph4\\fleet\\game-v2\\BALANCE-SHEET-v1.md",
+      "line": 34
+     },
+     {
+      "value": "12",
+      "file": "cph4\\fleet\\game-v2\\CONTRACT-REVIEW-v1.md",
+      "line": 10
+     },
+     {
+      "value": "12",
+      "file": "cph4\\fleet\\game-v2\\CONTRACT-REVIEW-v1.md",
+      "line": 12
+     },
+     {
+      "value": "12",
+      "file": "cph4\\fleet\\game-v2\\CONTRACT-REVIEW-v1.md",
+      "line": 13
+     },
+     {
+      "value": "12",
+      "file": "cph4\\fleet\\game-v2\\CONTRACT-REVIEW-v1.md",
+      "line": 16
+     }
+    ]
+   },
+   "每份净收入": {
+    "distinct": [
+     "30.80",
+     "32.52",
+     "35.20",
+     "39.60"
+    ],
+    "occurrences": 5,
+    "samples": [
+     {
+      "value": "32.52",
+      "file": "cph4\\fleet\\game-v2\\contracts\\_render\\CONSTITUTION.md",
+      "line": 21
+     },
+     {
+      "value": "32.52",
+      "file": "cph4\\fleet\\game-v2\\CURRENT-RULES-v1.md",
+      "line": 28
+     },
+     {
+      "value": "39.60",
+      "file": "cph4\\fleet\\game-v2\\market\\RISK-GAPS-20261120.md",
+      "line": 16
+     },
+     {
+      "value": "35.20",
+      "file": "cph4\\fleet\\game-v2\\market\\RISK-GAPS-20261120.md",
+      "line": 26
+     },
+     {
+      "value": "30.80",
+      "file": "cph4\\fleet\\game-v2\\market\\RISK-GAPS-20261120.md",
+      "line": 27
+     }
+    ]
+   },
+   "月净3万份数": {
+    "distinct": [
+     "388",
+     "420",
+     "440",
+     "648",
+     "758",
+     "923"
+    ],
+    "occurrences": 8,
+    "samples": [
+     {
+      "value": "923",
+      "file": "cph4\\fleet\\game-v2\\CURRENT-RULES-v1.md",
+      "line": 28
+     },
+     {
+      "value": "758",
+      "file": "cph4\\fleet\\game-v2\\market\\PESSIMISTIC-BASE-CASE-20261120.md",
+      "line": 35
+     },
+     {
+      "value": "440",
+      "file": "cph4\\fleet\\game-v2\\market\\PESSIMISTIC-BASE-CASE-20261120.md",
+      "line": 36
+     },
+     {
+      "value": "648",
+      "file": "cph4\\fleet\\game-v2\\market\\UNIT-ECONOMICS-20261120.md",
+      "line": 3
+     },
+     {
+      "value": "923",
+      "file": "cph4\\fleet\\game-v2\\market\\UNIT-ECONOMICS-20261120.md",
+      "line": 3
+     },
+     {
+      "value": "648",
+      "file": "cph4\\fleet\\game-v2\\market\\UNIT-ECONOMICS-20261120.md",
+      "line": 16
+     },
+     {
+      "value": "388",
+      "file": "cph4\\fleet\\game-v2\\market\\UNIT-ECONOMICS-20261120.md",
+      "line": 17
+     },
+     {
+      "value": "420",
+      "file": "cph4\\fleet\\game-v2\\market\\UNIT-ECONOMICS-20261120.md",
+      "line": 87
+     }
+    ]
+   },
+   "首通分钟": {
+    "distinct": [
+     "31",
+     "35",
+     "40",
+     "42",
+     "50",
+     "100",
+     "127"
+    ],
+    "occurrences": 24,
+    "samples": [
+     {
+      "value": "127",
+      "file": "cph4\\fleet\\game-v2\\GREENLIGHT-PANEL-v1.md",
+      "line": 26
+     },
+     {
+      "value": "127",
+      "file": "cph4\\fleet\\game-v2\\panels\\FOLD-001.md",
+      "line": 43
+     },
+     {
+      "value": "31",
+      "file": "cph4\\fleet\\game-v2\\projects\\fold-001\\DECISIONS.md",
+      "line": 15
+     },
+     {
+      "value": "127",
+      "file": "cph4\\fleet\\game-v2\\projects\\fold-001\\DECISIONS.md",
+      "line": 50
+     },
+     {
+      "value": "42",
+      "file": "cph4\\fleet\\game-v2\\projects\\fold-001\\DECISIONS.md",
+      "line": 97
+     },
+     {
+      "value": "127",
+      "file": "cph4\\fleet\\game-v2\\projects\\fold-001\\G-A-REVIEW.md",
+      "line": 13
+     },
+     {
+      "value": "100",
+      "file": "cph4\\fleet\\game-v2\\projects\\fold-001\\G-A-REVIEW.md",
+      "line": 53
+     },
+     {
+      "value": "127",
+      "file": "cph4\\fleet\\game-v2\\projects\\fold-001\\LOCAL-REVIEW-20261120.md",
+      "line": 13
+     }
+    ]
+   }
+  }
+ }
+}
