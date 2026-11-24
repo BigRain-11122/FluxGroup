@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-24T22:36:31",
+ "ts": "2026-11-24T22:41:31",
  "node": "bm-c",
- "state": "RUNNING",
- "note": "in-flight: drama",
- "gpu_util_pct": 9,
- "vram_used_mb": 7432,
+ "state": "IDLE",
+ "note": "idle: GPU queue full on self-drive line",
+ "gpu_util_pct": 10,
+ "vram_used_mb": 3491,
  "writer": "bmc_chain_publish"
 }
