@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-24T09:21:59",
+ "ts": "2026-11-24T09:31:59",
  "verdict": "RED",
  "paused": false,
  "gpu_util": 40,
@@ -32,14 +32,14 @@
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 15296,
+   "last_run_age_s": 15896,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 100,
+   "last_run_age_s": 160,
    "state": "OK",
    "result": 0
   },
