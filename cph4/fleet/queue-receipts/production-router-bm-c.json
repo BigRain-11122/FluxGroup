@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-25T03:00:37",
+ "ts": "2026-11-25T03:05:37",
  "node": "bm-c",
  "kind": "production-router",
  "gpu": {
-  "util": 9,
+  "util": 87,
   "mem_used_mb": 9150,
   "mem_total_mb": 16384
  },
@@ -15,7 +15,7 @@
   "heroine_factory": 3
  },
  "throughput": {
-  "pl_ql_last10min": 1
+  "pl_ql_last10min": 0
  },
  "stalls": [],
  "plan": "gpu-mainline",
