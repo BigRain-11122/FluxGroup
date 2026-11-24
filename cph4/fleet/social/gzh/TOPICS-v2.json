@@ -27,324 +27,40 @@
   ],
   "categories": [
     {
-      "id": "C1",
-      "name": "选购避坑",
-      "why_click": "怕买错，是最大的付费动力"
+      "id": "S1",
+      "name": "智能座舱",
+      "why_click": "每天要点二十次的屏幕，却没人认真写它好不好看"
     },
     {
-      "id": "C2",
-      "name": "配置表对比",
-      "why_click": "同价位到底差在哪，可当场核对"
+      "id": "S2",
+      "name": "智能驾驶",
+      "why_click": "敢不敢用，一半是技术一半是界面"
     },
     {
-      "id": "C3",
-      "name": "持有成本",
-      "why_click": "买得起养不起，是真实焦虑"
+      "id": "S3",
+      "name": "电子电气架构",
+      "why_click": "架构决定体验上限，这是最硬核的部分"
     },
     {
-      "id": "C4",
-      "name": "二手残值",
-      "why_click": "换车时才知道亏了多少"
+      "id": "S4",
+      "name": "AI 上车",
+      "why_click": "大模型进了座舱，但它真的懂你吗"
     },
     {
-      "id": "C5",
-      "name": "智驾与座舱的实际能力",
-      "why_click": "宣传与可用的差距"
+      "id": "S5",
+      "name": "行业与竞争",
+      "why_click": "看懂价格战与渗透率背后的账"
     },
     {
-      "id": "C6",
-      "name": "补能与续航口径",
-      "why_click": "标称与实际差多少"
-    },
-    {
-      "id": "C7",
-      "name": "行业与竞品",
-      "why_click": "看懂价格战背后的账"
-    },
-    {
-      "id": "C8",
-      "name": "界面拆解（人设主赛道）",
-      "why_click": "同质化最重、最容易被吹牛、最影响日常，却没人认真写"
+      "id": "S6",
+      "name": "方法论",
+      "why_click": "我如何评估一块屏——可复用的专业判断"
     }
   ],
   "topics": [
     {
-      "id": "T01",
-      "cat": "C1",
-      "title": "秦PLUS 和海豹06 差两万，我把两页配置表叠在一起看",
-      "subject": [
-        "比亚迪 秦PLUS",
-        "比亚迪 海豹06"
-      ],
-      "hook_type": "A",
-      "scene": "把两页配置表打印出来，用红笔把多出来的项圈掉，桌上一共 7 个红圈",
-      "opponent": "把两万差价说成「品牌溢价」的销售话术",
-      "promise": "7 个红圈逐条给理由：哪 3 个是刚需、哪 4 个是凑数",
-      "evidence": [
-        "spec",
-        "price"
-      ],
-      "verifiable": "两车配置表逐项对照，红圈必须能在官网页面上指到位置",
-      "risk": "不许写「我开过」；不许把差价归因到主观感受",
-      "verify_before_write": [
-        "比亚迪官网配置对比页",
-        "两车官方指导价"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T02",
-      "cat": "C1",
-      "title": "15 万落地：轩逸、朗逸、秦PLUS，谁的减配藏得最深",
-      "subject": [
-        "日产 轩逸",
-        "大众 朗逸",
-        "比亚迪 秦PLUS"
-      ],
-      "hook_type": "C",
-      "scene": "三张配置单摊开，同一栏「后悬架」三个答案，用手一行行遮过去比",
-      "opponent": "把减配写进「年款优化」的厂商话术",
-      "promise": "三台车各列 1 条最不该减的项 + 各自替代方案",
-      "evidence": [
-        "spec",
-        "price"
-      ],
-      "verifiable": "减配项对应可查的结构或参数（悬架形式、气囊数、电池类型）",
-      "risk": "负面结论必须有可引依据，不许凭印象说「这车减配」",
-      "verify_before_write": [
-        "三家官网配置表",
-        "工信部公告参数"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T03",
-      "cat": "C1",
-      "title": "4S 店不给你翻的配置表第 3 页，写了什么",
-      "subject": [
-        "4S 店配置单",
-        "乘用车国标"
-      ],
-      "hook_type": "A",
-      "scene": "销售递过来的是折叠成三页的单子，第 3 页在最后，通常被压在文件夹最下面",
-      "opponent": "只给你看第 1 页高配表的销售",
-      "promise": "6 条可当场翻到位置的检查项",
-      "evidence": [
-        "spec",
-        "reg"
-      ],
-      "verifiable": "每条都要能在配置表或国标里指到位置",
-      "risk": "不许编「4S 店骗你 8000」这类无单据指控",
-      "verify_before_write": [
-        "乘用车配置表通用格式",
-        "国标 GB 7258 相关条款"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T04",
-      "cat": "C2",
-      "title": "同是 800V，小鹏 G6 和智己 LS6 的充电曲线不是一回事",
-      "subject": [
-        "小鹏 G6",
-        "智己 LS6"
-      ],
-      "hook_type": "B",
-      "scene": "两条充电曲线叠在同一张图上，5%–80% 那段一条陡一条缓",
-      "opponent": "只标「800V 平台」不标曲线的宣传口径",
-      "promise": "同样是 800V，差在电池温度窗口和桩的匹配",
-      "evidence": [
-        "spec",
-        "official"
-      ],
-      "verifiable": "充电功率曲线可查官网或第三方实测公开数据",
-      "risk": "不许把第三方实测数据写成「我测的」",
-      "verify_before_write": [
-        "两车官网三电参数",
-        "公开充电实测报告"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T05",
-      "cat": "C2",
-      "title": "极氪 7X、零跑 C10 等 5 台：20 万级谁还在用扭力梁",
-      "subject": [
-        "小鹏 MONA M03",
-        "极氪 7X",
-        "零跑 C10",
-        "深蓝 S7",
-        "银河 E5"
-      ],
-      "hook_type": "C",
-      "scene": "一张 5 行 3 列的表，悬架那一列只有两种答案，一眼能看出分界",
-      "opponent": "把「舒适调校」当悬架形式遮羞布的话术",
-      "promise": "5 台车悬架形式 + 各自实际影响",
-      "evidence": [
-        "spec"
-      ],
-      "verifiable": "悬架形式在配置表/工信部公告可查",
-      "risk": "不许说「扭力梁一定差」，要给适用场景",
-      "verify_before_write": [
-        "5 家官网配置表",
-        "工信部公告"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T06",
-      "cat": "C2",
-      "title": "小鹏 G6、智己 LS6 的 12 项『标配』，哪些其实要加钱",
-      "subject": [
-        "小鹏 G6",
-        "智己 LS6",
-        "20 万级配置表"
-      ],
-      "hook_type": "A",
-      "scene": "把 12 行『标配』抄进表格，抄到第 7 行发现某台车要加钱",
-      "opponent": "把选装包算进「标配价」的营销页",
-      "promise": "12 项逐项标注：真标配 / 选装 / 高配才有",
-      "evidence": [
-        "spec",
-        "price"
-      ],
-      "verifiable": "每一项对应车型配置表的具体行",
-      "risk": "选装价格必须标来源与时间",
-      "verify_before_write": [
-        "各车型配置表",
-        "官方选装包价格页"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T07",
-      "cat": "C3",
-      "title": "Model Y 开 5 年要花多少：和途观L 并排算账",
-      "subject": [
-        "特斯拉 Model Y",
-        "大众 途观L"
-      ],
-      "hook_type": "B",
-      "scene": "两张 5 年账并排，电费那一栏一高一低，折旧那栏却反过来",
-      "opponent": "只算电费不算折旧的「电车省钱」话术",
-      "promise": "两台车 5 年四项费用逐项对比，读者能换成自己的里程",
-      "evidence": [
-        "price",
-        "owner",
-        "official"
-      ],
-      "verifiable": "电耗/保费用公开数据，折旧用二手车平台同款报价",
-      "risk": "折旧必须注明取价平台与月份",
-      "verify_before_write": [
-        "Model Y 官方电耗",
-        "途观L 官方油耗",
-        "二手车平台同款报价"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T08",
-      "cat": "C3",
-      "title": "Model Y、秦PLUS、轩逸：每年 1 万公里，5 年谁更省",
-      "subject": [
-        "Model Y",
-        "秦PLUS",
-        "轩逸"
-      ],
-      "hook_type": "C",
-      "scene": "三本账并排，5 年那一列的数字差出一台车的首付",
-      "opponent": "「一公里几分钱」的单一维算法",
-      "promise": "同里程下三台车的 5 年总支出对比",
-      "evidence": [
-        "price",
-        "official"
-      ],
-      "verifiable": "每项费用标口径：电价/油价取哪个城市的哪个价",
-      "risk": "必须给电价与油价假设，否则不可复算",
-      "verify_before_write": [
-        "当地电价（居民/公共桩）",
-        "当地 92/95 油价",
-        "三车官方能耗"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T09",
-      "cat": "C3",
-      "title": "磷酸铁锂和三元锂：换一次电池，每度到底多少钱",
-      "subject": [
-        "磷酸铁锂",
-        "三元锂",
-        "厂商电池报价"
-      ],
-      "hook_type": "B",
-      "scene": "一张手写的除法：总价 ÷ 度数，算出每度多少钱",
-      "opponent": "「终身质保」背后没说的衰减阈值",
-      "promise": "每度成本区间 + 质保条款里真正能换的条件",
-      "evidence": [
-        "price",
-        "official",
-        "reg"
-      ],
-      "verifiable": "报价来源 + 质保条款原文位置",
-      "risk": "不许把单一车型报价当行业均价",
-      "verify_before_write": [
-        "厂商公开电池报价",
-        "质保条款原文"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T10",
-      "cat": "C4",
-      "title": "零跑 C10、深蓝 S7：三年掉一半，残值差在哪",
-      "subject": [
-        "零跑 C10",
-        "深蓝 S7",
-        "二手车平台报价"
-      ],
-      "hook_type": "C",
-      "scene": "同一个车位，三年前新车价和现在二手车价并排贴着",
-      "opponent": "「保值率是玄学」的推脱说法",
-      "promise": "3 条可查的结构原因（电池类型/停产/换代节奏）",
-      "evidence": [
-        "price",
-        "official"
-      ],
-      "verifiable": "残值率取二手车平台同款同年份报价，注明抓取日期",
-      "risk": "残值受地区影响，必须说明取样城市",
-      "verify_before_write": [
-        "二手车平台同款报价",
-        "车型换代时间线"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
-      "id": "T11",
-      "cat": "C4",
-      "title": "秦PLUS 和轩逸：新车差 3 万，三年后二手差 5 万",
-      "subject": [
-        "比亚迪 秦PLUS",
-        "日产 轩逸"
-      ],
-      "hook_type": "B",
-      "scene": "两张二手车报价截图，价差比新车还大",
-      "opponent": "「买贵一点保值」的错误直觉",
-      "promise": "价差扩大的两个机制 + 什么情况下反过来",
-      "evidence": [
-        "price"
-      ],
-      "verifiable": "两组报价截图 + 抓取日期",
-      "risk": "个案不能推总体，必须标样本量",
-      "verify_before_write": [
-        "二手车平台报价",
-        "同款在售量"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
       "id": "T12",
-      "cat": "C5",
+      "cat": "S2",
       "title": "L2 和 L3 差在哪：写在法规里，不写在宣传单上",
       "subject": [
         "工信部 L3 试点",
@@ -368,7 +84,7 @@
     },
     {
       "id": "T13",
-      "cat": "C5",
+      "cat": "S3",
       "title": "车机卡不卡，先看这三颗芯片：8155 之后是什么",
       "subject": [
         "高通 8155",
@@ -393,7 +109,7 @@
     },
     {
       "id": "T14",
-      "cat": "C5",
+      "cat": "S2",
       "title": "城市 NOA 开了 20 城，实际能用的有几城",
       "subject": [
         "小鹏",
@@ -418,7 +134,7 @@
     },
     {
       "id": "T15",
-      "cat": "C6",
+      "cat": "S2",
       "title": "标称 700 公里，冬天开暖气还剩多少：按电耗反算",
       "subject": [
         "CLTC 标称",
@@ -442,32 +158,8 @@
       "timeliness": "evergreen"
     },
     {
-      "id": "T16",
-      "cat": "C6",
-      "title": "没有家充，Model Y 和秦PLUS 还值得买吗：4 个条件自测",
-      "subject": [
-        "特斯拉 Model Y",
-        "比亚迪 秦PLUS"
-      ],
-      "hook_type": "C",
-      "scene": "小区地库转一圈，能装桩的位子一个手数得过来",
-      "opponent": "「外面充电一样方便」的销售话术",
-      "promise": "4 个条件逐条自测，任何一条不过就别买",
-      "evidence": [
-        "official",
-        "owner"
-      ],
-      "verifiable": "条件对应可查的桩密度/电价/排队数据",
-      "risk": "不许替读者下「一定不能买」的结论",
-      "verify_before_write": [
-        "当地公共桩密度数据",
-        "公共桩电价"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
       "id": "T17",
-      "cat": "C7",
+      "cat": "S5",
       "title": "价格战第三年，谁在赔本卖车：从单车毛利看",
       "subject": [
         "上市车企财报",
@@ -490,32 +182,8 @@
       "timeliness": "event"
     },
     {
-      "id": "T18",
-      "cat": "C7",
-      "title": "大众 ID.4 和 ID.6：同平台差 5 万，拆配置不拆车",
-      "subject": [
-        "大众 ID.4",
-        "大众 ID.6"
-      ],
-      "hook_type": "C",
-      "scene": "两张配置表铺开，同平台那几行完全一样，价差全在下半页",
-      "opponent": "「换个壳就加价」的模糊定价",
-      "promise": "5 万差价拆成 N 项，逐项标值不值",
-      "evidence": [
-        "spec",
-        "price"
-      ],
-      "verifiable": "同平台依据（官方平台名）+ 逐项配置",
-      "risk": "平台判断必须有官方或公告依据",
-      "verify_before_write": [
-        "两车官方平台说明",
-        "配置表对照"
-      ],
-      "timeliness": "evergreen"
-    },
-    {
       "id": "T19",
-      "cat": "C7",
+      "cat": "S5",
       "title": "广州车展 2026：秦PLUS、银河 E5 之外，15 万还该看哪几台",
       "subject": [
         "比亚迪 秦PLUS",
@@ -541,7 +209,7 @@
     },
     {
       "id": "T20",
-      "cat": "C7",
+      "cat": "S5",
       "title": "固态电池：宁德时代、比亚迪都说要上，2026 到底谁量产了",
       "subject": [
         "宁德时代",
@@ -565,7 +233,7 @@
     },
     {
       "id": "T21",
-      "cat": "C8",
+      "cat": "S1",
       "title": "理想 i6 的语音开空调：同一件事，换个说法就不灵了吗",
       "subject": [
         "理想 i6",
@@ -589,7 +257,7 @@
     },
     {
       "id": "T22",
-      "cat": "C8",
+      "cat": "S1",
       "title": "小米 YU7 的中控屏：同一个功能，最多要点几层",
       "subject": [
         "小米 YU7",
@@ -612,7 +280,7 @@
     },
     {
       "id": "T23",
-      "cat": "C8",
+      "cat": "S1",
       "title": "蔚来 ET5 的怀挡：挂挡这件事被挪到了第几屏",
       "subject": [
         "蔚来 ET5",
@@ -636,7 +304,7 @@
     },
     {
       "id": "T24",
-      "cat": "C8",
+      "cat": "S1",
       "title": "问界 M9 的 HUD：信息塞满时，该看哪一项",
       "subject": [
         "问界 M9",
@@ -660,7 +328,7 @@
     },
     {
       "id": "T25",
-      "cat": "C8",
+      "cat": "S1",
       "title": "极氪 7X 的氛围灯：宣传图那几种，实车能调出几种",
       "subject": [
         "极氪 7X",
@@ -684,7 +352,7 @@
     },
     {
       "id": "T26",
-      "cat": "C8",
+      "cat": "S1",
       "title": "理想 L9 的副驾屏：几种用法，哪种不是智商税",
       "subject": [
         "理想 L9",
@@ -708,7 +376,7 @@
     },
     {
       "id": "T27",
-      "cat": "C8",
+      "cat": "S1",
       "title": "小鹏 G6 车机冷启动：这段等待该显示什么",
       "subject": [
         "小鹏 G6",
@@ -732,7 +400,7 @@
     },
     {
       "id": "T28",
-      "cat": "C8",
+      "cat": "S1",
       "title": "比亚迪秦PLUS 的语音连续对话：为什么总是接不上",
       "subject": [
         "比亚迪 秦PLUS",
@@ -751,6 +419,317 @@
       "verify_before_write": [
         "比亚迪官方语音功能说明",
         "公开座舱演示"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T29",
+      "cat": "S1",
+      "title": "深色模式发灰：不是屏幕问题，是色阶没做",
+      "subject": [
+        "深色模式",
+        "座舱屏"
+      ],
+      "hook_type": "C",
+      "scene": "夜里开导航，背景是灰的，地图是灰的，连按钮都是灰的——一片糊",
+      "opponent": "把『深色模式』当『把白色调暗』的做法",
+      "promise": "深色模式的三种常见错误 + 正确色阶该怎么定",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方深色模式截图逐层取色，色值可复现",
+      "risk": "色差受拍摄影响，必须说明取色条件",
+      "verify_before_write": [
+        "各车官方深色模式截图",
+        "公开设计规范（如 Material 深色模式）"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T30",
+      "cat": "S1",
+      "title": "一张截图能看出的五种图标混用：拿小米 YU7 举例",
+      "subject": [
+        "小米 YU7",
+        "座舱图标"
+      ],
+      "hook_type": "B",
+      "scene": "同一个界面里，有的图标是线性、有的是面性、有的带描边，风格打架",
+      "opponent": "『图标随手找』的设计流程",
+      "promise": "五种混用逐一标注 + 统一风格的三条规则",
+      "evidence": [
+        "official"
+      ],
+      "verifiable": "官方截图局部放大，标注编号对应正文",
+      "risk": "不许嘲讽具体设计师，只谈系统性问题",
+      "verify_before_write": [
+        "各车官方界面截图",
+        "公开图标设计规范"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T31",
+      "cat": "S1",
+      "title": "同一块屏，为什么有的字看着累：字重与行高的账",
+      "subject": [
+        "座舱字体",
+        "字重"
+      ],
+      "hook_type": "C",
+      "scene": "两块屏同样的字号，一块读三行就累，一块能读完",
+      "opponent": "只调字号不调字重行高的做法",
+      "promise": "字重/行高/字距三项的正确取值 + 自测方法",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "官方截图测量，参数可复现",
+      "risk": "测量受截图分辨率影响，须标原始尺寸",
+      "verify_before_write": [
+        "各车官方界面截图",
+        "公开排版规范"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T32",
+      "cat": "S2",
+      "title": "智驾接管提示：为什么要用三种颜色",
+      "subject": [
+        "接管提示",
+        "智驾HMI"
+      ],
+      "hook_type": "C",
+      "scene": "系统突然要你接管，屏幕上先黄后红再闪，人反而更慌",
+      "opponent": "把『警示』等同于『越醒目越好』",
+      "promise": "三级提示的设计逻辑 + 每种该配什么动作",
+      "evidence": [
+        "official",
+        "reg"
+      ],
+      "verifiable": "官方说明 + 人机工程学公开资料",
+      "risk": "不许给未验证的响应时间结论",
+      "verify_before_write": [
+        "各厂智驾 HMI 说明",
+        "人机工程学公开研究"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T33",
+      "cat": "S2",
+      "title": "屏幕上那辆车：小鹏的智驾可视化为什么让人敢用",
+      "subject": [
+        "小鹏",
+        "智驾可视化"
+      ],
+      "hook_type": "C",
+      "scene": "屏幕里那辆车、那些车道线，和真实世界差半米——你敢松手吗",
+      "opponent": "『能显示就行』的可视化敷衍",
+      "promise": "可视化的三个可信度指标 + 各厂差距",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方演示视频逐帧对照",
+      "risk": "不许说某厂『欺骗』，只谈呈现差异",
+      "verify_before_write": [
+        "各厂智驾可视化演示",
+        "公开技术说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T34",
+      "cat": "S2",
+      "title": "NOA 激活的那一下，为什么让人紧张",
+      "subject": [
+        "NOA",
+        "状态反馈"
+      ],
+      "hook_type": "B",
+      "scene": "按下按钮，系统接管的瞬间没有任何确认，手不知道该放哪",
+      "opponent": "『自动就是好』的默认逻辑",
+      "promise": "激活/接管/退出的三次状态反馈该怎么做",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "官方演示 + 公开车主反馈",
+      "risk": "不许编造具体事故，只谈交互设计",
+      "verify_before_write": [
+        "各厂 NOA 官方演示",
+        "车主社区高频反馈"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T35",
+      "cat": "S3",
+      "title": "域控和中央计算：架构怎么决定你屏幕卡不卡",
+      "subject": [
+        "域控制器",
+        "中央计算"
+      ],
+      "hook_type": "C",
+      "scene": "同样一颗芯片，有的车丝滑有的车卡——差别不在芯片在架构",
+      "opponent": "把『跑分』当『流畅』的营销",
+      "promise": "两种架构的差异 + 各自瓶颈在哪",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "官方架构说明 + 公开技术资料",
+      "risk": "不许给未验证的算力结论，只谈架构逻辑",
+      "verify_before_write": [
+        "各厂电子电气架构说明",
+        "公开技术白皮书"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T36",
+      "cat": "S3",
+      "title": "OTA 两年：为什么有的车越升越难用",
+      "subject": [
+        "OTA",
+        "车机系统"
+      ],
+      "hook_type": "C",
+      "scene": "第一次升级多了功能，第三次升级把常用功能挪进了二级菜单",
+      "opponent": "把『加功能』当『升级』的版本策略",
+      "promise": "OTA 的三种退化模式 + 怎么判断一次升级值不值",
+      "evidence": [
+        "official",
+        "owner"
+      ],
+      "verifiable": "官方更新日志对照 + 车主反馈",
+      "risk": "版本号与日期必须标，否则不可复现",
+      "verify_before_write": [
+        "各厂 OTA 更新日志",
+        "车主社区版本讨论"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T37",
+      "cat": "S4",
+      "title": "座舱智能体：说『我有点冷』它该做什么",
+      "subject": [
+        "座舱智能体",
+        "大模型"
+      ],
+      "hook_type": "A",
+      "scene": "你说『有点冷』，它回『已为您打开空调』——但没问你要几度",
+      "opponent": "把『能听懂』当『懂你』的宣传",
+      "promise": "三档理解力（执行/追问/预判）+ 各厂现在到哪档",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方演示逐条对照",
+      "risk": "不许写『我试了』，只引官方演示",
+      "verify_before_write": [
+        "各厂座舱智能体官方演示",
+        "公开大模型能力说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T38",
+      "cat": "S4",
+      "title": "大模型上车第一年：问界 M9 的『能聊』与『好用』差多远",
+      "subject": [
+        "问界 M9",
+        "车载大模型"
+      ],
+      "hook_type": "C",
+      "scene": "能写诗能讲笑话，但你让它开个座椅加热，它问你哪个座椅",
+      "opponent": "把『模型参数量』当『体验』的宣传",
+      "promise": "能聊 vs 好用的四条分界线",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方功能说明 + 公开演示对照",
+      "risk": "不许下『某厂落后』的总体结论",
+      "verify_before_write": [
+        "各厂车载大模型官方说明",
+        "公开演示"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T39",
+      "cat": "S4",
+      "title": "意图理解：为什么它总问第二遍",
+      "subject": [
+        "意图理解",
+        "语音交互"
+      ],
+      "hook_type": "C",
+      "scene": "『导航去公司顺便加个油』——它只做了第一件事",
+      "opponent": "把『单指令』包装成『多意图』",
+      "promise": "多意图失败的三种类型 + 各自改法",
+      "evidence": [
+        "official",
+        "spec"
+      ],
+      "verifiable": "官方能力说明 + 公开演示",
+      "risk": "不许编造具体失败案例",
+      "verify_before_write": [
+        "各厂语音能力官方说明",
+        "公开演示"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T40",
+      "cat": "S4",
+      "title": "AI 功能的『可信』：56.5% 的人为什么不敢用",
+      "subject": [
+        "AI 车控",
+        "JD Power"
+      ],
+      "hook_type": "B",
+      "scene": "JD Power 说 56.5% 用户因可靠性顾虑少用 AI 车控——这不是技术问题是信任问题",
+      "opponent": "把『AI 上车』当卖点而不谈边界",
+      "promise": "信任的三条建立路径 + 各厂现在缺哪条",
+      "evidence": [
+        "official",
+        "financial"
+      ],
+      "verifiable": "JD Power 2025 报告原文 + 各厂说明",
+      "risk": "数据必须标来源与年份，不许断章取义",
+      "verify_before_write": [
+        "JD Power 2025 中国智能座舱研究",
+        "各厂 AI 功能说明"
+      ],
+      "timeliness": "evergreen"
+    },
+    {
+      "id": "T41",
+      "cat": "S6",
+      "title": "我评估一块车机屏的 7 个维度（方法论）",
+      "subject": [
+        "车机屏",
+        "评估方法"
+      ],
+      "hook_type": "C",
+      "scene": "看了这么多屏，我总结出一张表：7 个维度，每个 5 分",
+      "opponent": "凭感觉说『好用/难用』的评价方式",
+      "promise": "7 个维度 + 评分标准 + 一张可复用的表",
+      "evidence": [
+        "spec",
+        "official"
+      ],
+      "verifiable": "维度可被同行复算，评分标准公开",
+      "risk": "不给未测试车型打分，只给方法",
+      "verify_before_write": [
+        "人机工程学公开资料",
+        "各车官方界面说明"
       ],
       "timeliness": "evergreen"
     }
