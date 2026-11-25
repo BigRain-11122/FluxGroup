@@ -37,7 +37,24 @@ from urllib.parse import urlsplit
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-OUTDIR = os.path.join(ROOT, "cph4", "fleet", "collect")
+
+
+def bigloom_home():
+    """BigLoom 公司总仓（CEO 2026-11-25 成立，MacBook 管）。
+
+    分家口径：**代码留 FluxGroup 共享，内容归 BigLoom**。所以代码还在 Tools/fleet，
+    采集产物落 BigLoom 仓。找不到 BigLoom（别的机器/还没迁）就退回老路径，不崩。
+    """
+    for c in (os.environ.get("BIGLOOM_HOME"),
+              os.path.join(os.path.expanduser("~"), "BigLoom")):
+        if c and os.path.isdir(os.path.join(c, "collect")):
+            return c
+    return ""
+
+
+_HOME = bigloom_home()
+OUTDIR = (os.path.join(_HOME, "collect") if _HOME
+          else os.path.join(ROOT, "cph4", "fleet", "collect"))
 OUT = os.path.join(OUTDIR, "ARTICLES-GENERIC.jsonl")
 URLS = os.path.join(OUTDIR, "URLS-GENERIC.jsonl")
 MIN_TEXT = 300
