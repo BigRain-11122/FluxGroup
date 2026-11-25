@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-25T22:07:26",
+ "ts": "2026-11-26T04:07:26",
  "node": "bm-c",
  "kind": "pipeline-evolution",
  "cycle": "6h",
  "canon_age_days": {
-  "drama_v3": 3.0,
-  "heroine_factory": 0.0,
-  "production_router": 2.0
+  "drama_v3": 3.3,
+  "heroine_factory": 0.3,
+  "production_router": 2.2
  },
  "router_signals": {
-  "ts": "2026-11-25T22:05:37",
+  "ts": "2026-11-26T04:05:37",
   "stalls": [],
   "throughput": {
    "pl_ql_last10min": 0
@@ -19,28 +19,28 @@
  "recent_receipts": [
   {
    "file": "autodrive-hb-bm-c.json",
-   "ts": "2026-11-25T22:06:30.413",
+   "ts": "2026-11-26T04:06:30.942",
    "name": null
   },
   {
    "file": "_last_lane_bm-c.json",
-   "ts": "2026-11-25T22:06:30",
+   "ts": "2026-11-26T04:06:30",
    "name": null
   },
   {
    "file": "production-router-bm-c.json",
-   "ts": "2026-11-25T22:05:37",
+   "ts": "2026-11-26T04:05:37",
    "name": null
   },
   {
    "file": "review-feedback-bm-c.json",
-   "ts": "2026-11-25T22:04:58",
+   "ts": "2026-11-26T04:04:59",
    "name": null
   },
   {
-   "file": "pipeline-evolution-bm-c.json",
-   "ts": "2026-11-25T16:07:26",
-   "name": null
+   "file": "heroine-sixfamily-final-bm-c.json",
+   "ts": "2026-11-26T01:25:06",
+   "name": "heroine-lora-six-family-v2-final"
   }
  ],
  "issues": [
