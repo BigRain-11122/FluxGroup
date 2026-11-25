@@ -448,6 +448,86 @@ def _feed_items_from(xml_text, limit=20):
     return out, ""
 
 
+def probe_isolated(url, timeout=75):
+    """在子进程里探活，带硬超时。
+
+    为什么必须隔离（2026-11-25 实测两次踩）：trafilatura 的 sitemap / fetch
+    没有可以传进去的整体超时，某个大站能把整轮探活挂住——一次挂到第 10 个源
+    就不动了，而且已经探完的结论全丢。子进程 + 硬超时 = 最多浪费这一条。
+    """
+    import subprocess
+    try:
+        p = subprocess.run([sys.executable, os.path.abspath(__file__),
+                            "--probe", url],
+                           capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return {"verdict": "超时", "why": "%d 秒没回来" % timeout}
+    raw = (p.stdout or "").strip()
+    i = raw.find("{")
+    if i < 0:
+        return {"verdict": "崩溃", "why": (p.stderr or "")[-120:]}
+    try:
+        return json.loads(raw[i:])
+    except ValueError:
+        return {"verdict": "崩溃", "why": "输出不是 JSON"}
+
+
+def apply_verdicts(path=None, verdicts_path=None):
+    """把探活结论回写源册。规则写死，不凭感觉改：
+
+      feed/list/sitemap → status=ok，并记 harvest.via，下次直接按这条通道采
+      不可采           → status 保持/降为 degraded（真有证据才升 ok，不粉饰）
+      超时             → 状态不动，只记 via=timeout（没测出来不等于不能用）
+    """
+    path = path or os.path.join(ROOT, "cph4", "fleet", "social", "gzh",
+                                "SOURCES-REGISTRY-v1.json")
+    verdicts_path = verdicts_path or os.path.join(OUTDIR, "SOURCE-VERDICTS.json")
+    try:
+        reg = json.load(open(path, encoding="utf-8"))
+        vd = json.load(open(verdicts_path, encoding="utf-8"))
+    except FileNotFoundError as e:
+        print("[apply] 缺文件：%s" % e, file=sys.stderr)
+        return 2
+    vs = vd.get("verdicts") or {}
+    ts = vd.get("_ts") or datetime.now().isoformat(timespec="seconds")
+    changed = {"ok": 0, "degraded": 0, "unchanged": 0}
+    for x in reg.get("sources") or []:
+        name = x.get("name") or ""
+        v = vs.get(name)
+        if not v:
+            changed["unchanged"] += 1
+            continue
+        before = x.get("status")
+        via = v.get("verdict")
+        x["harvest"] = {"via": via if via in ("feed", "list", "sitemap") else
+                        ("none" if via == "不可采" else "timeout"),
+                        "probed": ts, "was": before,
+                        "feeds": v.get("feeds", 0), "list_links": v.get("list_links", 0),
+                        "article": v.get("article", 0)}
+        if via in ("feed", "list", "sitemap"):
+            x["status"] = "ok"
+        elif via == "不可采":
+            if before != "dead":
+                x["status"] = "degraded"
+        else:
+            x["status"] = before
+        if x["status"] != before:
+            changed["ok" if x["status"] == "ok" else "degraded"] += 1
+        else:
+            changed["unchanged"] += 1
+    reg["updated"] = ts[:10]
+    json.dump(reg, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    import collections
+    print("[apply] 源册已回写：升为 ok %d 条 / 降级 %d 条 / 不变 %d 条"
+          % (changed["ok"], changed["degraded"], changed["unchanged"]))
+    print("[apply] 现在状态分布：%s"
+          % dict(collections.Counter(x.get("status") for x in reg["sources"])))
+    print("[apply] 按通道分布：%s"
+          % dict(collections.Counter((x.get("harvest") or {}).get("via", "-")
+                                     for x in reg["sources"])))
+    return 0
+
+
 def probe_registry(path=None, only_bad=True, max_n=40):
     """把源册里「说不清能不能采」的源逐个探活，落成 verdict 台账。
 
@@ -479,15 +559,20 @@ def probe_registry(path=None, only_bad=True, max_n=40):
             out[x.get("name") or "?"] = {"verdict": "无 URL", "tier": x.get("tier")}
             dump()
             continue
-        p = probe(url)
+        p = probe_isolated(url, timeout=75)
         out[x.get("name") or url] = {"url": url, "tier": x.get("tier"),
                                      "was": x.get("status"),
-                                     "verdict": p["verdict"], "feeds": p["feeds"],
-                                     "list_links": p["list_links"],
-                                     "article": p["article"], "why": p["why"]}
+                                     "verdict": p.get("verdict", "超时/崩溃"),
+                                     "feeds": p.get("feeds", 0),
+                                     "list_links": p.get("list_links", 0),
+                                     "article": p.get("article", 0),
+                                     "why": p.get("why", "")}
         print("  %-18s %-8s → %-9s（feed %d / list %d / 正文 %d）"
-              % (str(x.get("name"))[:18], x.get("status"), p["verdict"],
-                 p["feeds"], p["list_links"], p["article"]), flush=True)
+              % (str(x.get("name"))[:18], x.get("status"),
+                 out[x.get("name") or url]["verdict"],
+                 out[x.get("name") or url]["feeds"],
+                 out[x.get("name") or url]["list_links"],
+                 out[x.get("name") or url]["article"]), flush=True)
         dump()
     print("[probe-registry] %d 条 → %s" % (len(out), os.path.relpath(dst, ROOT)))
     return out
@@ -504,6 +589,8 @@ def main():
     ap.add_argument("--probe-registry", action="store_true",
                     help="把源册里 degraded/dead 的源逐个探活，落 SOURCE-VERDICTS.json")
     ap.add_argument("--registry-all", action="store_true", help="配合 --probe-registry：连 ok 的源也探")
+    ap.add_argument("--apply-verdicts", action="store_true",
+                    help="把 SOURCE-VERDICTS.json 的实测结论回写进源册")
     ap.add_argument("--limit", type=int, default=20)
     ap.add_argument("--delay", type=float, default=1.0)
     ap.add_argument("--self-test", action="store_true")
@@ -520,6 +607,8 @@ def main():
     if a.probe_registry:
         res = probe_registry(only_bad=not a.registry_all)
         return 0 if res else 2
+    if a.apply_verdicts:
+        return apply_verdicts()
     if a.url:
         art, why = extract_one(a.url)
         if art is None:
