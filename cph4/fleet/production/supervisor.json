@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-25T23:51:59",
+ "ts": "2026-11-26T00:01:59",
  "verdict": "RED",
  "paused": false,
- "gpu_util": 45,
+ "gpu_util": 27,
  "vram_used_mb": 9043,
  "vram_total_mb": 16384,
  "comfy": false,
@@ -31,14 +31,14 @@
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 67496,
+   "last_run_age_s": 68095,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 100,
+   "last_run_age_s": 160,
    "state": "OK",
    "result": 0
   },
