@@ -257,16 +257,21 @@ def check_stale_ref(files, texts):
             continue
         if os.path.abspath(os.path.join(ROOT, rel)) == SELF:
             continue      # 本器源码里的夹具路径不是仓库引用（2026-11-25 自检泄漏）
-        for line in texts.get(rel, "").splitlines():
+        lines = texts.get(rel, "").splitlines()
+        for i, line in enumerate(lines):
             m = pat.search(line)
             if not m:
                 continue
             name = m.group(1)
             if os.path.exists(os.path.join(ROOT, "Tools", "fleet", name)):
                 continue
+            # 上下文取 ±3 行：JSON 美化后"路径"与"理由/结论"常被拆到不同行，
+            # 只看单行会把 build_decision 里的已裁决项重新报成断链（2026-11-25 实锚）。
+            ctx = " ".join(lines[max(0, i - 3):i + 4])
             if name in FIXTURE_NAMES:
                 bucket = fixtures
-            elif any(k in line for k in PLANNED):
+            elif any(k in ctx for k in PLANNED) or \
+                    any(k in ctx for k in ("build_decision", "verdict", "not-build", "deferred")):
                 bucket = planned
             elif "LESSONS" in rel or "LEARNING-LEDGER" in rel:
                 # 经验台账里的 evidence 记的是"当时存在过"，不是当前依赖。

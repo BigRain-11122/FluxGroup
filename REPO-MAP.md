@@ -50,6 +50,8 @@ cat cph4/fleet/SYNC-CONTRACT-v1.md      # 3 看跨机规则与共享边界
 | `Tools/fleet/harvest_generic.py` | 任意站点采集（feed/sitemap/列表/单篇） | 31/31 |
 | `Tools/fleet/fleet_sync_probe.py --status` | 同步探针：软链/车道新鲜度/问询逾期/席表完整性 | 9/9 |
 | `Tools/fleet/bigloom_done.py` | **完工判据八条**（全绿才可宣布完成） | 8/8 |
+| `Tools/fleet/slo_budget.py` | SLI 与错误预算（算不出的写 NO-DATA） | 10/10 |
+| `Tools/fleet/cost_attrib.py` | 机器时间成本归集，最贵 TOP5 | 10/10 |
 | `Tools/fleet/res_alloc.py --status` | 当前哪个平台有租约 | — |
 
 ## 五之二、BigLoom 六席（2026-11-25 立于 AGENT-TEAMS）

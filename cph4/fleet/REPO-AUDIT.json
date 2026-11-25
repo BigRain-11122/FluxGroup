@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-25T18:26:52",
- "scanned_files": 6454,
+ "ts": "2026-11-25T19:00:53",
+ "scanned_files": 6456,
  "inventory": {
   ".codely-cli": {
    "files": 78,
@@ -10,7 +10,7 @@
   },
   "(root)": {
    "files": 13,
-   "bytes": 163831,
+   "bytes": 164439,
    "newest": "2026-11-25",
    "mb": 0.2
   },
@@ -21,8 +21,8 @@
    "mb": 0.2
   },
   "Tools": {
-   "files": 1011,
-   "bytes": 8784045,
+   "files": 1013,
+   "bytes": 8809588,
    "newest": "2026-11-25",
    "mb": 8.4
   },
@@ -34,7 +34,7 @@
   },
   "cph4": {
    "files": 4686,
-   "bytes": 43542025,
+   "bytes": 43543502,
    "newest": "2026-11-25",
    "mb": 41.5
   },
@@ -8154,13 +8154,6 @@
  ],
  "planned_tools": [
   {
-   "planned": "Tools/fleet/cost_attrib.py",
-   "referenced_by": [
-    "cph4/fleet/CAPABILITY-DIMENSIONS-v1.md"
-   ],
-   "count": 1
-  },
-  {
    "planned": "Tools/fleet/domain_page.py",
    "referenced_by": [
     "cph4/fleet/UNLOCK-PLANS.json"
@@ -8191,13 +8184,6 @@
    "count": 1
   },
   {
-   "planned": "Tools/fleet/slo_budget.py",
-   "referenced_by": [
-    "cph4/fleet/CAPABILITY-DIMENSIONS-v1.md"
-   ],
-   "count": 1
-  },
-  {
    "planned": "Tools/fleet/submit_batch.py",
    "referenced_by": [
     "cph4/fleet/UNLOCK-PLANS.json"
@@ -8224,11 +8210,16 @@
   "stale_ref": 0,
   "dangling_link": 0,
   "orphan_high": 0,
-  "orphan_stale": 117,
-  "orphan_recent": 73
+  "orphan_stale": 118,
+  "orphan_recent": 72
  },
  "orphan_high": [],
  "orphan_stale": [
+  {
+   "file": "Tools/fleet/check_local_llm.py",
+   "bytes": 6261,
+   "days": 15
+  },
   {
    "file": "cph4/fleet/idle-guard-kit/c2137_bank_harvest.py",
    "bytes": 3391,
@@ -8880,11 +8871,6 @@
    "file": "Tools/fleet/bmc_pipeline_evolution.py",
    "bytes": 4509,
    "days": 2
-  },
-  {
-   "file": "Tools/fleet/check_local_llm.py",
-   "bytes": 6261,
-   "days": 14
   },
   {
    "file": "Tools/fleet/gzh_metrics.py",
