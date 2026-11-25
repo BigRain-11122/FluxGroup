@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-25T16:07:26",
+ "ts": "2026-11-25T22:07:26",
  "node": "bm-c",
  "kind": "pipeline-evolution",
  "cycle": "6h",
  "canon_age_days": {
-  "drama_v3": 2.8,
-  "heroine_factory": 2.7,
-  "production_router": 1.7
+  "drama_v3": 3.0,
+  "heroine_factory": 0.0,
+  "production_router": 2.0
  },
  "router_signals": {
-  "ts": "2026-11-25T16:05:38",
+  "ts": "2026-11-25T22:05:37",
   "stalls": [],
   "throughput": {
    "pl_ql_last10min": 0
@@ -18,28 +18,28 @@
  },
  "recent_receipts": [
   {
-   "file": "_last_lane_bm-c.json",
-   "ts": "2026-11-25T16:07:21",
+   "file": "autodrive-hb-bm-c.json",
+   "ts": "2026-11-25T22:06:30.413",
    "name": null
   },
   {
-   "file": "autodrive-hb-bm-c.json",
-   "ts": "2026-11-25T16:06:30.852",
+   "file": "_last_lane_bm-c.json",
+   "ts": "2026-11-25T22:06:30",
    "name": null
   },
   {
    "file": "production-router-bm-c.json",
-   "ts": "2026-11-25T16:05:38",
+   "ts": "2026-11-25T22:05:37",
    "name": null
   },
   {
    "file": "review-feedback-bm-c.json",
-   "ts": "2026-11-25T16:04:58",
+   "ts": "2026-11-25T22:04:58",
    "name": null
   },
   {
    "file": "pipeline-evolution-bm-c.json",
-   "ts": "2026-11-25T10:07:26",
+   "ts": "2026-11-25T16:07:26",
    "name": null
   }
  ],
