@@ -36,16 +36,20 @@ SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 GZH = os.path.join(SOCIAL, "gzh")
 URLS = os.path.join(GZH, "URLS.jsonl")
 ARTICLES = os.path.join(GZH, "ARTICLES.jsonl")
+INDUSTRY = os.path.join(GZH, "ARTICLES-INDUSTRY.jsonl")   # 静态垂类产业语料（不进文笔训练）
 STRUCT = os.path.join(GZH, "STRUCT.json")
 TRAINSET = os.path.join(GZH, "TRAINSET.jsonl")
 LEDGER = os.path.join(GZH, "LOOP-LEDGER.jsonl")
 SCREEN = os.path.join(GZH, "LOOP.md")
 
-POOL_MIN = 50          # 池子少于这个数就不排采集（采两下就见底，等于空转）
+POOL_MIN = 50          # 风格池少于这个数：静态源补不回来，只能要人给种子
 HARVEST_PER_TICK = 8   # 一拍最多 8 篇（单篇 3 秒 + 间隔，控制在两分钟内）
+HARVEST_BUDGET = 540   # 单拍墙钟预算：到点收工退 0，不许把调度器拖到超时
 LEARN_AFTER = 20       # 采满 20 篇才值得学结构
 TRAIN_AFTER = 100      # 100 篇才够造训练集（标题对/开篇对）
 STALE_H = 12           # 学习产物超过 12 小时且新料变多 → 重学
+INDUSTRY_TARGET = 200  # 产业语料目标：静态源可自动扩，不需要人给种子
+SUPPLY_PER_TICK = 25   # 补料一拍最多入库几篇（两源各 25 ≈ 100 秒）
 
 
 def _now():
@@ -138,19 +142,45 @@ def _age_h(p):
 
 # ---------------- SENSE ----------------
 
+STATIC_HOSTS = ("auto.gasgoo.com", "www.d1ev.com", "d1ev.com")
+
+
+def _is_static(url):
+    from urllib.parse import urlsplit
+    host = urlsplit(url or "").netloc.lower()
+    return any(host == h or host.endswith("." + h) for h in STATIC_HOSTS)
+
+
 def sense():
+    """两本账分开数，因为它们是两件事：
+
+      · **风格池**（mp.weixin / 车家号）→ ARTICLES.jsonl，能进文笔训练；
+      · **产业语料**（盖世 / 第一电动）→ ARTICLES-INDUSTRY.jsonl，只做形态与事实，
+        genre=industry，训练时排除。
+
+    2026-11-25 实锚：把两本账混着数，池里 71 条**已经采完**的盖世链接被当成待抓，
+    还被送进公众号提取器，每条卡满 25 秒 → 一次 900 秒预算跑爆判 CRASHED。
+    教训：同一条事实写在两处、判据还各算一次，必出假待办。
+    """
     pool = _rows(URLS)
     arts = _rows(ARTICLES)
+    ind = _rows(INDUSTRY)
     pool_u = {r.get("_uid") for r in pool if r.get("_uid")}
     done_u = {r.get("_uid") for r in arts if r.get("_uid")}
-    todo = [r for r in pool if r.get("_uid") not in done_u]
+    ind_u = {r.get("_uid") for r in ind if r.get("_uid")}
+    # 风格池待抓：排除静态源链接（它们归产业语料，不归这里）
+    style_rows = [r for r in pool if not _is_static(r.get("url"))]
+    style_u = {r.get("_uid") for r in style_rows if r.get("_uid")}
+    todo = [r for r in style_rows if r.get("_uid") not in done_u]
     struct = None
     try:
         struct = json.load(open(STRUCT, encoding="utf-8"))
     except Exception:
         pass
     return {
-        "pool": len(pool_u), "pool_todo": len(todo), "articles": len(done_u),
+        "pool": len(pool_u), "style_pool": len(style_u),
+        "pool_todo": len(todo), "style_todo": len(todo),
+        "articles": len(done_u), "industry": len(ind_u),
         "struct_age_h": _age_h(STRUCT), "train_rows": len(_rows(TRAINSET)),
         "struct_n": (struct or {}).get("n"),
         "eligible": sum(1 for a in arts
@@ -162,12 +192,26 @@ def sense():
 # ---------------- DECIDE ----------------
 
 def decide(s):
-    if s["pool"] < POOL_MIN:
-        return {"phase": "supply",
-                "why": "池 %d 条 < %d：种子不够，采集会立刻见底" % (s["pool"], POOL_MIN)}
-    if s["pool_todo"] > 0:
+    """一拍只做一件事，顺序按「哪件现在真能推进」排：
+
+      1. 风格池有货 → 先抓（这是唯一能进文笔训练的料）
+      2. 产业语料不足 → 自动扩采（静态源免登录，不等任何人）
+      3. 风格池见底 → 才升级要人给种子（公众号发现通道全封，这是真墙）
+
+    为什么 2 排在 3 前面：CEO 最高规则是「禁以等人为由停工」。静态源能自己产，
+    就没有理由让循环空转 68 拍写 ESCALATE-SUPPLY（2026-11-25 实锚）。
+    """
+    if s["style_todo"] > 0:
         return {"phase": "harvest",
-                "why": "池里还有 %d 条没抓" % s["pool_todo"]}
+                "why": "风格池还有 %d 条没抓" % s["style_todo"]}
+    if s["industry"] < INDUSTRY_TARGET:
+        return {"phase": "supply-industry",
+                "why": "产业语料 %d/%d 篇，静态源可自动扩（不需要人给种子）"
+                       % (s["industry"], INDUSTRY_TARGET)}
+    if s["style_pool"] < POOL_MIN:
+        return {"phase": "supply",
+                "why": "风格池 %d 条 < %d：公众号发现通道全封，只能要人给种子"
+                       % (s["style_pool"], POOL_MIN)}
     if s["struct_age_h"] is None or (s["struct_age_h"] or 0) > STALE_H:
         return {"phase": "learn", "why": "结构统计缺失或 %s 小时前"
                                           % (round(s["struct_age_h"], 1) if s["struct_age_h"] else "从未")}
@@ -181,15 +225,46 @@ def decide(s):
 # ---------------- ACT ----------------
 
 def act_harvest(limit=HARVEST_PER_TICK, rng=None):
-    """调采集器抓一小批（子进程，别把循环拖死）。"""
+    """调采集器抓一小批（子进程，别把循环拖死）。
+
+    预算双保险：子进程自带 --budget-secs 会自己收工；外面再套一层硬超时，
+    超时也只当「本拍没抓到」记下来，绝不让整个调度判 CRASHED。
+    """
     rng = rng or random.Random()
     t0 = time.time()
-    p = subprocess.run([sys.executable, os.path.join(HERE, "wechat_article.py"),
-                        "--harvest", str(limit)],
-                       capture_output=True, text=True, timeout=900, cwd=ROOT)
-    tail = (p.stdout or p.stderr or "").strip().splitlines()[-3:]
+    try:
+        p = subprocess.run([sys.executable, os.path.join(HERE, "wechat_article.py"),
+                            "--harvest", str(limit),
+                            "--budget-secs", str(HARVEST_BUDGET)],
+                           capture_output=True, text=True,
+                           timeout=HARVEST_BUDGET + 180, cwd=ROOT)
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "secs": round(time.time() - t0, 1),
+                "tail": "本拍超过 %d 秒硬超时，已放弃（不是崩溃，下一拍再来）"
+                        % (HARVEST_BUDGET + 180)}
+    tail = (p.stdout or p.stderr or "").strip().splitlines()[-4:]
     return {"ok": p.returncode == 0, "secs": round(time.time() - t0, 1),
             "tail": "\n".join(tail)[-400:]}
+
+
+def act_supply_industry(limit=SUPPLY_PER_TICK):
+    """静态垂类源自动补料（盖世 + 第一电动），不需要人给种子。
+
+    这是把 supply 从「等 CEO」改成「自己找」的那一步：两家都是纯静态、免登录，
+    实测单篇 1 秒左右、平均 2200-2500 字，一拍 25 篇约 100 秒。
+    """
+    t0 = time.time()
+    try:
+        p = subprocess.run([sys.executable, os.path.join(HERE, "gzh_corpus_expand.py"),
+                            "--source", "all", "--limit", str(limit)],
+                           capture_output=True, text=True, timeout=600, cwd=ROOT)
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "secs": round(time.time() - t0, 1),
+                "tail": "补料超过 600 秒硬超时，已放弃（下一拍再来）"}
+    tail = (p.stdout or p.stderr or "").strip().splitlines()[-6:]
+    # 退出码 2 = 两个源一篇都没抓到 → 这才算补料失败
+    return {"ok": p.returncode == 0, "secs": round(time.time() - t0, 1),
+            "tail": "\n".join(tail)[-500:]}
 
 
 _NUM = re.compile(r"\d")
@@ -270,14 +345,21 @@ def build_trainset(arts=None):
 NEXT_MAP = {
     "supply": {
         "id": "SUPPLY-1",
-        "action": "接通镜像源采集（车家号/易车号作者页，公开可翻页）",
-        "judge": "池 ≥50 条且能翻页取到第 2 页",
-        "needs": "人工（CEO/运营）：给 3-5 个号或链接。镜像源采集器尚未实现，不许写成自动",
+        "action": "要风格池种子（公众号/车家号链接或号名）",
+        "judge": "风格池 ≥50 条且能翻页取到第 2 页",
+        "needs": "人工（CEO/运营）：给 3-5 个号或链接。公众号发现通道全封（搜狗/百度/必应验证码、新榜/清博登录墙），这是唯一真墙",
         "eta": "本轮",
+    },
+    "supply-industry": {
+        "id": "SUPPLY-IND",
+        "action": "自动扩采产业语料（盖世汽车 + 第一电动，纯静态免登录）",
+        "judge": "ARTICLES-INDUSTRY 净增 >0 且失败率 <30%",
+        "needs": "无（自动推进，不等任何人）",
+        "eta": "每 30 分钟一拍，单拍 ≤25 篇",
     },
     "harvest": {
         "id": "HARVEST",
-        "action": "继续采集，每拍最多 8 篇直到把池抓空",
+        "action": "继续采集风格池，每拍最多 8 篇 / 540 秒预算",
         "judge": "ARTICLES 净增 >0 且失败率 <30%",
         "needs": "无",
         "eta": "每 30 分钟一拍",
@@ -313,9 +395,11 @@ def write_next(s, task):
     rec.update({
         "phase": task["phase"], "why": task["why"],
         "facts": {"pool": s.get("pool"), "pool_todo": s.get("pool_todo"),
+                  "style_pool": s.get("style_pool"), "industry": s.get("industry"),
                   "articles": s.get("articles"), "struct_n": s.get("struct_n"),
                   "train_rows": s.get("train_rows")},
-        "progress": "%d/200 篇" % (s.get("articles") or 0),
+        "progress": "风格 %d 篇 / 产业 %d/%d 篇"
+                    % (s.get("articles") or 0, s.get("industry") or 0, INDUSTRY_TARGET),
         "ts": _now().isoformat(timespec="seconds"),
     })
     os.makedirs(GZH, exist_ok=True)
@@ -337,8 +421,9 @@ def write_next(s, task):
 def refresh_screen(s, task, rec=None):
     lines = ["# 公众号线（GZH-LOOP）", "",
              "| 项 | 值 |", "|---|---|",
-             "| 池子 | %d 条（待抓 %d） |" % (s["pool"], s["pool_todo"]),
-             "| 已采 | %d 篇 |" % s["articles"],
+             "| 风格池（能进文笔训练） | %d 条（待抓 %d） |" % (s["style_pool"], s["style_todo"]),
+             "| 风格语料 | %d 篇 |" % s["articles"],
+             "| 产业语料（只做形态/事实） | %d/%d 篇 |" % (s["industry"], INDUSTRY_TARGET),
              "| 结构统计 | %s（%s 小时前） |" % (s["struct_n"] or "无",
                                        round(s["struct_age_h"], 1) if s["struct_age_h"] else "从未"),
              "| 训练集 | %d 行 |" % s["train_rows"],
@@ -347,9 +432,12 @@ def refresh_screen(s, task, rec=None):
         lines += ["结果：`%s`｜%.1fs" % (rec.get("status"), rec.get("secs") or 0), "",
                   "```", (rec.get("tail") or "")[:600], "```", ""]
     lines += ["## 规则", "",
-              "1. 池 < %d 条就报 BLOCKED-SUPPLY，不空转（公众号没有列表接口，找料必须有人给种子）。" % POOL_MIN,
-              "2. 采满 %d 篇才学结构；采满 %d 篇才造训练集。" % (LEARN_AFTER, TRAIN_AFTER),
-              "3. 本器不做「好不好」的判断——出稿必须人看，禁止自己打分发稿。", ""]
+              "1. 两本账分开数：风格池归 ARTICLES.jsonl，产业语料归 ARTICLES-INDUSTRY.jsonl，"
+              "混着数会造出假待办（实锚：71 条已采的盖世链接被当待抓，一次跑爆 900 秒）。",
+              "2. 产业语料不足 %d 篇就自动补，**不等任何人**（静态源免登录）。" % INDUSTRY_TARGET,
+              "3. 只有风格池见底才升级要种子——公众号发现通道全封，这是唯一的真墙。",
+              "4. 采满 %d 篇才学结构；采满 %d 篇才造训练集。产业稿只学形态，不进文笔。" % (LEARN_AFTER, TRAIN_AFTER),
+              "5. 本器不做「好不好」的判断——出稿必须人看，禁止自己打分发稿。", ""]
     os.makedirs(GZH, exist_ok=True)
     open(SCREEN, "w", encoding="utf-8").write("\n".join(lines))
 
@@ -391,13 +479,22 @@ def _once_impl(dry=False):
     rec = {"ts": s["ts"], "phase": task["phase"], "why": task["why"],
            "run_id": "%s-%d" % (s["ts"], os.getpid()),
            "facts": {k: s.get(k) for k in
-                     ("pool", "pool_todo", "articles", "struct_n", "train_rows", "eligible")}}
+                     ("pool", "pool_todo", "style_pool", "industry", "articles",
+                      "struct_n", "train_rows", "eligible")}}
     if dry or task["phase"] == "watch":
         rec.update(status="WATCH", secs=0)
         _append(LEDGER, rec)
         refresh_screen(s, task, rec)
         print("[gzh] %s / %s" % (task["phase"], task["why"]))
         return 0
+    if task["phase"] == "supply-industry":
+        r = act_supply_industry()
+        rec.update(status="OK" if r["ok"] else "FAIL", secs=r["secs"], tail=r["tail"])
+        _append(LEDGER, rec)
+        refresh_screen(sense(), task, rec)
+        print("[gzh] 产业补料 %s %.1fs" % ("完成" if r["ok"] else "失败", r["secs"]))
+        print(r["tail"])
+        return 0 if r["ok"] else 1
     if task["phase"] == "supply":
         # 缺料是真的阻塞，但"每拍成功什么都没做"会让 launchd 永远看到 exit 0。
         # 连续第 2 拍起升级为 ESCALATE-SUPPLY 并退非零，让异常在 launchctl 里一眼可见。
@@ -419,9 +516,22 @@ def _once_impl(dry=False):
         # 记 FAIL 会触发退避，把语料永久压死（2026-11-23 踩过）。
         rc, why = _lease("gzh")
         if rc == 75:
+            # 浏览器让位 ≠ 这一拍没事干。产业补料是纯 HTTP（urllib，不开浏览器），
+            # 不占 browserd 单线程，照跑——否则等一个时段白等 30 分钟（2026-11-25 实锚：
+            # 台账里 68 拍空转就是这么来的）。
+            if s["industry"] < INDUSTRY_TARGET:
+                r = act_supply_industry()
+                rec.update(status="DEFER+SUPPLY" if r["ok"] else "DEFER+SUPPLY-FAIL",
+                           secs=r["secs"], tail=r["tail"], why=why)
+                _append(LEDGER, rec)
+                refresh_screen(sense(), task, rec)
+                print("[gzh] 采集让位（%s）→ 改跑产业补料 %s %.1fs"
+                      % (why[:40], "完成" if r["ok"] else "失败", r["secs"]))
+                print(r["tail"])
+                return 0
             rec.update(status="DEFER", secs=0, tail=why)
             _append(LEDGER, rec)
-            refresh_screen(s, task, rec)
+            refresh_screen(sense(), task, rec)
             print("[gzh] 让位：%s" % why)
             return 0
         if rc != 0:
@@ -458,8 +568,9 @@ def _once_impl(dry=False):
 def status():
     s = sense()
     task = decide(s)
-    print("[gzh] 池 %d（待抓 %d）｜已采 %d 篇｜结构 %s｜训练集 %d 行"
-          % (s["pool"], s["pool_todo"], s["articles"],
+    print("[gzh] 风格池 %d（待抓 %d）｜风格语料 %d 篇｜产业语料 %d/%d 篇｜结构 %s｜训练集 %d 行"
+          % (s["style_pool"], s["style_todo"], s["articles"], s["industry"],
+             INDUSTRY_TARGET,
              (str(s["struct_n"]) + " 篇/" + str(round(s["struct_age_h"], 1)) + "h")
              if s["struct_age_h"] else "无", s["train_rows"]))
     print("[gzh] 当前该做：%s —— %s" % (task["phase"], task["why"]))
@@ -478,26 +589,42 @@ def status():
 
 def self_test():
     """负控：把判据弄坏必须变红，否则这个调度就是没接上的假绿。"""
-    global URLS, ARTICLES, STRUCT, TRAINSET
+    global URLS, ARTICLES, INDUSTRY, STRUCT, TRAINSET, INDUSTRY_TARGET
     import tempfile
     cases = []
-    saved = (URLS, ARTICLES, STRUCT, TRAINSET)
+    saved = (URLS, ARTICLES, INDUSTRY, STRUCT, TRAINSET, INDUSTRY_TARGET)
     d = tempfile.mkdtemp(prefix="gzhloop-")
     URLS, ARTICLES = os.path.join(d, "u.jsonl"), os.path.join(d, "a.jsonl")
+    INDUSTRY = os.path.join(d, "ind.jsonl")
     STRUCT, TRAINSET = os.path.join(d, "s.json"), os.path.join(d, "t.jsonl")
+    INDUSTRY_TARGET = 10          # 测试用小目标，判据逻辑与生产一致
 
-    # N1 空池 → 必须判 supply（不能去采集）
-    cases.append(("N1 空池→supply", decide(sense())["phase"] == "supply"))
-    # N2 池够但没抓 → harvest
+    # N1 空池 → 不是等种子，而是先去自动补产业语料（守 CEO「禁以等人为由停工」）
+    cases.append(("N1 全空→supply-industry（先自己找料）",
+                  decide(sense())["phase"] == "supply-industry"))
+    # N2 池够但没抓 → harvest 优先（风格料比产业料值钱）
     for i in range(POOL_MIN + 5):
-        _append(URLS, {"_uid": "u%d" % i, "url": "x%d" % i})
+        _append(URLS, {"_uid": "u%d" % i, "url": "https://chejiahao.autohome.com.cn/info/%d" % i})
     cases.append(("N2 池满未抓→harvest", decide(sense())["phase"] == "harvest"))
-    # N3 抓完但少于学习门槛 → supply（诚实报不足，不是 watch）
+    # N2b 负控[本次真 bug] 静态源链接不得被算成风格待抓：
+    # 实锚 2026-11-25，71 条已采完的盖世链接被当待抓，还送进公众号提取器跑爆 900 秒
+    s_before = sense()["style_todo"]
+    for i in range(5):
+        _append(URLS, {"_uid": "g%d" % i,
+                       "url": "https://auto.gasgoo.com/news/202611/x%d.shtml" % i})
+    cases.append(("N2b 静态源不进风格待抓", sense()["style_todo"] == s_before))
+    # N3 风格抓完但产业不足 → supply-industry（不是 learn，也不是空转等种子）
     for i in range(POOL_MIN + 5):
         _append(ARTICLES, {"_uid": "u%d" % i, "title": "标题%d 3 个理由" % i,
                            "lead": "开篇正文" * 30, "words": 600, "heads": ["a"], "imgs": 2,
                            "genre": "review"})
-    cases.append(("N3 采满但无结构→learn", decide(sense())["phase"] == "learn"))
+    cases.append(("N3 风格抓完但产业不足→supply-industry",
+                  decide(sense())["phase"] == "supply-industry"))
+    # N3b 产业语料补够 → 才进 learn
+    for i in range(INDUSTRY_TARGET):
+        _append(INDUSTRY, {"_uid": "i%d" % i, "title": "产业稿%d" % i,
+                           "text": "行业正文" * 50, "genre": "industry", "source": "gasgoo"})
+    cases.append(("N3b 产业补够→learn", decide(sense())["phase"] == "learn"))
     # N4 结构统计真的读语料：改语料必须改数字
     st = learn_struct()
     cases.append(("N4 结构统计 n 正确", st and st["n"] == POOL_MIN + 5))
@@ -507,6 +634,8 @@ def self_test():
     cases.append(("N6 训练集成对生成", n == 2 * (POOL_MIN + 5)))
     # N7 结构新鲜时不该重复学
     cases.append(("N7 结构新鲜→不进 learn", decide(sense())["phase"] != "learn"))
+    # N7b 产业稿绝不进风格语料/结构统计（两本账不许串）
+    cases.append(("N7b 产业稿没被算进风格篇数", sense()["articles"] == POOL_MIN + 5))
 
     # N8 缺料必须能升级：连续两拍 BLOCKED-SUPPLY 之后 streak 必须到 2
     global LEDGER
@@ -523,11 +652,17 @@ def self_test():
     LEDGER = saved_led
 
     # N9 过滤率过高不得进 trainset（否则每拍全文重写、永不推进）
-    s9 = {"pool": 120, "pool_todo": 0, "articles": 100, "struct_age_h": 1.0,
+    s9 = {"style_pool": 120, "style_todo": 0, "pool_todo": 0, "articles": 100,
+          "industry": INDUSTRY_TARGET, "struct_age_h": 1.0,
           "train_rows": 20, "struct_n": 100, "eligible": 10}
     cases.append(("N9 可产行不足→不进 trainset", decide(s9)["phase"] != "trainset"))
     s9b = dict(s9, eligible=60, train_rows=20)
     cases.append(("N9b 可产行足够→进 trainset", decide(s9b)["phase"] == "trainset"))
+    # N9c 风格池见底且产业也补满 → 才升级要种子（唯一的真墙）
+    s9c = dict(s9, style_pool=3, style_todo=0, industry=INDUSTRY_TARGET,
+               struct_age_h=0.5, eligible=60, train_rows=200)
+    cases.append(("N9c 风格池见底+产业满→supply（要人给种子）",
+                  decide(s9c)["phase"] == "supply"))
 
     # N10 负控：通稿（press）与未知（unknown）不得参与文风标定/训练集
     _append(ARTICLES, {"_uid": "p1", "title": "某指数结果发布丨N9 测评结果发布",
@@ -542,7 +677,7 @@ def self_test():
     cases.append(("N10b 通稿/未知不进训练集（行数不变）",
                   n2 == 2 * (POOL_MIN + 5)))
 
-    URLS, ARTICLES, STRUCT, TRAINSET = saved
+    URLS, ARTICLES, INDUSTRY, STRUCT, TRAINSET, INDUSTRY_TARGET = saved
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))

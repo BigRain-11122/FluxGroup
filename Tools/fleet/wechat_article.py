@@ -92,6 +92,40 @@ def _append(path, rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+# 静态垂类源：由 gzh_corpus_expand.py 抓，语料落 ARTICLES-INDUSTRY.jsonl。
+# 这里必须跳过——否则 gasgoo 链接会被送进公众号提取器找 #js_content，
+# 每条必然卡满 25 秒超时（2026-11-25 实锚：71 条 × 25 秒 = 900 秒跑爆）。
+STATIC_HOSTS = ("auto.gasgoo.com", "www.d1ev.com", "d1ev.com")
+FAILED = os.path.join(GZH, "URLS-FAILED.jsonl")
+DEAD_STRIKES = 2          # 同一链接失败这么多次就不再试
+
+
+def _static_host(url):
+    from urllib.parse import urlsplit
+    host = urlsplit(url or "").netloc.lower()
+    return any(host == h or host.endswith("." + h) for h in STATIC_HOSTS)
+
+
+def failed_urls():
+    """死链台账：返回已达 DEAD_STRIKES 次的 uid 集合。"""
+    c = {}
+    try:
+        for line in open(FAILED, encoding="utf-8"):
+            line = line.strip()
+            if not line:
+                continue
+            r = json.loads(line)
+            c[r.get("_uid")] = c.get(r.get("_uid"), 0) + 1
+    except FileNotFoundError:
+        pass
+    return {u for u, n in c.items() if u and n >= DEAD_STRIKES}
+
+
+def mark_failed(url, why):
+    _append(FAILED, {"_uid": _uid(url), "url": url, "why": str(why)[:120],
+                     "at": datetime.now().isoformat(timespec="seconds")})
+
+
 def discover(keyword, pages=3, sleep_lo=4.0, sleep_hi=9.0, rng=None, via="serp"):
     """按关键词建 URL 池。via=serp 走搜索引擎 site: 查询（更宽容）；
     via=sogou 走搜狗微信（常被验证码拦，失败就返回原因，不硬磕）。"""
@@ -456,7 +490,7 @@ def expand_once(limit=6, rng=None):
                 try:
                     pg.goto(r["url"], wait_until="domcontentloaded", timeout=35000)
                     pg.wait_for_timeout(int(rng.uniform(2000, 3000)))
-                    got = pg.evaluate("""()=>{
+                    got = pg.evaluate(r"""()=>{
                       const hrefs=Array.from(document.querySelectorAll('a')).map(a=>a.href);
                       const auth=hrefs.map(h=>{const m=h.match(/\/Authors\/(\d+)/i);return m?m[1]:null}).filter(Boolean);
                       const info=hrefs.filter(h=>/\/info\/\d+/.test(h));
@@ -598,8 +632,23 @@ def write_blocklist():
     return out
 
 
-def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
+def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None,
+            budget_secs=540, max_attempts=None):
+    """从池里抓一批。
+
+    三个必须有的刹车（2026-11-25 实锚：一次 `--harvest 8` 把 900 秒预算跑爆，
+    循环记 CRASHED）：
+      1. **整批墙钟预算** budget_secs：到点就收工退 0，绝不拖死调用方；
+      2. **尝试上限** max_attempts：limit 是"入库几篇"不是"看几条链接"，
+         池里死链多时只按 limit 循环会一路扫到池底；
+      3. **死链台账** URLS-FAILED：同一个链接连续失败 2 次就不再试，
+         否则每次都排在队头，形成永久队头阻塞。
+
+    静态垂类源（盖世/第一电动）不在这里抓：它们归 gzh_corpus_expand.py，
+    语料分开落盘、训练时分开口径；这里遇到只跳过并计数，不记失败。
+    """
     rng = rng or random.Random()
+    t0 = time.time()
     src = urls if urls is not None else [
         json.loads(l) for l in open(URLS, encoding="utf-8") if l.strip()]
     done = _seen(ARTICLES)
@@ -609,19 +658,36 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
               for a in (json.loads(l) for l in open(ARTICLES, encoding="utf-8") if l.strip())}
     known = _seen(URLS)
     _bl = blocked_accounts()      # 一次算完，别在循环里反复读语料池
-    got, fail = 0, []
+    dead = failed_urls()          # 已经死了两轮的链接，不再占队头
+    attempts_cap = max_attempts if max_attempts is not None else max(2 * int(limit), 8)
+    got, fail, skip_static, attempts, stopped = 0, [], 0, 0, "pool-exhausted"
     for row in src:
         if got >= int(limit):
+            stopped = "limit"
+            break
+        if attempts >= attempts_cap:
+            stopped = "attempts"
+            break
+        if time.time() - t0 > budget_secs:
+            stopped = "budget"
             break
         u = row.get("url")
         if not u or _uid(u) in done:
             continue
+        if _static_host(u):
+            skip_static += 1
+            continue
+        if _uid(u) in dead:
+            fail.append({"url": u, "why": "死链台账（已失败 2 次）"})
+            continue
         if row.get("account") and row.get("account") in _bl:
             fail.append({"url": u, "why": "账号已止损（%s）" % row.get("account")})
             continue
+        attempts += 1
         art, why = fetch(u)
         if art is None:
             fail.append({"url": u, "why": why})
+            mark_failed(u, why)
             continue
         done.add(art["_uid"])
         art["genre"], art["genre_why"] = genre_of(art)
@@ -641,7 +707,9 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
                            "account": art.get("account"),   # 记账号：池里才知道这条属于谁
                            "found_at": datetime.now().isoformat(timespec="seconds")})
         time.sleep(rng.uniform(sleep_lo, sleep_hi))
-    return got, fail
+    stats = {"secs": round(time.time() - t0, 1), "attempts": attempts,
+             "skip_static": skip_static, "stopped": stopped, "budget": budget_secs}
+    return got, fail, stats
 
 
 def summarize(arts):
@@ -680,11 +748,59 @@ def self_test():
     # 4 去重集合真的能挡住重复
     import tempfile
     d = tempfile.mkdtemp(prefix="gzh-")
+    # 整个自检期间死链台账指向临时文件：自检不许写生产状态（2026-11-25 踩过）
+    global FAILED
+    saved_failed = FAILED
+    FAILED = os.path.join(d, "failed.jsonl")
     f = os.path.join(d, "x.jsonl")
     _append(f, {"_uid": "u1", "url": "a"})
     _append(f, {"_uid": "u2", "url": "b"})
     cases.append(("去重读到 2 条", len(_seen(f)) == 2))
     cases.append(("未知 uid 不在已采集", "u3" not in _seen(f)))
+
+    # 5 静态垂类源必须被识别出来（2026-11-25 实锚：71 条 gasgoo 链接被送进
+    #   公众号提取器，每条卡满 25 秒，一次 900 秒预算直接跑爆）
+    cases.append(("静态源[盖世] 被识别", _static_host("https://auto.gasgoo.com/news/202611/x.shtml")))
+    cases.append(("静态源[第一电动] 被识别", _static_host("https://www.d1ev.com/news/shuju/312498")))
+    cases.append(("负控[公众号] 不被误判静态", not _static_host("https://mp.weixin.qq.com/s/abc")))
+    cases.append(("负控[车家号] 不被误判静态",
+                  not _static_host("https://chejiahao.autohome.com.cn/info/26906205")))
+    cases.append(("负控[仿冒域名] 不算静态源",
+                  not _static_host("https://evil-d1ev.com/news/shuju/1")))
+
+    # 6 死链台账：失败 1 次还试，失败 2 次就不试（否则队头永久阻塞）
+    # 整个自检期间 FAILED 一律指向临时文件——2026-11-25 踩过：自检往生产台账
+    # 写了 18 行「桩失败」，第二次跑就自己被这些假死链判红，还污染了真实数据。
+    u1 = "https://chejiahao.autohome.com.cn/info/111111"
+    mark_failed(u1, "timeout")
+    cases.append(("死链 1 次→仍会重试", _uid(u1) not in failed_urls()))
+    mark_failed(u1, "timeout")
+    cases.append(("死链 2 次→不再重试", _uid(u1) in failed_urls()))
+    cases.append(("负控[别的链接] 不受影响",
+                  _uid("https://chejiahao.autohome.com.cn/info/222222") not in failed_urls()))
+
+    # 7 预算/尝试上限真的会刹车（不联网：fetch 换成恒失败的桩）
+    global fetch
+    saved_fetch = fetch
+    try:
+        fetch = lambda url, retries=1: (None, "桩失败")
+        pool = os.path.join(d, "pool.jsonl")
+        for i in range(20):
+            _append(pool, {"url": "https://chejiahao.autohome.com.cn/info/%d" % (900000 + i)})
+        rows = [json.loads(l) for l in open(pool, encoding="utf-8")]
+        g, fl, st = harvest(limit=5, budget_secs=0, rng=random.Random(0),
+                            urls=rows, max_attempts=3)
+        cases.append(("预算 0 秒→立刻收工且不抓任何一篇", g == 0 and st["attempts"] == 0
+                      and st["stopped"] == "budget"))
+        g2, fl2, st2 = harvest(limit=5, budget_secs=60, rng=random.Random(0),
+                               urls=rows, max_attempts=3)
+        cases.append(("尝试上限 3→只试 3 次就收工", st2["attempts"] == 3
+                      and st2["stopped"] == "attempts"))
+        cases.append(("负控[不应跑到池底]", len(fl2) <= 4))
+    finally:
+        fetch = saved_fetch
+        FAILED = saved_failed
+
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))
@@ -706,6 +822,8 @@ def main():
     ap.add_argument("--scrolls", type=int, default=8,
                     help="作者页滚动加载次数（车家号是无限滚动，?page=N 无效）")
     ap.add_argument("--harvest", type=int, default=0)
+    ap.add_argument("--budget-secs", type=int, default=540,
+                    help="整批墙钟预算：到点收工退 0，绝不拖死调用方（默认 540）")
     ap.add_argument("--limit", type=int, default=0, help="每次最多抓几篇（防手滑抓太多）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
@@ -766,12 +884,18 @@ def main():
             print("[gzh] 让位/拒绝 rc=%d：%s" % (rc, why))
             return 75 if rc == 75 else 76
         lim = a.limit or a.harvest
-        got, fail = harvest(min(lim, a.harvest))
+        got, fail, st = harvest(min(lim, a.harvest), budget_secs=a.budget_secs)
         arts = [json.loads(l) for l in open(ARTICLES, encoding="utf-8")
                 if l.strip()][-got:] if got else []
-        print("[gzh] 入库 %d 篇，失败 %d 次%s"
-              % (got, len(fail), ("（首个失败：%s）" % fail[0]["why"]) if fail else ""))
-        print("[gzh] 本批：%s" % summarize(arts))
+        print("[gzh] 入库 %d 篇，失败 %d 次，跳过静态源 %d 条"
+              % (got, len(fail), st["skip_static"]))
+        print("[gzh] 本拍 %.1f 秒 / 尝试 %d 次 / 收工原因 %s（预算 %d 秒）"
+              % (st["secs"], st["attempts"], st["stopped"], st["budget"]))
+        if fail:
+            print("[gzh] 首个失败：%s" % fail[0]["why"])
+        if got:
+            print("[gzh] 本批：%s" % summarize(arts))
+        # 预算到点收工不是失败：已入库的照算，退 0 让循环继续下一拍。
         return 0
     print(__doc__)
     return 0

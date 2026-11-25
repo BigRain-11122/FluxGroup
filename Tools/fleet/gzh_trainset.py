@@ -30,9 +30,9 @@ import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SRC = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "ARTICLES.jsonl")
-# 第二个语料库：垂类媒体镜像（盖世汽车）。行业稿可以进「语料」，
-# 但**不进文笔训练集**——它写的是产业链，不是消费向表达。
-SRC_EXTRA = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "ARTICLES-GASGOO.jsonl")
+# 第二个语料库：静态垂类媒体（盖世汽车 + 第一电动，统一落 ARTICLES-INDUSTRY.jsonl）。
+# 行业稿可以进「语料」，但**不进文笔训练集**——它写的是产业链，不是消费向表达。
+SRC_EXTRA = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "ARTICLES-INDUSTRY.jsonl")
 OUT = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "trainset")
 MANIFEST = os.path.join(OUT, "MANIFEST.json")
 
@@ -138,9 +138,14 @@ def gate(rows):
         """作者口径：有 account 用 account；镜像稿按 source-author_id 区分作者。
         坑（2026-11-25）：镜像稿没有 account 字段，若一律记「未知」，
         71 篇会被算成一个作者，把「作者数≥5」与「单作者≤?」两条门槛全搞错。
+        第二坑（同日，接第一电动时暴露）：静态源正文里有真实 `author` 字段
+        （「第一电动编辑部」「胡永彬」…），但仍没有 account；只认 author_id 会把
+        25 篇记成「未知」，一次吃掉「单作者≤」这条门槛。按 author → author_id 兜底。
         """
         if r.get("account"):
             return r["account"]
+        if r.get("author"):
+            return r["author"]
         if r.get("author_id"):
             return f"{r.get('source') or 'mirror'}-{r['author_id']}"
         return "未知"
