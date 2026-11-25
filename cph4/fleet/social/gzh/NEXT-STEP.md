@@ -8,6 +8,6 @@
 - **判据**：ARTICLES 净增 >0 且失败率 <30%
 - **要谁动手**：无
 - **节奏**：每 30 分钟一拍
-- **进度**：风格 20 篇 / 产业 96/200 篇
-- **事实**：{"pool": 151, "pool_todo": 39, "style_pool": 55, "industry": 96, "articles": 20, "struct_n": null, "train_rows": 0}
-- **更新时间**：2026-11-25T14:23:53
+- **进度**：风格 20 篇 / 产业 226/200 篇
+- **事实**：{"pool": 281, "pool_todo": 39, "style_pool": 55, "industry": 226, "articles": 20, "struct_n": 6, "train_rows": 0}
+- **更新时间**：2026-11-25T14:33:26
