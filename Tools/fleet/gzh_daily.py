@@ -229,15 +229,20 @@ def main():
     rc_struct, out_struct = run_tool(
         "gzh_article_check.py", "--in", path,
         "--mode", "long" if slot.get("kind") == "long" else "short")
+    # 严谨闸（去 AI 化 + 科学化）：骨架必然命中，正好演示"缺的是正文不是格式"
+    rc_rig, out_rig = run_tool("gzh_rigor_check.py", "--in", path)
     gates = os.path.join(outdir, "gates.txt")
     open(gates, "w", encoding="utf-8").write(
-        f"# {day} 闸报告（骨架阶段）\n\n结构闸 rc={rc_struct}\n{out_struct}\n")
+        f"# {day} 闸报告（骨架阶段）\n\n"
+        f"## 结构闸 rc={rc_struct}\n{out_struct}\n"
+        f"## 严谨闸（去AI化+科学化） rc={rc_rig}\n{out_rig}\n")
 
     man = {"date": day.isoformat(), "season": season["id"], "quadrant": slot.get("quadrant"),
            "kind": slot.get("kind"), "topic": slot.get("topic"),
            "status": "NEEDS-MODEL" if not ok else "READY",
            "why": why, "draft": os.path.relpath(path, ROOT),
            "gates": os.path.relpath(gates, ROOT),
+           "gate_rc": {"struct": rc_struct, "rigor": rc_rig},
            "hot": hot["word"] if hot else None}
 
     if ok:
