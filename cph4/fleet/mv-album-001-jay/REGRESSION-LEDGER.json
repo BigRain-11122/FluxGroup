@@ -9,7 +9,11 @@
       "id": "R-01",
       "name": "音轨真峰不削波",
       "assert_kind": "true_peak",
-      "params": {"max_dbtp": -1.0, "lufs_target": -14.0, "lufs_tol": 1.5},
+      "params": {
+        "max_dbtp": -1.0,
+        "lufs_target": -14.0,
+        "lufs_tol": 1.5
+      },
       "first_fixed": "2026-11-23",
       "first_fixed_by": "DIRECTOR-REVIEW-V7-30s（两遍 loudnorm + alimiter）",
       "evidence": "v7 实测 -14.9 LUFS / -1.1 dBTP",
@@ -20,7 +24,9 @@
       "id": "R-02",
       "name": "帧数与时长精确",
       "assert_kind": "duration_frames",
-      "params": {"dur_tol_s": 0.05},
+      "params": {
+        "dur_tol_s": 0.05
+      },
       "first_fixed": "2026-10-24",
       "first_fixed_by": "D-20261024-09（重建版帧数 5625≠5623）",
       "evidence": "全片 5623 帧 / 234.29s；30s 卷 720 帧 / 30.000s",
@@ -31,7 +37,11 @@
       "id": "R-03",
       "name": "零精确重复帧",
       "assert_kind": "dup_freeze",
-      "params": {"max_dup_ratio": 0.0, "max_freeze_frames": 2, "freeze_diff": 0.35},
+      "params": {
+        "max_dup_ratio": 0.0,
+        "max_freeze_frames": 2,
+        "freeze_diff": 0.35
+      },
       "first_fixed": "2026-10-24",
       "first_fixed_by": "D-20261024-08 D1/D2（framemd5）",
       "evidence": "v7 / v14 实测重复帧 0、冻结 0",
@@ -42,7 +52,10 @@
       "id": "R-04",
       "name": "古今分色成立",
       "assert_kind": "era_color",
-      "params": {"modern_max_rb": 5.0, "ancient_min_rb": 15.0},
+      "params": {
+        "modern_max_rb": 5.0,
+        "ancient_min_rb": 15.0
+      },
       "first_fixed": "2026-10-24",
       "first_fixed_by": "D-20261024-06 时代编码三件套",
       "evidence": "现代段 R−B ≤ +5、古代段 ≥ +15",
@@ -63,7 +76,10 @@
       "id": "R-06",
       "name": "字卡三查（存在/时长/可读）",
       "assert_kind": "text_card",
-      "params": {"min_bottom_bright_ratio": 0.02, "max_bottom_bright_ratio": 0.80},
+      "params": {
+        "min_bottom_bright_ratio": 0.02,
+        "max_bottom_bright_ratio": 0.8
+      },
       "first_fixed": "2026-10-16",
       "first_fixed_by": "V5-TYPOGRAPHY-SPEC（CHK-T 三查）",
       "evidence": "片头 AIGC 标识 + 片尾词曲署名字形完整、无 tofu（2026-11-25 实图复核）",
@@ -74,7 +90,10 @@
       "id": "R-07",
       "name": "剪辑表与成片切点对账",
       "assert_kind": "cut_edl_match",
-      "params": {"tolerance_s": 0.12, "min_match_ratio": 0.8},
+      "params": {
+        "tolerance_s": 0.12,
+        "min_match_ratio": 0.8
+      },
       "first_fixed": "2026-10-24",
       "first_fixed_by": "D-20261024-05（切点表必须同源）",
       "evidence": "v13b 实测切点 3.297/5.898/9.218… 与 EDIT-PLAN-v13b 逐点吻合",
@@ -85,7 +104,18 @@
       "id": "R-08",
       "name": "素材准入（失败件/低清/糊件不入剪）",
       "assert_kind": "asset_pool",
-      "params": {"min_short_side": 768, "banned_name_patterns": ["fail", "fail1", "fail2", "_fail", "broken", "test"], "min_sharp_ratio": 0.4},
+      "params": {
+        "min_short_side": 768,
+        "banned_name_patterns": [
+          "fail",
+          "fail1",
+          "fail2",
+          "_fail",
+          "broken",
+          "test"
+        ],
+        "min_sharp_ratio": 0.4
+      },
       "first_fixed": "2026-11-25",
       "first_fixed_by": "本次复盘（全片 v1 里发现 fail1 素材入剪）",
       "evidence": "pool/EDIT-PLAN-NARRATIVE.json 里 SIL1 指向 v5redo/fail_v53/SIL1_...fail1.mp4",
@@ -96,7 +126,10 @@
       "id": "R-09",
       "name": "镜长密度单调收敛",
       "assert_kind": "lb_density",
-      "params": {"tail_must_be_less_than_mid": true, "tolerance_s": 0.15},
+      "params": {
+        "tail_must_be_less_than_mid": true,
+        "tolerance_s": 0.15
+      },
       "first_fixed": "2026-10-19",
       "first_fixed_by": "10-19 节奏令（主歌 2–3s 一镜，末段收紧）",
       "evidence": "全片 v1 密度曲线 4.3→2.81→2.79→2.83→3.31",
@@ -117,7 +150,9 @@
       "id": "R-11",
       "name": "人物镜亮度下限",
       "assert_kind": "person_luma",
-      "params": {"min_yavg": 45.0},
+      "params": {
+        "min_yavg": 45.0
+      },
       "first_fixed": "2026-10-24",
       "first_fixed_by": "D-20261024-03（把「看不清」误判成「换人」）",
       "evidence": "人物镜 <45/255 必须先提亮再判断",
@@ -139,7 +174,9 @@
       "id": "R-13",
       "name": "块面清晰度断档",
       "assert_kind": "block_sharp",
-      "params": {"ratio_vs_same_luma_band": 0.4},
+      "params": {
+        "ratio_vs_same_luma_band": 0.4
+      },
       "first_fixed": "2026-11-25",
       "first_fixed_by": "本次复盘（shot_qc 分亮度档判据）",
       "evidence": "全片 b48 KF5 144.2 vs 同档中位 469.4",
@@ -149,7 +186,9 @@
       "id": "R-14",
       "name": "真黑边（pillarbox/letterbox）",
       "assert_kind": "block_bars",
-      "params": {"max_symmetric_bar_ratio": 0.06},
+      "params": {
+        "max_symmetric_bar_ratio": 0.06
+      },
       "first_fixed": "2026-11-25",
       "first_fixed_by": "本次复盘（99 分位 + 对侧对称判据）",
       "evidence": "全片 b17 14%/16%、b57 8%/8% 为真黑边；单侧大片纯黑是构图不判负",
@@ -159,17 +198,60 @@
       "id": "R-15",
       "name": "音画同长",
       "assert_kind": "av_sync",
-      "params": {"max_delta_s": 0.05},
+      "params": {
+        "max_delta_s": 0.05
+      },
       "first_fixed": "2026-11-23",
       "first_fixed_by": "v7 交付（720 帧 / 30.000s / 音轨 30.000s）",
       "evidence": "视频与音频时长差 = 0.000",
       "regression_symptom": "loudnorm/aresample 后音频多出 0.1s 尾（v13c 首版实锚 30.100s），必须 -t 精确截断"
+    },
+    {
+      "id": "R-16",
+      "name": "副歌主唱演唱镜存在性（A档硬门）",
+      "assert_kind": "manual",
+      "manual_cmd": "按 EDL 副歌段逐段抽帧：每段副歌须 >=1 个 >=1.5s 的主唱正脸/半身演唱镜（可见嘴部或明确演唱姿态）；缺则本片最高只能判 B 档",
+      "params": {
+        "min_shots_per_chorus": 1,
+        "min_shot_dur_s": 1.5
+      },
+      "first_fixed": "2026-10-19",
+      "first_fixed_by": "CRAFT-CEO-MV-INDUSTRY-v1 工业三律①KTV律（正典早已立法）+ QC §5【v1.2】三查",
+      "evidence": "2026-11-25 大片验收实测：30s 与 234s 全片均为 0 次演唱镜（两个独立视频模型一致判定 B 档）",
+      "regression_symptom": "闸写着但没跑：片子上线级交付，KTV 铁律从未被检查一次",
+      "note": "这是「商业成立」的底线，不是审美偏好。补法：侧脸/仰头/闭眼唱+节奏点头，规避 H3 口型先验。"
     }
   ],
   "recurrence_log": [
-    {"id": "R-01", "count": 2, "dates": ["2026-11-23 first_fixed", "2026-11-24 regressed (v13-final +2.1 dBTP)", "2026-11-25 re-fixed (v13c -2.0 dBTP)"]},
-    {"id": "R-07", "count": 1, "dates": ["2026-11-25 discovered: v13 x3 全是 v5 旧结构"]},
-    {"id": "R-08", "count": 1, "dates": ["2026-11-25 discovered: fail1 入剪"]},
-    {"id": "R-15", "count": 1, "dates": ["2026-11-25 discovered: v13c 30.100s"]}
+    {
+      "id": "R-01",
+      "count": 2,
+      "dates": [
+        "2026-11-23 first_fixed",
+        "2026-11-24 regressed (v13-final +2.1 dBTP)",
+        "2026-11-25 re-fixed (v13c -2.0 dBTP)"
+      ]
+    },
+    {
+      "id": "R-07",
+      "count": 1,
+      "dates": [
+        "2026-11-25 discovered: v13 x3 全是 v5 旧结构"
+      ]
+    },
+    {
+      "id": "R-08",
+      "count": 1,
+      "dates": [
+        "2026-11-25 discovered: fail1 入剪"
+      ]
+    },
+    {
+      "id": "R-15",
+      "count": 1,
+      "dates": [
+        "2026-11-25 discovered: v13c 30.100s"
+      ]
+    }
   ]
 }
