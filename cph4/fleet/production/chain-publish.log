@@ -2010,3 +2010,7 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-25T16:56:32 RECEIPT RUNNING gpu=1 vram=11953MB busy=i2v
 2026-11-25T16:57:04 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-25T17:01:32 RECEIPT RUNNING gpu=48 vram=8427MB busy=i2v
+2026-11-25T17:01:59 LANE jobs=1 fresh=1 -> run one card
+2026-11-25T17:02:12 LANE rc=0 done=- 
+2026-11-25T17:02:12 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-25T17:06:32 RECEIPT RUNNING gpu=100 vram=7725MB busy=i2v
