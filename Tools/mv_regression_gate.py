@@ -284,6 +284,14 @@ def a_block_bars(film, edl, opts, ent):
 
 
 def a_lb_density(film, edl, opts, ent):
+    # 歌词驱动剪辑：镜长由歌词句长决定，不是剪辑自由选择 → 本项不适用
+    if edl and os.path.exists(edl):
+        try:
+            _d = json.load(open(edl, encoding="utf-8"))
+            if str(_d.get("cut_mode", "")) == "lyric_bound":
+                return None, {"reason": "EDL 声明 lyric_bound（切点由歌词句长决定），长度密度不适用"}
+        except Exception:
+            pass
     rep = _run_shot_qc(film, edl, mode="block")
     lens = [b["dur"] for b in rep["blocks"]]
     if len(lens) < 6:
