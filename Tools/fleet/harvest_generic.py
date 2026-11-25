@@ -17,6 +17,7 @@
 用法：
   harvest_generic.py --probe https://www.pcauto.com.cn/       # 探活：这站怎么采
   harvest_generic.py --feed https://sspai.com/               # 自动找 RSS 并抓正文
+  harvest_generic.py --list    https://www.stats.gov.cn/sj/zxfb/  # 列表页抽链接
   harvest_generic.py --sitemap https://www.miit.gov.cn/      # 走 sitemap 取清单
   harvest_generic.py --url <文章URL>                         # 单篇
   harvest_generic.py --seeds seeds.txt --limit 20            # 一行一个 URL
@@ -86,11 +87,35 @@ def uid_of(url):
     return (site + tail)[:20]
 
 
+BAD_TITLE = re.compile(r"\b(var|let|const|function|document)\b|\w+\s*=\s*['\"]|</?\w+")
+SITE_TAIL = re.compile(r"\s*[-_—|｜]\s*(中华人民共和国)?[\u4e00-\u9fa5]{0,12}"
+                       r"(统计局|政府|工信部|信息网|官网|网站|网)\s*$")
+
+
+def _clean_title(title, html):
+    """标题清洗。两个坑都是实测踩的：
+
+      1. 页面把标题写在 JS 里（`var title1 = '2026年11月中旬...'`），元数据抽取
+         直接把它当标题，入库后标题列就是一段代码 → 出现 JS 关键字就换来源；
+      2. 标题常带站名尾巴（`... - 国家统计局`）→ 统一按分隔符剥掉。
+    """
+    t = (title or "").strip()
+    if not (t and not BAD_TITLE.search(t) and len(t) <= 120):
+        m = re.search(r"<title[^>]*>([\s\S]{2,300}?)</title>", html or "", re.I)
+        t = ""
+        if m:
+            cand = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", m.group(1))).strip()
+            if cand and not BAD_TITLE.search(cand):
+                t = cand
+    t = SITE_TAIL.sub("", t).strip()
+    return t[:150]
+
+
 def _meta(html, url):
     m = trafilatura.extract_metadata(html, default_url=url) if HAVE_TRAFILATURA else None
     if m is None:
-        return {"title": "", "author": "", "date": "", "sitename": ""}
-    return {"title": (getattr(m, "title", "") or "").strip()[:150],
+        return {"title": _clean_title("", html), "author": "", "date": "", "sitename": ""}
+    return {"title": _clean_title(getattr(m, "title", ""), html),
             "author": (getattr(m, "author", "") or "").strip()[:60],
             "date": (getattr(m, "date", "") or "").strip(),
             "sitename": (getattr(m, "sitename", "") or "").strip()[:40]}
@@ -187,21 +212,81 @@ def feed_candidates(site, limit=20):
     return out, ""
 
 
+ASSET_EXT = (".css", ".js", ".json", ".jpg", ".jpeg", ".png", ".gif", ".svg",
+             ".ico", ".webp", ".woff", ".woff2", ".ttf", ".mp4", ".mp3", ".zip")
+
+
+def page_links(html, page_url, limit=200):
+    """列表页 → 文章链接。官方/专业站绝大多数是列表页而不是 RSS。
+
+    判据两条：
+      1. 路径里带 4 位以上数字（`/202611/t20261120_123.html`、
+         `/news/shuju/312498` 都符合）。首页导航、栏目页、关于我们都不带长数字，
+         所以这条比"猜 class 名"稳得多——class 名一改版就全错。
+      2. **排除静态资源**。坑（2026-11-25 实测）：`gtj2023_base.css` 里的 2023
+         正好是 4 位数字，被当成文章链接，一次抓了 9 条 CSS 全失败。
+    """
+    from urllib.parse import urljoin
+    out, seen = [], set()
+    for m in re.finditer(r'href="([^"#]+)"', html or ""):
+        raw = m.group(1).strip()
+        if raw.startswith(("javascript:", "mailto:", "tel:")):
+            continue
+        u = urljoin(page_url, raw)
+        if not u.startswith("http"):
+            continue
+        path = urlsplit(u).path
+        if path.lower().endswith(ASSET_EXT):
+            continue
+        if not re.search(r"\d{4,}", path):
+            continue
+        if re.search(r"/(index|default)\.(html?|shtml?)$", path, re.I):
+            continue
+        if u in seen:
+            continue
+        seen.add(u)
+        out.append(u)
+        if len(out) >= limit:
+            break
+    return out
+
+
 def probe(url):
-    """探活：这个站能用哪种方式采，能采多少。不猜，逐件试并报结果。"""
+    """探活：这个站能用哪种方式采，能采多少。不猜，逐件试并报结果。
+
+    五种判定，顺序就是优先级：
+      feed    → 有 RSS/Atom，直接 --feed
+      sitemap → 有 sitemap，走 --sitemap 拿清单
+      list    → 列表页（官方站最常见），走 --list
+      article → 页面本身就是一篇文章，走 --url
+      不可采  → 首页是 JS 壳，三条路都不通
+
+    「list」这一档是 2026-11-25 补的：在此之前统计局这类列表页会被判成
+    「article」（trafilatura 抽到了首页自己那段文字），是假阳性。
+    """
     out = {"url": url, "feeds": 0, "feed_sample": [], "sitemap_urls": 0,
-           "sitemap_sample": [], "article": 0, "why": ""}
+           "sitemap_sample": [], "list_links": 0, "list_sample": [],
+           "article": 0, "why": ""}
     f, e1 = discover_feeds(url)
     out["feeds"], out["feed_sample"] = len(f), f[:3]
     if not f:
         s, e2 = discover_sitemap(url)
         out["sitemap_urls"], out["sitemap_sample"] = len(s), s[:3]
+    if not f and not out["sitemap_urls"]:
+        try:
+            html = trafilatura.fetch_url(url)
+        except Exception:                             # noqa: BLE001
+            html = ""
+        links = page_links(html, url) if html else []
+        out["list_links"], out["list_sample"] = len(links), links[:3]
     a, why = extract_one(url)
     out["article"] = a["words"] if a else 0
     out["why"] = why or ""
     out["verdict"] = ("feed" if out["feeds"] else
                       "sitemap" if out["sitemap_urls"] else
-                      "article" if out["article"] else "不可采")
+                      "list" if out["list_links"] >= 5 else
+                      "article" if out["article"] and not out["list_links"] else
+                      "不可采")
     return out
 
 
@@ -302,6 +387,41 @@ def self_test():
     cases.append(("HTML 不被认成 feed", not _looks_like_feed("<!DOCTYPE html><html>")))
     cases.append(("负控[空串] 不算 feed", not _looks_like_feed("")))
 
+    # 5 列表页识别（官方站最常见；2026-11-25 统计局被误判成 article 才补的）
+    LIST_HTML = """<html><body>
+    <a href="/202611/t20261120_1901234.html">十一月数据发布</a>
+    <a href="/202611/t20261118_1901199.html">十月工业增加值</a>
+    <a href="https://www.stats.gov.cn/sj/zxfb/202610/t20261020_1900001.html">九月数据</a>
+    <a href="/index.html">首页（不该算文章）</a>
+    <a href="/about">关于我们（无长数字）</a>
+    <a href="javascript:void(0)">JS 链接</a>
+    </body></html>"""
+    links = page_links(LIST_HTML, "https://www.stats.gov.cn/sj/zxfb/")
+    cases.append(("列表页抽出 3 条文章链接", len(links) == 3))
+    cases.append(("相对链接补成绝对链接", links[0].startswith("https://www.stats.gov.cn/202611/")))
+    cases.append(("负控[首页 index] 不算文章", not any("index.html" in x for x in links)))
+    cases.append(("负控[无长数字的导航页] 不算文章", not any(x.endswith("/about") for x in links)))
+    cases.append(("负控[空 HTML] 返回空", page_links("", "https://a.com/") == []))
+    cases.append(("负控[纯导航页] 0 条（不许瞎凑）",
+                  page_links('<a href="/news">新闻</a><a href="/about">关于</a>',
+                             "https://a.com/") == []))
+    cases.append(("负控[CSS 链里带年份] 不算文章（实锚 gtj2023_base.css）",
+                  page_links('<a href="/images/gtj2023_base.css">x</a>',
+                             "https://www.stats.gov.cn/") == []))
+
+    # 6 标题清洗：页面把标题写在 JS 里时不许把代码当标题
+    js_html = ("<html><head><title>2026年11月中旬流通领域重要生产资料价格</title></head>"
+               "<body>x</body></html>")
+    cases.append(("负控[JS 变量不作标题] 回退到 <title>",
+                  _clean_title("var title1 = '2026年11月'", js_html)
+                  == "2026年11月中旬流通领域重要生产资料价格"))
+    cases.append(("正常标题原样保留", _clean_title("座舱屏幕越做越大", js_html) == "座舱屏幕越做越大"))
+    cases.append(("站名尾巴被去掉",
+                  _clean_title("2026年10月份数据 - 国家统计局", "<title>2026年10月份数据</title>")
+                  .endswith("数据")))
+    cases.append(("负控[取不到任何标题] 返回空而不是代码",
+                  _clean_title("var a = 'x'", "<html></html>") == ""))
+
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))
@@ -331,6 +451,7 @@ def main():
     ap.add_argument("--url", help="只抓这一篇")
     ap.add_argument("--seeds", help="一行一个 URL 的文件")
     ap.add_argument("--feed", help="站点 URL：自动找 RSS 并抓正文")
+    ap.add_argument("--list", help="列表页 URL：从列表里抽文章链接再逐篇抓")
     ap.add_argument("--sitemap", help="站点 URL：走 sitemap 取文章清单")
     ap.add_argument("--probe", help="探活：这个站能用哪种方式采")
     ap.add_argument("--limit", type=int, default=20)
@@ -368,6 +489,21 @@ def main():
             return 2
         print("[generic] 站点发现 %d 条候选（feed 或直接文章链接）" % len(urls))
         src = "feed"
+    elif a.list:
+        try:
+            html = trafilatura.fetch_url(a.list)
+        except Exception as e:                        # noqa: BLE001
+            print("[generic] 列表页取不到：%s" % e, file=sys.stderr)
+            return 2
+        if not html:
+            print("[generic] 列表页取不到（超时/403）", file=sys.stderr)
+            return 2
+        urls = page_links(html, a.list, limit=max(a.limit * 3, 30))
+        if not urls:
+            print("[generic] 列表页里没找到文章链接", file=sys.stderr)
+            return 2
+        print("[generic] 列表页给出 %d 条候选" % len(urls))
+        src = "list"
     elif a.sitemap:
         urls, why = discover_sitemap(a.sitemap)
         if not urls:

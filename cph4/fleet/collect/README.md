@@ -31,14 +31,21 @@
 ## C：任何站点（通用）
 ```bash
 .venv-housing/bin/python Tools/fleet/harvest_generic.py --probe https://example.com/   # 先探活
-.venv-housing/bin/python Tools/fleet/harvest_generic.py --feed  https://sspai.com/     # 自动找 feed
+.venv-housing/bin/python Tools/fleet/harvest_generic.py --feed    https://sspai.com/   # 自动找 feed
+.venv-housing/bin/python Tools/fleet/harvest_generic.py --list    https://www.stats.gov.cn/sj/zxfb/
 .venv-housing/bin/python Tools/fleet/harvest_generic.py --sitemap https://www.miit.gov.cn/
-.venv-housing/bin/python Tools/fleet/harvest_generic.py --url   <一篇文章>
-.venv-housing/bin/python Tools/fleet/harvest_generic.py --seeds list.txt --limit 20
+.venv-housing/bin/python Tools/fleet/harvest_generic.py --url     <一篇文章>
+.venv-housing/bin/python Tools/fleet/harvest_generic.py --seeds   list.txt --limit 20
 ```
-- 探活先跑：`verdict=feed|sitemap|article|不可采`，一眼看出这个站值不值得接。
-- 实测（2026-11-25）：少数派 feed → 3 篇 / 平均 4176 字 / 0 失败；
-  第一电动文章 8549 字；懂车帝与易车首页 0 字 → 判不可采（JS 壳、无 feed 无 sitemap）。
+- 探活先跑，`verdict` 五档任选其一：
+  `feed`（有 RSS）｜`sitemap`｜`list`（列表页，官方站最常见）｜`article`（页面本身就是文章）｜不可采。
+- 实测（2026-11-25）：
+  - 少数派 `--feed` → 3 篇 / 平均 4176 字 / 0 失败
+  - 国家统计局 `--list` → 7 篇 / 平均 1838 字（官方一手数据）
+  - 第一电动单篇 8549 字；懂车帝与易车首页 0 字 → 判不可采（JS 壳，无 feed 无 sitemap）
+- 两个实测踩到的坑（已修 + 有负控）：
+  - `gtj2023_base.css` 里的 2023 是 4 位数字，被当成文章链接，一次抓 9 条 CSS 全失败 → 按静态资源后缀排除；
+  - 统计局把标题写在 JS 里（`var title1 = '...'`），元数据抽取把代码当标题入库 → 出关键字就回退 `<title>` 并剥站名尾巴。
 - 输出：`cph4/fleet/collect/ARTICLES-GENERIC.jsonl`（`genre=unspecified`，默认不进文笔训练）。
 
 ## 口径（三条通道共用一句）
