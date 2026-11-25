@@ -30,11 +30,20 @@ import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SRC = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "ARTICLES.jsonl")
+# 第二个语料库：垂类媒体镜像（盖世汽车）。行业稿可以进「语料」，
+# 但**不进文笔训练集**——它写的是产业链，不是消费向表达。
+SRC_EXTRA = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "ARTICLES-GASGOO.jsonl")
 OUT = os.path.join(ROOT, "cph4", "fleet", "social", "gzh", "trainset")
 MANIFEST = os.path.join(OUT, "MANIFEST.json")
 
 # 语料门槛（GZH-TRAIN-SPEC-v1.md §三，改这里就是改标准，别在别处硬编码）
-GATE_TOTAL = 200        # 真稿总篇数
+# 取材资格：只有「有观点的稿」和「对标号本人的稿」才配进训练集。
+# 实锚 2026-11-25：19 篇里 6 篇是通稿（CLUE 4 + IVISTA 2），
+# 还有 CLUE中文语言理解测评基准 根本不是汽车号——这类料训出来只会写通稿。
+GATE_TOTAL = 200        # 真稿总篇数（门槛，与取材资格是两件事）
+GENRE_OK = ("review",)          # 能进文笔训练的体裁
+CORPUS_ONLY = ("industry", "press")   # 只进语料统计、不进训练集
+ACCOUNT_OK = ()                 # 空=不限；填了则只收这些号的稿
 GATE_PER_AUTHOR = 10    # 单个作者至少几篇（才能学人设）
 GATE_AUTHORS = 5        # 至少覆盖几个作者（防止学成复读机）
 
@@ -76,7 +85,18 @@ def paragraphs(text):
 
 
 def load(path=None):
-    path = path or SRC
+    """默认读全部语料（主库 + 垂类镜像库）。"""
+    if path:
+        paths = [path]
+    else:
+        paths = [p for p in (SRC, SRC_EXTRA) if os.path.exists(p)]
+    rows = []
+    for path in paths:
+        rows += _load_one(path)
+    return rows
+
+
+def _load_one(path):
     rows = []
     if not os.path.exists(path):
         return rows
@@ -91,11 +111,43 @@ def load(path=None):
     return rows
 
 
+def eligible(r):
+    """是否有资格进**文笔训练集**。返回 (ok, 原因)。"""
+    g = (r.get("genre") or "unknown").lower()
+    if g in CORPUS_ONLY:
+        return False, f"{g}——只进语料不进训练"
+    if ACCOUNT_OK and (r.get("account") or "") not in ACCOUNT_OK:
+        return False, f"非对标号（{r.get('account')}）"
+    # unknown 允许，但必须带正文（避免只有标题的空条目混进来）
+    if not (r.get("text") and len(r["text"]) > 200):
+        return False, "正文缺失或过短"
+    return True, ""
+
+
+def trainable(rows):
+    return [r for r in rows if eligible(r)[0]]
+
+
 def gate(rows):
-    """三条语料门槛。返回 dict（每项含 ok/need/have），不抛异常。"""
+    """三条语料门槛。返回 dict（每项含 ok/need/have），不抛异常。
+
+    **口径**：总篇数与作者数按「全部语料」算（含行业稿），
+    但 `trainable` 单独报——训练只用可训那部分。两者不许混报。
+    """
+    def who(r):
+        """作者口径：有 account 用 account；镜像稿按 source-author_id 区分作者。
+        坑（2026-11-25）：镜像稿没有 account 字段，若一律记「未知」，
+        71 篇会被算成一个作者，把「作者数≥5」与「单作者≤?」两条门槛全搞错。
+        """
+        if r.get("account"):
+            return r["account"]
+        if r.get("author_id"):
+            return f"{r.get('source') or 'mirror'}-{r['author_id']}"
+        return "未知"
+
     per = {}
     for r in rows:
-        per[r.get("account") or "未知"] = per.get(r.get("account") or "未知", 0) + 1
+        per[who(r)] = per.get(who(r), 0) + 1
     authors = len(per)
     best = max(per.values()) if per else 0
     return {
@@ -105,15 +157,30 @@ def gate(rows):
                                                               key=lambda kv: -kv[1])[:5]},
         "authors": {"ok": authors >= GATE_AUTHORS, "have": authors, "need": GATE_AUTHORS},
         "by_author": per,
+        # 单独一条：**可训篇数**才是训练的真实门槛。语料凑到 200 但可训只有 13，
+        # 不许拿"总篇数达标"当训练就绪（2026-11-25 实锚：71 篇行业稿把总数顶到 90，
+        # 可训仍只有 13）。
+        "trainable": {"ok": len(trainable(rows)) >= GATE_TOTAL,
+                      "have": len(trainable(rows)), "need": GATE_TOTAL},
+        "corpus": len(rows),
     }
 
 
 def ready(g):
-    return all(g[k]["ok"] for k in ("total", "per_author", "authors"))
+    # 四条全过才可训：总篇数、单作者、作者数、**可训篇数**
+    return all(g[k]["ok"] for k in ("total", "per_author", "authors", "trainable"))
 
 
 def build(rows):
-    """拆四任务数据集。返回 (sets, dropped)。"""
+    """拆四任务数据集。返回 (sets, dropped)。先按取材资格过滤。"""
+    keep, excluded = [], {}
+    for r in rows:
+        ok, why = eligible(r)
+        if ok:
+            keep.append(r)
+        else:
+            excluded[why.split("（")[0]] = excluded.get(why.split("（")[0], 0) + 1
+    rows = keep
     titles, leads, heads, endings = [], [], [], []
     dropped = {"title": 0, "lead": 0, "heads": 0, "end": 0, "dup": 0}
     seen_titles = set()
@@ -171,6 +238,7 @@ def build(rows):
     endings2, d_end = dedup(endings, "end")
     dropped["dup"] = d_lead + d_heads + d_end
 
+    dropped["excluded"] = excluded
     return {"titles": titles, "leads": leads2, "heads": heads2,
             "endings": endings2}, dropped
 
@@ -261,6 +329,12 @@ def self_test():
         b = dict(a)
         while len(norm(b.get("lead") or "")) < 130:
             b["lead"] = (b.get("lead") or "") + "这一句用于把样例补到真实开篇长度区间。"
+        # 取材资格要求正文 >200 字（真实稿最短 572 字）；补的段落必须够长，
+        # 否则会被当成"短块"过滤，连带把"末三段"也拉短、让收尾集空掉。
+        pad = ("这一段是为了把样例补到真实稿件的长度区间，同时保证它是一个合格的段落；"
+               "真实文章里这样的段落有很多，所以不要把它当成凑数，它只是让测试夹具满足"
+               "与生产同一套判据而已，判据本身没有为测试放宽。")
+        b["text"] = (b.get("text") or "") + "\n" + pad
         rows.append(b)
 
     # 1 门槛判定：19 篇级的语料必须判 train_ready=false
@@ -275,11 +349,13 @@ def self_test():
     for a in range(5):
         for i in range(40):
             big.append({"account": f"A{a}", "title": f"作者{a}的第{i}篇标题示例",
+                        "genre": "review",     # 达标语料必须是可训体裁
                         "heads": ["一", "二", "三"],
-                        "text": "开篇一句具体的话，落在具体的物件上，不铺垫也不下结论。\n" * 3})
+                        "text": "开篇一句具体的话，落在具体的物件上，不铺垫也不下结论。" * 8})
     g_big = gate(big)
     if not ready(g_big):
-        fails.append(f"正控[达标语料] 未被判 ready：{[(k, g_big[k]['ok']) for k in ('total','per_author','authors')]}")
+        fails.append(f"正控[达标语料] 未被判 ready："
+                     f"{[(k, g_big[k]['ok']) for k in ('total','trainable','per_author','authors')]}")
 
     # 3 四任务都能产出
     sets, dropped = build(rows)
@@ -339,10 +415,12 @@ def main():
         print(f"语料 {g['total']['have']}/{g['total']['need']} 篇"
               f" · 作者 {g['authors']['have']}/{g['authors']['need']}"
               f" · 单作者最多 {g['per_author']['have']}/{g['per_author']['need']} 篇")
-        print("作者分布：", " · ".join(f"{k} {v} 篇" for k, v in
-                                        sorted(g["by_author"].items(), key=lambda kv: -kv[1])))
-        for k, label in (("total", "总篇数"), ("per_author", "单作者篇数"),
-                         ("authors", "作者数")):
+        top = sorted(g["by_author"].items(), key=lambda kv: -kv[1])[:8]
+        print("作者分布（前 8）：", " · ".join(f"{k} {v} 篇" for k, v in top))
+        print(f"语料 {g['corpus']} 篇 / 可训 {g['trainable']} 篇"
+              f"（行业稿与通稿只进语料，不进文笔训练）")
+        for k, label in (("total", "总篇数"), ("trainable", "可训篇数"),
+                         ("per_author", "单作者篇数"), ("authors", "作者数")):
             mark = "PASS" if g[k]["ok"] else "FAIL"
             print(f"  {label:10} {mark}  {g[k]['have']}/{g[k]['need']}")
         print(f"\n训练可开：{'是' if ready(g) else '否 —— 门槛没过，训了会学成复读机或方向错'}")
@@ -353,7 +431,10 @@ def main():
     print(f"已生成 {OUT}")
     for k, v in man["counts"].items():
         print(f"  {k:9} {v} 条")
-    print(f"  丢弃 {man['dropped']}")
+    dp = dict(man["dropped"])
+    print(f"  丢弃 {dp}")
+    if dp.get("excluded"):
+        print(f"  取材排除：{dp['excluded']}（通稿/非对标号/正文缺失不进训练集）")
     print(f"  形态 标题中位 {man['profile']['title_len_med']} 字"
           f" / 含数字 {man['profile']['title_num_pct']}%"
           f" / 开篇中位 {man['profile']['lead_len_med']} 字")
