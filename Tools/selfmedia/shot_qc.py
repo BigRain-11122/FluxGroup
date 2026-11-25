@@ -226,7 +226,9 @@ def analyze_block(frames, fps_used, target_dur, desc, allow_dark=False, allow_fr
         res["flags"].append("BARS 上下对称 %.0f%%/%.0f%%" % (t * 100, b * 100))
     elif max(bars) > 0.10:
         res["notes"].append("单侧暗区 %.0f%%（构图，非黑边）" % (max(bars) * 100))
-    if target_dur and abs(dur - target_dur) > THRESH["dur_tol"]:
+    # 抽样帧率带来 ±1/fps 的边界量化误差，容差必须随之放大（8fps 时 1 帧=0.125s）
+    dur_tol = max(THRESH["dur_tol"], 1.6 / max(fps_used, 1e-6))
+    if target_dur and abs(dur - target_dur) > dur_tol:
         res["flags"].append("DUR %.2f≠%.2f" % (dur, target_dur))
     if dark_ratio > THRESH["dark_ratio_fail"] and not allow_dark:
         res["flags"].append("DARK %.0f%%" % (dark_ratio * 100))
