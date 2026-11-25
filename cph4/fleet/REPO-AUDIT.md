@@ -3,37 +3,37 @@
 > 由 `Tools/repo_audit.py --scan` 生成，可随时复算。**本件只报事实，不自动删。**
 > 判据写在器里；每条结论都能被负控推翻（见 --self-test）。
 
-- 生成时间：2026-11-25T18:08:50
-- 扫描文件：6450 个（不含语料大文件与二进制）
+- 生成时间：2026-11-25T18:26:52
+- 扫描文件：6454 个（不含语料大文件与二进制）
 
 ## 汇总
 
 | 项 | 条数 |
 |---|---|
-| orphan_tools | 209 |
+| orphan_tools | 190 |
 | superseded | 33 |
 | duplicates | 299 |
 | zero_byte | 19 |
-| abs_path | 1124 |
-| stale_ref | 9 |
+| abs_path | 1126 |
+| stale_ref | 0 |
 | dangling_link | 0 |
 | orphan_high | 0 |
-| orphan_stale | 132 |
-| orphan_recent | 77 |
+| orphan_stale | 117 |
+| orphan_recent | 73 |
 
 ## 目录规模
 
 | 目录 | 文件 | 体积 | 最新改动 |
 |---|---|---|---|
-| cph4 | 4684 | 41.5MB | 2026-11-25 |
-| Tools | 1010 | 8.4MB | 2026-11-25 |
+| cph4 | 4686 | 41.5MB | 2026-11-25 |
+| Tools | 1011 | 8.4MB | 2026-11-25 |
 | 软著申请材料 | 239 | 6.2MB | 2026-11-24 |
 | docs | 137 | 5.9MB | 2026-11-24 |
 | house | 84 | 0.9MB | 2026-11-24 |
 | .codely-cli | 78 | 0.7MB | 2026-11-25 |
 | gaming | 107 | 0.2MB | 2026-11-10 |
 | AI-KB | 32 | 0.2MB | 2026-11-08 |
-| (root) | 12 | 0.2MB | 2026-11-24 |
+| (root) | 13 | 0.2MB | 2026-11-25 |
 | media | 30 | 0.1MB | 2026-11-22 |
 | quant | 21 | 0.1MB | 2026-11-22 |
 | state | 2 | 0.1MB | 2026-11-24 |
@@ -58,16 +58,11 @@
 - `Tools/fleet/biggame_onepager.py`（1836 字节）
 - `Tools/fleet/bmc_pipeline_evolution.py`（4509 字节）
 - `Tools/fleet/check_local_llm.py`（6261 字节）
-- `Tools/fleet/conflict_marker_scrub.py`（3341 字节）
-- `Tools/fleet/gzh_formstats.py`（10557 字节）
 - `Tools/fleet/gzh_metrics.py`（9263 字节）
-- `Tools/fleet/gzh_publish.py`（13186 字节）
 - `Tools/fleet/gzh_render.py`（7417 字节）
 - `Tools/fleet/gzh_theme.py`（9855 字节）
 - `Tools/fleet/gzh_topics_v2_check.py`（7542 字节）
-- `Tools/fleet/gzh_trainset.py`（22291 字节）
 - `Tools/fleet/gzh_visual_check.py`（10946 字节）
-- `Tools/fleet/harvest_generic.py`（31235 字节）
 - `Tools/fleet/harvest_weread.py`（15414 字节）
 - `Tools/fleet/practice_experience.py`（7523 字节）
 - `Tools/fleet/seg_propose.py`（9564 字节）
@@ -100,11 +95,16 @@
 - `Tools/mv_hei_kf_plan.py`（6663 字节）
 - `Tools/mv_lyrics_srt.py`（5102 字节）
 - `Tools/mv_words_anchor.py`（2411 字节）
-- `Tools/recon/ab_text.py`（2129 字节）
-- `Tools/recon/cfg_decode.py`（3006 字节）
-- `Tools/recon/disas.py`（1261 字节）
-- `Tools/recon/il2cpp_intel.py`（3416 字节）
-- ……另 149 条见 JSON
+- `cph4/fleet/hardware/brain-X9DR3-F/工具/bmc_scan_deep.py`（1980 字节）
+- `cph4/fleet/hardware/brain-X9DR3-F/工具/bmc_watch.py`（2800 字节）
+- `cph4/fleet/idle-guard-kit/c2082_bank_surgery.py`（3285 字节）
+- `cph4/fleet/idle-guard-kit/c2082_bank_surgery2.py`（3441 字节）
+- `cph4/fleet/idle-guard-kit/c2092_bank_surgery.py`（7647 字节）
+- `cph4/fleet/idle-guard-kit/c2092_bank_surgery_p2.py`（5745 字节）
+- `cph4/fleet/idle-guard-kit/c2125_addendum.py`（2391 字节）
+- `cph4/fleet/idle-guard-kit/c2137_bank_harvest.py`（3391 字节）
+- `cph4/fleet/idle-guard-kit/c2139_closeout.py`（11304 字节）
+- ……另 130 条见 JSON
 
 ## 同名多版本的低版本（被高版本取代候选）
 
@@ -245,6 +245,7 @@
 - `AI-KB/INDEX.json`（1 处）
 - `CODELY.md`（2 处）
 - `REMOTE-EXEC-FIX.cmd`（1 处）
+- `REPO-MAP.md`（1 处）
 - `Tools/SilentShimRunner.vbs`（1 处）
 - `Tools/_pin_v730.py`（2 处）
 - `Tools/_pin_v730_fix.py`（1 处）
@@ -289,20 +290,11 @@
 - `Tools/fleet-nodes.json`（5 处）
 - `Tools/fleet-oversight.ps1`（4 处）
 - `Tools/fleet-reality.ps1`（2 处）
-- `Tools/fleet-silence-guard.ps1`（1 处）
-- ……另 1064 条见 JSON
+- ……另 1066 条见 JSON
 
 ## 引用了不存在的文件
 
-- `Tools/fleet/cost_attrib.py` ← cph4/fleet/CAPABILITY-DIMENSIONS-v1.md（1 处提到）
-- `Tools/fleet/domain_page.py` ← cph4/fleet/UNLOCK-PLANS.json（1 处提到）
-- `Tools/fleet/game_shots.py` ← cph4/fleet/UNLOCK-PLANS.json（1 处提到）
-- `Tools/fleet/order_sink.py` ← Tools/fleet/domain_prep.py、cph4/fleet/UNLOCK-PLANS.json、cph4/fleet/domain/PAY-INTEGRATION.md（3 处提到）
-- `Tools/fleet/pricing_sheet.py` ← cph4/fleet/UNLOCK-PLANS.json（1 处提到）
-- `Tools/fleet/queue_claim.py` ← cph4/fleet/LESSONS-SEED-v1.json（1 处提到）
-- `Tools/fleet/slo_budget.py` ← cph4/fleet/CAPABILITY-DIMENSIONS-v1.md（1 处提到）
-- `Tools/fleet/submit_batch.py` ← cph4/fleet/UNLOCK-PLANS.json（1 处提到）
-- `Tools/fleet/x.py` ← Tools/fleet/audit_deep.py、Tools/fleet/automation_runner.py、Tools/fleet/regression.py、Tools/fleet/regression.py（6 处提到）
+（无）
 
 ## 断链软链
 

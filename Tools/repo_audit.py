@@ -53,7 +53,7 @@ SKIP_DIRS |= {f"train-{x}" for x in ("b", "h5", "__all__")}
 # 自检里的负控会故意引用不存在的文件（nope.py / no_such_tool.py 之类）。
 # 2026-11-25 实锚：第一版把它们 13 条里的 8 条当成"失效引用"，是假阳性。
 FIXTURE_NAMES = ("nope.py", "no_such_tool.py", "not_a_tool.py", "new.py",
-                 "missing.py", "bad.py", "fake.py")
+                 "missing.py", "bad.py", "fake.py", "x.py")
 TEXT_EXT = {".py", ".md", ".json", ".jsonl", ".sh", ".ps1", ".cmd", ".bat", ".plist",
             ".yml", ".yaml", ".toml", ".txt", ".ts", ".js", ".html", ".vbs"}
 MAX_BYTES = 2 * 1024 * 1024      # 单文件超过 2MB 不横扫（语料/日志）
@@ -79,11 +79,25 @@ def _archived(rel):
     return any(seg.startswith(ARCHIVE_PREFIX) for seg in rel.split("/"))
 
 
+SELF_OUTPUTS = ("cph4/fleet/REPO-AUDIT.json", "cph4/fleet/REPO-AUDIT.md",
+                "cph4/fleet/SYNC-STATUS.md", "cph4/fleet/state/fleet-sync.json",
+                "cph4/fleet/ASK-20261125-ORPHANS.jsonl")
+
+
+def _self_output(rel):
+    """审计/探针自己的产物不许进扫描。
+
+    2026-11-25 实锚：`REPO-AUDIT.json` 里列出了"不存在的工具"（它就是干这个的），
+    下一轮又把这些路径当成"引用"，于是真失效引用从 3 条涨到 10 条——自己喂自己。
+    """
+    return rel in SELF_OUTPUTS or rel.startswith("cph4/fleet/state/")
+
+
 def tracked(include_data=False):
     """返回 [(relpath, abspath, bytes)]。默认只取 git 跟踪的文本类文件。"""
     out = []
     for rel in _git("ls-files"):
-        if _archived(rel):
+        if _archived(rel) or _self_output(rel):
             continue
         base = os.path.basename(rel)
         if base.endswith((".jsonl", ".bin", ".safetensors", ".pt", ".png", ".jpg",
@@ -232,21 +246,43 @@ def check_stale_ref(files, texts):
     自检夹具不算账：`regression.py` / `agent_audit.py` 里写 `nope.py`、
     `no_such_tool.py` 是负控用例，报成"失效引用"就是假阳性（第一版踩过）。
     """
-    real, fixtures = {}, {}
+    real, fixtures, planned, historical = {}, {}, {}, {}
+    # "计划中"标记：文档明写"先建/未建/needs_build"的，是待办不是断链。
+    # 2026-11-25 实锚：UNLOCK-PLANS.json 里 4 条 needs_build 被当成失效引用报红。
+    PLANNED = ("未建", "先建", "待建", "计划", "needs_build", "TODO", "尚未",
+               "写 `", "下一步")
+    pat = re.compile(r"(?:Tools|tools)/fleet/([A-Za-z0-9_.\-]+\.py)")
     for rel, _ap, _s in files:
         if not rel.endswith(tuple(TEXT_EXT)):
             continue
-        for m in re.finditer(r"(?:Tools|tools)/fleet/([A-Za-z0-9_.\-]+\.py)", texts.get(rel, "")):
-            name = m.group(1)
-            target = os.path.join(ROOT, "Tools", "fleet", name)
-            if os.path.exists(target):
+        if os.path.abspath(os.path.join(ROOT, rel)) == SELF:
+            continue      # 本器源码里的夹具路径不是仓库引用（2026-11-25 自检泄漏）
+        for line in texts.get(rel, "").splitlines():
+            m = pat.search(line)
+            if not m:
                 continue
-            bucket = fixtures if name in FIXTURE_NAMES else real
+            name = m.group(1)
+            if os.path.exists(os.path.join(ROOT, "Tools", "fleet", name)):
+                continue
+            if name in FIXTURE_NAMES:
+                bucket = fixtures
+            elif any(k in line for k in PLANNED):
+                bucket = planned
+            elif "LESSONS" in rel or "LEARNING-LEDGER" in rel:
+                # 经验台账里的 evidence 记的是"当时存在过"，不是当前依赖。
+                # 2026-11-25 实锚：L-20261107-02 的 evidence 指向已不存在的 queue_claim.py。
+                bucket = historical
+            else:
+                bucket = real
             bucket.setdefault("Tools/fleet/" + name, []).append(rel)
     return ([{"missing": k, "referenced_by": v[:4], "count": len(v)}
              for k, v in sorted(real.items())],
             [{"fixture": k, "referenced_by": v[:3], "count": len(v)}
-             for k, v in sorted(fixtures.items())])
+             for k, v in sorted(fixtures.items())],
+            [{"planned": k, "referenced_by": v[:3], "count": len(v)}
+             for k, v in sorted(planned.items())],
+            [{"historical": k, "referenced_by": v[:3], "count": len(v)}
+             for k, v in sorted(historical.items())])
 
 
 def last_commit_days(rel):
@@ -318,6 +354,8 @@ def scan(include_data=False, verbose=True):
         "abs_path": check_abs_path(files, texts),
         "stale_ref": check_stale_ref(files, texts)[0],
         "stale_fixtures": check_stale_ref(files, texts)[1],
+        "planned_tools": check_stale_ref(files, texts)[2],
+        "historical_ref": check_stale_ref(files, texts)[3],
         "dangling_link": check_dangling(files),
     }
     res["summary"] = {k: len(res[k]) for k in
