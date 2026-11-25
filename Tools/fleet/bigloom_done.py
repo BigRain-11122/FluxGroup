@@ -218,24 +218,55 @@ def run(verbose=True):
     return out
 
 
+HEAVY = {"8 selftest"}      # 自检时不真跑这组子进程（慢），只校验它被登记了
+
+
+def self_test():
+    """判据器自检：只验"判据真的是判据"，不真跑全量（避免慢与递归）。
+
+    2026-11-25 实锚：第一版用 `"0 行" in why` 判负控，结果被"风格 20 行"里的
+    "0 行"误命中，判据器自己假红。子串判定不能用在这种地方。
+    """
+    cases = []
+    for name, fn in CHECKS:
+        if name in HEAVY:
+            cases.append(("%s 已登记（不在此处跑）" % name, callable(fn)))
+            continue
+        try:
+            r = fn()
+            ok = isinstance(r, tuple) and len(r) == 2 and isinstance(r[0], bool) \
+                and isinstance(r[1], str)
+        except Exception:                                # noqa: BLE001
+            ok = False
+        cases.append(("%s 返回 (bool, 说明)" % name, ok))
+
+    # 负控 1：语料指到不存在的目录必须判 False
+    global BIGLOOM, ARCHIVE
+    saved = (BIGLOOM, ARCHIVE)
+    try:
+        BIGLOOM = "/nonexistent-bigloom-dir"
+        ok1, _ = c_corpora()
+        cases.append(("负控[语料缺失] 必须判 False", ok1 is False))
+        ARCHIVE = "/nonexistent-archive-dir"
+        ok2, _ = c_archive()
+        cases.append(("负控[台账缺失] 必须判 False", ok2 is False))
+    finally:
+        BIGLOOM, ARCHIVE = saved
+
+    ok = sum(1 for _, v in cases if v)
+    for n, v in cases:
+        print("  %s %s" % ("PASS" if v else "FAIL", n))
+    print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    return 0 if ok == len(cases) else 4
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
-    if a.self_test and os.environ.get("BIGLOOM_DONE_CHILD") == "1":
-        # 被上游当子进程调用时直接短路，不做任何自检——递归的第二道保险
-        print("[self-test] SKIP（BIGLOOM_DONE_CHILD=1，防互相调用递归）")
-        return 0
     if a.self_test:
-        # 判据器自检：故意把语料读成空必须变红（负控），不在临时目录里伪造全绿
-        r = run(verbose=False)
-        neg = [x for x in r if x["check"].startswith("6 corpora")][0]
-        if neg["ok"] and "0 行" in neg["why"]:
-            print("FAIL 负控：语料 0 行却判通过", file=sys.stderr)
-            return 4
-        print("[self-test] 判据器可跑，%d 条判据返回了明确结论" % len(r))
-        return 0
+        return self_test()
     out = run(verbose=not a.json)
     if a.json:
         print(json.dumps(out, ensure_ascii=False, indent=1))
