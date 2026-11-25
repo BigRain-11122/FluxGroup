@@ -187,6 +187,29 @@ def c_selftest():
                      + ("；失败: " + ",".join(bad) if bad else ""))
 
 
+def c_ops_board():
+    """运营指标板必须存在，且**每条 NO-DATA 都必须写明原因**。
+
+    为什么进判据：NO-DATA 最容易被当成"没问题"滑过去。要求带原因，
+    下一个人才能判断是"没测"还是"测不了"，不会顺手把它改成绿色。
+    """
+    p = os.path.join(FLEET, "OPS-METRICS.md")
+    if not os.path.exists(p):
+        return False, "没有 OPS-METRICS.md（先跑 slo_budget.py）"
+    txt = open(p, encoding="utf-8").read()
+    rows = [l for l in txt.splitlines() if l.startswith("| ") and "NO-DATA" in l]
+    thin = []
+    for l in rows:
+        cells = [c.strip() for c in l.strip("|").split("|")]
+        last = cells[-1] if cells else ""
+        if len(last) < 10:
+            thin.append(cells[0] if cells else "?")
+    ok = not thin
+    awarn = txt.count("WARN") + txt.count("BREACH")
+    return ok, "%d 条 NO-DATA，%d 条缺原因%s｜另有 %d 项低于目标（是运营问题，不是构建问题）" % (
+        len(rows), len(thin), ("(" + ",".join(thin) + ")") if thin else "", awarn)
+
+
 CHECKS = [
     ("1 softlinks", c_softlinks),
     ("2 audit_hard", c_audit_hard),
@@ -196,6 +219,7 @@ CHECKS = [
     ("6 corpora", c_corpora),
     ("7 archive", c_archive),
     ("8 selftest", c_selftest),
+    ("9 ops_board", c_ops_board),
 ]
 
 
