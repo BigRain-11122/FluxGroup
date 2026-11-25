@@ -273,6 +273,48 @@
    "est_tokens": 600,
    "max_per_day": 16,
    "endpoint": "brain"
+  },
+  "C-LOOM-BOOK": {
+   "gate": "time",
+   "freq_s": 1800,
+   "est_tokens": 700,
+   "max_per_day": 24,
+   "endpoint": "local"
+  },
+  "C-LOOM-DISPATCH": {
+   "gate": "time",
+   "freq_s": 1800,
+   "est_tokens": 700,
+   "max_per_day": 24,
+   "endpoint": "local"
+  },
+  "C-LOOM-STD": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 1100,
+   "max_per_day": 16,
+   "endpoint": "local"
+  },
+  "V-LOOM-COLLECT": {
+   "gate": "time",
+   "freq_s": 1800,
+   "est_tokens": 700,
+   "max_per_day": 24,
+   "endpoint": "local"
+  },
+  "V-LOOM-DRAFT": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 1400,
+   "max_per_day": 12,
+   "endpoint": "local"
+  },
+  "V-LOOM-PUB": {
+   "gate": "event",
+   "freq_s": 900,
+   "est_tokens": 800,
+   "max_per_day": 16,
+   "endpoint": "local"
   }
  },
  "overload_rule": {

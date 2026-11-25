@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-25T18:08:50",
- "scanned_files": 6450,
+ "ts": "2026-11-25T18:26:52",
+ "scanned_files": 6454,
  "inventory": {
   ".codely-cli": {
    "files": 78,
@@ -9,9 +9,9 @@
    "mb": 0.7
   },
   "(root)": {
-   "files": 12,
-   "bytes": 159830,
-   "newest": "2026-11-24",
+   "files": 13,
+   "bytes": 163831,
+   "newest": "2026-11-25",
    "mb": 0.2
   },
   "AI-KB": {
@@ -21,8 +21,8 @@
    "mb": 0.2
   },
   "Tools": {
-   "files": 1010,
-   "bytes": 8761009,
+   "files": 1011,
+   "bytes": 8784045,
    "newest": "2026-11-25",
    "mb": 8.4
   },
@@ -33,8 +33,8 @@
    "mb": 0.0
   },
   "cph4": {
-   "files": 4684,
-   "bytes": 43518843,
+   "files": 4686,
+   "bytes": 43542025,
    "newest": "2026-11-25",
    "mb": 41.5
   },
@@ -157,20 +157,8 @@
    "bytes": 6261
   },
   {
-   "file": "Tools/fleet/conflict_marker_scrub.py",
-   "bytes": 3341
-  },
-  {
-   "file": "Tools/fleet/gzh_formstats.py",
-   "bytes": 10557
-  },
-  {
    "file": "Tools/fleet/gzh_metrics.py",
    "bytes": 9263
-  },
-  {
-   "file": "Tools/fleet/gzh_publish.py",
-   "bytes": 13186
   },
   {
    "file": "Tools/fleet/gzh_render.py",
@@ -185,16 +173,8 @@
    "bytes": 7542
   },
   {
-   "file": "Tools/fleet/gzh_trainset.py",
-   "bytes": 22291
-  },
-  {
    "file": "Tools/fleet/gzh_visual_check.py",
    "bytes": 10946
-  },
-  {
-   "file": "Tools/fleet/harvest_generic.py",
-   "bytes": 31235
   },
   {
    "file": "Tools/fleet/harvest_weread.py",
@@ -325,22 +305,6 @@
    "bytes": 2411
   },
   {
-   "file": "Tools/recon/ab_text.py",
-   "bytes": 2129
-  },
-  {
-   "file": "Tools/recon/cfg_decode.py",
-   "bytes": 3006
-  },
-  {
-   "file": "Tools/recon/disas.py",
-   "bytes": 1261
-  },
-  {
-   "file": "Tools/recon/il2cpp_intel.py",
-   "bytes": 3416
-  },
-  {
    "file": "cph4/fleet/hardware/brain-X9DR3-F/工具/bmc_scan_deep.py",
    "bytes": 1980
   },
@@ -373,10 +337,6 @@
    "bytes": 3391
   },
   {
-   "file": "cph4/fleet/idle-guard-kit/c2137_closeout.py",
-   "bytes": 11827
-  },
-  {
    "file": "cph4/fleet/idle-guard-kit/c2139_closeout.py",
    "bytes": 11304
   },
@@ -399,10 +359,6 @@
   {
    "file": "cph4/fleet/idle-guard-kit/s527_starfilter_c2122.py",
    "bytes": 6466
-  },
-  {
-   "file": "cph4/fleet/meme-daily-v1/tools/kf_v1_rebuild_bmc.py",
-   "bytes": 8671
   },
   {
    "file": "cph4/fleet/mv-album-001-jay/app_orders_r1058b.py",
@@ -895,38 +851,6 @@
   {
    "file": "cph4/fleet/mv0001-handover/scripts/verify_edit.py",
    "bytes": 2727
-  },
-  {
-   "file": "docs/audits/grid_vs_hold.py",
-   "bytes": 6213
-  },
-  {
-   "file": "docs/audits/regime_freq_aggressive.py",
-   "bytes": 6920
-  },
-  {
-   "file": "docs/audits/regime_freq_defensive.py",
-   "bytes": 6920
-  },
-  {
-   "file": "docs/audits/regime_freq_mid.py",
-   "bytes": 6920
-  },
-  {
-   "file": "docs/audits/research_round2.py",
-   "bytes": 6578
-  },
-  {
-   "file": "docs/audits/retail_feasibility.py",
-   "bytes": 3620
-  },
-  {
-   "file": "docs/audits/retail_viability_check.py",
-   "bytes": 4206
-  },
-  {
-   "file": "docs/audits/weekly_lowcorr_rotation.py",
-   "bytes": 10351
   },
   {
    "file": "media/drama-tools/make_casting_reel.py",
@@ -3744,6 +3668,10 @@
    "hits": 1
   },
   {
+   "file": "REPO-MAP.md",
+   "hits": 1
+  },
+  {
    "file": "Tools/SilentShimRunner.vbs",
    "hits": 1
   },
@@ -4641,6 +4569,10 @@
   },
   {
    "file": "Tools/release-scan.ps1",
+   "hits": 1
+  },
+  {
+   "file": "Tools/repo_audit.py",
    "hits": 1
   },
   {
@@ -8180,76 +8112,7 @@
    "hits": 8
   }
  ],
- "stale_ref": [
-  {
-   "missing": "Tools/fleet/cost_attrib.py",
-   "referenced_by": [
-    "cph4/fleet/CAPABILITY-DIMENSIONS-v1.md"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/domain_page.py",
-   "referenced_by": [
-    "cph4/fleet/UNLOCK-PLANS.json"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/game_shots.py",
-   "referenced_by": [
-    "cph4/fleet/UNLOCK-PLANS.json"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/order_sink.py",
-   "referenced_by": [
-    "Tools/fleet/domain_prep.py",
-    "cph4/fleet/UNLOCK-PLANS.json",
-    "cph4/fleet/domain/PAY-INTEGRATION.md"
-   ],
-   "count": 3
-  },
-  {
-   "missing": "Tools/fleet/pricing_sheet.py",
-   "referenced_by": [
-    "cph4/fleet/UNLOCK-PLANS.json"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/queue_claim.py",
-   "referenced_by": [
-    "cph4/fleet/LESSONS-SEED-v1.json"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/slo_budget.py",
-   "referenced_by": [
-    "cph4/fleet/CAPABILITY-DIMENSIONS-v1.md"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/submit_batch.py",
-   "referenced_by": [
-    "cph4/fleet/UNLOCK-PLANS.json"
-   ],
-   "count": 1
-  },
-  {
-   "missing": "Tools/fleet/x.py",
-   "referenced_by": [
-    "Tools/fleet/audit_deep.py",
-    "Tools/fleet/automation_runner.py",
-    "Tools/fleet/regression.py",
-    "Tools/fleet/regression.py"
-   ],
-   "count": 6
-  }
- ],
+ "stale_ref": [],
  "stale_fixtures": [
   {
    "fixture": "Tools/fleet/new.py",
@@ -8278,56 +8141,97 @@
     "Tools/fleet/regression.py"
    ],
    "count": 1
+  },
+  {
+   "fixture": "Tools/fleet/x.py",
+   "referenced_by": [
+    "Tools/fleet/audit_deep.py",
+    "Tools/fleet/automation_runner.py",
+    "Tools/fleet/regression.py"
+   ],
+   "count": 6
+  }
+ ],
+ "planned_tools": [
+  {
+   "planned": "Tools/fleet/cost_attrib.py",
+   "referenced_by": [
+    "cph4/fleet/CAPABILITY-DIMENSIONS-v1.md"
+   ],
+   "count": 1
+  },
+  {
+   "planned": "Tools/fleet/domain_page.py",
+   "referenced_by": [
+    "cph4/fleet/UNLOCK-PLANS.json"
+   ],
+   "count": 1
+  },
+  {
+   "planned": "Tools/fleet/game_shots.py",
+   "referenced_by": [
+    "cph4/fleet/UNLOCK-PLANS.json"
+   ],
+   "count": 1
+  },
+  {
+   "planned": "Tools/fleet/order_sink.py",
+   "referenced_by": [
+    "Tools/fleet/domain_prep.py",
+    "cph4/fleet/UNLOCK-PLANS.json",
+    "cph4/fleet/domain/PAY-INTEGRATION.md"
+   ],
+   "count": 3
+  },
+  {
+   "planned": "Tools/fleet/pricing_sheet.py",
+   "referenced_by": [
+    "cph4/fleet/UNLOCK-PLANS.json"
+   ],
+   "count": 1
+  },
+  {
+   "planned": "Tools/fleet/slo_budget.py",
+   "referenced_by": [
+    "cph4/fleet/CAPABILITY-DIMENSIONS-v1.md"
+   ],
+   "count": 1
+  },
+  {
+   "planned": "Tools/fleet/submit_batch.py",
+   "referenced_by": [
+    "cph4/fleet/UNLOCK-PLANS.json"
+   ],
+   "count": 1
+  }
+ ],
+ "historical_ref": [
+  {
+   "historical": "Tools/fleet/queue_claim.py",
+   "referenced_by": [
+    "cph4/fleet/LESSONS-SEED-v1.json"
+   ],
+   "count": 1
   }
  ],
  "dangling_link": [],
  "summary": {
-  "orphan_tools": 209,
+  "orphan_tools": 190,
   "superseded": 33,
   "duplicates": 299,
   "zero_byte": 19,
-  "abs_path": 1124,
-  "stale_ref": 9,
+  "abs_path": 1126,
+  "stale_ref": 0,
   "dangling_link": 0,
   "orphan_high": 0,
-  "orphan_stale": 132,
-  "orphan_recent": 77
+  "orphan_stale": 117,
+  "orphan_recent": 73
  },
  "orphan_high": [],
  "orphan_stale": [
   {
-   "file": "Tools/fleet/conflict_marker_scrub.py",
-   "bytes": 3341,
-   "days": 16
-  },
-  {
-   "file": "Tools/recon/ab_text.py",
-   "bytes": 2129,
-   "days": 28
-  },
-  {
-   "file": "Tools/recon/cfg_decode.py",
-   "bytes": 3006,
-   "days": 28
-  },
-  {
-   "file": "Tools/recon/disas.py",
-   "bytes": 1261,
-   "days": 28
-  },
-  {
-   "file": "Tools/recon/il2cpp_intel.py",
-   "bytes": 3416,
-   "days": 28
-  },
-  {
    "file": "cph4/fleet/idle-guard-kit/c2137_bank_harvest.py",
    "bytes": 3391,
-   "days": 28
-  },
-  {
-   "file": "cph4/fleet/idle-guard-kit/c2137_closeout.py",
-   "bytes": 11827,
    "days": 28
   },
   {
@@ -8343,11 +8247,6 @@
   {
    "file": "cph4/fleet/idle-guard-kit/s527_starfilter_c2122.py",
    "bytes": 6466,
-   "days": 28
-  },
-  {
-   "file": "cph4/fleet/meme-daily-v1/tools/kf_v1_rebuild_bmc.py",
-   "bytes": 8671,
    "days": 28
   },
   {
@@ -8906,46 +8805,6 @@
    "days": 28
   },
   {
-   "file": "docs/audits/grid_vs_hold.py",
-   "bytes": 6213,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/regime_freq_aggressive.py",
-   "bytes": 6920,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/regime_freq_defensive.py",
-   "bytes": 6920,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/regime_freq_mid.py",
-   "bytes": 6920,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/research_round2.py",
-   "bytes": 6578,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/retail_feasibility.py",
-   "bytes": 3620,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/retail_viability_check.py",
-   "bytes": 4206,
-   "days": 28
-  },
-  {
-   "file": "docs/audits/weekly_lowcorr_rotation.py",
-   "bytes": 10351,
-   "days": 28
-  },
-  {
    "file": "media/drama-tools/make_casting_reel.py",
    "bytes": 3718,
    "days": 27
@@ -9028,18 +8887,8 @@
    "days": 14
   },
   {
-   "file": "Tools/fleet/gzh_formstats.py",
-   "bytes": 10557,
-   "days": 0
-  },
-  {
    "file": "Tools/fleet/gzh_metrics.py",
    "bytes": 9263,
-   "days": 0
-  },
-  {
-   "file": "Tools/fleet/gzh_publish.py",
-   "bytes": 13186,
    "days": 0
   },
   {
@@ -9058,18 +8907,8 @@
    "days": 0
   },
   {
-   "file": "Tools/fleet/gzh_trainset.py",
-   "bytes": 22291,
-   "days": 0
-  },
-  {
    "file": "Tools/fleet/gzh_visual_check.py",
    "bytes": 10946,
-   "days": 0
-  },
-  {
-   "file": "Tools/fleet/harvest_generic.py",
-   "bytes": 31235,
    "days": 0
   },
   {
