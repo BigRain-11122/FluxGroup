@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-25T23:30:37",
+ "ts": "2026-11-25T23:35:37",
  "node": "bm-c",
  "kind": "production-router",
  "gpu": {
-  "util": 12,
-  "mem_used_mb": 9037,
+  "util": 19,
+  "mem_used_mb": 6873,
   "mem_total_mb": 16384
  },
  "comfy": {
@@ -12,7 +12,7 @@
   "8188": false
  },
  "batches": {
-  "heroine_factory": 3
+  "heroine_factory": 1
  },
  "throughput": {
   "pl_ql_last10min": 0
