@@ -404,6 +404,8 @@ def main():
                 continue
             med = float(np.median([b["sharp"] for b in grp]))
             for b in grp:
+                if b.get("allow_static"):
+                    continue      # 静态图形/浅浮雕类素材：锐度天生低于实拍，不判断档
                 if med > 0 and b["sharp"] < med * THRESH["sharp_ratio_fail"]:
                     b["flags"].append("SHARP 断档 %.1f (YAVG档%d中位 %.1f)" % (b["sharp"], k, med))
 
