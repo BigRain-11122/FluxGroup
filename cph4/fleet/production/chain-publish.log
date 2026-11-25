@@ -1928,3 +1928,7 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-25T14:31:31 RECEIPT IDLE gpu=1 vram=2819MB busy=-
 2026-11-25T14:31:49 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-cooldown(8m)
 2026-11-25T14:36:31 RECEIPT IDLE gpu=1 vram=2828MB busy=-
+2026-11-25T14:36:49 LANE jobs=1 fresh=1 -> run one card
+2026-11-25T14:37:01 LANE rc=0 done=- 
+2026-11-25T14:37:01 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-25T14:41:31 RECEIPT IDLE gpu=0 vram=2830MB busy=-
