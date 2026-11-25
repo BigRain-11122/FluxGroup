@@ -68,18 +68,41 @@ def _within(rec, days, key="ts"):
 # ---------------- 各服务的 SLI（每个都写明数据源） ----------------
 
 def sli_dispatch(days):
-    """派卡成交：有 owner 的卡里 DONE 的比例。源=PRODUCTION-QUEUE.jsonl。"""
+    """派卡成交：**DONE 且交付物可判** / 有 owner 的卡。源=PRODUCTION-QUEUE.jsonl。
+
+    口径纠错（2026-11-25 实测）：第一版只算 state==DONE，偏离了
+    SERVICE-LEVEL 的定义（要求"交付物可判"）。而且 83 张 CANCELLED 与
+    6 张 FAILED 混在一个分母里，会把"正常取消"算成"没成交"。
+    现在报三个数，主判用**最严**的那个（不给取消留后门）：
+      strict   = DONE且可判 / 全部有 owner 的卡
+      excl_cancel = DONE且可判 / (有 owner 且非 CANCELLED)
+    """
     rows = [r for r in _rows(QUEUE) if r.get("owner") and _within(r, days)]
     if not rows:
-        return None, None, "队列里窗口内没有带 owner 的卡", "PRODUCTION-QUEUE.jsonl"
-    done = [r for r in rows if str(r.get("state")).upper() == "DONE"]
-    return len(done) / len(rows), len(rows), "%d/%d DONE" % (len(done), len(rows)), "PRODUCTION-QUEUE.jsonl"
+        return None, None, "队列里窗口内没有带 owner 的卡", "PRODUCTION-QUEUE.jsonl", {}
+    def is_done(r):
+        return str(r.get("state")).upper() == "DONE"
+
+    def judgeable(r):
+        return bool(r.get("deliverable") or r.get("accept"))
+
+    good = [r for r in rows if is_done(r) and judgeable(r)]
+    cancelled = [r for r in rows if str(r.get("state")).upper() == "CANCELLED"]
+    non_cancel = len(rows) - len(cancelled)
+    strict = len(good) / len(rows)
+    excl = (len(good) / non_cancel) if non_cancel else None
+    extra = {"good": len(good), "owned": len(rows), "cancelled": len(cancelled),
+             "sli_excl_cancel": round(excl, 4) if excl is not None else None}
+    why = ("strict %d/%d；剔取消后 %d/%d=%s"
+           % (len(good), len(rows), len(good), non_cancel,
+              round(excl, 3) if excl is not None else "-"))
+    return strict, len(rows), why, "PRODUCTION-QUEUE.jsonl", extra
 
 
 def sli_execution(days):
     """执行成功：有 rc 的回执里 rc 在 ok_rc / =0 的比例。源=queue-receipts/*.json。"""
     if not os.path.isdir(RECEIPTS):
-        return None, None, "没有 queue-receipts 目录", "queue-receipts/"
+        return None, None, "没有 queue-receipts 目录", "queue-receipts/", {}
     ok = n = 0
     for fn in os.listdir(RECEIPTS):
         if not fn.endswith(".json"):
@@ -92,8 +115,8 @@ def sli_execution(days):
         if (isinstance(ok_rc, list) and d["rc"] in ok_rc) or (ok_rc is None and d["rc"] == 0):
             ok += 1
     if n == 0:
-        return None, None, "窗口内没有带 rc 的回执", "queue-receipts/"
-    return ok / n, n, "%d/%d rc 合格" % (ok, n), "queue-receipts/"
+        return None, None, "窗口内没有带 rc 的回执", "queue-receipts/", {}
+    return ok / n, n, "%d/%d rc 合格" % (ok, n), "queue-receipts/", {}
 
 
 def sli_pulse(days):
@@ -101,10 +124,10 @@ def sli_pulse(days):
     口径声明：DEFER/BLOCKED-SUPPLY 是**决策**不是故障，计入健康；只有 CRASHED 记不健康。"""
     rows = [r for r in _rows(GZH_LEDGER) if _within(r, days)]
     if not rows:
-        return None, None, "窗口内没有轮次记录", "gzh/LOOP-LEDGER.jsonl"
+        return None, None, "窗口内没有轮次记录", "gzh/LOOP-LEDGER.jsonl", {}
     bad = [r for r in rows if str(r.get("status")).upper() == "CRASHED"]
     return (len(rows) - len(bad)) / len(rows), len(rows), \
-        "%d 轮，%d 崩溃" % (len(rows), len(bad)), "gzh/LOOP-LEDGER.jsonl"
+        "%d 轮，%d 崩溃" % (len(rows), len(bad)), "gzh/LOOP-LEDGER.jsonl", {}
 
 
 def sli_sync(days):
@@ -114,10 +137,10 @@ def sli_sync(days):
         if os.path.exists(p):
             rows = [r for r in _rows(p) if _within(r, days)]
             if not rows:
-                return None, None, "台账在但窗口内无记录", cand
+                return None, None, "台账在但窗口内无记录", cand, {}
             ok = sum(1 for r in rows if r.get("ok"))
-            return ok / len(rows), len(rows), "%d/%d 成功" % (ok, len(rows)), cand
-    return None, None, "没有 git 同步轮次台账（这条现在只能靠 git 网络层判断）", "-"
+            return ok / len(rows), len(rows), "%d/%d 成功" % (ok, len(rows)), cand, {}
+    return None, None, "没有 git 同步轮次台账（这条现在只能靠 git 网络层判断）", "-", {}
 
 
 def sli_demand(days):
@@ -127,9 +150,9 @@ def sli_demand(days):
         d = _j(p, {}) or {}
         if d.get("total"):
             return (d.get("met") or 0) / d["total"], d["total"], \
-                "%s/%s 已满足" % (d.get("met"), d["total"]), "state/demand-status.json"
-        return None, None, "demand-status.json 没有 total", "state/demand-status.json"
-    return None, None, "没有需求满足度台账", "-"
+                "%s/%s 已满足" % (d.get("met"), d["total"]), "state/demand-status.json", {}
+        return None, None, "demand-status.json 没有 total", "state/demand-status.json", {}
+    return None, None, "没有需求满足度台账", "-", {}
 
 
 SLI_FN = {"dispatch": sli_dispatch, "execution": sli_execution,
@@ -149,7 +172,7 @@ def compute(spec=None, days=None):
                         "sli": None, "n": None, "state": "NO-DATA",
                         "why": "本器还没接这个服务的数据源", "source": "-"})
             continue
-        sli, n, why, source = fn(days)
+        sli, n, why, source, extra = fn(days)
         if sli is None:
             out.append({"id": sid, "name": s.get("name"), "slo": s.get("slo"),
                         "sli": None, "n": n, "state": "NO-DATA",
@@ -162,6 +185,7 @@ def compute(spec=None, days=None):
                                          else "BREACH")
         out.append({"id": sid, "name": s.get("name"), "slo": slo, "sli": round(sli, 4),
                     "n": n, "state": state, "why": why, "source": source,
+                    "extra": extra,
                     "budget_left": round(max(0.0, sli - slo) / budget, 3),
                     "burn_multiple": round(burn, 2)})
     return {"ts": datetime.now().isoformat(timespec="seconds"), "window_days": days,
@@ -207,10 +231,16 @@ def self_test():
         os.makedirs(globals()["RECEIPTS"], exist_ok=True)
 
         now = datetime.now().isoformat(timespec="seconds")
+        # 10 张有 owner 的卡：8 张 DONE 且带交付物、1 张 DONE 但无交付物（负控）、
+        # 1 张开着；另加 2 张 CANCELLED 用来验"剔取消后"的第二个数
         with open(globals()["QUEUE"], "w") as f:
-            for i in range(10):
-                st = "DONE" if i < 9 else "OPEN"
-                f.write(json.dumps({"owner": "m", "state": st, "ts": now}) + "\n")
+            for i in range(8):
+                f.write(json.dumps({"owner": "m", "state": "DONE",
+                                    "deliverable": "d%d.md" % i, "ts": now}) + "\n")
+            f.write(json.dumps({"owner": "m", "state": "DONE", "ts": now}) + "\n")   # 无交付物
+            f.write(json.dumps({"owner": "m", "state": "OPEN", "ts": now}) + "\n")
+            f.write(json.dumps({"owner": "m", "state": "CANCELLED", "ts": now}) + "\n")
+            f.write(json.dumps({"owner": "m", "state": "CANCELLED", "ts": now}) + "\n")
         for i in range(4):
             json.dump({"rc": 0 if i < 3 else 1, "ts": now},
                       open(os.path.join(globals()["RECEIPTS"], "r%d.json" % i), "w"))
@@ -230,10 +260,15 @@ def self_test():
         r = compute(spec)
         by = {s["id"]: s for s in r["services"]}
 
-        cases.append(("dispatch SLI=0.9", by["dispatch"]["sli"] == 0.9))
-        cases.append(("dispatch 判 OK（刚好达 SLO）", by["dispatch"]["state"] == "OK"))
+        # compute() 里 sli 已四舍五入到 4 位，容差不能取 1e-9
+        cases.append(("dispatch = 8/12（DONE 且带交付物 / 有 owner）",
+                      abs(by["dispatch"]["sli"] - 8 / 12) < 1e-3))
+        cases.append(("负控[DONE 但无交付物] 不计入分子",
+                      by["dispatch"]["extra"]["good"] == 8))
+        cases.append(("剔取消后 = 8/10", abs(by["dispatch"]["extra"]["sli_excl_cancel"] - 0.8) < 1e-3))
+        cases.append(("dispatch 未达 SLO 判非 OK", by["dispatch"]["state"] != "OK"))
         cases.append(("execution 只算有 rc 的 4 条", by["execution"]["n"] == 4))
-        cases.append(("execution SLI=0.75", abs(by["execution"]["sli"] - 0.75) < 1e-9))
+        cases.append(("execution SLI=0.75", abs(by["execution"]["sli"] - 0.75) < 1e-3))
         cases.append(("execution 破预算", by["execution"]["state"] in ("WARN", "BREACH")))
         cases.append(("pulse 把 DEFER/BLOCKED 算健康", by["pulse"]["sli"] == 0.75))
         cases.append(("负控[无数据源] 必须 NO-DATA", by["sync"]["state"] == "NO-DATA"))
