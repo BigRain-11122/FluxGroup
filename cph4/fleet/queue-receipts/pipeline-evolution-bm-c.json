@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-25T10:07:26",
+ "ts": "2026-11-25T16:07:26",
  "node": "bm-c",
  "kind": "pipeline-evolution",
  "cycle": "6h",
  "canon_age_days": {
-  "drama_v3": 2.5,
-  "heroine_factory": 2.5,
-  "production_router": 1.5
+  "drama_v3": 2.8,
+  "heroine_factory": 2.7,
+  "production_router": 1.7
  },
  "router_signals": {
-  "ts": "2026-11-25T10:05:37",
+  "ts": "2026-11-25T16:05:38",
   "stalls": [],
   "throughput": {
    "pl_ql_last10min": 0
@@ -19,28 +19,28 @@
  "recent_receipts": [
   {
    "file": "_last_lane_bm-c.json",
-   "ts": "2026-11-25T10:07:01",
+   "ts": "2026-11-25T16:07:21",
    "name": null
   },
   {
    "file": "autodrive-hb-bm-c.json",
-   "ts": "2026-11-25T10:06:30.218",
+   "ts": "2026-11-25T16:06:30.852",
    "name": null
   },
   {
    "file": "production-router-bm-c.json",
-   "ts": "2026-11-25T10:05:37",
+   "ts": "2026-11-25T16:05:38",
    "name": null
   },
   {
    "file": "review-feedback-bm-c.json",
-   "ts": "2026-11-25T10:04:58",
+   "ts": "2026-11-25T16:04:58",
    "name": null
   },
   {
-   "file": "heroine-tm-bm-c.json",
-   "ts": "2026-11-25T07:12:42",
-   "name": "heroine-lora-tm-v1"
+   "file": "pipeline-evolution-bm-c.json",
+   "ts": "2026-11-25T10:07:26",
+   "name": null
   }
  ],
  "issues": [
