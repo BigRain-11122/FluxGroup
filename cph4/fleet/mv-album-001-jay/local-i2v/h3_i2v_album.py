@@ -157,6 +157,26 @@ def main():
                 break
             continue
         wf["16"]["inputs"]["image"] = img
+        # 首尾帧（2026-11-25 实测 MiniMaxH3ImageToVideo 有 optional last_frame，
+        # 模型=fl2va，训练范围 124–362 帧 ≈ 5–15s）。单元给了 last_frame 才启用；
+        # 没给的单元必须清掉，否则会继承上一单元的末帧。
+        if u.get("last_frame"):
+            lf = str(u["last_frame"])
+            j = lf.find("media")
+            lf_abs = os.path.join(repo, lf[j:]) if j >= 0 else lf
+            if os.path.isfile(lf_abs):
+                try:
+                    wf["17"] = {"class_type": "LoadImage",
+                                "inputs": {"image": upload_image(server, lf_abs)}}
+                    wf["6"]["inputs"]["last_frame"] = ["17", 0]
+                    print("[%s] LAST_FRAME on (%s)" % (oid, os.path.basename(lf_abs)), flush=True)
+                except Exception as e:
+                    print("[%s] LAST_FRAME UPLOAD FAIL %s" % (oid, e), flush=True)
+                    wf["6"]["inputs"].pop("last_frame", None)
+            else:
+                print("[%s] MISSING LAST_FRAME %s" % (oid, lf_abs), flush=True)
+        else:
+            wf["6"]["inputs"].pop("last_frame", None)
         n6 = wf["6"]["inputs"]
         n6["prompt"] = u["i2v_prompt"]
         n6["length"] = length
