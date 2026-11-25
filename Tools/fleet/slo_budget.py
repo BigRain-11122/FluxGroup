@@ -131,28 +131,64 @@ def sli_pulse(days):
 
 
 def sli_sync(days):
-    """同步成功：需要 git 拉/推的轮次台账。当前没有该台账 → 明确 NO-DATA。"""
+    """同步成功：需要"每轮 git 拉/推"的台账。当前**没有轮次台账**，故 NO-DATA。
+
+    现有 `state/state-sync.json` 只存"最后一次成功时间 + 失败清单"，算不出占比，
+    所以不拿它硬凑 SLI（差一点点就成假绿）。把它当上下文报出来，让人一眼看到新鲜度。
+    """
+    ctx = _j(os.path.join(FLEET, "state", "state-sync.json"), {}) or {}
+    ok_ts = ctx.get("ok_ts")
+    age_h = None
+    if isinstance(ok_ts, (int, float)) and ok_ts > 0:
+        age_h = round((datetime.now().timestamp() - ok_ts) / 3600.0, 1)
+    tail = ("；上下文：上次同步成功 %s 小时前，失败记录 %d 条"
+            % (age_h, len(ctx.get("fails") or []))) if age_h is not None else ""
     for cand in ("SYNC-LEDGER.jsonl", "state/sync-ledger.jsonl"):
         p = os.path.join(FLEET, cand)
         if os.path.exists(p):
             rows = [r for r in _rows(p) if _within(r, days)]
             if not rows:
-                return None, None, "台账在但窗口内无记录", cand, {}
+                return None, None, "台账在但窗口内无记录" + tail, cand, {}
             ok = sum(1 for r in rows if r.get("ok"))
-            return ok / len(rows), len(rows), "%d/%d 成功" % (ok, len(rows)), cand, {}
-    return None, None, "没有 git 同步轮次台账（这条现在只能靠 git 网络层判断）", "-", {}
+            return ok / len(rows), len(rows), "%d/%d 成功%s" % (ok, len(rows), tail), cand, {}
+    # 为什么不能"顺手修好"（2026-11-25 查实）：
+    #   1) 同步守护 com.fluxgroup.statesync 自 2026-11-11 按 CEO 令暂停，
+    #      plist 在 ~/Library/LaunchAgents/disabled/20261111-pause/；
+    #   2) 它会 git push origin main，而当前仓里有指向 ~/BigLoom 的**绝对路径软链**，
+    #      一推出去，任何拉取的机器都会看到断链。
+    # 所以这条保持 NO-DATA，并写明恢复的两个前置条件，而不是填个好看的数字。
+    return (None, None,
+            "同步守护自 2026-11-11 按 CEO 令暂停（plist 在 disabled/20261111-pause/），"
+            "且恢复前必须先解决 BigLoom 绝对路径软链——否则一 push 就把异机弄断。"
+            "只有最后成功时间，算不出轮次占比" + tail,
+            "state/state-sync.json", {"paused_by": "CEO-20261111",
+                                     "blocker": "bigloom-absolute-symlink"})
 
 
 def sli_demand(days):
-    """需求满足：需要需求台账（CEO-DEMAND-LEDGER）+ 完成证据。当前未接 → NO-DATA。"""
-    p = os.path.join(FLEET, "state", "demand-status.json")
-    if os.path.exists(p):
-        d = _j(p, {}) or {}
-        if d.get("total"):
-            return (d.get("met") or 0) / d["total"], d["total"], \
-                "%s/%s 已满足" % (d.get("met"), d["total"]), "state/demand-status.json", {}
-        return None, None, "demand-status.json 没有 total", "state/demand-status.json", {}
-    return None, None, "没有需求满足度台账", "-", {}
+    """需求机检通过：**OK / (OK + GAP)**，人判项（UNVERIFIED）不计入。
+    源=`state/demand-audit.json`（demand_audit.py 产出）。超窗视为过期 → NO-DATA。"""
+    p = os.path.join(FLEET, "state", "demand-audit.json")
+    d = _j(p, {}) or {}
+    if not d.get("counts"):
+        return None, None, "没有需求审计结果", "state/demand-audit.json", {}
+    ts = str(d.get("ts") or "")
+    try:
+        age_d = (datetime.now() - datetime.fromisoformat(ts[:19])).days
+    except ValueError:
+        age_d = None
+    if age_d is not None and age_d > days:
+        return (None, None, "需求审计结果已 %d 天未刷新（窗口 %d 天）" % (age_d, days),
+                "state/demand-audit.json", {"stale_days": age_d})
+    c = d["counts"]
+    ok = int(c.get("OK") or 0)
+    gap = int(c.get("GAP") or 0)
+    unv = int(c.get("UNVERIFIED") or 0)
+    if ok + gap == 0:
+        return None, None, "OK+GAP 为 0，无法计算", "state/demand-audit.json", {}
+    extra = {"ok": ok, "gap": gap, "unverified": unv, "age_days": age_d}
+    why = "OK %d / (OK %d + GAP %d)=%.3f；人判 %d 项不计" % (ok, ok, gap, ok / (ok + gap), unv)
+    return ok / (ok + gap), ok + gap, why, "state/demand-audit.json", extra
 
 
 SLI_FN = {"dispatch": sli_dispatch, "execution": sli_execution,
