@@ -99,10 +99,17 @@ def workers_by_mem(requested=2, reserve_mb=900):
 
 def profile_for(platform=None):
     """每平台独立 profile（2026-11-17 并发改造）：同一 user_data_dir 不能两开，
-    多平台并发必须各自一个目录，否则第二个直接 ProcessSingleton 失败。"""
+    多平台并发必须各自一个目录，否则第二个直接 ProcessSingleton 失败。
+
+    FLUX_PROFILE_SUFFIX 再分一层：只读采集用 `-learn` 之类后缀，就不必和
+    "发评论"抢同一个登录态目录。2026-11-25 实锚：reply 的浏览器常驻占住
+    browser-bilibili，learn 每轮都打"profile 起不来 → 让路或等锁超时"，
+    学习台账因此断更 21 小时（LEARNING-LEDGER 停在 11-24 23:08）。
+    """
     base = os.path.join(os.path.expanduser("~"), ".fluxgroup")
     if platform:
-        return os.path.join(base, "browser-%s" % platform)
+        suffix = (os.environ.get("FLUX_PROFILE_SUFFIX") or "").strip()
+        return os.path.join(base, "browser-%s%s" % (platform, suffix))
     return PROFILE_DIR
 
 # 各平台评论节点的选择器（多套备选，取命中最多的一套；全不中=结构变了，直接报错）
@@ -376,9 +383,12 @@ def agent_session_active(max_age_s=900):
 
 
 def collect(url, platform, limit=200, min_n=20, scrolls=8, headed=False):
-    busy, who = agent_session_active()
-    if busy:
-        return None, "养号会话进行中（%s）：采集让路，等这一场跑完" % who
+    # 让路只在"共用一个 profile"时才需要。设置了 FLUX_PROFILE_SUFFIX 的调用方
+    # 用的是自己的目录（如 browser-bilibili-learn），和养号不抢锁，再让路等于白停。
+    if not (os.environ.get("FLUX_PROFILE_SUFFIX") or "").strip():
+        busy, who = agent_session_active()
+        if busy:
+            return None, "养号会话进行中（%s）：采集让路，等这一场跑完" % who
     try:
         from playwright.sync_api import sync_playwright
     except Exception:

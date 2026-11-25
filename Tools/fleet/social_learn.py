@@ -423,6 +423,18 @@ def main():
                     conc = 1
                 out = cycle(limit=a.limit, min_n=a.min, concurrency=conc)
                 print("[learn] %s %s 新增%d" % (_now(), out["verdict"], out["added"]))
+                # 采不到新料就补源：SOURCES 池子里的视频全采过之后，每轮必然 NO_NEW，
+                # 语料停涨 → 训练只能重跑同一份数据（2026-11-25 实锚）。
+                # maybe() 自带 3 小时节流，不会把接口打成轮询。
+                if not out.get("added"):
+                    try:
+                        import bili_sources_refresh as _sr
+                        r = _sr.maybe()
+                        print("[learn] 源料补给：%s（新增 %s 条）"
+                              % (r.get("why") or "刷新", r.get("added")))
+                    except Exception as e:
+                        print("[learn] 源料补给失败 %s: %s"
+                              % (type(e).__name__, str(e)[:100]))
             except KeyboardInterrupt:
                 print("[learn] 手动停止")
                 return 0
