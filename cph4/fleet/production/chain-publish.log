@@ -2257,3 +2257,7 @@ Another git process seems to be running in this repository, or the lock file may
 2026-11-26T00:11:31 RECEIPT RUNNING gpu=95 vram=9038MB busy=lora
 2026-11-26T00:11:55 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-26T00:16:31 RECEIPT RUNNING gpu=87 vram=9038MB busy=lora
+2026-11-26T00:16:55 LANE jobs=1 fresh=1 -> run one card
+2026-11-26T00:17:06 LANE rc=0 done=- 
+2026-11-26T00:17:06 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-26T00:21:31 RECEIPT RUNNING gpu=37 vram=9038MB busy=lora
