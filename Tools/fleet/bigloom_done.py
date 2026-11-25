@@ -44,6 +44,8 @@ CRITICAL = [
     ("gzh_trainset", "sys", os.path.join(TOOLS, "gzh_trainset.py")),
     ("wechat_article", "sys", os.path.join(TOOLS, "wechat_article.py")),
     ("harvest_generic", "venv", os.path.join(TOOLS, "harvest_generic.py")),
+    ("slo_budget", "sys", os.path.join(TOOLS, "slo_budget.py")),
+    ("cost_attrib", "sys", os.path.join(TOOLS, "cost_attrib.py")),
 ]
 
 
