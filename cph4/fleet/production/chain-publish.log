@@ -1920,3 +1920,7 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-25T14:16:35 RECEIPT RUNNING gpu=0 vram=2794MB busy=quant-engine
 2026-11-25T14:17:33 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-25T14:21:54 RECEIPT IDLE gpu=1 vram=2803MB busy=-
+2026-11-25T14:22:54 LANE jobs=1 fresh=1 -> run one card
+2026-11-25T14:23:16 LANE rc=0 done=- 
+2026-11-25T14:23:16 TICK commit=committed:5 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-25T14:26:31 RECEIPT IDLE gpu=0 vram=2819MB busy=-
