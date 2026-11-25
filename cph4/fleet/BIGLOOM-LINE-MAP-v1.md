@@ -14,12 +14,18 @@
 | 源册实测结论 | `~/BigLoom/collect/SOURCE-VERDICTS.json` | 不复述 |
 | BigStream 产线总图（兄弟公司） | `cph4/fleet/BIGSTREAM-LINE-MAP-v3.md` | 原样有效，本件不改它 |
 
-## 二、三条硬事实（要记住的就这三条）
+## 二、四条硬事实（要记住的就这四条）
 
 1. **谁管**：BigLoom 由 MacBook（主控 bm-m-1）单独管理，代码留本仓共享，内容在 `~/BigLoom`。
 2. **分家口径**：代码留 FluxGroup；内容（gzh / collect，后续 corpus / train*）归 BigLoom。
    旧路径 `cph4/fleet/social/gzh` 是**软链**，失效即事故。
 3. **边界**：BigStream 管单品成片，BigLoom 管账号运营 + 素材供给；互不抢机器与发布权。
+4. **异机不可用（2026-11-25 审查新增）**：两条软链都是**绝对路径**
+   （`/Users/junsheng.sun/BigLoom/...`），换机器克隆本仓会直接断。
+   所以 gzh / collect / 账号册三条线**只在 MacBook 上跑**；别的机器要这些数据，
+   必须先同步 BigLoom 仓，不能只拉 FluxGroup。
+   **在这一条落实前，不要把这个提交推到 origin**——远端一旦更新，
+   任何拉取的机器看到的都是断链。
 
 ## 三、验收（一条命令）
 
