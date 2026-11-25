@@ -163,10 +163,12 @@ def discover_feeds(url, lang="zh"):
 
 
 def discover_sitemap(url, lang="zh"):
+    """sitemap 清单。max_sitemaps 必须给上限：默认 10000 会让一个大站
+    探活挂好几分钟（2026-11-25 实测：跑着跑着就不动了，9/29 卡住）。"""
     if not HAVE_TRAFILATURA:
         return [], "缺 trafilatura"
     try:
-        return trsitemaps.sitemap_search(url, target_lang=lang), ""
+        return trsitemaps.sitemap_search(url, target_lang=lang, max_sitemaps=40), ""
     except Exception as e:                            # noqa: BLE001
         return [], "%s: %s" % (type(e).__name__, str(e)[:60])
 
@@ -446,6 +448,51 @@ def _feed_items_from(xml_text, limit=20):
     return out, ""
 
 
+def probe_registry(path=None, only_bad=True, max_n=40):
+    """把源册里「说不清能不能采」的源逐个探活，落成 verdict 台账。
+
+    为什么值得跑：源册里 30 ok / 21 degraded / 8 dead 是**当时的印象**，不是测出来的。
+    探活把它们换成四档实测结论，顺手告出该走哪条通道（feed/list/sitemap/不可采）。
+    """
+    path = path or os.path.join(ROOT, "cph4", "fleet", "social", "gzh",
+                               "SOURCES-REGISTRY-v1.json")
+    try:
+        reg = json.load(open(path, encoding="utf-8"))
+    except FileNotFoundError:
+        return {}
+    srcs = reg.get("sources") or []
+    if only_bad:
+        srcs = [x for x in srcs if x.get("status") in ("degraded", "dead")]
+    out = {}
+    dst = os.path.join(OUTDIR, "SOURCE-VERDICTS.json")
+    os.makedirs(OUTDIR, exist_ok=True)
+
+    def dump():
+        """逐条落盘：29 个源要跑很久，中途被超时打断也要保住已测结论。"""
+        json.dump({"_ts": datetime.now().isoformat(timespec="seconds"),
+                   "registry": os.path.relpath(path, ROOT), "verdicts": out},
+                  open(dst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+    for x in srcs[:max_n]:
+        url = x.get("url") or ""
+        if not url.startswith("http"):
+            out[x.get("name") or "?"] = {"verdict": "无 URL", "tier": x.get("tier")}
+            dump()
+            continue
+        p = probe(url)
+        out[x.get("name") or url] = {"url": url, "tier": x.get("tier"),
+                                     "was": x.get("status"),
+                                     "verdict": p["verdict"], "feeds": p["feeds"],
+                                     "list_links": p["list_links"],
+                                     "article": p["article"], "why": p["why"]}
+        print("  %-18s %-8s → %-9s（feed %d / list %d / 正文 %d）"
+              % (str(x.get("name"))[:18], x.get("status"), p["verdict"],
+                 p["feeds"], p["list_links"], p["article"]), flush=True)
+        dump()
+    print("[probe-registry] %d 条 → %s" % (len(out), os.path.relpath(dst, ROOT)))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--url", help="只抓这一篇")
@@ -454,6 +501,9 @@ def main():
     ap.add_argument("--list", help="列表页 URL：从列表里抽文章链接再逐篇抓")
     ap.add_argument("--sitemap", help="站点 URL：走 sitemap 取文章清单")
     ap.add_argument("--probe", help="探活：这个站能用哪种方式采")
+    ap.add_argument("--probe-registry", action="store_true",
+                    help="把源册里 degraded/dead 的源逐个探活，落 SOURCE-VERDICTS.json")
+    ap.add_argument("--registry-all", action="store_true", help="配合 --probe-registry：连 ok 的源也探")
     ap.add_argument("--limit", type=int, default=20)
     ap.add_argument("--delay", type=float, default=1.0)
     ap.add_argument("--self-test", action="store_true")
@@ -467,6 +517,9 @@ def main():
     if a.probe:
         print(json.dumps(probe(a.probe), ensure_ascii=False, indent=1))
         return 0
+    if a.probe_registry:
+        res = probe_registry(only_bad=not a.registry_all)
+        return 0 if res else 2
     if a.url:
         art, why = extract_one(a.url)
         if art is None:

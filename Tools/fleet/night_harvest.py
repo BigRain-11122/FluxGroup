@@ -156,11 +156,31 @@ def html_to_text(html, max_chars=4000):
 
 
 def fetch_body(url, timeout=BODY_TIMEOUT):
-    """进链接取正文。失败一律返回 ""，不让单条坏链毁掉整轮采集。"""
+    """进链接取正文。失败一律返回 ""，不让单条坏链毁掉整轮采集。
+
+    2026-11-25 起先走 trafilatura（adbar/trafilatura，Apache-2.0，2.4.0）：
+    它的正文识别比本文件里手写的 html_to_text 稳得多，而且**换一个站不用改代码**——
+    这正是原 59 条源里 21 条 degraded、8 条 dead 的根因（手写解析器一改版就死）。
+    trafilatura 不装（比如系统 python 跑）或抽不出东西时，退回老的正则实现，行为不变。
+    """
     if not re.match(r"^https?://", url or ""):
         return ""
+    html = ""
     try:
-        return html_to_text(_get(url, timeout=timeout))
+        html = _get(url, timeout=timeout)
+    except Exception:  # noqa: BLE001
+        return ""
+    try:
+        import trafilatura                                   # 延迟导入：缺了也不炸
+        t = trafilatura.extract(html, url=url, include_comments=False,
+                                include_tables=False, favor_precision=True) or ""
+        t = re.sub(r"\n{3,}", "\n\n", t).strip()
+        if len(re.sub(r"\s", "", t)) >= 80:                   # 太短才退回老办法
+            return t[:4096]
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        return html_to_text(html)
     except Exception:  # noqa: BLE001
         return ""
 
