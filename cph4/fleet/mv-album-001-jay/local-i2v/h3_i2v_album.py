@@ -137,8 +137,13 @@ def main():
             print("[%s] SKIP (exists %dKB)" % (oid, os.path.getsize(clip) // 1024), flush=True)
             continue
         fp = str(u["frame"])
-        i = fp.find("media")
-        frame = os.path.join(repo, fp[i:]) if i >= 0 else fp
+        # 路径解析：绝对路径直接用；相对路径一律相对 repo 根（不是 cwd）。
+        # 2026-11-25 实锚：v3 五镜因写了 repo 相对路径而全部 MISSING FRAME（旧逻辑只认含 "media" 的串）。
+        if os.path.isabs(fp):
+            frame = fp
+        else:
+            i = fp.find("media")
+            frame = os.path.join(repo, fp[i:]) if i >= 0 else os.path.join(repo, fp)
         if not os.path.isfile(frame):
             print("[%s] MISSING FRAME %s" % (oid, frame), flush=True)
             fails.append(oid)
@@ -162,8 +167,11 @@ def main():
         # 没给的单元必须清掉，否则会继承上一单元的末帧。
         if u.get("last_frame"):
             lf = str(u["last_frame"])
-            j = lf.find("media")
-            lf_abs = os.path.join(repo, lf[j:]) if j >= 0 else lf
+            if os.path.isabs(lf):
+                lf_abs = lf
+            else:
+                j = lf.find("media")
+                lf_abs = os.path.join(repo, lf[j:]) if j >= 0 else os.path.join(repo, lf)
             if os.path.isfile(lf_abs):
                 try:
                     wf["17"] = {"class_type": "LoadImage",
