@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-25T18:21:58",
+ "ts": "2026-11-25T18:31:58",
  "verdict": "RED",
  "paused": false,
- "gpu_util": 26,
- "vram_used_mb": 6928,
+ "gpu_util": 0,
+ "vram_used_mb": 1753,
  "vram_total_mb": 16384,
  "comfy": false,
  "bank": {
@@ -12,7 +12,7 @@
  },
  "bank_total": 12,
  "pending": 0,
- "in_flight": 1,
+ "in_flight": 0,
  "seats": [
   {
    "seat": "生产者 BmcIdleGuard",
@@ -24,28 +24,28 @@
   {
    "seat": "收口员 Bmc-ProdFinalize",
    "task": "Bmc-ProdFinalize",
-   "last_run_age_s": 11,
+   "last_run_age_s": 10,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 47695,
+   "last_run_age_s": 48295,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 100,
+   "last_run_age_s": 159,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "总控 Orchestrator",
    "task": "Bmc-Orchestrator",
-   "last_run_age_s": 10,
+   "last_run_age_s": 9,
    "state": "OK",
    "result": 0
   },
