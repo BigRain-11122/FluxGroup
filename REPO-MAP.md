@@ -48,7 +48,14 @@ cat cph4/fleet/SYNC-CONTRACT-v1.md      # 3 看跨机规则与共享边界
 | `Tools/fleet/gzh_loop.py --status` | 公众号线当前该做什么 | 19/19 |
 | `Tools/fleet/gzh_trainset.py` | 语料门槛：总篇数 vs **可训篇数** | 8/8 |
 | `Tools/fleet/harvest_generic.py` | 任意站点采集（feed/sitemap/列表/单篇） | 31/31 |
+| `Tools/fleet/fleet_sync_probe.py --status` | 同步探针：软链/车道新鲜度/问询逾期/席表完整性 | 9/9 |
+| `Tools/fleet/bigloom_done.py` | **完工判据八条**（全绿才可宣布完成） | 8/8 |
 | `Tools/fleet/res_alloc.py --status` | 当前哪个平台有租约 | — |
+
+## 五之二、BigLoom 六席（2026-11-25 立于 AGENT-TEAMS）
+账与标准在 control：`C-LOOM-STD`（内容标准）`C-LOOM-BOOK`（两本账）`C-LOOM-DISPATCH`（派单回执）
+生产在 visual：`V-LOOM-COLLECT`（采集）`V-LOOM-DRAFT`（出稿）`V-LOOM-PUB`（上架）
+带数字的席必须 `numbers=rule-only` + `facts_cmd`——数字由规则算，模型只判不下数。
 
 ## 六、已知缺口（写在这里，免得下次重新发现）
 
