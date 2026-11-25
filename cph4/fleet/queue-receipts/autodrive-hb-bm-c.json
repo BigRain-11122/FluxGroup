@@ -1,13 +1,15 @@
 {
- "ts": "2026-11-25T15:56:30.838",
+ "ts": "2026-11-25T16:01:30.922",
  "node": "bm-c",
  "kind": "autodrive-heartbeat",
  "gpu": {
-  "util_pct": 3,
-  "mem_used_mb": 3552,
+  "util_pct": 45,
+  "mem_used_mb": 15647,
   "mem_total_mb": 16384
  },
- "batches": [],
- "state": "IDLE",
+ "batches": [
+  "i2v"
+ ],
+ "state": "RUNNING",
  "note": "bm-c chain publish heartbeat; master may consume for visibility"
 }
