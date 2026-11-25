@@ -2020,3 +2020,10 @@ hint: Disable this message with "git config set advice.addIgnor
 2026-11-25T17:12:26 LANE rc=0 done=- 
 2026-11-25T17:12:26 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
 2026-11-25T17:16:32 RECEIPT RUNNING gpu=100 vram=15365MB busy=i2v
+2026-11-25T17:17:11 TICK commit=committed:8 converge=up-to-date push=pushed lane=lane-cooldown(4m)
+2026-11-25T17:21:32 RECEIPT RUNNING gpu=11 vram=13137MB busy=i2v
+2026-11-25T17:22:17 LANE jobs=1 fresh=1 -> run one card
+2026-11-25T17:22:32 LANE rc=0 done=- 
+2026-11-25T17:22:32 TICK commit=commit-failed:fatal: cannot lock ref 'HEAD': is at 92f9d55ed02b5d270a7aeef9d977978a9a756242 but expected c3cbe1969e6753b0a60351c81c627cc662edd42c
+ converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-25T17:26:31 RECEIPT RUNNING gpu=100 vram=7612MB busy=i2v
