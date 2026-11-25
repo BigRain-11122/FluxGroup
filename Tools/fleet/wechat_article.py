@@ -251,46 +251,65 @@ def _strip_html(h):
     return "\n".join(x.strip() for x in t.split("\n") if x.strip())
 
 
-def discover_chejiahao(author_id, pages=1, rng=None, limit=40):
-    """车家号作者页取文章链接（对标对象本人的镜像，公开可翻页）。
+def discover_chejiahao(author_id, pages=1, rng=None, limit=40, scrolls=8):
+    """车家号作者页取文章链接（对标对象本人的镜像）。
 
-    2026-11-23 实测：作者页 287 个链接里有 /info/<id>，详情页正文在 __NEXT_DATA__ 的
-    articleContent.content（HTML），比公众号网页稳定，不需要登录。
-    标注为"镜像"：只用于学写法，不声称是公众号原文。
+    2026-11-25 实测纠正：作者页是**无限滚动**，不是分页——
+    `?page=2` 返回的仍是第一屏同一批内容（实测两次首条完全相同），
+    所以原「按 page 翻页」写法只能拿到 49 条。滚动加载后同一页能出 **102** 条。
+    pages 参数保留但只作为滚动次数的下限，避免调用方改代码。
+
+    2026-11-23 实测：详情页正文在 __NEXT_DATA__ 的 articleContent.content（HTML），
+    比公众号网页稳定，不需要登录。标注为"镜像"：只用于学写法，不声称是公众号原文。
     """
     rng = rng or random.Random()
     mod, kw = _browser()
     known = _seen(URLS)
     added = 0
+    n_scroll = max(int(scrolls), int(pages) * 2, 6)
     with mod.sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(**kw)
         try:
             pg = ctx.new_page()
             pg.set_default_timeout(15000)
-            for page in range(1, int(pages) + 1):
-                url = ("https://chejiahao.autohome.com.cn/authors/%s" % author_id
-                       + ("?page=%d" % page if page > 1 else ""))
-                pg.goto(url, wait_until="domcontentloaded", timeout=35000)
-                pg.wait_for_timeout(2500)
-                items = pg.evaluate("""()=>Array.from(document.querySelectorAll('a'))
-                    .map(a=>({t:(a.innerText||'').trim(), h:a.href.split('#')[0]}))
-                    .filter(x=>/\/info\/\d+/.test(x.h) && x.t.length>8)""")
-                seen_here = set()
-                for it in items:
-                    u = it["h"]
-                    if u in seen_here:
-                        continue
-                    seen_here.add(u)
-                    uid = _uid(u)
-                    if uid in known or added >= limit:
-                        continue
-                    known.add(uid)
-                    _append(URLS, {"_uid": uid, "url": u, "title": it["t"],
-                                   "source": "chejiahao", "mirror": True,
-                                   "author_id": str(author_id),
-                                   "found_at": datetime.now().isoformat(timespec="seconds")})
-                    added += 1
-                time.sleep(rng.uniform(3, 6))
+            pg.goto("https://chejiahao.autohome.com.cn/authors/%s" % author_id,
+                    wait_until="domcontentloaded", timeout=35000)
+            pg.wait_for_timeout(2500)
+
+            # 滚到底触发懒加载，直到连续 3 次不再增长（或滚满次数）
+            # 坑：单次等待 <2.5s 时懒加载还没回来，会被误判成"已到底"而提前收工
+            last, stall = 0, 0
+            for i in range(n_scroll):
+                n = pg.evaluate("document.querySelectorAll('a[href*=\"/info/\"]').length")
+                if n > last:
+                    last, stall = n, 0
+                else:
+                    stall += 1
+                    if stall >= 3:
+                        break
+                pg.evaluate("window.scrollTo(0,document.body.scrollHeight)")
+                pg.wait_for_timeout(int(rng.uniform(2500, 3200)))
+
+            items = pg.evaluate("""()=>Array.from(document.querySelectorAll('a'))
+                .map(a=>({t:(a.innerText||'').trim(), h:a.href.split('#')[0]}))
+                .filter(x=>/\\/info\\/\\d+/.test(x.h) && x.t.length>8)""")
+            seen_here = set()
+            for it in items:
+                u = it["h"]
+                if u in seen_here:
+                    continue
+                seen_here.add(u)
+                uid = _uid(u)
+                if uid in known or added >= limit:
+                    continue
+                known.add(uid)
+                _append(URLS, {"_uid": uid, "url": u, "title": it["t"],
+                               "source": "chejiahao", "mirror": True,
+                               "author_id": str(author_id),
+                               "found_at": datetime.now().isoformat(timespec="seconds")})
+                added += 1
+            print("[gzh] 作者页滚动 %d 次，可见 %d 条，新增入库 %d 条"
+                  % (i + 1, len(items), added))
         finally:
             try:
                 ctx.close()
@@ -358,6 +377,102 @@ def fetch(url, retries=1):
         if i < retries:
             time.sleep(5)
     return None, why
+
+
+def discover_authors_from(urls, limit=6, rng=None):
+    """从文章页反查作者主页 id（车家号作者链接是 /Authors/<id>，**大写 A**）。
+
+    为什么需要：作者页单屏只给约 49 条带标题的文章链接，滚动加载的是内容不是新链接
+    （实测 102 个锚点里仅 49 个有标题，滚到底仍是 49）。所以「200 篇」靠单作者拿不到，
+    必须扩作者数——而作者 id 只能从文章页反查。
+    坑：正则写成小写 /authors/ 会永远匹配 0 个（2026-11-25 实锚）。
+    """
+    rng = rng or random.Random()
+    mod, kw = _browser()
+    found = {}
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page()
+            pg.set_default_timeout(20000)
+            for u in urls[:limit]:
+                try:
+                    pg.goto(u, wait_until="domcontentloaded", timeout=35000)
+                    pg.wait_for_timeout(int(rng.uniform(2000, 3000)))
+                    ids = pg.evaluate(
+                        """()=>Array.from(document.querySelectorAll('a')).map(a=>a.href)
+                             .map(h=>{const m=h.match(/\\/Authors\\/(\\d+)/i);return m?m[1]:null})
+                             .filter(Boolean)""")
+                    for i in ids:
+                        found.setdefault(i, 0)
+                        found[i] += 1
+                except Exception:  # noqa: BLE001
+                    continue
+                time.sleep(rng.uniform(1.5, 3))
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    return sorted(found.items(), key=lambda kv: -kv[1])
+
+
+def expand_once(limit=6, rng=None):
+    """两跳扩池：访问池内文章 → ①反查作者 id ②收推荐 /info/ 链接回池。
+
+    为什么必须两跳：作者页只给约 49 条，单作者到不了 200 篇；
+    而推荐位只暴露 /info/（不暴露作者），所以要先拿推荐文，再从推荐文反查作者。
+    """
+    rng = rng or random.Random()
+    rows = []
+    if os.path.exists(URLS):
+        for line in open(URLS, encoding="utf-8"):
+            line = line.strip()
+            if line:
+                try:
+                    rows.append(json.loads(line))
+                except Exception:  # noqa: BLE001
+                    pass
+    known = _seen(URLS)
+    todo = [r for r in rows if "/info/" in (r.get("url") or "")
+            and not r.get("visited")][:limit]
+    authors, added = {}, 0
+    mod, kw = _browser()
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page(); pg.set_default_timeout(20000)
+            for r in todo:
+                try:
+                    pg.goto(r["url"], wait_until="domcontentloaded", timeout=35000)
+                    pg.wait_for_timeout(int(rng.uniform(2000, 3000)))
+                    got = pg.evaluate("""()=>{
+                      const hrefs=Array.from(document.querySelectorAll('a')).map(a=>a.href);
+                      const auth=hrefs.map(h=>{const m=h.match(/\/Authors\/(\d+)/i);return m?m[1]:null}).filter(Boolean);
+                      const info=hrefs.filter(h=>/\/info\/\d+/.test(h));
+                      return {auth:[...new Set(auth)], info:[...new Set(info)]};}""")
+                    for a in got.get("auth") or []:
+                        authors[a] = authors.get(a, 0) + 1
+                    for u in got.get("info") or []:
+                        if u == r["url"]:
+                            continue
+                        uid = _uid(u)
+                        if uid in known or added >= 60:
+                            continue
+                        known.add(uid); added += 1
+                        _append(URLS, {"_uid": uid, "url": u, "title": "",
+                                       "source": "chejiahao", "mirror": True,
+                                       "author_id": (got.get("auth") or [None])[0],
+                                       "found_at": datetime.now().isoformat(timespec="seconds")})
+                except Exception:  # noqa: BLE001
+                    continue
+                time.sleep(rng.uniform(1.5, 3))
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    return authors, added
 
 
 def _fetch_chejiahao(url):
@@ -566,7 +681,13 @@ def main():
     ap.add_argument("--sogou")
     ap.add_argument("--serp")
     ap.add_argument("--cj-author", help="车家号作者 id（对标对象镜像）")
+    ap.add_argument("--cj-expand", type=int, default=0,
+                    help="两跳扩池：访问 N 篇池内文章，反查作者并收推荐链接")
+    ap.add_argument("--cj-discover", type=int, default=0,
+                    help="从池里取 N 篇文章反查作者 id（车家号 /Authors/<id>）")
     ap.add_argument("--pages", type=int, default=3)
+    ap.add_argument("--scrolls", type=int, default=8,
+                    help="作者页滚动加载次数（车家号是无限滚动，?page=N 无效）")
     ap.add_argument("--harvest", type=int, default=0)
     ap.add_argument("--limit", type=int, default=0, help="每次最多抓几篇（防手滑抓太多）")
     ap.add_argument("--self-test", action="store_true")
@@ -583,8 +704,32 @@ def main():
                  len(art.get("heads") or []), art.get("imgs") or 0))
         print("[gzh] 开头：%s" % (art.get("lead") or "")[:160].replace("\n", " / "))
         return 0
+    if a.cj_expand:
+        auth, added = expand_once(a.cj_expand)
+        print("[gzh] 两跳扩池：文章 %d 篇 → 新作者 %d 个 / 新链接 %d 条"
+              % (a.cj_expand, len(auth), added))
+        for aid, hits in sorted(auth.items(), key=lambda kv: -kv[1])[:10]:
+            print("   /Authors/%s  出现 %d 次" % (aid, hits))
+        return 0
+    if a.cj_discover:
+        rows = []
+        if os.path.exists(URLS):
+            for line in open(URLS, encoding="utf-8"):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rows.append(json.loads(line))
+                except Exception:  # noqa: BLE001
+                    pass
+        urls = [r.get("url") for r in rows if "/info/" in (r.get("url") or "")]
+        pairs = discover_authors_from(urls, limit=a.cj_discover)
+        print("[gzh] 反查到作者 %d 个：" % len(pairs))
+        for aid, hits in pairs[:12]:
+            print("   /Authors/%s  出现 %d 次" % (aid, hits))
+        return 0
     if a.cj_author:
-        n = discover_chejiahao(a.cj_author, pages=a.pages)
+        n = discover_chejiahao(a.cj_author, pages=a.pages, scrolls=a.scrolls, limit=(a.limit or 40))
         print("[gzh] 车家号建池 %d 条 → %s" % (n, os.path.relpath(URLS, ROOT)))
         return 0 if n else 1
     if a.sogou or a.serp:

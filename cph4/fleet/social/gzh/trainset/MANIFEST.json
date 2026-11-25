@@ -1,0 +1,44 @@
+{
+  "built_at": "2026-11-25T10:46:28",
+  "source": "cph4/fleet/social/gzh/ARTICLES.jsonl",
+  "source_lines": 19,
+  "source_sha": "7dd1d422f6b2fc7c",
+  "counts": {
+    "titles": 15,
+    "leads": 13,
+    "heads": 8,
+    "endings": 15
+  },
+  "dropped": {
+    "title": 4,
+    "lead": 2,
+    "heads": 10,
+    "end": 0,
+    "dup": 9
+  },
+  "profile": {
+    "title_len_med": 28,
+    "title_num_pct": 46.7,
+    "title_q_pct": 20.0,
+    "lead_len_med": 197
+  },
+  "gate": {
+    "total": {
+      "ok": false,
+      "have": 19,
+      "need": 200
+    },
+    "per_author": {
+      "ok": true,
+      "have": 11,
+      "need": 10
+    },
+    "authors": {
+      "ok": false,
+      "have": 4,
+      "need": 5
+    }
+  },
+  "train_ready": false,
+  "_why": "train_ready=false 时不许开训：语料不到门槛，训出来会学成复读机或方向错。"
+}
