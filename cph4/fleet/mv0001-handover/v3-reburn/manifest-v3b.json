@@ -1,0 +1,18 @@
+{
+ "policy": "v3b 补烧·SONG_01 重烧。失败原因=幅度不足+正面平视首帧（模型倾向保持）。按判例换首帧=AN_05 仰拍，动作改为「仰头到喉部暴露」=唱高音的身体语言，仍不碰嘴。",
+ "wave": "v3b-song-anchor-fix",
+ "total": 1,
+ "units": [
+  {
+   "id": "SONG_01B_THROATUP",
+   "track": "MV0001",
+   "win_s": 4.46,
+   "speed": 1.0,
+   "src_s": 4.46,
+   "policy_band": "5s",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\v3-reburn\\frames\\SONG_01B.png",
+   "note": "换首帧+加大幅度。仰头使喉部暴露是明确演唱态，规避口型先验。",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Low three-quarter angle looking slightly up. A young bronze-age scribe in coarse undyed linen stands at a wall of shallow wedge-cut marks, one clay bowl of fire burning low at the right edge. His head tips back until his throat is fully exposed to the warm light, his eyes close, his chest lifts and his shoulders settle back a few degrees, holds there for a beat, then his head comes level again and his eyes open. His hands stay loosely clasped at his chest the whole time. Only the head, throat, chest and lids move. Strong warm uplight on the throat and jaw, deep warm black behind him, fine 35mm grain, black point slightly lifted."
+  }
+ ]
+}
