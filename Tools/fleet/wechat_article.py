@@ -434,8 +434,18 @@ def expand_once(limit=6, rng=None):
                 except Exception:  # noqa: BLE001
                     pass
     known = _seen(URLS)
+    # 坑（2026-11-25 实锚）：原来用 r.get("visited") 过滤，但从来没写过这个字段，
+    # 于是每一轮都重复访问最前面那几篇 → 永远在原地打转，扩不出新作者。
+    # 正解=单独一个访问台账，跑过就记，跨轮次可续。
+    visited_path = os.path.expanduser("~/.fluxgroup/cj-visited.json")
+    visited = set()
+    if os.path.exists(visited_path):
+        try:
+            visited = set(json.load(open(visited_path, encoding="utf-8")))
+        except Exception:  # noqa: BLE001
+            visited = set()
     todo = [r for r in rows if "/info/" in (r.get("url") or "")
-            and not r.get("visited")][:limit]
+            and r.get("url") not in visited][:limit]
     authors, added = {}, 0
     mod, kw = _browser()
     with mod.sync_playwright() as p:
@@ -466,12 +476,19 @@ def expand_once(limit=6, rng=None):
                                        "found_at": datetime.now().isoformat(timespec="seconds")})
                 except Exception:  # noqa: BLE001
                     continue
+                visited.add(r["url"])
                 time.sleep(rng.uniform(1.5, 3))
         finally:
             try:
                 ctx.close()
             except Exception:
                 pass
+    try:
+        os.makedirs(os.path.dirname(visited_path), exist_ok=True)
+        json.dump(sorted(visited), open(visited_path, "w", encoding="utf-8"),
+                  ensure_ascii=False)
+    except Exception:  # noqa: BLE001
+        pass
     return authors, added
 
 
