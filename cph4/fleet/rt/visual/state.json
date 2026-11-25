@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-25T18:50:09",
+ "ts": "2026-11-25T19:50:07",
  "station": "visual",
  "charter_sha": "2d76a18c1f8a",
  "findings": 47,
@@ -7,7 +7,7 @@
   "high": 38,
   "warn": 9
  },
- "model": "unavailable",
- "advice": null,
- "sec": 24.72
+ "model": "ok",
+ "advice": "立即认领并处理所有“DONE 但产物不存在”的异常任务，因为高严重性缺陷（Severity: high）表明这些已完成的工作产出不存在，必须优先解决。",
+ "sec": 23.18
 }
