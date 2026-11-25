@@ -46,7 +46,10 @@ restore() {
   fi
   echo "[train] 结束 $(date '+%H:%M:%S')"
 }
-trap 'rm -f "$SENT"; restore' EXIT
+# EXIT trap 在起看门狗后统一安装（见下方 GUARD_PID 处）。这里不能先装一次：
+# bash 的 trap 是覆盖语义，第二个 trap 会把这里的 restore 顶掉，崩溃后锁与独占哨兵
+# 全留在盘上，机器卡在"只留 4B + 训练中"态（2026-11-25 实锚：强杀 60233 后
+# TRAIN-RUNLOCK/TRAIN-EXCLUSIVE 双双残留、LANE-OK 仍只写 4B）。
 
 SENT="/Users/junsheng.sun/FluxGroup/.codely-cli/state/TRAIN-EXCLUSIVE"
 LANE_OK="/Users/junsheng.sun/FluxGroup/.codely-cli/state/TRAIN-LANE-OK"
@@ -88,7 +91,8 @@ echo "[train] 起训 swap=${SW0}MB iters=$*"
 "$PY" "$ROOT/Tools/fleet/train_guard.py" --on-breach unload --interval 60 \
   --minutes $(( 9 * 60 )) >"$ROOT/.codely-cli/state/train-guard.log" 2>&1 &
 GUARD_PID=$!
-trap 'kill $GUARD_PID 2>/dev/null' EXIT
+# 唯一的 EXIT trap：看门狗、独占哨兵、锁、显存档一次全收，任何退出路径都不留残态。
+trap 'kill ${GUARD_PID:-} 2>/dev/null; rm -f "$SENT"; restore' EXIT
 "$PY" -u "$ROOT/Tools/fleet/train_lora.py" "$@"
 rc=$?
 SW1=$(sysctl -n vm.swapusage | sed -n 's/.*used = \([0-9.]*\)M.*/\1/p')
