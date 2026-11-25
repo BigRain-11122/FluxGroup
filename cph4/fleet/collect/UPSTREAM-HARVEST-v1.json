@@ -1,0 +1,105 @@
+{
+  "_why": "采集工具的上游调研与许可裁决（2026-11-25）。CEO 令「采集也要去 GitHub 找技能和工具，你采集的不止公众号」。每条都写清 star / 许可 / 用途 / 裁决 / 理由，避免下次重复调研，也避免把不许商用的东西装进产线。",
+  "_method": "许可一律读仓库里的 LICENSE 原文判定，不凭印象；star 与维护状态取仓库页面/搜索快照。",
+  "updated": "2026-11-25",
+  "selection_criteria": [
+    "star >= 1000（低于此不采，维护风险太高）",
+    "许可明确允许商用（NOASSERTION / 非商业 / 禁止大规模抓取的一律拒绝）",
+    "个人/内部可用：不依赖平台官方认证 API、不要求企业资质",
+    "有近期维护（2026 年仍有提交或发版）",
+    "本机可跑（macOS + Python 3.13 或 Docker），首选项能离线/本地运行"
+  ],
+  "vendored": [
+    {
+      "name": "adbar/trafilatura",
+      "url": "https://github.com/adbar/trafilatura",
+      "stars": 7100,
+      "license": "Apache-2.0",
+      "license_note": "v1.8.0 起 Apache-2.0；v1.8.0 之前是 GPLv3+。本机装 2.4.0，属 Apache-2.0。",
+      "installed": "2.4.0（.venv-housing/bin/pip install trafilatura）",
+      "why": "通用正文提取 + 站点发现，直接替掉我为每个站手写解析器的做法（解析器站点一改版就死）。",
+      "capabilities": [
+        "extract：任意 HTML → 正文纯文本/JSON/XML，自带去导航去页脚",
+        "extract_metadata：标题/作者/日期/站点名",
+        "feeds.find_feed_urls：给站点根，自动找可用 feed（实测少数派直接返回文章链接）",
+        "sitemaps.sitemap_search：没有 RSS 的站走 sitemap 拿清单"
+      ],
+      "measured": {
+        "第一电动文章": "8549 字，标题与日期均正确",
+        "少数派 feed": "3 篇入库，平均 4176 字，0 失败",
+        "太平洋汽车首页": "993 字但标题是站点名（首页不是文章，符合预期）",
+        "懂车帝/易车首页": "0 字 → 判不可采（JS 壳，无 feed 无 sitemap）"
+      },
+      "wired_into": "Tools/fleet/harvest_generic.py（自检 20/20）",
+      "needs": "只有 .venv-housing 的 python 里有，系统 python 没有"
+    }
+  ],
+  "reused_as_reference": [
+    {
+      "name": "rachelos/we-mp-rss（WeRSS）",
+      "url": "https://github.com/rachelos/we-mp-rss",
+      "stars": 5200,
+      "license": "MIT",
+      "license_note": "LICENSE 原文核过（Copyright (c) 2025 RACHEL），MIT 全文，允许商用。",
+      "why": "公众号 → RSS/Markdown/PDF/Webhook，走微信读书接口，不依赖公众号后台（后台 appmsg 有 200013 频控）。这是「可训只有 14 篇」这个瓶颈的潜在解法之一。",
+      "decision": "不装它整套服务（FastAPI+SQLite+调度+Web UI），只取它的两个接口自己实现",
+      "reason": "我们只需要文章，不需要第二个后台。自建轻客户端 = Tools/fleet/harvest_weread.py（自检 16/16），语料口径与 wechat_article 完全一致（同一个 mp.weixin 短链 → 同一个 uid），两条路采到同一篇不会重复。",
+      "interfaces": [
+        "GET https://weread.qq.com/api/mp/cover?bookId=MP_WXS_xxx → 该号最新一篇 {reviewId,title}",
+        "GET https://weread.qq.com/web/mp/content?reviewId=xxx → 正文 HTML（含 #js_content）"
+      ],
+      "hard_limitation": "只返回每个号**最新一篇**，历史补不回来——旧列表接口 /web/mp/articles 已废弃，实测恒返回 -2041。所以它解决「往后每篇自动进语料」，解决不了「补 200 篇差额」。",
+      "blocking_step": "需要人登录 weread.qq.com 复制 Cookie（wr_vid/wr_skey/wr_rt），存 ~/.fluxgroup/weread-cookie.txt；并在微信读书里订阅对标号以拿到 MP_WXS_* 的 bookId。这两步属账号授权，不代做。",
+      "risk": "Cookie 等于登录态，只落本机 ~/.fluxgroup（不入库、不打印）；失效返回 -2012/-2041 时脚本明确判认证错误并停手，不重试。"
+    }
+  ],
+  "deploying": [],
+  "evaluated_not_vendored": [
+    {
+      "name": "NanmiCoder/MediaCrawler",
+      "url": "https://github.com/NanmiCoder/MediaCrawler",
+      "stars": 71700,
+      "license": "非商业学习使用许可证 1.1（自定义）",
+      "verdict": "拒绝",
+      "reason": "许可原文：仅限学习研究、不得大规模爬虫、未经书面同意不得用于任何商业用途。集团产线属商业用途，装了就是违约。功能虽最全（小红书/抖音/快手/B站/微博/贴吧/知乎），但许可这一条直接否掉。"
+    },
+    {
+      "name": "DIYgod/RSSHub",
+      "url": "https://github.com/DIYgod/RSSHub",
+      "stars": 40000,
+      "license": "AGPL-3.0",
+      "verdict": "评估不落地",
+      "reason": "LICENSE 原文为 AGPL-3.0（含第 13 条远程网络交互条款）。5000+ 路由确实诱人（含 /wechat/wechat2rss/:id、/wechat/tgchannel/:id），但需自建 Node 服务且 copyleft 传染风险高；同样的事 we-mp-rss（MIT）已经能做，没必要背 AGPL。"
+    },
+    {
+      "name": "unclecode/crawl4ai",
+      "url": "https://github.com/unclecode/crawl4ai",
+      "stars": 49000,
+      "license": "Apache-2.0 + 强制署名条款",
+      "verdict": "候补",
+      "reason": "能力更强（异步浏览器 + LLM 抽取 + 反爬），但要装 playwright 全栈且必须在产物中署名 UncleCode。当前 trafilatura + 现有 playwright 已覆盖需求，先不引入第二个抓取栈。"
+    },
+    {
+      "name": "cooderl/wewe-rss",
+      "url": "https://github.com/cooderl/wewe-rss",
+      "stars": 9600,
+      "license": "MIT",
+      "verdict": "备选",
+      "reason": "与 we-mp-rss 同思路（基于微信读书生成公众号 RSS，支持 atom/rss/json 与全文输出、OPML 导出）。它是 NestJS+Node，我们技术栈是 Python，所以先走 we-mp-rss；若 we-mp-rss 不稳再换它。"
+    },
+    {
+      "name": "newspaper3k / python-readability",
+      "url": "https://github.com/codelucas/newspaper",
+      "stars": 14000,
+      "license": "MIT",
+      "verdict": "不采",
+      "reason": "功能与 trafilatura 重合而准确率更低（2026-09-29 的共享基准里 trafilatura 领先）。装了只是多一个依赖。"
+    }
+  ],
+  "reuse_rules": [
+    "先搜后写：动手写解析器之前，先按本清单判有没有现成工具；能配置就不要写代码。",
+    "许可先于功能：读到非商业/NOASSERTION/禁止大规模抓取，功能再好也直接否，不留后门。",
+    "新工具必须过自检并留实测数字（不是「据说能用」），实测写进本文件。",
+    "一个能力只留一条栈：抓取栈已有 trafilatura + playwright，不叠加第三套。"
+  ]
+}
