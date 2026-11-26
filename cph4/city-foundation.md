@@ -103,5 +103,27 @@ places.json（底座席写）
 ## 八、下一步（按依赖顺序）
 
 1. FluxVerse 侧接字段：`types.ts` 声明 + `export-city-data` 直传 + `residents.ts` 按 place 落位并 lerp。
+   （✅ 2026-11-26 已完成，含按拍回放与同地点落点散布）
 2. `places.json` 扩到真实 POI（与城市 layout 的楼块对齐），并把坐标写进 CityWeb 的 place→anchor 表。
-3. 跨仓闸挂进每日 preflight，进入"红了不许报接通"的状态。
+3. 跨仓闸挂进每日 preflight，进入"红了不许报接通"的状态。（✅ 已挂）
+
+## 九、交互层契约 v1（2026-11-26，S1 可走切片落地）
+
+**设计原则：玩家是第 N+1 位居民，不是旁观者。** 玩家只写"自己的位置与动作"，
+不写任何 NPC 状态；NPC 的反应仍由 L1/L3 产出——延续单一写入者矩阵。
+
+| 项 | 约定 |
+|---|---|
+| 玩家 id | `P-0001`（与 `C-#####` 同构，便于走同一套流） |
+| 生产方 | CityWeb `src/player/controller.ts`，导出 `player-trace-v1` |
+| 载体 | `{ "protocol":"player-trace-v1", "day":"YYYY-MM-DD", "samples":[[x,z,ts],…] }` |
+| 采样 | ≥0.5s/点，单日 ≤2000 点（超出丢最旧） |
+| 消费方 | BigLife 下一批 ingest：写入观察总线（"有个生面孔在摊前站了一会儿"），可进年轮 |
+| 碰撞 | **不引物理引擎**：用 `CityPlan.buildings` 的 AABB 做分轴推出；Rapier/WASM 会 +2MB，毁掉单文件交付 |
+| 开关 | 默认关闭；按 `P` 或 URL `?play=1` 才接管相机（零漂移） |
+| 验收 | `Tools/cityweb_play_check.py`：位移 / 不穿墙 / 不锁死 / 帧率 / 零报错 五项全过才算通 |
+
+**已实测（2026-11-26）**：位移 5.01m（期望 5.0）、60fps@1600×900、穿墙采样 0、JS 报错 0、
+包体 818.4 → **820.4 KB（+2KB）**。
+**测试环境坑**：headless 必须带 `--enable-gpu`，否则 Chromium 走 SwiftShader 软件渲染，
+同一场景会把 60fps 测成 11fps（当日实锚，勿误判为产品掉帧）。
