@@ -618,6 +618,11 @@ def browse_video(url, seconds=None, rng=None, harvest=True, ctx=None):
                     pass
     except Exception as e:
         return False, str(e).strip().splitlines()[0][:80]
+    finally:
+        # 回落路径必须自己还锁。2026-11-26 实锚：browserd 重启那一刻养号请求
+        # 全落到这条回路上，_close 了浏览器却把 .flux-collect.lock 留在 agent 进程名下，
+        # 之后浏览器守护再也拿不到 profile，实战（发评论）被自己的养号进程挡死。
+        release_profile_lock(PROF)
 
 
 def human_read(pg, seconds=None):
@@ -1142,6 +1147,8 @@ def send_danmaku(aid, text, progress_ms=None, dry=False, ctx=None):
                 c2.close()
             except Exception:
                 pass
+            # 与 browse_video 同理：回落分支不还锁，会把 profile 永久挂在自己名下。
+            release_profile_lock(PROF)
 
 
 if __name__ == "__main__":
