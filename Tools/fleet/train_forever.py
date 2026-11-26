@@ -496,7 +496,10 @@ def run_one(a):
 
     ds = os.path.join(SOCIAL, "train-%s" % seg)
     build_cmd = [PY, os.path.join(HERE, "train_build.py"), "--out", ds,
-                 "--min-human", "5",
+                 # 人味下限：默认 5（现行）。可命令行覆盖，用于"语料可利用率"对照实验——
+                 # 抽样实测当前训练集 PASS 56/60、taste<45 为 0 条，说明这道闸把
+                 # RISKY 里 40-49 分那 1.8 万条全挡在外面了，值不值得放进来必须实测。
+                 "--min-human", str(getattr(a, "min_human", 5)),
                  # 2026-11-21：硬阈值会把段砍成零头（shallow 4396→293），回填到 1200 条
                  # 再训——278 条训 LoRA 等于没训，这是在浪费 50 分钟 GPU。
                  "--target-rows", "1200"]
@@ -555,7 +558,10 @@ def run_one(a):
     # 10 步/分掉到 3.3 步/分，两小时变六小时。拿不到就不抢，写清让路原因，本轮返回 0。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("train", ttl_s=4 * 3600)
+        # wait_s=90：原来不设等待＝零耐心，出稿（正常 5 秒）一占就立刻放弃，
+        # 而出稿每 12 分钟一次，训练于是长期抢不到窗口（2026-11-26 实锚：
+        # 连续三次「让路：publish（已 71s/131s）」）。等 90 秒足够跨过一次出稿。
+        _got, _why = _gl.acquire("train", ttl_s=4 * 3600, wait_s=200)
     except Exception as _e:
         _got, _why = True, "租约不可用（%s），不拦" % str(_e)[:40]
     if not _got:
@@ -1003,6 +1009,8 @@ def main(argv=None):
     # 一天能多跑 4–5 轮。代价是 epoch 从 1.1 降到 0.9——比"训得慢但只学一遍"更亏的是
     # "一天只训几遍"，所以先换频率；数据量涨上来（自举/更多真实语料）再回调步数。
     ap.add_argument("--iters", type=int, default=400)
+    ap.add_argument("--min-human", type=int, default=5, dest="min_human",
+                    help="造集的人味下限（默认 5；调低用于验证是否值得吃进更多语料）")
     ap.add_argument("--self-test-yield", action="store_true")
     ap.add_argument("--samples", type=int, default=10,
                     help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")

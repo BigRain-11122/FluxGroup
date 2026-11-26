@@ -754,7 +754,9 @@ def main():
     # 与 train_forever 的"出稿到期让路"配成一对：训练让出窗口，出稿在窗口里拿锁。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=20)
+        # TTL 600→120：出稿正常 5 秒完成，10 分钟只够让卡死的进程白占租约。
+        # 卡住时（浏览器无响应，CPU 0%）120 秒后过期，gpu_lease 的僵尸回收能接手。
+        _got, _why = _gl.acquire("publish", ttl_s=120, wait_s=20)
     except Exception:
         _got, _why = True, ""
     if (not _got and "train" in str(_why)
@@ -778,7 +780,7 @@ def main():
         t_w = time.time()
         while time.time() - t_w < 90:
             time.sleep(5)
-            _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=5)
+            _got, _why = _gl.acquire("publish", ttl_s=120, wait_s=5)
             if _got:
                 log({"action": "yield-wait", "secs": round(time.time() - t_w, 1)})
                 break

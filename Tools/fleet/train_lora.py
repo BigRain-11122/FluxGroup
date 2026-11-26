@@ -153,6 +153,19 @@ def main():
     if busy:
         print("[train] SKIP-ALREADY-TRAINING pid=%s 已有训练在跑，本次放弃"
               "（两份训练同时跑只会双输）" % ",".join(str(p) for p in busy))
+        # 落盘：train_forever 只保留输出的最后一行，这行被截掉后
+        # "为什么被跳过"就查不到（2026-11-26 排查花了好几轮）。
+        try:
+            import subprocess as _sp
+            det = _sp.run(["ps", "-o", "pid=,etime=,command=", "-p",
+                           ",".join(str(p) for p in busy)],
+                          capture_output=True, text=True).stdout.strip()
+            p2 = os.path.join(ROOT, ".codely-cli", "state", "train-skip.log")
+            with open(p2, "a", encoding="utf-8") as f:
+                f.write("%s busy=%s\n%s\n" % (time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                               busy, det or "(进程已退出)"))
+        except Exception:
+            pass
         return 3
 
     train_f = os.path.join(a.data, "train.jsonl")
