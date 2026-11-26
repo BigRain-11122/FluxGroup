@@ -520,6 +520,77 @@ def _lane(phase, **meta):
         pass
 
 
+def risk_recent(window_s=3 * 3600, need=3):
+    """最近 window_s 内出现过几次"风控签名"的失败。返回 (次数, 最后一条原因)。
+
+    为什么要有它（2026-11-27 实测）：B站同时把 `/x/web-interface/nav`（报"未登录"）
+    与 `/x/v2/reply`（返回非 JSON）拦住，而账号 cookie 并未失效——这是风控，不是掉登录。
+    这种情况下每 30 分钟硬试一次只会加重风控，所以攒够 need 次就自动静默一段时间。
+    """
+    import time as _t
+    from datetime import datetime as _dt
+    pats = ("未登录", "接口未返回 JSON", "非 JSON", "风控", "-412", "code=-412")
+    n, last = 0, ""
+    try:
+        rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
+    except Exception:
+        return 0, ""
+    for r in rows[-200:]:
+        why = str(r.get("why") or "") + str(r.get("res") or "")
+        if not any(p in why for p in pats):
+            continue
+        try:
+            ts = _dt.fromisoformat(str(r.get("ts")))
+        except Exception:
+            continue
+        if _t.time() - _t.mktime(ts.timetuple()) <= window_s:
+            n += 1
+            last = why[:70]
+    return n, last
+
+
+def login_probe():
+    """零副作用探一次"能不能发"：用 dry=True 走完整的 nav+签名+参数拼装，但不提交。
+
+    为什么要有它（2026-11-27 实测）：B站风控会把 `/x/web-interface/nav` 与 `/x/v2/reply`
+    一起拦住，此时 `_post_in` 报"未登录"，而 cookie 其实没掉。旧流程会先花 40 秒生成
+    12 条候选、再在发帖时才发现被拦——一夜下来白烧 GPU 还加重风控。
+    干跑只读不写，1 秒出结论。
+    返回 (ok, 原因)。探测本身失败也当"不可发"（宁可少发一条，不在风控期硬试）。
+    """
+    import social_comment as sc
+    aid = 0
+    try:
+        p = os.path.join(ROOT, ".codely-cli", "state", "LOGIN-PROBE-AID.json")
+        aid = int((json.load(open(p, encoding="utf-8")) or {}).get("aid") or 0)
+        if not aid:
+            raise ValueError("no cache")
+    except Exception:
+        # 没缓存就现取一个已知 aid（只用于登录探测，不用于发帖目标）。
+        # 键是 URL（不是 bvid），值里带 bvid——按值取，别再假设键格式。
+        try:
+            tv = json.load(open(os.path.join(SOCIAL, "VIDEO-TITLES.json"), encoding="utf-8"))
+            meta = next(iter(tv.values()))
+            bv = (meta or {}).get("bvid") or ""
+            r = sc._daemon("aid", {"bvid": bv}, timeout=30) if bv else None
+            aid = int(((r or {}).get("res") or {}).get("aid") or 0)
+            if aid:
+                json.dump({"aid": aid, "bvid": bv},
+                          open(os.path.join(ROOT, ".codely-cli", "state",
+                                            "LOGIN-PROBE-AID.json"), "w", encoding="utf-8"))
+        except Exception:
+            pass
+    if not aid:
+        return False, "探测用 aid 取不到"
+    try:
+        ok, res = sc.post_reply(aid, 0, "这条内容先记一下", dry=True)
+    except Exception as e:
+        return False, "探测异常：%s" % str(e)[:50]
+    if ok:
+        return True, ""
+    return False, str(res)[:60]
+
+
 def main():
     t_boot0 = time.time()
     # 0 成熟回验：止损/发帖前先补"过了几分钟才准"的结论，别用婴儿期证据下判决
@@ -529,6 +600,15 @@ def main():
             print("[tick] 补做成熟回验 %d 条" % n_fix)
     except Exception as e:
         print("[tick] 成熟回验失败：%s" % e)
+    # 0.5 风控退避（2026-11-27）：B站把 nav 与 reply 接口一起拦住时（cookie 并未失效），
+    # 每 30 分钟硬试只会加重风控。干跑探一次，被拦就静默这一轮，等它自己放开。
+    _pok, _pwhy = login_probe()
+    if not _pok:
+        _rn, _rwhy = risk_recent()
+        print("[tick] 风控退避：发帖预检未通过（%s；近 3 小时 %d 次）" % (_pwhy, _rn))
+        _lane("risk-backoff", probe=_pwhy, n=_rn, why=_rwhy)
+        log({"action": "skip", "why": "risk-preflight:%s" % _pwhy})
+        return 0
     # 1 止损闸
     b = blocked()
     if b:
