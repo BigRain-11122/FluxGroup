@@ -226,6 +226,27 @@ def acquire(name, ttl_s=3600, wait_s=0):
     return True, "拿到租约（TTL %ds）" % ttl_s
 
 
+def renew(name, ttl_s=None):
+    """续约：只有持有者能续。返回是否续上。
+
+    为什么需要它（2026-11-26 实锚）：selfgen 取租约时写死 ttl_s=3*3600，一次卡顿
+    就把 GPU 锁满三小时，`_reap_stale` 只在 stale（超 TTL）后才肯介入——于是回收器
+    整段时间没有机会。把 TTL 压到 10 分钟 + 每处理一条续一次，才有"健康长跑照样续、
+    卡死十分钟自动可回收"的效果；不动回收器的杀进程判据，长训练不受影响。
+    """
+    if name not in _handles or DEPTH.get(name, 0) <= 0:
+        return False               # 不是本进程持的锁，不许替别人续
+    d = _read()
+    if d.get("pid") != os.getpid() or d.get("name") != name:
+        return False
+    now = time.time()
+    ttl = float(ttl_s if ttl_s is not None else (float(d.get("expires") or 0) - float(d.get("ts") or now)))
+    if ttl <= 0:
+        return False
+    _write({"name": name, "pid": os.getpid(), "ts": now, "expires": now + ttl})
+    return True
+
+
 def release(name):
     if name in _inherited_names() and name not in _handles:
         return False               # 继承来的锁不归本进程释放
@@ -275,14 +296,28 @@ def self_test():
         release("t_main")
         ok3, _ = acquire("t_main", ttl_s=60)
         ok4 = os.environ.get(ENV_KEY, "").find("t_main") >= 0
+        # 续约：持有者能续、过期时间被推后；非持有者续不上（负控）
+        before = float((_read() or {}).get("expires") or 0)
+        time.sleep(0.05)
+        ok5 = renew("t_main", ttl_s=600)
+        after = float((_read() or {}).get("expires") or 0)
+        ok6 = after > before and after - time.time() > 500
+        release("t_main")
+        ok7 = not renew("t_main", ttl_s=600)        # 已释放 → 不许续
+        # 别的车道名也续不上（不是它的锁）
+        acquire("t_main", ttl_s=60)
+        ok8 = not renew("t_other", ttl_s=600)
         release("t_main")
     finally:
         LOCK, REC = saved
-    ok = ok1 and ok2 and code_no == 3 and code_yes == 0 and ok3 and ok4
+    ok = (ok1 and ok2 and code_no == 3 and code_yes == 0 and ok3 and ok4
+          and ok5 and ok6 and ok7 and ok8)
     print(json.dumps({"self_test": "PASS" if ok else "FAIL", "首拿": ok1, "重入": ok2,
                       "子进程无继承被拒(rc=3)": code_no == 3,
                       "子进程有继承放行(rc=0)": code_yes == 0,
                       "释放后可再拿": ok3, "环境已标记继承": ok4,
+                      "持有者可续约": ok5, "续约推后过期": ok6,
+                      "释放后不许续": ok7, "非持有者不许续": ok8,
                       "重入说明": why2}, ensure_ascii=False))
     return 0 if ok else 1
 
