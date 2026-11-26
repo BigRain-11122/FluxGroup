@@ -257,9 +257,10 @@ def to_row(item):
         "origin": item["platform"],
         "oral": False,
         "opinion": True,
-        # 来源域已知：音乐平台评论区 → 音乐区观众段。不给这个提示，78% 会落进
+        # 来源域已知：默认音乐平台 → 音乐区观众段。调用方可以覆盖
+        # （forum_comments 的豆瓣短评要进 critic）。不给这个提示，78% 会落进
         # generic 而 generic 不进任何训练段（实测 2412/3073 白采）。
-        "seg_hint": "music_seeker",
+        "seg_hint": item.get("seg_hint") or "music_seeker",
     }
 
 
@@ -309,14 +310,16 @@ def clean_and_filter(items):
     return out
 
 
-def write_rows(items, path=TARGET, dry=False):
-    have = existing_hashes(path)
+def write_rows(items, path=TARGET, dry=False, have=None):
+    # have 可外部传入并复用：分批落盘时每次重读 25MB 语料会把长任务拖成几十分钟
+    have = existing_hashes(path) if have is None else have
     rows, seen = [], set()
     for it in items:
         r = to_row(it)
         if r["h"] in have or r["h"] in seen:
             continue
         seen.add(r["h"])
+        have.add(r["h"])
         rows.append(r)
     if dry:
         return len(rows), rows

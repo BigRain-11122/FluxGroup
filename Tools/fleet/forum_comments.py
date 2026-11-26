@@ -39,7 +39,8 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 sys.path.insert(0, HERE)
 
-from music_comments import (quality_ok, write_rows, _h, clean_and_filter)  # noqa: E402
+from music_comments import (quality_ok, write_rows, _h, clean_and_filter,
+                            existing_hashes)  # noqa: E402
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
@@ -86,6 +87,21 @@ def parse_short_comments(html):
     return out
 
 
+def load_progress():
+    try:
+        return json.load(open(STATE, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_progress(prog):
+    try:
+        os.makedirs(os.path.dirname(STATE), exist_ok=True)
+        json.dump(prog, open(STATE, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception:
+        pass
+
+
 def douban_books(pages=10, books=0, per_book=2, dry=False):
     """Top250 → 每本采 per_book 页短评（20 条/页）。books>0 时限量（便于小批验证）。"""
     got_ids, errs = [], []
@@ -104,25 +120,44 @@ def douban_books(pages=10, books=0, per_book=2, dry=False):
     if books:
         uniq = uniq[:books]
 
-    items = []
+    # 边采边写 + 记进度：250 本 × 2 页要 20 分钟，一旦超时被杀，
+    # 一次性落盘的全量数据会整个丢掉（2026-11-26 实锚：长任务只靠最后一次写盘）。
+    # 现在每本书采完立刻入库并记进度，下次自动跳过已采书目，不会重复烧请求。
+    prog = load_progress()
+    done = set(prog.get("books") or [])
+    have = None if dry else existing_hashes()
+    total_raw = total_kept = total_new = 0
+    fetched = 0
     for bid in uniq:
+        if bid in done:
+            continue
+        items = []
         for pg in range(max(1, per_book)):
             try:
                 html = _get(CMT_URL % (bid, pg * 20))
             except Exception as e:
                 errs.append("书目 %s 第 %d 页：%s" % (bid, pg, type(e).__name__))
+                time.sleep(GAP * 3)      # 限流退避，别把后面的书一起拖垮
                 break
             for t in parse_short_comments(html):
                 items.append({"text": t, "likes": 0, "song": bid,
                               "platform": "douban_book"})
             time.sleep(GAP + random.uniform(0, 0.6))
-    kept = [x for x in clean_and_filter(items) if quality_ok(x["text"])]
-    # 豆瓣短评进 critic 段：有观点、有判断，正好补现在只有 157 行的 critic
-    for x in kept:
-        x["seg_hint"] = "critic"
-    n, _rows = write_rows(kept, dry=dry)
-    return {"books": len(uniq), "raw": len(items), "kept": len(kept), "new": n,
-            "errs": errs[:5], "dry": dry}
+        fetched += 1
+        kept = [x for x in clean_and_filter(items) if quality_ok(x["text"])]
+        for x in kept:
+            x["seg_hint"] = "critic"
+        n, _rows = write_rows(kept, dry=dry, have=have)
+        total_raw += len(items)
+        total_kept += len(kept)
+        total_new += n
+        if not dry and items:
+            done.add(bid)
+            prog["books"] = sorted(done)
+            prog["ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+            save_progress(prog)
+    return {"books": fetched, "raw": total_raw, "kept": total_kept, "new": total_new,
+            "errs": errs[:5], "dry": dry, "skipped": len(uniq) - fetched}
 
 
 def self_test():
@@ -166,8 +201,8 @@ def main(argv=None):
         print("[forum] 目前只实现 --douban-books（其余平台实测被挡，见文件头）")
         return 2
     out = douban_books(pages=a.pages, books=a.books, per_book=a.per_book, dry=a.dry)
-    print("[forum] 书 %d 本 → 抓 %d 条 → 清洗后 %d → 新入库 %d%s"
-          % (out["books"], out["raw"], out["kept"], out["new"],
+    print("[forum] 本轮采 %d 本（跳过已采 %d）→ 抓 %d 条 → 清洗后 %d → 新入库 %d%s"
+          % (out["books"], out.get("skipped", 0), out["raw"], out["kept"], out["new"],
              "（dry，未写）" if out["dry"] else ""))
     for e in out["errs"]:
         print("  ! %s" % e)
