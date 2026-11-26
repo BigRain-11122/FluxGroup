@@ -173,6 +173,24 @@ def eligible(seg, rows, st, rejects, now=None):
     return True, "可训（%d 行）" % n
 
 
+def dataset_fp(ds):
+    """训练集指纹：train.jsonl 的 sha256 前 16 位。文件不存在返回 ""。
+
+    为什么用文件而不是行数：行数相同内容可能不同（换了一批等长的句子），
+    行数不同内容也可能等价（顺序变了）。真正决定权重的就是这份文件本身。
+    """
+    p = os.path.join(ds, "train.jsonl")
+    try:
+        import hashlib
+        h = hashlib.sha256()
+        with open(p, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()[:16]
+    except Exception:
+        return ""
+
+
 def built_map(path=None):
     """每段最近一次"烘焙后可用行数"（台账里的 built）。
 
@@ -195,25 +213,6 @@ def built_map(path=None):
     return m
 
 
-def _built_stale(seg, st, built):
-    """烘焙后可用行数没涨 → 重训必得同款权重，直接不许训。
-
-    2026-11-26 实锚（E-20261126-02）：music_seeker 三次 KEEP/ckpt400 的 adapter SHA
-    完全相同，对照台账只有一处差异——前两次 built=305、第三次 built=305，
-    只有 12:42 那次 built=313 才出了不同模型。也就是说决定"有没有新东西可学"的
-    不是原始 rows（305→305 时 rows 也在动，虚涨几千行域外句），而是**烘焙后**的行数。
-    50 次 run / 30 个唯一 SHA，浪费的 20 次全部落在这条缝隙上。
-    返回 (是否陈旧, 说明)。
-    """
-    rec = (st.get("segments") or {}).get(seg) or {}
-    last_built = int(rec.get("built") or 0)
-    cur = int(built.get(seg) or 0)
-    if not last_built or not cur:
-        return False, ""            # 缺一侧就不启用，老台账不会因此永久停训
-    if cur >= last_built * 1.02:
-        return False, ""
-    return True, "烘焙后数据集未变（built %d→%d），重训必得同款" % (last_built, cur)
-
 
 def pick(rows, st, rejects, now=None, built=None):
     """队列排序：最久没训的优先，同档按**烘焙后可用语料**多的优先。"""
@@ -223,9 +222,6 @@ def pick(rows, st, rejects, now=None, built=None):
     for seg in sorted(rows):
         ok, why = eligible(seg, rows, st, rejects, now)
         if ok:
-            stale, why_stale = _built_stale(seg, st, built)
-            if stale:
-                continue
             last = ((st.get("segments") or {}).get(seg) or {}).get("last_ts") or 0
             eff = built.get(seg) or rows[seg]      # 没烘过的段没有 built，回退原始行数
             cands.append((last, -eff, seg, why))
@@ -422,17 +418,37 @@ def reconcile(st):
             d["last_blocked_ts"] = r.get("ts") and time.mktime(
                 time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time()
             continue
+        # 复验（re_verify）是**评测**，不是训练：它没造集、没训权重，只是拿旧 adapter
+        # 重新打了一次分。2026-11-26 实锚：social_loop 写进来的复验行只有
+        # run/verdict/adapter，没有 recipe 与 built——一旦让它覆盖段状态，
+        # 该段的配方与烘焙记录就被抹成 None，冷却闸静默失效；
+        # 而且它还会推进 last_ts，等于一次复验白给该段加 6 小时冷却。
+        # 所以只记 last_verify_ts / last_verify_rc，不碰训练时钟。
+        if r.get("re_verify"):
+            d = segs.setdefault(seg, {})
+            d["last_verify_ts"] = r.get("ts") and time.mktime(
+                time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time()
+            d["last_verify_rc"] = r.get("verdict")
+            d["last_verify_adapter"] = r.get("adapter")
+            continue
+        prev = segs.get(seg) or {}
         segs[seg] = {"last_ts": r.get("ts") and time.mktime(
                          time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time(),
                      "last_rc": r.get("verdict"), "rows": r.get("rows"),
-                     "built": r.get("built"),
+                     # built/recipe 缺了就沿用上一次已知值：台账里任何一条"没有这两个
+                     # 字段"的记录（外部工具写的）都不许把它们抹成空，否则依赖它们的闸
+                     # （同款重训闸、冷却闸）会静默放行。
+                     "built": r.get("built") if r.get("built") is not None else prev.get("built"),
                      "run": r.get("run"), "step": r.get("step"),
                      "val_min": r.get("val_min"),
                      # recipe 必须一起重建：少了它，eligible() 会判"配方更新"
                      # 而永远放行，冷却与被否后的 15% 增长闸全部失效。
                      # 2026-11-26 实锚：8 个段里 7 个 recipe=None，同一段 3.5 小时
                      # 就重训一次、17 次 run 只出 7 个不同模型（feeler 0/14 还在烧）。
-                     "recipe": r.get("recipe")}
+                     "recipe": r.get("recipe") if r.get("recipe") is not None else prev.get("recipe")}
+        if prev.get("last_verify_ts"):
+            segs[seg]["last_verify_ts"] = prev["last_verify_ts"]
+            segs[seg]["last_verify_rc"] = prev.get("last_verify_rc")
     st["segments"] = segs
     st["runs"] = rows[-40:]
     return st
@@ -563,6 +579,22 @@ def run_one(a):
     rc, out = sh(build_cmd, timeout=1200)
     m = re.search(r"train\.jsonl (\d+) 条", out)
     built = int(m.group(1)) if m else 0
+    # 训练文件指纹：判"这一课跟上一课是不是同一课"只能靠**真正喂进去的文件**。
+    # 2026-11-26 踩坑：先写的版本拿 built_map() 与段状态里的 built 比，两者同源
+    # （都来自台账自己的 built 字段），等于自己跟自己比，恒判"未变"——于是所有段
+    # 一次性全被挡住。指纹必须来自磁盘上的 train.jsonl。
+    fp = dataset_fp(ds)
+    prev_fp = ((st.get("segments") or {}).get(seg) or {}).get("fp")
+    if rc == 0 and built >= MIN_BUILD and fp and fp == prev_fp:
+        print("[loop] 跳过训练：%s 的数据集与上次完全相同（fp=%s），重训必得同款" % (seg, fp))
+        record_fail(seg, task["rows"], "SAME-DATASET",
+                    "数据集与上次训练完全相同（fp=%s）" % fp, built)
+        st["segments"][seg] = dict(st["segments"].get(seg) or {},
+                                   last_rc="SAME-DATASET", built=built, fp=fp)
+        _save(LOOP_STATE, st)
+        _lane("skip-same-dataset", seg=seg, fp=fp, built=built)
+        board(st, rows, rejects)
+        return 0
     if rc != 0 or built < MIN_BUILD:
         print("[loop] 造集不足（rc=%d, %d 条）：%s" % (rc, built, out.strip()[-160:]))
         record_fail(seg, task["rows"], "SUPPLY", "造集不足 %d 条" % built, built)
@@ -799,6 +831,23 @@ def run_one(a):
 
 def self_test():
     cases = []
+    # 数据集指纹：同内容必须同 fp、不同内容必须不同 fp、缺失必须为空。
+    # 这条闸曾经写成"拿台账里的 built 跟台账里的 built 比"（同源自比，恒判未变），
+    # 结果所有段一次性全被挡住——所以指纹必须来自磁盘文件，且要能被负控抓出来。
+    import tempfile as _tf
+    _d = _tf.mkdtemp(prefix="fp-")
+    try:
+        _p = os.path.join(_d, "train.jsonl")
+        open(_p, "w").write('{"text":"甲"}\n')
+        fp1 = dataset_fp(_d)
+        fp1b = dataset_fp(_d)
+        open(_p, "w").write('{"text":"乙"}\n')
+        fp2 = dataset_fp(_d)
+        cases.append(("指纹：同内容同 fp、不同内容不同 fp", fp1 and fp1 == fp1b and fp1 != fp2))
+        cases.append(("指纹：文件不存在返回空（不许瞎比）", dataset_fp(os.path.join(_d, "nope")) == ""))
+    finally:
+        import shutil as _sh
+        _sh.rmtree(_d, ignore_errors=True)
     rows = {"a": 300, "b": 50}
     st = {}
     rj = {}
@@ -834,22 +883,6 @@ def self_test():
     # 无 built 历史 → 回退 original rows（不许因为缺数据就什么都不选）
     task3, _ = pick(rows_c, {}, {}, time.time(), built={})
     cases.append(("无 built 历史时回退 rows", task3 is not None and task3["seg"] == "a"))
-    # 负控 2026-11-26（E-20261126-02）：烘焙后行数没涨 → 不许重训。
-    # 实锚：music_seeker 三次同 SHA，built 全是 305；只有 built 313 那次出了不同模型。
-    now_t = time.time()
-    st_b = {"segments": {"a": {"last_ts": now_t - 24 * 3600, "recipe": RECIPE_V,
-                               "built": 305, "rows": 305}}}
-    t_b, _ = pick({"a": 305, "b": 300}, st_b, {}, now_t, built={"a": 305, "b": 300})
-    cases.append(("built 未变（305→305）即便冷却已过也不许训",
-                  t_b is not None and t_b["seg"] == "b"))
-    t_b2, _ = pick({"a": 305}, st_b, {}, now_t, built={"a": 313})
-    cases.append(("built 涨了（305→313）→ 可以训",
-                  t_b2 is not None and t_b2["seg"] == "a"))
-    st_b3 = {"segments": {"a": {"last_ts": now_t - 24 * 3600, "recipe": RECIPE_V}}}
-    t_b3, _ = pick({"a": 305}, st_b3, {}, now_t, built={"a": 305})
-    cases.append(("台账缺 built 时不启用该闸（不许永久停训）",
-                  t_b3 is not None and t_b3["seg"] == "a"))
-
     B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
     keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
     cases.append(("均分 +6 且人味不退 → KEEP", keep))
@@ -907,6 +940,24 @@ def self_test():
         rec_d = [json.loads(x) for x in open(_tmp, encoding="utf-8") if x.strip()][-1]
         cases.append(("record_fail 必须写 recipe 且标 no_progress",
                       rec_d.get("recipe") == RECIPE_V and rec_d.get("no_progress") is True))
+        # 负控 2026-11-26：复验行（social_loop 写的，只有 run/verdict/adapter）
+        # 不许推进训练时钟，也不许把已有 built/recipe 抹成空。
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T10:00:00", "seg": "e", "rows": 400,
+                                "built": 320, "verdict": "KEEP",
+                                "recipe": RECIPE_V, "step": 400}) + "\n")
+            f.write(json.dumps({"ts": "2026-11-26T12:00:00", "seg": "e", "verdict": "REJECT",
+                                "why": "均分只 -8.9（需 ≥5.0）", "run": "x",
+                                "re_verify": True, "adapter": "a"}) + "\n")
+        st_r4 = reconcile({"segments": {}, "runs": []})
+        e = st_r4["segments"]["e"]
+        t10 = time.mktime(time.strptime("2026-11-26T10:00:00", "%Y-%m-%dT%H:%M:%S"))
+        cases.append(("复验不推进训练时钟（否则白给 6h 冷却）",
+                      abs((e.get("last_ts") or 0) - t10) < 2))
+        cases.append(("复验缺 built/recipe 时不抹掉已有关（同款闸不许失效）",
+                      e.get("built") == 320 and e.get("recipe") == RECIPE_V))
+        cases.append(("复验仍留下 last_verify_rc（判决可查）",
+                      e.get("last_verify_rc") == "REJECT"))
     finally:
         LEDGER = _saved_ledger
         if _tmp:
