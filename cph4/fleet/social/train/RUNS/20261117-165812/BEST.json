@@ -1,6 +1,0 @@
-{
- "from_checkpoint": "0000200_adapters.safetensors",
- "path": "best/adapters.safetensors",
- "note": "权重不入 git；由 train_eval.py 选出后从 adapter/ 复制到 best/",
- "eval": "EVAL.json"
-}
