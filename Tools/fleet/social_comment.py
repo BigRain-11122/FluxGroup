@@ -480,11 +480,40 @@ def verify_comment_browser(aid, rpid, pages=3, sorts=(0, 2), tries=3, wait_s=45)
     return None, "回验未取到数（%d 次尝试均被占用/失败）" % tries
 
 
+def verify_text(aid, text, scrolls=4, timeout=150):
+    """按正文回验：我们发的那句是否已出现在评论区。
+
+    为什么不按 rpid 查接口：/x/v2/reply 对本机返 412（风控 HTML），而登录态是好的
+    （nav 报 isLogin=true）。读渲染后的评论区一直可用，学习通道就是这么采的。
+    返回 None = 取不到数（不许当成"不可见"）。
+    """
+    hit = _daemon("verify_text", {"aid": aid, "text": text, "scrolls": scrolls},
+                  timeout=timeout)
+    if hit is None or not hit.get("ok"):
+        return None, "回验通道不可用：%s" % str((hit or {}).get("res"))[:80]
+    res = hit.get("res") or {}
+    vis = res.get("visible")
+    if vis is None:
+        return None, str(res.get("why") or "取不到数")
+    return bool(vis), str(res.get("why") or "")
+
+
 def verify_comment(aid, rpid, wait_s=900, step_s=60):
     """顶级评论回验：评论区第一页查得到 rpid 才算公开可见。
 
     与 verify_visible（子回复）不是同一个接口：顶级评论在 /x/v2/reply 的 replies 里。
     """
+    # 先问常驻浏览器：它握着 profile 锁，自己 _launch() 必然"被占用"，
+    # 于是 visible 长期全是 null、闭环断在最后一米（2026-11-26 实锚）。
+    hit = _daemon("verify", {"aid": aid, "rpid": rpid, "pages": 3}, timeout=120)
+    if hit is not None and hit.get("ok"):
+        res = hit.get("res") or {}
+        vis = res.get("visible")
+        if vis is True:
+            return True, "已公开可见（点赞 %s）" % res.get("likes")
+        if vis is False:
+            return False, str(res.get("why") or "前几页未见")
+        # visible=None → 取不到数，继续走下面带等待的重试，不冤枉账号
     vis, why = verify_comment_browser(aid, rpid)
     if vis is not None:
         return vis, why

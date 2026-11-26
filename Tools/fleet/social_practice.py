@@ -251,7 +251,12 @@ def main(argv=None):
     if not ok:
         return 1
     if rpid:
-        vis, vwhy = sc.verify_comment(aid, rpid, wait_s=900)
+        # 优先按正文回验（接口已被 412，DOM 通道可用），拿不到数再退回 rpid 查
+        vis, vwhy = sc.verify_text(aid, row["text"])
+        if vis is None:
+            _v2, _w2 = sc.verify_comment(aid, rpid, wait_s=120)
+            if _v2 is not None:
+                vis, vwhy = _v2, _w2
         _log({"action": "verify", "aid": aid, "rpid": rpid, "visible": vis, "why": vwhy})
         print("[practice] 回验：%s（%s）" % ("公开可见" if vis else "不可见", vwhy))
     return 0
