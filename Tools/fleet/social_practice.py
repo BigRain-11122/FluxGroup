@@ -70,7 +70,6 @@ ADDRESS_PAT = re.compile(r"([\u4e00-\u9fff]{2,3})这(教程|期|集|视频|波|�
 
 def safe_to_send(text, title="", topics=()):
     """返回 (ok, 原因)。只放行"不编人、不编事、且与本视频相关"的评论。
-
     2026-11-21 修：原来领域判据是写死的剪辑/MV 词表（NICHE），可出稿早已跨段
     （tech_nerd/shallow/情感…），于是「用蒙版遮掉侧面杂音再叠加歌词」这种明明在讲
     这条视频的话也被判"与本视频领域无关"——闸太窄把好话挡在门外。
@@ -80,6 +79,12 @@ def safe_to_send(text, title="", topics=()):
     txt = (text or "").strip()
     if len(txt) < 8:
         return False, "太短"
+    # 元话术（2026-11-27 实锚）：模型会把提示词当内容复述——实际发出过
+    # 「标题里那个"抽卡"环节剪辑得真带感啊」。真人不说"标题里"，这是指令泄漏，
+    # 既露馅又不像人话，发送前直接拦（提示词那侧也做了修改，两边都守）。
+    for w in ("标题里", "标题中", "标题上", "视频里说", "这条视频里", "视频标题"):
+        if w in txt:
+            return False, "元话术「%s」（指令泄漏）" % w
     for pat, why in FAKE_PAT:
         if pat.search(txt):
             return False, why
@@ -138,6 +143,11 @@ def sent_today():
 
     2026-11-18 实锚：每条帖在台账里落 post + verify 两行，按行数算日限会把
     1 条记成 2 条，额度直接砍半（今天只剩 1 条却报 2/2）。
+
+    2026-11-27 修（宣称分级）：post 行原来只要有 text 就算发出去，于是一条
+    **rpid 为空**的失败记录（00:41:47「标题里那个抽卡环节剪辑得真带感啊…」rpid=）
+    被算成"今日已发 1 条"。没有 rpid 就等于没有回执，最多算"已提交待回执"，
+    不能计入额度——否则额度被失败记录吃掉，真发的时候反而没配额。
     """
     today = datetime.now().strftime("%Y-%m-%d")
     out = []
@@ -146,8 +156,9 @@ def sent_today():
             continue
         if r.get("action") == "verify":
             continue
-        if r.get("action") in ("post", None) and (r.get("rpid") or r.get("reply") or r.get("text")):
-            out.append(r)
+        if r.get("action") in ("post", None):
+            if r.get("rpid") or r.get("reply"):
+                out.append(r)
     return out
 
 
@@ -298,6 +309,10 @@ def self_test():
     _off, _ = safe_to_send("今天天气不错我出去走走了", title=_t, topics=())
     cases += [("标题滑窗：贴题短句必须放行", _on is True),
               ("标题滑窗：无关句必须仍拒", _off is False)]
+    # 元话术必须拦（实锚：真发出过「标题里那个"抽卡"环节剪辑得真带感啊」）
+    _meta, _ = safe_to_send(
+        "标题里那个抽卡环节剪辑得真带感啊", title="剪辑教程：抽卡", topics=())
+    cases.append(("元话术（指令泄漏）必须拦", _meta is False))
     ok = 0
     for n, c in cases:
         print("  [%s] %s" % ("PASS" if c else "FAIL", n))
