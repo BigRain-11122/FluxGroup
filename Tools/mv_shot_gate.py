@@ -38,6 +38,18 @@ TH_STYLE_SAT = 2.5        # 饱和度 z 分数绝对值上限
 TH_STYLE_EDGE = 2.5       # 边缘密度 z 分数绝对值上限
 CARD_WINDOWS = [(38.79, 40.21), (219.71, 223.88)]   # 片名卡/片尾卡，允许静止
 
+import numpy as _np4path
+
+def _cv2_read_safe(path, flags=cv2.IMREAD_COLOR):
+    # 2026-11-26 修复：中文路径 imread 恒 None
+    try:
+        data = _np4path.fromfile(path, dtype=_np4path.uint8)
+        return cv2.imdecode(data, flags)
+    except Exception:
+        return None
+
+cv2.imread = _cv2_read_safe
+
 DET_MODEL = r"D:\AI\models\face\yunet.onnx"
 REC_MODEL = r"D:\AI\models\face\sface.onnx"
 
