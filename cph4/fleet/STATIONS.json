@@ -109,7 +109,7 @@
   {
    "id": "visual",
    "name": "视觉工位",
-   "role": "内容线全责（CEO 2026-11-20）：自媒体/AI 漫剧/短剧/短视频/MV 全线生产（关键帧、i2v、剪辑、字幕、装配、剧本与选题、选角与 LoRA、账号侧草稿）都在此机；账号对外发布仍归 CEO。声音仍由声音工位做。正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md。",
+   "role": "内容线全责（CEO 2026-11-20）：自媒体/AI 漫剧/短剧/短视频/MV 全线生产（关键帧、i2v、剪辑、字幕、装配、剧本与选题、选角与 LoRA、账号侧草稿）都在此机；账号对外发布仍归 CEO。声音仍由声音工位做。正身=cph4/fleet/HANDOVER-20261120-CONTENT-TO-VISUAL.md。；实现口径见 cph4/fleet/ART-IMPL-OWNER-20261127.md（美术实现归小钢炮）",
    "blocked_scope": "gpu",
    "local_model": {
     "model": "qwen3.5:8b 级（Q4）",
@@ -204,12 +204,13 @@
      "taiji_36b"
     ]
    },
-   "min_free_gb": 20
+   "min_free_gb": 20,
+   "art_impl": "support"
   },
   {
    "id": "audio",
    "name": "声音工位",
-   "role": "声音工位：全视频线的配音/混音/BGM/音色；不做画面、不做视频装配。",
+   "role": "声音工位：全视频线的配音/混音/BGM/音色；不做画面、不做视频装配。；2026-11-27 CEO 令：一切美术效果/视觉特效实现归本机（cph4/fleet/ART-IMPL-OWNER-20261127.md）",
    "blocked_scope": "all",
    "local_model": {
     "model": "qwen3.5:4b-8b 档",
@@ -298,7 +299,9 @@
     "by": "CEO",
     "ts": "2026-11-14",
     "why": "CEO 2026-11-14：未开机，不用管（不派卡/不报警/不计产能）"
-   }
+   },
+   "art_impl": "owner",
+   "art_impl_since": "2026-11-27"
   },
   {
    "id": "brain",
