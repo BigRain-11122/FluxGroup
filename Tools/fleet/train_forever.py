@@ -153,6 +153,12 @@ def eligible(seg, rows, st, rejects, now=None):
     # 训练节奏跟着**数据**走，不跟时钟走：语料涨够 10% 就是新的一课，
     # 比"每 6 小时再来一遍同样的数据"科学（那只会过拟合）。
     grown = last_rows and n >= last_rows * 1.10
+    # 冷却必须先于"配方更新"判定：否则状态里一旦缺 recipe（重建/历史台账没有这个字段），
+    # 每轮都判"配方更新"直接放行，6 小时冷却形同不存在。
+    # 2026-11-26 实锚：shallow 00:15 与 03:49 两次训出同一指纹，17 次 run 只 7 个模型。
+    if last and now - last < COOLDOWN_S and not grown:
+        return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (
+            (now - last) / 3600.0, last_rows, n)
     # 配方变了（话语配比/开头配额）也是重训理由：同一批语料换个喂法就是新的一课
     rj0 = rejects.get(seg) or {}
     # 状态里没有 recipe 字段 = 无法证明这件是用当前配方训的（状态丢失/重建都会这样）。
@@ -160,9 +166,6 @@ def eligible(seg, rows, st, rejects, now=None):
     if (not rec.get("recipe")) or (rec["recipe"] != RECIPE_V and not (
             int(rj0.get("n") or 0) >= 3 and n < int(rj0.get("rows") or 0) * GROWTH_GATE)):
         return True, "配方更新 %s（%d 行）" % (RECIPE_V, n)
-    if now - last < COOLDOWN_S and not grown:
-        return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (
-            (now - last) / 3600.0, last_rows, n)
     rj = rejects.get(seg) or {}
     if rj and n < int(rj.get("rows") or 0) * GROWTH_GATE:
         return False, "上次被否（%d 行）且语料只到 %d，未涨 %.0f%%" % (
@@ -392,7 +395,12 @@ def reconcile(st):
                          time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time(),
                      "last_rc": r.get("verdict"), "rows": r.get("rows"),
                      "run": r.get("run"), "step": r.get("step"),
-                     "val_min": r.get("val_min")}
+                     "val_min": r.get("val_min"),
+                     # recipe 必须一起重建：少了它，eligible() 会判"配方更新"
+                     # 而永远放行，冷却与被否后的 15% 增长闸全部失效。
+                     # 2026-11-26 实锚：8 个段里 7 个 recipe=None，同一段 3.5 小时
+                     # 就重训一次、17 次 run 只出 7 个不同模型（feeler 0/14 还在烧）。
+                     "recipe": r.get("recipe")}
     st["segments"] = segs
     st["runs"] = rows[-40:]
     return st
@@ -683,7 +691,7 @@ def run_one(a):
         keep = False
     rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built, "eval_n": eval_n,
            "run": os.path.basename(run), "step": real_step, "val_step": step,
-           "val_min": val,
+           "val_min": val, "recipe": RECIPE_V,
            "base_avg": base.get("avg"), "lora_avg": lora.get("avg"),
            "base_human": base.get("avg_human"), "lora_human": lora.get("avg_human"),
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",
@@ -734,6 +742,11 @@ def self_test():
     st2 = {"segments": {"a": {"last_ts": time.time() - 600, "recipe": RECIPE_V}}}
     ok3, why3 = eligible("a", rows, st2, rj)
     cases.append(("冷却中 → 不可训", not ok3 and "冷却" in why3))
+    # 负控 2026-11-26：状态缺 recipe（历史台账没字段）且刚训过 → 必须仍被冷却挡住，
+    # 不许因为"配方不明"就立刻重训（实锚：同一段 3.5h 重训一次，指纹完全相同）。
+    st2b = {"segments": {"a": {"last_ts": time.time() - 600}}}
+    ok3b, why3b = eligible("a", rows, st2b, rj)
+    cases.append(("缺 recipe 但在冷却内 → 不可训", not ok3b and "冷却" in why3b))
     st3 = {"segments": {"a": {"last_ts": 0, "recipe": RECIPE_V}}}
     rj2 = {"a": {"rows": 300}}
     ok4, why4 = eligible("a", rows, st3, rj2)
@@ -766,6 +779,37 @@ def self_test():
                              {"n": 3, "avg": 90, "pass_rate": 100, "avg_human": 30})
     cases.append(("只有 3 条样本 → 不判（噪声 ±30 分）",
                   (not keep4) and "样本不足" in why7))
+    # 负控 2026-11-26：reconcile 重建状态时必须保住 recipe。
+    # 丢了它，eligible() 就永远判「配方更新」放行，冷却与被否后的 15% 增长闸静默失效
+    # （实锚：8 段里 7 段 recipe=None，同一段 3.5h 重训一次，17 次 run 只出 7 个模型）。
+    import tempfile
+    global LEDGER
+    _saved_ledger = LEDGER
+    _tmp = None
+    try:
+        _fd, _tmp = tempfile.mkstemp()
+        os.close(_fd)
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T00:00:00", "seg": "a", "rows": 300,
+                                "verdict": "REJECT", "recipe": RECIPE_V}) + "\n")
+        LEDGER = _tmp
+        st_r = reconcile({"segments": {}, "runs": []})
+        cases.append(("reconcile 保住 recipe（否则冷却闸失效）",
+                      st_r["segments"]["a"].get("recipe") == RECIPE_V))
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T00:00:00", "seg": "b", "rows": 300,
+                                "verdict": "REJECT"}) + "\n")
+        st_r2 = reconcile({"segments": {}, "runs": []})
+        cases.append(("台账里没有 recipe 时如实为空（不编造）",
+                      st_r2["segments"]["b"].get("recipe") is None))
+    finally:
+        LEDGER = _saved_ledger
+        if _tmp:
+            try:
+                os.remove(_tmp)
+            except Exception:
+                pass
+
     okc = 0
     cases.append(("电池供电→拒绝开训", power_verdict(False, False)[0] is False))
     cases.append(("低功耗模式→拒绝开训", power_verdict(True, True)[0] is False))
