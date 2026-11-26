@@ -302,9 +302,12 @@ def refresh_screen(note=""):
             posts[key] = r
         elif r.get("action") == "verify" and r.get("rpid"):
             vis[r["rpid"]] = bool(r.get("visible"))
+    # 回执齐全（有 rpid）才算"确认发出"。没有 rpid 的行仍进表（否则行数对不上），
+    # 但要在汇总里分开计数——2026-11-27 实锚：一条 rpid 为空的失败记录被读成"今日已发 1 条"。
+    confirmed = sum(1 for k in posts if not str(k).startswith("norp-"))
     L = ["# 实战滚动清单 %s" % datetime.now().strftime("%m-%d %H:%M"), "",
-         "- 今日已发 %d 条 ｜ 公开可见 %d 条 ｜ 最近 %d 条可见率 %s"
-         % (len(posts), sum(vis.values()), len(recent_visibility()),
+         "- 今日已提交 %d 条（其中回执齐全 %d 条）｜ 公开可见 %d 条 ｜ 最近 %d 条可见率 %s"
+         % (len(posts), confirmed, sum(vis.values()), len(recent_visibility()),
             "%.0f%%" % (100.0 * sum(recent_visibility()) / max(len(recent_visibility()), 1))),
          "- 本拍：%s" % (note or "-"), "",
          "| # | 时间 | 动作 | 文案 | rpid | 可见 |", "|---|---|---|---|---|---|"]
@@ -920,7 +923,10 @@ def main():
         # 泛泛夸赞（"这个真的太好了"），既不落标题也不落领域词，于是被判无关。
         # 这不是闸太严（闸接受"标题里任意 2-6 字词"），而是提示词没要求贴题。
         # 所以补一句要求，不动判据。
-        p += "这句话要能看出是在说这条视频，可以把标题里的词直接用在句子里。"
+        # 2026-11-27 修：原来写"可以把标题里的词直接用在句子里"，模型照着说了
+        # 「标题里那个"抽卡"环节剪辑得真带感啊」——把指令当内容，真人不会这样说话。
+        # 改成只描述"像看过之后说的"，并且显式禁掉这几个元话术词。
+        p += "像看过之后那样直接说画面或内容本身，不要出现“标题”“视频里”“这条视频”这类说法。"
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
         # 车道按人群段定（2026-11-24）：实测有 3 个段 adapter 比基座差，
@@ -1116,9 +1122,15 @@ def unblock():
 def status():
     b = blocked()
     rv = recent_visibility()
-    n = len([r for r in rows_today() if r.get("action") == "post"])
-    print("[tick] 今日已发 %d 条 ｜ 最近 %d 条可见 %d ｜ 止损 %s"
-          % (n, len(rv), sum(rv), ("中(%s)" % b["why"]) if b else "未触发"))
+    rows = [r for r in rows_today() if r.get("action") == "post"]
+    # 回执齐全才算"确认发出"：2026-11-27 实锚，一条 rpid 为空的记录被读成"今日已发 1 条"。
+    n = sum(1 for r in rows if r.get("rpid"))
+    if len(rows) != n:
+        print("[tick] 今日已发 %d 条（另有 %d 条无回执，不计入额度）｜ 最近 %d 条可见 %d ｜ 止损 %s"
+              % (n, len(rows) - n, len(rv), sum(rv), ("中(%s)" % b["why"]) if b else "未触发"))
+    else:
+        print("[tick] 今日已发 %d 条 ｜ 最近 %d 条可见 %d ｜ 止损 %s"
+              % (n, len(rv), sum(rv), ("中(%s)" % b["why"]) if b else "未触发"))
     return 0
 
 
