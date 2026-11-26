@@ -225,12 +225,17 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
             try:
                 roots = fetch_roots(aid)
             except Exception as e:
-                # 2026-11-19 实锚：评论已 code=0 发出，却因下游常量缺失在这里抛 NameError，
-                # 结果台账只留一条 post、丢了 lane/persona 归因。已发出的事实不许被下游覆盖。
+                # 原来这里写「按已发出处理」——那是错的：fetch_roots 在 post_reply **之前**，
+                # 走到这里评论根本还没发出去。真实行为是返回 stage=root 的失败，但日志让人
+                # 以为"已发出"，于是同一条失败每天都在台账里被读成"今天发过了"。
+                # 2026-11-26 实锚：practice-tick.log 连续多条「取评论列表失败：按已发出处理」+
+                # 「第一页没有可用 root 评论」，实际是采集侧取不到列表，与"发出"无关。
                 roots = []
-                print("[arm] 取评论列表失败（%s）：按已发出处理" % type(e).__name__)
+                print("[arm] 取 target 评论列表失败（%s: %s）——尚未发出，本次放弃"
+                      % (type(e).__name__, str(e)[:60]))
             if not roots:
-                return {"ok": False, "stage": "root", "why": "第一页没有可用 root 评论"}
+                return {"ok": False, "stage": "root",
+                        "why": "第一页没有可用 root 评论（可能是列表接口失败或该视频已关评）"}
             root_rpid = int(roots[0]["rpid"])
         else:
             root_rpid = int(root)
