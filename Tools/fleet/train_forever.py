@@ -467,6 +467,72 @@ def _lane(phase, **meta):
         pass
 
 
+def prune_runs(keep_hours=48, dry=False):
+    """清掉非在用训练 run，防止磁盘被 186MB/run 堆满。
+
+    为什么要有（2026-11-27 实锚）：trainloop 每 300s 就可能开一个 run，两天堆出 54 个、
+    15.1GB，磁盘从 191G 掉到 171G 只用两天——之前没有任何清理逻辑。
+
+    保守判据（缺一条就保留）：
+      1) 台账 verdict=KEEP（已采用）→ 留
+      2) LOOP-STATE 里每段最后一次 → 留
+      3) 修改时间在 keep_hours 内 → 留
+    返回 (删除数, 释放MB)。
+    """
+    import glob
+    runs_dir = os.path.join(TRAIN, "RUNS")
+    if not os.path.isdir(runs_dir):
+        return 0, 0
+    keep = set()
+    try:
+        with open(LEDGER, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if r.get("verdict") == "KEEP" and r.get("run"):
+                    keep.add(r["run"])
+    except FileNotFoundError:
+        pass
+    try:
+        st = _load(LOOP_STATE, {}) or {}
+        for _seg, rec in (st.get("segments") or {}).items():
+            if rec.get("run"):
+                keep.add(rec["run"])
+    except Exception:
+        pass
+    now, n, freed = time.time(), 0, 0
+    for d in sorted(glob.glob(os.path.join(runs_dir, "*"))):
+        name = os.path.basename(d)
+        if not os.path.isdir(d) or name in keep:
+            continue
+        if (now - os.path.getmtime(d)) / 3600.0 <= keep_hours:
+            continue
+        try:
+            mb = int(sum(os.path.getsize(os.path.join(r, f))
+                         for r, _ds, fs in os.walk(d) for f in fs) / 1048576)
+        except Exception:
+            mb = 0
+        if dry:
+            n += 1
+            freed += mb
+            continue
+        try:
+            shutil.rmtree(d)
+            n += 1
+            freed += mb
+        except Exception:
+            continue
+    if n and not dry:
+        print("[prune] 清掉 %d 个非在用 run，释放 %dMB（保留 KEEP/每段最新/%dh 内）"
+              % (n, freed, keep_hours))
+    return n, freed
+
+
 def record_fail(seg, rows, kind, why, built=0):
     """失败也要进台账：状态是从台账重建的，不写台账等于"这次失败不存在"，
     于是同一段会被无限重试（2026-11-20 实锚：memer 连续两次被选中）。
@@ -826,6 +892,11 @@ def run_one(a):
         _save(REJECTS, rejects)
         print("[loop] 段 %s 不采用（%s）→ 先补语料再训" % (seg, why))
     board(st, rows, rejects)
+    # 跑完一卡顺手做一次保守清理（判据见 prune_runs；失败不影响训练）
+    try:
+        prune_runs(keep_hours=48)
+    except Exception:
+        pass
     return 0
 
 
