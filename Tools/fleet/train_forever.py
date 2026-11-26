@@ -624,6 +624,9 @@ def run_one(a):
             _ok, w = eligible(seg, rows, st, rejects)
             why_not.append("%s(%s)" % (seg, w))
         print("[loop] 无料可训：%s" % "；".join(why_not))
+        # 留痕：夜班早上要看得出"是没活可干"还是"循环停了"。
+        # 只看进程活着的判据救不了这个——队列空也是一种状态，必须写进状态件。
+        _lane("idle-no-task", why="；".join(why_not)[:120])
         return 0
     seg = task["seg"]
     ok_power, why_power = power_ok()
