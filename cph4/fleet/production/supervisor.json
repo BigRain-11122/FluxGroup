@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-26T10:21:58",
+ "ts": "2026-11-26T10:31:59",
  "verdict": "RED",
  "paused": false,
  "gpu_util": 1,
@@ -17,7 +17,7 @@
   {
    "seat": "生产者 BmcIdleGuard",
    "task": "BmcIdleGuard",
-   "last_run_age_s": 58,
+   "last_run_age_s": 59,
    "state": "OK",
    "result": 0
   },
@@ -31,14 +31,14 @@
   {
    "seat": "自省员 Bmc-ProdIterate",
    "task": "Bmc-ProdIterate",
-   "last_run_age_s": 18896,
+   "last_run_age_s": 19496,
    "state": "OK",
    "result": 0
   },
   {
    "seat": "引擎守卫 ComfyGuard",
    "task": "FluxGroup-ComfyGuard",
-   "last_run_age_s": 100,
+   "last_run_age_s": 161,
    "state": "OK",
    "result": 0
   },
@@ -52,7 +52,7 @@
   {
    "seat": "自动巡航 AutodriveGuard",
    "task": "Bmc-AutodriveGuard",
-   "last_run_age_s": 143,
+   "last_run_age_s": 144,
    "state": "OK",
    "result": 0
   }
