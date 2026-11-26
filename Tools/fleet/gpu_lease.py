@@ -175,6 +175,30 @@ def _reap_stale(cur):
     return True
 
 
+ARBITER_LOG = os.environ.get("FLUX_GPU_ARBITER") or os.path.join(STATE, "arbiter-gpu.jsonl")
+
+
+def _arbitrate(want, cur):
+    """抢不到锁就记一笔在**仲裁方自己的账**上，不写进任何线的台账。
+
+    为什么单独记账（CEO 2026-11-26「经常更新，但不要互相影响 应该各司其职」）：
+    原来"谁让路了"散在各线的日志与训练台账里，想知道"今天 GPU 被谁抢走多少时间"
+    得先读三份不同格式的日志。让路是仲裁事件，就该记在仲裁账里；各线的台账只记
+    自己真正做过的事。记账失败一律吞掉——旁证不许影响抢锁结果。
+    """
+    try:
+        os.makedirs(STATE, exist_ok=True)
+        with open(ARBITER_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps({
+                "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "want": want,
+                "holder": (cur or {}).get("name"), "holder_pid": (cur or {}).get("pid"),
+                "holder_age_s": (cur or {}).get("age_s"),
+                "holder_stale": bool((cur or {}).get("stale")),
+            }, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
 def acquire(name, ttl_s=3600, wait_s=0):
     """拿租约。返回 (是否拿到, 说明)。wait_s=0 表示不排队，拿不到就让路。
 
@@ -204,6 +228,7 @@ def acquire(name, ttl_s=3600, wait_s=0):
             if time.time() >= deadline:
                 cur = who()
                 fh.close()
+                _arbitrate(name, cur)
                 return False, ("GPU 被占用：%s（已 %.0fs）" % (
                     (cur or {}).get("name", "未知"), (cur or {}).get("age_s", 0)))
             time.sleep(2)
@@ -277,16 +302,31 @@ def self_test():
     释放后可再拿。用独立车道名，免得被线上租约带红（2026-11-20 假红教训）。"""
     import subprocess
     import tempfile
-    global LOCK, REC
-    saved = (LOCK, REC)
+    global LOCK, REC, ARBITER_LOG
+    saved = (LOCK, REC, ARBITER_LOG)
     d = tempfile.mkdtemp(prefix="gl-")
+    # 生产仲裁账的真实路径（STATE 不参与切换，这里取到的就是线上那一份）
+    _prod_arb = os.path.join(STATE, "arbiter-gpu.jsonl")
+
+    def _prod_size():
+        try:
+            return os.path.getsize(_prod_arb)
+        except Exception:
+            return 0
     LOCK, REC = os.path.join(d, "gpu.lock"), os.path.join(d, "lease.json")
+    # 自检不许写生产仲裁账：闸的纪律里"测试绝不写生产路径"是硬条，
+    # 否则每跑一次自检就给自己造一条假的让路记录。
+    ARBITER_LOG = os.path.join(d, "arbiter.jsonl")
     try:
         ok1, _ = acquire("t_main", ttl_s=60)
         ok2, why2 = acquire("t_main", ttl_s=60)          # 重入
+        _size0 = _prod_size()
         env0 = {k: v for k, v in os.environ.items() if k != ENV_KEY}
         env0["FLUX_GPU_LOCK"] = LOCK
         env0["FLUX_GPU_REC"] = REC
+        # 子进程也必须指向临时仲裁账：它抢不到锁时会 _arbitrate，而 ARBITER_LOG
+        # 在 import 时按 STATE 算出来，不传环境变量就会写进生产账（自检污染实锚）。
+        env0["FLUX_GPU_ARBITER"] = ARBITER_LOG
         code_no = subprocess.run([sys.executable, os.path.abspath(__file__), "--try", "t_main"],
                                  capture_output=True, text=True, env=env0).returncode
         code_yes = subprocess.run([sys.executable, os.path.abspath(__file__), "--try", "t_main"],
@@ -309,28 +349,57 @@ def self_test():
         ok8 = not renew("t_other", ttl_s=600)
         release("t_main")
     finally:
-        LOCK, REC = saved
+        _size1 = _prod_size()
+        LOCK, REC, ARBITER_LOG = saved
+    ok9 = (_size1 == _size0)
     ok = (ok1 and ok2 and code_no == 3 and code_yes == 0 and ok3 and ok4
-          and ok5 and ok6 and ok7 and ok8)
+          and ok5 and ok6 and ok7 and ok8 and ok9)
     print(json.dumps({"self_test": "PASS" if ok else "FAIL", "首拿": ok1, "重入": ok2,
                       "子进程无继承被拒(rc=3)": code_no == 3,
                       "子进程有继承放行(rc=0)": code_yes == 0,
                       "释放后可再拿": ok3, "环境已标记继承": ok4,
                       "持有者可续约": ok5, "续约推后过期": ok6,
                       "释放后不许续": ok7, "非持有者不许续": ok8,
+                      "自检不写生产仲裁账": ok9,
                       "重入说明": why2}, ensure_ascii=False))
     return 0 if ok else 1
+
+
+def arbiter_report(limit=20):
+    """仲裁账摘要：谁抢走了多少时间、被谁挡。只读本模块自己的账。"""
+    rows = []
+    try:
+        for ln in open(ARBITER_LOG, encoding="utf-8"):
+            ln = ln.strip()
+            if ln:
+                try:
+                    rows.append(json.loads(ln))
+                except Exception:
+                    continue
+    except Exception:
+        return {"n": 0, "by_holder": {}, "by_want": {}, "last": []}
+    by_h, by_w = {}, {}
+    for r in rows:
+        by_h[(r.get("holder") or "?")] = by_h.get((r.get("holder") or "?"), 0) + 1
+        by_w[(r.get("want") or "?")] = by_w.get((r.get("want") or "?"), 0) + 1
+    return {"n": len(rows), "by_holder": dict(sorted(by_h.items(), key=lambda kv: -kv[1])),
+            "by_want": dict(sorted(by_w.items(), key=lambda kv: -kv[1])),
+            "last": rows[-limit:]}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--arbiter", action="store_true", help="让路仲裁账摘要")
     ap.add_argument("--try-acquire", dest="try_name", default="",
                     help="试拿一次（拿不到 rc=3）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
+    if a.arbiter:
+        print(json.dumps(arbiter_report(), ensure_ascii=False, indent=1))
+        return 0
     if a.try_name:
         got, why = acquire(a.try_name, ttl_s=60)
         print(why)
