@@ -501,6 +501,15 @@ def _coexist_gap_ok(gap_s=600):
     return (time.time() - last) >= gap_s if last else True
 
 
+def _lane(phase, **meta):
+    """写本线状态件（lane-practice.json）。失败吞掉——旁证不许挡住发帖。"""
+    try:
+        import lane_state as ls
+        ls.put("practice", phase, **meta)
+    except Exception:
+        pass
+
+
 def main():
     t_boot0 = time.time()
     # 0 成熟回验：止损/发帖前先补"过了几分钟才准"的结论，别用婴儿期证据下判决
@@ -967,6 +976,7 @@ def main():
         refresh_screen("本拍无文案过闸（不硬发）")
         log({"action": "skip", "why": "no text passed gates", "arm": arm, "video": url})
         print("[tick] 跳过：无文案过闸")
+        _lane("skip-notext", arm=arm, video=(url or "")[-24:])
         return 0
 
     # 生成段到此结束。此前 gen_s 是在 ap.run 之后才算的，把发帖往返也吞了进去，
@@ -1077,6 +1087,7 @@ def main():
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
     print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
           % (res.get("rpid"), res.get("visible"), lane_used))
+    _lane("posted", arm=arm, rpid=str(res.get("rpid") or ""), visible=res.get("visible"))
     return 0
 
 

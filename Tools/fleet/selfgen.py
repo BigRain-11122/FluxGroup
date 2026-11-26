@@ -84,6 +84,15 @@ def sample_one(title, desc, k, seg, temperature=0.85, url=""):
     return str(r or "").strip(), ""
 
 
+def _lane(phase, **meta):
+    """写本线状态件（lane-selfgen.json）。失败吞掉——旁证不许挡住生产。"""
+    try:
+        import lane_state as ls
+        ls.put("selfgen", phase, **meta)
+    except Exception:
+        pass
+
+
 def run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""):
     # 一块 GPU 一把租约（2026-11-21）：与训练/嵌入互斥，拿不到就让路，不抢。
     # TTL 10 分钟 + 每处理一条续约（2026-11-26）：原来写死 3 小时，一次卡顿就把 GPU
@@ -95,14 +104,22 @@ def run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name="")
     except Exception as _e:
         got, why = True, "租约不可用：%s" % str(_e)[:40]
     if not got:
+        _lane("yield", why=str(why)[:80])
         return {"skipped": why}
+    _lane("running", seg=seg or "all", per=per)
     try:
-        return _run(titles_limit, per, seg, dry, temperature, out_name)
+        out = _run(titles_limit, per, seg, dry, temperature, out_name)
     finally:
         try:
             _gl.release("selfgen")
         except Exception:
             pass
+    try:
+        _lane("done", kept=(out or {}).get("kept"), added=(out or {}).get("added"),
+              reasons=str((out or {}).get("reasons"))[:60])
+    except Exception:
+        pass
+    return out
 
 
 def _run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""):

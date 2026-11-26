@@ -438,6 +438,19 @@ def reconcile(st):
     return st
 
 
+def _lane(phase, **meta):
+    """写本线状态件（lane-train.json）。失败一律吞掉——状态件坏了不许拖垮训练。
+
+    为什么要这层包装：lane_state 是"每线一个件、互不干扰"的落点（CEO 2026-11-26
+    「经常更新，但不要互相影响」）。它只是旁证，不能成为训练的前置条件。
+    """
+    try:
+        import lane_state as ls
+        ls.put("train", phase, **meta)
+    except Exception:
+        pass
+
+
 def record_fail(seg, rows, kind, why, built=0):
     """失败也要进台账：状态是从台账重建的，不写台账等于"这次失败不存在"，
     于是同一段会被无限重试（2026-11-20 实锚：memer 连续两次被选中）。
@@ -486,6 +499,7 @@ def run_one(a):
     holder = busy_holder()
     if holder:
         print("[loop] 训练进行中（pid %d），本次跳过" % holder)
+        _lane("inflight", holder=holder)
         return 0
     if social_session_active() and os.environ.get("FLUX_TRAIN_FORCE") != "1":
         print("[loop] 会话时段（养号出稿用 GPU），训练让路 5 分钟后再看")
@@ -572,6 +586,7 @@ def run_one(a):
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc="YIELD-PUBLISH")
         _save(LOOP_STATE, st)
+        _lane("yield-publish", seg=seg, why=str(_why)[:80])
         return 0
 
     # 2026-11-22「快点弄好」：白天训练不许抢出稿。判据两条——
@@ -611,7 +626,9 @@ def run_one(a):
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc="GPU-BUSY")
         _save(LOOP_STATE, st)
+        _lane("yield-gpu", seg=seg, why=str(_why)[:80])
         return 0
+    _lane("training", seg=seg, rows=task.get("rows"), iters=a.iters)
     # 2026-11-22 CEO「太慢了，真人不会这样」：一轮训练 25–45 分钟独占租约，
     # 出稿只能等轮间——白天一整天发不出一条。改成**轮内让路**：训练照跑（GPU 时间片，
     # 不 SIGSTOP），但每 30 秒看一次"出稿是否到期"；到期就把租约让出去最多 3 分钟，
@@ -671,6 +688,7 @@ def run_one(a):
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc=kind)
         _save(LOOP_STATE, st)
+        _lane("fail", seg=seg, kind=kind, why=str(out.strip().splitlines()[-1][:80]) if out.strip() else "rc=%d" % rc)
         board(st, rows, rejects)
         return 0 if skip else 1
 
@@ -745,11 +763,13 @@ def run_one(a):
            "why": why, "adapter": os.path.relpath(ck, ROOT) if ck else None}
     st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                last_rc=verdict, recipe=RECIPE_V, rows=task["rows"],
-                               run=rec["run"], step=real_step, val_min=val)
+                               built=built, run=rec["run"], step=real_step, val_min=val)
     st["runs"].append(rec)
     _save(LOOP_STATE, st)
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    _lane("done", seg=seg, verdict=("KEEP" if keep else "REJECT"),
+          built=built, lora_avg=lora.get("avg"), base_avg=base.get("avg"))
 
     # 边训练边总结经验：每落一卡就把台账重算成"可被推翻的断言"（幂等；失败不影响训练）
     try:
