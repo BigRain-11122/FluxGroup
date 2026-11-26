@@ -39,6 +39,9 @@ SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 TARGET = os.path.join(SOCIAL, "corpus", "human", "own_collected.jsonl")
 SEEDS = os.path.join(SOCIAL, "MUSIC-SEEDS.json")
 ROTATE = os.path.join(ROOT, ".codely-cli", "state", "MUSIC-ROTATE.json")
+CLASSICS = os.path.join(SOCIAL, "MUSIC-CLASSICS.json")
+PICKCACHE = os.path.join(ROOT, ".codely-cli", "state", "MUSIC-PICK-CACHE.json")
+PICK_TTL_S = 30 * 86400      # 头部歌曲的 id 与评论量不会天天变，30 天足够
 RAW_DIR = os.path.join(SOCIAL, "raw", "music")
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -77,6 +80,92 @@ def netease_comments(song_id, limit=100, offset=0):
             if t:
                 out.append({"text": t, "likes": int(c.get("likedCount") or 0),
                             "song": str(song_id), "platform": "netease_music"})
+    return out
+
+
+def netease_chart(n=50):
+    """网易云热歌榜（playlist 3778678）前 n 首 → [song_id]。榜单本身就是"当下热度"。"""
+    url = "https://music.163.com/api/playlist/detail?id=3778678"
+    doc = json.loads(_get(url, "https://music.163.com/") or "{}")
+    tracks = ((doc.get("result") or {}).get("tracks") or [])
+    return [str(t.get("id")) for t in tracks[:n] if t.get("id")]
+
+
+def comment_total(song_id, platform="netease_music"):
+    """这首歌有多少条评论 —— 这就是"头部"的量化判据。
+
+    实锚（2026-11-26）：晴天 196 万、我不难过 11 万、网络新歌 5516。
+    靠它筛，比靠"歌手名搜索取前 8 首"准得多（后者会带出冷门与翻唱）。
+    """
+    if platform != "netease_music":
+        return None
+    url = ("https://music.163.com/api/v1/resource/comments/R_SO_4_%s?limit=1&offset=0"
+           % song_id)
+    try:
+        return int(json.loads(_get(url, "https://music.163.com/") or "{}").get("total") or 0)
+    except Exception:
+        return None
+
+
+def pick_best(keyword, n=5, artist=None):
+    """按关键词搜歌，返回评论量最大的那一版 → (song_id, total, label)。
+
+    为什么要"评论量最大"而不是"第一条"：网易云搜索对"歌名+歌手"的排序很脏。
+    实锚（2026-11-26）：搜「稻香 周杰伦」第一条是「稻香(治愈版)|周杰伦.、街道办GDC」，
+    搜「七里香 周杰伦」第一条是「七里香(MV版)|王俊凯」——都是翻唱。
+    原唱的评论量是翻唱的几百倍（晴天 196 万、翻唱几千），所以用 total 选最稳，
+    不需要依赖歌手名字匹配（正版的 artist 有时写 "Jay" 而不是"周杰伦"）。
+    """
+    # 缓存：头部歌的 song_id 基本不变，每次重查 4 条要多花 2-3 分钟
+    cache = {}
+    try:
+        cache = json.load(open(PICKCACHE, encoding="utf-8"))
+    except Exception:
+        pass
+    c = cache.get(keyword)
+    if c and (time.time() - float(c.get("at") or 0)) < PICK_TTL_S:
+        return c.get("sid"), int(c.get("total") or 0), keyword
+
+    ids = netease_search(keyword, n)
+    if not ids:
+        return None, 0, ""
+    best, best_tot = None, -1
+    for sid in ids[:n]:
+        tot = comment_total(sid)
+        if tot is None:
+            continue
+        if tot > best_tot:
+            best, best_tot = sid, tot
+        # 已经足够头部就不用再问了（省请求）
+        if best_tot >= 500000:
+            break
+        time.sleep(0.35)
+    if best:
+        cache[keyword] = {"sid": best, "total": max(0, best_tot), "at": time.time()}
+        try:
+            os.makedirs(os.path.dirname(PICKCACHE), exist_ok=True)
+            json.dump(cache, open(PICKCACHE, "w", encoding="utf-8"), ensure_ascii=False)
+        except Exception:
+            pass
+    return best, max(0, best_tot), keyword
+
+
+def netease_paged(song_id, pages=5, per=100):
+    """深翻页：头部歌评论几十万，首页只是极小样本。热评优先。"""
+    out, first = [], True
+    for pn in range(max(1, pages)):
+        try:
+            batch = netease_comments(song_id, limit=per, offset=pn * per)
+        except Exception:
+            break
+        if not batch:
+            break
+        if first:
+            out += batch          # 第一页含 hotComments（质量最高）
+            first = False
+        else:
+            out += batch
+        time.sleep(0.55)
     return out
 
 
@@ -174,8 +263,35 @@ def to_row(item):
     }
 
 
+# 纯祝福/打卡模板：这类句子对学"怎么说话"没有信息量，却会教模型输出空话
+_BLESS = re.compile(r"(希望|祝).{0,8}(顺利|快乐|成功|上岸|考上|加油|开心)")
+_JUNK = re.compile(r"[^\u4e00-\u9fff\w\s，。！？、,.!?~…—\-\[\]（）()：:；;“”\"'’]")
+
+
+def quality_ok(t):
+    """这条值不值得进训练语料。
+
+    2026-11-26 实锚：头部歌评论区里混着大量"谢谢[抱抱你]""希望明天考试顺利！"
+    和一条字符乱码（ZakzkvnzkZ…）。这些进训练只会教模型说空话与输出噪声。
+    判据：汉字够多、汉字占比够、字符噪声少、不是纯祝福模板。
+    """
+    han = len(re.findall(r"[\u4e00-\u9fff]", t))
+    if han < 6:
+        return False
+    if han / max(1, len(t)) < 0.5:
+        return False
+    if len(_JUNK.findall(t)) > 3:
+        return False
+    if len(t) < 20 and _BLESS.search(t):
+        return False
+    # 连续 6 个以上拉丁字母基本是乱码或水军刷屏
+    if re.search(r"[A-Za-z]{6,}", t):
+        return False
+    return True
+
+
 def clean_and_filter(items):
-    """长度与噪声过滤：链接、纯表情、纯@、纯数字都不进语料。"""
+    """长度、噪声与信息量过滤：链接/纯表情/纯@/纯数字/祝福模板/乱码都不进语料。"""
     out = []
     for it in items:
         t = re.sub(r"\s+", " ", (it.get("text") or "")).strip()
@@ -186,6 +302,8 @@ def clean_and_filter(items):
         if re.fullmatch(r"[\d\s\W]+", t):
             continue
         if t.count("@") >= 2:
+            continue
+        if not quality_ok(t):
             continue
         out.append(dict(it, text=t))
     return out
@@ -253,6 +371,12 @@ def self_test():
                       {"h", "text", "src", "license", "use", "emo", "kind",
                        "thread", "origin", "oral", "opinion"} <= set(rows[0])))
         cases.append(("带来源段提示", rows[0].get("seg_hint") == "music_seeker"))
+        cases.append(("纯祝福模板被滤",
+                      quality_ok("希望明天考试顺利！") is False))
+        cases.append(("字符乱码被滤",
+                      quality_ok("ZakzkvnzkZxgkZlvnpv bxvpvxkzxpklv") is False))
+        cases.append(("有细节的长评保留",
+                      quality_ok("原曲像是站在爱人的身后轻声呢喃委屈，这个版本像是释然之后回头看") is True))
         cases.append(("use 必须是 train 才进训练集", rows[0]["use"] == "train"))
     finally:
         globals()["_get"] = real_get
@@ -270,6 +394,13 @@ def main(argv=None):
     ap.add_argument("--netease", default="", help="网易云 song_id，逗号分隔")
     ap.add_argument("--qq", default="", help="QQ音乐 songid（数字），逗号分隔")
     ap.add_argument("--keyword", default="", help="按关键词搜歌后采评论，逗号分隔多个")
+    ap.add_argument("--chart", type=int, default=0,
+                    help="采网易云热歌榜前 N 首的评论")
+    ap.add_argument("--classics", action="store_true",
+                    help="采 MUSIC-CLASSICS.json 里的头部歌手头部歌曲")
+    ap.add_argument("--min-total", type=int, default=0,
+                    help="只采评论总量 ≥ 这个数的歌（头部门槛）")
+    ap.add_argument("--pages", type=int, default=3, help="每首深翻页数（100 条/页）")
     ap.add_argument("--rotate", type=int, default=0,
                     help="从 MUSIC-SEEDS.json 轮换取 N 个关键词（自动任务用）")
     ap.add_argument("--limit", type=int, default=100)
@@ -311,12 +442,50 @@ def main(argv=None):
                 errs.append("QQ音乐搜索[%s]失败：%s" % (kw, type(e).__name__))
             time.sleep(0.8)
 
-    for sid in netease_ids:
+    if a.chart:
         try:
-            items += netease_comments(sid, limit=a.limit)
+            netease_ids += netease_chart(a.chart)
+        except Exception as e:
+            errs.append("热歌榜取不到：%s" % type(e).__name__)
+    if a.classics:
+        try:
+            cl = json.load(open(CLASSICS, encoding="utf-8")).get("songs") or []
+            print("[music] 按评论量挑头部版本（%d 首候选）…" % len(cl))
+            for name in cl:
+                try:
+                    sid, tot, label = pick_best(name, n=4)
+                    if sid:
+                        netease_ids.append(sid)
+                        print("  %-22s → %s（%d 条）" % (name, sid, tot))
+                except Exception:
+                    continue
+                time.sleep(0.3)
+        except Exception as e:
+            errs.append("经典清单读不到：%s" % type(e).__name__)
+
+    # 去重（榜单/清单/显式 id 可能重叠）
+    seen_ids, uniq = set(), []
+    for sid in netease_ids:
+        if sid not in seen_ids:
+            seen_ids.add(sid)
+            uniq.append(sid)
+    netease_ids = uniq
+
+    skipped = 0
+    for sid in netease_ids:
+        tot = comment_total(sid) if a.min_total else None
+        if a.min_total and (tot is None or tot < a.min_total):
+            skipped += 1
+            continue
+        try:
+            items += netease_paged(sid, pages=a.pages)
+            if a.min_total:
+                print("[music] %s 评论 %d 条 → 采 %d" % (sid, tot, 0))
         except Exception as e:
             errs.append("网易云 %s：%s" % (sid, type(e).__name__))
-        time.sleep(0.6)
+        time.sleep(0.5)
+    if a.min_total and skipped:
+        print("[music] 评论量不足被跳过 %d 首（门槛 %d）" % (skipped, a.min_total))
     for sid in qq_ids:
         pages = max(1, a.limit // 25)
         for pn in range(pages):
