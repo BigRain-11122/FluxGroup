@@ -173,6 +173,23 @@ def eligible(seg, rows, st, rejects, now=None):
     return True, "可训（%d 行）" % n
 
 
+def _ledger_rows():
+    """读台账原始行（给实验矩阵判"这个变体跑过没"）。读不到就返回空表：
+    空表只会让矩阵多开一次实验，不会让闸误判"已跑过"。"""
+    rows = []
+    try:
+        for ln in open(LEDGER, encoding="utf-8", errors="replace"):
+            ln = ln.strip()
+            if ln:
+                try:
+                    rows.append(json.loads(ln))
+                except Exception:
+                    continue
+    except Exception:
+        return []
+    return rows
+
+
 def dataset_fp(ds):
     """训练集指纹：train.jsonl 的 sha256 前 16 位。文件不存在返回 ""。
 
@@ -650,25 +667,40 @@ def run_one(a):
     # （都来自台账自己的 built 字段），等于自己跟自己比，恒判"未变"——于是所有段
     # 一次性全被挡住。指纹必须来自磁盘上的 train.jsonl。
     fp = dataset_fp(ds)
-    prev_fp = ((st.get("segments") or {}).get(seg) or {}).get("fp")
-    if rc == 0 and built >= MIN_BUILD and fp and fp == prev_fp:
-        print("[loop] 跳过训练：%s 的数据集与上次完全相同（fp=%s），重训必得同款" % (seg, fp))
-        record_fail(seg, task["rows"], "SAME-DATASET",
-                    "数据集与上次训练完全相同（fp=%s）" % fp, built)
-        st["segments"][seg] = dict(st["segments"].get(seg) or {},
-                                   last_rc="SAME-DATASET", built=built, fp=fp)
-        _save(LOOP_STATE, st)
-        _lane("skip-same-dataset", seg=seg, fp=fp, built=built)
-        board(st, rows, rejects)
-        return 0
     if rc != 0 or built < MIN_BUILD:
         print("[loop] 造集不足（rc=%d, %d 条）：%s" % (rc, built, out.strip()[-160:]))
         record_fail(seg, task["rows"], "SUPPLY", "造集不足 %d 条" % built, built)
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
-                                   last_rc="SUPPLY", built=built)
+                                   last_rc="SUPPLY", built=built, fp=fp)
         _save(LOOP_STATE, st)
         board(st, rows, rejects)
         return 0
+
+    # 无人值守也要有"每次只换一个变量"的纪律：同一批数据 + 同一配置重训，产出的是
+    # 同一个模型（实锚：music_seeker built 305 三次 KEEP、adapter SHA 完全相同）。
+    # 所以由实验矩阵决定这次跑哪个变体；变体跑尽了就如实停手等新语料，
+    # 而不是硬跑一份已知结果骗"GPU 没闲着"。
+    vid, vwhy, veff = None, "实验矩阵不可用", None
+    try:
+        import exp_matrix as xm
+        vid, vwhy = xm.next_variant(seg, fp, _ledger_rows())
+        veff = xm.effective(vid) if vid else None
+    except Exception as _e:
+        vid, vwhy, veff = None, "实验矩阵不可用：%s" % str(_e)[:60], None
+    if not vid:
+        print("[loop] 跳过训练：%s（%s，fp=%s）" % (seg, vwhy, fp))
+        record_fail(seg, task["rows"], "SAME-DATASET", "%s（fp=%s）" % (vwhy, fp), built)
+        st["segments"][seg] = dict(st["segments"].get(seg) or {},
+                                   last_rc="SAME-DATASET", built=built, fp=fp)
+        _save(LOOP_STATE, st)
+        _lane("skip-no-variant", seg=seg, fp=fp, why=str(vwhy)[:60])
+        board(st, rows, rejects)
+        return 0
+    # 手动 --iters 显式覆盖时才认命令行，否则以变体为准
+    iters = a.iters if a.iters != 400 else int(veff.get("iters") or a.iters)
+    n_layers = int(veff.get("num_layers") or 16)
+    seval = int(veff.get("steps_per_eval") or 50)
+    print("[loop] 变体 %s：%s" % (vid, vwhy), flush=True)
 
     # 出稿优先（COMPUTE-SCHEDULE.json lanes.publish priority=1）：
     # 训练一轮 40–50 分钟会连续占住 GPU，而出稿每 30 分钟才要 60 秒。
@@ -726,7 +758,7 @@ def run_one(a):
         _save(LOOP_STATE, st)
         _lane("yield-gpu", seg=seg, why=str(_why)[:80])
         return 0
-    _lane("training", seg=seg, rows=task.get("rows"), iters=a.iters)
+    _lane("training", seg=seg, rows=task.get("rows"), iters=iters, variant=vid)
     # 2026-11-22 CEO「太慢了，真人不会这样」：一轮训练 25–45 分钟独占租约，
     # 出稿只能等轮间——白天一整天发不出一条。改成**轮内让路**：训练照跑（GPU 时间片，
     # 不 SIGSTOP），但每 30 秒看一次"出稿是否到期"；到期就把租约让出去最多 3 分钟，
@@ -736,8 +768,8 @@ def run_one(a):
 
     try:
         cmd = ["/bin/bash", os.path.join(HERE, "train_run.sh"),
-               "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
-               "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
+               "--data", ds, "--iters", str(iters), "--num-layers", str(n_layers),
+               "--max-seq-length", str(seq_len), "--steps-per-eval", str(seval),
                "--grad-checkpoint"]
         _p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                               text=True, cwd=ROOT, start_new_session=True)
@@ -855,13 +887,17 @@ def run_one(a):
     rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built, "eval_n": eval_n,
            "run": os.path.basename(run), "step": real_step, "val_step": step,
            "val_min": val, "recipe": RECIPE_V,
+           # fp+variant 是实验矩阵的唯一性键：没有它们，下一轮无法判断
+           # "这批数据的这个配置是不是已经问过"（缺了就会重复跑同一课）。
+           "fp": fp, "variant": vid, "iters": iters, "num_layers": n_layers,
+           "steps_per_eval": seval,
            "base_avg": base.get("avg"), "lora_avg": lora.get("avg"),
            "base_human": base.get("avg_human"), "lora_human": lora.get("avg_human"),
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",
            "why": why, "adapter": os.path.relpath(ck, ROOT) if ck else None}
     st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                last_rc=verdict, recipe=RECIPE_V, rows=task["rows"],
-                               built=built, run=rec["run"], step=real_step, val_min=val)
+                               built=built, fp=fp, run=rec["run"], step=real_step, val_min=val)
     st["runs"].append(rec)
     _save(LOOP_STATE, st)
     with open(LEDGER, "a", encoding="utf-8") as f:

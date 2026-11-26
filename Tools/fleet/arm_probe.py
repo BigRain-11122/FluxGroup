@@ -31,6 +31,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -160,6 +161,9 @@ def gates(text, ctx="", topics=(), taste_gate=False):
                                    "verdict": (s or {}).get("verdict")}
 
 
+ROOTS_RETRY_S = [4, 8]      # 常驻浏览器让路/忙时的两次退避（自检里置 0）
+
+
 def fetch_roots(aid, limit=20):
     """同源取第一页 root 评论（带 rpid），并滤掉注销号/空内容。
 
@@ -167,10 +171,24 @@ def fetch_roots(aid, limit=20):
     抛 RuntimeError，整拍白跑 3 分钟。改为先走常驻浏览器（同一上下文里一个标签页）。
     """
     import social_comment as sc
-    hit = sc._daemon("roots", {"aid": aid, "limit": limit}, timeout=90)
-    if hit is not None and hit.get("ok"):
-        return hit.get("res") or []
-    mod, _ = sc._pw()
+    # 2026-11-27 实锚（各司其职）：常驻浏览器**在**但这一拍让路（post-pending）或忙时，
+    # 旧代码立刻回落到"自己开浏览器"，而同一个 profile 只能一个持有者——于是白等 180 秒
+    # 拿锁超时，日志写成"profile 被占用（先放补采或学习循环）"，看着像采集抢锁，
+    # 其实是自己在跟常驻浏览器抢。正法：daemon 活着就只重试 daemon；
+    # 只有 daemon 确实不在（端口没响应）才允许冷启动回落。
+    daemon_alive = False
+    for attempt in range(3):
+        hit = sc._daemon("roots", {"aid": aid, "limit": limit}, timeout=90)
+        if hit is None:
+            break                      # 端口不通：daemon 不在，才考虑冷启动
+        daemon_alive = True
+        if hit.get("ok"):
+            return hit.get("res") or []
+        if attempt < 2:
+            time.sleep(ROOTS_RETRY_S[attempt])  # 让路/占用都是暂时的，退避比抢锁便宜
+    if daemon_alive:
+        print("[arm] 常驻浏览器在但本拍未取到评论列表（让路/占用），不抢 profile")
+        return []
     mod, _ = sc._pw()
     from time import sleep
     with mod.sync_playwright() as p:
@@ -289,6 +307,49 @@ def self_test():
     """负控 ≥3 条 + 正向：闸该拒的必须拒，该过的必须过（用临时台账，不碰真账）。"""
     import tempfile
     cases = []
+    # 负控（2026-11-27）：常驻浏览器**在**但这一拍让路时，绝不自己开浏览器抢同一个 profile。
+    # 实锚：旧代码回落后白等 180s 拿锁超时，日志写成"profile 被占用（先放补采或学习循环）"，
+    # 把"自己在抢自己"读成了采集抢锁。
+    import social_comment as _sc
+    _d0, _l0 = _sc._daemon, _sc._launch
+    _r0 = list(ROOTS_RETRY_S)
+    calls = {"launch": 0, "daemon": 0}
+
+    def _fake_daemon(op, payload, timeout=120):
+        calls["daemon"] += 1
+        return {"ok": False, "res": "post-pending（roots 让路给发帖）"}
+
+    def _fake_launch(p):
+        calls["launch"] += 1
+        raise RuntimeError("daemon 活着时不该走到这里")
+    try:
+        _sc._daemon, _sc._launch = _fake_daemon, _fake_launch
+        ROOTS_RETRY_S[:] = [0, 0]
+        _out = fetch_roots(123)
+        cases.append(("常驻浏览器在但让路 → 只重试不抢 profile",
+                      _out == [] and calls["launch"] == 0 and calls["daemon"] == 3))
+        # 正向：daemon 不在（None）才允许冷启动回落。
+        # 用一个带标记的 _pw 证明"确实走进了回落路径"——直接数 _launch 不可靠，
+        # 因为回落路径本身会先要 playwright 模块（这里是桩，拿不到）。
+        calls["launch"] = 0
+        _sc._daemon = lambda op, payload, timeout=120: None
+        _pw0 = _sc._pw
+
+        def _fake_pw():
+            raise RuntimeError("PW-CALLED")
+        _sc._pw = _fake_pw
+        try:
+            _msg = ""
+            try:
+                fetch_roots(123)
+            except RuntimeError as e:
+                _msg = str(e)
+            cases.append(("daemon 不在 → 允许冷启动回落", _msg == "PW-CALLED"))
+        finally:
+            _sc._pw = _pw0
+    finally:
+        _sc._daemon, _sc._launch = _d0, _l0
+        ROOTS_RETRY_S[:] = _r0
     pol = {"max_per_day": 2, "min_gap_min": 90, "stage": 0}
     tmp = tempfile.mkdtemp()
     p1, p2 = os.path.join(tmp, "a.jsonl"), os.path.join(tmp, "b.jsonl")
