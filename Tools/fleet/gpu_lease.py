@@ -33,8 +33,10 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 STATE = os.path.join(ROOT, "cph4", "fleet", "state")
-LOCK = os.path.join(STATE, "gpu.lock")
-REC = os.path.join(STATE, "gpu-lease.json")
+# 环境变量覆盖：自检必须在**同一把锁**上验证父子继承。原来只改父进程的全局变量，
+# 子进程仍指向线上真锁，于是"无继承的子进程必被拒"这条永远是假红（2026-11-26 实锚）。
+LOCK = os.environ.get("FLUX_GPU_LOCK") or os.path.join(STATE, "gpu.lock")
+REC = os.environ.get("FLUX_GPU_REC") or os.path.join(STATE, "gpu-lease.json")
 
 _handles = {}      # name -> 打开的锁文件句柄（进程内保活）
 DEPTH = {}         # name -> 重入计数
@@ -78,6 +80,101 @@ def _mark_inherited(name):
     os.environ[ENV_KEY] = ":".join(sorted(names))
 
 
+
+REAP_LOG = os.path.join(STATE, "gpu-lease-reap.jsonl")
+
+
+def _pid_alive(pid):
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except Exception:
+        return False
+
+
+def _cpu_idle(pid, samples=2, gap=0.5, thr=2.0):
+    """进程活着但不在干活？连续采样 CPU% 都低于阈值才算空闲。
+
+    为什么要判空闲：租约超 TTL 只说明"占久了"，不等于"卡住了"。
+    长训练会合法地占用一小时以上，不能一过 TTL 就杀。真正的判据是
+    "超时 + 不干活"两条同时成立。
+    """
+    vals = []
+    for _ in range(samples):
+        out = subprocess.run(["ps", "-o", "%cpu=", "-p", str(int(pid))],
+                             capture_output=True, text=True)
+        try:
+            vals.append(float((out.stdout or "0").strip() or 0))
+        except ValueError:
+            return False
+        time.sleep(gap)
+    return bool(vals) and max(vals) < thr
+
+
+REAPABLE = ("selfgen", "train", "publish", "practice", "collect", "learn")
+
+
+def _is_self_or_ancestor(pid, hops=8):
+    """pid 是不是自己或自己的祖先。
+
+    为什么必须挡：子进程抢锁时，持有者往往正是**它自己的父进程**（父持租约起子进程干活）。
+    那种"父进程 CPU 空闲"完全正常（它在等子进程），一旦按"超时+空闲"回收，
+    子进程就会杀掉自己的父进程——自检里这条会立刻红（2026-11-26 实锚）。
+    """
+    cur = os.getpid()
+    pid = int(pid)
+    for _ in range(hops):
+        if cur == pid:
+            return True
+        if cur <= 1:
+            return False
+        out = subprocess.run(["ps", "-o", "ppid=", "-p", str(cur)],
+                             capture_output=True, text=True)
+        try:
+            cur = int((out.stdout or "0").strip() or 0)
+        except ValueError:
+            return False
+    return False
+
+
+def _reap_stale(cur):
+    """超 TTL 且空闲的持有者：回收它，让队列继续。
+
+    2026-11-26 实锚：selfgen 卡在 8788 的连接上两小时不返回（CPU 1.6%、无子进程），
+    而训练一直在打「GPU 让路：GPU 被占用：selfgen（已 7078s）」——租约的 TTL 写了
+    3600 秒，但 flock 由活着的进程持有，过期标记只用于展示、没人据此回收。
+    结果是主链路被一个空转进程挡住两小时，谁也不知道。
+    """
+    if not cur or not cur.get("stale"):
+        return False
+    pid = int(cur.get("pid") or 0)
+    name = str(cur.get("name") or "")
+    if not pid or not name or not any(name.startswith(x) for x in REAPABLE):
+        return False
+    if _is_self_or_ancestor(pid):
+        return False                      # 绝不杀自己或祖先
+    if not (_pid_alive(pid) and _cpu_idle(pid)):
+        return False
+    try:
+        os.kill(pid, 15)
+        time.sleep(1.2)
+        if _pid_alive(pid):
+            os.kill(pid, 9)
+    except Exception:
+        return False
+    try:
+        os.makedirs(STATE, exist_ok=True)
+        with open(REAP_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                "reaped": name, "pid": pid,
+                                "age_s": cur.get("age_s")}, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+    print("[lease] 回收僵尸租约 %s(pid=%s, 已 %ss, CPU 空闲)"
+          % (name, pid, cur.get("age_s")), flush=True)
+    return True
+
+
 def acquire(name, ttl_s=3600, wait_s=0):
     """拿租约。返回 (是否拿到, 说明)。wait_s=0 表示不排队，拿不到就让路。
 
@@ -101,6 +198,9 @@ def acquire(name, ttl_s=3600, wait_s=0):
             fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
             break
         except BlockingIOError:
+            # 先看持有者是不是"超时 + 空闲"的僵尸；是就回收，然后重试拿锁
+            if _reap_stale(who()):
+                continue
             if time.time() >= deadline:
                 cur = who()
                 fh.close()
@@ -164,11 +264,13 @@ def self_test():
         ok1, _ = acquire("t_main", ttl_s=60)
         ok2, why2 = acquire("t_main", ttl_s=60)          # 重入
         env0 = {k: v for k, v in os.environ.items() if k != ENV_KEY}
+        env0["FLUX_GPU_LOCK"] = LOCK
+        env0["FLUX_GPU_REC"] = REC
         code_no = subprocess.run([sys.executable, os.path.abspath(__file__), "--try", "t_main"],
                                  capture_output=True, text=True, env=env0).returncode
         code_yes = subprocess.run([sys.executable, os.path.abspath(__file__), "--try", "t_main"],
                                   capture_output=True, text=True,
-                                  env=dict(os.environ, **{ENV_KEY: "t_main"})).returncode
+                                  env=dict(env0, **{ENV_KEY: "t_main"})).returncode
         release("t_main")
         release("t_main")
         ok3, _ = acquire("t_main", ttl_s=60)
