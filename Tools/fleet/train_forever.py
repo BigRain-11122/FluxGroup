@@ -64,6 +64,9 @@ MIN_ROWS = 200          # 段内可用语料下限：低于这个数只学会抄
 MIN_BUILD = 180         # 造集后训练样本下限
 COOLDOWN_S = 6 * 3600   # 同段冷却：一天最多训 4 次，避免对着同一批语料反复过拟合
 GROWTH_GATE = 1.15      # 被否过的段，语料要涨 15% 才重训
+# 单次训练的墙钟上限：正常 40-50 分钟；给到 2 小时是留足慢盘/降速余量。
+# 超过就整组杀掉——租约 TTL 是 4 小时，没有这道闸，一次死锁会白占一整晚。
+TRAIN_MAX_S = 2 * 3600
 KEEP_GAIN = 5.0         # 段内均分要比基座高这么多
 KEEP_HUMAN_DROP = 2.0   # 人味允许波动；掉超过 2 分即判退步
 
@@ -784,7 +787,33 @@ def run_one(a):
         _th = threading.Thread(target=_reader, args=(_p.stdout,), daemon=True)
         _th.start()
         _last = 0.0
+        _t0 = time.time()
+        _killed_for_age = False
         while _p.poll() is None:
+            # 墙钟上限（2026-11-27 夜班）：一次训练正常 40-50 分钟，租约 TTL 却是 4 小时。
+            # 没有这道闸，MLX 一旦死锁，整整 4 小时没人动它——夜里就废了。
+            # 超时就整组杀掉并记 TRAIN-TIMEOUT，让下一拍去试别的段/变体。
+            if time.time() - _t0 > TRAIN_MAX_S:
+                _killed_for_age = True
+                print("[loop] 训练超时（%.0f 分钟 > 上限 %.0f），杀进程组" % (
+                    (time.time() - _t0) / 60, TRAIN_MAX_S / 60), flush=True)
+                try:
+                    os.killpg(os.getpgid(_p.pid), 15)
+                except Exception:
+                    try:
+                        _p.terminate()
+                    except Exception:
+                        pass
+                time.sleep(20)
+                if _p.poll() is None:
+                    try:
+                        os.killpg(os.getpgid(_p.pid), 9)
+                    except Exception:
+                        try:
+                            _p.kill()
+                        except Exception:
+                            pass
+                break
             if time.time() - _last >= 30:      # 每 30 秒看一次"出稿是否到期"
                 try:
                     import practice_due as _pd
@@ -799,7 +828,10 @@ def run_one(a):
             time.sleep(2)
         _th.join(timeout=5)
         rc = _p.returncode
-        out = "".join(_buf)
+        if _killed_for_age:
+            rc = rc or 124              # 124 = 超时退出码，与 task 失败的 rc 语义一致
+            out = "".join(_buf) + "\nTRAIN-TIMEOUT %.0f 分钟" % ((time.time() - _t0) / 60)
+            _lane("timeout", seg=seg, minutes=round((time.time() - _t0) / 60))
         if ystats["yields"]:
             print("[loop] 训练期间让路出稿 %d 次（共等 %.0fs，内存不足跳过 %d 次）"
                   % (ystats["yields"], ystats["waited_s"], ystats["blocked"]))
