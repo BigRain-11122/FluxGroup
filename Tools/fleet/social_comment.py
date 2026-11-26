@@ -268,12 +268,13 @@ def _daemon(op, payload, timeout=120):
 def _post_in(ctx, aid, root_rpid, message, dry=True, read_first=False):
     """在给定浏览器上下文里发回复（常驻浏览器与临时浏览器共用这一份逻辑）。"""
     pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-    # 2026-11-22 实锚：post 动作 59.99s —— 正好等于这里的 goto 60 秒超时。
-    # B站视频页长连接多，domcontentloaded 常迟迟不触发，于是一路等到超时；
-    # 而页面其实早就能操作（后面的 nav 与提交都成功）。改成等 15 秒、超时即继续。
+    # 只要页面"提交到 bilibili 源"就够——发评论走的是同源 fetch，不等 DOM 加载完。
+    # 历史实锚：等 domcontentloaded 每页吃满超时（60s→15s），post 中位仍 54s，
+    # 而 54s 里绝大部分是白等页面长连接。改成 commit（约 1s 返回），
+    # 真需要 DOM 的地方在后面各自带超时。
     try:
         pg.goto("https://www.bilibili.com/video/av%s" % aid,
-                wait_until="domcontentloaded", timeout=15000)
+                wait_until="commit", timeout=10000)
     except Exception:
         pass
     try:
@@ -282,9 +283,16 @@ def _post_in(ctx, aid, root_rpid, message, dry=True, read_first=False):
         pass
     if read_first and not pg.url.endswith("#no-read"):
         human_read(pg)
-    nav = pg.evaluate("""async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
+    # commit 之后 JS 环境偶尔还没切到新文档，evaluate 会抛 "Execution context was destroyed"。
+    # 给一次短重试，别让一次导航时序问题算成发帖失败。
+    _nav_js = """async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
         {credentials:'include'});const j=await r.json();return {mid:(j.data||{}).mid,
-        wbi:(j.data||{}).wbi_img, isLogin:(j.data||{}).isLogin};}""")
+        wbi:(j.data||{}).wbi_img, isLogin:(j.data||{}).isLogin};}"""
+    try:
+        nav = pg.evaluate(_nav_js)
+    except Exception:
+        time.sleep(1.5)
+        nav = pg.evaluate(_nav_js)
     if not nav.get("isLogin"):
         return False, "未登录"
     wbi = nav.get("wbi") or {}
