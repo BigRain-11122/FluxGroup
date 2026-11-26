@@ -1,14 +1,14 @@
 {
- "ts": "2026-11-26T17:01:54",
- "rows": 78637,
+ "ts": "2026-11-26T17:15:07",
+ "rows": 80778,
  "workers": 9,
- "bake_sec": 26.0,
- "rows_per_sec": 3026.3,
- "near_dup": 1242,
+ "bake_sec": 27.9,
+ "rows_per_sec": 2895.0,
+ "near_dup": 1247,
  "segments": {
   "generic": 51208,
   "music_seeker": 7475,
-  "memer": 4967,
+  "memer": 7108,
   "shallow": 3269,
   "craft_learner": 2726,
   "feeler": 2172,
@@ -23,13 +23,13 @@
   "traditional": 59
  },
  "verdicts": {
-  "PASS": 15024,
-  "RISKY": 54049,
-  "REJECT": 9564
+  "PASS": 15792,
+  "RISKY": 55420,
+  "REJECT": 9566
  },
- "ai_smell_cut": 2996,
+ "ai_smell_cut": 3022,
  "ai_smell_why": {
-  "AI 腔": 2941,
-  "烂梗": 55
+  "AI 腔": 2964,
+  "烂梗": 58
  }
 }
