@@ -164,6 +164,14 @@ def gates(text, ctx="", topics=(), taste_gate=False):
 ROOTS_RETRY_S = [4, 8]      # 常驻浏览器让路/忙时的两次退避（自检里置 0）
 
 
+def _transient(msg):
+    """这条失败值不值得重试。只有"被占用/让路/超时"是暂时的；
+    解析失败、参数错、接口改版都是永久错误，重试只会多烧 12 秒。"""
+    s = str(msg or "").lower()
+    return ("post-pending" in s or "忙" in s or "timeout" in s
+            or "超时" in s or "occupied" in s or "busy" in s)
+
+
 def fetch_roots(aid, limit=20):
     """同源取第一页 root 评论（带 rpid），并滤掉注销号/空内容。
 
@@ -176,18 +184,46 @@ def fetch_roots(aid, limit=20):
     # 拿锁超时，日志写成"profile 被占用（先放补采或学习循环）"，看着像采集抢锁，
     # 其实是自己在跟常驻浏览器抢。正法：daemon 活着就只重试 daemon；
     # 只有 daemon 确实不在（端口没响应）才允许冷启动回落。
+    #
+    # 2026-11-27 二次实锚：`roots` 动作会先 goto 视频页。实测它对真实 aid 恒返回空白体
+    # （json.loads 报 char 0），而 `roots2`（不导航、非 JSON 自动回首页重试）同一 aid
+    # 能正常取到 replies。所以优先 roots2，roots 只作退一步。
     daemon_alive = False
+    last = ""
     for attempt in range(3):
-        hit = sc._daemon("roots", {"aid": aid, "limit": limit}, timeout=90)
+        # priority="post"：取 root 评论是发帖流程的一部分，不该被发帖自己的让路标记挡住
+        hit = sc._daemon("roots2", {"aid": aid, "limit": limit, "priority": "post"},
+                         timeout=90)
         if hit is None:
             break                      # 端口不通：daemon 不在，才考虑冷启动
         daemon_alive = True
         if hit.get("ok"):
-            return hit.get("res") or []
+            res = hit.get("res") or {}
+            if isinstance(res, dict):
+                reps = res.get("replies") or []
+                code = res.get("code")
+                if reps:
+                    return reps[:limit]
+                if code == 0:
+                    # code=0 且真的没有 replies = 这条视频确实没人评论，属正常答复
+                    return []
+                # code=None 说明 fetch 拿到的是非 JSON（验证页/限流），**不是"没人评论"**。
+                # 2026-11-27 实锚：旧写法把 None 也当成功返回空表，于是每一拍都记
+                # 「第一页没有可用 root 评论」——把解析失败说成了视频没有评论。
+                last = "接口未返回 JSON（code=%s）" % code
+            else:
+                last = "非结构化答复"
+        else:
+            last = str(hit.get("res") or "")
+            if not _transient(last):
+                break                  # 解析失败/参数错属永久错误，重试只是白等
         if attempt < 2:
             time.sleep(ROOTS_RETRY_S[attempt])  # 让路/占用都是暂时的，退避比抢锁便宜
     if daemon_alive:
-        print("[arm] 常驻浏览器在但本拍未取到评论列表（让路/占用），不抢 profile")
+        hit = sc._daemon("roots", {"aid": aid, "limit": limit, "priority": "post"}, timeout=90)
+        if hit is not None and hit.get("ok"):
+            return (hit.get("res") or [])[:limit]
+        print("[arm] 常驻浏览器在但取评论列表失败（%s），不抢 profile" % (last or "未知")[:70])
         return []
     mod, _ = sc._pw()
     from time import sleep
@@ -317,7 +353,7 @@ def self_test():
 
     def _fake_daemon(op, payload, timeout=120):
         calls["daemon"] += 1
-        return {"ok": False, "res": "post-pending（roots 让路给发帖）"}
+        return {"ok": False, "res": "post-pending（%s 让路给发帖）" % op}
 
     def _fake_launch(p):
         calls["launch"] += 1
@@ -327,7 +363,7 @@ def self_test():
         ROOTS_RETRY_S[:] = [0, 0]
         _out = fetch_roots(123)
         cases.append(("常驻浏览器在但让路 → 只重试不抢 profile",
-                      _out == [] and calls["launch"] == 0 and calls["daemon"] == 3))
+                      _out == [] and calls["launch"] == 0 and calls["daemon"] >= 3))
         # 正向：daemon 不在（None）才允许冷启动回落。
         # 用一个带标记的 _pw 证明"确实走进了回落路径"——直接数 _launch 不可靠，
         # 因为回落路径本身会先要 playwright 模块（这里是桩，拿不到）。

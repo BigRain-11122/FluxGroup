@@ -484,7 +484,14 @@ def _lora_ready(timeout=4):
 
 
 def _coexist_gap_ok(gap_s=600):
-    """两条共存发布之间至少隔 10 分钟：训练拿绝对多数时间，出稿只取它够用的那一小段。"""
+    """两次"占用共存窗口"之间至少隔 10 分钟：训练拿绝对多数时间，出稿只取它够用的那一小段。
+
+    2026-11-27 修（判据只看动作不看产出）：原来只认 `coexist-publish`，而那一行是在
+    **获批窗口**时写的、当时还没出稿。实锚：00:18:10 那条 coexist-publish 既没有 text
+    也没有 rpid——台账读起来像"发过一条"，实际那一拍后面是"无文案过闸"。
+    现在窗口授权记 `coexist-grant`（它是资源配额，冷却仍按它算），
+    真实发文另记 `post` 并带 rpid；两者都计入冷却，但读台账不会再混淆。
+    """
     import time as _t
     try:
         rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
@@ -492,7 +499,7 @@ def _coexist_gap_ok(gap_s=600):
         return True
     last = 0
     for r in rows[-80:]:
-        if r.get("action") in ("coexist-publish", "post"):
+        if r.get("action") in ("coexist-grant", "coexist-publish", "post"):
             try:
                 ts = __import__("datetime").datetime.fromisoformat(str(r.get("ts")))
                 last = max(last, _t.mktime(ts.timetuple()))
@@ -775,7 +782,7 @@ def main():
         # 直接进受限共存，省掉最多 90 秒空等（实测 total 188.7→117.1 就是这 90 秒的差）
         _got, _exclusive = True, False
         _why = "coexist（训练持锁，8788 在位，跳过举手等待）"
-        log({"action": "coexist-publish", "why": _why})
+        log({"action": "coexist-grant", "why": _why})
     if not _got and "train" in str(_why):
         # 2026-11-22 握手：训练只在"出稿到期"时让路，可手动/会话触发的这一拍可能还没到期，
         # 于是干等。出稿这里举一次手（PUBLISH-REQUEST），训练侧看到就 SIGSTOP 让路，
@@ -802,10 +809,11 @@ def main():
         # 训练持锁是 4 小时 TTL：它一占，出稿就被饿死（2026-11-22 实锚：13:25→21:42 零产出）。
         # 而 train_run.sh 自己的探针已证明"训练 + 8788 出稿 + 采集"可同时跑
         # （swap 零增长、训练 3.0–3.5s/步、出稿 10/10 成功）。所以允许**受限共存**：
-        # ①只在 8788 在位时 ②共存发布间隔 ≥10 分钟 ③落账 coexist-publish 可归因。
+        # ①只在 8788 在位时 ②两次共存窗口间隔 ≥10 分钟 ③窗口授权落成 coexist-grant
+        # （不是 coexist-publish——那一刻还没出稿，记成"已发"就是假绿）。
         if _lora_ready() and _coexist_gap_ok():
             _got, _why, _exclusive = True, "coexist（训练持锁，8788 在位）", False
-            log({"action": "coexist-publish", "why": _why})
+            log({"action": "coexist-grant", "why": _why})
         else:
             _why = _why + "； coexist 不可用（8788 不在位或间隔未到）"
     if not _got:
@@ -1189,6 +1197,13 @@ def self_test():
         write([{"action": "post", "rpid": "p%d" % i, "ts": now} for i in range(mx)])
         rc = main()
         check("E 日限已满→跳过零发帖", rc == 0 and posts() == mx)
+
+        # F 2026-11-27：共存**窗口授权**不是发文（实锚 00:18:10 那条 coexist-publish
+        #   既无 text 也无 rpid，台账读起来像"发过一条"，实际后面是"无文案过闸"）。
+        #   两条都要守：①授权不计入发文 ②冷却仍按授权算（否则每拍都能开窗口烧 GPU）。
+        write([{"action": "coexist-grant", "why": "coexist", "ts": now}])
+        check("F 窗口授权不计入发文", posts() == 0)
+        check("F 冷却仍按窗口授权算", _coexist_gap_ok() is False)
 
             # J 取数失败（visible=None）不得计入可见率——这是 11-19 假止损的直接原因
         with open(LEDGER, "w", encoding="utf-8") as f:

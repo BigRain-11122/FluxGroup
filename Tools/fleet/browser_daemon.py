@@ -142,25 +142,42 @@ def op(payload):
     return out
 
 
+def _yield_reason(kind, payload, marker=None, now=None):
+    """让路判定（纯函数，便于自检）。
+
+    发帖优先：practice_tick 在调用 post 前会立一个 POST-PENDING 标记。
+    常驻浏览器是单线程，任何动作排进去都占着唯一线程；发帖排在后面就是 90 秒。
+    2026-11-22 实测：只让 browse 让路不够——采评论（hot）/取楼中楼（roots）同样是重活，
+    发帖仍被压在 77–98 秒。凡是"可推迟"的动作在标记期内一律让路，只有 post 自己不让。
+
+    2026-11-27 补：发帖流程自己也要先取 root 评论（roots），那是**发帖的一部分**，
+    不该被自己立的让路标记挡住——否则 practice 每一拍都卡在"第一页没有可用 root 评论"，
+    而日志还会把它读成"profile 被采集占用"。调用方用 priority="post" 声明
+    "我属于发帖流程"，其它采集类动作照旧让路。
+    """
+    if kind == "post" or (payload or {}).get("priority") == "post":
+        return ""
+    now = time.time() if now is None else now
+    mk = marker or os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), ".codely-cli", "state", "POST-PENDING")
+    try:
+        if os.path.exists(mk):
+            age = now - os.path.getmtime(mk)
+            if age < 180:
+                return "post-pending（%s 让路给发帖，%.0fs 前立的）" % (kind, age)
+    except Exception:
+        pass
+    return ""
+
+
 def _op(payload):
     import social_comment as sc
     kind = payload.get("op")
     if kind not in ("post", "browse", "danmaku", "like", "verify", "verify_text", "roots", "roots2", "nav", "hot", "aid"):
         return {"ok": False, "res": "未知动作 %r" % kind}
-    # 发帖优先：practice_tick 在调用 post 前会立一个 POST-PENDING 标记。
-    # 常驻浏览器是单线程，任何动作排进去都占着唯一线程；发帖排在后面就是 90 秒。
-    # 2026-11-22 实测：只让 browse 让路不够——采评论（hot）/取楼中楼（roots）同样是重活，
-    # 发帖仍被压在 77–98 秒。凡是"可推迟"的动作在标记期内一律让路，只有 post 自己不让。
-    if kind != "post":
-        try:
-            mk = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-                os.path.abspath(__file__)))), ".codely-cli", "state", "POST-PENDING")
-            if os.path.exists(mk):
-                age = time.time() - os.path.getmtime(mk)
-                if age < 180:
-                    return {"ok": False, "res": "post-pending（%s 让路给发帖，%.0fs 前立的）" % (kind, age)}
-        except Exception:
-            pass
+    _why = _yield_reason(kind, payload)
+    if _why:
+        return {"ok": False, "res": _why}
     if kind == "like" and not payload.get("aid"):
         # 参数缺失要在开/取上下文之前就拒：拿不到浏览器也能给出确定的答复，
         # 否则 --self-test 会被"profile 被占用"打断，测不到动作本身。
@@ -443,6 +460,25 @@ def self_test():
     cases["like 缺 aid 直接拒"] = (op({"op": "like"})["ok"] is False)
     cases["verify 已受支持（不被当未知动作）"] = ("未知动作" not in str(op({"op": "verify"})["res"]))
     cases["verify 缺 rpid 直接拒"] = (op({"op": "verify", "aid": 1})["ok"] is False)
+    # 2026-11-27：让路标记期内，发帖流程自己的 roots 必须放行、采集类必须让路。
+    # 实锚：不加这条，practice 每一拍都卡在"第一页没有可用 root 评论"（自己挡自己）。
+    # 只测纯函数，不真开浏览器（自检跑在系统 python 上，那里没有 playwright）。
+    _mk = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), ".codely-cli", "state", "POST-PENDING")
+    _had = os.path.exists(_mk)
+    try:
+        open(_mk, "w").close()
+        cases["让路期内发帖流程的 roots 放行"] = (
+            _yield_reason("roots", {"priority": "post"}, marker=_mk) == "")
+        cases["让路期内采集动作让路"] = (
+            "post-pending" in _yield_reason("hot", {}, marker=_mk))
+        cases["post 自己永远不让路"] = (_yield_reason("post", {}, marker=_mk) == "")
+    finally:
+        if not _had:
+            try:
+                os.unlink(_mk)
+            except Exception:
+                pass
     os.environ["FLUX_BROWSERD"] = "http://127.0.0.1:1"
     import social_comment as sc
     sc.BROWSERD = "http://127.0.0.1:1"
