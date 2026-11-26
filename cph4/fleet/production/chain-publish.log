@@ -2857,3 +2857,5 @@ Another git process seems to be running in this repository, or the lock file may
 2026-11-26T18:11:31 RECEIPT IDLE gpu=85 vram=10370MB busy=-
 2026-11-26T18:12:07 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-26T18:16:32 RECEIPT IDLE gpu=81 vram=14455MB busy=-
+2026-11-26T18:26:55 FATAL TimeoutExpired(['git', '-C', 'K:\\Fluxgroup\\FluxGroup', 'commit', '-q', '-m', 'bm-c chain: evidence + online receipt (8 files, 18:18)'], 150)
+2026-11-26T18:31:31 RECEIPT IDLE gpu=1 vram=2745MB busy=-
