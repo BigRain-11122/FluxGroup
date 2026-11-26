@@ -115,7 +115,7 @@ def op(payload):
 def _op(payload):
     import social_comment as sc
     kind = payload.get("op")
-    if kind not in ("post", "browse", "danmaku", "roots", "roots2", "nav", "hot", "aid"):
+    if kind not in ("post", "browse", "danmaku", "like", "roots", "roots2", "nav", "hot", "aid"):
         return {"ok": False, "res": "未知动作 %r" % kind}
     # 发帖优先：practice_tick 在调用 post 前会立一个 POST-PENDING 标记。
     # 常驻浏览器是单线程，任何动作排进去都占着唯一线程；发帖排在后面就是 90 秒。
@@ -131,6 +131,10 @@ def _op(payload):
                     return {"ok": False, "res": "post-pending（%s 让路给发帖，%.0fs 前立的）" % (kind, age)}
         except Exception:
             pass
+    if kind == "like" and not payload.get("aid"):
+        # 参数缺失要在开/取上下文之前就拒：拿不到浏览器也能给出确定的答复，
+        # 否则 --self-test 会被"profile 被占用"打断，测不到动作本身。
+        return {"ok": False, "res": "缺 aid"}
     ctx = ctx_for(payload.get("account"), payload.get("profile"))
     _PW["last"][payload.get("profile") or payload.get("account") or "default"] = time.time()
     if kind == "hot":
@@ -226,6 +230,41 @@ def _op(payload):
     if kind == "roots":
         res = sc._roots_in(ctx, payload.get("aid"), limit=int(payload.get("limit") or 20))
         return {"ok": True, "res": res}
+    if kind == "like":
+        # 点赞也要走这里：user_agent.like() 原本自己 _launch() 一个浏览器，
+        # 而这个常驻进程 24 小时握着 profile 锁 → 养号守护每次都「让路」，
+        # 点赞与弹幕长期为 0（2026-11-26 实锚：两号 赞0 弹幕0，日志全是
+        # 「profile 在采集手里」）。动作很轻，在已登录上下文里同源 fetch 即可。
+        aid = payload.get("aid")
+        if not aid:
+            return {"ok": False, "res": "缺 aid"}
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        try:
+            if "bilibili.com" not in (pg.url or ""):
+                pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                        wait_until="domcontentloaded", timeout=15000)
+        except Exception:
+            pass
+        cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+        csrf = cookies.get("bili_jct", "")
+        if not csrf:
+            return {"ok": False, "res": "缺 csrf（bili_jct），登录态失效"}
+        if payload.get("dry"):
+            return {"ok": True, "res": {"dry": True, "aid": aid}}
+        body = "aid=%s&like=1&csrf=%s" % (aid, csrf)
+        try:
+            hit = pg.evaluate("""async (body)=>{
+                const r=await fetch('https://api.bilibili.com/x/web-interface/archive/like',
+                  {method:'POST',credentials:'include',
+                   headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                   body:body});
+                return {status:r.status, text:await r.text()};}""", body)
+            doc = json.loads((hit or {}).get("text") or "{}")
+        except Exception as e:
+            return {"ok": False, "res": "%s: %s" % (type(e).__name__, str(e)[:120])}
+        ok = (hit or {}).get("status") == 200 and doc.get("code") == 0
+        return {"ok": bool(ok), "res": {"code": doc.get("code"),
+                                        "message": doc.get("message")}}
     if kind == "danmaku":
         # 复用同一个 page 发弹幕：直接调接口（已登录上下文里同源 fetch）
         ok, res = sc._danmaku_in(ctx, payload.get("aid"), payload.get("text") or "",
@@ -283,10 +322,14 @@ def self_test():
     """负控：未知动作必须 ok:false；没有 daemon 时客户端必须回落（返回 None）。"""
     cases = {}
     cases["未知动作拒绝"] = (op({"op": "nope"})["ok"] is False)
+    # like 进了白名单就不能再被当未知动作；缺 aid 必须在开浏览器之前就拒
+    cases["like 已受支持（不被当未知动作）"] = ("未知动作" not in str(op({"op": "like"})["res"]))
+    cases["like 缺 aid 直接拒"] = (op({"op": "like"})["ok"] is False)
     os.environ["FLUX_BROWSERD"] = "http://127.0.0.1:1"
     import social_comment as sc
     sc.BROWSERD = "http://127.0.0.1:1"
     cases["不在时客户端回落"] = (sc._daemon("post", {"aid": 1}, timeout=2) is None)
+    cases["不在时 like 也回落"] = (sc._daemon("like", {"aid": 1}, timeout=2) is None)
     os.environ.pop("FLUX_BROWSERD", None)
     ok = all(cases.values())
     print(json.dumps({"self_test": "PASS" if ok else "FAIL", "cases": cases},
