@@ -254,6 +254,55 @@ def seg_quality():
     return ok, "闸回归 overall=%s，龄 %.0f 分钟（上限 480）" % (g.get("overall"), age or -1)
 
 
+def seg_vital():
+    """四线心跳：每条线的最后一笔产出有多旧。
+
+    单列成一段，是因为 L3 只看训练循环日志活着、L8 只看今天有没有副动作，
+    都不回答"这条线已经停了多久"。停摆恰恰是这套系统最常见的失效形态——
+    进程活着、日志在打、台账还在，只是不再写新行（2026-11-25 实锚：学习断更
+    21 小时，进程一直在跑，每轮只打「让路」）。
+
+    判据用产出文件龄期，不用进程存活。训练看循环日志：它每 5 分钟必写一行
+    （冷却期写「无料可训」），所以日志陈旧＝不再拍；其余看各自台账。
+    """
+    def _newest(paths):
+        ages = [_age_min(p) for p in paths if os.path.exists(p)]
+        ages = [a for a in ages if a is not None]
+        return min(ages) if ages else None
+
+    # 训练要两条一起看：循环日志每 5 分钟一行，但一次训练是同步跑的（约 50 分钟），
+    # 那段时间循环不写日志、只写 run 里的 train.log（每步都在写）。
+    # 只看循环日志会在每次训练中途误判停摆。
+    try:
+        runs = os.path.join(SOCIAL, "train", "RUNS")
+        # 只认 <日期>-<时刻> 形式的真 run 目录：目录里还有 CMP-204622-500 这类
+        # 历史件，纯字典序会把它排到最后，读到没有 train.log 的旧目录 → 误判停摆。
+        import re as _re
+        names = [n for n in os.listdir(runs) if _re.match(r"^\d{8}-\d{6}$", n)]
+        newest = sorted(names)[-1] if names else ""
+        run_log = os.path.join(runs, newest, "train.log") if newest else ""
+    except Exception:
+        run_log = ""
+    lines = [
+        ("训练", [os.path.join(STATE, "train-loop.log"), run_log], 45),
+        ("学习", [os.path.join(SOCIAL, "LEARNING-LEDGER.jsonl")], 90),
+        ("实战", [os.path.join(SOCIAL, "reply-log.jsonl")], 90),
+        ("养号", [os.path.join(SOCIAL, "USER-AGENT-LEDGER.jsonl")], 300),
+    ]
+    bad, ok = [], []
+    for name, paths, limit in lines:
+        age = _newest(paths)
+        if age is None:
+            bad.append("%s 无台账" % name)
+        elif age > limit:
+            bad.append("%s %.0f 分钟没新行（上限 %d）" % (name, age, limit))
+        else:
+            ok.append("%s %.0f 分钟" % (name, age))
+    if bad:
+        return False, "；".join(bad) + "｜正常：" + "、".join(ok)
+    return True, "、".join(ok)
+
+
 SEGMENTS = [
     ("L1 供给", seg_supply),
     ("L2 采集", seg_collect),
@@ -266,6 +315,7 @@ SEGMENTS = [
     ("L9 调度", seg_schedule),
     ("L10 智能体", seg_agent),
     ("L11 闸", seg_quality),
+    ("L12 四线心跳", seg_vital),
 ]
 
 
