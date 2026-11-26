@@ -161,7 +161,9 @@ def gates(text, ctx="", topics=(), taste_gate=False):
                                    "verdict": (s or {}).get("verdict")}
 
 
-ROOTS_RETRY_S = [4, 8]      # 常驻浏览器让路/忙时的两次退避（自检里置 0）
+ROOTS_RETRY_S = [15, 30]    # 常驻浏览器让路/限流时的两次退避（自检里置 0）
+# 2026-11-27 实测：B站评论接口会短时限流，返回非 JSON。间歇性出现，等 60 秒即恢复，
+# 所以 4s/8s 那种"礼貌退避"根本跨不过去；一拍最多多等 45 秒，比整拍白跑便宜。
 
 
 def _transient(msg):
