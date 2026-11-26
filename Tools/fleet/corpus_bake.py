@@ -85,10 +85,11 @@ def _warm():
     _CT, _SG, _SPEC = ct, sg, sg.load_spec()
 
 
-def bake_one(text):
-    """单行加工：只收文本、只回小元组（别把整行 dict 塞进 IPC）。"""
+def bake_one(item):
+    """单行加工：只收 (文本, 来源提示)、只回小元组（别把整行 dict 塞进 IPC）。"""
+    text, hint = item if isinstance(item, tuple) else (item, None)
     t = text or ""
-    seg = _SG.classify(t, _SPEC)
+    seg = _SG.classify(t, _SPEC, hint=hint)
     s = _CT.score(t, seg=seg["primary"])
     return (seg["primary"], s.get("total"), s.get("verdict"),
             s.get("human"), s.get("voice"))
@@ -140,7 +141,7 @@ def run(workers, limit=0):
     except Exception as e:
         n_cut, cut = 0, {"不可用": str(e)[:60]}
     t0 = time.time()
-    texts = [(r.get("text") or "") for r in rows]
+    texts = [((r.get("text") or ""), r.get("seg_hint")) for r in rows]
     with Pool(processes=workers, initializer=_warm) as pool:
         raw = pool.map(bake_one, texts, chunksize=400)
     meta = [{"seg": x[0], "taste": x[1], "verdict": x[2], "human": x[3], "voice": x[4]}
