@@ -96,6 +96,36 @@ def _log_op(kind, t0, note=""):
         pass
 
 
+
+_SHADOW_TEXTS = """() => {
+  const pick = (node) => {
+    let t = '';
+    const walk = (n) => {
+      if (!n) return;
+      if (n.nodeType === 3) { t += n.nodeValue; return; }
+      const tag = (n.tagName||'').toLowerCase();
+      if (tag === 'style' || tag === 'script' || tag === 'noscript') return;
+      if (n.shadowRoot) walk(n.shadowRoot);
+      const kids = n.childNodes || [];
+      for (let i = 0; i < kids.length; i++) walk(kids[i]);
+    };
+    walk(node);
+    return t.replace(/\\s+/g, ' ').trim();
+  };
+  const out = [];
+  const scan = (root) => {
+    for (const el of root.querySelectorAll('*')) {
+      if ((el.tagName||'').toLowerCase() === 'bili-rich-text') {
+        const t = pick(el);
+        if (t.length > 1) out.push(t);
+      }
+      if (el.shadowRoot) scan(el.shadowRoot);
+    }
+  };
+  scan(document);
+  return out;
+}"""
+
 def op(payload):
     """执行一个动作。返回 {ok, res, svc_ms}；异常一律转成 ok:false，不拖垮服务。
 
@@ -115,7 +145,7 @@ def op(payload):
 def _op(payload):
     import social_comment as sc
     kind = payload.get("op")
-    if kind not in ("post", "browse", "danmaku", "like", "roots", "roots2", "nav", "hot", "aid"):
+    if kind not in ("post", "browse", "danmaku", "like", "verify", "verify_text", "roots", "roots2", "nav", "hot", "aid"):
         return {"ok": False, "res": "未知动作 %r" % kind}
     # 发帖优先：practice_tick 在调用 post 前会立一个 POST-PENDING 标记。
     # 常驻浏览器是单线程，任何动作排进去都占着唯一线程；发帖排在后面就是 90 秒。
@@ -135,6 +165,10 @@ def _op(payload):
         # 参数缺失要在开/取上下文之前就拒：拿不到浏览器也能给出确定的答复，
         # 否则 --self-test 会被"profile 被占用"打断，测不到动作本身。
         return {"ok": False, "res": "缺 aid"}
+    if kind == "verify" and not (payload.get("aid") and payload.get("rpid")):
+        return {"ok": False, "res": "缺 aid/rpid"}
+    if kind == "verify_text" and not (payload.get("aid") and payload.get("text")):
+        return {"ok": False, "res": "缺 aid/text"}
     ctx = ctx_for(payload.get("account"), payload.get("profile"))
     _PW["last"][payload.get("profile") or payload.get("account") or "default"] = time.time()
     if kind == "hot":
@@ -265,6 +299,88 @@ def _op(payload):
         ok = (hit or {}).get("status") == 200 and doc.get("code") == 0
         return {"ok": bool(ok), "res": {"code": doc.get("code"),
                                         "message": doc.get("message")}}
+    if kind == "verify":
+        # 回验也必须在常驻上下文里做：verify_comment_browser 自己 _launch() 一个浏览器，
+        # 而锁在这里 → 每次都"被占用"，于是 reply/practice 台账里 visible 全是 null，
+        # 「闭环断在最后一米」（2026-11-26 实锚：唯一一条 verify 记录 why=回验未取到数）。
+        aid = payload.get("aid")
+        rpid = str(payload.get("rpid") or "")
+        if not aid or not rpid:
+            return {"ok": False, "res": "缺 aid/rpid"}
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        if "bilibili.com" not in (pg.url or ""):
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=30000)
+        pages = int(payload.get("pages") or 3)
+        got_any, hit = False, None
+        for sort in (0, 2):
+            for pn in range(1, max(1, pages) + 1):
+                u = ("https://api.bilibili.com/x/v2/reply?type=1&oid=%s"
+                     "&pn=%d&ps=20&sort=%d" % (aid, pn, sort))
+                try:
+                    txt = pg.evaluate(
+                        "async(u)=>{const r=await fetch(u,{credentials:'include'});"
+                        "return await r.text();}", u)
+                    d = json.loads(txt or "{}")
+                except Exception:
+                    continue
+                if d.get("code") not in (0, None):
+                    continue
+                reps = ((d.get("data") or {}).get("replies") or [])
+                if reps:
+                    got_any = True
+                for x in reps:
+                    if str(x.get("rpid")) == rpid:
+                        hit = {"likes": int(x.get("like") or 0),
+                               "liked": bool(x.get("liked")),
+                               "ctime": x.get("ctime")}
+                        break
+                if hit:
+                    break
+            if hit:
+                break
+        if hit is not None:
+            return {"ok": True, "res": dict(hit, visible=True)}
+        if not got_any:
+            # 取不到数与"确实不可见"必须分开，否则一次接口变动就冤枉整个账号
+            return {"ok": True, "res": {"visible": None,
+                                        "why": "接口未返回任何楼（取不到数，不判不可见）"}}
+        return {"ok": True, "res": {"visible": False,
+                                    "why": "前 %d 页未见该 rpid（审核中或已删）" % pages}}
+    if kind == "verify_text":
+        # 回验的正路：B站 /x/v2/reply 已对这台机器返 412（返回的是风控 HTML 页，
+        # 登录态本身有效：nav 报 isLogin=true、mid=388497033）。而"读渲染后的评论区"
+        # 一直可用——学习通道就是靠它每小时采到 30+ 条。所以回验也读 DOM：
+        # 视频页滚动加载后，把 bili-rich-text 的正文抽出来，问"我们发的那句在不在"。
+        aid = payload.get("aid")
+        text = str(payload.get("text") or "").strip()
+        if not aid or not text:
+            return {"ok": False, "res": "缺 aid/text"}
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        try:
+            pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                    wait_until="domcontentloaded", timeout=20000)
+        except Exception:
+            pass
+        time.sleep(3)
+        for _ in range(int(payload.get("scrolls") or 4)):
+            try:
+                pg.mouse.wheel(0, 1400)
+            except Exception:
+                pass
+            time.sleep(0.8)
+        try:
+            texts = pg.evaluate(_SHADOW_TEXTS)
+        except Exception as e:
+            return {"ok": True, "res": {"visible": None,
+                                        "why": "页面取文失败：%s" % str(e)[:80]}}
+        norm = lambda t: " ".join(str(t or "").split())
+        want = norm(text)
+        got = [norm(t) for t in (texts or [])]
+        if not got:
+            return {"ok": True, "res": {"visible": None, "why": "评论区没渲染出任何楼（取不到数）"}}
+        hit = any(want and want in g for g in got)
+        return {"ok": True, "res": {"visible": bool(hit), "seen": len(got),
+                                    "why": "命中" if hit else "前 %d 楼未见该句（送审或已删）" % len(got)}}
     if kind == "danmaku":
         # 复用同一个 page 发弹幕：直接调接口（已登录上下文里同源 fetch）
         ok, res = sc._danmaku_in(ctx, payload.get("aid"), payload.get("text") or "",
@@ -325,6 +441,8 @@ def self_test():
     # like 进了白名单就不能再被当未知动作；缺 aid 必须在开浏览器之前就拒
     cases["like 已受支持（不被当未知动作）"] = ("未知动作" not in str(op({"op": "like"})["res"]))
     cases["like 缺 aid 直接拒"] = (op({"op": "like"})["ok"] is False)
+    cases["verify 已受支持（不被当未知动作）"] = ("未知动作" not in str(op({"op": "verify"})["res"]))
+    cases["verify 缺 rpid 直接拒"] = (op({"op": "verify", "aid": 1})["ok"] is False)
     os.environ["FLUX_BROWSERD"] = "http://127.0.0.1:1"
     import social_comment as sc
     sc.BROWSERD = "http://127.0.0.1:1"
