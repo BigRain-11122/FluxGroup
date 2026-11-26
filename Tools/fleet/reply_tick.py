@@ -99,8 +99,9 @@ def _ontopic(reply, comment, min_share=2):
     a, b = bg(reply), bg(comment)
     if not a or not b:
         return False
-    # 短评最多只能共享这么多个：按评论二元组数量的 1/4 缩放，上下夹在 [1, min_share]
-    need = max(1, min(int(min_share), len(b) // 4))
+    # 短中评只要有 1 个共享二元组（"别自说自话"的地板），
+    # 长评（≥12 个二元组 ≈14 字）要 2 个：长评里单个二元组太容易撞。
+    need = min(int(min_share), 2) if len(b) >= 12 else 1
     return len(a & b) >= need
 
 
