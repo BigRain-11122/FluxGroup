@@ -195,6 +195,26 @@ def built_map(path=None):
     return m
 
 
+def _built_stale(seg, st, built):
+    """烘焙后可用行数没涨 → 重训必得同款权重，直接不许训。
+
+    2026-11-26 实锚（E-20261126-02）：music_seeker 三次 KEEP/ckpt400 的 adapter SHA
+    完全相同，对照台账只有一处差异——前两次 built=305、第三次 built=305，
+    只有 12:42 那次 built=313 才出了不同模型。也就是说决定"有没有新东西可学"的
+    不是原始 rows（305→305 时 rows 也在动，虚涨几千行域外句），而是**烘焙后**的行数。
+    50 次 run / 30 个唯一 SHA，浪费的 20 次全部落在这条缝隙上。
+    返回 (是否陈旧, 说明)。
+    """
+    rec = (st.get("segments") or {}).get(seg) or {}
+    last_built = int(rec.get("built") or 0)
+    cur = int(built.get(seg) or 0)
+    if not last_built or not cur:
+        return False, ""            # 缺一侧就不启用，老台账不会因此永久停训
+    if cur >= last_built * 1.02:
+        return False, ""
+    return True, "烘焙后数据集未变（built %d→%d），重训必得同款" % (last_built, cur)
+
+
 def pick(rows, st, rejects, now=None, built=None):
     """队列排序：最久没训的优先，同档按**烘焙后可用语料**多的优先。"""
     built = built if built is not None else built_map()
@@ -203,6 +223,9 @@ def pick(rows, st, rejects, now=None, built=None):
     for seg in sorted(rows):
         ok, why = eligible(seg, rows, st, rejects, now)
         if ok:
+            stale, why_stale = _built_stale(seg, st, built)
+            if stale:
+                continue
             last = ((st.get("segments") or {}).get(seg) or {}).get("last_ts") or 0
             eff = built.get(seg) or rows[seg]      # 没烘过的段没有 built，回退原始行数
             cands.append((last, -eff, seg, why))
@@ -391,9 +414,18 @@ def reconcile(st):
         seg = r.get("seg")
         if not seg:
             continue
+        # 让路（BLOCKED）不是训练事件：没占 GPU、没动数据、没产出模型。
+        # 2026-11-26 实锚：把它当训练记录会刷新 last_ts，冷却时钟被自己的重试推着走，
+        # 于是同一段每 1-2 分钟重新排队（21:06→21:25 共 7 次）。
+        if r.get("no_progress") or r.get("verdict") == "BLOCKED":
+            d = segs.setdefault(seg, {})
+            d["last_blocked_ts"] = r.get("ts") and time.mktime(
+                time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time()
+            continue
         segs[seg] = {"last_ts": r.get("ts") and time.mktime(
                          time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time(),
                      "last_rc": r.get("verdict"), "rows": r.get("rows"),
+                     "built": r.get("built"),
                      "run": r.get("run"), "step": r.get("step"),
                      "val_min": r.get("val_min"),
                      # recipe 必须一起重建：少了它，eligible() 会判"配方更新"
@@ -409,9 +441,18 @@ def reconcile(st):
 def record_fail(seg, rows, kind, why, built=0):
     """失败也要进台账：状态是从台账重建的，不写台账等于"这次失败不存在"，
     于是同一段会被无限重试（2026-11-20 实锚：memer 连续两次被选中）。
+
+    2026-11-26 实锚：本函数原来不写 recipe，而 reconcile 是从台账重建状态的——
+    每一条 BLOCKED/TRAIN-FAIL 都把该段的 recipe 抹成 None，下一轮 eligible() 就判
+    "配方更新"直接放行。结果 21:06→21:25 同一段被重排 7 次，每 1-2 分钟一次。
+    所以 recipe 必须一起落盘；BLOCKED（让路）还要标 no_progress —— 它没占 GPU、
+    没动数据，不该刷新冷却时钟。
     """
     rec = {"ts": now_iso(), "seg": seg, "rows": rows, "built": built,
-           "eval_n": 0, "verdict": kind, "why": why, "adapter": None}
+           "eval_n": 0, "verdict": kind, "why": why, "adapter": None,
+           "recipe": RECIPE_V}
+    if kind == "BLOCKED":
+        rec["no_progress"] = True
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     return rec
@@ -773,6 +814,21 @@ def self_test():
     # 无 built 历史 → 回退 original rows（不许因为缺数据就什么都不选）
     task3, _ = pick(rows_c, {}, {}, time.time(), built={})
     cases.append(("无 built 历史时回退 rows", task3 is not None and task3["seg"] == "a"))
+    # 负控 2026-11-26（E-20261126-02）：烘焙后行数没涨 → 不许重训。
+    # 实锚：music_seeker 三次同 SHA，built 全是 305；只有 built 313 那次出了不同模型。
+    now_t = time.time()
+    st_b = {"segments": {"a": {"last_ts": now_t - 24 * 3600, "recipe": RECIPE_V,
+                               "built": 305, "rows": 305}}}
+    t_b, _ = pick({"a": 305, "b": 300}, st_b, {}, now_t, built={"a": 305, "b": 300})
+    cases.append(("built 未变（305→305）即便冷却已过也不许训",
+                  t_b is not None and t_b["seg"] == "b"))
+    t_b2, _ = pick({"a": 305}, st_b, {}, now_t, built={"a": 313})
+    cases.append(("built 涨了（305→313）→ 可以训",
+                  t_b2 is not None and t_b2["seg"] == "a"))
+    st_b3 = {"segments": {"a": {"last_ts": now_t - 24 * 3600, "recipe": RECIPE_V}}}
+    t_b3, _ = pick({"a": 305}, st_b3, {}, now_t, built={"a": 305})
+    cases.append(("台账缺 built 时不启用该闸（不许永久停训）",
+                  t_b3 is not None and t_b3["seg"] == "a"))
 
     B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
     keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
@@ -808,6 +864,29 @@ def self_test():
         st_r2 = reconcile({"segments": {}, "runs": []})
         cases.append(("台账里没有 recipe 时如实为空（不编造）",
                       st_r2["segments"]["b"].get("recipe") is None))
+        # 负控 2026-11-26 坏卡循环：BLOCKED（让路）不得推进冷却时钟。
+        # 实锚：21:06→21:25 同一段被重排 7 次、每次 built=0，因为让路记录刷新了 last_ts
+        # 且抹掉了 recipe，eligible() 每轮都判「配方更新」放行。
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T00:00:00", "seg": "c", "rows": 300,
+                                "verdict": "KEEP", "recipe": RECIPE_V, "step": 400}) + "\n")
+            f.write(json.dumps({"ts": "2026-11-26T00:05:00", "seg": "c", "rows": 300,
+                                "verdict": "BLOCKED", "recipe": RECIPE_V,
+                                "no_progress": True}) + "\n")
+        st_r3 = reconcile({"segments": {}, "runs": []})
+        lag = st_r3["segments"]["c"].get("last_ts") or 0
+        cases.append(("BLOCKED 不推进冷却时钟（坏卡循环根治）",
+                      abs(lag - time.mktime(time.strptime("2026-11-26T00:00:00",
+                                                          "%Y-%m-%dT%H:%M:%S"))) < 2
+                      and st_r3["segments"]["c"].get("last_blocked_ts")))
+        # 负控：让路记录也必须带 recipe（否则下一次读台账又丢配方）
+        with open(_tmp, "w", encoding="utf-8") as f:
+            pass
+        LEDGER = _tmp
+        record_fail("d", 300, "BLOCKED", "被让路")
+        rec_d = [json.loads(x) for x in open(_tmp, encoding="utf-8") if x.strip()][-1]
+        cases.append(("record_fail 必须写 recipe 且标 no_progress",
+                      rec_d.get("recipe") == RECIPE_V and rec_d.get("no_progress") is True))
     finally:
         LEDGER = _saved_ledger
         if _tmp:
