@@ -20,4 +20,4 @@ description: 硅基城市生态运营席（城市非渲染面：居民生命/人
 改看板一律三件套法：改 canonical.html+strings.json → 跑 sync-template.ps1+generate.ps1 → file:// 实测零控制台错（?b=<ts> 破缓存）→ pathspec 提交（大截图转 q88 JPEG twin）；新页面只动尾部路由 IIFE 与 strings.json。AI 行为剧场律=城里每个动画对应一次真实 AI 行为（禁装饰性动画）。
 
 ## 执行位
-城市任务先分流：渲染→lowpoly-city-3d 族｜数据面→world/ 只读轮询 10s（禁直写引擎态）｜本席=正典/户籍/安家/商业化/可视化导航；产出必带落点（转任务单/转法/判负归档——无落点=未交付）。
+城市任务先分流：渲染→FluxVerse/CityWeb（three.js 程序化几何；旧 Unity 五席 2026-11-26 隔离到 `_quarantine-20261126/`）｜居民↔城市接口契约与跨仓闸→`city-foundation-lead`｜数据面→world/ 只读轮询 10s（禁直写引擎态）｜本席=正典/户籍/安家/商业化/可视化导航；产出必带落点（转任务单/转法/判负归档——无落点=未交付）。

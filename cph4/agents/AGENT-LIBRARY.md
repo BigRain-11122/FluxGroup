@@ -11,8 +11,8 @@
 | 出 MV / 改片 / 拉片 | 导演席 `tw-mv-director` → 群审 `bigstream-expert-panel`（成片呈审硬门=导演签字） |
 | 短视频 / 玩梗 / 账号内容 | 短视频部管线（meme-daily-v1）→ 盲评 ≥9 才呈（合规席=轻量顾问不拦产线·CEO 令 2026-10-16·商业化触发转全检） |
 | 涨粉 / 粉丝 / 评论区 / 发片时间 | 增长席 `growth-ops` |
-| 城市搭建（装配/灯光/地形/散布） | `lowpoly-city-3d` 总控 → 四专家 city-3d-assembly / lighting / procedural / terrain |
-| 城市居民 / 户籍 / 安家 / 可视化 | 城市生态席 `silicon-city-ops`（渲染面归上一行） |
+| 城市渲染 / 装配 / 灯光（旧 Unity 线） | **已废**：City3D 与 City2D 于 2026-11-26 退役（FluxVerse 0f1490e4），五席（lowpoly-city-3d 总控 + city-3d-assembly/lighting/procedural/terrain）隔离至 `_quarantine-20261126/`。现役城市渲染=`FluxVerse/CityWeb`（three.js 程序化几何） |
+| 城市居民 / 户籍 / 安家 / 可视化 | 城市生态席 `silicon-city-ops`；居民↔城市接口契约与跨仓闸=`city-foundation-lead`（2026-11-26 新立，正身 cph4/city-foundation.md） |
 | 游戏开发 / 关卡 / 数值 / 门禁 | CCGS 游戏专家套件（§三）+ 游戏域 skill 族 |
 | 回测 / 量化 | W 波自滚引擎（bigmoney 仓）+ 量化六件套 skill（§三量化域） |
 | 调研 / 查资料 | 调研员席 `cph4-research-dispatch`（派工纪律 P-65） |
@@ -65,7 +65,7 @@
 | 域 | skill 件 | 级别 |
 |---|---|---|
 | 游戏开发 | ccgs 11 件（game-designer/systems-designer/economy-designer/technical-artist/performance-analyst/qa-lead/asset-audit/estimate/scope-check/unity-specialist/unity-shader-specialist）+ create-game-assets · game-ai · game-ui-ux · level-design · procedural-gen · shader-programming · pixel-art-studio · algorithmic-art | canon+用户级 |
-| 城市线 | lowpoly-city-3d（总控）· city-3d-assembly · city-3d-lighting · city-3d-procedural · city-3d-terrain · **silicon-city-ops**（新） | canon（本批收编 5+新 1） |
+| 城市线 | **silicon-city-ops**（居民/户籍/安家/商业化/可视化）· **city-foundation-lead**（2026-11-26 新立：居民↔城市接口契约、places 名表、跨仓闸）· 渲染=FluxVerse/CityWeb（无席位，程序化几何） | canon（本批收编 5 席退役、新 1 席） |
 | 内容/媒体 | bigstream-expert-panel · tw-mv-director · capcut-edit · avoid-ai-writing · ai-writing-detector · voice-preserving-rewriter · canvas-design · theme-factory · doc-coauthoring · internal-comms | canon+项目+用户级 |
 | **MV 条线席位（2026-10-20 新立）** | **mv-intent-to-prompt**（立意→关键词转译+执行契约卡）· **mv-performance**（AI 演员表演：意图/反应延迟/情绪弧）· **mv-lighting**（2000 台式布光五槽光句）· **mv-colorist**（telecine 底+ffmpeg 带位与暗角实测）· **mv-edit-rhythm**（剪在词上/持在乐句里+BPM 镜长+重吸附）· **mv-props-era**（2000 台湾物件谱+三痕链）· **mv-casting**（四锚点+反向测试+跨曲向量门） | canon（cph4/skills/）· 正身=各 skill 头部 research 指针 |
 | 量化 | backtest-expert · position-sizer · drawdown-circuit-breaker · signal-postmortem · trade-hypothesis-ideator · data-quality-checker | 用户级（bm-a） |

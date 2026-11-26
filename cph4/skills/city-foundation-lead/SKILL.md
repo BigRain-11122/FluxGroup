@@ -26,7 +26,7 @@ description: 硅基城市技术底座牵头席（BigLife × FluxVerse/CityWeb �
 ## 三、边界（越界=返工）
 
 - 不写居民文案/年轮（BigLife 产线面）；
-- 不改城市美术、灯光、地形、装配（`lowpoly-city-3d` 四专家族）；
+- 不改城市美术、灯光、地形、装配（渲染面=FluxVerse/CityWeb；旧 Unity 五席已于 2026-11-26 隔离）；
 - 不动渲染性能参数（`aesthetic-visual` / `aesthetic-ui-icon` 口径）；
 - 不新开循环、不新增台账（city-lab 三不条款）；法权仍走 governance T0-T3。
 
