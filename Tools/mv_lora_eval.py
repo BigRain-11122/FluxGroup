@@ -56,22 +56,19 @@ def get(server, path):
 
 
 def gen_one(server, prompt, seed, lora, strength, outdir, tag):
-    # 2026-11-26 修复：KF.graph 无 lora 参数位（老接口错配）——直接构带 LoraLoader 的 krea2 工作流
-    unet = KF._resolve_model(("unet", "diffusion_models"), "krea2_turbo_int8_convrot.safetensors")
-    clip = KF._resolve_model(("text_encoders", "clip"), "qwen3vl_4b_fp8_scaled.safetensors")
+    # 2026-11-26 v2 修复：face LoRA 是 SDXL 键结构——必须挂 SDXL checkpoint（krea2=Qwen 架构键无处映射=零效果）
     lora_name = os.path.basename(lora)
     g = {
-        "10": {"class_type": "UNETLoader", "inputs": {"unet_name": unet, "weight_dtype": "default"}},
-        "11": {"class_type": "CLIPLoader", "inputs": {"clip_name": clip, "type": "krea2"}},
-        "12": {"class_type": "VAELoader", "inputs": {"vae_name": "qwen_image_vae.safetensors"}},
-        "13": {"class_type": "LoraLoaderModelOnly", "inputs": {"lora_name": lora_name, "strength_model": strength, "model": ["10", 0]}},
-        "6": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["11", 0]}},
-        "5": {"class_type": "EmptyLatentImage", "inputs": {"width": 1344, "height": 768, "batch_size": 1}},
+        "4": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": "DreamShaperXL_Lightning-SFW.safetensors"}},
+        "10": {"class_type": "LoraLoaderModelOnly", "inputs": {"lora_name": lora_name, "strength_model": strength, "model": ["4", 0]}},
+        "6": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["4", 1]}},
+        "7": {"class_type": "CLIPTextEncode", "inputs": {"text": "watermark, blurry, low quality, korean idol styling", "clip": ["4", 1]}},
+        "5": {"class_type": "EmptyLatentImage", "inputs": {"width": 832, "height": 1216, "batch_size": 1}},
         "3": {"class_type": "KSampler", "inputs": {
-            "seed": seed, "steps": 8, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple",
-            "denoise": 1.0, "model": ["13", 0], "positive": ["6", 0], "negative": ["6", 0],
+            "seed": seed, "steps": 10, "cfg": 2.0, "sampler_name": "euler", "scheduler": "normal",
+            "denoise": 1.0, "model": ["10", 0], "positive": ["6", 0], "negative": ["7", 0],
             "latent_image": ["5", 0]}},
-        "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["12", 0]}},
+        "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["4", 2]}},
         "29": {"class_type": "SaveImage", "inputs": {"images": ["8", 0], "filename_prefix": "mv_lora_eval"}},
     }
     pid = post(server, {"prompt": g, "client_id": str(uuid.uuid4())})["prompt_id"]
