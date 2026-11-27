@@ -50,25 +50,25 @@ SWAP_HARD = 2048         # MB，超过即禁止新开任何浏览器活
 # 保证任何时刻只有一个浏览器 profile（内存与 browserd 单线程两条限制都要求这样）。
 PLATFORMS = [
     # 每条都必须有"实测证据"。没验过的写 need-login / need-account，不许先排班后失望。
-    {"id": "bilibili", "profile": "browser-bilibili", "state": "live", "weight": 4,
+    {"id": "bilibili", "profile": "browser-bilibili", "state": "live", "weight": 1,
      "actions": ["read", "like", "danmaku", "comment", "coin", "fav", "follow"],
      "todo_actions": ["search", "progress", "uninterest", "share", "live", "space"],
      "note": "双号养号主线（App 端也已登录，快照 logged-in）",
      "evidence": "2026-11-23 双号 GREEN、七动作已上线；App 端密码登录成功 + 快照 23:14:46"},
-    {"id": "gzh", "profile": "browser-gzh", "state": "building", "weight": 3,
+    {"id": "gzh", "profile": "browser-gzh", "state": "read", "weight": 6,
      "actions": ["read"],
      "todo_actions": ["article_more", "like_zaikan", "collect"],
      "note": "采集通；后台会话今晚已登录但约 4h 过期（长期应改 AppID/AppSecret）",
      "evidence": "单篇 3.0 秒取全字段；2026-11-23 晚 gzh-state.json 命中 bizuin+slave_sid"},
-    {"id": "toutiao", "profile": "browser-multi", "state": "read", "weight": 2,
+    {"id": "toutiao", "profile": "browser-multi", "state": "read", "weight": 1,
      "actions": ["read"],
      "note": "头条搜索可读，可做选题/语料源；发布未验",
      "evidence": "2026-11-23 实测：title 正常、正文 1894 字、10 个结果卡、无登录墙"},
-    {"id": "chejiahao", "profile": "browser-gzh", "state": "read", "weight": 1,
+    {"id": "chejiahao", "profile": "browser-gzh", "state": "read", "weight": 5,
      "actions": ["read"],
      "note": "汽车之家车家号，对标对象镜像语料",
      "evidence": "实测作者页翻页取 /info/，一次建池 30 条、正文 1662–3693 字"},
-    {"id": "zhihu", "profile": "browser-zhihu", "state": "read", "weight": 2,
+    {"id": "zhihu", "profile": "browser-zhihu", "state": "read", "weight": 1,
      "actions": ["read"],
      "todo_actions": ["like", "collect", "follow", "comment", "search"],
      "note": "知乎：2026-11-23 晚已登录，先做长文语料采集，互动原语待补",
@@ -77,12 +77,12 @@ PLATFORMS = [
      "actions": ["read"],
      "note": "微博：未登录直接跳登录页",
      "evidence": "2026-11-23 实测：title=登录-微博、正文 96 字、卡片 0"},
-    {"id": "xhs", "profile": "browser-xiaohongshu", "state": "read", "weight": 2,
+    {"id": "xhs", "profile": "browser-xiaohongshu", "state": "read", "weight": 1,
      "actions": ["read"],
      "todo_actions": ["like", "collect", "follow", "comment", "search", "note_detail"],
      "note": "小红书：已登录，先采笔记语料",
      "evidence": "login_pass 实测 web_session 命中（profile=browser-xiaohongshu）"},
-    {"id": "douyin", "profile": "browser-douyin", "state": "read", "weight": 2,
+    {"id": "douyin", "profile": "browser-douyin", "state": "read", "weight": 1,
      "actions": ["read"],
      "todo_actions": ["like", "collect", "follow", "comment", "search", "swipe_away"],
      "note": "抖音：2026-11-23 晚已登录（网页端），先做视频语料采集",
@@ -205,15 +205,15 @@ def decide(swap, free_mb, train, profs, models, hour=None):
                 "可用内存 %dMB < %dMB：只收尾（swap 已 %dMB 是历史累计，不作唯一判据）"
                 % (free_mb, FREE_HARD, swap))
     if free_mb >= 0 and free_mb < FREE_MIN:
-        return ("DRAIN", {"finish", "train"},
+        return ("DRAIN", {"finish", "train", "gzh_write"},
                 "可用内存 %dMB < %dMB：训练可续，浏览器只收尾" % (free_mb, FREE_MIN))
     # 并行常态：训练 + 1 条实战线（平台轮转）+ 发帖
     if busy_browser:
-        return ("PARALLEL-1", {"train", "post", "finish"},
+        return ("PARALLEL-1", {"train", "post", "finish", "gzh_write"},
                 "训练与实战并行中：%s 在跑。再开一个平台不是内存问题（可用 %dMB），"
                 "而是 browserd 单线程会互相排队，所以一次只放一条实战线"
                 % (",".join(profs), free_mb))
-    return ("PARALLEL", {"train", "post", "session1", "collect"},
+    return ("PARALLEL", {"train", "post", "session1", "collect", "gzh_write"},
             "训练常驻 + 本时段平台实战 + 发帖；采集与实战共用同一个浏览器，谁进来谁先用")
 
 

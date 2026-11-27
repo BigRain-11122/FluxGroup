@@ -120,3 +120,10 @@
 - 正解：`tasks` 只能用具名任务（bm-a: `HQ-ProductionClaim`/`HQ-StationDrive`/各 OSLoop；bm-b: `HQ-ProductionClaim`；bm-c: `HQ-ProductionClaim`/`HQ-StationDrive`/各自 MiniGame*Tick），取自 `Tools/fleet-nodes.json` 每台的 `wake_tasks`；总线的做法是 `tasks = sorted(set(n["wake_tasks"]))`。
 - 判据：poke 之后必须核 `/status` 的 `repo_heads["."]` 是否等于本机 HEAD，回 `ok=True` 不算送到。
 - 同轮另一条：`fleet_order_bus.py` 的 NATS 发布(`fleet.cmd`)写在 push **成功之后**，push 失败会静默跳过秒级通道——补发要手动 reuse `fleet_hb.Nats("100.110.185.62",4222).publish("fleet.cmd", ...)`。
+
+## 2026-11-27 本地清理踩到的四条（磁盘/版本库）
+
+- **`git checkout` / `rebase` / `restore` 会把工作树文件的 mtime 刷成"刚刚"**：任何"按 mtime 算龄期"的清理/判活规则都会因此静默失效。实锚=`train_forever.prune_runs` 用 `os.path.getmtime` 算"6 小时内保护"，实测 22 个 20–32 小时前的 run 全被判成新鲜，一天涨 12G 却一个都不删。正法=龄期取**目录名里的产出时刻**（`%Y%m%d-%H%M%S`），解析不了才回落 mtime。
+- **加 `.gitignore` 规则不会把已跟踪的文件退出来**：11-23 已加 `RUNS/**/*.safetensors`，但 176 个权重件（4.7G）仍在库里，`.git` 涨到 8.3G。缺的那一步永远是 `git rm -r --cached`（磁盘文件原地保留）。判据=改完忽略后跑 `git ls-files | grep -c '<pattern>'` 必须为 0。
+- **删训练 run 前必须先问"谁在用"**：`adapter_router.pick_best` 是按**增益最大且 n≥30**挑件，不是挑最后一次 KEEP（peer_pro 实锚：87.3 与 73.6 两件都 KEEP）。删掉被选中的那个＝线上静默降级，且不报错。安全并集=`best_adapters()` 结果 ∪ 每段最后 KEEP ∪ LOOP-STATE 每段最新 ∪ 时间窗内。
+- **Public 仓库里最危险的不是代码而是取证截图**：`.codely-cli/evidence/` 下 11 张平台登录页/探针 PNG 差点随整理入库（里面有账号信息）。已整目录加忽略。锁文件（`*.lock`）同理：入库会让各机 pull 到别人的锁、互相判成抢锁。

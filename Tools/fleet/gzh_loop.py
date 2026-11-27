@@ -41,6 +41,7 @@ STRUCT = os.path.join(GZH, "STRUCT.json")
 TRAINSET = os.path.join(GZH, "TRAINSET.jsonl")
 LEDGER = os.path.join(GZH, "LOOP-LEDGER.jsonl")
 SCREEN = os.path.join(GZH, "LOOP.md")
+DRAFTS = os.path.join(GZH, "drafts")
 
 POOL_MIN = 50          # 风格池少于这个数：静态源补不回来，只能要人给种子
 HARVEST_PER_TICK = 8   # 一拍最多 8 篇（单篇 3 秒 + 间隔，控制在两分钟内）
@@ -151,6 +152,22 @@ def _is_static(url):
     return any(host == h or host.endswith("." + h) for h in STATIC_HOSTS)
 
 
+def _today():
+    """今天（本地日期字符串）。_now() 返回 datetime，切片会直接抛 TypeError——
+    2026-11-27 实锚：写错这一处让整拍判 CRASHED，而自检没覆盖到。"""
+    return _now().strftime("%Y-%m-%d")
+
+
+def _draft_today():
+    """今天是否已有初稿。判据是正文 > 1200 字节（约 400 字）——
+    空文件或骨架稿都不算写过（2026-11-27 实锚：进程被回收时会留空稿）。"""
+    p = os.path.join(DRAFTS, _today(), "draft.md")
+    try:
+        return os.path.getsize(p) > 1200
+    except Exception:
+        return False
+
+
 def sense():
     """两本账分开数，因为它们是两件事：
 
@@ -219,7 +236,10 @@ def decide(s):
     if s["articles"] >= TRAIN_AFTER and eligible >= 20 and s["train_rows"] < 2 * eligible:
         return {"phase": "trainset", "why": "已采 %d 篇，训练集只有 %d 行"
                                             % (s["articles"], s["train_rows"])}
-    return {"phase": "watch", "why": "料够、结构新、训练集齐；等出稿或等新种子"}
+    if not _draft_today():
+        return {"phase": "write",
+                "why": "今天还没有初稿：算力已归公众号（GZH-COMPUTE-ALLOCATION-v1），按本周主题出稿"}
+    return {"phase": "watch", "why": "料够、结构新、训练集齐，今天的稿已出；等下一拍或新种子"}
 
 
 # ---------------- ACT ----------------
@@ -343,6 +363,13 @@ def build_trainset(arts=None):
 # 下一步的唯一事实：写死成"动作+判据+要谁动手"，任何会话读它就能接上，
 # 不需要靠我记、也不需要问 CEO（CEO 2026-11-23：每次对话结尾都要知道下一步）。
 NEXT_MAP = {
+    "write": {
+        "id": "WRITE-1",
+        "action": "按本周主题出一篇初稿（席位 gzh_writer / qwen3.5:9b-mlx）",
+        "judge": "结构闸 rc=0 且严谨闸 rc=0；状态只到 NEEDS-HUMAN，人看完才改 READY",
+        "needs": "无（算力已归公众号；抢不到 gpu_lease 就记 DEFER-COMPUTE）",
+        "eta": "每天一篇",
+    },
     "supply": {
         "id": "SUPPLY-1",
         "action": "要风格池种子（公众号/车家号链接或号名）",
@@ -547,6 +574,26 @@ def _once_impl(dry=False):
         print("[gzh] 采集 %s %.1fs" % ("完成" if r["ok"] else "失败", r["secs"]))
         print(r["tail"])
         return 0 if r["ok"] else 1
+    if task["phase"] == "write":
+        # 出稿是唯一有产出的相位，放在采集之前不抢资源：出稿吃 GPU，采集吃浏览器。
+        try:
+            import gzh_write
+            import gzh_week
+            wk = gzh_week.for_date(_today())
+            piece = (wk.get("篇") or [{}])[0] if wk else {}
+            rc, info = gzh_write.write_one(
+                wk, piece.get("topic") or task.get("topic") or "（未定题）",
+                piece.get("quadrant") or "大众", "long", attempts=2,
+                log=lambda m: print(m, flush=True)) if wk else (1, {"why": "本周没有主题"})
+        except Exception as e:  # noqa: BLE001
+            rc, info = 1, {"why": "出稿器异常：%s: %s" % (type(e).__name__, str(e)[:80])}
+        status = {0: "WROTE", 1: "BLOCKED-WEEK", 2: "WROTE-NEEDS-FIX", 3: "DEFER-COMPUTE"}.get(
+            rc, "FAIL")
+        rec.update(status=status, secs=0, tail=str(info.get("why") or info.get("draft") or "")[:160])
+        _append(LEDGER, rec)
+        refresh_screen(sense(), task, rec)
+        print("[gzh] 出稿 %s：%s" % (status, rec["tail"]))
+        return 0 if rc in (0, 2) else (78 if rc == 1 else 0)
     if task["phase"] == "learn":
         st = learn_struct()
         rec.update(status="OK" if st else "FAIL", secs=0,
@@ -589,6 +636,18 @@ def status():
 
 def self_test():
     """负控：把判据弄坏必须变红，否则这个调度就是没接上的假绿。"""
+    # 0 新分支回归：日期助手与出稿判定必须能跑（2026-11-27 曾因 _now() 切片整拍崩）
+    try:
+        assert isinstance(_today(), str) and len(_today()) == 10
+        assert isinstance(_draft_today(), bool)
+        task = decide({"style_todo": 0, "industry": 999, "style_pool": 999,
+                       "struct_age_h": 0.1, "articles": 200, "eligible": 200,
+                       "train_rows": 999, "ts": _now().strftime("%Y-%m-%dT%H:%M:%S")})
+        assert task["phase"] in ("write", "watch"), task
+    except Exception as _e:  # noqa: BLE001
+        print("SELF-TEST FAIL 新分支跑不起来：%s: %s" % (type(_e).__name__, _e),
+              file=sys.stderr)
+        return 4
     global URLS, ARTICLES, INDUSTRY, STRUCT, TRAINSET, INDUSTRY_TARGET
     import tempfile
     cases = []

@@ -1,0 +1,660 @@
+{
+ "ts": "2026-11-27T21:35:37+08:00",
+ "why": "CEO 2026-11-27 令：先把本机自动化任务和算力分配都停了",
+ "paused_dir": "/Users/junsheng.sun/Library/LaunchAgents/disabled/20261127-ceo-stop",
+ "count": 35,
+ "items": [
+  {
+   "label": "com.fluxgroup.acceptrun",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.acceptrun.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/accept_run.py",
+    "--run",
+    "cph4/fleet/social/train/RUNS/20261118-163441",
+    "--wait",
+    "10800"
+   ],
+   "start_interval": null,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/accept-run.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/accept-run.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "2"
+  },
+  {
+   "label": "com.fluxgroup.agent-acct1",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.agent-acct1.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/agent_daemon.py",
+    "--account",
+    "acct1"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": null,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/agent-acct1.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/agent-acct1.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "87603",
+   "last_exit_at_stop": "-9"
+  },
+  {
+   "label": "com.fluxgroup.agent-acct3",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.agent-acct3.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/agent_daemon.py",
+    "--account",
+    "acct3"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": null,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/agent-acct3.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/agent-acct3.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "84198",
+   "last_exit_at_stop": "-9"
+  },
+  {
+   "label": "com.fluxgroup.browserd",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.browserd.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/browser_daemon.py"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/browserd.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/browserd.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "52552",
+   "last_exit_at_stop": "-15"
+  },
+  {
+   "label": "com.fluxgroup.browserd.reply",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.browserd.reply.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/browser_daemon.py"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": null,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/browserd-reply.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/browserd-reply.err",
+   "loaded_before_stop": false,
+   "pid_at_stop": null,
+   "last_exit_at_stop": null
+  },
+  {
+   "label": "com.fluxgroup.corpusbake",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.corpusbake.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/corpus_bake.py",
+    "--workers",
+    "7"
+   ],
+   "start_interval": 1800,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/corpus-bake.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/corpus-bake.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.duty24",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.duty24.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/duty24.py",
+    "--once"
+   ],
+   "start_interval": 900,
+   "keep_alive": null,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/duty24.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/duty24.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.fleetbus",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.fleetbus.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/fleet_bus.py"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/fleetbus.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/fleetbus.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "33280",
+   "last_exit_at_stop": "1"
+  },
+  {
+   "label": "com.fluxgroup.fleethb",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.fleethb.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/fleet_hb.py",
+    "--node",
+    "bm-m-1"
+   ],
+   "start_interval": 60,
+   "keep_alive": null,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/fleethb.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/fleethb.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.forumcollect",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.forumcollect.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/forum_comments.py",
+    "--douban-books",
+    "--pages",
+    "10",
+    "--per-book",
+    "2",
+    "--books",
+    "60"
+   ],
+   "start_interval": 43200,
+   "keep_alive": false,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/forum-collect.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/forum-collect.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "3"
+  },
+  {
+   "label": "com.fluxgroup.gzhloop",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.gzhloop.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/gzh_loop.py",
+    "--once"
+   ],
+   "start_interval": 1800,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/gzh-loop.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/gzh-loop.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.llmgateway",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.llmgateway.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/llm_gateway.py",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8792"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/tmp/fluxgroup-llmgw.out",
+   "stderr": "/tmp/fluxgroup-llmgw.err",
+   "loaded_before_stop": true,
+   "pid_at_stop": "3758",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.loopreg",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.loopreg.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/loop_regression.py",
+    "--write"
+   ],
+   "start_interval": 1800,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/loop-regression.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/loop-regression.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.mlxlora",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.mlxlora.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/mlx_lora_server.sh"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/mlx-lora-server.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/mlx-lora-server.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "46885",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.modelqueue",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.modelqueue.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/model_queue.py",
+    "run",
+    "--loop",
+    "--min-batch",
+    "5",
+    "--max-batch",
+    "8",
+    "--idle-sleep",
+    "20"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/model-queue.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/model-queue.log",
+   "loaded_before_stop": false,
+   "pid_at_stop": null,
+   "last_exit_at_stop": null
+  },
+  {
+   "label": "com.fluxgroup.musiccollect",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.musiccollect.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/music_comments.py",
+    "--classics",
+    "--chart",
+    "20",
+    "--min-total",
+    "150000",
+    "--pages",
+    "3"
+   ],
+   "start_interval": 43200,
+   "keep_alive": false,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/music-collect.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/music-collect.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.newsfeed",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.newsfeed.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/news_comments.py",
+    "--channels",
+    "6",
+    "--per-doc",
+    "2"
+   ],
+   "start_interval": 21600,
+   "keep_alive": false,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/news-collect.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/news-collect.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "26382",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.ollamamodel",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.ollamamodel.plist",
+   "program": [
+    "/Applications/Ollama.app/Contents/Resources/ollama",
+    "serve"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/Library/Logs/fluxgroup-ollama.log",
+   "stderr": "/Users/junsheng.sun/Library/Logs/fluxgroup-ollama.err",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "1"
+  },
+  {
+   "label": "com.fluxgroup.practice10",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.practice10.plist",
+   "program": [
+    "/bin/bash",
+    "-lc",
+    "cd /Users/junsheng.sun/FluxGroup && FLUX_CAP_OVERRIDE=\"CEO 2026-11-18 实战十轮\" FLUX_ALLOW_DURING_TRAIN=1 .venv-housing/bin/python -u Tools/fleet/practice_10.py; launchctl bootstrap gui/$(id -u) $HOME/Library/LaunchAgents/com.fluxgroup.sociallearn.plist 2>/dev/null; echo 采集已恢复"
+   ],
+   "start_interval": null,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/practice-10.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/practice-10.log",
+   "loaded_before_stop": false,
+   "pid_at_stop": null,
+   "last_exit_at_stop": null
+  },
+  {
+   "label": "com.fluxgroup.practicetick",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.practicetick.plist",
+   "program": [
+    "/bin/bash",
+    "-lc",
+    "cd /Users/junsheng.sun/FluxGroup && .venv-housing/bin/python -u Tools/fleet/practice_tick.py"
+   ],
+   "start_interval": 600,
+   "keep_alive": false,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/practice-tick.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/practice-tick.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.qualityagent",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.qualityagent.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/quality_agent.py",
+    "--once"
+   ],
+   "start_interval": 900,
+   "keep_alive": null,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/quality-agent.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/quality-agent.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.replytick",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.replytick.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/reply_tick.py",
+    "--reply",
+    "2"
+   ],
+   "start_interval": 900,
+   "keep_alive": null,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/cph4/fleet/rt/control/log/reply-tick.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/cph4/fleet/rt/control/log/reply-tick.err",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.resalloc",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.resalloc.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/res_alloc.py",
+    "--once"
+   ],
+   "start_interval": 600,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/res-alloc.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/res-alloc.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.selfgen",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.selfgen.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/selfgen.py",
+    "--per",
+    "8"
+   ],
+   "start_interval": 21600,
+   "keep_alive": null,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/selfgen-timer.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/selfgen-timer.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.social24x7",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.social24x7.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/social_24x7.py",
+    "--loop",
+    "--interval",
+    "1800"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-24x7.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-24x7.log",
+   "loaded_before_stop": false,
+   "pid_at_stop": null,
+   "last_exit_at_stop": null
+  },
+  {
+   "label": "com.fluxgroup.socialagentday",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.socialagentday.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/social_agent_day.py",
+    "--loop",
+    "--interval",
+    "60"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-agent-day.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-agent-day.log",
+   "loaded_before_stop": false,
+   "pid_at_stop": null,
+   "last_exit_at_stop": null
+  },
+  {
+   "label": "com.fluxgroup.socialaudit",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.socialaudit.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/social_audit.py",
+    "--quiet"
+   ],
+   "start_interval": 21600,
+   "keep_alive": null,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-audit.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-audit.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "2"
+  },
+  {
+   "label": "com.fluxgroup.socialhealth",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.socialhealth.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/social_health.py",
+    "--fix"
+   ],
+   "start_interval": 600,
+   "keep_alive": null,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-health.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-health.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "1"
+  },
+  {
+   "label": "com.fluxgroup.sociallearn",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.sociallearn.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/social_learn.py",
+    "--loop",
+    "--interval",
+    "1200",
+    "--concurrency",
+    "2"
+   ],
+   "start_interval": null,
+   "keep_alive": true,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-learn.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-learn.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "66917",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.socialloop",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.socialloop.plist",
+   "program": [
+    "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/social_loop.py",
+    "--once"
+   ],
+   "start_interval": 300,
+   "keep_alive": null,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-loop.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/social-loop.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.traindone",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.traindone.plist",
+   "program": [
+    "/bin/bash",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/restore_after_train.sh"
+   ],
+   "start_interval": null,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/traindone.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/traindone.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.trainlock",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.trainlock.plist",
+   "program": [
+    "/bin/bash",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/train_exclusive_guard.sh"
+   ],
+   "start_interval": null,
+   "keep_alive": false,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/train-exclusive.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/train-exclusive.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.trainloop",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.trainloop.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "Tools/fleet/train_forever.py",
+    "--once"
+   ],
+   "start_interval": 60,
+   "keep_alive": false,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/train-loop.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/train-loop.log",
+   "loaded_before_stop": true,
+   "pid_at_stop": "52547",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.trainpipeline",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.trainpipeline.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "-u",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/train_pipeline.py",
+    "--once"
+   ],
+   "start_interval": 900,
+   "keep_alive": null,
+   "run_at_load": true,
+   "stdout": "/Users/junsheng.sun/FluxGroup/cph4/fleet/rt/control/log/train-pipeline.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/cph4/fleet/rt/control/log/train-pipeline.err",
+   "loaded_before_stop": true,
+   "pid_at_stop": "-",
+   "last_exit_at_stop": "0"
+  },
+  {
+   "label": "com.fluxgroup.usersession",
+   "plist": "/Users/junsheng.sun/Library/LaunchAgents/com.fluxgroup.usersession.plist",
+   "program": [
+    "/Users/junsheng.sun/FluxGroup/.venv-housing/bin/python",
+    "/Users/junsheng.sun/FluxGroup/Tools/fleet/user_agent.py",
+    "--session"
+   ],
+   "start_interval": 600,
+   "keep_alive": null,
+   "run_at_load": false,
+   "stdout": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/user-session.log",
+   "stderr": "/Users/junsheng.sun/FluxGroup/.codely-cli/state/user-session.log",
+   "loaded_before_stop": false,
+   "pid_at_stop": null,
+   "last_exit_at_stop": null
+  }
+ ]
+}

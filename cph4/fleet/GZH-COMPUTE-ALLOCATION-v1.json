@@ -1,0 +1,106 @@
+{
+ "_comment": "本机算力归属正身（machine → lane 的单一事实）。CEO 2026-11-27 令：「要从根本上把这块算力和模型全部给公众号，可以做公众号的采集，训练，实战出稿什么的」。以前这块算力属于机队共用池，公众号只是排队抢时段；本件把它改成公众号专用线，四条子线各有一个可核执行体与判据。改这里＝改归属，res_alloc / gzh_write / gzh_loop 都读它。",
+ "_version": "v1-20261127",
+ "machine": {
+  "id": "bm-m",
+  "name": "MacBook 主控",
+  "os": "darwin",
+  "mem_gb": 32,
+  "note": "32GB 统一内存，模型与 CEO 办公应用共用同一个池子；本件的份额一律按「驻留不换页」折算，不按标称内存"
+ },
+ "lane": "gzh",
+ "_lane_why": "公众号是唯一一条「内容→流量→副业收入」能自己闭环的线，且作者正职是汽车 HMI 视觉设计，别人写不了。把这台机的算力给它，比继续平均分给机队更能出东西。",
+ "sub_lanes": [
+  {
+   "id": "collect",
+   "职责": "采集：风格池（能进文笔训练）+ 产业语料（只做形态与事实）+ 对标镜像",
+   "executor": "Tools/fleet/gzh_loop.py",
+   "models": [],
+   "占什么": "浏览器（browserd 单线程）+ 少量网络",
+   "judge": "ARTICLES.jsonl 净增 > 0 且失败率 < 30%；产业语料 ≥ 200 篇",
+   "现状": "风格 21 篇（需 100 篇才能造训练集）/ 产业 226 篇"
+  },
+  {
+   "id": "train",
+   "职责": "用风格语料训文笔（LoRA），训出来的模型只服务公众号出稿",
+   "executor": "Tools/fleet/gzh_trainset.py",
+   "models": [
+    "qwen3.5:9b-mlx（基座）"
+   ],
+   "占什么": "GPU 独占窗口",
+   "judge": "trainset 行数 ≥ 100 且 LoRA 与基座盲评差 ≥ 10pt",
+   "现状": "WAITING-SUPPLY：料 21/100，开训就是过拟合，不许为了「有活干」先训一版"
+  },
+  {
+   "id": "write",
+   "职责": "按本周主题出长文初稿",
+   "executor": "Tools/fleet/gzh_write.py",
+   "seat": "gzh_writer",
+   "model": "qwen3.5:9b-mlx",
+   "占什么": "GPU 独占窗口（gpu_lease name=gzh），9.1GB",
+   "judge": "结构闸 rc=0 且严谨闸 rc=0；状态最高只到 NEEDS-HUMAN",
+   "现状": "已接通，实测 swap 不涨"
+  },
+  {
+   "id": "quality",
+   "职责": "闸与盲评：结构/严谨/洗稿/自相似",
+   "executor": "Tools/fleet/gzh_article_check.py + gzh_rigor_check.py + gzh_quality.py",
+   "models": [],
+   "judge": "喂一篇 AI 腔稿必须判红（负控常驻）",
+   "现状": "结构闸与严谨闸已可红；批内自相似硬闸仍未做"
+  }
+ ],
+ "compute_policy": {
+  "独占规则": "write 与 train 互斥：两者都走 gpu_lease（name=gzh / name=train），拿不到就返回 DEFER 并记原因，不许两个同时驻留大模型。",
+  "让路规则": "采集不与 write 抢：采集走浏览器，write 走 GPU，可以同时；但 browserd 单线程，所以同一时刻只放一条实战线。",
+  "换页红线": "真实生成过程中 swap used 不许上涨。涨了就是档位超了，降档而不是硬扛。",
+  "停掉的非公众号训练": [
+   "com.fluxgroup.trainloop",
+   "com.fluxgroup.trainpipeline"
+  ],
+  "_停用理由": "这两条吃的是 B 站/评论语料，训出来的 LoRA 服务养号线。CEO 2026-11-27 令把算力转给公众号后，它们属于「在别人的线上烧这台机的 GPU」。停用可逆，命令见 restore_cmd。",
+  "restore_cmd": "launchctl enable gui/$(id -u)/com.fluxgroup.trainloop && launchctl enable gui/$(id -u)/com.fluxgroup.trainpipeline && launchctl kickstart gui/$(id -u)/com.fluxgroup.trainloop",
+  "保留不变": "8788 的 mlx_lora_server 不重启也不停（重启会打断正在出稿的请求），它只是不再被新训练写入。"
+ },
+ "platform_priority": {
+  "_why": "平台轮转的权重就是算力去向。公众号与其对标镜像排前面，其余平台降到保留位，验证不断、但不再抢主时段。",
+  "gzh": 6,
+  "chejiahao": 5,
+  "bilibili": 1,
+  "zhihu": 1,
+  "xhs": 1,
+  "douyin": 1,
+  "toutiao": 1
+ },
+ "model_seats": {
+  "gzh_writer": {
+   "model": "qwen3.5:9b-mlx",
+   "gb": 8.9,
+   "keep_alive": "20m",
+   "why": "长文成稿，4B 的语感撑不住"
+  },
+  "gzh_short": {
+   "model": "qwen3.5:4b-mlx",
+   "gb": 4.1,
+   "keep_alive": "10m",
+   "why": "标题/摘要/短评候选，可与采集共存"
+  },
+  "embedding": {
+   "model": "qwen3-embedding:0.6b",
+   "gb": 0.6,
+   "keep_alive": "10m",
+   "why": "去重与检索"
+  }
+ },
+ "honesty": [
+  "本件只声明归属，不声明产出。每条子线的「现状」必须能被对应执行体复算，改了归属却没改执行体＝假绿。",
+  "训练栏在料不足时只能是 WAITING-SUPPLY，不许开训充数（21 篇训出来是过拟合，不是进度）。",
+  "停用训练是可逆动作，恢复命令写在上方；任何会话重启它之前先读本件。"
+ ],
+ "write_lane_verdict": {
+  "measured": "2026-11-27 同题两轮实测（qwen3.5:9b-mlx，深色模式硬核题）：第1轮 1039 字、第2轮 1153 字，结构闸与权威闸两轮都未过；两轮合计耗时 59 分钟，第二次生成期间 swap used 从 3665MB 涨到 4036MB。",
+  "结论": "9B 能写通顺的中文，但写不出一篇可发布的公众号长文：篇幅不够（1000 出头 vs 硬核要求 2000-3500）、小标题不按要求（用 ### 且无数）、会凭空引用 ISO/SAE/NHTSA 条款、会把不存在的项目经历写成第一人称。带命中项重写两轮没有收敛。",
+  "处置": "出稿线保留，但改成「模型做被约束的子任务」：标题候选 / 单段扩写 / 口径复核；整篇成稿由人定稿。不把 9B 全篇稿当交付物，状态只到 NEEDS-HUMAN。",
+  "为什么不停掉": "它是目前唯一不花钱、不联网、能在本机 60 秒内给出可读草稿的产能；当子任务用是有价值的，当作者用才是错的。"
+ }
+}
