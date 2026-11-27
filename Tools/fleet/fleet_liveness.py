@@ -170,6 +170,21 @@ def _tailnet_map(timeout=3.0):
     return m
 
 
+def _paused_map(root=ROOT):
+    """CEO 让路/暂停标记（fleet-control.json 的 paused_by_ceo）。
+
+    纪律（2026-11-07 实锚）：机器停了先找当天的 CEO 令，再谈根因。bm-b 自 11-14
+    起就是 CEO 令「未开机」暂停，11-27 尾网已在线但任务未恢复——把它报成故障，
+    等于拿 CEO 的决定当机器缺陷。
+    """
+    d = _read_json(os.path.join(root, "cph4", "fleet", "state", "fleet-control.json")) or {}
+    out = {}
+    for r in d.get("rows") or []:
+        if r.get("node"):
+            out[r["node"]] = bool(r.get("paused_by_ceo"))
+    return out
+
+
 def snapshot(root=ROOT):
     matrix = _read_json(os.path.join(root, "cph4", "fleet", "OS-MATRIX-v1.json")) or {}
     machines = matrix.get("machines") or {}
@@ -179,6 +194,7 @@ def snapshot(root=ROOT):
 
     rows = []
     tailnet = _tailnet_map()
+    paused = _paused_map(root)
     for key, m in machines.items():
         station = m.get("station") or key
         st = by_station.get(station) or {}
@@ -204,6 +220,8 @@ def snapshot(root=ROOT):
         if net and verdict in ("STALE", "DARK", "NO-EVIDENCE"):
             # 网通了但没人干活：不是断电，是任务没起/心跳没开，处置办法完全不同。
             verdict = "ONLINE-NO-AGENT"
+        if paused.get(node) and verdict in ("STALE", "DARK", "NO-EVIDENCE", "ONLINE-NO-AGENT"):
+            verdict = "PAUSED-BY-CEO"
         rows.append({
             "node": node, "station": station,
             "machine": m.get("name") or st.get("machine") or node,
@@ -215,8 +233,8 @@ def snapshot(root=ROOT):
             "best_source": best["source"] if best else None,
             "evidence": [{k: v for k, v in e.items() if k != "epoch"} for e in ev],
         })
-    order = {"ALIVE": 0, "WARM": 1, "STALE": 2, "DARK": 3, "ONLINE-NO-AGENT": 4,
-             "NO-EVIDENCE": 5, "NOT-INSTALLED": 6}
+    order = {"ALIVE": 0, "WARM": 1, "PAUSED-BY-CEO": 2, "STALE": 3, "DARK": 4,
+             "ONLINE-NO-AGENT": 5, "NO-EVIDENCE": 6, "NOT-INSTALLED": 7}
     rows.sort(key=lambda r: (order.get(r["verdict"], 9), r["station"]))
     return {"ts": datetime.now().isoformat(timespec="seconds"),
             "thresholds_h": {"alive": ALIVE_H, "warm": WARM_H, "stale": STALE_H},
@@ -248,7 +266,14 @@ def render(snap):
                 "-" if r["age_h"] is None else "%.1fh" % r["age_h"], r["best_source"] or "无",
                 ("；" + hint) if hint else ""))
     else:
-        out.append("全部节点有 6 小时内的证据。")
+        out.append("除按令暂停者外，全部节点有 6 小时内的证据。")
+    paused_rows = [r for r in snap["nodes"] if r["verdict"] == "PAUSED-BY-CEO"]
+    if paused_rows:
+        out.append("按 CEO 令暂停（不算故障，恢复要人/开机后起任务）：")
+        for r in paused_rows:
+            out.append("  - %s（%s）证据龄 %s" % (
+                r["station"], r["node"],
+                "-" if r["age_h"] is None else "%.1fh" % r["age_h"]))
     return "\n".join(out)
 
 
