@@ -1,12 +1,12 @@
 {
  "group": "train",
- "ts": "2026-11-27T11:31:29",
+ "ts": "2026-11-27T17:31:44",
  "pass": {
   "TR01": false,
   "TR02": true,
   "TR03": true,
-  "TR04": true,
-  "TR05": false,
+  "TR04": false,
+  "TR05": true,
   "TR06": true
  },
  "overall": false,
@@ -19,8 +19,8 @@
    "name": "训练容量（epoch 3–5）",
    "ok": false,
    "sev": "P2",
-   "detail": "iters=400 rows=1540 → 0.26 epoch",
-   "n": 1540
+   "detail": "iters=400 rows=377 → 1.06 epoch",
+   "n": 377
   },
   {
    "id": "TR02",
@@ -41,18 +41,18 @@
   {
    "id": "TR04",
    "name": "ACTIVE 指针一致",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "base 模式 run 必须为空（base，2026-11-27T00:41:47）",
+   "detail": "mode 只能是 base/lora（实际 None）（None，2026-11-27T11:32:33）",
    "n": null
   },
   {
    "id": "TR05",
    "name": "评测功率（n≥30）",
-   "ok": false,
+   "ok": true,
    "sev": "P2",
-   "detail": "最小 n=5，28 组（线 ≥30）",
-   "n": 28
+   "detail": "最小 n=30，2 组（线 ≥30）",
+   "n": 2
   },
   {
    "id": "TR06",

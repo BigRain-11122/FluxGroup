@@ -2,17 +2,17 @@
  "version": "v2.3-20261121",
  "agent": "social-keeper",
  "counts": {
-  "OK": 18,
-  "NOT_PASS": 10
+  "OK": 15,
+  "NOT_PASS": 13
  },
  "tiers": {
   "P0": {
-   "OK": 4,
-   "NOT_PASS": 1
+   "OK": 2,
+   "NOT_PASS": 3
   },
   "P1": {
-   "NOT_PASS": 5,
-   "OK": 9
+   "NOT_PASS": 6,
+   "OK": 8
   },
   "P2": {
    "NOT_PASS": 4,
@@ -20,7 +20,9 @@
   }
  },
  "p0_bad": [
-  "G03"
+  "G03",
+  "G04",
+  "M01"
  ],
  "duties": [
   {
@@ -76,8 +78,8 @@
    "symptom": "AC02 红=两号 24h 内碰同一 aid；AC03 红=同一 mid 出现在两个活跃 alias；AC03 SKIP=账号表没有 mid，说明凭据表被换过",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.AC02=False（需 True）"
   },
   {
    "id": "C01",
@@ -146,8 +148,8 @@
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.TR04=False（需 True）"
   },
   {
    "id": "T02",
@@ -172,7 +174,7 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 12.1,
+   "age_h": 18.1,
    "limit_h": 24.0,
    "state": "NOT_PASS",
    "why": "12h 内只有 0 条（需 ≥1）"
@@ -273,7 +275,7 @@
    "age_h": 0.0,
    "limit_h": 336.0,
    "state": "NOT_PASS",
-   "why": "pass.TR01=False（需 True）；pass.TR05=False（需 True）"
+   "why": "pass.TR01=False（需 True）"
   },
   {
    "id": "S05",
@@ -314,8 +316,8 @@
    "symptom": "ME01 红=两次采样 swap/pageouts 在涨；ME03 红=真实生成时 pageouts 增长（硬扛 swap）；ME03 SKIP=一周没跑过 --gen，等于没测",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.EV05=False（需 True）"
   },
   {
    "id": "M02",

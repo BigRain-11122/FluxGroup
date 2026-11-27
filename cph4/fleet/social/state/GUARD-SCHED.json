@@ -1,6 +1,6 @@
 {
  "group": "sched",
- "ts": "2026-11-27T11:31:29",
+ "ts": "2026-11-27T17:31:45",
  "pass": {
   "SC01": true,
   "SC02": false,
@@ -17,7 +17,7 @@
    "name": "声明与实载一致",
    "ok": true,
    "sev": "P2",
-   "detail": "未归类 13 个：browserd,duty24,forumcollect,gzhloop,llmgateway,loopreg；应载未载 0 个",
+   "detail": "未归类 15 个：browserd,duty24,fleetbus,fleethb,forumcollect,gzhloop；应载未载 0 个",
    "n": 13
   },
   {
@@ -34,14 +34,14 @@
    "ok": false,
    "sev": "P1",
    "detail": "真异常：acceptrun(rc=2,pid=None)",
-   "n": 27
+   "n": 29
   },
   {
    "id": "SC04",
    "name": "节拍与排班表一致",
    "ok": false,
    "sev": "P1",
-   "detail": "corpusbake plist=1800s 表=21600s",
+   "detail": "trainloop plist=60s 表=300s；corpusbake plist=1800s 表=21600s",
    "n": 4
   }
  ]

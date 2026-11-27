@@ -1,12 +1,21 @@
 {
  "version": "SOURCES-v1",
- "updated": "2026-11-27T14:04:28",
+ "updated": "2026-11-27T17:11:35",
  "_comment": "24 小时学习循环的数据源清单。只读页面，不点赞不评论不关注。每轮从 urls 里随机挑一条，避免盯住同一条。加源=改这里，不改代码。",
  "interval_minutes": 20,
  "platforms": {
   "bilibili": {
    "enabled": true,
    "urls": [
+    "https://www.bilibili.com/video/BV17Cy6z3Ero/",
+    "https://www.bilibili.com/video/BV1A5yzzVEs7/",
+    "https://www.bilibili.com/video/BV1Ly1HzQEWM/",
+    "https://www.bilibili.com/video/BV1cJyrz2Eg6/",
+    "https://www.bilibili.com/video/BV1xU1sz1ENX/",
+    "https://www.bilibili.com/video/BV1jwySzcEYf/",
+    "https://www.bilibili.com/video/BV1aGySzWEKe/",
+    "https://www.bilibili.com/video/BV1AYsq6kE5v/",
+    "https://www.bilibili.com/video/BV1Wey6z7Egr/",
     "https://www.bilibili.com/video/BV1or1HzXEi1/",
     "https://www.bilibili.com/video/BV19k1Jz5Ea8/",
     "https://www.bilibili.com/video/BV1GF17zKEiP/",
@@ -197,16 +206,7 @@
     "https://www.bilibili.com/video/BV16jZLY8Eak/",
     "https://www.bilibili.com/video/BV149tB6ZESn/",
     "https://www.bilibili.com/video/BV1Lysc6bEai/",
-    "https://www.bilibili.com/video/BV1avsP6wE8R/",
-    "https://www.bilibili.com/video/BV1nGWq6AE5v/",
-    "https://www.bilibili.com/video/BV1ftGuzME9Y/",
-    "https://www.bilibili.com/video/BV13K4y1Q7Ao/",
-    "https://www.bilibili.com/video/BV1iA9uBDEWM/",
-    "https://www.bilibili.com/video/BV1iyWB6FE3X/",
-    "https://www.bilibili.com/video/BV1Zq4y1z7oJ/",
-    "https://www.bilibili.com/video/BV191YE6FEYW/",
-    "https://www.bilibili.com/video/BV1dP2uBeEK4/",
-    "https://www.bilibili.com/video/BV1t3411T7Gz/"
+    "https://www.bilibili.com/video/BV1avsP6wE8R/"
    ],
    "need_login": true,
    "note": "评论区不登录不渲染（2026-11-17 实测），必须先 --login bilibili 存登录态；urls 填你自己的视频页或你要学的对标视频页",

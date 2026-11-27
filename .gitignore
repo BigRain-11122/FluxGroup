@@ -385,3 +385,7 @@ cph4/skills/_vendor-gzh/wechat-article-skills/
 
 # 运行时会话状态与日志（含登录态），不入库
 Tools/housing/.state/
+
+# 运行时锁文件：由进程自己创建，入库只会让各机互相抢成假锁
+cph4/fleet/*.lock
+cph4/fleet/social/*.lock

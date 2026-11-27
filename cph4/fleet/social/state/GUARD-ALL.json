@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-27T11:31:33",
+ "ts": "2026-11-27T17:31:51",
  "pass": {
   "CR01": null,
   "CR02": true,
@@ -12,11 +12,11 @@
   "TR01": false,
   "TR02": true,
   "TR03": true,
-  "TR04": true,
-  "TR05": false,
+  "TR04": false,
+  "TR05": true,
   "TR06": true,
   "AC01": true,
-  "AC02": true,
+  "AC02": false,
   "AC03": true,
   "AC04": false,
   "AC05": false,
@@ -41,7 +41,7 @@
   "EV02": true,
   "EV03": true,
   "EV04": true,
-  "EV05": true
+  "EV05": false
  },
  "checks": [
   {
@@ -58,8 +58,8 @@
    "name": "语料侧 AI 腔污染率",
    "ok": true,
    "sev": "P1",
-   "detail": "2.0%（线 ≤5%）8/397 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：三连/必须\", 1], [\"AI 腔：干货满满/干货\", 1]]",
-   "n": 397,
+   "detail": "2.0%（线 ≤5%）8/399 行 主因=[[\"AI 腔：氛围感\", 1], [\"AI 腔：干货/三连\", 1], [\"AI 腔：干货满满/干货\", 1]]",
+   "n": 399,
    "group": "corpus"
   },
   {
@@ -67,8 +67,8 @@
    "name": "烘焙与分段",
    "ok": true,
    "sev": "P1",
-   "detail": "0.2h前 rows=96586 段=15 verdict=3",
-   "n": 96586,
+   "detail": "0.5h前 rows=103291 段=15 verdict=3",
+   "n": 103291,
    "group": "corpus"
   },
   {
@@ -121,8 +121,8 @@
    "name": "训练容量（epoch 3–5）",
    "ok": false,
    "sev": "P2",
-   "detail": "iters=400 rows=1540 → 0.26 epoch",
-   "n": 1540,
+   "detail": "iters=400 rows=377 → 1.06 epoch",
+   "n": 377,
    "group": "train"
   },
   {
@@ -146,19 +146,19 @@
   {
    "id": "TR04",
    "name": "ACTIVE 指针一致",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "base 模式 run 必须为空（base，2026-11-27T00:41:47）",
+   "detail": "mode 只能是 base/lora（实际 None）（None，2026-11-27T11:32:33）",
    "n": null,
    "group": "train"
   },
   {
    "id": "TR05",
    "name": "评测功率（n≥30）",
-   "ok": false,
+   "ok": true,
    "sev": "P2",
-   "detail": "最小 n=5，28 组（线 ≥30）",
-   "n": 28,
+   "detail": "最小 n=30，2 组（线 ≥30）",
+   "n": 2,
    "group": "train"
   },
   {
@@ -182,10 +182,10 @@
   {
    "id": "AC02",
    "name": "跨号隔离（24h 不同视频）",
-   "ok": true,
+   "ok": false,
    "sev": "P0",
-   "detail": "24h 内 324 条视频无跨号重叠",
-   "n": 324,
+   "detail": "同视频被两号碰过 1 条：['116368733110913']",
+   "n": 358,
    "group": "accounts"
   },
   {
@@ -203,7 +203,7 @@
    "ok": false,
    "sev": "P0",
    "detail": "近 7 天夜间动作 9 次，如 2026-11-27T01:08:22 session",
-   "n": 1053,
+   "n": 1291,
    "group": "accounts"
   },
   {
@@ -212,7 +212,7 @@
    "ok": false,
    "sev": "P1",
    "detail": "重复评论：{'None': 4}",
-   "n": 26,
+   "n": 25,
    "group": "accounts"
   },
   {
@@ -220,8 +220,8 @@
    "name": "评论出稿（24h 至少 1 条）",
    "ok": true,
    "sev": "P1",
-   "detail": "最近一条 20.1h 前（2026-11-26T15:27:01 rpid=321355956001）",
-   "n": 29,
+   "detail": "最近一条 3.0h 前（2026-11-27T14:29:51 rpid=321446266801）",
+   "n": 28,
    "group": "sends"
   },
   {
@@ -230,7 +230,7 @@
    "ok": true,
    "sev": "P1",
    "detail": "近 10 条已发均双闸通过",
-   "n": 29,
+   "n": 28,
    "group": "sends"
   },
   {
@@ -238,7 +238,7 @@
    "name": "出稿节拍（中位 ≤30s）",
    "ok": false,
    "sev": "P1",
-   "detail": "近 10 拍中位 348s（最快 114s / 最慢 436s）；gen 中位 16s；post 中位 54s",
+   "detail": "近 10 拍中位 348s（最快 114s / 最慢 436s）；gen 中位 17s；post 中位 70s",
    "n": 10,
    "group": "sends"
   },
@@ -274,8 +274,8 @@
    "name": "评论配额（≤策略上限/天）",
    "ok": true,
    "sev": "P1",
-   "detail": "今日实发 0/39；分号 acct1=0, acct3=0（另有 1 条未署名，历史行无账号列）",
-   "n": 0,
+   "detail": "今日实发 2/39；分号 acct1=0, acct3=2（另有 1 条未署名，历史行无账号列）",
+   "n": 2,
    "group": "sends"
   },
   {
@@ -283,7 +283,7 @@
    "name": "副动作齐（看/赞/弹幕）",
    "ok": false,
    "sev": "P1",
-   "detail": "acct1 缺 like",
+   "detail": "acct1 缺 like,danmaku；acct3 缺 danmaku",
    "n": 2,
    "group": "sends"
   },
@@ -292,7 +292,7 @@
    "name": "声明与实载一致",
    "ok": true,
    "sev": "P2",
-   "detail": "未归类 13 个：browserd,duty24,forumcollect,gzhloop,llmgateway,loopreg；应载未载 0 个",
+   "detail": "未归类 15 个：browserd,duty24,fleetbus,fleethb,forumcollect,gzhloop；应载未载 0 个",
    "n": 13,
    "group": "sched"
   },
@@ -311,7 +311,7 @@
    "ok": false,
    "sev": "P1",
    "detail": "真异常：acceptrun(rc=2,pid=None)",
-   "n": 27,
+   "n": 29,
    "group": "sched"
   },
   {
@@ -319,7 +319,7 @@
    "name": "节拍与排班表一致",
    "ok": false,
    "sev": "P1",
-   "detail": "corpusbake plist=1800s 表=21600s",
+   "detail": "trainloop plist=60s 表=300s；corpusbake plist=1800s 表=21600s",
    "n": 4,
    "group": "sched"
   },
@@ -328,7 +328,7 @@
    "name": "swap 不在涨",
    "ok": true,
    "sev": "P1",
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2775MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 3897MB）",
    "n": null,
    "group": "mem"
   },
@@ -355,7 +355,7 @@
    "name": "内存余量",
    "ok": true,
    "sev": "P2",
-   "detail": "free 2.5G + inactive 6.1G = 8.6G（线 ≥4G）",
+   "detail": "free 1.5G + inactive 6.3G = 7.7G（线 ≥4G）",
    "n": null,
    "group": "mem"
   },
@@ -364,7 +364,7 @@
    "name": "真实生成不增量",
    "ok": true,
    "sev": "P1",
-   "detail": "上次 2026-11-23T22:33:15（85h前）生成 1 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-23T22:33:15（91h前）生成 1 条 swap +0.0MB pageouts +0",
    "n": null,
    "group": "mem"
   },
@@ -373,7 +373,7 @@
    "name": "反思覆盖（每轮有归因）",
    "ok": false,
    "sev": "P1",
-   "detail": "判据起 2026-11-21T23:40：100 轮，无可判读 why 0 条；真失败 51 轮（让路不计），未归因 1 轮；历史欠账 34 条（不判红）：critic",
+   "detail": "判据起 2026-11-21T23:40：110 轮，无可判读 why 0 条；真失败 56 轮（让路不计），未归因 1 轮；历史欠账 25 条（不判红）：critic",
    "n": null,
    "group": "evolve"
   },
@@ -407,9 +407,9 @@
   {
    "id": "EV05",
    "name": "训练期换页（≤256MB）",
-   "ok": true,
+   "ok": false,
    "sev": "P1",
-   "detail": "最近一轮 2026-11-27T10:55:27：swap 4103→2839MB（-1264MB）",
+   "detail": "最近一轮 2026-11-27T17:20:27：swap 3423→3905MB（+482MB）",
    "n": null,
    "group": "evolve"
   }
@@ -427,7 +427,7 @@
   },
   "accounts": {
    "overall": false,
-   "n_fail": 2,
+   "n_fail": 3,
    "n_skip": 0
   },
   "sends": {
@@ -447,7 +447,7 @@
   },
   "evolve": {
    "overall": false,
-   "n_fail": 1,
+   "n_fail": 2,
    "n_skip": 0
   }
  },

@@ -1,40 +1,471 @@
 {
- "ts": "2026-11-27T14:36:26",
+ "ts": "2026-11-27T20:08:35",
  "base": [
   {
-   "n": 30,
-   "avg": 35.5,
-   "pass_rate": 17,
-   "avg_logic": 3.7,
-   "avg_human": 0.7,
-   "avg_natural": 16.0,
-   "reject": 6,
+   "n": 5,
+   "avg": 99.0,
+   "sd": 8.2,
+   "median": 105,
+   "pass_rate": 100,
+   "avg_logic": 39.0,
+   "avg_human": 20.0,
+   "avg_natural": 20.0,
+   "reject": 0,
    "sample": [
-    "听歌的别来，这是专门给配乐党准备的歌单。",
-    "有没有《我的未来不是梦》"
+    "up 你好，老师！想学剪辑但怕太复杂，我们可以先从下载软件、导入一首歌这三步开始练起吗？",
+    "老师，跟着拆解节拍先练右腿再过渡到左腿，我自己也卡在那，加油！"
+   ],
+   "seg": "beginner",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 48.2,
+   "sd": 14.0,
+   "median": 48,
+   "pass_rate": 0,
+   "avg_logic": 8.0,
+   "avg_human": 0.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "同学，别花冤枉钱听，宿舍点外卖时听听就够啦，省点奶茶钱多睡会儿。",
+    "同学，宿舍放这种歌确实解压，但建议别太高分贝啦！"
+   ],
+   "seg": "student",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 46.0,
+   "sd": 8.9,
+   "median": 40,
+   "pass_rate": 0,
+   "avg_logic": 4.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "竞对分析里，\"讨厌\"往往源于旋律与风格的错位，去年在调校阶段我们就踩过这个坑。",
+    "懂行，去年拿 DP 思南的《2025 年度最令人讨厌歌曲 TOP10》挂了，今年已同步到 DJ泡沫。"
+   ],
+   "seg": "peer_pro",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 72.2,
+   "sd": 20.1,
+   "median": 70,
+   "pass_rate": 20,
+   "avg_logic": 21.0,
+   "avg_human": 12.0,
+   "avg_natural": 19.2,
+   "reject": 0,
+   "sample": [
+    "你推荐的这款渲染器我实测过，在 4K 分辨率下反锯齿参数调至 20 能消除噪点，不过低帧率时画面会有轻微撕裂。",
+    "你用的评测参数和数值我完全没做过，这些数值真实性存疑，建议自行复测。"
+   ],
+   "seg": "tech_nerd",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 67.2,
+   "sd": 16.7,
+   "median": 70,
+   "pass_rate": 80,
+   "avg_logic": 18.0,
+   "avg_human": 10.0,
+   "avg_natural": 19.2,
+   "reject": 0,
+   "sample": [
+    "我也觉得很多歌火过之后反而更让人烦，你心里哪首最让你印象深刻？",
+    "其实我也记得那年某首神曲，大家疯狂刷屏，现在回想只觉得尴尬。"
+   ],
+   "seg": "feeler",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 39.4,
+   "sd": 8.8,
+   "median": 35,
+   "pass_rate": 40,
+   "avg_logic": 0.0,
+   "avg_human": 2.0,
+   "avg_natural": 19.2,
+   "reject": 0,
+   "sample": [
+    "那就只能怪我火得不够快德得不够位了吧",
+    "那下下位歌曲呢？是不是“真香”？😊"
+   ],
+   "seg": "memer",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 46.0,
+   "sd": 19.2,
+   "median": 40,
+   "pass_rate": 20,
+   "avg_logic": 6.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "推荐《飞狐外传》配乐《雪山飞狐》",
+    "《2025 年度最令人讨厌歌曲 TOP10！》"
    ],
    "seg": "music_seeker",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 46.0,
+   "sd": 8.9,
+   "median": 40,
+   "pass_rate": 0,
+   "avg_logic": 4.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "你分析的参数缺失让我踩坑，承认哪些不稳定的模型值得学习。",
+    "你提到的“火到德不配位”该参数调校，抽卡失败率占比多少能算稳定？"
+   ],
+   "seg": "ai_creator",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 52.0,
+   "sd": 17.9,
+   "median": 40,
+   "pass_rate": 20,
+   "avg_logic": 10.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "你不需要素材，这首歌因版权和工程复杂度无法提供工程文件。",
+    "这歌确实火到离谱，版权方太严没法给，下次若你原创可发歌单分享。"
+   ],
+   "seg": "requester",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 50.0,
+   "sd": 0.0,
+   "median": 50,
+   "pass_rate": 0,
+   "avg_logic": 0.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "你说得对，把“不配位”作为核心标准确实能更犀利地戳中痛点，下次我会更聚焦于作品与热度是否匹配的逻辑来筛选榜单。",
+    "你说得对，今年确实有些火到德不配位的热歌。接下来我会更严格地筛选标准，避免推荐过度依赖热度却缺乏质感的歌曲。"
+   ],
+   "seg": "critic",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 40.0,
+   "sd": 0.0,
+   "median": 40,
+   "pass_rate": 100,
+   "avg_logic": 0.0,
+   "avg_human": 0.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "火到没边了确实容易忽略旋律",
+    "主打一个不火也得火。"
+   ],
+   "seg": "shallow",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 63.2,
+   "sd": 14.5,
+   "median": 70,
+   "pass_rate": 20,
+   "avg_logic": 14.0,
+   "avg_human": 6.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "你剪辑的这期视频太适合周末宅家时听了，听感还带点幽默感！",
+    "你最近是不是又发现了一些火得过头的歌，让人听了又爱又恨啊？"
+   ],
+   "seg": "family",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 54.2,
+   "sd": 9.7,
+   "median": 56,
+   "pass_rate": 0,
+   "avg_logic": 12.0,
+   "avg_human": 4.0,
+   "avg_natural": 19.2,
+   "reject": 0,
+   "sample": [
+    "你指出的点很到位，很多歌火到就忘了本质，反而成了让人反感的负担。",
+    "你提出的观点让我深思，烂歌未必都烂，有些歌只是不够真诚。"
+   ],
+   "seg": "traditional",
+   "cached": true
+  },
+  {
+   "n": 5,
+   "avg": 80.0,
+   "sd": 0.0,
+   "median": 80,
+   "pass_rate": 100,
+   "avg_logic": 30.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "sample": [
+    "请问你的剪辑教程或软件推荐吗？想从零开始学做视频，求做法。",
+    "想学剪辑手艺，请问用哪款软件？具体教程或做法能分享吗？"
+   ],
+   "seg": "craft_learner",
    "cached": true
   }
  ],
  "lora": [
   {
-   "n": 30,
-   "avg": 53.4,
-   "sd": 21.6,
-   "median": 40,
-   "pass_rate": 37,
-   "avg_logic": 10.7,
+   "n": 5,
+   "avg": 68.6,
+   "sd": 23.4,
+   "median": 75,
+   "pass_rate": 80,
+   "avg_logic": 25.0,
+   "avg_human": 6.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "beginner",
+   "sample": [
+    "谢谢啦，请问UP主可以发一下视频吗？",
+    "但是，你如果已经看过了，或看完这个视频，也看一下up主的评论区，很赞的"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 73.4,
+   "sd": 10.6,
+   "median": 73,
+   "pass_rate": 40,
+   "avg_logic": 24.0,
+   "avg_human": 12.0,
+   "avg_natural": 19.2,
+   "reject": 0,
+   "seg": "student",
+   "sample": [
+    "哈哈哈哈，只有我不觉得这歌好听吗",
+    "很棒，跟着老师学，谢谢呀"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 48.0,
+   "sd": 31.5,
+   "median": 55,
+   "pass_rate": 40,
+   "avg_logic": 16.0,
    "avg_human": 4.0,
-   "avg_natural": 19.3,
+   "avg_natural": 16.0,
+   "reject": 1,
+   "seg": "peer_pro",
+   "sample": [
+    "演员老师 这个视频是怎么做出来的",
+    "今天上班没开门红，因为审核通过了"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 45.0,
+   "sd": 17.3,
+   "median": 35,
+   "pass_rate": 0,
+   "avg_logic": 6.0,
+   "avg_human": 4.0,
+   "avg_natural": 20.0,
+   "reject": 3,
+   "seg": "tech_nerd",
+   "sample": [
+    "顶上，按你画的原型买，把原声独玩，就我瞎忙活这几回，很顶",
+    "有过名次相关的设计，头部共鸣，自攻自杀"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 52.0,
+   "sd": 11.0,
+   "median": 55,
+   "pass_rate": 20,
+   "avg_logic": 12.0,
+   "avg_human": 4.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "feeler",
+   "sample": [
+    "谢谢 papel 分享的标签，我觉得也很棒",
+    "11. 离开，是因为现在说不出谢谢了"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 47.6,
+   "sd": 10.4,
+   "median": 40,
+   "pass_rate": 40,
+   "avg_logic": 4.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 1,
+   "seg": "memer",
+   "sample": [
+    "别问，问就是听歌听多了",
+    "我靠 不顶就完了吧"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 52.0,
+   "sd": 17.9,
+   "median": 40,
+   "pass_rate": 20,
+   "avg_logic": 10.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
    "reject": 2,
    "seg": "music_seeker",
    "sample": [
-    "求BGM：《黑神话》主题曲",
-    "作者不是BGM爱好者吧"
+    "请提供你想听歌的歌手",
+    "建议你听歌时戴耳机"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 47.0,
+   "sd": 17.9,
+   "median": 35,
+   "pass_rate": 20,
+   "avg_logic": 10.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "ai_creator",
+   "sample": [
+    "请问用P图解决，可以使用1.5的倍数",
+    "主要是音乐领域的问题"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 53.0,
+   "sd": 20.5,
+   "median": 45,
+   "pass_rate": 40,
+   "avg_logic": 12.0,
+   "avg_human": 6.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "requester",
+   "sample": [
+    "感谢支持，请移步up主主页，展顶/支持后领取",
+    "直接可以，有需要可以私信"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 50.6,
+   "sd": 18.4,
+   "median": 43,
+   "pass_rate": 40,
+   "avg_logic": 10.0,
+   "avg_human": 4.0,
+   "avg_natural": 20.0,
+   "reject": 1,
+   "seg": "critic",
+   "sample": [
+    "谢谢你，我觉得评价音乐这个话题，大家都有不同的看法",
+    "你很棒呀，支持你[支持][火箭]"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 50.0,
+   "sd": 30.8,
+   "median": 50,
+   "pass_rate": 80,
+   "avg_logic": 10.0,
+   "avg_human": 8.0,
+   "avg_natural": 16.0,
+   "reject": 1,
+   "seg": "shallow",
+   "sample": [
+    "我喜欢，就是听腻了",
+    "[感谢分享，支持UP主！]"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 58.0,
+   "sd": 9.7,
+   "median": 65,
+   "pass_rate": 0,
+   "avg_logic": 12.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
+   "reject": 1,
+   "seg": "family",
+   "sample": [
+    "其实我觉得我最讨厌的就是没有感情色彩，很空洞",
+    "我觉得也是，很多歌都是霉掉的"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 45.0,
+   "sd": 14.1,
+   "median": 35,
+   "pass_rate": 0,
+   "avg_logic": 8.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "traditional",
+   "sample": [
+    "此歌的陈述其实是有些错误的",
+    "我觉得你品味独特"
+   ]
+  },
+  {
+   "n": 5,
+   "avg": 44.0,
+   "sd": 17.5,
+   "median": 35,
+   "pass_rate": 20,
+   "avg_logic": 6.0,
+   "avg_human": 2.0,
+   "avg_natural": 20.0,
+   "reject": 0,
+   "seg": "craft_learner",
+   "sample": [
+    "评价评分对吗，这是被抢吗",
+    "请问现在可入手吗？"
    ]
   }
  ],
- "samples": 30,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261127-140947/ckpt300"
+ "samples": 5,
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261127-183240/adapter"
 }
