@@ -379,3 +379,9 @@ cph4/fleet/social/gzh/vendor/md/
 # 第三方技能包 vendor：只提交 UPSTREAM.json，源码不入库
 cph4/skills/_vendor-gzh/wewrite/
 cph4/skills/_vendor-gzh/wechat-article-skills/
+
+# 取证截图（含平台登录页/账号信息）：仓库为 Public，一律不入库，只在本地留档
+.codely-cli/evidence/
+
+# 运行时会话状态与日志（含登录态），不入库
+Tools/housing/.state/
