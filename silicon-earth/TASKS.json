@@ -68,6 +68,19 @@
       ],
       "acceptance": "60 天后九区都有事件、至少 3 块数值变化、至少三分之一事件带 causes",
       "verify": "python tools/sim_test.py --only T12"
+    },
+    {
+      "id": "T13",
+      "module": "m-p3-bonds",
+      "title": "相助记账从事件流可重算",
+      "priority": "P1",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [],
+      "acceptance": "每次帮助事件恰好记进一条账；两人以外键校验；事件 id 真实存在；net/net_creditor/repaid 自洽；两条负控必须被拦",
+      "verify": "python modules/m-p3-bonds/check.py"
     }
   ]
 }
