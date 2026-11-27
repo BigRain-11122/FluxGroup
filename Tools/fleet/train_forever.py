@@ -778,6 +778,8 @@ def run_one(a):
     iters = a.iters if a.iters != 400 else int(veff.get("iters") or a.iters)
     n_layers = int(veff.get("num_layers") or 16)
     seval = int(veff.get("steps_per_eval") or 50)
+    lr = veff.get("learning_rate")          # None = 用 train_lora 的默认 1e-5
+    bs = veff.get("batch_size")             # None = 默认 1（默认不开大，免得顶 swap）
     print("[loop] 变体 %s：%s" % (vid, vwhy), flush=True)
 
     # 出稿优先（COMPUTE-SCHEDULE.json lanes.publish priority=1）：
@@ -849,6 +851,10 @@ def run_one(a):
                "--data", ds, "--iters", str(iters), "--num-layers", str(n_layers),
                "--max-seq-length", str(seq_len), "--steps-per-eval", str(seval),
                "--grad-checkpoint"]
+        if lr:
+            cmd += ["--learning-rate", str(lr)]
+        if bs:
+            cmd += ["--batch-size", str(bs)]
         _p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                               text=True, cwd=ROOT, start_new_session=True)
         _buf = []
@@ -997,7 +1003,7 @@ def run_one(a):
            # fp+variant 是实验矩阵的唯一性键：没有它们，下一轮无法判断
            # "这批数据的这个配置是不是已经问过"（缺了就会重复跑同一课）。
            "fp": fp, "variant": vid, "iters": iters, "num_layers": n_layers,
-           "steps_per_eval": seval,
+           "steps_per_eval": seval, "learning_rate": lr, "batch_size": bs,
            "base_avg": base.get("avg"), "lora_avg": lora.get("avg"),
            "base_human": base.get("avg_human"), "lora_human": lora.get("avg_human"),
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",

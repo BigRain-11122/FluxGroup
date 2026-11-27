@@ -27,7 +27,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 # 基线（train_forever 现行默认）。变体一律相对基线**只改一个键**，自检守这条。
-BASE = {"iters": 400, "num_layers": 16, "steps_per_eval": 50, "max_seq_length": None}
+BASE = {"iters": 400, "num_layers": 16, "steps_per_eval": 50,
+        "max_seq_length": None, "learning_rate": None, "batch_size": None}
 
 VARIANTS = [
     {"id": "v0-base", "overrides": {},
@@ -38,9 +39,15 @@ VARIANTS = [
      "why": "只训 8 层：降容量看是否过拟合（少层常常更稳）"},
     {"id": "v3-seval25", "overrides": {"steps_per_eval": 25},
      "why": "评估步距减半：让『最低 val 那一步』选得更准"},
+    # 2026-11-27 扩容：CPU/GPU 有空就多问几个"还不知道答案"的问题，
+    # 而不是把同一批数据跑完 4 轮就停。新增两个都只动一个变量。
+    {"id": "v4-lr5e6", "overrides": {"learning_rate": 5e-6},
+     "why": "学习率减半：看之前的负分是不是过冲（过拟合常见成因）"},
+    {"id": "v5-iters300", "overrides": {"iters": 300},
+     "why": "少训 100 步：判断 400 步是否已经训过头（对照 v1 的 +50 步）"},
 ]
 
-MAX_VARIANTS = 4          # 一批数据最多跑几个变体，防止无限烧
+MAX_VARIANTS = 6          # 一批数据最多跑几个变体，防止无限烧
 
 
 def variant_map():
