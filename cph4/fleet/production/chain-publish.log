@@ -3321,3 +3321,10 @@ and the repositor lane=lane-rc-0(0 done)
 2026-11-27T08:11:31 RECEIPT IDLE gpu=1 vram=2798MB busy=-
 2026-11-27T08:11:50 TICK commit=committed:5 converge=up-to-date push=pushed lane=lane-cooldown(3m)
 2026-11-27T08:16:31 RECEIPT IDLE gpu=0 vram=2769MB busy=-
+2026-11-27T08:18:40 LANE jobs=1 fresh=1 -> run one card
+2026-11-27T08:18:52 LANE rc=0 done=- 
+2026-11-27T08:18:52 TICK commit=committed:7 converge=fetch-failed:Connection reset by 20.205.243.160 port 443
+fatal: Could not read from remote repository.
+
+Please make sure you have the push=pushed lane=lane-rc-0(0 done)
+2026-11-27T08:21:31 RECEIPT IDLE gpu=0 vram=2769MB busy=-
