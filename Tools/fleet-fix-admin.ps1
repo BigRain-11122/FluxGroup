@@ -46,12 +46,23 @@ try {
 
 try { Start-ScheduledTask -TaskName 'FluxGroup-FleetLink' -ErrorAction SilentlyContinue } catch { }
 Start-Sleep -Seconds 3
-try {
-  $h = Invoke-RestMethod -Uri 'http://100.110.185.62:8790/health' -TimeoutSec 6
-  'health=ok version=' + $h.version + ' node=' + $h.node
-} catch {
-  'health=ERR ' + $_.Exception.Message
-  $fail++
+$ts = @('C:\Program Files\Tailscale\tailscale.exe', 'C:\Program Files (x86)\Tailscale\tailscale.exe') |
+  Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+$selfIp = $null
+if ($ts) {
+  $st = (& $ts status --json 2>$null | Out-String | ConvertFrom-Json)
+  $selfIp = @($st.Self.TailscaleIPs) | Where-Object { $_ -notmatch ':' } | Select-Object -First 1
+}
+if ($selfIp) {
+  try {
+    $h = Invoke-RestMethod -Uri ('http://' + $selfIp + ':8790/health') -TimeoutSec 6
+    'health=ok version=' + $h.version + ' node=' + $h.node
+  } catch {
+    'health=ERR ' + $_.Exception.Message
+    $fail++
+  }
+} else {
+  'health=SKIP (no tailscale ip)'
 }
 
 if ($fail -eq 0) { 'RESULT=PASS' } else { 'RESULT=FAIL items=' + $fail }
