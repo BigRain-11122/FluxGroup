@@ -3605,3 +3605,7 @@ Please make sure you have the push=pushed lane=lane-cooldown(3m)
 2026-11-27T16:31:32 RECEIPT IDLE gpu=0 vram=4334MB busy=- bus=ok
 2026-11-27T16:31:50 TICK commit=committed:5 converge=up-to-date push=pushed lane=lane-cooldown(5m)
 2026-11-27T16:36:32 RECEIPT IDLE gpu=6 vram=4290MB busy=- bus=ok
+2026-11-27T16:37:08 TICK commit=committed:7 converge=merge-failed push=push-blocked:To github.com:BigRain-11122/FluxGroup.git
+ ! [rejected]            HEAD -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:BigRain-11122/ lane=lane-empty
+2026-11-27T16:41:32 RECEIPT IDLE gpu=4 vram=4281MB busy=- bus=ok
