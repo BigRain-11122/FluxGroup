@@ -377,13 +377,33 @@ def main():
     payload = json.dumps(state, ensure_ascii=False, separators=(",", ":"))
 
     # hub 不可达时，Nats() 内部分步超时累计可到十几秒（实测 hb 27s/轮），而心跳本身
-    # 是最高频阶段。先做 1.5s 可达性判定：不通就当场记 LOKAL-ONLY 并返回 2（告警级），
+    # 是最高频阶段。先用短探测判定可达性：不通就当场记 LOKAL-ONLY 并返回 2（告警级），
     # 不把节拍交给一条死链。
-    try:
-        _p = socket.create_connection((a.hub, a.port), timeout=1.5)
-        _p.close()
-    except Exception:
+    # 但短探测有反面：走 DERP 中继时（2026-11-27 实测，笔记本换网后 bm-a 只能
+    # DERP-sin 356ms），1.5s 会把"慢"误判成"不通"，而且一判就不留任何证据，
+    # 机队看到的是整台机器消失。所以先 1.5s、再放宽到 6s 重试一次。
+    reach = False
+    for _t in (1.5, 6.0):
+        try:
+            _p = socket.create_connection((a.hub, a.port), timeout=_t)
+            _p.close()
+            reach = True
+            break
+        except Exception:
+            continue
+    if not reach:
         print("HB-LOKAL-ONLY hub %s:%s unreachable (no retry this round)" % (a.hub, a.port))
+        # 退回本机留证：带 hub_publish=lokal-only 标记，读端能区分
+        # 「活着但连不上 hub」与「没在跑」，不再让整台机器凭空消失。
+        try:
+            _d = os.path.join(a.root, "cph4", "fleet", "state", "node-state")
+            os.makedirs(_d, exist_ok=True)
+            _ev = dict(state)
+            _ev["hub_publish"] = "lokal-only"
+            with open(os.path.join(_d, a.node + ".json"), "w", encoding="utf-8") as f:
+                json.dump(_ev, f, ensure_ascii=False)
+        except Exception as e:
+            print("HB-LOKAL-WRITE-FAIL %s" % e)
         return 2
     try:
         c = Nats(a.hub, a.port, timeout=5.0)
