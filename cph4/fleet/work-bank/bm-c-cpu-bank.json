@@ -1,0 +1,88 @@
+{
+ "node": "bm-c",
+ "role": "gpu 生产 / CPU 语料腿",
+ "note": "内存紧张时只跑采集与只读类；出片另算",
+ "jobs": [
+  {
+   "id": "C-VB-DISCOVER-V01",
+   "title": "音色库候选发现 v01（播客/有声书类长音频）",
+   "cmd": "python Tools/voicebank/vb_discover.py --voice v01 --keywords 播客,有声书 --pages 1",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/voicebank/vb_discover.py"
+   ],
+   "why": "音色库整线卡在「没有 BV 清单」；先发现候选再生语料，避免白下载",
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v01.json",
+   "accept": "JSON 含候选数与每人时长/播放/UP；status 必须明确 OK 或 BLOCKED+原因",
+   "status": "done"
+  },
+  {
+   "id": "C-VB-DISCOVER-V02",
+   "title": "音色库候选发现 v02（课堂/讲解类）",
+   "cmd": "python Tools/voicebank/vb_discover.py --voice v02 --keywords 课堂,讲解 --pages 1",
+   "needs": "cpu",
+   "prio": "P2",
+   "requires": [
+    "Tools/voicebank/vb_discover.py"
+   ],
+   "why": "60 席矩阵需要多语域取样，讲解/课堂是「播音腔」之外最缺的一档",
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v02.json",
+   "accept": "同上：候选数 + 时长分布 + status",
+   "status": "done"
+  },
+  {
+   "id": "C-VB-DISCOVER-V03",
+   "title": "音色库候选发现 v03（评书/说书类）",
+   "cmd": "python Tools/voicebank/vb_discover.py --voice v03 --keywords 评书,说书 --pages 1",
+   "needs": "cpu",
+   "prio": "P3",
+   "requires": [
+    "Tools/voicebank/vb_discover.py"
+   ],
+   "why": "说书类单人长音频是语料密度最高的一档，最适合 8 分钟准入线",
+   "deliverable": "cph4/fleet/voicebank/discover/discover_v03.json",
+   "accept": "同上：候选数 + 时长分布 + status",
+   "status": "pending"
+  },
+  {
+   "id": "CHK-LIB-20261103",
+   "title": "资产与经验库归集（技能/音色/工作流/台账/产物/内容寻址资产 → 索引进 git）",
+   "cmd": "python Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
+   "deliverable": "cph4/fleet/queue-receipts/lib-consolidate-20261103.json",
+   "accept": "rc∈{0,2}；cph4/fleet/lib/ASSET-INDEX.json 与 LIB-STATUS.md 刷新；缺口逐条列出",
+   "needs": "cpu",
+   "prio": "P1",
+   "day_ok": true,
+   "status": "done",
+   "est_gb": 0,
+   "why": "CEO 2026-11-03 令：生产产物与底层技术（音色/工作流/技能）要形成经验与资产库，由传家宝做归集与 git 备份"
+  },
+  {
+   "id": "CHK-LIB-20261105",
+   "title": "资产与经验库归集（六类清点+缺口对账，索引进 git）（bm-c 兜底体检）",
+   "cmd": "python3 Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261105.json",
+   "deliverable": "cph4/fleet/lib-consolidate-20261105.json",
+   "accept": "rc∈{0,2}；缺口逐条列出（DONE 卡缺产物/vault 缺盘/音色为空）",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
+  },
+  {
+   "id": "CHK-LIB-20261111",
+   "title": "资产与经验库归集（六类清点+缺口对账，索引进 git）（bm-c 兜底体检）",
+   "cmd": "python3 Tools/fleet/lib_consolidate.py --check --receipt cph4/fleet/queue-receipts/lib-consolidate-20261111.json",
+   "deliverable": "cph4/fleet/lib-consolidate-20261111.json",
+   "accept": "rc∈{0,2}；缺口逐条列出（DONE 卡缺产物/vault 缺盘/音色为空）",
+   "needs": "cpu",
+   "prio": "P2",
+   "day_ok": true,
+   "status": "pending",
+   "est_gb": 0,
+   "why": "bank_autofill: 空闲机兜底体检活，产物落 queue-receipts"
+  }
+ ]
+}

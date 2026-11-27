@@ -1,0 +1,14 @@
+V5.10 刻字族闪烁量化扫描（YAVG 逐帧·噪声底0.15）
+osc 高 + peak 高 = 脉动闪烁实锚；deflicker'd 镜 osc 应≈0
+
+S6_chisel(未deflicker)            frames= 53 osc(pulse)= 3 peak|dY|=  9.17 drift= 7.64
+C01_carver_face(未deflicker)      frames= 69 osc(pulse)= 7 peak|dY|= 21.10 drift= 6.96
+C08_strike_burst(deflicker'd)    frames= 66 osc(pulse)= 3 peak|dY|=  5.43 drift=11.69
+D01_carver_words(未deflicker)     frames= 68 osc(pulse)= 2 peak|dY|= 16.50 drift= 2.57
+D06_chisel_fingertip(未deflicker) frames= 82 osc(pulse)= 1 peak|dY|=  1.04 drift= 4.01
+E06_strike(deflicker'd)          frames=110 osc(pulse)= 3 peak|dY|= 16.51 drift= 9.49
+C06_forever_cut(deflicker'd)     frames= 63 osc(pulse)= 6 peak|dY|= 14.76 drift=13.21
+B04_embers(deflicker'd)          frames= 77 osc(pulse)= 3 peak|dY|=  2.47 drift= 9.19
+Z04_glyph(deflicker'd)           frames= 90 osc(pulse)= 3 peak|dY|=  1.94 drift=12.36
+S3_stele(对照)                     frames= 84 osc(pulse)=10 peak|dY|= 14.63 drift= 9.13
+R06_museum(对照)                   frames=165 osc(pulse)= 2 peak|dY|= 41.97 drift=44.44

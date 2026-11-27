@@ -1,0 +1,29 @@
+{
+ "wave": "packB-verify480",
+ "runner": "bm-c C2146",
+ "lane": "bmcverify",
+ "res": "672x384",
+ "quant": "int4",
+ "auth": "bank job kfpb-i2v-manifest-c2146 -> verify slice; efficiency law cheap-check-before-768P",
+ "fired_ts": "2026-10-20 14:42",
+ "end_line": "ALBUM LANE DONE lane=bmcverify ok=3 fail=0",
+ "log": "media/MV/mv0001/logs/kfpb_verify480_c2146.out.txt",
+ "clips": [
+  {
+   "id": "XQ_VERIFY-S3-17",
+   "file": "media/mv-album-001-jay/clips-verify-480/XQ_VERIFY-S3-17.mp4",
+   "bytes": 1044286
+  },
+  {
+   "id": "XQ_VERIFY-S5-31",
+   "file": "media/mv-album-001-jay/clips-verify-480/XQ_VERIFY-S5-31.mp4",
+   "bytes": 460603
+  },
+  {
+   "id": "XQ_VERIFY-S2-10",
+   "file": "media/mv-album-001-jay/clips-verify-480/XQ_VERIFY-S2-10.mp4",
+   "bytes": 746570
+  }
+ ],
+ "verdict": "GO x3 -> 768P production wave released 14:52"
+}

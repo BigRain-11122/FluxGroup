@@ -1,0 +1,36 @@
+{
+ "_comment": "模型路由 v2（2026-11-05）。CEO 给的阶梯是『自己的→Mac 的→云』，我按实测证据再分一档：**先看题型，再看机器**。为什么：同一台机上，摘要用 4B 够、裁决用 4B 就是错的（实测缺料归因 3/3 判错）；把两者塞进同一条阶梯，等于用机器的顺序代替能力的匹配。阈值只在此文件与 AUTONOMY-CONFIG 两处，代码禁写死。",
+ "version": "v2-20261105",
+ "evidence": {
+  "embed_waste": "一天 36,060 次 /api/embeddings 全在本机生成模型槽上排队；同一批卡的文本每轮重算 → 加内容哈希缓存后同一测试 27.6s→0.47s",
+  "local_judgment_error": "本地 4B 对『缺料归因』3/3 判错（工具缺失判成需 CEO），必须规则复核；对 LINE-LATE 类几乎全部 escalate 到云",
+  "fleet_usage": "89,268 次请求中 0 次来自执行机（除 1 次历史 bm-b）——机队实际走的是自己的 ollama，符合 rank1"
+ },
+ "classes": {
+  "deterministic": {"use_model": false, "chain": ["local-script"], "why": "零模型：转码/闸/扫描/校验"},
+  "embed": {"use_model": true, "tier": "local-embed", "model": "qwen3-embedding:0.6b",
+            "cache": "content-hash", "slo_s": 1, "why": "必须专用小嵌入模型；绝不占生成模型槽"},
+  "text-small": {"use_model": true, "chain": ["own-4b", "mac-gateway", "cloud-candidate"],
+                 "slo_s": 2, "schema_required": true, "rule_recheck": true,
+                 "why": "摘要/分类/抽取：4B 够用，但输出必须过 schema 且规则复核"},
+  "judgment": {"use_model": true, "chain": ["strongest-brain", "cloud-candidate"],
+               "skip_local_4b": true, "why": "裁决类：本地 4B 给不出可用结论，先跑一遍只是浪费一轮"},
+  "long-form": {"use_model": true, "chain": ["own-8b", "bm-d-when-online", "cloud-candidate"],
+                "why": "长文/改写：4B 上下文够但质量不足"},
+  "gpu-production": {"use_model": false, "chain": ["local-gpu-lane"], "why": "渲染/i2v/KF 只能本地 GPU，hard_nodes 钉死"},
+  "overflow": {"use_model": true, "chain": ["cloud"], "requires": ["local_checked", "why_not_local", "credits<=cap"],
+               "why": "本地确实没有该能力或同类能力全在飞"}
+ },
+ "slo_escalate": {
+  "rule": "任一档超时或空答即切下一档，不重试同一档（重试只会把排队放大）",
+  "cloud_needs_budget_gate": true,
+  "daily_cny_cap": 100
+ },
+ "model_residency": {
+  "mac_resident": "qwen3.5:4b-mlx (5.9GB)",
+  "mac_embed": "qwen3-embedding:0.6b",
+  "mac_longform": "qwen3:8b 按需不进常驻",
+  "sealed": "qwen3.5:35b-a3b（驻留即 swap，仅离线质量批）",
+  "bm_d_planned": "入网后=唯一模型服务（256G/48G VRAM），执行机 endpoint 全部指向它"
+ }
+}

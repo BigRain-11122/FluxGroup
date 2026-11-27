@@ -1,0 +1,7 @@
+{
+ "ts": "2026-11-13T22:19:44",
+ "rc": null,
+ "note": "缺前置输入：cph4/fleet/out/bigdomain/copy.md",
+ "cmd": "python3 Tools/fleet/copy_compliance.py --text cph4/fleet/out/bigdomain/copy.md --out cph4/fleet/out/bigdomain/compliance.json",
+ "station": "control"
+}

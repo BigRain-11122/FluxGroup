@@ -1,0 +1,26 @@
+{
+ "policy": "C2171 KN02 single-unit 768P re-burn. Defect: authored locked-off tripod frame, rendered 1.8x push-in by 5.0s (kn_framing_drift_probe, evidence framing-drift-kn.json) plus the C2170 caption strip. Fix = shot size held positively from first to last frame + the bare bottom concrete band described so the caption attractor has no unexplained flat strip. Fire only after the 30-unit wave ends and KN_A-KN02.mp4 is moved to _rejects/ (runner SKIPs existing output). Never start a second runner mid-wave: /free unload_models evicts the resident int8 model under the in-flight unit.",
+ "gate": "Same mechanical gate: kn_pseudotext_probe SUSPECT=0 (no caption strip) AND kn_framing_drift_probe intent=locked max_zoom<=1.15x. Both faces must pass before the unit may enter assembly.",
+ "wave": "kn-reburn-kn02-c2171",
+ "total": 1,
+ "total_win_s": 6.5,
+ "units": [
+  {
+   "id": "KN_A-KN02",
+   "shot": "KN02",
+   "track": "KN",
+   "win_s": 6.5,
+   "speed": 0.95,
+   "src_s": 6.84,
+   "policy_band": "8-15s",
+   "light": "roof_dusk",
+   "frame": "media/mv-album-001-jay/frames/KN_KN02.png",
+   "lyric_anchor": "instrumental intro (0.00-30.14)",
+   "note": "天台全景（水塔/晾衣绳·城在脚下）",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A medium wide shot at eye level; the camera holds the same wide framing from the first frame to the last, the whole rooftop and the boy small and centred in the frame. A young man in a washed denim jacket standing on a Taipei rooftop at dusk among strung clotheslines and a water tower, the whole city bowl dim and warm below the parapet, his gaze drifting off past the camera toward the sky above the city. The bare concrete rooftop floor along the bottom of the frame carries only worn grey concrete and its stains. The frame carries only the rooftop, the water tower, the strung clothes and the open dusk sky. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only. His jaw is blunt and rounded, his nose tip flat and wide, his eyelids heavy and single-lidded, his skin matte and unretouched.",
+   "frame_bytes": 1106624,
+   "prompt_words": 165,
+   "prompt_rev": "v2.0-C2171-framing+band"
+  }
+ ]
+}

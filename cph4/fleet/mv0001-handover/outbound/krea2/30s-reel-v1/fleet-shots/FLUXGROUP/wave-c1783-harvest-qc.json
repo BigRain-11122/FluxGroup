@@ -1,0 +1,40 @@
+{
+  "batch": "C1783-i2v",
+  "harvest_round": "C1793",
+  "harvested_at": "2026-10-10 13:48-13:56",
+  "project": "mv0001-30sreel-i2v-fleet",
+  "wave": {
+    "fired_at": "2026-10-10 11:42:13",
+    "launcher_pid": 58684,
+    "launcher_state": "exited (verified 13:48:00)",
+    "comfy_queue": "running=0 pending=0 (verified 13:48)",
+    "config": "H3 int8 DiT, 1344x768, 124 frames, 4-step turbo, video-only (audio chain stripped per audio-ban)"
+  },
+  "local_probe": {
+    "tool": "ffmpeg -i stream inspect",
+    "result": "11/11 mp4 = 5.17s, 1344x768, 24fps, h264 yuv420p bt709, ZERO audio streams (audio-ban compliance PASS)"
+  },
+  "qc_method": "multimodal per-shot QC per O-20261010-1105 (motion-match / int8 defects / grade consistency / score, pass >= 7.5)",
+  "scores": {
+    "S1_fire_wake": {"score": 8.5, "verdict": "PASS", "note": "static camera + flame breathing, halation, no artifacts"},
+    "S2_sweep": {"score": 9.5, "verdict": "PASS", "note": "lateral track small/slow, raking light across bands"},
+    "S3_stele": {"score": 9.0, "verdict": "PASS", "note": "low-angle push-in steady, torch flicker natural"},
+    "S4_crown": {"score": 8.5, "verdict": "PASS", "note": "static + firelight crawling relief, no morph"},
+    "S5_columns": {"score": 9.0, "verdict": "PASS", "note": "tilt-down steady, grooves pooling"},
+    "S6_chisel": {"score": 8.0, "verdict": "PASS", "note": "locked-off + strike/dust; minor: chisel-holding hand cropped out of ECU frame"},
+    "S7_hall": {"score": 8.5, "verdict": "PASS", "note": "pull-out + crane-up, dust shaft visible"},
+    "T_glyphs": {"score": 4.0, "verdict": "FAIL", "note": "glyphs fully STATIONARY - upward drift motion not executed; only bloom breathing ~00:03; background haze weak"},
+    "S8_case": {"score": 9.0, "verdict": "PASS", "note": "small push-in, reflection stable, layered glass"},
+    "S9_profile": {"score": 9.0, "verdict": "PASS", "note": "static + micro hair motion, identity stable, no morph"},
+    "S10_walkaway": {"score": 8.5, "verdict": "PASS", "note": "pull-out + walkaway + lights dimming one by one"}
+  },
+  "summary": "10/11 PASS, 1 FAIL",
+  "fail_disposition": {
+    "shot": "T_glyphs",
+    "action": "reseed per <7.5 rule: manifest seed 7808 -> 7818 (record = git diff of local_h3_i2va_v4.json); failed output preserved as T_glyphs_f1.mp4 (fail-preservation law); reseed wave launched detached by harvest round C1793, harvest next round",
+    "fallback_if_reseed_fails": "prompt/frame surgery decision belongs to MV chain window (motion wording strengthen or frame re-pick)"
+  },
+  "durations_min": {"S1": "11:49:54", "S2": "11:57:16", "S3": "12:05:19", "S4": "12:22:57 (post-reseed)", "S5": "12:40:47", "S6": "12:57:34", "S7": "13:05:05", "T_glyphs_f1": "13:12:36", "S8": "13:20:16", "S9": "13:27:47", "S10": "13:35:17"},
+  "next": "reel assembly (build_30s_v4.py, picture+song) belongs to MV chain window; G09 BUILD-DUE (78.5h) is next CPU lane after reseed wave completes",
+  "postscript_20261010_1440": "SUPERSEDED BY REVISION-3 (CEO order 12:0x reached this machine only at rebase time ~14:20 because local repo sat 27 commits behind; the wave kept running 11:42-13:46 unaware): old-frame shots ruled VOID for the film (matchstick torches + West Asian face rejected; all 11 shots regenerate from v2 frames per v4.1 package). This harvest retained as QC evidence + pipeline validation only (motion execution verified per spec, int8 zero block/wax artifacts verified, audio-ban verified) - NOT film material. T_glyphs reseed (PID 40720, seed 7818, v4 prompt) KILLED ~14:45 - v2 manifest rewrites the T_glyphs prompt (eight separate gold cuneiform signs column + film grain), output would be void. New pipeline: 6-frame remake (KF1/KF2/KF3 thick reed-bundle torch + KF8/KF9/KF10 2001 Taiwan-era girl) via kf_fix2_fleet.py -> multimodal QC >= 8.5 -> commit frames/ -> 11-shot i2v re-run with manifest v2."
+}

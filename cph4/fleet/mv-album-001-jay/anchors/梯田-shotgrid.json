@@ -1,0 +1,1123 @@
+{
+ "song": "梯田",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 505,
+  "n_beats": 505,
+  "n_downbeats": 126,
+  "duration_sec": 213.35
+ },
+ "bpm_median": 151.9,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "文山啊等你写完词",
+   "t0": 17.28,
+   "t1": 19.38,
+   "t0_used": 17.229,
+   "t1_used": 19.38,
+   "snapped": true,
+   "snap_deltas": [
+    0.051,
+    -0.171
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "我都出下张专辑喽",
+   "t0": 19.38,
+   "t1": 21.06,
+   "t0_used": 19.38,
+   "t1_used": 21.153,
+   "snapped": true,
+   "snap_deltas": [
+    -0.171,
+    -0.093
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "没关系慢慢来",
+   "t0": 21.06,
+   "t1": 22.71,
+   "t0_used": 21.153,
+   "t1_used": 22.756,
+   "snapped": true,
+   "snap_deltas": [
+    -0.093,
+    -0.046
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "这首歌我自己来",
+   "t0": 22.71,
+   "t1": 24.54,
+   "t0_used": 22.756,
+   "t1_used": 24.54,
+   "snapped": true,
+   "snap_deltas": [
+    -0.046,
+    0.182
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "说到中学时期",
+   "t0": 24.54,
+   "t1": 25.82,
+   "t0_used": 24.54,
+   "t1_used": 25.913,
+   "snapped": true,
+   "snap_deltas": [
+    0.182,
+    -0.093
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "家乡的一片片片梯田",
+   "t0": 25.82,
+   "t1": 27.95,
+   "t0_used": 25.913,
+   "t1_used": 27.934,
+   "snapped": true,
+   "snap_deltas": [
+    -0.093,
+    0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "是我看过最美的绿地",
+   "t0": 27.95,
+   "t1": 30.32,
+   "t0_used": 27.934,
+   "t1_used": 30.302,
+   "snapped": true,
+   "snap_deltas": [
+    0.016,
+    0.018
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "于是也因此让我得了最佳摄影",
+   "t0": 30.32,
+   "t1": 33.13,
+   "t0_used": 30.302,
+   "t1_used": 33.088,
+   "snapped": true,
+   "snap_deltas": [
+    0.018,
+    0.042
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "莫名其妙在画面中的我",
+   "t0": 33.13,
+   "t1": 35.33,
+   "t0_used": 33.088,
+   "t1_used": 35.33,
+   "snapped": true,
+   "snap_deltas": [
+    0.042,
+    -0.173
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "不会写词都像个诗人",
+   "t0": 35.33,
+   "t1": 37.11,
+   "t0_used": 35.33,
+   "t1_used": 37.105,
+   "snapped": true,
+   "snap_deltas": [
+    -0.173,
+    0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "坐着公车上学的我",
+   "t0": 37.11,
+   "t1": 39.07,
+   "t0_used": 37.105,
+   "t1_used": 39.079,
+   "snapped": true,
+   "snap_deltas": [
+    0.005,
+    -0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "看着窗外的牛啃草",
+   "t0": 39.07,
+   "t1": 40.74,
+   "t0_used": 39.079,
+   "t1_used": 40.705,
+   "snapped": true,
+   "snap_deltas": [
+    -0.009,
+    0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "是一种说不出的自由自在",
+   "t0": 40.74,
+   "t1": 43.66,
+   "t0_used": 40.705,
+   "t1_used": 43.66,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    0.192
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "Hoi Ya Yi Ya那鲁湾",
+   "t0": 43.66,
+   "t1": 48.2,
+   "t0_used": 43.66,
+   "t1_used": 48.274,
+   "snapped": true,
+   "snap_deltas": [
+    0.192,
+    -0.074
+   ],
+   "approx": false,
+   "splits": [
+    45.859
+   ]
+  },
+  {
+   "i": 14,
+   "text": "Na Yi Na Ya Hei",
+   "t0": 48.2,
+   "t1": 50.52,
+   "t0_used": 48.274,
+   "t1_used": 50.52,
+   "snapped": true,
+   "snap_deltas": [
+    -0.074,
+    -0.146
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "我亲爱的牛儿啊",
+   "t0": 50.52,
+   "t1": 56.66,
+   "t0_used": 50.52,
+   "t1_used": 56.61,
+   "snapped": true,
+   "snap_deltas": [
+    -0.146,
+    0.05
+   ],
+   "approx": false,
+   "splits": [
+    52.64,
+    54.66
+   ]
+  },
+  {
+   "i": 16,
+   "text": "Hoi Ya Yi Ya那鲁湾",
+   "t0": 56.66,
+   "t1": 60.94,
+   "t0_used": 56.61,
+   "t1_used": 61.022,
+   "snapped": true,
+   "snap_deltas": [
+    0.05,
+    -0.082
+   ],
+   "approx": false,
+   "splits": [
+    59.025
+   ]
+  },
+  {
+   "i": 17,
+   "text": "Na Yi Na Ya Hei",
+   "t0": 60.94,
+   "t1": 64.43,
+   "t0_used": 61.022,
+   "t1_used": 64.43,
+   "snapped": true,
+   "snap_deltas": [
+    -0.082,
+    -0.168
+   ],
+   "approx": false,
+   "splits": [
+    62.624
+   ]
+  },
+  {
+   "i": 18,
+   "text": "跑到哪儿去了",
+   "t0": 64.43,
+   "t1": 69.42,
+   "t0_used": 64.43,
+   "t1_used": 69.358,
+   "snapped": true,
+   "snap_deltas": [
+    -0.168,
+    0.062
+   ],
+   "approx": false,
+   "splits": [
+    67.013
+   ]
+  },
+  {
+   "i": 19,
+   "text": "面店旁的小水沟",
+   "t0": 69.42,
+   "t1": 70.92,
+   "t0_used": 69.358,
+   "t1_used": 70.96,
+   "snapped": true,
+   "snap_deltas": [
+    0.062,
+    -0.04
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "留着我们长大的梦",
+   "t0": 70.92,
+   "t1": 72.57,
+   "t0_used": 70.96,
+   "t1_used": 72.586,
+   "snapped": true,
+   "snap_deltas": [
+    -0.04,
+    -0.016
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "绕过天真跳至收割期",
+   "t0": 72.57,
+   "t1": 74.72,
+   "t0_used": 72.586,
+   "t1_used": 74.72,
+   "snapped": true,
+   "snap_deltas": [
+    -0.016,
+    0.161
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "人们的汗水夹杂着满足与欢笑",
+   "t0": 74.72,
+   "t1": 77.39,
+   "t0_used": 74.72,
+   "t1_used": 77.346,
+   "snapped": true,
+   "snap_deltas": [
+    0.161,
+    0.044
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "是我现在最舍不得的画面",
+   "t0": 77.39,
+   "t1": 79.65,
+   "t0_used": 77.346,
+   "t1_used": 79.65,
+   "snapped": true,
+   "snap_deltas": [
+    0.044,
+    -0.111
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "也是我另一项参展作品",
+   "t0": 79.65,
+   "t1": 82.51,
+   "t0_used": 79.65,
+   "t1_used": 82.5,
+   "snapped": true,
+   "snap_deltas": [
+    -0.111,
+    0.01
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "靠着回忆",
+   "t0": 82.51,
+   "t1": 83.39,
+   "t0_used": 82.5,
+   "t1_used": 83.313,
+   "snapped": true,
+   "snap_deltas": [
+    0.01,
+    0.077
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "画成油画",
+   "t0": 83.39,
+   "t1": 84.15,
+   "t0_used": 83.313,
+   "t1_used": 84.126,
+   "snapped": true,
+   "snap_deltas": [
+    0.077,
+    0.024
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "拿到奖状",
+   "t0": 84.15,
+   "t1": 84.89,
+   "t0_used": 84.126,
+   "t1_used": 84.939,
+   "snapped": true,
+   "snap_deltas": [
+    0.024,
+    -0.049
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "有个啥用",
+   "t0": 84.89,
+   "t1": 85.69,
+   "t0_used": 84.939,
+   "t1_used": 85.728,
+   "snapped": true,
+   "snap_deltas": [
+    -0.049,
+    -0.038
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "鼓励你多去回忆是吧",
+   "t0": 85.69,
+   "t1": 87.66,
+   "t0_used": 85.728,
+   "t1_used": 87.725,
+   "snapped": true,
+   "snap_deltas": [
+    -0.038,
+    -0.065
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "哼我真想撕掉换回自然",
+   "t0": 87.66,
+   "t1": 90.54,
+   "t0_used": 87.725,
+   "t1_used": 90.488,
+   "snapped": true,
+   "snap_deltas": [
+    -0.065,
+    0.052
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "怎么梯田不见多了几家饭店",
+   "t0": 90.54,
+   "t1": 92.9,
+   "t0_used": 90.488,
+   "t1_used": 92.903,
+   "snapped": true,
+   "snap_deltas": [
+    0.052,
+    -0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "坐在里面看着西洋片",
+   "t0": 92.9,
+   "t1": 94.83,
+   "t0_used": 92.903,
+   "t1_used": 94.854,
+   "snapped": true,
+   "snap_deltas": [
+    -0.003,
+    -0.024
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "几只水牛却变成画挂在墙壁上",
+   "t0": 94.83,
+   "t1": 98.15,
+   "t0_used": 94.854,
+   "t1_used": 98.081,
+   "snapped": true,
+   "snap_deltas": [
+    -0.024,
+    0.069
+   ],
+   "approx": false,
+   "splits": [
+    96.456
+   ]
+  },
+  {
+   "i": 34,
+   "text": "象征人们蒸蒸日上",
+   "t0": 98.15,
+   "t1": 100.23,
+   "t0_used": 98.081,
+   "t1_used": 100.23,
+   "snapped": true,
+   "snap_deltas": [
+    0.069,
+    0.175
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "一堆游客偶尔想看看",
+   "t0": 100.23,
+   "t1": 102.17,
+   "t0_used": 100.23,
+   "t1_used": 102.075,
+   "snapped": true,
+   "snap_deltas": [
+    0.175,
+    0.095
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "窗外的观光景点",
+   "t0": 102.17,
+   "t1": 103.69,
+   "t0_used": 102.075,
+   "t1_used": 103.654,
+   "snapped": true,
+   "snap_deltas": [
+    0.095,
+    0.036
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "但只看到",
+   "t0": 103.69,
+   "t1": 104.63,
+   "t0_used": 103.654,
+   "t1_used": 104.63,
+   "snapped": true,
+   "snap_deltas": [
+    0.036,
+    0.187
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "比你住的再高一层的饭店",
+   "t0": 104.63,
+   "t1": 107.51,
+   "t0_used": 104.63,
+   "t1_used": 107.51,
+   "snapped": false,
+   "snap_deltas": [
+    0.187,
+    -0.114
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "Hoi Ya Yi Ya那鲁湾",
+   "t0": 107.51,
+   "t1": 112.02,
+   "t0_used": 107.51,
+   "t1_used": 112.036,
+   "snapped": true,
+   "snap_deltas": [
+    -0.114,
+    -0.016
+   ],
+   "approx": false,
+   "splits": [
+    109.621
+   ]
+  },
+  {
+   "i": 40,
+   "text": "Na Yi Na Ya Hei",
+   "t0": 112.02,
+   "t1": 114.21,
+   "t0_used": 112.036,
+   "t1_used": 114.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.016,
+    0.177
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "我亲爱的牛儿啊",
+   "t0": 114.21,
+   "t1": 120.32,
+   "t0_used": 114.21,
+   "t1_used": 120.372,
+   "snapped": true,
+   "snap_deltas": [
+    0.177,
+    -0.052
+   ],
+   "approx": false,
+   "splits": [
+    116.402,
+    118.422
+   ]
+  },
+  {
+   "i": 42,
+   "text": "Hoi Ya Yi Ya那鲁湾",
+   "t0": 120.32,
+   "t1": 124.4,
+   "t0_used": 120.372,
+   "t1_used": 124.366,
+   "snapped": true,
+   "snap_deltas": [
+    -0.052,
+    0.034
+   ],
+   "approx": false,
+   "splits": [
+    122.369
+   ]
+  },
+  {
+   "i": 43,
+   "text": "Na Yi Na Ya Hei",
+   "t0": 124.4,
+   "t1": 128.24,
+   "t0_used": 124.366,
+   "t1_used": 128.24,
+   "snapped": true,
+   "snap_deltas": [
+    0.034,
+    -0.12
+   ],
+   "approx": false,
+   "splits": [
+    126.386
+   ]
+  },
+  {
+   "i": 44,
+   "text": "跑到哪儿去了",
+   "t0": 128.24,
+   "t1": 145.76,
+   "t0_used": 128.24,
+   "t1_used": 145.76,
+   "snapped": false,
+   "snap_deltas": [
+    -0.12,
+    -0.108
+   ],
+   "approx": false,
+   "splits": [
+    131.17,
+    133.979,
+    137.137,
+    139.947,
+    142.71
+   ]
+  },
+  {
+   "i": 45,
+   "text": "因地制宜综合利用",
+   "t0": 145.76,
+   "t1": 147.44,
+   "t0_used": 145.76,
+   "t1_used": 147.493,
+   "snapped": true,
+   "snap_deltas": [
+    -0.108,
+    -0.053
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "利用对还是不对",
+   "t0": 147.44,
+   "t1": 149.02,
+   "t0_used": 147.493,
+   "t1_used": 149.119,
+   "snapped": true,
+   "snap_deltas": [
+    -0.053,
+    -0.099
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "自私的人类狼不狼狈",
+   "t0": 149.02,
+   "t1": 150.88,
+   "t0_used": 149.119,
+   "t1_used": 150.88,
+   "snapped": true,
+   "snap_deltas": [
+    -0.099,
+    0.182
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "破坏自然的生态会不会很累",
+   "t0": 150.88,
+   "t1": 153.69,
+   "t0_used": 150.88,
+   "t1_used": 153.69,
+   "snapped": false,
+   "snap_deltas": [
+    0.182,
+    -0.165
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "你说为了艺术要砍下一棵树",
+   "t0": 153.69,
+   "t1": 156.69,
+   "t0_used": 153.69,
+   "t1_used": 156.665,
+   "snapped": true,
+   "snap_deltas": [
+    -0.165,
+    0.025
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "这样对还是不对",
+   "t0": 156.69,
+   "t1": 158.4,
+   "t0_used": 156.665,
+   "t1_used": 158.4,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    0.156
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "你说为了装饰请问干我啥事",
+   "t0": 158.4,
+   "t1": 161.37,
+   "t0_used": 158.4,
+   "t1_used": 161.448,
+   "snapped": true,
+   "snap_deltas": [
+    0.156,
+    -0.078
+   ],
+   "approx": false,
+   "splits": [
+    159.823
+   ]
+  },
+  {
+   "i": 52,
+   "text": "是不是只能用相机纪录自然",
+   "t0": 161.37,
+   "t1": 164.62,
+   "t0_used": 161.448,
+   "t1_used": 164.629,
+   "snapped": true,
+   "snap_deltas": [
+    -0.078,
+    -0.009
+   ],
+   "approx": false,
+   "splits": [
+    163.027
+   ]
+  },
+  {
+   "i": 53,
+   "text": "拿相片给下一代给下一代回味",
+   "t0": 164.62,
+   "t1": 167.13,
+   "t0_used": 164.629,
+   "t1_used": 167.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.009,
+    0.132
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "可怜可悲",
+   "t0": 167.13,
+   "t1": 168.4,
+   "t0_used": 167.13,
+   "t1_used": 168.4,
+   "snapped": false,
+   "snap_deltas": [
+    0.132,
+    0.195
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "森林绿地都已成纪录片",
+   "t0": 168.4,
+   "t1": 171.05,
+   "t0_used": 168.4,
+   "t1_used": 170.992,
+   "snapped": true,
+   "snap_deltas": [
+    0.195,
+    0.058
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "闻不到绿意盎然",
+   "t0": 171.05,
+   "t1": 172.51,
+   "t0_used": 170.992,
+   "t1_used": 172.571,
+   "snapped": true,
+   "snap_deltas": [
+    0.058,
+    -0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 57,
+   "text": "只享受到乌烟瘴气",
+   "t0": 172.51,
+   "t1": 174.09,
+   "t0_used": 172.571,
+   "t1_used": 174.09,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    -0.106
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "我不能教育你们",
+   "t0": 174.09,
+   "t1": 175.65,
+   "t0_used": 174.09,
+   "t1_used": 175.65,
+   "snapped": false,
+   "snap_deltas": [
+    -0.106,
+    -0.148
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 59,
+   "text": "我不是你们的老师",
+   "t0": 175.65,
+   "t1": 177.1,
+   "t0_used": 175.65,
+   "t1_used": 177.006,
+   "snapped": true,
+   "snap_deltas": [
+    -0.148,
+    0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "我不是校长",
+   "t0": 177.1,
+   "t1": 178.83,
+   "t0_used": 177.006,
+   "t1_used": 178.83,
+   "snapped": true,
+   "snap_deltas": [
+    0.094,
+    -0.149
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "也不能给你们一巴掌",
+   "t0": 178.83,
+   "t1": 180.57,
+   "t0_used": 178.83,
+   "t1_used": 180.558,
+   "snapped": true,
+   "snap_deltas": [
+    -0.149,
+    0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 62,
+   "text": "掌掌掌掌掌掌掌",
+   "t0": 180.57,
+   "t1": 182.12,
+   "t0_used": 180.558,
+   "t1_used": 182.184,
+   "snapped": true,
+   "snap_deltas": [
+    0.012,
+    -0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 63,
+   "text": "长长长长长长篇大论",
+   "t0": 182.12,
+   "t1": 184.1,
+   "t0_used": 182.184,
+   "t1_used": 184.134,
+   "snapped": true,
+   "snap_deltas": [
+    -0.064,
+    -0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 64,
+   "text": "你们并不想听",
+   "t0": 184.1,
+   "t1": 185.28,
+   "t0_used": 184.134,
+   "t1_used": 185.342,
+   "snapped": true,
+   "snap_deltas": [
+    -0.034,
+    -0.062
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 65,
+   "text": "我知道但我没办法",
+   "t0": 185.28,
+   "t1": 186.93,
+   "t0_used": 185.342,
+   "t1_used": 186.944,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    -0.014
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 66,
+   "text": "我就是要写",
+   "t0": 186.93,
+   "t1": 188.14,
+   "t0_used": 186.944,
+   "t1_used": 188.151,
+   "snapped": true,
+   "snap_deltas": [
+    -0.014,
+    -0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 67,
+   "text": "你们可能永远不能体会",
+   "t0": 188.14,
+   "t1": 190.08,
+   "t0_used": 188.151,
+   "t1_used": 190.148,
+   "snapped": true,
+   "snap_deltas": [
+    -0.011,
+    -0.068
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 68,
+   "text": "显微镜底下的我们",
+   "t0": 190.08,
+   "t1": 191.86,
+   "t0_used": 190.148,
+   "t1_used": 191.86,
+   "snapped": true,
+   "snap_deltas": [
+    -0.068,
+    0.11
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 69,
+   "text": "会更现实更自私",
+   "t0": 191.86,
+   "t1": 193.46,
+   "t0_used": 191.86,
+   "t1_used": 193.376,
+   "snapped": true,
+   "snap_deltas": [
+    0.11,
+    0.084
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "这种艺术真的很难领悟",
+   "t0": 193.46,
+   "t1": 196.46,
+   "t0_used": 193.376,
+   "t1_used": 196.557,
+   "snapped": true,
+   "snap_deltas": [
+    0.084,
+    -0.097
+   ],
+   "approx": false,
+   "splits": [
+    194.932
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 71,
+  "lines_untimed": 0,
+  "lines_snapped": 66,
+  "lines_unsnapped": 5,
+  "lines_need_split": 14,
+  "total_splits": 20
+ },
+ "advisory": true
+}

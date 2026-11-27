@@ -1,0 +1,1 @@
+{"ts": "2026-11-09T14:33:22", "card": "DISPATCH-20261109-143322", "mode": "local_model", "decider": "本机 qwen3.5:4b-mlx", "pick": "W2", "biz": "asset-lib", "why": "阻塞资产库核心判据，后续任务均依赖其产出。", "layer": "L0", "model_sec": 3.71, "candidates": 10, "exec_done": true, "commit": "f0bd5402b", "verified": "judge-test 6/6; props caption 9/9", "remaining": "bm-c 458 张待按新判据批量跑"}

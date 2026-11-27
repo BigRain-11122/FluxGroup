@@ -1,0 +1,23 @@
+{
+ "trial": "POOL-0016 LivePortrait smoke (self-driven face)",
+ "runner": "bm-c r1057",
+ "ts": "2026-10-17T02:09:48",
+ "detector": "FaceAlignment blazeface_back_camera (BSD3)",
+ "landmark": "landmark_model.pth torch_gpu (no onnxruntime)",
+ "weights_bytes": {
+  "appearance_feature_extractor.safetensors": 3361936,
+  "landmark_model.pth": 114910599,
+  "motion_extractor.safetensors": 112496256,
+  "spade_generator.safetensors": 221771768,
+  "stitching_retargeting_module.safetensors": 911836,
+  "warping_module.safetensors": 182158564
+ },
+ "wall_sec_incl_cold_load": 652.88,
+ "vram_peak_mb": 16060,
+ "outputs": [
+  {
+   "file": "lp_smoke_r1057_00001_.png",
+   "kb": 177.7
+  }
+ ]
+}

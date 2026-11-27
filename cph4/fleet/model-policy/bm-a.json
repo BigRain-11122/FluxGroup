@@ -1,0 +1,34 @@
+{
+ "_comment": "本机模型策略（暂定骨架）。resident 由首次 inference-audit 回执后填；禁止直接照抄 Mac 的策略——显存与用途不同。",
+ "version": "v0-20261103-provisional",
+ "node": "bm-a",
+ "os": "windows",
+ "ram_gb": 94,
+ "vram_gb": 12,
+ "duty_hint": "执行位 + 夜间重 CPU；白天让路给 CEO 办公",
+ "duties": {
+  "resident": {
+   "model": null,
+   "budget_gb": 6.0,
+   "why": "待首次 audit 回执确定：装了什么、哪个引擎、解码多少"
+  },
+  "embedding": {
+   "model": "qwen3-embedding:0.6b",
+   "budget_gb": 1.0,
+   "why": "跨机统一：向量层用同一模型才能比较相似度"
+  }
+ },
+ "accept_upgrade": {
+  "quality_drop_max": 0.0,
+  "speed_drop_max": 0.1,
+  "speed_gain_min": 1.05,
+  "must_fit_mem_gate": true
+ },
+ "thresholds": {
+  "bench_stale_days": 7,
+  "scan_every_hours": 24,
+  "speed_min_tok_s": 15.0,
+  "quality_min_hits": 6
+ },
+ "provisional": true
+}

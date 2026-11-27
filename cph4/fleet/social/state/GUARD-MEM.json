@@ -1,0 +1,57 @@
+{
+ "group": "mem",
+ "ts": "2026-11-27T11:31:33",
+ "pass": {
+  "ME01": true,
+  "ME02": true,
+  "ME04": true,
+  "ME05": true,
+  "ME03": true
+ },
+ "overall": true,
+ "n_checks": 5,
+ "n_fail": 0,
+ "n_skip": 0,
+ "checks": [
+  {
+   "id": "ME01",
+   "name": "swap 不在涨",
+   "ok": true,
+   "sev": "P1",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2775MB）",
+   "n": null
+  },
+  {
+   "id": "ME02",
+   "name": "常驻模型预算",
+   "ok": true,
+   "sev": "P1",
+   "detail": "ollama 常驻 1 个 / 4.1GB（预算 ≤1 个、≤6GB）：qwen3.5:4b-mlx",
+   "n": null
+  },
+  {
+   "id": "ME04",
+   "name": "单一 ollama 服务端",
+   "ok": true,
+   "sev": "P2",
+   "detail": "11434 监听进程 1 个：4291",
+   "n": null
+  },
+  {
+   "id": "ME05",
+   "name": "内存余量",
+   "ok": true,
+   "sev": "P2",
+   "detail": "free 2.5G + inactive 6.1G = 8.6G（线 ≥4G）",
+   "n": null
+  },
+  {
+   "id": "ME03",
+   "name": "真实生成不增量",
+   "ok": true,
+   "sev": "P1",
+   "detail": "上次 2026-11-23T22:33:15（85h前）生成 1 条 swap +0.0MB pageouts +0",
+   "n": null
+  }
+ ]
+}

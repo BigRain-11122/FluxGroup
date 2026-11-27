@@ -1,0 +1,51 @@
+{
+ "ts": "2026-11-08T12:52:15",
+ "class": "typography",
+ "node": "bm-c",
+ "made": [
+  {
+   "key": "typography-01",
+   "file": "media\\asset\\typography\\typography-01.png",
+   "alpha_missing": false,
+   "alpha": true,
+   "size": [
+    1080,
+    1920
+   ]
+  },
+  {
+   "key": "typography-02",
+   "file": "media\\asset\\typography\\typography-02.png",
+   "alpha_missing": false,
+   "alpha": true,
+   "size": [
+    1080,
+    1920
+   ]
+  },
+  {
+   "key": "typography-03",
+   "file": "media\\asset\\typography\\typography-03.png",
+   "alpha_missing": false,
+   "alpha": true,
+   "size": [
+    1080,
+    1920
+   ]
+  },
+  {
+   "key": "typography-04",
+   "file": "media\\asset\\typography\\typography-04.png",
+   "alpha_missing": false,
+   "alpha": true,
+   "size": [
+    1080,
+    1920
+   ]
+  }
+ ],
+ "skipped": 0,
+ "failed": [],
+ "verdict": "PASS",
+ "note": "alpha_missing=true 表示规格要求透明底但本机只出白底图，需主控抠图补齐"
+}

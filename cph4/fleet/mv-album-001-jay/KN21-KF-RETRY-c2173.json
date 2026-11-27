@@ -1,0 +1,35 @@
+{
+ "batch": "C2173",
+ "shot": "KN21",
+ "why": "re-author the first frame: with the old KF the 768P path produced glyph noise (int8) or Chinese papercraft drift (int4)",
+ "prompt": "35mm film still photograph. A night rooftop in 2001 Taipei: a weathered concrete parapet with flaking paint and a rusted drain pipe, a single warm-lit window set back from it, and a folded white paper plane with a small red tail marking resting on the parapet. Behind, dark water tanks and old apartment blocks dissolve into the night, a few scattered window lights. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks, visible 35mm film grain. Eye-level view, shallow depth of field, natural lens falloff. A real place, photographed at night.",
+ "words": 93,
+ "rows": [
+  {
+   "r": 1,
+   "seed": 770112,
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\frames-retry-c2173\\KN21_r1_s770112.png",
+   "bytes": 1209908,
+   "secs": 67.4,
+   "ok": true
+  },
+  {
+   "r": 2,
+   "seed": 770341,
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\frames-retry-c2173\\KN21_r2_s770341.png",
+   "bytes": 1251354,
+   "secs": 27.1,
+   "ok": true
+  },
+  {
+   "r": 3,
+   "seed": 770905,
+   "out": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\frames-retry-c2173\\KN21_r3_s770905.png",
+   "bytes": 1165224,
+   "secs": 27.1,
+   "ok": true
+  }
+ ],
+ "ok_over_900kb": 3,
+ "note": "candidates only; a plate is picked before any i2v burn"
+}

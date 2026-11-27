@@ -1,0 +1,29 @@
+{
+  "_purpose": "机队产出归集与验收的唯一目标声明。任何代码需要知道'产出交给哪台机器、在哪台机器验收'时只读这里，不许在别处再写死机器名。",
+  "order": {
+    "ts": "2026-11-08",
+    "by": "CEO（大圣 Dasheng 本人）",
+    "text": "机队所有的产出都要归集给大圣的传家宝机器，然后去那里验收，包括自己的产出"
+  },
+  "target_node": "bm-c",
+  "target_nickname": "传家宝",
+  "target_host": "FLUXGROUP",
+  "why_bm_c": [
+    "CEO 2026-11-03 14:00 令原文：传家宝 bm-c(16G)=人脸 SDXL LoRA 主力，小钢炮 bm-b(8G)=GPT-SoVITS 音色主力",
+    "Tools/fleet/fleet_lane.py 是派单权威，其 name_cn 表写 bm-c=传家宝",
+    "TASK-ORDER-20261103 派给传家宝的活含 ComfyUI 探模/48 张角色图/16G LoRA/36 张图标 1024²，8GB 的 bm-b 物理上做不了",
+    "磁盘：bm-c 空闲 1231GB，bm-b 空闲 148GB，归集面需要大容量"
+  ],
+  "channel": "git origin/main",
+  "channel_note": "bm-c 的 '.' 在 Tools/fleet-nodes.json 里是 HOT（poke_repos），每次 poke 都会拉取，所以'进 origin/main'就等于'到 bm-c 盘上'。不做跨机二进制搬运，也不许用别的机器自建的旁路通道。",
+  "aggregate_form": "index+pointer",
+  "aggregate_note": "沿用 CEO 2026-11-03 归集令的既有正典：能进 git 的是 sha256+路径+血缘（cph4/fleet/lib/ASSET-INDEX.json），母版/LoRA/音频等大二进制留原机盘，索引在 cph4/ 即随 git 自动备份。",
+  "accept_on": "bm-c",
+  "accept_note": "验收必须在 bm-c 上执行并落回执，不许由产出方自证。主控(bm-m)自己的产出同样适用。",
+  "accept_rules": [
+    "文件在该机盘上存在且 mtime 属于本次交付（不许用历史回执冒充）",
+    "规格达标：图标 PNG>=256px、截图每款>=4 张、包体可运行、台账含 ts/product/gaps/source",
+    "回执落 git（cph4/fleet/queue-receipts/），字段含 verified_by=bm-c、verified_at、判据、结论"
+  ],
+  "unverified_is_fail": "产出方自报 DONE 而 bm-c 未验收 = 不算完成；只报不修的红要在同一行写清谁来修。"
+}

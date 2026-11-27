@@ -1,0 +1,19 @@
+{
+ "id": "RI-S-001",
+ "seat": "ri-strategy",
+ "group": "strategy",
+ "title": "回测结论口径标准化",
+ "stage": "SCOUT",
+ "hypothesis": "同一份数据同一结论可复现（样本区间+成本假设+失效条件+指纹），才算能对外报价的回测结论",
+ "sources": [
+  "cph4/fleet/products/strategy.yaml",
+  "cph4/fleet/LINE-NEXT-STEPS.json"
+ ],
+ "opened": "2026-11-02",
+ "touched": "2026-11-02",
+ "due": "2026-11-16",
+ "touches": [],
+ "probe": {},
+ "adoption": {},
+ "kill": {}
+}

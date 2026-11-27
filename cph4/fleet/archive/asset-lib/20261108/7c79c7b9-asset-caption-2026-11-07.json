@@ -1,0 +1,16 @@
+{
+ "ts": "2026-11-07T20:39:01",
+ "dir": "media/asset/faces",
+ "model": "none (spec-derived, no VLM)",
+ "trigger": "",
+ "pending": 96,
+ "written": 96,
+ "rejected": [],
+ "seconds": 0.0,
+ "caption_source": "spec",
+ "per_image_s": 0.0,
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS",
+ "note": "caption 由 CHARACTERS-EN-v1.json 的设定 + 视角名派生：图像本身就是按该设定生成的，事实精确、不臆造；不同于视觉模型草稿，但仍建议抽查。"
+}

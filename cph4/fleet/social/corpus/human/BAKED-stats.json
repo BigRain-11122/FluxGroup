@@ -1,0 +1,35 @@
+{
+ "ts": "2026-11-27T15:17:24",
+ "rows": 103291,
+ "workers": 7,
+ "bake_sec": 249.3,
+ "rows_per_sec": 414.4,
+ "near_dup": 1434,
+ "segments": {
+  "generic": 78488,
+  "memer": 5857,
+  "shallow": 4467,
+  "feeler": 3424,
+  "craft_learner": 2914,
+  "peer_pro": 1616,
+  "critic": 1320,
+  "student": 1276,
+  "tech_nerd": 1127,
+  "family": 1074,
+  "music_seeker": 674,
+  "ai_creator": 449,
+  "beginner": 396,
+  "traditional": 112,
+  "requester": 97
+ },
+ "verdicts": {
+  "PASS": 15864,
+  "RISKY": 77575,
+  "REJECT": 9852
+ },
+ "ai_smell_cut": 3440,
+ "ai_smell_why": {
+  "AI 腔": 3349,
+  "烂梗": 91
+ }
+}

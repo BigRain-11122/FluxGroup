@@ -1,0 +1,24 @@
+{
+  "card_id": "DEMO-CODELY-BRIDGE-20261109",
+  "compliance": {
+    "authorization_ref": "PENDING-IT-APPROVAL",
+    "data_classification": "internal",
+    "purpose": "unconfirmed",
+    "model_target": "cloud",
+    "seat_owner_confirmed": false,
+    "note": "Blocked pending clarification of the seat/business domain relationship and written IT approval."
+  },
+  "cwd": "/Users/junsheng.sun/FluxGroup",
+  "mode": "ask",
+  "approval": "default",
+  "timeout_s": 240,
+  "deliverable_mode": "capture",
+  "expect_json": true,
+  "deliverable": "cph4/fleet/state/codely-bridge/DEMO-CODELY-BRIDGE-20261109.json",
+  "assert_equal": {
+    "iron_laws": 9,
+    "fleet_nodes__len__": 5,
+    "source_files__len__": 2
+  },
+  "prompt": "Read /Users/junsheng.sun/FluxGroup/AI.md and /Users/junsheng.sun/FluxGroup/RULES.md. Reply with ONLY one JSON object, no markdown fences and no prose, with exactly these keys: iron_laws (integer, the count of numbered items in section 5 of AI.md), fleet_nodes (array of the short node codes like bm-x listed in section 1 of AI.md), naming_rule (one string of at most 12 words describing the file and directory naming convention in section 2 of RULES.md), source_files (array of the two file basenames you read). Do not create, edit or delete any file."
+}

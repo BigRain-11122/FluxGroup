@@ -1,0 +1,16 @@
+{
+ "id": "bigdomain",
+ "name": "BigDomain·硅基域商业化",
+ "owner": "域运营席",
+ "status": "ACTIVE",
+ "cadence_h": 36,
+ "inputs": [
+  "domain/BigDomain",
+  "domain/BigDomain"
+ ],
+ "outputs": [
+  "domain/BigDomain/**/*"
+ ],
+ "lanes": [],
+ "needs": "cpu"
+}

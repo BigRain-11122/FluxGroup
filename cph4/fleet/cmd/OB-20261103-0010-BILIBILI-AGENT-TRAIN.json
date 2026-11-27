@@ -1,0 +1,72 @@
+{
+ "id": "OB-20261103-0010-BILIBILI-AGENT-TRAIN",
+ "type": "data+train+eval",
+ "lanes": ["bm-a", "bm-b", "bm-c", "bm-m"],
+ "issued_at": "2026-11-03T00:10:00",
+ "issued_by": "bm-b (CEO 令 2026-11-03「排任务单，让主控好好训练 B站养号 agent，包括回复话术，多拉取别人的大量学习」)",
+ "objective": "训练一个真正像人的 B 站评论区回复模型：以大规模真实评论语料训练 LoRA，接入现有闸门与择优管线，交付可灰度上线的本地模型与评测证据。",
+ "workstreams": [
+  {
+   "lane": "bm-b",
+   "name": "语料工装与评测基准",
+   "steps": [
+    "采集器 bili_corpus_pull.py：按分区×关键词×时间窗抓公开视频的评论与二级回复（只读、限速、可断点续跑）",
+    "清洗器 bili_sft_prep.py：去重/去PII/去链接/长度过滤/评论-回复配对，输出 chat 格式",
+    "固定评测集 bili_eval_set.json（40 条，含 10 条自有 MV 场景）与闸 reply_gates_v2.py（G1-G18）",
+    "评测器 bili_sim_generic.py：分诊→4 候选→闸→择优，产出 pass/长度/复读率"
+   ],
+   "deliverables": ["E:/Fluxgroup/.codely-cli/bili_corpus_pull.py", "E:/Fluxgroup/.codely-cli/bili_sft/*.jsonl", "E:/Fluxgroup/.codely-cli/bili_eval_set.json"]
+  },
+  {
+   "lane": "bm-a",
+   "name": "采集分片（不同分区，避免同 IP 高频）",
+   "steps": [
+    "分区：音乐/MV、影视剪辑、动画二创、生活区；每片目标 12k 条评论",
+    "只跑 CPU、只读接口；单视频评论翻页 ≤3 页，间隔 2-5 秒随机",
+    "产出 raw jsonl 交回 cph4/fleet/queue-receipts/"
+   ],
+   "deliverables": ["cph4/fleet/queue-receipts/BILI-CORPUS-<shard>.jsonl"]
+  },
+  {
+   "lane": "bm-c",
+   "name": "LoRA 训练（16G 卡）",
+   "steps": [
+    "底座 Qwen2.5-7B-Instruct（QLoRA 4bit，r=16/alpha=32，seq 1024，bs1×ga8，lr 1e-4，2-3 epoch）",
+    "语料达到 ≥30k 对后开训；先 300 步冒烟，再全量；每 500 步存断点",
+    "训练期独占 GPU，跑前检查 VRAM≥14GB，训练期禁止其他 GPU 任务"
+   ],
+   "deliverables": ["train-out/bili-7b-lora/（adapter）", "merged GGUF + ollama 标签 bili-reply-7b-lora"]
+  },
+  {
+   "lane": "bm-m",
+   "name": "调度与验收",
+   "steps": [
+    "按本单排期分派，收集三机回执",
+    "验收：同一 40 条测试集上闸通过率与盲评，达标才允许进灰度"
+   ],
+   "deliverables": ["验收回执 OB-20261103-0010-BILIBILI-AGENT-TRAIN.<node>.ack.json"]
+  }
+ ],
+ "constraints": {
+  "account_safety": "全程只读采集；任何账号写操作（赞/币/藏/弹幕/评论）不在本单范围，需 CEO 单独授权并逐步灰度",
+  "rate_limit": "单 IP 每分钟 ≤30 次请求；遇 412/风控立即停 10 分钟并降速",
+  "no_pii": "语料不得含用户昵称以外的个人信息；不落盘手机号/微信/链接",
+  "model_source": "只走 ModelScope / hf-mirror；禁止长时间占官方源",
+  "gpu_policy": "bm-b 8G 卡仅可跑 3B 或评测；7B/14B 训练只在 bm-c 16G；14B 常驻禁令不变（常驻槽是 4B）",
+  "no_cloud": "训练与评测全部本地，不调用云端 API"
+ },
+ "targets": {
+  "corpus_pairs": 30000,
+  "corpus_comments": 80000,
+  "eval_pass_rate": ">=90%",
+  "echo_rate": "<=10%",
+  "length_median": "28-42 字",
+  "end_punct_rate": "<=35%"
+ },
+ "accept": [
+  "cph4/fleet/queue-receipts/ 出现三机语料/训练/评测回执",
+  "评测报告含：闸通过率、复读率、长度分布、与现役 7B/14B 的同题对比",
+  "ollama 标签 bili-reply-7b-lora 可加载，且 bili_sim_generic.py 跑通 40 条"
+ ],
+ "eta": "语料 2 天（三机并行）→ 训练 6-8 小时（bm-c）→ 评测 1 小时"
+}

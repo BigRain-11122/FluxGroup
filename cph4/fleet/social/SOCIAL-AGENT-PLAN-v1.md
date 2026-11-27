@@ -1,0 +1,278 @@
+# 养号 Agent v1 — 科学做法（正典）
+
+> 立项：CEO 2026-11-17「用本地大模型训练养号 agent：客服、B站粉丝维护、弹幕交互、评论；去 GitHub 找最新，看如何科学弄」
+> 现状：`social_drafts`（草稿）+ `social_risk`（风险清单）+ `social_topics`（选题）已在线；本轮新增 `social_review`（人工批审→样本回流）、三通道草稿、事实包。
+
+## 〇 一句话结论
+
+**不做微调，做三层训练 + 四道闸。** 本地 4B/9B 上，微调样本不足（真实评论量级几十条）、MacBook 统一内存不允许反复训练；而"好样本进 prompt + 事实包检索 + 规则闸 + 人工回流"这套已被本仓实测证明能让 4B 写出可用中文（语感靠样本不靠形容词）。真正的护城河不是模型，是**回流数据**——人工每次通过/改写/否决都变成下一轮的示范。
+
+## 一 通道矩阵（全平台 × 全行为 · 正身=PLATFORM-MATRIX-v1.json）
+
+CEO 2026-11-17「养号要包括所有的主流平台各个行为」→ 判据不再是"哪个平台"，而是**平台 × 行为**：同一个行为在 A 平台能调官方接口、在 B 平台只能人工。机器件 `PLATFORM-MATRIX-v1.json`，四态：
+
+| mode | 含义 | 能不能全自动 |
+|---|---|---|
+| `api_write` | 官方接口可读可写（仍需应用权限） | 能出草稿；发送默认 `needs_approval` |
+| `api_read` | 官方只读（弹幕/数据） | 能全自动采集 |
+| `export` | 后台导出/人工粘贴 | 半自动（导出→草稿→人发） |
+| `manual` | 只能纯人工 | 不做代码路径 |
+| `forbidden` | 红线 | 入口直接拒收 + 计数 |
+| `待核` | **未获官方文档确证** | 可先跑草稿，但不得宣称已打通 |
+
+**已核（有官方文档）**
+
+| 平台 | 行为 | 结论 |
+|---|---|---|
+| B站 | 弹幕（读） | 开放平台·直播创作者服务，需实名入驻+互动直播报备+appId/key/secret+身份码 |
+| B站 | 弹幕（发） | **forbidden**（未报备不做；第三方 cookie 逆向是红线） |
+| B站 | 评论/私信 | 无公开接口 → export / manual |
+| 抖音 | 评论 | `video.comment`（企业号）可读列表+回复+置顶 |
+| 抖音 | 私信 | `im`（企业号）收+回；2026-07-06 起手机号强制脱敏，解码权限新申请通道已关 |
+| 抖音 | 粉丝群 | 企业号群消息收发/撤回 |
+| 抖音 | 数据 | `data.external.item/user`（获赞/评论/分享/主页访问） |
+| 快手 | 发布/数据 | 开放平台可创建视频、取流量数据；创作者评论/私信**待核** |
+| 公众号 | 发布/客服消息/留言 | 官方 API 齐（客服消息受 48h 窗口限制，留言需认证） |
+| 小红书 / 视频号 / 知乎 / 微博 | — | 未见面向创作者的公开接口，**标待核**，先走 export/manual |
+
+**行为全集**（`behaviors_global`）：回评论（含置顶/精选）、回私信客服、弹幕读与回、答谢礼物/SC、粉丝群消息、发布/更新、数据复盘、选题、舆情处置（一律人工）。
+
+**四条硬规则**：①`forbidden` 组合入口直接拒收并计数 ②`待核` 只能跑草稿不能宣称已打通 ③所有写行为 `needs_approval=true`，发送由 CEO 或授权人执行 ④PII（手机/微信/邮箱/身份证）打码后才进队列。
+
+## 一·补 统一入口（新）
+
+```bash
+# 各渠道原始事件放 <raw>/<platform>.<behavior>.jsonl（一行一个事件）
+python3 Tools/fleet/social_ingest.py --raw <raw> --out <dir>   # 校验矩阵+脱敏+去重+冷却
+python3 Tools/fleet/social_drafts.py --dir <dir>                # 统一出草稿（face 自动路由）
+```
+
+## 二 模型分工（本机实测能力）
+
+| 角色 | 模型 | 干什么 | 为什么 |
+|---|---|---|---|
+| 分类/风险 | `qwen3.5:4b-mlx`（常驻） | kind 六分类、是否纯夸奖跳过、事实问句识别 | 24-38 tok/s，分类题够用 |
+| 草稿 | 同上（评论/弹幕）；客服可切 9B | 10-25 字口语草稿 | 语感靠 few-shot；9B 只在"给了证据+契约"的题上更强 |
+| 向量 | `qwen3-embedding:0.6b` | 选题聚类、相似问题归并 | 跨机统一，才能比较相似度 |
+| 规则 | 纯 Python | 事实包检索、模板检测、频控、红线 | 数字/结论一律规则算，不交 4B（4B 算术实测两次全错） |
+
+## 三 三层训练（"训练"到底指什么）
+
+- **L1 示范层（已实现）**：`cph4/fleet/voice/corpus.jsonl` 好样本，按 `ctx` 分桶覆盖类型；每批取 10 条进 prompt。
+- **L2 事实层（本轮新增）**：`cph4/fleet/social/faq.jsonl`，每条带 `verified_by`；**未核实（TODO/UNKNOWN）条目不参与作答**，涉及事实而包内无解 → 一律转人工。这是"客服不胡说"的关键，也是唯一能防住编造歌名/价格的结构。
+- **L3 偏好层（本轮新增）**：`social_review` 把人工的通过/改写/否决写成 ①good 样本（进 L1）②`rejections.jsonl` 坏样本（进 prompt 反例）。**模型自己写坏的样子比手写反例更有针对性**。
+- **什么时候才值得上 SFT/LoRA**：同时满足 ①人工通过样本 ≥2000 条 ②规则闸命中率稳定（连续 2 周人工返工率 <10%）③有 16G 以上显存空窗。不满足就别碰——样本少时微调只会把 4B 已有的语感训坏。
+
+## 四 四道闸（全部确定性，可复算）
+
+1. **红线闸**：被问 AI 制作/真人/身份 → 草稿留空、转人工（披露口径归 CEO，10-30 令）。2026-11-17 实测抓到 4B 自曝"是 AI 唱的"，已加 `disclosure_veto`：草稿里出现 AI/生成/合成/真人一律否决。
+2. **事实闸**：客服问价格/歌名/软件/地址，事实包无已核实条目 → 转人工，不生成。
+3. **语感闸**（`voice_gate`）：客服腔/公文腔/反问/感叹号 → 带命中项重写一次，仍不过留空。
+4. **模板闸**：同批两条草稿共用 6 字以上同句尾 → 判模板，转人工。
+   另：弹幕纯夸奖短句**不逐条回**（`SKIP_NO_REPLY`）——逐条回等于告诉观众这是机器人。
+
+## 五 上线顺序（每步可验收）
+
+| 步 | 动作 | 验收判据 | 阻塞 |
+|---|---|---|---|
+| 1 | 评论队列跑通（已有） | 真实评论 ≥50 条 → 草稿人工通过率 ≥60% | 无（需真实评论导出） |
+| 2 | 人工批审回流（本轮已建） | 一周内 ≥100 条 approve/edit，语料增 ≥60 条 | 需人每天 10 分钟 |
+| 3 | 事实包填充 | FAQ ≥20 条已核实（BGM/软件/更新节奏/转载/合作） | **CEO 或运营供稿** |
+| 4 | 弹幕接入（官方） | 开放平台报备通过 + 长连稳定 2h + 只读不写 | **CEO 物理件**：实名开发者入驻、应用创建、互动直播报备、直播间身份码 |
+| 5 | 客服（私信） | 事实问句 100% 有出处或转人工 | 步 3 |
+| 6 | 粉丝维护 | 选题命中"评论反复问"≥3 次才立卡 | 步 1 数据量 |
+
+## 六 命令
+
+```bash
+# 草稿：三通道（评论/弹幕/客服私信）
+python3 Tools/fleet/social_drafts.py --face comment          # 或 danmaku / dm
+python3 Tools/fleet/social_drafts.py --self-test             # 8 条确定性断言（不调模型）
+
+# 人工批审（把人的判断变成训练数据；本工具不发送任何内容）
+python3 Tools/fleet/social_review.py --list
+python3 Tools/fleet/social_review.py --approve <id>
+python3 Tools/fleet/social_review.py --edit <id> --text "改写版" --why "为什么这么改"
+python3 Tools/fleet/social_review.py --reject <id> --why "反问观众/承认了指控"
+python3 Tools/fleet/social_review.py --stats
+python3 Tools/fleet/social_review.py --self-test             # 10 条断言（沙箱，不写生产语料）
+
+# 下游
+python3 Tools/fleet/social_risk.py ; python3 Tools/fleet/social_topics.py
+```
+
+## 七 未做 / 明确不承诺
+
+- **不代发**：任何工具都没有"发送"代码路径。发不发、怎么发是 CEO 的决定（`docs/orders.md` 平台账号物理件）。
+- **不做自动回复机器人**：弹幕逐条自动回＝平台风控与观众反感双输；只做"挑该回的、给草稿"。
+- **不做刷量/群发关注感谢**：平台明确打击，且会把账号做成营销号。
+- **评论抓取**：无官方接口，爬页面不做；只接受人工导出。
+
+## 八 实测记录（2026-11-17 首轮"训练"）
+
+评测集=`cph4/fleet/social/golden.jsonl`（38 题：五类真评论 + 10 条红线 + 4 条客服），评测器=`Tools/fleet/social_eval.py`。
+生产口径=每条 4 个候选（temp .6/.8/1.0/1.1）取最优，只做减法打分。
+
+| 轮次 | 提示词 | 红线安全 | 分类 | 人判一致 | 草稿 | 复读对 | 均时 |
+|---|---|---|---|---|---|---|---|
+| 基线 | 整句 few-shot（语料照抄进 prompt） | 10/10 | 79% | 95% | 11 | **6** | 0.7s |
+| v2 | 判据式（去例句）+ 法务/骂人/报价确定性分流 | 10/10 | 82% | 92% | 11 | 3 | 0.6s |
+| v3 | v2 + 4 候选择优 + 批内去重选优 + 身份正则补"自己唱" | **10/10** | **97%** | 92% | 14 | **1** | 1.2s |
+
+**四次真跑换来的结论（都已修）**
+1. 语感闸连续 BLOCK 会无限递归把工具打死 → 加深度上限（只重写一次）。
+2. 同一条评论单采样两次结果不同（一次有稿一次空）→ 必须多候选择优，抽一次算数等于没测。
+3. 把语料整句塞进 prompt 会被逐字照抄（6 对草稿共用整句，正典早记过）→ 改判据式，语料转为评测资产。
+4. 模型把「BGM 有版权吗」当普通提问答、把「浪费时间」当挑刺给出草稿 → 法务/辱骂/报价改确定性分流；「这歌是你自己唱的吗」四个候选全漏 → 身份正则补"自己唱/原唱/本人唱"。
+
+**已知不足（不粉饰）**
+- 仍会过度拦截：夸奖里带"BGM"字样偶尔被判"下了确定结论"而空稿；感谢类偶尔被 disclosure_veto 误伤。方向是安全的（宁可少回），但会丢可用草稿。
+- 延后话仍会重复：一批 14 条里有 1 对共用"这个我得翻一下"。已加正向判据要求说具体，未彻底解决。
+- 事实包目前只有 1 条已核实（转载注明出处），BGM/软件/更新节奏/报价均为 TODO——客服只能分流不能答事实，这是当前最大的产能瓶颈，等正典供稿。
+- 4B 的分类能力够用，措辞仍缺锐度（正典对 7B 的判断同样成立）：**上限提升只有换更大模型或加云端精修层**，需你定。
+
+## 九 抖音企业号接入（CEO 2026-11-17 定：先接这条）
+
+**已实现（只读）**：`Tools/fleet/social_douyin.py`
+- `--check`：凭据是否齐备 + token 剩余有效期（不联网，绝不假跑）
+- `--pull comments --item-id <视频ID> --out <raw目录>`：按官方 `/video/comment/list/` 分页拉评论 → `raw/douyin.comment.jsonl`（ingest 直接可吃）
+- `--reply` **rc=4 拒绝**、`--pull dm|data` **rc=3 待核拒绝**——写行为与未确证路径都没有代码路径（CEO 令：全部只出草稿）
+- 自检 6/6（缺凭据判未授权、分页拉满、max_pages 防无限翻页、写行为必拒、待核必拒、输出格式兼容 ingest）
+
+**需要 CEO 的三件（顺序不能颠倒）**
+1. 抖音企业号认证（同主体），并确认这台机要用哪个号（open_id 归属）
+2. 开放平台创建应用 → 申请 `video.comment`（评论管理）；后续私信要 `im` + 私信解码权限
+3. 扫码授权该账号 → 拿到 access_token/open_id，写入 `~/.fluxgroup/douyin.json`（0600，不入库）
+
+**拿到后一条命令闭环**：
+```bash
+python3 Tools/fleet/social_douyin.py --pull comments --item-id <ID> --out cph4/fleet/social/raw
+python3 Tools/fleet/social_ingest.py --raw cph4/fleet/social/raw --out cph4/fleet/social
+python3 Tools/fleet/social_drafts.py --dir cph4/fleet/social
+python3 Tools/fleet/social_review.py --list
+```
+
+**待核清单**（确认文档后再实现，不猜）：抖音私信列表 / 群消息 / 数据接口；快手创作者评论与私信；小红书、视频号、知乎、微博的创作者侧接口。
+
+## 十 全自动化（CEO 2026-11-17「我要你全自动化 不管什么形式和方法」）
+
+一条令 → 一个入口 → 三层开关。令在 `docs/orders.md` 同日条，开关只在 `AUTOPILOT-v1.json`。
+
+| 层 | 内容 | 现状 |
+|---|---|---|
+| T1 | 采集→草稿→排队→一键批发 | **常开**，零账号风险 |
+| T2 | 官方接口自动发送（抖音 `video.comment` 回复已实现；公众号客服消息待接） | **已开**（`tier2_enabled=true`） |
+| T3 | 无官方接口平台的登录态浏览器自动化（小红书/视频号/知乎/微博/B站评论） | **代码层关闭**，需 `tier3_risk_ack` 写令号（封号不可逆） |
+
+```bash
+python3 Tools/fleet/social_autopilot.py --status                  # 看层/限额/队列
+python3 Tools/fleet/social_autopilot.py --run --raw <raw> --dir cph4/fleet/social --execute
+```
+
+**硬约束（任何一条不满足即整体停发，不"边发边报错"）**
+1. `kill_switch=true` → 只排队（异常止血用）
+2. 日限额按 `platform.behavior`（默认 5，抖音评论 10）→ 超限 `HOLD_QUOTA`
+3. 同作者冷却 30 分钟（**先判冷却再判额度**：同一个人被连回两条是最强的机器味）
+4. `needs_human=true` 的草稿永不自动发（红线/事实缺口/未过闸的都在这一档）
+5. 已实现的官方通道只有 `douyin.comment`；其它平台/行为一律 `HOLD_TIER`——**"没实现"和"调用失败"分开记**，混在一起审计就看不出真故障
+6. 逐条回执 + 审计 `audit.jsonl`（含 result/receipt/hold_reason）
+
+自检：autopilot 8/8、ingest 9/9、douyin 6/6，全部离线注入，不联网、不写生产队列。
+
+**还差你一句话的两件**：①T3（无接口平台的登录态自动化）是否接受封号风险——接受就给我令号，我把 `tier3_risk_ack` 写上并实现浏览器执行器 ②抖音凭据（企业号认证→应用→`video.comment`→扫码授权），没有它 T2 只能空转。
+
+## 十一 T3 浏览器代操作（CEO 2026-11-17 授权「只能人工你也要操作我的电脑或者页面自己搞定」）
+
+对没有官方写接口的平台，用**独立浏览器 profile + 已登录会话**把页面动作做完。执行器=`Tools/fleet/social_browser.py`（Playwright，必须先 `playwright install chromium`，用 `.venv-housing/bin/python` 跑）。
+
+```bash
+.venv-housing/bin/python Tools/fleet/social_browser.py --login xiaohongshu --wait 120   # 扫码一次，登录态进 ~/.fluxgroup/browser-profile
+.venv-housing/bin/python Tools/fleet/social_browser.py --calibrate xiaohongshu           # 列出候选输入框/发送按钮路径
+# 把 compose/submit 填进 BROWSER-SELECTORS-v1.json 并写 verified_at
+.venv-housing/bin/python Tools/fleet/social_browser.py --dry  xiaohongshu --limit 1      # 填好不发，截图
+.venv-housing/bin/python Tools/fleet/social_browser.py --send xiaohongshu --limit 1      # 真发
+```
+
+**代码强制的七条**：①选择器未标定即拒绝（`rc=6`，不猜）②任何一步对不上→整平台停手，不重试不暴力点 ③逐字敲入并校验文字真进了输入框（防点错假框）④点发送后再校验输入框已清空，未清空视为未发出 ⑤两条间隔 20-60 秒随机 ⑥每步前后截图 `.codely-cli/evidence/social/<日期>/` ⑦不做点赞/关注/刷量/群发私信。
+
+**本机浏览器来源（2026-11-17 实测，别再踩）**：本机没装 Chrome；`playwright install chromium` 在本机恒 0%（连得上但不出数据，两条源都一样）；正法是直接用 npmmirror 下 chrome-for-testing（5.7MB/s，192MB 约 40 秒）解压到 `~/.fluxgroup/chrome/`，在 `CHROME_CANDIDATES` 里登记该二进制、用 `executable_path` 指过去——Playwright 不需要自己的浏览器目录。
+
+**登录与标定 SOP（一条命令，你扫一次码即可）**
+
+```bash
+# 一个平台一次；--url 给一条你自己的内容页，登完会自动截图并列出候选选择器
+.venv-housing/bin/python Tools/fleet/social_browser.py --login xiaohongshu  --wait 180 --url "<你的笔记URL>"
+.venv-housing/bin/python Tools/fleet/social_browser.py --login bilibili     --wait 180 --url "<你的视频URL>"
+.venv-housing/bin/python Tools/fleet/social_browser.py --login weibo        --wait 180 --url "<你的微博URL>"
+.venv-housing/bin/python Tools/fleet/social_browser.py --login zhihu        --wait 180 --url "<你的回答URL>"
+```
+登完把打印的 `compose`/`submit` 两条路径填进 `BROWSER-SELECTORS-v1.json` 并写 `verified_at`，之后 `--dry` 试一条、再 `--send`。
+
+**本机实测（2026-11-17，别再重复踩）**：**无头模式会被风控直接拦**——小红书返回 `error_code=300012 当前网络存在风险`、知乎跳 `/account/unhuman`；**有头模式能正常到登录页**。所以 T3 一律有头运行（可见窗口），且必须用 `~/.fluxgroup/browser-profile` 这个专用 profile（登录态在里面）。微博会跳 `newlogin`，B站首页可读。
+
+**诚实的边界**：T3 只解决"页面能点"的问题，不解决"平台是否允许"。封号风险 CEO 已接受并留令号；出问题一击 `kill_switch` 即停。选择器会随平台改版失效——那时工具会停手报"未标定"，不会瞎点。
+
+## 十二 24 小时学习循环与并发（CEO 2026-11-17「不断的进行主流平台的24小时不间断学习」）
+
+常驻=launchd `com.fluxgroup.sociallearn`（KeepAlive，plist 在 `cph4/fleet/social/launchd/`），每 20 分钟一轮：轮换数据源 → 只读采集 → corpus 只增去重 → 重算画像 → 台账逐轮落行。
+
+**并发怎么开**：`--concurrency N`（默认 2，见 plist）。三道前提：
+1. **每平台独立 profile**（`~/.fluxgroup/browser-<platform>`）——同一个 user_data_dir 两开会直接 `ProcessSingleton` 失败，所以并发的前提是 profile 分家，登录也要各平台各登一次。
+2. **内存总闸 `mem_pressure()`**：swap 已用 >1GB 或空闲内存 <2GB → 本轮并发强制降到 1。2026-11-17 实测本机 swap 已用 2.6GB、空闲 0.3GB，总闸当场生效（宁慢勿拖垮机器，主控还要跑模型）。
+3. **错峰 0-3 秒**起跑，避免几个浏览器同时抢 IO。
+
+**判据**：并发不改变结论，只改变总耗时；任一平台失败（BLOCKED）不影响其它平台，逐条台账分别记。自检 10/10 覆盖：并发两平台都拿到结论、失败隔离、profile 路径互不相同、内存闸可调用、哨兵可暂停、重复内容不重复入库、台账逐轮落行。
+
+**停/调**：哨兵 `.codely-cli/state/SOCIAL-LEARN-PAUSED` 即停；改并发改 plist 里 `--concurrency` 后 `launchctl bootout/bootstrap` 重载。
+
+## 十三 B站 三条先做（评论 / 站内引流 / 弹幕）· 2026-11-17
+
+CEO「先把 b 站的评论，引流，回复等训练好」。**引流按站内做**：关注/合集/追更/下一集；站外导流（微信/QQ/链接/二维码/网盘/店铺）一律硬拦——产线验收写死"零导流话术"（PRODUCTS.json PROD-ACCOUNT-GROWTH）。
+
+**新增 `funnel` 通道**（与 comment/danmaku/dm 并列），规则：一句话 10-20 字、必须长在真实语境里、不承诺时间、不喊口号、禁营销腔（宝子/家人们/划重点）。
+
+**两道新闸（确定性）**
+1. `funnel_out_veto`：草稿里出现站外导流字样 → 空稿 + 转人工（"加我微信发你原片"这类请求，正确回答是拒绝外链 + 站内引导）。
+2. `funnel_empty/funnel_long`：引流稿里没有站内动作、或超过 40 字 → 转人工。
+3. **引流密度闸**：同一批每 5 条最多 1 条带引导，超出的标 `HOLD_FUNNEL` 留痕（密度过高会被当广告号）。
+
+**B站 专项评测（`golden_bili.jsonl` 24 题：评论 8 / 弹幕 4 / 引流 8 / 红线 4）**
+
+| 指标 | 结果 |
+|---|---|
+| 红线安全 | **4/4 = 100%** |
+| 分类准确（含 funnel_* 通配） | **96%** |
+| 人判一致 | **96%** |
+| 草稿产出 | 12/24 |
+| 批内复读 | **0 对**（引流话术不再同一句） |
+
+**诚实记录**：剩余失败是"安全方向的空稿"——被问制作方法/身份时规则否决、草稿留空转人工（"这个转场怎么做的""女主好美"各有一例被过度拦截）。宁可少回不可尬回，但这是产能损失，下一步要么补事实包（制作方式可公开到什么程度由 CEO 定），要么把这类降到"延后话术"。
+
+## 十四 不换页前提下的加速：互斥 + 内存限额并发（2026-11-17 实测）
+
+CEO「再不触发swap的情况下加快效率，多采集别人的评论，加大训练素材，模拟真人」。
+
+**实测三组硬数字**
+| 测量 | 结果 |
+|---|---|
+| 单个 Chrome 实例 RSS | **≈1.05GB**（1/2/3 实例 = 1.06/2.10/3.16GB，线性） |
+| 停模型前空闲内存 | **164MB**（swap 已用 2.6-3.5GB） |
+| 停掉 4B/9B/2B 后 | **4732MB**（模型才是内存大户） |
+| 3 浏览器并存时 | 空闲 32MB → 系统压缩/换页，说明"不换页"必须靠排队而不是硬塞 |
+
+**由此定的三条机制（已写进代码）**
+1. `workers_by_mem(requested)`：并发 = (空闲 − 900MB 预留) // 1.1GB，最小 1。请求 3 个也只会按实际内存给。
+2. **采集与推理互斥**：采集前 `unload_models()` 卸掉 4B/9B/2B（重载只要 1.5s），并写 `MEM-MODE=collect`；`model_queue` 见到该标记一律 `DEFER_COLLECT` 让路。反之亦然。
+3. **多采集公开内容**：`--discover-public <关键词>` 从 B站 搜索里发现公开视频写进 SOURCES（本轮实测拿到 15 个源，关键词「MV 剪辑」「氛围感短片」），循环每轮随机挑一条，避免只盯自己的作品。
+
+**模拟真人**：`PERSONA-v1.json`（身份/说话习惯/立场/禁忌/各平台口吻）+ `STYLE-PROFILE-v1.json`（真实观众长度与 emoji 密度）一起注入提示词；再加两道确定性处理：
+- 人味闸：>26 字且无任何语气词 → 打回人工（太书面）；
+- 标点归一：感叹号统一降为句号（人设禁 `！`，模型仍会写，提示词写禁语＝磁吸，只能靠归一）。
+
+**B站 专项回归（24 题，加人设前后各一次）**
+| 版本 | 红线 | 分类 | 人判 | 草稿 | 复读 |
+|---|---|---|---|---|---|
+| 加人设前 | 4/4 | 96% | 96% | 12/24 | 0 |
+| 加人设后（判据式+标点归一） | 4/4 | 83% | 92% | 9/24 | 0 |
+
+诚实的读法：**红线始终 100%，但草稿产出从 12 降到 9**——人设与 funnel 规则叠加后语感闸更容易全灭候选（宁可少回）。下一步要么放宽 funnel 的长度/用词约束，要么把"人物立场"从提示词层挪到 few-shot 层，别同时压两条。

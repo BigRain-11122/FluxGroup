@@ -1,0 +1,232 @@
+{
+ "ts": "2026-10-15T20:10:01",
+ "machine": "bm-c",
+ "round": "r1032",
+ "verdict_refs": [
+  "orders 10-15 17:1x @bm-c Jay 化批帧审裁定+i2v 派单（导演席签发）",
+  "O-20261015-1725 KF 海选制（4 种子/槽落实）",
+  "O-20261015-1630 提示词闸（lint 机核+verdict 随包）"
+ ],
+ "kf_lint": "pack BAD regex zero-negatives PASS (24 prompts)",
+ "slots": [
+  {
+   "slot": "E01c_first_line.mp4",
+   "source": "REJECT 重写·导演处方=握笔手熔接+纸面伪文字→手部干净+纸面留白",
+   "kf_prompt": "A close-up at eye level of a 20-year-old Taipei student of 2001 with heavy-lidded puffy monolid single-lidded eyes with heavy upper lids, small narrow drowsy eyes, a thick lower lip, a wide flat rounded jaw with a blunt round chin, softly rounded cheeks, natural unretouched skin with visible pores, a calm deadpan drowsy expression, thick black hair in a full blunt fringe lying flat over his eyebrows, a slightly overgrown soft mop cut in the 2001 Taipei album-cover style, wearing a loose plain white T-shirt under an open charcoal-grey cotton jacket, relaxed straight-leg dark denim jeans and worn flat canvas shoes with his fountain pen resting lightly at the top corner of a blank pale page, chin tucked, his heavy-lidded eyes on the clean page in a drowsy focus, his fingers clearly formed around the pen barrel, the smooth blank paper glowing softly under the lamp. A single warm tungsten desk lamp at 2400K lights his face from the left, the small student room beyond kept in warm film-base brown fading to black, cassette tapes and a tea mug at the desk edge, fine dust adrift in the lit air. Shot on Kodak Vision 5279 35mm film in 2001, telecine transfer, amber monochrome grade with deep crushed shadows, fine organic grain, as a film still from a 2001 Taiwanese music video.",
+   "seeds": [
+    9600,
+    9601,
+    9602,
+    9603
+   ],
+   "frames": [
+    "rs_E01c_first_line_s9600.png",
+    "rs_E01c_first_line_s9601.png",
+    "rs_E01c_first_line_s9602.png",
+    "rs_E01c_first_line_s9603.png"
+   ],
+   "burn_ok": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "slot": "SIL2_ots_crowd_v4_s9018.mp4",
+   "source": "REJECT 重写·导演处方=蜡像人群→纯剪影负空间或清场（取清场）",
+   "kf_prompt": "A medium shot over his shoulder of a 20-year-old Taipei student of 2001 with heavy-lidded puffy monolid single-lidded eyes with heavy upper lids, small narrow drowsy eyes, a thick lower lip, a wide flat rounded jaw with a blunt round chin, softly rounded cheeks, natural unretouched skin with visible pores, a calm deadpan drowsy expression, thick black hair in a full blunt fringe lying flat over his eyebrows, a slightly overgrown soft mop cut in the 2001 Taipei album-cover style, wearing a loose plain white T-shirt under an open charcoal-grey cotton jacket, relaxed straight-leg dark denim jeans and worn flat canvas shoes standing alone before the lit case in the empty closed hall, the long aisle clear and quiet around him in deep shadow, his calm face lit warm in three-quarter, his heavy-lidded eyes resting on the carved stone. The glass display case is lit from within by warm tungsten halogen at 3000K, a golden amber pool in the surrounding darkness of the closed museum hall, the long aisle floor catching a faint amber sheen, everything else warm film-base brown fading to black. Shot on Kodak Vision 5279 35mm film in 2001, telecine transfer, amber monochrome grade with deep crushed shadows, fine organic grain, as a film still from a 2001 Taiwanese music video.",
+   "seeds": [
+    9604,
+    9605,
+    9606,
+    9607
+   ],
+   "frames": [
+    "rs_SIL2_ots_crowd_v4_s9018_s9604.png",
+    "rs_SIL2_ots_crowd_v4_s9018_s9605.png",
+    "rs_SIL2_ots_crowd_v4_s9018_s9606.png",
+    "rs_SIL2_ots_crowd_v4_s9018_s9607.png"
+   ],
+   "burn_ok": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "slot": "SING1_torch_song_v2_s9013.mp4",
+   "source": "REJECT 重写·导演处方=神态太警觉太英雄→半瘫拉回·眼睑压沉·嘴角零上扬",
+   "kf_prompt": "A medium close-up at eye level of a 20-year-old Babylonian scribe with heavy-lidded puffy monolid single-lidded eyes with heavy upper lids, small narrow drowsy eyes, a thick lower lip, a wide flat rounded jaw with a blunt round chin, softly rounded cheeks, natural unretouched skin with visible pores, a calm deadpan drowsy expression, thick black hair in a heavy straight fringe pressed flat over his brows, slightly tousled from work, wearing a rough hand-woven undyed linen tunic with a simple rope belt standing loose and spent before the tall stele in the Babylonian hall, shoulders slack after the long night, chin sunk, eyelids heavy and half-lowered, mouth open mid-line on a flat level line with the corners at rest, one hand hanging limp at his side, a reed-bundle torch burning warm amber in its cast bronze sconce behind his shoulder, his fringe over his brows, his face lit by the flame in three-quarter. A thick reed-bundle torch in a cast bronze sconce bowl throws raking warm light at 2000K across him and the carved stone, the hall beyond warm film-base brown fading to black. Shot on Kodak Vision 5279 35mm film in 2001, telecine transfer, amber monochrome grade with deep crushed shadows, fine organic grain, as a film still from a 2001 Taiwanese music video.",
+   "seeds": [
+    9608,
+    9609,
+    9610,
+    9611
+   ],
+   "frames": [
+    "rs_SING1_torch_song_v2_s9013_s9608.png",
+    "rs_SING1_torch_song_v2_s9013_s9609.png",
+    "rs_SING1_torch_song_v2_s9013_s9610.png",
+    "rs_SING1_torch_song_v2_s9013_s9611.png"
+   ],
+   "burn_ok": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "slot": "C01_carver_face.mp4",
+   "source": "次级校验升格全配方重摇（orders 17:1x ④）",
+   "kf_prompt": "A close-up at eye level of a 20-year-old Babylonian scribe with heavy-lidded puffy monolid single-lidded eyes with heavy upper lids, small narrow drowsy eyes, a thick lower lip, a wide flat rounded jaw with a blunt round chin, softly rounded cheeks, natural unretouched skin with visible pores, a calm deadpan drowsy expression, thick black hair in a heavy straight fringe pressed flat over his brows, slightly tousled from work, wearing a rough hand-woven undyed linen tunic with a simple rope belt in profile at his work, a half-cut row of large fresh wedges before him, his heavy-lidded eyes lifting toward something beyond the frame edge, warm raking torchlight on the linen weave and the fringe over his brows. Shot on Kodak Vision 5279 35mm film in 2001, telecine transfer, amber monochrome grade with deep crushed shadows, fine organic grain, as a film still from a 2001 Taiwanese music video.",
+   "seeds": [
+    9612,
+    9613,
+    9614,
+    9615
+   ],
+   "frames": [
+    "rs_C01_carver_face_s9612.png",
+    "rs_C01_carver_face_s9613.png",
+    "rs_C01_carver_face_s9614.png",
+    "rs_C01_carver_face_s9615.png"
+   ],
+   "burn_ok": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "slot": "B01_weary.mp4",
+   "source": "次级校验升格全配方重摇（orders 17:1x ④）",
+   "kf_prompt": "A close-up at eye level of a 20-year-old Babylonian scribe with heavy-lidded puffy monolid single-lidded eyes with heavy upper lids, small narrow drowsy eyes, a thick lower lip, a wide flat rounded jaw with a blunt round chin, softly rounded cheeks, natural unretouched skin with visible pores, a calm deadpan drowsy expression, thick black hair in a heavy straight fringe pressed flat over his brows, slightly tousled from work, wearing a rough hand-woven undyed linen tunic with a simple rope belt sunk onto his stool before the unfinished row, the mallet and chisel down at his side, his heavy-lidded eyes low, the torch burning thin. Shot on Kodak Vision 5279 35mm film in 2001, telecine transfer, amber monochrome grade with deep crushed shadows, fine organic grain, as a film still from a 2001 Taiwanese music video.",
+   "seeds": [
+    9616,
+    9617,
+    9618,
+    9619
+   ],
+   "frames": [
+    "rs_B01_weary_s9616.png",
+    "rs_B01_weary_s9617.png",
+    "rs_B01_weary_s9618.png",
+    "rs_B01_weary_s9619.png"
+   ],
+   "burn_ok": [
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "slot": "D01_carver_words.mp4",
+   "source": "次级校验升格全配方重摇（orders 17:1x ④）",
+   "kf_prompt": "A close-up over the shoulder of a 20-year-old Babylonian scribe with heavy-lidded puffy monolid single-lidded eyes with heavy upper lids, small narrow drowsy eyes, a thick lower lip, a wide flat rounded jaw with a blunt round chin, softly rounded cheeks, natural unretouched skin with visible pores, a calm deadpan drowsy expression, thick black hair in a heavy straight fringe pressed flat over his brows, slightly tousled from work, wearing a rough hand-woven undyed linen tunic with a simple rope belt at his work, the half-finished fresh row of large wedges before him and his weathered hand resting on the chisel, his profile at the frame edge, warm raking torchlight on the linen sleeve. Shot on Kodak Vision 5279 35mm film in 2001, telecine transfer, amber monochrome grade with deep crushed shadows, fine organic grain, as a film still from a 2001 Taiwanese music video.",
+   "seeds": [
+    9620,
+    9621,
+    9622,
+    9623
+   ],
+   "frames": [
+    "rs_D01_carver_words_s9620.png",
+    "rs_D01_carver_words_s9621.png",
+    "rs_D01_carver_words_s9622.png",
+    "rs_D01_carver_words_s9623.png"
+   ],
+   "burn_ok": [
+    true,
+    true,
+    true,
+    true
+   ]
+  }
+ ],
+ "i2v_plan": [
+  {
+   "slot": "INT1_desk_breath.mp4",
+   "frame": "jayredo_00001_.png",
+   "seed": 9700,
+   "adjustment": ""
+  },
+  {
+   "slot": "INT3_photo_stare.mp4",
+   "frame": "jayredo_00002_.png",
+   "seed": 9701,
+   "adjustment": "导演处方: 眼睑压沉半档"
+  },
+  {
+   "slot": "INT4_rubbing_glow.mp4",
+   "frame": "jayredo_00003_.png",
+   "seed": 9702,
+   "adjustment": ""
+  },
+  {
+   "slot": "INT5_head_bow.mp4",
+   "frame": "jayredo_00004_.png",
+   "seed": 9703,
+   "adjustment": ""
+  },
+  {
+   "slot": "SING3b_morning_song_open_v4_s9019.mp4",
+   "frame": "jayredo_00006_.png",
+   "seed": 9704,
+   "adjustment": ""
+  },
+  {
+   "slot": "D03b_direct_gaze.mp4",
+   "frame": "jayredo_00007_.png",
+   "seed": 9705,
+   "adjustment": "导演处方: 调色禁压眼部死黑"
+  },
+  {
+   "slot": "SIL1_stele_backlit_v4b_s9021.mp4",
+   "frame": "jayredo_00008_.png",
+   "seed": 9706,
+   "adjustment": ""
+  },
+  {
+   "slot": "SIL3_case_rim_v2_s9013.mp4",
+   "frame": "jayredo_00010_.png",
+   "seed": 9707,
+   "adjustment": ""
+  },
+  {
+   "slot": "E03_gaze_meet.mp4",
+   "frame": "jayredo_00011_.png",
+   "seed": 9708,
+   "adjustment": ""
+  },
+  {
+   "slot": "SING2_firepit_song_s9014.mp4",
+   "frame": "jayredo_00013_.png",
+   "seed": 9709,
+   "adjustment": ""
+  },
+  {
+   "slot": "B02_far_home.mp4",
+   "frame": "jayredo_00014_.png",
+   "seed": 9710,
+   "adjustment": ""
+  }
+ ],
+ "i2v_prompts": {
+  "INT1_desk_breath.mp4": "Single continuous take at 24fps, 16:9. A medium shot at eye level; the camera holds a locked-off tripod frame while his chest rises and falls in one slow breath, his head easing a fraction lower and lifting again, his eyelids sinking and steadying in one slow blink. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "INT3_photo_stare.mp4": "Single continuous take at 24fps, 16:9. A medium close-up at eye level; the camera holds a locked-off tripod frame while his thumb smooths one slow pass along the photograph edge, his heavy upper lids settled lower over his drowsy gaze, the photo held through one slow blink. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "INT4_rubbing_glow.mp4": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera holds a locked-off tripod frame while the graphite stick sweeps one slow pass across the paper, the carved strokes surfacing stroke by stroke under his hand, his gaze following the pass. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "INT5_head_bow.mp4": "Single continuous take at 24fps, 16:9. A medium close-up at eye level; the camera holds a locked-off tripod frame while the pen crosses two slow lines, his breath slow and even, the lamp filament breathing its glow. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "SING3b_morning_song_open_v4_s9019.mp4": "Single continuous take at 24fps, 16:9. A medium close-up at eye level; the camera holds a locked-off tripod frame while his head sinks slowly toward the pages as the long note breathes out, one slow blink, the pen resting, the dawn band softening at the window. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "D03b_direct_gaze.mp4": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera holds a locked-off tripod frame while his head settles a fraction and his drowsy gaze holds steady, one slow blink, the case glow breathing around him. Warm amber monochrome grade with deep shadows holding their amber warmth, his eyes softly readable in the case glow, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "SIL1_stele_backlit_v4b_s9021.mp4": "Single continuous take at 24fps, 16:9. A medium shot at eye level; the camera holds a locked-off tripod frame while his faint reflection rests on the glass, his gaze traveling one carved row, one slow blink, the case light breathing. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "SIL3_case_rim_v2_s9013.mp4": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera holds a locked-off tripod frame while his eyes travel one register, the rim light steady, his breath slow. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "E03_gaze_meet.mp4": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera holds a locked-off tripod frame while the two reflections drift a fraction toward each other and hold together as the light settles. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "SING2_firepit_song_s9014.mp4": "Single continuous take at 24fps, 16:9. A medium close-up at eye level; the camera holds a locked-off tripod frame while the embers breathe, his shoulders easing slowly downward as the note breathes out, his eyes holding slits. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot.",
+  "B02_far_home.mp4": "Single continuous take at 24fps, 16:9. A wide shot at eye level; the camera eases back from the doorway on a slow floor dolly, holding him framed in the black rectangle of the doorway while the night air moves his fringe, one slow blink. Warm amber monochrome grade with deep crushed shadows, visible 35mm film grain, highlights blooming softly. Every motion eases in and settles out, in the quiet camera language of a 2001 Taiwanese music video. Lighting wardrobe hair and set stay unchanged for the whole shot."
+ }
+}

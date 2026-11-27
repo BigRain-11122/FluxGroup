@@ -1,0 +1,246 @@
+{
+ "ts": "2026-11-04T23:55:19+0800",
+ "alert_days": 2.0,
+ "lines": [
+  {
+   "line": "bigstream-duanju",
+   "status": "PARKED",
+   "prio": "P0",
+   "stock": 4,
+   "rate_per_day": 1.33,
+   "runway_days": 3.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "inventory",
+    "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "asset-lib",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 1,
+   "rate_per_day": 2.67,
+   "runway_days": 0.4,
+   "has_table": true,
+   "blocker": {
+    "stage": "env-check",
+    "deliverable": "cph4/fleet/queue-receipts/asset-env-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigstream-mv",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 4.67,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "gate",
+    "deliverable": "cph4/fleet/queue-receipts/mv-gate-v721-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigstream-drama",
+   "status": "PARKED",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 2.33,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "src-scan",
+    "deliverable": "cph4/fleet/queue-receipts/drama-src-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "bigstream-shortvideo",
+   "status": "PARKED",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 0,
+   "runway_days": null,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "biggame",
+   "status": "ACTIVE",
+   "prio": "P0",
+   "stock": 0,
+   "rate_per_day": 1.0,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "pack-scan",
+    "deliverable": "cph4/fleet/queue-receipts/game-packs-20261104.json",
+    "needs": "cpu",
+    "hard_nodes": []
+   },
+   "flags": [
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigmoney",
+   "status": "PAUSED",
+   "prio": "P1",
+   "stock": 0,
+   "rate_per_day": 2.0,
+   "runway_days": 0.0,
+   "has_table": true,
+   "blocker": {
+    "stage": "backtest",
+    "deliverable": "quant/bigmoney/results/etf_nobond_vt.json",
+    "needs": "cpu",
+    "hard_nodes": [
+     "bm-a",
+     "bm-b",
+     "bm-d"
+    ]
+   },
+   "flags": [
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "bigdomain",
+   "status": "ACTIVE",
+   "prio": "P1",
+   "stock": 0,
+   "rate_per_day": 0.33,
+   "runway_days": 0.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
+   ]
+  },
+  {
+   "line": "fluxverse",
+   "status": "ACTIVE",
+   "prio": "P2",
+   "stock": 0,
+   "rate_per_day": 0.33,
+   "runway_days": 0.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
+   ]
+  },
+  {
+   "line": "biglife",
+   "status": "ACTIVE",
+   "prio": "P2",
+   "stock": 0,
+   "rate_per_day": 0.33,
+   "runway_days": 0.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bighouse",
+   "status": "PARKED",
+   "prio": "P2",
+   "stock": 0,
+   "rate_per_day": 0,
+   "runway_days": null,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "fleet-ops",
+   "status": "ACTIVE",
+   "prio": "P3",
+   "stock": 6,
+   "rate_per_day": 6.33,
+   "runway_days": 0.9,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
+   ]
+  },
+  {
+   "line": "bigcompute",
+   "status": "ACTIVE",
+   "prio": "P3",
+   "stock": 0,
+   "rate_per_day": 0.33,
+   "runway_days": 0.0,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "ALERT"
+   ]
+  },
+  {
+   "line": "car-gaming",
+   "status": "PARKED",
+   "prio": "P3",
+   "stock": 0,
+   "rate_per_day": 0,
+   "runway_days": null,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "INACTIVE"
+   ]
+  },
+  {
+   "line": "recon",
+   "status": "ACTIVE",
+   "prio": "P3",
+   "stock": 0,
+   "rate_per_day": 0,
+   "runway_days": null,
+   "has_table": false,
+   "blocker": null,
+   "flags": [
+    "NO-TABLE",
+    "NO-HISTORY"
+   ]
+  }
+ ],
+ "alerts": 8,
+ "no_table": 6
+}

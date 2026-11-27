@@ -1,0 +1,45 @@
+{
+ "policy": "X2670 REDO ORDER r1 direct-i2v leg: 3 KF-clean units per C2083 native layer-recheck. Seed renewal = -redo-r1 id family (id-MD5 derivation, same-unit-same-seed ban enforced). Wordage: S2-14 draft B + S4-22 draft C per order sec-2 verbatim; S3-20 unchanged per order. Frames unchanged (KF clean).",
+ "gate": "xq-PACKA-REDO-ORDER-20261019.md (X2670) sec-2/sec-3; layer evidence: xq-KF-RECHECK1/2-REDO-r1019-c2083.jpg + native single-frame read (C2083)",
+ "total": 3,
+ "units": [
+  {
+   "id": "XQ_S2-14-redo-r1",
+   "track": "XQ",
+   "win_s": 9,
+   "speed": 0.9,
+   "src_s": 10,
+   "policy_band": "8-15s",
+   "frame": "media/MV/mv0001/xingqing/abatch/S2-14_s20105.png",
+   "i2v_prompt": "Locked-off tripod medium shot. The young man winds the kite line onto the wooden spool in small even turns, a faint tremor in his wrist, the line running taut between the spool and the eave. The girl rests beside him, only her hair stirred by the draft under the roof, the two of them alone in the warm shade. The camera holds still. Preserve the film grain and the original color palette.",
+   "note": "层判定=KF 干净（原生复核恰 2 人·第三人系 i2v 生成）→直烧；词面=X2670 B 稿（正向双人锚 the two of them alone）整段替换；种子换新=-redo-r1 id 族派生"
+  },
+  {
+   "id": "XQ_S3-20-redo-r1",
+   "track": "XQ",
+   "win_s": 12,
+   "speed": 0.9,
+   "src_s": 13.3,
+   "policy_band": "8-15s",
+   "frame": "media/MV/mv0001/xingqing/abatch/S3-20_s20146.png",
+   "i2v_prompt": "Medium shot. The back-to-back silhouettes stand against the burnt-orange dusk, his shoulders sinking and easing loose through one breath, her fingers finding the hem of his jacket and curling into it, their outlines breathing apart and together in the halo light. The grass field darkens in long waves behind them. The camera eases back on a slow floor dolly, beginning gently and settling to a stop. Preserve the film grain and the original color palette.",
+   "note": "层判定=KF 干净（原生复核双剪影连贯）→直烧；词面零改动（X2670 定谳）；三彩纸屑噪声=i2v 解码/生成面；种子换新=-redo-r1 id 族派生"
+  },
+  {
+   "id": "XQ_S4-22-redo-r1",
+   "track": "XQ",
+   "win_s": 5.24,
+   "speed": 0.9,
+   "src_s": 5.8,
+   "policy_band": "8-15s",
+   "frame": "media/MV/mv0001/xingqing/abatch/S4-22_s20158.png",
+   "i2v_prompt": "Locked-off tripod medium shot in profile. The young man's fingertips pick small chords on the vintage acoustic guitar, pressing and releasing the strings through the whole take, his head bowing a fraction with each phrase and lifting back, the strings catching the dusk rim light at each stroke. The grass slope sways in slow bands behind him. The camera holds the same profile frame from start to end. Preserve the film grain and the original color palette.",
+   "note": "层判定=KF 干净（原生复核侧影连贯）→直烧；词面=X2670 C 稿（指弹连续动作锚+同框保持锚）整段替换；种子换新=-redo-r1 id 族派生"
+  }
+ ],
+ "self_check": {
+  "lint_words": {"XQ_S2-14-redo-r1": 70, "XQ_S3-20-redo-r1": 75, "XQ_S4-22-redo-r1": 76},
+  "negation_free": true,
+  "preserve_clause_official": true
+ }
+}

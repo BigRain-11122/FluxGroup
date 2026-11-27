@@ -1,0 +1,44 @@
+{
+ "order_id": "OB-20261028-150100-267",
+ "lane": "bm-c",
+ "machine_id": "bm-c",
+ "kind": "status-receipt",
+ "clock_read": "2026-10-28T15:29:00+08:00",
+ "order_text_anchor": "CEO 令 2026-10-28 15:01：机队其他机器（bm-b、bm-c）满负荷生产，不许空转等派单；bm-c=KF/i2v/渲染/画质链，车道轮首自领，回执行状态与产出件。",
+ "self_claim_from_round_head": true,
+ "gpu_work_started_this_shift": false,
+ "lane_work_started_this_shift": true,
+ "current_task": "bigmoney round 1324 in parallel (absorbed the 09:55 window's hysteresis measurement and landed it: 30/30 PASS smoke, chain in flight) + the KN A-pack 768P station-3 harvest for the MV lane, which is the 画质链 part of this lane.",
+ "lane_state": {
+  "lane": "bm-c KF / i2v / render / image-quality",
+  "status": "partially-open",
+  "kf_blocker": "BLOCKED-RAM: ram_free_gb 0.4 of 23.9 (gate needs >= 6.0). ollama holds no model (0 resident, 296 MB total) so the POOL-0024 eviction path cannot close the gap -- the RAM is the desktop's (Doubao x4 ~3.8 GB, msedge, Platform, explorer, wetype). GPU is idle: 1495 MiB used of 16384.",
+  "who_can_clear_it": "CEO physical action (close desktop apps / free ~6 GB) -- this lane cannot reclaim memory that is not its own.",
+  "delivered_now": {
+   "batch": "KN A-pack 768P harvest (station-3 gate, C2169, owed since 2026-10-24)",
+   "result": "units 30 pass 30 check 0",
+   "verdict": "cph4/fleet/mv-album-001-jay/KN-PA768-HARVEST-c2169.json",
+   "review": "cph4/fleet/mv-album-001-jay/KN-PA768-HARVEST-c2169-REVIEW.md",
+   "defects_fixed": [
+    "board() KeyError 'id' -- the frame-row/tile-row confusion killed the board stage, so 30 verified clips had never produced a machine-readable verdict",
+    "MIN_FRAMES/MIN_BYTES were global floors: a deliberate 2.2s window (KN09, 73 frames) and a dark locked-off plate (KN25, 349KB) were both flagged CHECK in the first pass; frames expectation is now per-unit from the pack manifest (src_s x fps, 85% tolerance) and the byte floor is a 120000 corruption floor"
+   ],
+   "boards": ["media/mv-album-001-jay/evidence-c2169/KN-PA768-BOARD-1-c2169.jpg", "media/mv-album-001-jay/evidence-c2169/KN-PA768-BOARD-2-c2169.jpg"]
+  },
+  "next_station": "kn-pa-station4-conform-author-c2169 is now prerequisite-satisfied (harvest PASS) but its cmd is empty -- the conform script must be authored next; that is authoring, not a burn."
+ },
+ "resources": {
+  "cpu_load_pct": 73,
+  "ram_free_gb": 0.4,
+  "ram_total_gb": 23.9,
+  "gpu": {"total_mib": 16384, "used_mib": 1495, "free_mib": 14664, "util_pct": 0}
+ },
+ "can_take_new_work": false,
+ "can_take_new_work_reason": "GPU-class work blocked by RAM (0.4 GB free of 23.9, consumers are the desktop's apps). CPU-side work (quant round, harvest/verdict/board class) is running.",
+ "compliance": {
+  "no_cloud_call": true,
+  "receipt_path": "cph4/fleet/order-bus/receipts/OB-20261028-150100-267-bm-c.json",
+  "pool_receipt": "cph4/fleet/queue-receipts/POOL-0024-bm-c.json",
+  "note": "No idle waiting: the lane's zero-GPU quality gate was executed in this shift, and the KF blocker is reported with the probe numbers rather than a promise."
+ }
+}

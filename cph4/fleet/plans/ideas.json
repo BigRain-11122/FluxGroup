@@ -1,0 +1,38 @@
+{
+ "_law": "each idea: id/title/cmd/needs/why/requires; planner promotes at most one per 24h when idle",
+ "ideas": [
+  {
+   "id": "IDEA-LINE-TRIAGE",
+   "title": "全线体检：证据陈旧与跨机路径误判扫描",
+   "cmd": "python Tools/fleet/line_triage.py --root .",
+   "needs": "cpu",
+   "prio": "P3",
+   "requires": [
+    "Tools/fleet/line_triage.py"
+   ],
+   "why": "把'这条线多久没产出'从印象变成证据，顺带抓 offnode 假缺口"
+  },
+  {
+   "id": "IDEA-PROMPT-BUDGET",
+   "title": "提示词预算全库扫描",
+   "cmd": "python Tools/prompt_budget_check.py --selftest",
+   "needs": "cpu",
+   "prio": "P3",
+   "requires": [
+    "Tools/prompt_budget_check.py"
+   ],
+   "why": "超限提示词会让模型静默截断，属于看不见的质量损失"
+  },
+  {
+   "id": "IDEA-AUTOWORK",
+   "title": "重复作业归因与回执日报",
+   "cmd": "python Tools/fleet/autowork.py --once",
+   "needs": "cpu",
+   "prio": "P3",
+   "requires": [
+    "Tools/fleet/autowork.py"
+   ],
+   "why": "把'为什么同一件事做了三遍'变成日报里的一行"
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "policy": "v3 重烧·A 档必需件。三镜演唱锚（不写'唱'字，只写仰头/闭眼/喉动/呼吸——规避 H3 口型先验：判例 2026-11-14「唇部目标态指令必炸，零词则先验自由发挥」）+ 一镜大场面横移 + 一镜手贴玻璃（对手戏）。全部单光源、一镜一意图、写动作不写情绪。",
+ "wave": "v3-bigpicture-essentials",
+ "total": 5,
+ "units": [
+  {
+   "id": "SONG_01_HALFTURN",
+   "track": "MV0001",
+   "win_s": 4.46,
+   "speed": 1.0,
+   "src_s": 4.46,
+   "policy_band": "5s",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\v3-reburn\\frames\\SONG_01.png",
+   "note": "A档必需件1·演唱锚（半侧）。刻意不出现 singing/humming/lips 等词",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Medium close-up, three-quarter view. A young bronze-age scribe in coarse undyed linen stands before a wall of shallow wedge-cut marks, one clay bowl of fire burning low at the right edge of frame. His chin lifts a few degrees and his eyes half-close, then open again; his throat moves once and his shoulders rise with one slow breath. The camera drifts in very slightly with small amplitude. Only his chin, lids, throat and breath move; head and hands otherwise stay still. Warm halation along the jawline, deep warm black behind him, fine 35mm grain, black point slightly lifted."
+  },
+  {
+   "id": "SONG_02_BACKLIT",
+   "track": "MV0001",
+   "win_s": 4.46,
+   "speed": 1.0,
+   "src_s": 4.46,
+   "policy_band": "5s",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\v3-reburn\\frames\\SONG_02.png",
+   "note": "A档必需件1·演唱锚（逆光剪影）。整张脸不参与渲染=100%规避口型",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Backlit medium shot. He stands between the camera and a single clay fire bowl, so his figure reads as a warm-rimmed silhouetted shape against the carved wall; the interior of his shape falls into deep black. His chin lifts slowly and his head settles back a little; his chest rises with one slow breath and settles. No facial detail is rendered, only the outline and the breath. Camera holds perfectly still. Strong warm rim light along the shoulder and jaw edge, fine 35mm grain."
+  },
+  {
+   "id": "SONG_03_CLOSEUP",
+   "track": "MV0001",
+   "win_s": 4.46,
+   "speed": 1.0,
+   "src_s": 4.46,
+   "policy_band": "5s",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\v3-reburn\\frames\\SONG_03.png",
+   "note": "A档必需件1·演唱锚（极近景斜角）。嘴在画外，只到下颌与喉部",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Extreme close-up from a low three-quarter angle: the edge of his jaw, his throat, and one eye near the top of frame, warm firelight raking across. His eye narrows slightly and opens; his throat moves once; a slow breath lifts his shoulder at the frame edge. The camera holds still. Shallow focus with the wall falling into soft dark, strong halation on the jaw edge, fine 35mm grain."
+  },
+  {
+   "id": "HALL_PAN",
+   "track": "MV0001",
+   "win_s": 4.46,
+   "speed": 1.0,
+   "src_s": 4.46,
+   "policy_band": "5s",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\v3-reburn\\frames\\HALL_PAN.png",
+   "note": "A档必需件4·大场面运动调度。解决'90% 固定机位'",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A slow lateral tracking shot moving steadily from left to right through a vast columned stone hall. Massive carved columns pass across the foreground one after another, giving true parallax; between them, a single shaft of pale light falls on a black basalt stele standing at the far end, dust turning slowly in the beam. Low braziers burn at the column bases. The camera moves at an even pace with no cuts and no zoom. Warm amber light against deep shadow, fine 35mm grain, black point slightly lifted."
+  },
+  {
+   "id": "HANDGLASS",
+   "track": "MV0001",
+   "win_s": 4.46,
+   "speed": 1.0,
+   "src_s": 4.46,
+   "policy_band": "5s",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv0001-handover\\v3-reburn\\frames\\HANDGLASS.png",
+   "note": "A档必需件2·对手戏。手贴玻璃，玻璃里是碑面——把两条线接上",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Medium shot from behind and slightly to the side. A young woman in a cream knit sweater stands at a museum display case; she lifts her right hand and lays the flat of her palm against the glass. In the glass, the carved face of a stone stele is reflected just beside her hand. She holds still and her head tilts a fraction toward the glass. She does not speak. Cool museum light from above with one warm reflection inside the glass, shallow focus, fine 35mm grain."
+  }
+ ]
+}

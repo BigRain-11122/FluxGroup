@@ -1,0 +1,20 @@
+{
+ "id": "bigmoney",
+ "name": "BigMoney·量化",
+ "owner": "量化席",
+ "status": "ACTIVE",
+ "cadence_h": 24,
+ "inputs": [
+  "quant/bigmoney/data",
+  "quant/bigmoney/results",
+  "quant/bigmoney/results/automation_line_audit.json"
+ ],
+ "outputs": [
+  "quant/bigmoney/results/**/*"
+ ],
+ "lanes": [
+  "bm-b",
+  "bm-d"
+ ],
+ "needs": "cpu"
+}

@@ -1,0 +1,50 @@
+{
+ "policy": "v718 fix reburns (CEO 2026-10-30 order, director review V717-REVISE §六.1): three near-static shots get micro-motion. 480P verify slice first (efficiency law), 768P int4 production only after motion verified. KFs are the original library frames (clean, pre-grade, subtitle-free by construction); assembly re-burns fresh subtitles and applies the row grade once.",
+ "gate": "preflight_gate.guard() empty before every submit; mv_delivery_gate after assembly",
+ "wave": "mv0001-v718-fix",
+ "total": 3,
+ "units": [
+  {
+   "id": "V718_S1_OPEN",
+   "track": "V718",
+   "win_s": 3.0,
+   "src_s": 3.0,
+   "frame": "C:/Users/sjs20/Desktop/FluxGroup/media/MV/mv0001/kf-demo-20261012/bma/KF4_INT1_desk_breath_s9012.png",
+   "i2v_prompt": "Medium shot, eye level. Under the warm desk lamp the young man writes on the page, his hand gliding in slow continuous strokes, the pen lifting a little between words and settling again; his shoulders rise and fall in one quiet breath; dust motes drift through the lamplight. The camera holds still. Preserve the film grain and the original warm color palette.",
+   "tokens": {"shot": "med", "angle": "eye", "move": "static", "grade": "tw2001", "texture": "film_night", "scene": "study_desk", "light": "desk_lamp_warm"},
+   "kinds": [],
+   "note": "row INT1_desk_breath 0.0-3.0s; original library KF s9012 sign-off 2026-10-31 (clean, no subtitle, pre-grade)",
+   "seed": 718001,
+   "reburn_of": "V717_S1_OPEN",
+   "reburn_why": "delivery gate D2 near-static; sits in the first-10s retention window with zero motion"
+  },
+  {
+   "id": "V718_S2_PHOTO",
+   "track": "V718",
+   "win_s": 3.6,
+   "src_s": 3.6,
+   "frame": "C:/Users/sjs20/Desktop/FluxGroup/media/MV/mv0001/kf-demo-20261012/bma/KF2_INT3_photo_stare_s9014.png",
+   "i2v_prompt": "Medium close shot. He holds the small photograph at chest height, gaze low; his thumb strokes the edge of the photo once, slow and deliberate; one quiet breath lifts his chest; his eyes rise a fraction toward the lamp and lower again. The camera pushes in one slow unbroken creep. Preserve the film grain and the original warm color palette.",
+   "tokens": {"shot": "cu", "angle": "eye", "move": "pushin", "grade": "tw2001", "texture": "film_night", "scene": "study_desk", "light": "desk_lamp_warm"},
+   "kinds": [],
+   "note": "row INT3_photo_stare 7.4-11.0s; original library KF s9014 sign-off 2026-10-31 (photo prop matches film take; clean, no subtitle, pre-grade)",
+   "seed": 718002,
+   "reburn_of": "V717_S2_PHOTO",
+   "reburn_why": "delivery gate D2 near-static 3.6s row stretched to 4s on screen; worst retention-window risk in the film"
+  },
+  {
+   "id": "V718_S3_DESK_REPRISE",
+   "track": "V718",
+   "win_s": 1.52,
+   "src_s": 1.5,
+   "frame": "C:/Users/sjs20/Desktop/FluxGroup/media/MV/mv0001/kf-demo-20261012/bma/E01c_first_line_s9011.png",
+   "i2v_prompt": "Medium shot, eye level. The man writes on in slow deliberate strokes, the pen crossing the page, lifting between words and settling back; steam curls faintly from the cup; the warm lamplight breathes in one soft cycle. The camera holds still. Preserve the film grain and the original warm color palette.",
+   "tokens": {"shot": "med", "angle": "eye", "move": "static", "grade": "tw2001", "texture": "film_night", "scene": "study_desk", "light": "desk_lamp_warm"},
+   "kinds": [],
+   "note": "row E01c_first_line 191.6-193.12s; original library KF s9011 sign-off 2026-10-31 (clean, no subtitle, pre-grade)",
+   "seed": 718003,
+   "reburn_of": "V717_S3_DESK_REPRISE",
+   "reburn_why": "delivery gate D2 near-static; both desk shots static reads as photo reuse"
+  }
+ ]
+}
