@@ -14,7 +14,7 @@ excluded from ranking (their motion is authored).
 Usage:
   py mv_shot_audit.py <video> [--json out.json] [--top 20]
 """
-import argparse
+import argparse, os, os
 import json
 import os
 import sys
@@ -145,6 +145,7 @@ def main():
             r["shot"], r["t0"], r["t1"], r["speed"], r["flicker"], r["jerk"],
             r["flow"], r["freeze"], r["score"], " T" if r["title"] else ""))
     if a.json:
+        os.makedirs(os.path.dirname(os.path.abspath(a.json)) or ".", exist_ok=True)
         with open(a.json, "w", encoding="utf-8") as fh:
             json.dump(rows, fh, ensure_ascii=False, indent=1)
         print("json ->", a.json)
