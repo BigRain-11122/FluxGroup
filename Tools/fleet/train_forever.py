@@ -576,16 +576,23 @@ def _lane(phase, **meta):
         pass
 
 
-def prune_runs(keep_hours=48, dry=False):
+def prune_runs(keep_hours=6, dry=False):
     """清掉非在用训练 run，防止磁盘被 186MB/run 堆满。
 
     为什么要有（2026-11-27 实锚）：trainloop 每 300s 就可能开一个 run，两天堆出 54 个、
     15.1GB，磁盘从 191G 掉到 171G 只用两天——之前没有任何清理逻辑。
 
+    2026-11-27 二次实锚：窗口原设 48h，而实际一天就产 72 个 run（12G），48h 等于
+    稳态 26G 且**一个都不会被清**（全部落在窗口内）。收紧到 6h。
+    但压缩窗口会碰到一个更硬的约束：路由是按**增益最大**挑件、不是挑"最后一次 KEEP"
+    （peer_pro 实锚：87.3 与 73.6 两件都判 KEEP，删掉高的那件＝线上静默降级），
+    所以"当前在线件"必须单独保护，不能只靠台账。
+
     保守判据（缺一条就保留）：
-      1) 台账 verdict=KEEP（已采用）→ 留
-      2) LOOP-STATE 里每段最后一次 → 留
-      3) 修改时间在 keep_hours 内 → 留
+      1) 路由器的当前在线件（best_adapters → 增益最大且 n≥30）→ 留
+      2) 台账里每段最后一次 KEEP → 留
+      3) LOOP-STATE 里每段最后一次 → 留
+      4) 修改时间在 keep_hours 内 → 留
     返回 (删除数, 释放MB)。
     """
     import glob
@@ -593,6 +600,8 @@ def prune_runs(keep_hours=48, dry=False):
     if not os.path.isdir(runs_dir):
         return 0, 0
     keep = set()
+    # 每段最后一次 KEEP（不是所有 KEEP：同段多轮采用时旧件只是历史，留着纯占 186MB）
+    last_keep = {}
     try:
         with open(LEDGER, encoding="utf-8") as f:
             for line in f:
@@ -604,9 +613,33 @@ def prune_runs(keep_hours=48, dry=False):
                 except Exception:
                     continue
                 if r.get("verdict") == "KEEP" and r.get("run"):
-                    keep.add(r["run"])
+                    seg = r.get("seg") or ""
+                    ts = r.get("ts") or ""
+                    if seg not in last_keep or ts > last_keep[seg][0]:
+                        last_keep[seg] = (ts, r["run"])
     except FileNotFoundError:
         pass
+    keep.update(run for _ts, run in last_keep.values())
+    # 在线件：路由算不出来就退回"所有 KEEP 都留"，宁可少清不可降级
+    try:
+        import adapter_router as _ar
+        for _seg, _v in (_ar.best_adapters() or {}).items():
+            for part in str(_v.get("adapter") or "").split("/"):
+                if len(part) > 9 and part[:8].isdigit() and "-" in part:
+                    keep.add(part)
+                    break
+    except Exception:
+        try:
+            with open(LEDGER, encoding="utf-8") as f:
+                for line in f:
+                    try:
+                        r = json.loads(line.strip() or "{}")
+                    except Exception:
+                        continue
+                    if r.get("verdict") == "KEEP" and r.get("run"):
+                        keep.add(r["run"])
+        except Exception:
+            pass
     try:
         st = _load(LOOP_STATE, {}) or {}
         for _seg, rec in (st.get("segments") or {}).items():
@@ -619,7 +652,16 @@ def prune_runs(keep_hours=48, dry=False):
         name = os.path.basename(d)
         if not os.path.isdir(d) or name in keep:
             continue
-        if (now - os.path.getmtime(d)) / 3600.0 <= keep_hours:
+        # 龄期必须取目录名里的产出时刻，不能取 mtime：git checkout/rebase/restore
+        # 会把 RUNS 下被跟踪文件的 mtime 全刷成"刚刚"（2026-11-27 实锚：22 个
+        # 20-32 小时前的 run 全被 mtime 判成"6 小时内"，清理永远不生效）。
+        age_h = None
+        try:
+            age_h = (datetime.now()
+                     - datetime.strptime(name, "%Y%m%d-%H%M%S")).total_seconds() / 3600.0
+        except Exception:
+            age_h = (now - os.path.getmtime(d)) / 3600.0
+        if age_h <= keep_hours:
             continue
         try:
             mb = int(sum(os.path.getsize(os.path.join(r, f))
@@ -1119,7 +1161,7 @@ def run_one(a):
     board(st, rows, rejects)
     # 跑完一卡顺手做一次保守清理（判据见 prune_runs；失败不影响训练）
     try:
-        prune_runs(keep_hours=48)
+        prune_runs(keep_hours=6)
     except Exception:
         pass
     return 0
