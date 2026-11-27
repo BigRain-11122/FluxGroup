@@ -1,1 +1,0 @@
-{"ts": "2026-11-24T12:29:56", "run": "20261124-105358", "batch_size": 1, "num_layers": 16, "max_seq_length": 224, "grad_checkpoint": true, "sec_per_iter": 7.5, "tok_per_sec_reported": "2-5", "tokens_per_sample_avg": 20, "hardware": "Apple M1 Pro / 10 CPU / 16 GPU", "note": "基线：batch=1 + 短样本 → GPU 喂不饱。暂停浏览器与发帖后速度不变(7.5 vs 9s)，说明瓶颈在配置不在并行。"}
