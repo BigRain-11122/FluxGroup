@@ -595,6 +595,95 @@ def probe_registry(path=None, only_bad=True, max_n=40):
     return out
 
 
+def registry_collect(tier=None, per_source=3, budget_secs=300, path=None, limit_sources=20):
+    """按源册批量采：一个命令扫多家，而不是一家家手点。
+
+    为什么加（CEO 2026-11-27「你采集范围拉广，不是就局限」）：
+      源册里 44 个 ok 源，实际一直在用的只有 3 个（盖世/第一电动/车家号）。
+      「范围窄」不是没有源，是没人按册子去采。所以补一个批量入口：
+      按 tier 选源 → 自动挑 feed/sitemap/list → 每源抓 per_source 篇 → 落
+      ARTICLES-GENERIC.jsonl（带 tier/site，供数据库按层统计覆盖）。
+
+    纪律：全局预算到点就收工并如实报；单源失败只记一笔，不中断整批
+    （一个站挂掉不该让一批料白采）。
+    """
+    import time as _t
+    if path is None:
+        # 与 probe_registry 用同一处路径，别让我再维护第二个"源册在哪"
+        path = os.path.join(ROOT, "cph4", "fleet", "social", "gzh",
+                            "SOURCES-REGISTRY-v1.json")
+    reg = json.load(open(path, encoding="utf-8"))
+    srcs = [x for x in (reg.get("sources") or []) if (x.get("status") == "ok")]
+    if tier:
+        want = {t.strip().upper() for t in tier.split(",")}
+        srcs = [x for x in srcs if (x.get("tier") or "").upper() in want]
+    # 上次采过的排后面，避免每次都啃头几个源
+    try:
+        st = json.load(open(os.path.join(OUTDIR, "SOURCE-ROTATION.json"), encoding="utf-8"))
+    except Exception:
+        st = {}
+    srcs.sort(key=lambda x: (st.get(x.get("id")) or 0, x.get("id") or ""))
+    srcs = srcs[:limit_sources]
+
+    t0 = _t.time()
+    total_new, report = 0, []
+    for x in srcs:
+        if _t.time() - t0 > budget_secs:
+            report.append(("BUDGET", "-", 0, "预算到点收工"))
+            break
+        url, sid = x.get("url"), x.get("id")
+        got, how = 0, ""
+        urls = []
+        try:
+            feeds = discover_feeds(url)
+            if feeds:
+                how = "feed"
+                urls, _fc_why = feed_candidates(url, limit=per_source * 3)
+                urls = urls[:per_source * 3]
+        except Exception:
+            pass
+        if not urls:
+            try:
+                sm = discover_sitemap(url)
+                if sm:
+                    how = "sitemap"
+                    urls = [u for u in sm if u and not u.lower().endswith((".jpg", ".png", ".pdf"))]
+                    urls = urls[:per_source * 3]
+            except Exception:
+                pass
+        if not urls:
+            try:
+                import urllib.request
+                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                with urllib.request.urlopen(req, timeout=20) as r:
+                    html = r.read().decode("utf-8", "ignore")
+                urls = page_links(html, url, limit=per_source * 4)[:per_source * 4]
+                how = "list"
+            except Exception as e:  # noqa: BLE001
+                report.append((sid, "ERR", 0, str(e)[:50]))
+                continue
+        if urls:
+            try:
+                before = len(list(_rows(OUT)))
+            except Exception:
+                before = 0
+            harvest(urls[:max(per_source, 1)], limit=max(per_source, 1), verbose=False)
+            after = len(list(_rows(OUT)))
+            got = max(after - before, 0)
+        st[sid] = _t.time()
+        total_new += got
+        report.append((sid, how or "-", got, ""))
+        os.makedirs(OUTDIR, exist_ok=True)
+        json.dump(st, open(os.path.join(OUTDIR, "SOURCE-ROTATION.json"), "w",
+                           encoding="utf-8"), ensure_ascii=False)
+
+    print("[generic] 批量采 %d 个源 → 新增 %d 篇（%.0fs）"
+          % (len([r for r in report if r[1] not in ("-", "ERR", "BUDGET")]), total_new,
+             _t.time() - t0))
+    for sid, how, got, note in report:
+        print("   %-18s %-8s +%d %s" % (sid, how, got, note))
+    return total_new
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--url", help="只抓这一篇")
@@ -603,6 +692,12 @@ def main():
     ap.add_argument("--list", help="列表页 URL：从列表里抽文章链接再逐篇抓")
     ap.add_argument("--sitemap", help="站点 URL：走 sitemap 取文章清单")
     ap.add_argument("--probe", help="探活：这个站能用哪种方式采")
+    ap.add_argument("--registry-collect", action="store_true",
+                    help="按源册批量采（一个命令扫多家）")
+    ap.add_argument("--tier", default=None, help="只采某些层：T1,T2")
+    ap.add_argument("--per-source", type=int, default=3, help="每源抓几篇")
+    ap.add_argument("--budget-secs", type=int, default=300)
+    ap.add_argument("--limit-sources", type=int, default=20)
     ap.add_argument("--probe-registry", action="store_true",
                     help="把源册里 degraded/dead 的源逐个探活，落 SOURCE-VERDICTS.json")
     ap.add_argument("--registry-all", action="store_true", help="配合 --probe-registry：连 ok 的源也探")
@@ -618,6 +713,10 @@ def main():
     if not HAVE_TRAFILATURA:
         print("缺 trafilatura：用 .venv-housing/bin/python 跑", file=sys.stderr)
         return 4
+    if a.registry_collect:
+        return 0 if registry_collect(tier=a.tier, per_source=a.per_source,
+                                     budget_secs=a.budget_secs,
+                                     limit_sources=a.limit_sources) >= 0 else 1
     if a.probe:
         print(json.dumps(probe(a.probe), ensure_ascii=False, indent=1))
         return 0

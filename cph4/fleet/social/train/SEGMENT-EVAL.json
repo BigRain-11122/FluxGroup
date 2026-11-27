@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-27T20:08:35",
+ "ts": "2026-11-27T20:25:54",
  "base": [
   {
    "n": 5,
@@ -243,229 +243,229 @@
  "lora": [
   {
    "n": 5,
-   "avg": 68.6,
-   "sd": 23.4,
+   "avg": 79.0,
+   "sd": 6.5,
    "median": 75,
-   "pass_rate": 80,
-   "avg_logic": 25.0,
-   "avg_human": 6.0,
+   "pass_rate": 100,
+   "avg_logic": 33.0,
+   "avg_human": 10.0,
    "avg_natural": 20.0,
    "reject": 0,
    "seg": "beginner",
    "sample": [
-    "谢谢啦，请问UP主可以发一下视频吗？",
-    "但是，你如果已经看过了，或看完这个视频，也看一下up主的评论区，很赞的"
+    "前奏的音效很一般，建议试试用网易云搜索“音源下载”",
+    "老师，求求给个bgm链接"
    ]
   },
   {
    "n": 5,
-   "avg": 73.4,
-   "sd": 10.6,
-   "median": 73,
+   "avg": 60.0,
+   "sd": 26.9,
+   "median": 45,
    "pass_rate": 40,
-   "avg_logic": 24.0,
-   "avg_human": 12.0,
-   "avg_natural": 19.2,
+   "avg_logic": 15.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
    "reject": 0,
    "seg": "student",
    "sample": [
-    "哈哈哈哈，只有我不觉得这歌好听吗",
-    "很棒，跟着老师学，谢谢呀"
+    "如果我听到这个bgm你会什么反应",
+    "这歌配完美曲 我搁这 我搁这"
    ]
   },
   {
    "n": 5,
-   "avg": 48.0,
-   "sd": 31.5,
-   "median": 55,
-   "pass_rate": 40,
-   "avg_logic": 16.0,
-   "avg_human": 4.0,
-   "avg_natural": 16.0,
-   "reject": 1,
+   "avg": 80.6,
+   "sd": 6.3,
+   "median": 80,
+   "pass_rate": 100,
+   "avg_logic": 33.0,
+   "avg_human": 10.0,
+   "avg_natural": 20.0,
+   "reject": 0,
    "seg": "peer_pro",
    "sample": [
-    "演员老师 这个视频是怎么做出来的",
-    "今天上班没开门红，因为审核通过了"
+    "文案剪得不错，但配乐选得更好",
+    "BGM和配乐选择同样重要"
    ]
   },
   {
    "n": 5,
-   "avg": 45.0,
-   "sd": 17.3,
-   "median": 35,
-   "pass_rate": 0,
-   "avg_logic": 6.0,
-   "avg_human": 4.0,
+   "avg": 80.0,
+   "sd": 6.1,
+   "median": 80,
+   "pass_rate": 100,
+   "avg_logic": 33.0,
+   "avg_human": 10.0,
    "avg_natural": 20.0,
-   "reject": 3,
+   "reject": 0,
    "seg": "tech_nerd",
    "sample": [
-    "顶上，按你画的原型买，把原声独玩，就我瞎忙活这几回，很顶",
-    "有过名次相关的设计，头部共鸣，自攻自杀"
+    "这段BGM 对耳机来说有什么影响吗",
+    "借这歌来问BGM，你的哪个？"
    ]
   },
   {
    "n": 5,
-   "avg": 52.0,
-   "sd": 11.0,
-   "median": 55,
-   "pass_rate": 20,
-   "avg_logic": 12.0,
-   "avg_human": 4.0,
+   "avg": 70.0,
+   "sd": 20.0,
+   "median": 75,
+   "pass_rate": 80,
+   "avg_logic": 24.0,
+   "avg_human": 10.0,
    "avg_natural": 20.0,
    "reject": 0,
    "seg": "feeler",
    "sample": [
-    "谢谢 papel 分享的标签，我觉得也很棒",
-    "11. 离开，是因为现在说不出谢谢了"
+    "前奏弹起来 我就没忍住去听了",
+    "这首歌的前奏熟悉又耳熟，每次听都无意识地跟着哼。"
    ]
   },
   {
    "n": 5,
-   "avg": 47.6,
-   "sd": 10.4,
-   "median": 40,
-   "pass_rate": 40,
-   "avg_logic": 4.0,
-   "avg_human": 2.0,
+   "avg": 72.0,
+   "sd": 17.9,
+   "median": 80,
+   "pass_rate": 80,
+   "avg_logic": 24.0,
+   "avg_human": 8.0,
    "avg_natural": 20.0,
-   "reject": 1,
+   "reject": 0,
    "seg": "memer",
    "sample": [
-    "别问，问就是听歌听多了",
-    "我靠 不顶就完了吧"
+    "对方置顶BGM已确认",
+    "此处BGM已就绪"
    ]
   },
   {
    "n": 5,
-   "avg": 52.0,
-   "sd": 17.9,
-   "median": 40,
-   "pass_rate": 20,
-   "avg_logic": 10.0,
-   "avg_human": 2.0,
+   "avg": 66.6,
+   "sd": 22.9,
+   "median": 80,
+   "pass_rate": 40,
+   "avg_logic": 18.0,
+   "avg_human": 8.0,
    "avg_natural": 20.0,
-   "reject": 2,
+   "reject": 1,
    "seg": "music_seeker",
    "sample": [
-    "请提供你想听歌的歌手",
-    "建议你听歌时戴耳机"
+    "我知道：《神奇魔法的消失》",
+    "最后一次听见这首歌，处理的是原声的"
    ]
   },
   {
    "n": 5,
-   "avg": 47.0,
-   "sd": 17.9,
-   "median": 35,
-   "pass_rate": 20,
-   "avg_logic": 10.0,
-   "avg_human": 2.0,
+   "avg": 74.0,
+   "sd": 22.7,
+   "median": 80,
+   "pass_rate": 80,
+   "avg_logic": 30.0,
+   "avg_human": 8.0,
    "avg_natural": 20.0,
    "reject": 0,
    "seg": "ai_creator",
    "sample": [
-    "请问用P图解决，可以使用1.5的倍数",
-    "主要是音乐领域的问题"
+    "明星BGM倒是挺好用",
+    "BGM播放这歌是电流声会吵"
    ]
   },
   {
    "n": 5,
-   "avg": 53.0,
-   "sd": 20.5,
-   "median": 45,
-   "pass_rate": 40,
-   "avg_logic": 12.0,
-   "avg_human": 6.0,
+   "avg": 64.0,
+   "sd": 23.0,
+   "median": 75,
+   "pass_rate": 60,
+   "avg_logic": 21.0,
+   "avg_human": 8.0,
    "avg_natural": 20.0,
    "reject": 0,
    "seg": "requester",
    "sample": [
-    "感谢支持，请移步up主主页，展顶/支持后领取",
-    "直接可以，有需要可以私信"
+    "有些歌有洗脑手环，我听听歌单里有没有",
+    "前奏的主题歌已经是audible"
    ]
   },
   {
    "n": 5,
-   "avg": 50.6,
-   "sd": 18.4,
-   "median": 43,
-   "pass_rate": 40,
-   "avg_logic": 10.0,
-   "avg_human": 4.0,
-   "avg_natural": 20.0,
-   "reject": 1,
+   "avg": 84.2,
+   "sd": 20.3,
+   "median": 90,
+   "pass_rate": 80,
+   "avg_logic": 37.0,
+   "avg_human": 12.0,
+   "avg_natural": 19.2,
+   "reject": 0,
    "seg": "critic",
    "sample": [
-    "谢谢你，我觉得评价音乐这个话题，大家都有不同的看法",
-    "你很棒呀，支持你[支持][火箭]"
+    "前方主题曲原创，BGM、煽情配乐，原创？",
+    "我觉得剪辑和配乐可以更好"
    ]
   },
   {
    "n": 5,
-   "avg": 50.0,
-   "sd": 30.8,
-   "median": 50,
+   "avg": 69.8,
+   "sd": 25.5,
+   "median": 80,
    "pass_rate": 80,
-   "avg_logic": 10.0,
+   "avg_logic": 21.0,
    "avg_human": 8.0,
-   "avg_natural": 16.0,
-   "reject": 1,
+   "avg_natural": 19.2,
+   "reject": 0,
    "seg": "shallow",
    "sample": [
-    "我喜欢，就是听腻了",
-    "[感谢分享，支持UP主！]"
+    "建议B站严重，配乐水平高",
+    "这BGM咋变红心了呢"
    ]
   },
   {
    "n": 5,
-   "avg": 58.0,
+   "avg": 78.0,
    "sd": 9.7,
-   "median": 65,
-   "pass_rate": 0,
-   "avg_logic": 12.0,
-   "avg_human": 10.0,
+   "median": 75,
+   "pass_rate": 80,
+   "avg_logic": 31.0,
+   "avg_human": 12.0,
    "avg_natural": 20.0,
-   "reject": 1,
+   "reject": 0,
    "seg": "family",
    "sample": [
-    "其实我觉得我最讨厌的就是没有感情色彩，很空洞",
-    "我觉得也是，很多歌都是霉掉的"
+    "好喜欢的歌名，但是我怎么觉得我听到很烦呐",
+    "前奏一响 我就知道了"
    ]
   },
   {
    "n": 5,
-   "avg": 45.0,
-   "sd": 14.1,
-   "median": 35,
-   "pass_rate": 0,
-   "avg_logic": 8.0,
-   "avg_human": 2.0,
-   "avg_natural": 20.0,
+   "avg": 65.8,
+   "sd": 17.9,
+   "median": 75,
+   "pass_rate": 60,
+   "avg_logic": 22.0,
+   "avg_human": 8.0,
+   "avg_natural": 19.2,
    "reject": 0,
    "seg": "traditional",
    "sample": [
-    "此歌的陈述其实是有些错误的",
-    "我觉得你品味独特"
+    "这配乐和山呼海跪的bgm，请问有没有一个bgm的官网，我也要下载",
+    "这位UP主的BGM是哪首歌"
    ]
   },
   {
    "n": 5,
-   "avg": 44.0,
-   "sd": 17.5,
-   "median": 35,
-   "pass_rate": 20,
-   "avg_logic": 6.0,
-   "avg_human": 2.0,
+   "avg": 77.0,
+   "sd": 4.5,
+   "median": 75,
+   "pass_rate": 100,
+   "avg_logic": 30.0,
+   "avg_human": 12.0,
    "avg_natural": 20.0,
    "reject": 0,
    "seg": "craft_learner",
    "sample": [
-    "评价评分对吗，这是被抢吗",
-    "请问现在可入手吗？"
+    "我最好的剪辑BGM",
+    "请问这个bgm是自己配的，还是其他大神的作品"
    ]
   }
  ],
  "samples": 5,
- "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261127-183240/adapter"
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261127-164800/adapter"
 }

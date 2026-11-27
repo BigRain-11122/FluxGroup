@@ -203,7 +203,9 @@ def generate(prompt, model=None, endpoint=None, timeout=120, cls=None, think=Fal
                 "why": "%s: %s" % (type(e).__name__, str(e)[:80])}
 
 
-LORA_BASE = "http://127.0.0.1:8788"
+# 一线一模型：bili=8788、gzh=8789。车道用 FLUX_LORA_BASE 指定自己的端口，
+# 不设则回落到 8788（旧行为不变）。
+LORA_BASE = os.environ.get("FLUX_LORA_BASE") or "http://127.0.0.1:8788"
 
 
 def _lora_model(timeout=8):

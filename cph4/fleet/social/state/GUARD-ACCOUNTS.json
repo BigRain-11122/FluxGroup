@@ -1,16 +1,16 @@
 {
  "group": "accounts",
- "ts": "2026-11-27T18:12:59",
+ "ts": "2026-11-27T20:28:15",
  "pass": {
   "AC01": true,
-  "AC02": false,
+  "AC02": true,
   "AC03": true,
   "AC04": false,
   "AC05": false
  },
  "overall": false,
  "n_checks": 5,
- "n_fail": 3,
+ "n_fail": 2,
  "n_skip": 0,
  "checks": [
   {
@@ -24,10 +24,10 @@
   {
    "id": "AC02",
    "name": "跨号隔离（24h 不同视频）",
-   "ok": false,
+   "ok": true,
    "sev": "P0",
-   "detail": "同视频被两号碰过 1 条：['116368733110913']",
-   "n": 356
+   "detail": "24h 内 389 条视频无跨号重叠",
+   "n": 389
   },
   {
    "id": "AC03",
@@ -43,7 +43,7 @@
    "ok": false,
    "sev": "P0",
    "detail": "近 7 天夜间动作 9 次，如 2026-11-27T01:08:22 session",
-   "n": 1316
+   "n": 1390
   },
   {
    "id": "AC05",
@@ -51,7 +51,7 @@
    "ok": false,
    "sev": "P1",
    "detail": "重复评论：{'None': 4}",
-   "n": 25
+   "n": 26
   }
  ]
 }

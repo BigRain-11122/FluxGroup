@@ -137,8 +137,13 @@ def ai_trace(text):
     score += 14 if hit6 else 0
 
     # 7 三连排比（同一句式连续 3 次，用"以X字开头"近似）
+    # 2026-11-27 勘误：本篇「第一步/第二步/第三步/第四步」是操作步骤，被误判成排比。
+    # 编号步骤是实操文的结构，不是修辞——不豁免这道闸会稳定误杀所有 how-to。
+    STEP = re.compile(r"^(第[一二三四五六七八九十]步|[0-9]+[.、)]|步骤)")
     opens = [p[:2] for p in ps]
+    is_step = [bool(STEP.match(p)) for p in ps]
     hit7 = any(opens[i] == opens[i + 1] == opens[i + 2]
+               and not (is_step[i] and is_step[i + 1] and is_step[i + 2])
                for i in range(len(opens) - 2)) if len(opens) >= 3 else False
     items.append(("三连排比", hit7, "连续三段同一起头" if hit7 else "无"))
     score += 12 if hit7 else 0
@@ -187,6 +192,36 @@ def science(text):
     if is_howto and not has_step:
         warns.append("S5 像实操类但没有编号步骤——读者照着做不了")
     items.append(("S5 可复现", (not is_howto) or has_step, "有步骤" if has_step else "无"))
+
+    # S6 可证伪（2026-11-27 CEO「要科学」）：结论必须写明"什么情况下我错"。
+    # 没有可证伪句的结论不可反驳，也就不是判断，只是态度。
+    falsifiable = bool(re.search(
+        r"证伪|打我脸|如果.{0,24}就(?:说明|证明|算)我(?:错|说错)|不成立|反过来验证|"
+        r"你可以(?:自己)?(?:量|试|验|查)", text))
+    if not falsifiable:
+        warns.append("S6 没写可证伪条件——读者拿什么反驳你？补一句「如果…就说明我错了」")
+    items.append(("S6 可证伪", falsifiable, "有" if falsifiable else "无"))
+
+    # S7 自我代价（人味闸）：强判断必须配一句自己付的代价
+    self_cost = bool(re.search(
+        r"我(?:原来|一开始|最初)?(?:错|走错|以为错)|我为此|代价(?:是|我)|"
+        r"我(?:也)?踩(?:过|了)|栽过|吃过(?:亏|亏)|得罪|我不(?:得|能)不承认", text))
+    if not self_cost:
+        warns.append("S7 没有自我代价句——强判断不配代价，读起来像总结，不像人做的判断")
+    items.append(("S7 自我代价", self_cost, "有" if self_cost else "无"))
+
+    # R1 句长节奏（可读性）：连续 3 句长度接近＝念经。
+    # 只在中长文上判（<800 字的快评句子本来就短，容易误判）。
+    sents = [x for x in re.split(r"[。！？]", re.sub(r"[#>*`]", "", text)) if len(x.strip()) >= 4]
+    flat = 0
+    if len(sents) >= 12:
+        for i in range(len(sents) - 2):
+            a, b, c = (len(sents[i]), len(sents[i + 1]), len(sents[i + 2]))
+            if max(a, b, c) - min(a, b, c) <= 5:
+                flat += 1
+    if flat >= 4:
+        warns.append("R1 有 %d 处连续三句长度接近——句长没起伏，读起来像念稿" % flat)
+    items.append(("R1 句长节奏", flat < 4, "有起伏" if flat < 4 else "%d 处平" % flat))
 
     return fails, warns, items
 

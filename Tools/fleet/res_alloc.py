@@ -148,9 +148,25 @@ def mem_free_mb():
         return -1.0
 
 
+def is_train_cmd(cmd):
+    """是不是"真的在训练"（纯函数，供负控注入）。
+
+    2026-11-27 实锚：旧判据只 grep `mlx_lm`，把 8788 的**推理服务**也算成训练，
+    于是 res_alloc 永远显示"训练在跑"，训练线永远让路、ops 一屏永远骗人。
+    """
+    c = cmd or ""
+    if "mlx_lm server" in c or "mlx_lm.server" in c:
+        return False
+    if "mlx_lora_server" in c or "lora_server" in c:
+        return False
+    marks = ("train_build.py", "train_forever.py", "train_pipeline.py",
+             "mlx_lm lora", "mlx_lm.lora", "mlx_lm train", "mlx_lm.train")
+    return any(m in c for m in marks)
+
+
 def train_running():
-    out = _sh("ps -axo command | grep -E 'mlx_lm|train_forever|lora' | grep -v grep")
-    return bool(out.strip())
+    out = _sh("ps -axo command | grep -E 'train_build\\.py|train_forever\\.py|mlx_lm[. ]lora|mlx_lm[. ]train' | grep -v grep")
+    return any(is_train_cmd(ln) for ln in (out or "").splitlines())
 
 
 def browsers():
@@ -288,6 +304,20 @@ def self_test():
                   may(_other, 9, 0, env=(0, 4000, True, [], []))[0] == 75))
     cases.append(("may: 本时段平台放行(0)",
                   may(_cur["id"], 9, 0, env=(0, 4000, True, [], []))[0] == 0))
+    # 2026-11-27 一线一进程：专用车道不再受平台轮转，但容量闸不放松（两条都要能红）
+    cases.append(("may: 专用车道不受轮转(0)",
+                  may(_other, 9, 0, env=(0, 4000, True, [], []), lane=_other)[0] == 0))
+    cases.append(("may: 专用车道仍受资源闸(76)",
+                  may(_other, 9, 0, env=(9000, 500, True, [], []), lane=_other)[0] == 76))
+    # 2026-11-27 实锚：推理服务不能算训练（负控：训练命令行必须仍判 True）
+    cases.append(("train_running: 8788 推理服务不算训练",
+                  not is_train_cmd("python -m mlx_lm server --model x --port 8788")))
+    cases.append(("train_running: lora 服务脚本不算训练",
+                  not is_train_cmd("bash Tools/fleet/mlx_lora_server.sh")))
+    cases.append(("train_running: train_build 算训练",
+                  is_train_cmd("python Tools/fleet/train_build.py --out x --seg y")))
+    cases.append(("train_running: mlx_lm lora 算训练",
+                  is_train_cmd("python -m mlx_lm lora --train --data d")))
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))
@@ -295,15 +325,20 @@ def self_test():
     return 0 if ok == len(cases) else 1
 
 
-def may(platform, hour=None, minute=0, env=None):
+def may(platform, hour=None, minute=0, env=None, lane=None):
     """租约判定：现在能不能开这条平台线。返回 (rc, 理由)。
 
     采集侧/出稿侧必须调用它，否则"轮到公众号时 B 站让位"只是纸面规则。
     rc=0 可开 / 75 不是本平台时段（DEFER，可重试）/ 76 资源不允许 / 77 未知平台
     env=(swap,free,train,profs,models) 供自检注入，生产不传。
+
+    专用车道（lane=平台 id，或环境变量 FLUX_LANE）：2026-11-27 CEO 令「每条线给一个专用的」。
+    车道只受**容量**约束（内存/浏览器数/训练），不再受"平台时段轮转"约束——轮转让
+    公众号一直给 B 站让位，台账里 68 拍空转就是这么来的。轮转只留给没有车道的临时调用。
     """
     hour = datetime.now().hour if hour is None else hour
     minute = datetime.now().minute if minute is None else minute
+    lane = (lane if lane is not None else os.environ.get("FLUX_LANE") or "").strip()
     pf = [p for p in PLATFORMS if p["id"] == platform]
     if not pf:
         return 77, "未知平台 %s" % platform
@@ -315,6 +350,8 @@ def may(platform, hour=None, minute=0, env=None):
     slot = decide(swap, free, train, profs, models, hour)[0]
     if slot in ("DENY-NEW", "DRAIN"):
         return 76, "资源判定 %s：只收尾，不开新浏览器活" % slot
+    if lane == platform:
+        return 0, "专用车道 %s：容量放行（不受平台轮转）" % lane
     cur = platform_now(hour, minute)
     if cur is None:
         return 76, "当前无可轮转平台"

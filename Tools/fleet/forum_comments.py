@@ -117,8 +117,6 @@ def douban_books(pages=10, books=0, per_book=2, dry=False):
         if i not in seen:
             seen.add(i)
             uniq.append(i)
-    if books:
-        uniq = uniq[:books]
 
     # 边采边写 + 记进度：250 本 × 2 页要 20 分钟，一旦超时被杀，
     # 一次性落盘的全量数据会整个丢掉（2026-11-26 实锚：长任务只靠最后一次写盘）。
@@ -131,6 +129,10 @@ def douban_books(pages=10, books=0, per_book=2, dry=False):
     for bid in uniq:
         if bid in done:
             continue
+        # --books 是"这一拍采几本**没采过的**"。原来先切片再过滤已完成，
+        # 前 8 本一旦采过就永远采 0 本（2026-11-27 实锚：rc=3 且天天同一句）。
+        if books and fetched >= int(books):
+            break
         items = []
         for pg in range(max(1, per_book)):
             try:

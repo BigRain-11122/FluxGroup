@@ -36,6 +36,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 SOCIAL = os.path.join(ROOT, "cph4", "fleet", "social")
 GZH = os.path.join(SOCIAL, "gzh")
 URLS = os.path.join(GZH, "URLS.jsonl")
+FAILED = os.path.join(GZH, "URLS-FAILED.jsonl")
 ARTICLES = os.path.join(GZH, "ARTICLES.jsonl")
 INDUSTRY = os.path.join(GZH, "ARTICLES-INDUSTRY.jsonl")   # 静态垂类产业语料（不进文笔训练）
 STRUCT = os.path.join(GZH, "STRUCT.json")
@@ -215,22 +216,46 @@ def sense():
     pool = _rows(URLS)
     arts = _rows(ARTICLES)
     ind = _rows(INDUSTRY)
+    fails = _rows(FAILED)
+    # 归一化规则只留一份：用数据库那支的 norm_url，别在这里再写一遍
+    # （2026-11-27 实锚：这里按 _uid 比、别处按链接比，38 条死链被当成"还没抓"，
+    #   循环反复重试永远抓不到的东西，而风格池其实早就见底。）
+    from gzh_db import norm_url
     pool_u = {r.get("_uid") for r in pool if r.get("_uid")}
-    done_u = {r.get("_uid") for r in arts if r.get("_uid")}
+    done_n = {norm_url(r.get("url")) for r in arts if r.get("url")}
+    dead_n = {norm_url(r.get("url")) for r in fails if r.get("url")}
     ind_u = {r.get("_uid") for r in ind if r.get("_uid")}
-    # 风格池待抓：排除静态源链接（它们归产业语料，不归这里）
+    # 风格池待抓：排除静态源链接（它们归产业语料，不归这里），也排除已判死的链接
     style_rows = [r for r in pool if not _is_static(r.get("url"))]
-    style_u = {r.get("_uid") for r in style_rows if r.get("_uid")}
-    todo = [r for r in style_rows if r.get("_uid") not in done_u]
+    # 双判据：链接归一化命中（真实数据）或 _uid 命中（老行/测试夹具没记 url 时）。
+    # 只留 url 判据会把没记 url 的老行全判成待抓；只留 _uid 会让换了链接写法的同篇永远重试。
+    done_u = {r.get("_uid") for r in arts if r.get("_uid")}
+    dead_u = {r.get("_uid") for r in fails if r.get("_uid")}
+
+    def _is_done(r):
+        n = norm_url(r.get("url"))
+        return (bool(n) and n in done_n) or (r.get("_uid") in done_u)
+
+    def _is_dead(r):
+        n = norm_url(r.get("url"))
+        return (bool(n) and n in dead_n) or (r.get("_uid") in dead_u)
+
+    fetched = [r for r in style_rows if _is_done(r)]
+    dead = [r for r in style_rows if not _is_done(r) and _is_dead(r)]
+    todo = [r for r in style_rows if not _is_done(r) and not _is_dead(r)]
+    # 风格池 = 能长出稿子的种子（已采 + 真待抓），死链不算种子
+    style_live = len(fetched) + len(todo)
     struct = None
     try:
         struct = json.load(open(STRUCT, encoding="utf-8"))
     except Exception:
         pass
     return {
-        "pool": len(pool_u), "style_pool": len(style_u),
+        "pool": len(pool_u), "style_pool": style_live,
+        "style_dead": len(dead), "style_fetched": len(fetched),
         "pool_todo": len(todo), "style_todo": len(todo),
-        "articles": len(done_u), "industry": len(ind_u),
+        "articles": len({r.get("_uid") for r in arts if r.get("_uid")}),
+        "industry": len(ind_u),
         "struct_age_h": _age_h(STRUCT), "train_rows": len(_rows(TRAINSET)),
         "struct_n": (struct or {}).get("n"),
         "eligible": sum(1 for a in arts
@@ -259,9 +284,14 @@ def decide(s):
                 "why": "产业语料 %d/%d 篇，静态源可自动扩（不需要人给种子）"
                        % (s["industry"], INDUSTRY_TARGET)}
     if s["style_pool"] < POOL_MIN:
+        # 先自己扩（作者页深翻 + 两跳反查）；连续两拍扩不出东西才认这道墙
+        if _expand_dry() < 2:
+            return {"phase": "expand",
+                    "why": "风格池 %d 条 < %d：去作者页扩池（不等种子）"
+                           % (s["style_pool"], POOL_MIN)}
         return {"phase": "supply",
-                "why": "风格池 %d 条 < %d：公众号发现通道全封，只能要人给种子"
-                       % (s["style_pool"], POOL_MIN)}
+                "why": "风格池 %d 条 < %d，且连续 %d 拍扩不出新链接"
+                       % (s["style_pool"], POOL_MIN, _expand_dry())}
     if s["struct_age_h"] is None or (s["struct_age_h"] or 0) > STALE_H:
         return {"phase": "learn", "why": "结构统计缺失或 %s 小时前"
                                           % (round(s["struct_age_h"], 1) if s["struct_age_h"] else "从未")}
@@ -274,6 +304,23 @@ def decide(s):
 
 # ---------------- ACT ----------------
 
+def _py_for_browser():
+    """采集要用带 playwright 的解释器，不能直接用 sys.executable。
+
+    2026-11-27 实锚：本循环由 launchd 用 python3.15 拉起，而 playwright 只装在
+    .venv-housing；act_harvest 用 sys.executable 调采集器 → 每一拍都
+    ModuleNotFoundError: No module named 'playwright'，台账里只看到"没抓到"，
+    看起来像"池子空了"，实际是解释器不对。这是最贵的一类假故障。
+    """
+    cands = [os.path.join(ROOT, ".venv-housing", "bin", "python"),
+             os.environ.get("FLUX_BROWSER_PY") or ""]
+    for c in cands:
+        if c and os.path.exists(c):
+            r = subprocess.run([c, "-c", "import playwright"], capture_output=True)
+            if r.returncode == 0:
+                return c
+    return sys.executable
+
 def act_harvest(limit=HARVEST_PER_TICK, rng=None):
     """调采集器抓一小批（子进程，别把循环拖死）。
 
@@ -283,7 +330,7 @@ def act_harvest(limit=HARVEST_PER_TICK, rng=None):
     rng = rng or random.Random()
     t0 = time.time()
     try:
-        p = subprocess.run([sys.executable, os.path.join(HERE, "wechat_article.py"),
+        p = subprocess.run([_py_for_browser(), os.path.join(HERE, "wechat_article.py"),
                             "--harvest", str(limit),
                             "--budget-secs", str(HARVEST_BUDGET)],
                            capture_output=True, text=True,
@@ -296,6 +343,91 @@ def act_harvest(limit=HARVEST_PER_TICK, rng=None):
     return {"ok": p.returncode == 0, "secs": round(time.time() - t0, 1),
             "tail": "\n".join(tail)[-400:]}
 
+
+EXPAND_STATE = os.path.join(GZH, "EXPAND-STATE.json")
+
+def _expand_dry():
+    """连续几拍扩池没长出东西。用来区分「自己还没使劲」和「真的没料了」。"""
+    try:
+        st = json.load(open(EXPAND_STATE, encoding="utf-8"))
+        return int(st.get("dry") or 0)
+    except Exception:
+        return 0
+
+
+
+
+
+SEEDS = os.path.join(GZH, "AUTHOR-SEEDS.json")
+
+
+def _authors():
+    """作者 id → 已入池条数。种子表里的作者以 0 起步，所以一定会被先挑到。"""
+    d = {}
+    for r in _rows(URLS):
+        a = r.get("author_id")
+        if a:
+            d[a] = d.get(a, 0) + 1
+    try:
+        for a in json.load(open(SEEDS, encoding="utf-8")).get("ids") or []:
+            d.setdefault(str(a), 0)
+    except Exception:
+        pass
+    return d
+
+
+def _n_urls():
+    try:
+        return sum(1 for ln in open(URLS, encoding="utf-8") if ln.strip())
+    except Exception:
+        return 0
+
+
+def act_expand(limit=60):
+    """自己去扩池：轮着深翻作者页；每第 3 次改跑两跳反查，长出新作者。
+
+    2026-11-27 CEO「缺什么自己去采集啊」：池子见底不再是"等人给种子"，
+    而是自己从已知作者页和文章页的反向链接里长出新料。
+    实测约束：车家号作者页当前硬顶 50 条（2026-11-25 曾能滚到 102），
+    所以一次扩不了太多，必须靠轮换多个作者 + 两跳发现来累积。
+    """
+    rng = random.Random()
+    t0 = time.time()
+    try:
+        st = json.load(open(EXPAND_STATE, encoding="utf-8"))
+    except Exception:
+        st = {}
+    n = int(st.get("rounds") or 0) + 1
+    ids = _authors()
+    before = _n_urls()
+    if ids and n % 3 != 0:
+        aid = min(ids, key=lambda k: (ids[k], k))
+        cmd = ["--cj-author", aid, "--scrolls", "20", "--pages", "10", "--limit", str(limit)]
+        what = "深翻作者 %s（池内 %d 条）" % (aid, ids[aid])
+    elif n % 3 == 0:
+        cmd = ["--cj-index", "12"]
+        what = "首页信息流刷作者入口"
+    else:
+        cmd = ["--cj-expand", "6"]
+        what = "两跳反查新作者"
+    try:
+        p = subprocess.run([_py_for_browser(), os.path.join(HERE, "wechat_article.py")] + cmd,
+                           capture_output=True, text=True, timeout=420, cwd=ROOT)
+        tail = (p.stdout or p.stderr or "").strip().splitlines()[-3:]
+        ok = p.returncode == 0
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "added": 0, "secs": round(time.time() - t0, 1),
+                "tail": "扩池超时（420s），下一拍再来"}
+    added = _n_urls() - before
+    try:
+        dry = (_expand_dry() + 1) if added <= 0 else 0
+        json.dump({"rounds": n, "last": what, "added": added, "dry": dry,
+                   "ts": datetime.now().isoformat(timespec="seconds")},
+                  open(EXPAND_STATE, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception:
+        pass
+    return {"ok": ok, "added": added, "secs": round(time.time() - t0, 1),
+            "tail": ("%s｜新增 %d 条\n" % (what, added)) + "\n".join(tail)}
 
 def act_supply_industry(limit=SUPPLY_PER_TICK):
     """静态垂类源自动补料（盖世 + 第一电动），不需要人给种子。
@@ -322,13 +454,13 @@ _Q = re.compile(r"[？?]|吗|到底|是不是|能不能|该不该|为何|为什�
 
 
 def _style_arts(arts):
-    """只用 genre=review 的篇目标定文风；通稿（press）与未知一律不进。
+    """只用 genre in (review, feature) 的篇目标定文风；通稿（press）与未知一律不进。
 
     2026-11-23 群审第一条就是"语料错配"：拿机构通稿标定，训出来必然是公文腔。
     genre 由 wechat_article.genre_of 判定（带 3 条负控）；没有 genre 列的老行按 unknown 处理。
     """
-    use = [a for a in arts if a.get("genre") == "review"]
-    drop = [a for a in arts if a.get("genre") != "review"]
+    use = [a for a in arts if a.get("genre") in ("review", "feature")]
+    drop = [a for a in arts if a.get("genre") not in ("review", "feature")]
     return use, drop
 
 
@@ -393,6 +525,20 @@ def build_trainset(arts=None):
 # 下一步的唯一事实：写死成"动作+判据+要谁动手"，任何会话读它就能接上，
 # 不需要靠我记、也不需要问 CEO（CEO 2026-11-23：每次对话结尾都要知道下一步）。
 NEXT_MAP = {
+    "expand": {
+        "id": "EXPAND-1",
+        "action": "自己去扩池：轮换深翻作者页，每第 3 次跑两跳反查找新作者",
+        "judge": "URLS.jsonl 净增 > 0；连续 2 拍净增为 0 才改报 SUPPLY",
+        "needs": "无（不等任何人）",
+        "eta": "每 30 分钟一拍",
+    },
+    "write": {
+        "id": "WRITE-1",
+        "action": "按本周主题出一篇初稿（席位 gzh_writer / qwen3.5:9b-mlx）",
+        "judge": "结构闸 rc=0 且严谨闸 rc=0；状态只到 NEEDS-HUMAN，人看完才改 READY",
+        "needs": "无（算力已归公众号；抢不到 gpu_lease 就记 DEFER-COMPUTE）",
+        "eta": "每天一篇",
+    },
     "supply": {
         "id": "SUPPLY-1",
         "action": "要风格池种子（公众号/车家号链接或号名）",
@@ -471,7 +617,9 @@ def write_next(s, task):
 def refresh_screen(s, task, rec=None):
     lines = ["# 公众号线（GZH-LOOP）", "",
              "| 项 | 值 |", "|---|---|",
-             "| 风格池（能进文笔训练） | %d 条（待抓 %d） |" % (s["style_pool"], s["style_todo"]),
+             "| 风格池（能进文笔训练） | %d 条（已采 %d / 待抓 %d / 死链 %d） |"
+             % (s["style_pool"], s.get("style_fetched", 0), s["style_todo"],
+                s.get("style_dead", 0)),
              "| 风格语料 | %d 篇 |" % s["articles"],
              "| 产业语料（只做形态/事实） | %d/%d 篇 |" % (s["industry"], INDUSTRY_TARGET),
              "| 结构统计 | %s（%s 小时前） |" % (s["struct_n"] or "无",
@@ -485,7 +633,7 @@ def refresh_screen(s, task, rec=None):
               "1. 两本账分开数：风格池归 ARTICLES.jsonl，产业语料归 ARTICLES-INDUSTRY.jsonl，"
               "混着数会造出假待办（实锚：71 条已采的盖世链接被当待抓，一次跑爆 900 秒）。",
               "2. 产业语料不足 %d 篇就自动补，**不等任何人**（静态源免登录）。" % INDUSTRY_TARGET,
-              "3. 只有风格池见底才升级要种子——公众号发现通道全封，这是唯一的真墙。",
+              "3. 风格池见底先自己去扩（轮换深翻作者页 + 首页刷作者 + 两跳反查），连续两拍扩不出才报种子；采集靠自己的浏览器，不等任何人。",
               "4. 采满 %d 篇才学结构；采满 %d 篇才造训练集。产业稿只学形态，不进文笔。" % (LEARN_AFTER, TRAIN_AFTER),
               "5. 本器不做「好不好」的判断——出稿必须人看，禁止自己打分发稿。", ""]
     os.makedirs(GZH, exist_ok=True)
@@ -494,6 +642,17 @@ def refresh_screen(s, task, rec=None):
 
 # ---------------- 主流程 ----------------
 
+def _refresh_db():
+    """每拍把 jsonl 刷进 SQLite。库是派生物，但必须保鲜——
+    "建好了没人同步" 就是机制空转（2026-11-14 六种空转形态之一）。
+    实测全量 0.08 秒；任何异常只打印，不许影响本拍结论。"""
+    try:
+        import gzh_db
+        gzh_db.ingest_all()
+    except Exception as e:  # noqa: BLE001
+        print("[db] 刷新失败（不影响本拍）：%s: %s" % (type(e).__name__, str(e)[:60]))
+
+
 def once(dry=False):
     """带锁与异常兜底的入口：任何一拍都要在台账留一行（含 CRASHED）。"""
     f = _lock()
@@ -501,7 +660,9 @@ def once(dry=False):
         print("[gzh] SKIP-LOCKED（另一个实例在跑）")
         return 0
     try:
-        return _once_impl(dry=dry)
+        rc = _once_impl(dry=dry)
+        _refresh_db()          # 每拍保鲜一次，放在最后：本拍结论先落，库不许影响它
+        return rc
     except Exception as e:
         _append(LEDGER, {"ts": _now().isoformat(timespec="seconds"),
                          "phase": "unknown", "status": "CRASHED", "secs": 0,
@@ -536,6 +697,15 @@ def _once_impl(dry=False):
         _append(LEDGER, rec)
         refresh_screen(s, task, rec)
         print("[gzh] %s / %s" % (task["phase"], task["why"]))
+        return 0
+    if task["phase"] == "expand":
+        r = act_expand()
+        rec.update(status="EXPANDED" if r.get("added") else "EXPAND-DRY",
+                   secs=r["secs"], tail=r["tail"])
+        _append(LEDGER, rec)
+        refresh_screen(sense(), task, rec)
+        print("[gzh] 扩池 %s %.1fs ｜ 新增 %d 条" % (
+            "成功" if r.get("added") else "没长出新链接", r["secs"], r.get("added") or 0))
         return 0
     if task["phase"] == "supply-industry":
         r = act_supply_industry()
@@ -711,8 +881,17 @@ def self_test():
     # N9c 风格池见底且产业也补满 → 才升级要种子（唯一的真墙）
     s9c = dict(s9, style_pool=3, style_todo=0, industry=INDUSTRY_TARGET,
                struct_age_h=0.5, eligible=60, train_rows=200)
-    cases.append(("N9c 风格池见底+产业满→supply（要人给种子）",
-                  decide(s9c)["phase"] == "supply"))
+    # CEO 2026-11-27「缺什么自己去采集」：池子见底先自己去扩，扩不动才要种子。
+    global EXPAND_STATE
+    _saved_expand, EXPAND_STATE = EXPAND_STATE, os.path.join(d, "expand.json")
+    try:
+        cases.append(("N9c 风格池见底+产业满→expand（先自己扩，不等种子）",
+                      decide(s9c)["phase"] == "expand"))
+        json.dump({"rounds": 1, "dry": 2}, open(EXPAND_STATE, "w", encoding="utf-8"))
+        cases.append(("N9c2 连续两拍扩不出→才 supply",
+                      decide(s9c)["phase"] == "supply"))
+    finally:
+        EXPAND_STATE = _saved_expand
 
     # N10 负控：通稿（press）与未知（unknown）不得参与文风标定/训练集
     _append(ARTICLES, {"_uid": "p1", "title": "某指数结果发布丨N9 测评结果发布",

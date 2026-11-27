@@ -103,7 +103,7 @@ def parse_docids(html):
     return out
 
 
-def collect(channels=3, per_doc=2, dry=False):
+def collect(channels=3, per_doc=2, dry=False, max_docs=0):
     errs, items = [], []
     docids = []
     for url in CHANNELS[:max(1, channels)]:
@@ -117,6 +117,10 @@ def collect(channels=3, per_doc=2, dry=False):
         if d not in seen:
             seen.add(d)
             uniq.append(d)
+    if max_docs and max_docs > 0:
+        # 单拍上限：列表页一次能带出上百篇，不设上限就会一拍跑十几分钟，
+        # 把 30 分钟的常驻节拍变成"一直在跑上一拍"（2026-11-27 实锚：8 分钟未完）。
+        uniq = uniq[:int(max_docs)]
 
     have = None if dry else existing_hashes()
     total_new = 0
@@ -164,11 +168,12 @@ def main(argv=None):
     ap.add_argument("--channels", type=int, default=3)
     ap.add_argument("--per-doc", type=int, default=2, help="每篇翻页数（20 条/页）")
     ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--max-docs", type=int, default=0, help="单拍最多采几篇（0=不限）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:
         return self_test()
-    out = collect(channels=a.channels, per_doc=a.per_doc, dry=a.dry)
+    out = collect(channels=a.channels, per_doc=a.per_doc, dry=a.dry, max_docs=a.max_docs)
     print("[news] 文章 %d 篇 → 新入库 %d 条%s"
           % (out["docs"], out["new"], "（dry，未写）" if out["dry"] else ""))
     for e in out["errs"]:

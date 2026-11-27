@@ -16,7 +16,10 @@
         "{root}/Tools/fleet/browser_daemon.py"
       ],
       "keep_alive": true,
-      "why": "浏览器线的共用底座：一个已登录上下文，按 profile 隔离。"
+      "why": "浏览器线的共用底座：一个已登录上下文，按 profile 隔离。 等锁上限压到 25 秒：单线程服务器被一个长占锁请求卡住会整机不响应（2026-11-27 实锚）。",
+      "env": {
+        "FLUX_PROFILE_WAIT": "25"
+      }
     },
     {
       "id": "model-bili",

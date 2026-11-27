@@ -285,6 +285,102 @@ def _strip_html(h):
     return "\n".join(x.strip() for x in t.split("\n") if x.strip())
 
 
+def reclassify():
+    """按当前词表重算 ARTICLES 的 genre，原地改写。
+
+    为什么需要：genre 是抓取时算的，词表一改，老行就是过期判据。
+    2026-11-27 加了 feature（作者原创长文）之后，42 号车库有 7 篇被扔在 unknown 里，
+    不重算的话「缺料」会一直被误判成"采集不够"，实际是分类器把料倒掉了。
+    """
+    rows = [json.loads(l) for l in open(ARTICLES, encoding="utf-8") if l.strip()]
+    changed = 0
+    for r in rows:
+        g, why = genre_of(r)
+        if g != (r.get("genre") or "unknown"):
+            r["genre"], r["genre_why"] = g, why
+            changed += 1
+    tmp = ARTICLES + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    os.replace(tmp, ARTICLES)
+    from collections import Counter
+    c = Counter(r.get("genre") for r in rows)
+    print("[gzh] 重分类 %d 行，改动 %d 行｜%s" % (len(rows), changed, dict(c)))
+    return changed
+
+
+def discover_index(pages=6, scrolls=10):
+    """从车家号首页/频道页抓作者入口。
+
+    2026-11-27 实锚：作者页硬顶 50 条、两跳反查只长出 1 个作者，
+    继续磨单页拿不到量；但首页信息流里主角就是各家作者。
+    """
+    mod, kw = _browser()
+    found, added = {}, 0
+    known = _authors_known()
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page()
+            pg.set_default_timeout(15000)
+            for u in ("https://chejiahao.autohome.com.cn/",
+                      "https://chejiahao.autohome.com.cn/#pvareaid=3311503"):
+                try:
+                    pg.goto(u, wait_until="domcontentloaded", timeout=30000)
+                    pg.wait_for_timeout(2500)
+                    for _ in range(scrolls):
+                        pg.evaluate("window.scrollTo(0,document.body.scrollHeight)")
+                        pg.wait_for_timeout(1200)
+                    ids = pg.evaluate(
+                        r"""()=>Array.from(document.querySelectorAll('a[href*="/Authors/"]'))
+                        .map(a=>{const m=(a.getAttribute('href')||'').match(/Authors\/(\d+)/);
+                                return m?m[1]:null}).filter(Boolean)""")
+                    for i in ids:
+                        found[i] = found.get(i, 0) + 1
+                except Exception as e:  # noqa: BLE001
+                    print("[gzh] 首页打不开（%s）" % str(e)[:60])
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    new = [i for i in found if i not in known]
+    # 落种子表：循环下一拍会从这份表里挑「还没扩过」的作者去深翻，
+    # 否则首页抓到的作者只打印在屏幕上，没人接着用（又是一种空转）。
+    if new:
+        sf = os.path.join(GZH, "AUTHOR-SEEDS.json")
+        try:
+            d = json.load(open(sf, encoding="utf-8"))
+        except Exception:
+            d = {"ids": []}
+        ids = list(dict.fromkeys(list(d.get("ids") or []) + new))
+        json.dump({"ids": ids, "updated": datetime.now().isoformat(timespec="seconds")},
+                  open(sf, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    print("[gzh] 首页可见作者 %d 个，其中新作者 %d 个" % (len(found), len(new)))
+    for i in sorted(new, key=lambda k: -found[k])[:15]:
+        print("   /Authors/%s  出现 %d 次" % (i, found[i]))
+    added = len(new)
+    return added
+
+
+def _authors_known():
+    out = set()
+    try:
+        for line in open(URLS, encoding="utf-8"):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                a = json.loads(line).get("author_id")
+                if a:
+                    out.add(str(a))
+            except Exception:  # noqa: BLE001
+                pass
+    except Exception:  # noqa: BLE001
+        pass
+    return out
+
 def discover_chejiahao(author_id, pages=1, rng=None, limit=40, scrolls=8):
     """车家号作者页取文章链接（对标对象本人的镜像）。
 
@@ -557,7 +653,18 @@ def _fetch_chejiahao(url):
 # 诚实边界：样本只有 3 个账号 10 篇，这是**保守初版**，标注了 unknown 就默认不用。
 PRESS_MARKS = ("发布", "公告", "丨", "结果发布", "方案发布", "正式上线", "圆满", "揭牌",
                "测评基准", "基准发布",
-               "启动征集", "签约", "据悉", "通讯员", "白皮书", "标准", "榜单", "获奖", "峰会")
+               "启动征集", "签约", "据悉", "通讯员", "白皮书", "标准", "榜单", "获奖", "峰会",
+               # 2026-11-27 补：品牌软文口吻，原表漏了这类，会漏进风格样本
+               "演绎", "待客之道", "重塑", "引领", "赋能", "重磅", "震撼", "开启新篇章")
+# feature = 作者原创长文（探访/访谈/技术解读/财报解读）。
+# 2026-11-27 实测：42 号车库 15 篇里 7 篇被判 unknown 被扔掉，它们是探访工厂、
+# 对话访谈、芯片解读、财报解读——正是这家号的看家文体。只认「车评」等于把
+# 半个对标号的产出倒掉，然后回头说"缺料"。
+FEATURE_MARKS = ("探访", "对话", "访谈", "专访", "诞生地", "下线", "全检", "工序", "产线",
+                 "工厂", "量产", "出货", "装机", "财报", "营收", "毛利率", "净利润",
+                 "算力", "芯片", "自研", "拆解", "复盘", "首试", "首发")
+FEATURE_BODY = ("工序", "产线", "全检", "下线", "研发", "工程", "版本", "迭代", "成本",
+                "毛利", "出货量", "供应链", "我个人", "我的判断", "我认为")
 PRESS_BODY = ("测评背景", "主办单位", "承办", "联合发布", "征集", "本方案", "指标体系",
               "测试范围", "报名", "参评")
 REVIEW_BODY = ("试驾", "坐进", "开起来", "车主", "续航", "油耗", "电耗", "后排", "后备箱",
@@ -581,13 +688,18 @@ def genre_of(art):
     sc_press += 2 * sum(1 for m in PRESS_BODY if m in lead or m in text or m in heads)
     sc_review = sum(1 for m in REVIEW_TITLE if m in title)
     sc_review += sum(1 for m in REVIEW_BODY if m in lead or m in text)
-    why = "通稿分 %d（标题%d）／车评分 %d（标题%d）" % (
-        sc_press, sum(1 for m in PRESS_MARKS if m in title), sc_review,
-        sum(1 for m in REVIEW_TITLE if m in title))
-    if sc_press >= 3 and sc_press >= sc_review:
+    sc_feat_t = sum(1 for m in FEATURE_MARKS if m in title)
+    sc_feat = sc_feat_t + sum(1 for m in FEATURE_BODY if m in lead or m in text or m in heads)
+    why = "通稿 %d／车评 %d／原创长文 %d" % (sc_press, sc_review, sc_feat)
+    if sc_press >= 3 and sc_press >= sc_review and sc_press >= sc_feat:
         return "press", why
     if sc_review >= 3 and sc_review > sc_press:
         return "review", why
+    # 原创长文：通稿分低、有自己的工序/工程/财报细节，且有结构化小标题
+    # 标题必须有原创标记：否则机构写的行业科普会靠正文关键词混进来
+    # （2026-11-27 实锚：一篇 ADAS 测试设备机翻科普正文命中「工程/研发/供应链」被误收）
+    if sc_press < 3 and sc_feat_t >= 1 and sc_feat >= 3:
+        return "feature", why
     return "unknown", why
 
 
@@ -814,6 +926,10 @@ def main():
     ap.add_argument("--sogou")
     ap.add_argument("--serp")
     ap.add_argument("--cj-author", help="车家号作者 id（对标对象镜像）")
+    ap.add_argument("--cj-index", type=int, default=0,
+                    help="从车家号首页信息流抓作者入口（滚 N 次）")
+    ap.add_argument("--reclassify", action="store_true",
+                    help="按当前词表重算全部行的 genre（词表改了就靠它）")
     ap.add_argument("--cj-expand", type=int, default=0,
                     help="两跳扩池：访问 N 篇池内文章，反查作者并收推荐链接")
     ap.add_argument("--cj-discover", type=int, default=0,
@@ -863,6 +979,12 @@ def main():
         for aid, hits in pairs[:12]:
             print("   /Authors/%s  出现 %d 次" % (aid, hits))
         return 0
+    if a.reclassify:
+        reclassify()
+        return 0
+    if a.cj_index:
+        n = discover_index(scrolls=a.cj_index)
+        return 0 if n else 1
     if a.cj_author:
         n = discover_chejiahao(a.cj_author, pages=a.pages, scrolls=a.scrolls, limit=(a.limit or 40))
         print("[gzh] 车家号建池 %d 条 → %s" % (n, os.path.relpath(URLS, ROOT)))
@@ -874,10 +996,17 @@ def main():
         return 0 if n or why == "ok" else 1
     if a.harvest:
         # 平台租约：不是公众号时段就让位（退 75=可重试；绝不当成 FAIL 进退避）
+        # 2026-11-27 勘误：车家号（chejiahao）与公众号共用同一个浏览器 profile
+        # （browser-gzh），只认 gzh 时段会让「轮到车家号」的那一小时白等——
+        # 而这正是对标镜像的采集时段。同一 profile 的平台都算数。
         try:
             sys.path.insert(0, HERE)
             import res_alloc
             rc, why = res_alloc.may("gzh")
+            if rc == 75:
+                rc2, why2 = res_alloc.may("chejiahao")
+                if rc2 == 0:
+                    rc, why = 0, why2
         except Exception as e:
             rc, why = 0, "仲裁器不可用（%s）：放行" % type(e).__name__
         if rc != 0:

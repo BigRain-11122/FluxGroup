@@ -632,6 +632,19 @@ def _browse_in(ctx, url, seconds=None, harvest=True):
 DAEMON_HOLD_S = 3      # daemon 内最多停留 3 秒（停留由调用方补睡，别占唯一线程）
 
 
+def release_profile_lock(prof):
+    """还 profile 锁：锁的实现一直在 social_collect 里。
+
+    2026-11-27 实锚：browse_video 的 finally 直接调 release_profile_lock(PROF)，
+    但这个模块从来没定义过它 → 每条视频看完都 NameError，整场会话被打崩。
+    """
+    try:
+        import social_collect as _sc
+        return _sc.release_profile_lock(prof)
+    except Exception:
+        return None
+
+
 def browse_video(url, seconds=None, rng=None, harvest=True, ctx=None):
     """真的把视频页打开、停留、滚动一段（常驻浏览器里就是一个新标签页）。
 

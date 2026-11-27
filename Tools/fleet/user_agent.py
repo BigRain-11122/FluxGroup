@@ -298,6 +298,11 @@ def coin(aid, dry=False):
     """投币（真人只给"值得"的视频投，硬币还有限，所以量要小）。"""
     if dry:
         return True, {"dry": True}
+    # 常驻浏览器优先：2026-11-27 实锚，走 _with_video 冷启动会白等 180 秒抢锁。
+    import social_comment as _sc
+    hit = _sc._daemon("coin", {"aid": aid, "dry": dry})
+    if hit is not None:
+        return bool(hit.get("ok")), hit.get("res")
     def go(pg, csrf, _c):
         return _bili_post(pg, "/x/web-interface/coin/add",
                           "aid=%s&multiply=1&select_like=0" % aid, csrf)
@@ -308,6 +313,11 @@ def fav(aid, dry=False):
     """收藏到默认收藏夹。要先拿自己的 mid 和默认夹 id。"""
     if dry:
         return True, {"dry": True}
+    # 常驻浏览器优先：2026-11-27 实锚，走 _with_video 冷启动会白等 180 秒抢锁。
+    import social_comment as _sc
+    hit = _sc._daemon("fav", {"aid": aid, "dry": dry})
+    if hit is not None:
+        return bool(hit.get("ok")), hit.get("res")
     def go(pg, csrf, _c):
         nav = _bili_get(pg, "/x/web-interface/nav")
         mid = ((nav.get("data") or {}).get("mid"))
@@ -327,6 +337,11 @@ def follow(aid, dry=False):
     """关注这条视频的 UP 主（真人不会见一个关注一个，配额必须很小）。"""
     if dry:
         return True, {"dry": True}
+    # 常驻浏览器优先：2026-11-27 实锚，走 _with_video 冷启动会白等 180 秒抢锁。
+    import social_comment as _sc
+    hit = _sc._daemon("follow", {"aid": aid, "dry": dry})
+    if hit is not None:
+        return bool(hit.get("ok")), hit.get("res")
     def go(pg, csrf, _c):
         v = _bili_get(pg, "/x/web-interface/view?aid=%s" % aid)
         mid = (((v.get("data") or {}).get("owner") or {}).get("mid"))
@@ -1006,7 +1021,13 @@ def run_session(minutes=18, dry=False, force=False):
                 out["steps"].append({"act": act, "ok": False, "why": q_why or c_why})
                 continue
             fn = {"coin": coin, "fav": fav, "follow": follow}[act]
-            ok, res = (True, {"dry": True}) if dry else fn(aid)
+            # 2026-11-27 实锚：coin/fav/follow 走 _with_video → sc._launch，
+            # 常驻 browserd 握着 profile 锁时必然超时抛错，整场会话被打崩（rc=1）。
+            # 纪律是"任何一步失败不中断整场"，所以这里兜住异常、记失败继续。
+            try:
+                ok, res = (True, {"dry": True}) if dry else fn(aid)
+            except Exception as e:
+                ok, res = False, "异常：%s" % str(e).strip().splitlines()[0][:60]
             why = "" if ok else str(res)[:60]
             out["steps"].append({"act": act, "ok": ok, "aid": aid, "why": why})
             log({"action": act, "aid": aid, "ok": ok, "why": why, "seg": plan["seg"],
