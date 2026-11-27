@@ -139,10 +139,12 @@ def check(heal=True):
             if n["verdict"] == "NOT-INSTALLED":
                 continue
             age_s = None if n["age_h"] is None else int(n["age_h"] * 3600)
-            ok = n["verdict"] in ("ALIVE", "WARM")
+            ok = n["verdict"] in ("ALIVE", "WARM", "PAUSED-BY-CEO")
             rows.append({"duty": "机队·%s" % n["node"], "state": "OK" if ok else n["verdict"],
                          "age_s": age_s, "healed": False,
-                         "note": "%s 证据=%s" % (n["station"], n["best_source"] or "无")})
+                         "note": "%s 证据=%s%s" % (
+                             n["station"], n["best_source"] or "无",
+                             "（按 CEO 令暂停）" if n["verdict"] == "PAUSED-BY-CEO" else "")})
             if not ok:
                 red += 1
     except Exception as e:
