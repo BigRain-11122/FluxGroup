@@ -288,18 +288,28 @@ def _post_in(ctx, aid, root_rpid, message, dry=True, read_first=False):
     _nav_js = """async()=>{const r=await fetch('https://api.bilibili.com/x/web-interface/nav',
         {credentials:'include'});const j=await r.json();return {mid:(j.data||{}).mid,
         wbi:(j.data||{}).wbi_img, isLogin:(j.data||{}).isLogin};}"""
-    try:
-        nav = pg.evaluate(_nav_js)
-    except Exception:
-        time.sleep(1.5)
-        nav = pg.evaluate(_nav_js)
+    # 2026-11-27 实锚：nav 是个**会撒谎的前置条件**——训练占着 GPU 时它经常拿到非 JSON，
+    # 于是判成"未登录"，而同一时段的真发帖（12:43/14:29/18:32）全部成功并拿到 rpid。
+    # 根因是这里只重试一次、只等 1.5 秒。现在改成：三次退避重试 nav；仍拿不到但有 csrf，
+    # 就**照发**——真正的判据是 add 接口的返回，不是这个探针。
+    nav = {}
+    for _i, _wait in enumerate((0, 1.5, 3.0)):
+        if _wait:
+            time.sleep(_wait)
+        try:
+            nav = pg.evaluate(_nav_js) or {}
+        except Exception:
+            nav = {}
+        if nav.get("isLogin"):
+            break
     if not nav.get("isLogin"):
-        return False, "未登录"
+        print("[post] nav 未确认登录（第 3 次仍失败），改为凭 csrf 直接发帖")
     wbi = nav.get("wbi") or {}
     key = mixin_key(wbi.get("img_url", ""), wbi.get("sub_url", ""))
     cookies = {c["name"]: c["value"] for c in ctx.cookies()}
     csrf = cookies.get("bili_jct", "")
     if not csrf:
+        # csrf 是硬门槛：没有它签名一定过不了，这种才是真的登录态不完整
         return False, "缺 csrf（bili_jct）——登录态不完整"
     params = sign_params({"oid": aid, "type": 1, "root": root_rpid, "parent": root_rpid,
                           "message": message, "csrf": csrf, "plat": 1}, key)

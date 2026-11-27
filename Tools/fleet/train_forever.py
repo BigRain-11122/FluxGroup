@@ -896,7 +896,7 @@ def run_one(a):
     # 所以开训前看一眼"出稿是不是快到期了"：到期就先让这一 tick，让它先跑。
     try:
         import practice_due as _pd
-        _due, _why = _pd.due(within_s=180, mark=True)
+        _due, _why = _pd.due(within_s=600, mark=True)
     except Exception:
         _due, _why = False, ""
     if _due:
@@ -1008,7 +1008,7 @@ def run_one(a):
                 try:
                     import practice_due as _pd
                     import mem_probe as _mp
-                    yield_for_publish(_p, _gl, lambda: _pd.due(within_s=0),
+                    yield_for_publish(_p, _gl, lambda: _pd.due(within_s=600),
                                       _mp.sample, os.path.join(ROOT, ".codely-cli",
                                                                "state", "TRAIN-EXCLUSIVE"),
                                       ystats)

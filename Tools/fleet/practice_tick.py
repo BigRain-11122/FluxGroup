@@ -536,6 +536,16 @@ def risk_recent(window_s=3 * 3600, need=3):
     except Exception:
         return 0, ""
     for r in rows[-200:]:
+        # 只数**真实发送失败**。预检自己写的 warn/login-probe 是我们自己的探针结论，
+        # 拿它当"真失败"会让退避自己触发自己（2026-11-27 实锚：4 条 warn 直接触发退避）。
+        if r.get("action") in ("warn", "lane", "route", "warmup", "coexist", "coexist-grant",
+                               "coexist-publish", "timing", "browse", "ingest", "qualified"):
+            continue
+        # 我自己写的"我决定跳过"不算平台失败（否则闸会自己触发自己）
+        if str(r.get("why") or "").startswith(("login-probe", "probe-", "login-required",
+                                               "risk-backoff", "risk-preflight", "daily cap",
+                                               "gpu-busy", "band-conflict", "off-session")):
+            continue
         why = str(r.get("why") or "") + str(r.get("res") or "")
         if not any(p in why for p in pats):
             continue
@@ -986,9 +996,9 @@ def main():
     # 前缀只拼一次（模板固定 i=0 + 视频上下文），候选之间只变末尾的角度/字数，
     # 这样 8788 的提示词缓存能命中：实测单条 5.1s → 0.6–1.2s。
     p_base = lc.lora_comment_prompt(title, meta.get("desc") or "", i=0, brief=_brief)
-    n_first = int(os.environ.get("FLUX_CANDIDATES") or 3)
+    n_first = int(os.environ.get("FLUX_CANDIDATES") or 6)
     n_batch = int(os.environ.get("FLUX_CANDIDATE_BATCH") or 3)
-    n_max = max(n_first, int(os.environ.get("FLUX_CANDIDATE_MAX") or 9))
+    n_max = max(n_first, int(os.environ.get("FLUX_CANDIDATE_MAX") or 15))
     n_cand = n_first
     for k in range(n_max):
         p = lc.lora_comment_prompt(title, meta.get("desc") or "", i=k, brief=_brief)
@@ -1068,7 +1078,9 @@ def main():
         key = (s["voice"] + s["human"], s["total"])
         # 只禁"系统性重复"（近 20 条里出现 ≥2 次）。一律全禁会把 14/26 个常见开头
         # 全部封死，8 条候选可能全撞、一条都发不出——过度拦截和漏拦一样是坏闸。
-        if recent_ops.get(ct.opening_key(t), 0) >= 2:
+        # 2026-11-27 解锁：阈值 2 → 3。今日 13 次跳过死在开头去重上，而"近 20 条里
+        # 同开头出现 2 次"在 B 站是很正常的事（"那个/这波/卡点"本来就是高频起手）。
+        if recent_ops.get(ct.opening_key(t), 0) >= 3:
             # 撞开头是可判定的硬伤（2026-11-22 质量分实测：22% 已发稿撞开头），
             # 只扣分仍可能被选中，直接丢弃这条候选，让模型再写一条
             log({"action": "skip", "why": "opening-dup:%s" % ct.opening_key(t)[:4],
