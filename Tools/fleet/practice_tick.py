@@ -605,9 +605,17 @@ def main():
     _pok, _pwhy = login_probe()
     if not _pok:
         _rn, _rwhy = risk_recent()
-        print("[tick] 风控退避：发帖预检未通过（%s；近 3 小时 %d 次）" % (_pwhy, _rn))
-        _lane("risk-backoff", probe=_pwhy, n=_rn, why=_rwhy)
-        log({"action": "skip", "why": "risk-preflight:%s" % _pwhy})
+        # 2026-11-27 分清两种"发不出去"，因为处理方式完全不同：
+        #   · 未登录（nav 返回 -101）→ 需要人工扫码登录一次，脚本怎么重试都没用；
+        #   · 非 JSON（验证页/风控）→ 等它自己放开，不要硬试。
+        # 昨天我把两者混成"风控"，于是晨报写成"不用重登"——那是错的。
+        _need_login = "未登录" in _pwhy
+        _phase = "login-required" if _need_login else "risk-backoff"
+        print("[tick] %s：发帖预检未通过（%s；近 3 小时 %d 次）" % (
+            "需要人工登录" if _need_login else "风控退避", _pwhy, _rn))
+        _lane(_phase, probe=_pwhy, n=_rn, why=_rwhy,
+              hint="扫码登录一次后自动恢复" if _need_login else "等风控放开")
+        log({"action": "skip", "why": "%s:%s" % (_phase, _pwhy)})
         return 0
     # 1 止损闸
     b = blocked()
