@@ -128,6 +128,37 @@ def check(heal=True):
                  "age_s": None, "healed": False, "note": "swap %dMB" % sw})
     if sw > SWAP_WARN_MB:
         red += 1
+    # 机队判活：合并 NATS 心跳 / git 回执 / 本机 rt 三条腿，只报真正没证据的机器。
+    # 2026-11-27 的教训：单看一条腿会把活机器报成死的（bm-a 60 秒前才发过心跳），
+    # 值班屏一旦说谎，后面所有派单判断都跟着错。
+    try:
+        sys.path.insert(0, HERE)
+        import fleet_liveness as flv
+        snap = flv.snapshot(ROOT)
+        for n in snap["nodes"]:
+            if n["verdict"] == "NOT-INSTALLED":
+                continue
+            age_s = None if n["age_h"] is None else int(n["age_h"] * 3600)
+            ok = n["verdict"] in ("ALIVE", "WARM")
+            rows.append({"duty": "机队·%s" % n["node"], "state": "OK" if ok else n["verdict"],
+                         "age_s": age_s, "healed": False,
+                         "note": "%s 证据=%s" % (n["station"], n["best_source"] or "无")})
+            if not ok:
+                red += 1
+    except Exception as e:
+        rows.append({"duty": "机队判活", "state": "ERROR", "age_s": None,
+                     "healed": False, "note": str(e)[:60]})
+        red += 1
+    # 面板保新鲜：控制台只读 state/fleet-status.json，没有任何进程在刷新它
+    # （2026-11-27 实测该件 89 小时没更新，面板一直在展示四天前的机队）。
+    rc, out = _sh([sys.executable, os.path.join(HERE, "fleet_status.py")], timeout=180)
+    tail = [x for x in (out or "").splitlines() if x.startswith("[fleet-status")]
+    rows.append({"duty": "面板刷新", "state": "OK" if tail else "FAIL", "age_s": None,
+                 "healed": False,
+                 "note": (tail[-1][:78] if tail else (out or "无输出").strip().splitlines()[-1][:78]
+                          if (out or "").strip() else "无输出")})
+    if not tail:
+        red += 1
     return rows, red
 
 
