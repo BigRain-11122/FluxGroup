@@ -19,6 +19,7 @@ $KV.FLEET_STATE.lane.result.* 与 state.*），但主控侧读回（JetStream DI
 import argparse
 import json
 import os
+import socket
 import sys
 import time
 from datetime import datetime
@@ -83,8 +84,11 @@ def run(seconds=None):
         try:
             s.settimeout(5)
             chunk = s.recv(65536)
-        except Exception:
+        except socket.timeout:
             continue
+        except Exception:
+            # 连接级错误（对端关闭/网断）交给重连分支，别原地空转。
+            chunk = b""
         if not chunk:
             s.close()
             if deadline:
@@ -95,6 +99,11 @@ def run(seconds=None):
             buf = b""
             continue
         buf += chunk
+        # NATS 服务端会周期性发 PING；两次不回 PONG 就断链。本订阅只认 MSG，
+        # 之前把 PING 当噪声清掉 → 每 ~4 分钟被服务器踢一次，靠重连勉强活着。
+        if b"PING\r\n" in buf:
+            s.sendall(b"PONG\r\n")
+            buf = buf.replace(b"PING\r\n", b"")
         # 拆 MSG <subject> <sid> <bytes>\r\n<payload>\r\n
         while True:
             i = buf.find(b"MSG ")
