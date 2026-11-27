@@ -1,4 +1,0 @@
-{"ts": "2026-11-21T23:20:00", "what": "职责审计从 mtime 升级到内容断言（assert 引擎）", "why": "12/12 全绿而当天 0 条评论", "measured": "同一天从「12/12 假绿」变成「P0 5/5 + P1 红 2 + P2 红 3」，抓到 0 评论/epoch 1.63/n=10 三个真缺口", "verdict": "kept", "evidence": "state/AGENT-AUDIT.json"}
-{"ts": "2026-11-21T20:10:00", "what": "训练集形状配额 --short-quota（只补不带 !? 的平铺短句）", "why": "过滤链系统性筛掉短句，模型只会写整句", "measured": "shallow 陈述 76%→53%、短评 15%→29%、长度跨度 16", "verdict": "kept", "evidence": "state/DIVERSITY.json"}
-{"ts": "2026-11-21T19:20:00", "what": "平台人味按比例注入（「约 25% 带表情，多数不带」）", "why": "写「可以带一个」→0%，写「约 25%」→46.7% 过头", "measured": "表情率 0%→33.3%（真实 25.4%，差 +7.9pp 进容差）", "verdict": "kept", "evidence": "state/AI-RATE-shallow-platform2.json"}
-{"ts": "2026-11-21T23:35:00", "what": "统一内存判据（真实生成前后 swap 增量）", "why": "写了几个月「不触发 swap」却没有任何判据会红", "measured": "3 条真实生成 swap 2518.62→2518.62MB、pageouts 175778→175778", "verdict": "kept", "evidence": "state/MEM-PROBE.json"}
