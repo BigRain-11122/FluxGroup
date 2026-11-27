@@ -96,7 +96,7 @@ if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 # v1.9.8 (2026-11-27 T0 CEO order): /exec - fleet-to-fleet command execution.
 # Restricted to tailnet IPs listed in Tools/fleet-nodes.json (plus loopback),
 # 25s cap, audited to exec.jsonl, child runs hidden without a window.
-$Vers = '1.9.8'
+$Vers = '1.9.9'
 # v1.9.4: a same-version listener already owning the port means "healthy";
 # exit silently. Before this, every supervisor run logged 2 bind-fail lines,
 # which rotated the real sync history out of log.jsonl (200-line cap).
@@ -149,8 +149,12 @@ if ($listeners.Count -eq 0) {
   if ($runningVers -ne '' -and ($runningVers -ne $Vers -or $rebindNeeded)) {
     FL-Log 'self-upgrade' ('running=' + $runningVers + ' new=' + $Vers + ' - replacing old listener')
     try {
+      # v1.9.9: narrow the kill match. A plain 'fleet-link.ps1' substring also
+      # matched interactive/tool shells whose -Command text merely mentioned the
+      # file (live: the 18:13 upgrade killed the operator shell that launched it).
+      # Only -File launches of the listener are legitimate takeover targets.
       $old = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue |
-        Where-Object { $_.CommandLine -match 'fleet-link\.ps1' -and $_.ProcessId -ne $PID }
+        Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -match '-File\s+.*fleet-link\.ps1' -and $_.CommandLine -notmatch '-Command' }
       foreach ($o in @($old)) { try { Stop-Process -Id ([int]$o.ProcessId) -Force -ErrorAction SilentlyContinue } catch { } }
     } catch { }
     # v1.9.3: port-owner kill fallback - CommandLine matching misses listeners
