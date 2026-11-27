@@ -257,11 +257,31 @@ def pick(rows, st, rejects, now=None, built=None):
     return {"seg": seg, "rows": -negn, "why": why}, cands
 
 
-MIN_EVAL_N = 8          # 少于这个条数，判词是在评噪声不是评权重
+# 少于这个条数，判词是在评噪声不是评权重。
+# 2026-11-27 由 8 提到 30：memer 同一提示 n=10 判 KEEP(+9.7)、n=30 判 REJECT(-4.4)，
+# 说明 8-10 条的判决不可信；30 条把标准误压到 ~5 分以内，配合 noise_se 才能下结论。
+MIN_EVAL_N = 30
+
+
+def noise_se(base, lora):
+    """两组均分之差的标准误（近似，不假设配对）：sqrt(sd_b²/n_b + sd_l²/n_l)。
+
+    2026-11-27 实锚：同一提示 memer n=10 得 +9.7（KEEP），加到 n=30 变成 -4.4（REJECT）；
+    tech_nerd +4.6 差 0.4 分不及格。说明 5 分门槛落在噪声里，判词全凭运气。
+    有了 se，"这条改进比噪声大不大"才是可算的。任一侧缺 sd 时返回 None（不启用该闸）。
+    """
+    try:
+        nb, nl = int(base.get("n") or 0), int(lora.get("n") or 0)
+        sb, sl = float(base.get("sd")), float(lora.get("sd"))
+    except Exception:
+        return None
+    if nb <= 1 or nl <= 1:
+        return None
+    return (sb * sb / nb + sl * sl / nl) ** 0.5
 
 
 def judge_keep(base, lora):
-    """留档判据：均分 +5、PASS 不降、人味不降 2。样本不足时一律不判。"""
+    """留档判据：均分 +5、PASS 不降、人味不降 2，且改进必须大于噪声。样本不足时一律不判。"""
     if not base or not lora:
         return False, "缺评测数据"
     n = min(int(base.get("n") or 0), int(lora.get("n") or 0))
@@ -270,13 +290,16 @@ def judge_keep(base, lora):
     gain = float(lora.get("avg") or 0) - float(base.get("avg") or 0)
     if gain < KEEP_GAIN:
         return False, "均分只 %+.1f（需 ≥%.1f）" % (gain, KEEP_GAIN)
+    se = noise_se(base, lora)
+    if se is not None and gain <= se:
+        return False, "均分 %+.1f 未超过噪声（±%.1f，n=%d）" % (gain, se, n)
     if float(lora.get("pass_rate") or 0) < float(base.get("pass_rate") or 0):
         return False, "PASS %d%% < 基座 %d%%" % (lora.get("pass_rate") or 0,
                                                  base.get("pass_rate") or 0)
     dh = float(lora.get("avg_human") or 0) - float(base.get("avg_human") or 0)
     if dh < -KEEP_HUMAN_DROP:
         return False, "人味退步 %.1f（总分靠语感刷上去不算变好）" % dh
-    return True, "均分 %+.1f / 人味 %+.1f" % (gain, dh)
+    return True, "均分 %+.1f（噪声 ±%.1f）/ 人味 %+.1f" % (gain, se or 0, dh)
 
 
 def sh(cmd, timeout=7200):
@@ -1025,12 +1048,21 @@ def self_test():
     # 无 built 历史 → 回退 original rows（不许因为缺数据就什么都不选）
     task3, _ = pick(rows_c, {}, {}, time.time(), built={})
     cases.append(("无 built 历史时回退 rows", task3 is not None and task3["seg"] == "a"))
-    B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
-    keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
+    B = {"n": 30, "avg": 50, "sd": 12, "pass_rate": 60, "avg_human": 20}
+    keep, _ = judge_keep(B, {"n": 30, "avg": 56, "sd": 12, "pass_rate": 60, "avg_human": 20})
     cases.append(("均分 +6 且人味不退 → KEEP", keep))
-    keep2, why6 = judge_keep(B, {"n": 10, "avg": 60, "pass_rate": 60, "avg_human": 17})
+    # 负控 2026-11-27：改进没超过噪声就不许 KEEP（实锚 tech_nerd +4.6 被判不及格）
+    # 过 5 分线但没超过噪声（sd=30、n=30 → se≈7.8，gain=6）——典型"看着涨了其实是抖"
+    nk, nwhy = judge_keep({"n": 30, "avg": 54.0, "sd": 30, "pass_rate": 50, "avg_human": 20},
+                          {"n": 30, "avg": 60.0, "sd": 30, "pass_rate": 55, "avg_human": 20})
+    cases.append(("改进未超过噪声 → 不许 KEEP", (not nk) and "噪声" in nwhy))
+    # 负控：n<30 一律不判（memer n=10 假 KEEP 的根治手段）
+    small, swhy = judge_keep({"n": 10, "avg": 38.7, "sd": 9, "pass_rate": 40, "avg_human": 15},
+                             {"n": 10, "avg": 48.4, "sd": 9, "pass_rate": 50, "avg_human": 18})
+    cases.append(("n=10 不判（哪怕看着 +9.7）", (not small) and "样本不足" in swhy))
+    keep2, why6 = judge_keep(B, {"n": 30, "avg": 60, "sd": 12, "pass_rate": 60, "avg_human": 17})
     cases.append(("总分涨但人味掉 3 → 不采用", (not keep2) and "人味" in why6))
-    keep3, _ = judge_keep(B, {"n": 10, "avg": 52, "pass_rate": 70, "avg_human": 20})
+    keep3, _ = judge_keep(B, {"n": 30, "avg": 52, "sd": 12, "pass_rate": 70, "avg_human": 20})
     cases.append(("均分只 +2 → 不采用", not keep3))
     keep4, why7 = judge_keep({"n": 3, "avg": 30, "pass_rate": 0, "avg_human": 0},
                              {"n": 3, "avg": 90, "pass_rate": 100, "avg_human": 30})
@@ -1304,7 +1336,7 @@ def main(argv=None):
     ap.add_argument("--min-human", type=int, default=5, dest="min_human",
                     help="造集的人味下限（默认 5；调低用于验证是否值得吃进更多语料）")
     ap.add_argument("--self-test-yield", action="store_true")
-    ap.add_argument("--samples", type=int, default=10,
+    ap.add_argument("--samples", type=int, default=30,
                     help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")
     ap.add_argument("--seg", default=None,
                     help="手动指定这一段（跳过队列与冷却，运维复核用；仍照常落台账）")
