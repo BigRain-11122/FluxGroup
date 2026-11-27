@@ -602,21 +602,6 @@ def main():
         print("[tick] 成熟回验失败：%s" % e)
     # 0.5 风控退避（2026-11-27）：B站把 nav 与 reply 接口一起拦住时（cookie 并未失效），
     # 每 30 分钟硬试只会加重风控。干跑探一次，被拦就静默这一轮，等它自己放开。
-    _pok, _pwhy = login_probe()
-    if not _pok:
-        _rn, _rwhy = risk_recent()
-        # 2026-11-27 分清两种"发不出去"，因为处理方式完全不同：
-        #   · 未登录（nav 返回 -101）→ 需要人工扫码登录一次，脚本怎么重试都没用；
-        #   · 非 JSON（验证页/风控）→ 等它自己放开，不要硬试。
-        # 昨天我把两者混成"风控"，于是晨报写成"不用重登"——那是错的。
-        _need_login = "未登录" in _pwhy
-        _phase = "login-required" if _need_login else "risk-backoff"
-        print("[tick] %s：发帖预检未通过（%s；近 3 小时 %d 次）" % (
-            "需要人工登录" if _need_login else "风控退避", _pwhy, _rn))
-        _lane(_phase, probe=_pwhy, n=_rn, why=_rwhy,
-              hint="扫码登录一次后自动恢复" if _need_login else "等风控放开")
-        log({"action": "skip", "why": "%s:%s" % (_phase, _pwhy)})
-        return 0
     # 1 止损闸
     b = blocked()
     if b:
@@ -681,6 +666,25 @@ def main():
         log({"action": "blocked", "why": why})
         refresh_screen(why)
         print("[tick] 止损：%s" % why)
+        return 0
+    # 0.5 连通性预检：**只当警告，不当硬闸**。
+    # 2026-11-27 实锚：预检报「未登录」，而同一时段真发帖 12:43/14:29/18:32 三条全部成功、
+    # 都拿到 rpid——预检会假红（nav 接口间歇返回非 JSON 就判"未登录"）。
+    # 把它当硬闸等于用一个会撒谎的探针停掉整条线，所以这里只记一笔、照常出稿。
+    _pok, _pwhy = login_probe()
+    if not _pok:
+        print("[tick] 预检未通过（%s），仍尝试出稿" % _pwhy)
+        _lane("probe-warn", probe=_pwhy)
+        log({"action": "warn", "why": "login-probe-%s" % _pwhy})
+    # 真发不出去时由**真实失败**决定退避：近 3 小时 ≥3 次"未登录/非 JSON"才停一拍。
+    _rn, _rwhy = risk_recent()
+    if _rn >= 3:
+        _need_login = "未登录" in _rwhy
+        _phase = "login-required" if _need_login else "risk-backoff"
+        print("[tick] %s：近 3 小时 %d 次真失败（%s）" % (
+            "需要人工登录" if _need_login else "风控退避", _rn, _rwhy))
+        _lane(_phase, n=_rn, why=_rwhy,
+              hint="扫码登录一次后自动恢复" if _need_login else "等风控放开")
         return 0
     # 2 政策闸
     sys.path.insert(0, HERE)
