@@ -81,6 +81,21 @@
       "depends_on": [],
       "acceptance": "每次帮助事件恰好记进一条账；两人以外键校验；事件 id 真实存在；net/net_creditor/repaid 自洽；两条负控必须被拦",
       "verify": "python modules/m-p3-bonds/check.py"
+    },
+    {
+      "id": "T14",
+      "module": "m-p4-behavior",
+      "title": "行为规则版可重算可对账",
+      "priority": "P1",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [
+        "T13"
+      ],
+      "acceptance": "每天每人恰好一条行为；动作四类（修/还/帮/守）且与独立重算逐人一致；还/帮的目标必须真实存在于关系账；summary 与逐行计数一致；三条负控必须被拦",
+      "verify": "python modules/m-p4-behavior/check.py"
     }
   ]
 }

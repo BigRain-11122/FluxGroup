@@ -2,24 +2,28 @@
   "id": "m-p4-behavior",
   "name": "需求与行为",
   "domain": "人",
-  "status": "empty",
-  "owner": "未指派",
+  "status": "usable",
+  "owner": "bm-c",
   "duty": "每天做什么：根据需求与关系决定动作",
-  "inputs": "记忆 + 关系",
-  "outputs": "当日行为",
+  "inputs": "记忆 + 关系（memory.json / bonds.json）",
+  "outputs": "behavior.json（每人一条动作 + 理由 + 目标人）",
   "contracts": [
     "CONTRACTS/world.schema.json",
     "CONTRACTS/module.schema.json"
   ],
-  "run": "",
-  "verify": "",
-  "forbidden": "不得修改其他模块目录；不得私改契约",
-  "next": "先做规则版，最后才接模型",
+  "run": "python modules/m-p4-behavior/behavior.py",
+  "verify": "python modules/m-p4-behavior/check.py",
+  "forbidden": "不得修改其他模块目录；不得私改契约；不得手写 behavior.json；规则版不许悄悄接模型",
+  "next": "把「守」再拆一层：按 needs 决定守什么（温度/算力/归属）",
   "writes": [
-    "modules/m-p4-behavior/data/behavior.json"
+    "modules/m-p4-behavior/data/behavior.json",
+    "modules/m-p4-behavior/behavior.py",
+    "modules/m-p4-behavior/check.py"
   ],
   "reads": [
+    "modules/m-p1-census/data/people.json",
     "modules/m-p2-memory/data/memory.json",
-    "modules/m-p3-bonds/data/bonds.json"
+    "modules/m-p3-bonds/data/bonds.json",
+    "modules/m-w2-clock/data/time.json"
   ]
 }
