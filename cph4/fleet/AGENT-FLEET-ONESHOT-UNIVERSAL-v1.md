@@ -10,6 +10,7 @@
 2. 记录 `$env:COMPUTERNAME`、`tailscale status --json` 的 `Self.HostName/DNSName/MagicDNSSuffix/TailscaleIPs`。
 3. 读 `Tools/fleet-nodes.json`：按 host 匹配得 id；匹配不到用 `bm-` + 主机名小写，并在回执里建议登记。**不要直接改共享花名册**。
 4. 读本机是否管理员（`IsInRole(Administrator)`），供 §5 使用。
+5. **工具就位**：本机缺 `Tools\fleet-{drop,net-doctor,anchor-check,fix-admin}.ps1` 或 `cph4/fleet/AGENT-*.md` 时，用 `gh api` 从 origin/main 取（树→blob→base64，写到临时目录直接调用），或从 Taildrop 收件箱取；**不要因缺文件而空停**。
 
 ## 1. 命名（硬规则）
 - 规范 id：主机 `bm-a/bm-b/bm-c/bm-d`；移动/临时 `bm-m-1..n`。唯一、永不复用。
@@ -44,7 +45,7 @@ F FleetLink → 8790 监听/`/health` 200/任务 `FluxGroup-FleetLink` 为 S4U�
 G 互传 → `tailscale file get <临时目录>` 不报错；`Tools\fleet-drop.ps1 -Status` 本机行在且无歧义。
 
 ## 5. 管理项（w32time + S4U）
-- 已是管理员：直接 `Tools\fleet-fix-admin.ps1`，读回 `RESULT=PASS`。
+- 已是管理员：直接 `Tools\fleet-fix-admin.ps1`（缺脚本按 §0.5 取），读回 `RESULT=PASS`。
 - 不是管理员：**不要静默失败**。可选一次提权（会出现一次 UAC，需人点“是”）：
   `Start-Process powershell -Verb RunAs -Wait -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File','<root>\Tools\fleet-fix-admin.ps1'`
   拒绝或失败则回执写“阻塞 + 这一条命令”。
