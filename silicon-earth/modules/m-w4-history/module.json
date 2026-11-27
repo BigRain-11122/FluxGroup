@@ -2,23 +2,27 @@
   "id": "m-w4-history",
   "name": "历史与纪年",
   "domain": "世界",
-  "status": "empty",
-  "owner": "未指派",
+  "status": "usable",
+  "owner": "bm-c",
   "duty": "把事件沉淀成历史：哪一天发生了什么，谁记得",
-  "inputs": "events.jsonl",
-  "outputs": "history.json",
+  "inputs": "events.jsonl + time.json + regions.json",
+  "outputs": "history.json（用大事划纪年的历史分期）",
   "contracts": [
     "CONTRACTS/world.schema.json",
     "CONTRACTS/module.schema.json"
   ],
-  "run": "",
-  "verify": "",
-  "forbidden": "不得修改其他模块目录；不得私改契约",
-  "next": "先做「纪年」：用大事给年代命名",
+  "run": "python modules/m-w4-history/history.py",
+  "verify": "python modules/m-w4-history/check.py",
+  "forbidden": "不得修改其他模块目录；不得私改契约；不得手写 history.json",
+  "next": "给每纪补一句「这一纪留下什么」（从该纪事件里挑一条代表事件，不另编故事）",
   "writes": [
-    "modules/m-w4-history/data/history.json"
+    "modules/m-w4-history/data/history.json",
+    "modules/m-w4-history/history.py",
+    "modules/m-w4-history/check.py"
   ],
   "reads": [
-    "modules/m-w2-clock/data/events.jsonl"
+    "modules/m-w2-clock/data/events.jsonl",
+    "modules/m-w2-clock/data/time.json",
+    "modules/m-w1-regions/data/regions.json"
   ]
 }

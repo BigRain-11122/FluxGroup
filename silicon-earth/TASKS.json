@@ -96,6 +96,19 @@
       ],
       "acceptance": "每天每人恰好一条行为；动作四类（修/还/帮/守）且与独立重算逐人一致；还/帮的目标必须真实存在于关系账；summary 与逐行计数一致；三条负控必须被拦",
       "verify": "python modules/m-p4-behavior/check.py"
+    },
+    {
+      "id": "T15",
+      "module": "m-w4-history",
+      "title": "记年可查可对账",
+      "priority": "P1",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [],
+      "acceptance": "记年从第1天到当下无缝覆盖；每个非首纪起点必须是 blackout/breach 日；各纪事件数与实算一致；dominant_region 与名字可由事件流查证；三条负控必须被拦",
+      "verify": "python modules/m-w4-history/check.py"
     }
   ]
 }
