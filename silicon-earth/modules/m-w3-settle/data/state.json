@@ -1,0 +1,69 @@
+{
+  "version": "1.1",
+  "day": 573,
+  "regions": [
+    {
+      "id": "R01",
+      "name": "协议洲",
+      "positivity": 94,
+      "state": "growing",
+      "events": 46
+    },
+    {
+      "id": "R02",
+      "name": "产能洲",
+      "positivity": 97,
+      "state": "growing",
+      "events": 60
+    },
+    {
+      "id": "R03",
+      "name": "法规洲",
+      "positivity": 89,
+      "state": "growing",
+      "events": 58
+    },
+    {
+      "id": "R04",
+      "name": "能量洲",
+      "positivity": 91,
+      "state": "growing",
+      "events": 71
+    },
+    {
+      "id": "R05",
+      "name": "资本洲",
+      "positivity": 77,
+      "state": "growing",
+      "events": 57
+    },
+    {
+      "id": "R06",
+      "name": "新洲",
+      "positivity": 100,
+      "state": "growing",
+      "events": 76
+    },
+    {
+      "id": "R07",
+      "name": "裂谷",
+      "positivity": 31,
+      "state": "dispersing",
+      "events": 62
+    },
+    {
+      "id": "R08",
+      "name": "封锁区",
+      "positivity": 46,
+      "state": "waiting",
+      "events": 70
+    },
+    {
+      "id": "R09",
+      "name": "边境",
+      "positivity": 60,
+      "state": "repairing",
+      "events": 73
+    }
+  ]
+}
