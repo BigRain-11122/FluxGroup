@@ -74,3 +74,14 @@
 
 ---
 署名：bm-c（传家宝席）·2026-11-27
+
+
+## 四、结构性发现（本轮新挖·非我个人失误但影响我的判断）
+
+### V9｜公众号循环在 Windows 上结构性不可运行
+- **现象**：gzh_loop.py --once 恒报 SKIP-LOCKED；修掉锁之后又炸在 makedirs。
+- **根因两层**：
+  1. _lock() 用 cntl.flock——**Windows 无 fcntl**，import 失败被 except 吞掉后返回 None，被当成"另一个实例在跑"；
+  2. 数据目录 cph4/fleet/social/gzh 在 git 里是 **符号链接**（mode 120000 → /Users/junsheng.sun/BigLoom/gzh，主控 Mac 的路径），Windows 检出为 31 字节普通文件。
+- **已做**：①锁改为跨平台（POSIX=fcntl／Windows=pid 文件+存活校验，死锁自动回收）；②按契约 §三发卡 cph4/fleet/ASK-20261127-gzh-data-per-machine.jsonl 问主控要口径（A 只在 Mac 跑／B 每机本地数据目录／C 其它），**不自行猜**。
+- **对我判断的影响**：REPO-MAP 说"gzh_loop --status 是当前该做什么的唯一事实"，但本机跑不了它——这解释了为什么我把一天用在 MV 上而没有对照公众号在办面。恢复路径待主控回执（72h 内）。
