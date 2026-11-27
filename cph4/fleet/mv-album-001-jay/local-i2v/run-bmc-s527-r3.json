@@ -1,0 +1,21 @@
+{
+ "policy": "single 768P reburn, local GPU, no credits",
+ "wave": "packB-s527-768",
+ "total": 1,
+ "units": [
+  {
+   "id": "XQ_S5-27-r3",
+   "track": "XQ",
+   "win_s": 1.5,
+   "speed": 0.9,
+   "src_s": 1.7,
+   "policy_band": "5s",
+   "frame": "media/MV/mv0001/xingqing/abatch/S5-27_s20192.png",
+   "i2v_prompt": "Wide shot of the night sky. The thin light threads between the bright stars hold their span with a faint breathing shimmer, the linked stars keeping their places with a slow twinkle, the Milky Way band and the thin cloud drifting almost imperceptibly behind them. The camera holds a locked-off frame. Preserve the film grain and the original color palette.",
+   "note": "星三连 2/3·「连成线」拍点·光丝 span 保持+微呼吸 shimmer=帧检位（禁窜动/断线）",
+   "seed": 141421,
+   "reburn_of": "XQ_S5-27",
+   "reburn_why": "D-20261024-06: the shipped take holds 7 frames motionless at 174.46s in the film; seed 141421 produced freezes=0 in the 480P probe, so burn it at 768P"
+  }
+ ]
+}

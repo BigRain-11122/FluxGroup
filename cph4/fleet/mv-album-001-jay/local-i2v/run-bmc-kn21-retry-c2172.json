@@ -1,0 +1,37 @@
+{
+ "policy": "可爱女人 KN A 批 i2v 波（C2167 站2）。首帧=FRAME-GATE-KN-PACKA-c2166 签发件 media/mv-album-001-jay/frames/KN_KN*.png（30 帧 F1-F8 全过）；本包 30 单=SHOTLIST v2.7 NEW 表逐镜一单；输出 1344x768（bm-c）·768P 仅在 480P 验证片过后起烧。",
+ "gate": "C2172 KN21 single retry (480P verify first)",
+ "wave": "kn21-retry-c2172",
+ "total": 1,
+ "total_win_s": 13.66,
+ "units": [
+  {
+   "id": "KN_A-KN21",
+   "shot": "KN21",
+   "track": "KN",
+   "win_s": 13.66,
+   "speed": 0.92,
+   "src_s": 14.85,
+   "policy_band": "8-15s",
+   "light": "warm_window",
+   "move_raw": "pushin",
+   "tokens": {
+    "shot": "cu",
+    "angle": "eye",
+    "move": "pushin",
+    "grade": "tw2001",
+    "texture": "film_night",
+    "scene": "rooftop",
+    "light": "warm_window"
+   },
+   "frame": "media/mv-album-001-jay/frames/KN_KN21.png",
+   "frame_bytes": 729002,
+   "frame_sha12": "d40196c14d03",
+   "lyric_anchor": "instrumental intro (0.00-30.14)",
+   "note": "她的天台·红尾纸机停在檐上（13.66s 窗·15s 政策内单挂·判决二配1）",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. A close-up at eye level; the camera eases in from almost still on a slow floor dolly, gathering pace gently and settling as it arrives. A folded paper plane resting on a rooftop ledge beside a warm-lit window, its paper catching the window light while the light breathes. Warm 2000 Taiwanese telecine grade, warm skin tones, milky lifted blacks. Visible 35mm film grain. Restrained continuous motion, camera and subject motion only.",
+   "prompt_words": 77,
+   "guard": []
+  }
+ ]
+}

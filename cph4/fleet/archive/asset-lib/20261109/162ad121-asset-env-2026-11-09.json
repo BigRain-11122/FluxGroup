@@ -1,0 +1,51 @@
+{
+ "ts": "2026-11-09T00:02:15",
+ "node": "unknown",
+ "host": "junshengsundeMacBook-Pro.local",
+ "spec": "ASSET-ENV-GATE-v1",
+ "measured": {
+  "ffmpeg": null,
+  "python": "3.9.6",
+  "torch": {
+   "installed": false,
+   "why": "No module named 'torch'"
+  },
+  "kohya": null,
+  "gptsovits": null,
+  "dirs": {
+   "faces": {
+    "path": "/Users/junsheng.sun/FluxGroup/media/asset/faces",
+    "exists": false,
+    "files": 0
+   },
+   "voices": {
+    "path": "/Users/junsheng.sun/FluxGroup/media/asset/voices",
+    "exists": true,
+    "files": 1
+   },
+   "loras": {
+    "path": "/Users/junsheng.sun/FluxGroup/media/asset/loras",
+    "exists": false,
+    "files": 0
+   },
+   "voice-models": {
+    "path": "/Users/junsheng.sun/FluxGroup/media/asset/voice-models",
+    "exists": true,
+    "files": 0
+   }
+  },
+  "disk_free_gb": 220.7
+ },
+ "routes_ok": [],
+ "verdict": "FAIL",
+ "gaps": [
+  "没有 ffmpeg（切分/抽帧/审计都要）",
+  "没有 torch（No module named 'torch'）",
+  "没有 kohya sd-scripts（角色 LoRA 训练栈）——找 KOHYA_DIR 环境变量或装一份",
+  "没有 GPT-SoVITS（音色微调栈）——找 GPTSOVITS_DIR 环境变量或装一份",
+  "资产目录不在位：media/asset/faces",
+  "资产目录不在位：media/asset/loras"
+ ],
+ "note": "PASS=至少一条训练路线可用；具体是哪条看 routes_ok",
+ "status": "FAIL"
+}

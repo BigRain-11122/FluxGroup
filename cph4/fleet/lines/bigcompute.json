@@ -1,0 +1,15 @@
+{
+ "id": "bigcompute",
+ "name": "BigCompute·硅基算力",
+ "owner": "算力中枢席",
+ "status": "ACTIVE",
+ "cadence_h": 36,
+ "inputs": [
+  "compute/BigCompute"
+ ],
+ "outputs": [
+  "compute/BigCompute/**/*"
+ ],
+ "lanes": [],
+ "needs": "cpu"
+}

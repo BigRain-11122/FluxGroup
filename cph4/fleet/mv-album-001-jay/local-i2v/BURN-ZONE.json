@@ -1,0 +1,14 @@
+{
+ "name": "w2-i2v-short",
+ "note": "W2 两曲短镜(<=10s)批 v2；长镜(26单)待主控裁定。guard 发现无 runner 就重放，runner 带 SKIP 语义=续烧",
+ "cmd": [
+  "cmd",
+  "/c",
+  "cph4\\fleet\\mv-album-001-jay\\local-i2v\\burn-w2-short-20261102.cmd"
+ ],
+ "log": "media/mv-album-001-jay/logs/w2-i2v-short.log",
+ "match": "h3_i2v_album",
+ "done": true,
+ "done_note": "2026-11-15 00:1x 收官：clips-local-768 内 LJ 19 条 / JD 15 条已齐（与 --only 清单一致），SKIP 语义重放恒为零产出；该 .cmd 曾因 LF 行尾被 cmd 切坏，已一并修成 CRLF",
+ "cmd_broken_note": "LF-only 行尾会让 cmd 把 rem 行切坏（实锚：'t8，与既有' 被当命令）"
+}

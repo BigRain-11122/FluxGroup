@@ -1,0 +1,56 @@
+{
+  "round": "r954",
+  "ts": "2026-10-13T04:20:00+08:00",
+  "patrol_law": "<7.5 reshake; >=8.0 lock",
+  "clips": [
+    {
+      "tag": "R04_river_dry",
+      "source": "factory (landed 04:04:03)",
+      "verdict": 8.0,
+      "pass": true,
+      "locked": true,
+      "notes": "Landscape empty shot clean: dry-crack narrative bonus appears t=3.7s, eye/boat motifs stable, palette discipline held. Minor: wave-ridge uniform-speed creep (no deceleration as river dries). PASS LOCKED."
+    },
+    {
+      "tag": "C06_forever_cut_v2",
+      "source": "factory (landed 03:56:29)",
+      "verdict": 7.5,
+      "pass": true,
+      "locked": true,
+      "borderline": true,
+      "notes": "Borderline pass at exactly 7.5: no hard-fail class hit (no ghost face, no pseudo-cuneiform, no floating object). Three light physical-credibility issues disclosed: (a) stone hammer never enters frame -> strike force source unreadable; (b) debris static even fireworks-style distribution (no parabola/spin); (c) chisel uniform-speed press, no lift-strike-pause rhythm. LOCKED per patrol law (>=7.5); v3 polish only if GPU window allows AFTER track-2 regen + remaining burns, else director uses as-is (no reshake -- trajectory v1->v2 already improved, three-issue class is director-taste not hard fail)."
+    },
+    {
+      "tag": "D02_she_reads",
+      "source": "addon face-closeup lane (landed 03:48:56)",
+      "verdict": 8.0,
+      "pass": true,
+      "locked": true,
+      "notes": "FIRST PASS of the face-closeup lane (Seedance-rejected shots rescued via local INT8): gaze-chain held (she reads the stele, head-sink + lip micro-motion reading dynamics, sight-line lands on inscription), West-Asian bone structure stable 6 frames, no K-idol makeup, no glass second-face. Minor: 6-frame sample did not catch a blink (life pulse carried by head+lip motion); t=1.3 cheek highlight slight smoothness. PASS LOCKED -- face lane viable."
+    },
+    {
+      "tag": "D03_two_worlds",
+      "source": "addon face-closeup lane (landed 04:12:04)",
+      "verdict": 8.0,
+      "pass": true,
+      "locked": true,
+      "notes": "Two-worlds concept high completion: modern silhouette / ancient fire / stele three-layer composite clean. Glass face = her OWN reflection (same hair, same orientation, gaze at stele NOT camera) -> compliant with gaze-chain law; ghost-face law (second DIFFERENT face / camera-gazing reflection) not violated. Flame turbulence non-uniform natural. Disclosed improvement note: reflection lacks glass-surface glint anchor, slow viewing may misread as second face -- director may add surface reflection if retime allows; not a fail."
+    }
+  ],
+  "tally": {
+    "total_slots": 21,
+    "locked_pass_delta_this_round": ["R04_river_dry 8.0", "C06_forever_cut_v2 7.5", "D02_she_reads 8.0", "D03_two_worlds 8.0"],
+    "burning_at_qc_time": ["R05_gold_threads (factory, ~04:15)", "C07_stele_sink_v2 (rider, ~1000s elapsed)"],
+    "queued_burns": ["R06 (factory)", "B01_weary (addon)", "E03_gaze_meet (addon)", "R02_she_turns_v2 (rider, seed 9217)"],
+    "track2_frame_regen": ["C03_dig_reveal", "C09_oath_weather", "C04_words_alive (post-drain, Krea2 wedge-anchor canon)"],
+    "disclosed_fail": ["C02_sand_bury best-of v4 7.3 (director falls back to best segment/trim)"]
+  },
+  "evidence": [
+    "results/_r954bmc_qc_sheet1.png",
+    "results/_r954bmc_qc_sheet2.png",
+    "results/_r954bmc_qc_sheet3.png",
+    "results/_r954bmc_qcframes/",
+    "results/_r954bmc_qc_extract.py",
+    "results/_r954bmc_qc_extract_d03.py"
+  ]
+}

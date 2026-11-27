@@ -1,0 +1,19 @@
+{
+ "policy": "F5-33c i2v leg: last A-pack unit. r1017 sec-7 reroll-2 acceptance (>=2 clean grids) satisfied by m3 s502092 after m1 full FAIL (readable pseudo-letters + full-sheet label). Word face = SHOTLIST v3 F5-33c i2v prompt verbatim (adult hand + wooden pencil + short careful strokes + characters unreadable + slanted warm window light + pen pausing a beat) + 3 positive surgeries already baked into the frame. Camera = push-micro 0.92x slow-in per SHOTLIST.",
+ "gate": "xq-AB-DIRECTOR-RATIFY-r1017.md sec-7 (F5-33c two-round fix recipe, >=2 clean grids) + PROMPT-GATE-星晴-i2v-PACK-A-v1-SIGN sec-4 item 18 (keep official wording verbatim / zero audio / zero modern anachronism / zero emotion-label words)",
+ "wave": "packA-f533c",
+ "total": 1,
+ "units": [
+  {
+   "id": "XQ_F5-33c",
+   "track": "XQ",
+   "win_s": 6.0,
+   "speed": 0.92,
+   "src_s": 6.52,
+   "policy_band": "5s",
+   "frame": "media/MV/mv0001/xingqing/f533c-reroll2/F5-33c_s502092.png",
+   "i2v_prompt": "Close-up of an adult hand with a wooden pencil writing short careful strokes on the small square plain paper cassette label, the characters unreadable at a glancing angle and staying only as soft pencil outlines, the pen pausing a beat between strokes, the corner of a clear plastic cassette shell resting in frame. Slanted warm window light with slow dust motes drifting through it. The camera pushes in very slightly and holds. Preserve the 35mm film grain and the warm 2001 telecine palette.",
+   "note": "Frame = m3 s502092 full 1344x768 (C2112, native PASS: zero readable word/letter/numeral; small square plain label; cassette shell corner upper-left; adult hand natural grip; 35mm grain). Advisory logged: tally strokes sit near focal plane (not 'heavily defocused') but resolve to no character - accepted on the readable-text clause. Window 226-232s, push-micro 0.92x slow-in, pen pause beat = frame-check position."
+  }
+ ]
+}

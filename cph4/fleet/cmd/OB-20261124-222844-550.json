@@ -1,0 +1,10 @@
+{
+ "id": "OB-20261124-222844-550",
+ "ts": "2026-11-24 22:28",
+ "text": "请把本机最新的《爱在西元前》234s 全片母版（v730 或更新）导出为 H.264 768P 低码率交付版：目标单文件 <=85MB（约 2.4-2.8Mbps，保留原音轨），放到 cph4/fleet/mv0001-handover/transfer/ 并提交推送；如仍超 90MB 则切 <=85MB 分片 + manifest.json（每片 sha256 与拼接顺序）。完成即 poke 下游机器。用途：本机只有 30s 片段，需要母版做终审与 4K 超分。",
+ "lanes": [
+  "bm-a"
+ ],
+ "src": "FLUXGROUP",
+ "status": "dispatched"
+}

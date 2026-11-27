@@ -1,0 +1,28 @@
+{
+  "version": "v1",
+  "created": "2026-11-12",
+  "lib_dir": "media/lora/readymade/",
+  "policy": "私有非商用；产线正片只用原创脸（CASTING-LAW）。文件不入 git，仅台账入 git。",
+  "items": [
+    {
+      "file": "2000s_Flash_Portrait.safetensors",
+      "size_mb": 219.2,
+      "sha256_16": "c6f54a86f50dffb8",
+      "model_id": null,
+      "version_id": 1949248,
+      "base": "Flux.1 D",
+      "trigger": "harsh flash photography",
+      "role": "质感（年代光）",
+      "why": "2000 年代直闪硬光 + 暗背景压曝光，正对 2000-2003 台湾 MV 的夜戏/现场感",
+      "targets": ["L2 光学不成立", "L3 噪声谱"],
+      "source": "https://civitai.com/models/",
+      "note": "首轮实测唯一拿到公开直链的件；用法=贴脸近景/夜店/街头，日戏别用"
+    }
+  ],
+  "blocked_needs_token": [
+    {"name": "Analog Photo Style", "version_id": 1119384, "size_mb": 73.1, "trigger": "analogstyle", "reason": "直链返回登录页"},
+    {"name": "Portrait Artifacts", "version_id": 766903, "size_mb": 18.4, "trigger": null, "reason": "直链返回登录页"},
+    {"name": "35mm Girls - Analog/Film Photography", "version_id": 1007729, "size_mb": 164.0, "trigger": "35mm_girls,film-grain", "reason": "未尝试，优先候选"}
+  ],
+  "candidates_ranked": "lora-candidates-flux.json / lora-candidates-face-flux.json / lora-candidates-character.json"
+}

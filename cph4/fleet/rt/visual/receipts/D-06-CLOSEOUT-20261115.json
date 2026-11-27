@@ -1,0 +1,56 @@
+{
+ "card": "D-20261115-06（visual 执行器/OPEN 卡）",
+ "ts": "2026-11-15T13:52:35",
+ "node": "bm-c",
+ "station": "visual",
+ "head_before": "427e703fa669086f29970ae2a585515eaf7639b9",
+ "task_policy": {
+  "per": "D-20261115-12（禁恢复自启）",
+  "state_found": {
+   "FluxGroup-StationDrive-bmc": "Disabled",
+   "FluxGroup-StationAgent-bmc": "Disabled",
+   "FluxGroup-ComfyGuard-bmc": "Ready",
+   "FluxGroup-EnvProbe-bmc": "Disabled"
+  },
+  "action": "未启用/未新建任何计划任务；按 D-06 限缩用人工单次 station_drive --once 执行"
+ },
+ "station_drive_manual_run": {
+  "ts": "2026-11-15T13:51:16",
+  "status_note": "ready",
+  "ran": [],
+  "note": "心跳已刷新；两张卡本轮未被自动领取，逐卡人工处置见下"
+ },
+ "dispositions": [
+  {
+   "id": "R-NEXT-BIGSTREAMD-TTS-QC-20261114",
+   "verdict": "NOT-EXECUTABLE-ON-THIS-NODE",
+   "judge_evidence": {
+    "requires": [
+     "Tools/fleet/tts_batch_check.py",
+     "media/drama-tts-out/r1202_ep001_060"
+    ],
+    "tool_present": true,
+    "tool_bytes": 4347,
+    "input_dir_present": false,
+    "input_dir": "media/drama-tts-out/r1202_ep001_060",
+    "media_siblings": [
+     "drama-tools"
+    ]
+   },
+   "why": "判据不满足：输入目录 media/drama-tts-out/r1202_ep001_060 在本机不存在（media/ 下只有 drama-tools）。该批配音产物属短剧音频线（bm-b 的 media/drama-tts-*），本机从未落过；工具本体在盘可跑。=> 需 bm-b 产出该批音频，或主控改派持有该产物的机器；本机不硬跑。",
+   "action_taken": "未执行命令（缺前置输入），按 D-06 写判据，卡保持 BLOCKED 等改派"
+  },
+  {
+   "id": "UNBLOCK-VCORP-GEN-r1202-EP001-060-20261108",
+   "verdict": "DELIVERABLE-WRITTEN",
+   "deliverable": "cph4/fleet/repairs/VCORP-GEN-r1202-EP001-060-20261108-unblock.md",
+   "deliverable_present": true,
+   "deliverable_bytes": 1968,
+   "probe_20261115": {
+    "bm-b_tcp_8790": "unreachable",
+    "bm-c_self_8790": "not-listening"
+   },
+   "why": "卡无 cmd，产物是修复单；本次当场实测 bm-b:8790 不可达、本机 8790 也未监听，已在单内写清判读与建议（交机制席/主控定解冻条件），不代做跨机机制动作"
+  }
+ ]
+}

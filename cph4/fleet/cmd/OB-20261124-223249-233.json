@@ -1,0 +1,10 @@
+{
+ "id": "OB-20261124-223249-233",
+ "ts": "2026-11-24 22:32",
+ "text": "【P0·最高优先】把《爱在西元前》最新相关的全部件交付 bm-c。交接走 git 分片（media/ 被 gitignore，禁止往那里放；统一放 cph4/fleet/mv0001-handover/transfer/，该路径已确认为可入库）。硬约束：单文件 <=90MB，超了必须切片为 parts/NN_<name>.b64 或 .bin，并写 MANIFEST.json（每片 sha256、字节数、拼接顺序、还原命令）。\\n\\n第一批（先交，越小越先）：\\n1) transfer/INVENTORY.json —— 全量清单：凡是路径或内容与 mv0001/爱在西元前 相关的文件（含 mv0001-handover、mv-album-001-jay 里该曲的段），逐条给：repo 相对路径、字节数、mtime、视频类补 duration/分辨率/码率、sha256。\\n2) 全片母版【最新版】的 768P 低码率交付版：<=85MB，约 2.4-2.8Mbps，保留原音轨，文件名 full-mv-<版本号>-768p-low.mp4。\\n3) 装配链源件（都是小件，直接放 transfer/src/）：全片装配脚本 build_full_mv_*.py、时间线/段表 json、字幕 ass、字层 PNG、title/tail card PNG、调色参数件、发布包清单。\\n\\n第二批：\\n4) 全片 4K/60 母版（若已存在）→ 切片 parts/。\\n5) 该曲全部 KF 源 PNG（按镜命名）。\\n6) 该曲全部 i2v 片段源（按镜命名，768P 优先）。\\n\\n第三批：\\n7) 角色资产：jman/ljher LoRA 权重与官方参考图。\\n8) 全部审档与回执（DIRECTOR-REVIEW 系列、调色档、QC 档、发布包）。\\n\\n交付节奏：每批推完立刻在 transfer/BATCH-<n>-DONE.json 写一行（含件名与 sha256 汇总）并 poke bm-c；bm-c 侧已挂自动收件哨（SM-MV-FULL-COLLECT），会按 MANIFEST 自动拼装验收。本令覆盖此前 OB-20261124-222844-550。",
+ "lanes": [
+  "bm-a"
+ ],
+ "src": "FLUXGROUP",
+ "status": "dispatched"
+}

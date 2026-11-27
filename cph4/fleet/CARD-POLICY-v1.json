@@ -1,0 +1,25 @@
+{
+  "_note": "卡片生命周期策略的唯一定义源（2026-11-07 审计后立）。租约、心跳、停滞、重试上限只许写在这里；closer / chief / master_agent / master_solver 四个入口一律读它，不各自写一份。",
+  "version": 1,
+  "why": "审计实测四处阈值各写各的：closer 心跳 600s、chief 写死「1h 无回执」、master_agent 重试 3 次、master_solver 重试 2 次、租约 {cpu:45,gpu:180,cloud:60} 在两处重复。同一张卡被四套判据来回改状态，是卡状态抖动与「跨机抢同一张卡」的根。",
+  "lease_minutes": {
+    "cpu": 45,
+    "gpu": 180,
+    "cloud": 60,
+    "default": 45
+  },
+  "heartbeat_timeout_s": 600,
+  "stall_after_s": 1800,
+  "stuck_requeue_s": 3600,
+  "max_attempts": 3,
+  "retry_error_classes": [
+    "E-PATH",
+    "E-UNKNOWN",
+    "E-TIMEOUT"
+  ],
+  "notes": {
+    "stall_after_s": "机器握着 RUNNING 卡、心跳新鲜但零输出超过这个时长即判 STALL（进展信号=stdout 字节+交付物大小）。",
+    "stuck_requeue_s": "卡停在非终态、无任何回执超过这个时长，chief 才允许重排（原为写死的 1 小时）。",
+    "max_attempts": "同一张卡最多尝试次数；到顶转 FAILED 并落根因账，不许无限重派。"
+  }
+}

@@ -1,0 +1,530 @@
+{
+ "generated_at": "2026-11-08T00:59:40",
+ "repo_root": "/Users/junsheng.sun/FluxGroup",
+ "how_to_use": [
+  "先读 AI-KB/README.md",
+  "再读 INDEX.json 选文档",
+  "数字以 90-machine/facts.json 为准，正文是解释"
+ ],
+ "count": 29,
+ "docs": [
+  {
+   "id": "identity.who",
+   "title": "集团与业务总览",
+   "layer": "identity",
+   "questions": [
+    "这家在做什么",
+    "有几条线",
+    "谁决策"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/00-identity/01-who-we-are.md",
+   "written_by": "template"
+  },
+  {
+   "id": "identity.redlines",
+   "title": "红线与治理摘要",
+   "layer": "identity",
+   "questions": [
+    "什么不能做",
+    "谁能拍板",
+    "怎么汇报"
+   ],
+   "facts": [
+    "docs/governance.md",
+    "docs/orders.md",
+    "CODELY.md"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/00-identity/02-redlines.md",
+   "written_by": "local-llm"
+  },
+  {
+   "id": "line.bigstream-mv",
+   "title": "BigStream·MV 41 曲",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigstream-mv.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bigstream-drama",
+   "title": "BigStream·漫剧",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigstream-drama.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bigstream-duanju",
+   "title": "BigStream·短剧",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigstream-duanju.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bigstream-shortvideo",
+   "title": "BigStream·短视频/切片",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigstream-shortvideo.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.biggame",
+   "title": "Biggame·游戏",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/biggame.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.fluxverse",
+   "title": "FluxVerse·元宙城",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/fluxverse.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bigmoney",
+   "title": "BigMoney·量化",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigmoney.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bigdomain",
+   "title": "BigDomain·硅基域商业化",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigdomain.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bigcompute",
+   "title": "BigCompute·硅基算力",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bigcompute.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.biglife",
+   "title": "BigLife·数字生命",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/biglife.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.bighouse",
+   "title": "BigHouse·城市安家",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/bighouse.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.car-gaming",
+   "title": "车机游戏 BU",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/car-gaming.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.recon",
+   "title": "RECON·竞品拆解",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/recon.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.fleet-ops",
+   "title": "机队运维·端到端自检（平台服务线）",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/fleet-ops.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "line.asset-lib",
+   "title": "资产储备·角色 LoRA 与音色库",
+   "layer": "business",
+   "questions": [
+    "这条线做什么",
+    "谁负责",
+    "做到哪了",
+    "怎么验证"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/asset-lib.md",
+   "written_by": "template+local-llm"
+  },
+  {
+   "id": "business.portfolio",
+   "title": "业务组合总表",
+   "layer": "business",
+   "questions": [
+    "一共有哪些线",
+    "哪条快断了"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json",
+    "state/lines.json"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/10-business/_portfolio.md",
+   "written_by": "template"
+  },
+  {
+   "id": "eng.architecture",
+   "title": "系统架构与数据流",
+   "layer": "engineering",
+   "questions": [
+    "系统由什么组成",
+    "数据怎么流",
+    "关键约定"
+   ],
+   "facts": [
+    "Tools/fleet/master_pulse.py",
+    "Tools/fleet-nodes.json",
+    "cph4/fleet/AUTONOMY-CONFIG.json"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/20-engineering/01-architecture.md",
+   "written_by": "local-llm"
+  },
+  {
+   "id": "eng.tools",
+   "title": "工具目录（职责速查）",
+   "layer": "engineering",
+   "questions": [
+    "做某件事该用哪个脚本",
+    "有哪些自动化"
+   ],
+   "facts": [
+    "Tools/**/*.py"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/20-engineering/02-tool-catalog.md",
+   "written_by": "template"
+  },
+  {
+   "id": "eng.outputs",
+   "title": "本机产物清单",
+   "layer": "engineering",
+   "questions": [
+    "现在有多少产物",
+    "最新是什么时候"
+   ],
+   "facts": [
+    "media/",
+    "cph4/fleet/archive/",
+    "gaming/",
+    "quant/"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/20-engineering/03-output-inventory.md",
+   "written_by": "template"
+  },
+  {
+   "id": "ops.fleet",
+   "title": "机队与跨机执行",
+   "layer": "operations",
+   "questions": [
+    "有几台机器",
+    "怎么给机器派活",
+    "怎么判断机器真在干活"
+   ],
+   "facts": [
+    "Tools/fleet-nodes.json",
+    "cph4/fleet/lanes/",
+    "cph4/fleet/queue-receipts/"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/30-operations/01-fleet.md",
+   "written_by": "local-llm"
+  },
+  {
+   "id": "ops.loop",
+   "title": "主控脉与节奏",
+   "layer": "operations",
+   "questions": [
+    "自动化怎么跑起来",
+    "怎么判断脉健康"
+   ],
+   "facts": [
+    "Tools/fleet/master_pulse.py",
+    "cph4/fleet/dispatcher/PULSE.json",
+    "cph4/fleet/state/stage-last.json"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/30-operations/02-automation-loop.md",
+   "written_by": "template"
+  },
+  {
+   "id": "ops.queue",
+   "title": "队列、卡与状态机",
+   "layer": "operations",
+   "questions": [
+    "一张卡长什么样",
+    "状态怎么流转",
+    "怎么验收"
+   ],
+   "facts": [
+    "cph4/fleet/PRODUCTION-QUEUE.jsonl",
+    "cph4/fleet/CARD-POLICY-v1.json"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/30-operations/03-queue-and-cards.md",
+   "written_by": "template"
+  },
+  {
+   "id": "progress.snapshot",
+   "title": "进度快照（事实）",
+   "layer": "progress",
+   "questions": [
+    "现在做到哪",
+    "哪条停了"
+   ],
+   "facts": [
+    "state/lines.json",
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/40-progress/01-snapshot.md",
+   "written_by": "template"
+  },
+  {
+   "id": "progress.inflight",
+   "title": "在飞工作清单",
+   "layer": "progress",
+   "questions": [
+    "现在有哪些活在做"
+   ],
+   "facts": [
+    "PRODUCTION-QUEUE.jsonl"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/40-progress/02-in-flight.md",
+   "written_by": "template"
+  },
+  {
+   "id": "progress.gaps",
+   "title": "缺口与堵点",
+   "layer": "progress",
+   "questions": [
+    "哪里断了",
+    "为什么断"
+   ],
+   "facts": [
+    "state/lines.json",
+    "cph4/fleet/BLOCKERS.md"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/40-progress/03-gaps.md",
+   "written_by": "template"
+  },
+  {
+   "id": "skills.catalog",
+   "title": "技能库目录",
+   "layer": "skills",
+   "questions": [
+    "有哪些技能",
+    "做某事该载入哪个技能"
+   ],
+   "facts": [
+    "~/.codely-cli/skills",
+    "cph4/skills"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/50-skills/01-skills.md",
+   "written_by": "template"
+  },
+  {
+   "id": "skills.seats",
+   "title": "席位与工序分工",
+   "layer": "skills",
+   "questions": [
+    "谁负责哪道工序",
+    "哪台机跑"
+   ],
+   "facts": [
+    "LINE-REGISTRY.json(stages)",
+    "cph4/agents/AGENT-LIBRARY.md"
+   ],
+   "generated_at": "2026-11-08T00:59:40",
+   "path": "AI-KB/50-skills/02-seats.md",
+   "written_by": "template"
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "id": "SD-control-PROD-RECON-RECIPE-配方-20261113-2356",
+ "station": "control",
+ "product_id": "PROD-RECON-RECIPE",
+ "stage": "配方",
+ "task_type": "T-TEXT-RECIPE",
+ "verdict": "DONE",
+ "why": "判据通过(path)",
+ "judge": "path",
+ "judge_source": "card",
+ "deliverable": "cph4/fleet/out/recon/recipe.md",
+ "bytes": 2484,
+ "sha256": "df421eb80e94bed05fed06f8c2bc95ec1c80fc5756d2ca003ae4d557bf9a7f97",
+ "ts": "2026-11-13T23:56:12",
+ "by": "self-drive"
+}

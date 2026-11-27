@@ -1,0 +1,34 @@
+{
+  "policy": "R4 single-shot re-render for Xingqing PACK-B shot S1-07 (30.000-38.125s). Director verdict (DIRECTOR-REVIEW-PACKB-V2-20261020 R4) says the white cloud reads as a pasted walking-woman silhouette and is NOT repairable in the picture: plate-locked screen box across 226 frames, cloud vs sky luma 159.7 vs 157.3, three photographic passes all insufficient. So the fix is a re-render, not a grade. 1344x768 int8, 768P, pure picture (CEO audio ban).",
+  "gate": "C2159 R4 evidence section 2.3 (seed band 21000-21015, human-silhouette clause deleted from the i2v prompt); same first frame (t1r1hd/S1-07_s21009.png) so the shot keeps its composition; SHOTLIST v3 camera cue unchanged.",
+  "wave": "packB-r4-s107-c2160",
+  "total": 2,
+  "units": [
+    {
+      "id": "XQ_B-S1-07-r4a",
+      "shot": "S1-07",
+      "track": "XQ",
+      "win_s": 8.0,
+      "speed": 0.9,
+      "src_s": 8.9,
+      "policy_band": "8-15s",
+      "seed": 21009,
+      "frame": "media/MV/mv0001/xingqing/t1r1hd/S1-07_s21009.png",
+      "i2v_prompt": "Wide shot. The young couple pedals on, the boy leaning into the handlebars and the girl sitting up with her legs hanging, the wheels turning at an even pace down the warm road. A low cumulus cloud whose whole mass slowly drifts alongside the riders, wind-eroded ragged edges, warm sun-side rim, thinning into haze near the ground. The camera travels alongside at their pace, easing with each pedal stroke and settling. Preserve the film grain and the original color palette.",
+      "note": "R4-a: seed 21009 (same seed band as the approved KF), human-silhouette wording deleted, cloud described as a cumulus mass with eroded edges and ground haze."
+    },
+    {
+      "id": "XQ_B-S1-07-r4b",
+      "shot": "S1-07",
+      "track": "XQ",
+      "win_s": 8.0,
+      "speed": 0.9,
+      "src_s": 8.9,
+      "policy_band": "8-15s",
+      "seed": 21002,
+      "frame": "media/MV/mv0001/xingqing/t1r1hd/S1-07_s21009.png",
+      "i2v_prompt": "Wide shot. The young couple pedals on, the boy leaning into the handlebars and the girl sitting up with her legs hanging, the wheels turning at an even pace down the warm road. A low cumulus cloud whose whole mass slowly drifts alongside the riders, wind-eroded ragged edges, warm sun-side rim, thinning into haze near the ground. The camera travels alongside at their pace, easing with each pedal stroke and settling. Preserve the film grain and the original color palette.",
+      "note": "R4-b: second seed inside the approved band (21002) in case 21009 still keeps the cloud as a fused body shape; pick one at harvest and discard the other."
+    }
+  ]
+}

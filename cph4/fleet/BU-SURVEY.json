@@ -1,0 +1,389 @@
+{
+ "ts": "2026-11-03T16:58:23",
+ "counted": {
+  "lines": 15,
+  "with_process_table": 6,
+  "with_next_step": 3,
+  "productive": 4,
+  "selfcheck_only": 0,
+  "no_supply": 5,
+  "off_duty": 5
+ },
+ "lines": [
+  {
+   "line": "bigstream-mv",
+   "name": "BigStream·MV 41 曲",
+   "org": "content",
+   "priority": "P0",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": "cph4/fleet/ri/content/lines/mv.json",
+    "next_step": true,
+    "can_emit_cards": true
+   },
+   "cards": {
+    "total": 48,
+    "done": 42,
+    "real_product": 27,
+    "selfcheck": 15,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": 6.1,
+   "last_real_product_h": 6.1,
+   "stale_after_h": 24,
+   "verdict": "PRODUCTIVE",
+   "note": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）"
+  },
+  {
+   "line": "biggame",
+   "name": "Biggame·游戏",
+   "org": "game",
+   "priority": "P0",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": "cph4/fleet/ri/game/lines/biggame.json",
+    "next_step": false,
+    "can_emit_cards": true
+   },
+   "cards": {
+    "total": 4,
+    "done": 3,
+    "real_product": 1,
+    "selfcheck": 2,
+    "open": 0,
+    "failed": 1
+   },
+   "last_done_h": 5.7,
+   "last_real_product_h": 6.2,
+   "stale_after_h": 24,
+   "verdict": "PRODUCTIVE",
+   "note": ""
+  },
+  {
+   "line": "asset-lib",
+   "name": "资产储备·角色 LoRA 与音色库",
+   "org": "content",
+   "priority": "P0",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": "cph4/fleet/ri/content/lines/asset.json",
+    "next_step": false,
+    "can_emit_cards": true
+   },
+   "cards": {
+    "total": 16,
+    "done": 7,
+    "real_product": 5,
+    "selfcheck": 2,
+    "open": 2,
+    "failed": 3
+   },
+   "last_done_h": 2.4,
+   "last_real_product_h": 2.5,
+   "stale_after_h": 72,
+   "verdict": "PRODUCTIVE",
+   "note": "CEO 2026-11-03 钦点 P0 储备资产线：auto-stop 不适用于被 CEO 点名的线；原停线依据（过闸率45.5%）实为 3 张卡在无 ffmpeg 的 PATH 下失败，属执行环境问题已修"
+  },
+  {
+   "line": "bigmoney",
+   "name": "BigMoney·量化",
+   "org": "strategy",
+   "priority": "P1",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": "cph4/fleet/ri/strategy/lines/bigmoney.json",
+    "next_step": false,
+    "can_emit_cards": true
+   },
+   "cards": {
+    "total": 7,
+    "done": 5,
+    "real_product": 4,
+    "selfcheck": 1,
+    "open": 0,
+    "failed": 1
+   },
+   "last_done_h": 4.4,
+   "last_real_product_h": 4.4,
+   "stale_after_h": 24,
+   "verdict": "PRODUCTIVE",
+   "note": ""
+  },
+  {
+   "line": "fluxverse",
+   "name": "FluxVerse·元宙城",
+   "org": "city",
+   "priority": "P2",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 1,
+    "done": 1,
+    "real_product": 0,
+    "selfcheck": 1,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": 16.9,
+   "last_real_product_h": null,
+   "stale_after_h": 36,
+   "verdict": "NO-SUPPLY",
+   "note": ""
+  },
+  {
+   "line": "bigdomain",
+   "name": "BigDomain·硅基域商业化",
+   "org": "strategy",
+   "priority": "P1",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 2,
+    "done": 1,
+    "real_product": 0,
+    "selfcheck": 1,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": 16.9,
+   "last_real_product_h": null,
+   "stale_after_h": 36,
+   "verdict": "NO-SUPPLY",
+   "note": ""
+  },
+  {
+   "line": "bigcompute",
+   "name": "BigCompute·硅基算力",
+   "org": "platform",
+   "priority": "P3",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 1,
+    "done": 1,
+    "real_product": 0,
+    "selfcheck": 1,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": 17.0,
+   "last_real_product_h": null,
+   "stale_after_h": 36,
+   "verdict": "NO-SUPPLY",
+   "note": ""
+  },
+  {
+   "line": "biglife",
+   "name": "BigLife·数字生命",
+   "org": "city",
+   "priority": "P2",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 1,
+    "done": 1,
+    "real_product": 0,
+    "selfcheck": 1,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": 16.9,
+   "last_real_product_h": null,
+   "stale_after_h": 48,
+   "verdict": "NO-SUPPLY",
+   "note": ""
+  },
+  {
+   "line": "recon",
+   "name": "RECON·竞品拆解",
+   "org": "enabling",
+   "priority": "P3",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 1,
+    "done": 1,
+    "real_product": 0,
+    "selfcheck": 1,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": null,
+   "last_real_product_h": null,
+   "stale_after_h": 72,
+   "verdict": "NO-SUPPLY",
+   "note": ""
+  },
+  {
+   "line": "fleet-ops",
+   "name": "机队运维·端到端自检（平台服务线）",
+   "org": "platform",
+   "priority": "P3",
+   "status": "ACTIVE",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 179,
+    "done": 37,
+    "real_product": 20,
+    "selfcheck": 17,
+    "open": 4,
+    "failed": 5
+   },
+   "last_done_h": 3.7,
+   "last_real_product_h": 3.7,
+   "stale_after_h": 24,
+   "verdict": "PLATFORM",
+   "note": ""
+  },
+  {
+   "line": "bigstream-drama",
+   "name": "BigStream·漫剧",
+   "org": "content",
+   "priority": "P0",
+   "status": "PARKED",
+   "supply": {
+    "process_table": "cph4/fleet/ri/content/lines/drama.json",
+    "next_step": true,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 21,
+    "done": 14,
+    "real_product": 7,
+    "selfcheck": 7,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": 4.6,
+   "last_real_product_h": 29.1,
+   "stale_after_h": 48,
+   "verdict": "OFF-DUTY",
+   "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
+  },
+  {
+   "line": "bigstream-duanju",
+   "name": "BigStream·短剧",
+   "org": "content",
+   "priority": "P0",
+   "status": "PARKED",
+   "supply": {
+    "process_table": "cph4/fleet/ri/content/lines/duanju.json",
+    "next_step": true,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 13,
+    "done": 6,
+    "real_product": 1,
+    "selfcheck": 5,
+    "open": 0,
+    "failed": 2
+   },
+   "last_done_h": 5.0,
+   "last_real_product_h": 5.0,
+   "stale_after_h": 72,
+   "verdict": "OFF-DUTY",
+   "note": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）"
+  },
+  {
+   "line": "bigstream-shortvideo",
+   "name": "BigStream·短视频/切片",
+   "org": "content",
+   "priority": "P0",
+   "status": "PARKED",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 0,
+    "done": 0,
+    "real_product": 0,
+    "selfcheck": 0,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": null,
+   "last_real_product_h": null,
+   "stale_after_h": 168,
+   "verdict": "OFF-DUTY",
+   "note": ""
+  },
+  {
+   "line": "bighouse",
+   "name": "BigHouse·城市安家",
+   "org": "city",
+   "priority": "P2",
+   "status": "PARKED",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 0,
+    "done": 0,
+    "real_product": 0,
+    "selfcheck": 0,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": null,
+   "last_real_product_h": null,
+   "stale_after_h": 72,
+   "verdict": "OFF-DUTY",
+   "note": ""
+  },
+  {
+   "line": "car-gaming",
+   "name": "车机游戏 BU",
+   "org": "platform",
+   "priority": "P3",
+   "status": "PARKED",
+   "supply": {
+    "process_table": null,
+    "next_step": false,
+    "can_emit_cards": false
+   },
+   "cards": {
+    "total": 0,
+    "done": 0,
+    "real_product": 0,
+    "selfcheck": 0,
+    "open": 0,
+    "failed": 0
+   },
+   "last_done_h": null,
+   "last_real_product_h": null,
+   "stale_after_h": 72,
+   "verdict": "OFF-DUTY",
+   "note": ""
+  }
+ ]
+}

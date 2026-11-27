@@ -1,0 +1,54 @@
+{
+ "ts": "2026-11-05T17:40:44",
+ "idea": "复盘：今天演练暴露的漂移全部收口",
+ "line": "fleet-ops",
+ "kind": "report",
+ "conv": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口",
+ "seconds": 0.13,
+ "steps": [
+  {
+   "n": 1,
+   "stage": "01-取证",
+   "why": "确认输入在盘、算出基线（多少件、指纹、缺口）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --probe cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口 ",
+   "minutes": 3,
+   "deliverable": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口/step1-取证.json",
+   "accept": "产物可解析且非空；输入清单与指纹齐"
+  },
+  {
+   "n": 2,
+   "stage": "02-加工",
+   "why": "对输入做本方案的核心加工；有 --tool 就真调，没有就先落可执行骨架与输入输出契约",
+   "cmd": "python3 Tools/fleet/plan_convert.py --step 2 --conv cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口 --tool echo tool-ok > /tmp/conv-tool.txt",
+   "minutes": 8,
+   "deliverable": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口/step2-加工.json",
+   "accept": "产物可解析且非空；有 PASS/FAIL 清单"
+  },
+  {
+   "n": 3,
+   "stage": "03-验收",
+   "why": "跑机器可判的判据并出 PASS/FAIL 清单（含本仓验收腿的真实回执）",
+   "cmd": "python3 Tools/fleet/plan_convert.py --step 3 --conv cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口",
+   "minutes": 4,
+   "deliverable": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口/step3-验收.json",
+   "accept": "产物可解析且非空；有 PASS/FAIL 清单"
+  },
+  {
+   "n": 4,
+   "stage": "04-交付",
+   "why": "出交付清单草稿：谁签、缺什么、可发物定义是否满足",
+   "cmd": "python3 Tools/fleet/plan_convert.py --step 4 --conv cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口",
+   "minutes": 4,
+   "deliverable": "cph4/fleet/conversions/20261105/复盘-今天演练暴露的漂移全部收口/step4-交付.json",
+   "accept": "产物可解析且非空；有 PASS/FAIL 清单"
+  }
+ ],
+ "checks": {
+  "C1_every_step_has_deliverable": true,
+  "C2_steps_under_10min": true,
+  "C3_step1_artifact_now": true,
+  "C4_work_queued_if_tool": true
+ },
+ "all_green": true,
+ "next": "主控下一轮（≤45s）接走 CNV 卡；现在就能看 step1-取证.json"
+}

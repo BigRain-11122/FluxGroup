@@ -1,0 +1,50 @@
+{
+  "film": "mv0001-爱在西元前",
+  "stage": "S4 选优结果 + EDL 草案（v2：复用优先/质量第一）",
+  "date": "2026-10-21",
+  "reuse_policy": {
+    "principle": "以前能用的镜头继续用；只在质量确有缺陷时替换；禁止靠改写语义硬凑一条 take",
+    "unchanged_shots": "73 镜中 68 镜沿用 v5.13，不动",
+    "replaced_shots": 4,
+    "reason_replaced": "R1 脸漂移+嘴闭合；R2 唇僵+光向矛盾；R3 刻痕闪烁+身份。R4 经原片对比后确认新 take 质量更好（非凑合）"
+  },
+  "shot_decisions": [
+    {
+      "id": "R1_E01a_carver", "window": "187.26-190.00", "take": "R1_t3_s9303", "verdict": "PASS",
+      "evidence": "嘴部≈2.5次开合/10帧零漂移/无磨皮",
+      "why_not_reuse": "原片该镜唱句时嘴几乎闭合、发际线/眉形漂移"
+    },
+    {
+      "id": "R2_SING3b", "window": "197.00-199.00", "take": "R2_sing3（取前2.0s）", "verdict": "PASS_WITH_TRIM",
+      "evidence": "咬字3-4次/脸部稳定",
+      "why_not_reuse": "原片唇形僵成定格『啊』且受光方向与火把矛盾"
+    },
+    {
+      "id": "R3_E01c_first_line", "window": "191.60-193.12", "take": "R3b_9411", "verdict": "PASS",
+      "evidence": "五指正常/刻痕5帧稳定/侧脸一致",
+      "why_not_reuse": "原片刻痕帧间重排（闪烁），属 H3 系统性病灶"
+    },
+    {
+      "id": "R4_E02a_dig", "window": "193.12-197.00", "take": "R4a", "verdict": "PASS",
+      "evidence": "双手五指清晰/按压+剔挖动作可读/刻痕稳定",
+      "why_not_reuse": "原片该镜只有一把无主体的刷子在扫土，看不到手，叙事信息量不足（原判『肢体含糊』实为『无主体』）；新 take 质量确实更好，非依赖改写语义",
+      "compare_evidence": "D:\\FleetWorker\\review\\r4cmp\\cmp.png"
+    },
+    {
+      "id": "R5_S8S9", "window": "40.22-44.00", "take": "crop-814x458@530,155", "verdict": "PASS",
+      "evidence": "41/42.5/43.5 无倒影、侧脸完整",
+      "why_not_reuse": "原镜玻璃上有倒影人脸，违反倒影脸清除令"
+    }
+  ],
+  "rejected_not_used": [
+    {"take": "R4b / R4c_9421 / R4c_9422", "reason": "动作不成形或行内硬切换人，质量不合格，一律不用"},
+    {"take": "R3a", "reason": "可用但 R3b_9411 更稳，择优取一"}
+  ],
+  "blocked": [
+    {"action": "手抹泥板边缘", "failures": 3, "reason": "H3 稳定输出刷子/火烤，动作不成立", "route": "已放弃该动作，不进入成片"}
+  ],
+  "known_deviation": [
+    {"item": "prompt 长度", "value": "140 words", "budget": "90", "reason": "build_h3_i2va 官方结构基线约 110 词", "action": "记偏差，后续精简模板"}
+  ],
+  "next": ["768P 正式件（GPU 夜间窗口）", "锁 EDL → N4 节奏重排", "分段 copy 装配（只编码一次）", "release_gate 过闸"]
+}

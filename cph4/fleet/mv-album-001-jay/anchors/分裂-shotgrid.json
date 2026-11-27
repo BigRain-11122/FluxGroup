@@ -1,0 +1,880 @@
+{
+ "song": "分裂",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 508,
+  "n_beats": 508,
+  "n_downbeats": 127,
+  "duration_sec": 254.63
+ },
+ "bpm_median": 123.0,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "坐着我的摩托车",
+   "t0": 32.56,
+   "t1": 36.36,
+   "t0_used": 32.647,
+   "t1_used": 36.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.087,
+    -0.188
+   ],
+   "approx": false,
+   "splits": [
+    34.621
+   ]
+  },
+  {
+   "i": 1,
+   "text": "载你缓缓的离开",
+   "t0": 36.36,
+   "t1": 40.23,
+   "t0_used": 36.36,
+   "t1_used": 40.23,
+   "snapped": false,
+   "snap_deltas": [
+    -0.188,
+    -0.196
+   ],
+   "approx": false,
+   "splits": [
+    38.522
+   ]
+  },
+  {
+   "i": 2,
+   "text": "考不上的好学校",
+   "t0": 40.23,
+   "t1": 44.29,
+   "t0_used": 40.23,
+   "t1_used": 44.327,
+   "snapped": true,
+   "snap_deltas": [
+    -0.196,
+    -0.037
+   ],
+   "approx": false,
+   "splits": [
+    42.423
+   ]
+  },
+  {
+   "i": 3,
+   "text": "可以不微笑就走",
+   "t0": 44.29,
+   "t1": 48.16,
+   "t0_used": 44.327,
+   "t1_used": 48.16,
+   "snapped": true,
+   "snap_deltas": [
+    -0.037,
+    -0.138
+   ],
+   "approx": false,
+   "splits": [
+    46.347
+   ]
+  },
+  {
+   "i": 4,
+   "text": "把手慢慢交给我",
+   "t0": 48.16,
+   "t1": 51.78,
+   "t0_used": 48.16,
+   "t1_used": 51.711,
+   "snapped": true,
+   "snap_deltas": [
+    -0.138,
+    0.069
+   ],
+   "approx": false,
+   "splits": [
+    49.76
+   ]
+  },
+  {
+   "i": 5,
+   "text": "放下心中的困惑",
+   "t0": 51.78,
+   "t1": 55.9,
+   "t0_used": 51.711,
+   "t1_used": 55.9,
+   "snapped": true,
+   "snap_deltas": [
+    0.069,
+    -0.223
+   ],
+   "approx": false,
+   "splits": [
+    53.685
+   ]
+  },
+  {
+   "i": 6,
+   "text": "雨点从两旁划过",
+   "t0": 55.9,
+   "t1": 59.76,
+   "t0_used": 55.9,
+   "t1_used": 59.76,
+   "snapped": false,
+   "snap_deltas": [
+    -0.223,
+    0.224
+   ],
+   "approx": false,
+   "splits": [
+    58.073
+   ]
+  },
+  {
+   "i": 7,
+   "text": "割开两种精神的我",
+   "t0": 59.76,
+   "t1": 63.51,
+   "t0_used": 59.76,
+   "t1_used": 63.437,
+   "snapped": true,
+   "snap_deltas": [
+    0.224,
+    0.073
+   ],
+   "approx": false,
+   "splits": [
+    61.486
+   ]
+  },
+  {
+   "i": 8,
+   "text": "经过老伯的家",
+   "t0": 63.51,
+   "t1": 66.5,
+   "t0_used": 63.437,
+   "t1_used": 66.5,
+   "snapped": true,
+   "snap_deltas": [
+    0.073,
+    0.137
+   ],
+   "approx": false,
+   "splits": [
+    64.923
+   ]
+  },
+  {
+   "i": 9,
+   "text": "篮框变得好高",
+   "t0": 66.5,
+   "t1": 69.93,
+   "t0_used": 66.5,
+   "t1_used": 69.93,
+   "snapped": false,
+   "snap_deltas": [
+    0.137,
+    0.154
+   ],
+   "approx": false,
+   "splits": [
+    68.336
+   ]
+  },
+  {
+   "i": 10,
+   "text": "爬过的那棵树",
+   "t0": 69.93,
+   "t1": 72.43,
+   "t0_used": 69.93,
+   "t1_used": 72.43,
+   "snapped": false,
+   "snap_deltas": [
+    0.154,
+    0.216
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "又何时变得渺小",
+   "t0": 72.43,
+   "t1": 78.98,
+   "t0_used": 72.43,
+   "t1_used": 78.98,
+   "snapped": false,
+   "snap_deltas": [
+    0.216,
+    -0.107
+   ],
+   "approx": false,
+   "splits": [
+    74.699,
+    76.649
+   ]
+  },
+  {
+   "i": 12,
+   "text": "这样也好",
+   "t0": 78.98,
+   "t1": 81.79,
+   "t0_used": 78.98,
+   "t1_used": 81.79,
+   "snapped": false,
+   "snap_deltas": [
+    -0.107,
+    -0.2
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "开始没人注意到我",
+   "t0": 81.79,
+   "t1": 85.78,
+   "t0_used": 81.79,
+   "t1_used": 85.78,
+   "snapped": false,
+   "snap_deltas": [
+    -0.2,
+    -0.134
+   ],
+   "approx": false,
+   "splits": [
+    83.963
+   ]
+  },
+  {
+   "i": 14,
+   "text": "等雨变强之前",
+   "t0": 85.78,
+   "t1": 87.72,
+   "t0_used": 85.78,
+   "t1_used": 87.72,
+   "snapped": false,
+   "snap_deltas": [
+    -0.134,
+    -0.144
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "我们将会分化软弱",
+   "t0": 87.72,
+   "t1": 94.64,
+   "t0_used": 87.72,
+   "t1_used": 94.668,
+   "snapped": true,
+   "snap_deltas": [
+    -0.144,
+    -0.028
+   ],
+   "approx": false,
+   "splits": [
+    89.838,
+    92.299
+   ]
+  },
+  {
+   "i": 16,
+   "text": "趁时间没发觉",
+   "t0": 94.64,
+   "t1": 97.76,
+   "t0_used": 94.668,
+   "t1_used": 97.663,
+   "snapped": true,
+   "snap_deltas": [
+    -0.028,
+    0.097
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "让我带着你离开",
+   "t0": 97.76,
+   "t1": 101.32,
+   "t0_used": 97.663,
+   "t1_used": 101.32,
+   "snapped": true,
+   "snap_deltas": [
+    0.097,
+    -0.221
+   ],
+   "approx": false,
+   "splits": [
+    99.614
+   ]
+  },
+  {
+   "i": 18,
+   "text": "没有了证明",
+   "t0": 101.32,
+   "t1": 103.32,
+   "t0_used": 101.32,
+   "t1_used": 103.32,
+   "snapped": false,
+   "snap_deltas": [
+    -0.221,
+    -0.171
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "没有了空虚",
+   "t0": 103.32,
+   "t1": 105.31,
+   "t0_used": 103.32,
+   "t1_used": 105.31,
+   "snapped": false,
+   "snap_deltas": [
+    -0.171,
+    -0.132
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "基于两种立场我会罩着你",
+   "t0": 105.31,
+   "t1": 110.18,
+   "t0_used": 105.31,
+   "t1_used": 110.18,
+   "snapped": false,
+   "snap_deltas": [
+    -0.132,
+    -0.115
+   ],
+   "approx": false,
+   "splits": [
+    107.903
+   ]
+  },
+  {
+   "i": 21,
+   "text": "趁时间没发觉",
+   "t0": 110.18,
+   "t1": 113.05,
+   "t0_used": 110.18,
+   "t1_used": 113.05,
+   "snapped": false,
+   "snap_deltas": [
+    -0.115,
+    -0.217
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "让我带着你离开",
+   "t0": 113.05,
+   "t1": 117.11,
+   "t0_used": 113.05,
+   "t1_used": 117.168,
+   "snapped": true,
+   "snap_deltas": [
+    -0.217,
+    -0.058
+   ],
+   "approx": false,
+   "splits": [
+    115.241
+   ]
+  },
+  {
+   "i": 23,
+   "text": "这不是顽固",
+   "t0": 117.11,
+   "t1": 118.92,
+   "t0_used": 117.168,
+   "t1_used": 118.92,
+   "snapped": true,
+   "snap_deltas": [
+    -0.058,
+    -0.198
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "这不是逃避",
+   "t0": 118.92,
+   "t1": 120.98,
+   "t0_used": 118.92,
+   "t1_used": 120.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.198,
+    -0.135
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "没人绑着你走才快乐",
+   "t0": 120.98,
+   "t1": 141.97,
+   "t0_used": 120.98,
+   "t1_used": 142.06,
+   "snapped": true,
+   "snap_deltas": [
+    -0.135,
+    -0.09
+   ],
+   "approx": false,
+   "splits": [
+    123.507,
+    126.479,
+    128.917,
+    131.355,
+    134.258,
+    136.719,
+    139.668
+   ]
+  },
+  {
+   "i": 26,
+   "text": "坐着我的摩托车",
+   "t0": 141.97,
+   "t1": 145.78,
+   "t0_used": 142.06,
+   "t1_used": 145.78,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.227
+   ],
+   "approx": false,
+   "splits": [
+    144.057
+   ]
+  },
+  {
+   "i": 27,
+   "text": "载你缓缓的离开",
+   "t0": 145.78,
+   "t1": 149.71,
+   "t0_used": 145.78,
+   "t1_used": 149.71,
+   "snapped": false,
+   "snap_deltas": [
+    -0.227,
+    -0.175
+   ],
+   "approx": false,
+   "splits": [
+    147.958
+   ]
+  },
+  {
+   "i": 28,
+   "text": "考不上的好学校",
+   "t0": 149.71,
+   "t1": 153.64,
+   "t0_used": 149.71,
+   "t1_used": 153.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.175,
+    -0.169
+   ],
+   "approx": false,
+   "splits": [
+    151.882
+   ]
+  },
+  {
+   "i": 29,
+   "text": "可以不微笑就走",
+   "t0": 153.64,
+   "t1": 157.57,
+   "t0_used": 153.64,
+   "t1_used": 157.57,
+   "snapped": false,
+   "snap_deltas": [
+    -0.169,
+    -0.186
+   ],
+   "approx": false,
+   "splits": [
+    155.783
+   ]
+  },
+  {
+   "i": 30,
+   "text": "把手慢慢交给我",
+   "t0": 157.57,
+   "t1": 161.44,
+   "t0_used": 157.57,
+   "t1_used": 161.44,
+   "snapped": false,
+   "snap_deltas": [
+    -0.186,
+    -0.194
+   ],
+   "approx": false,
+   "splits": [
+    159.707
+   ]
+  },
+  {
+   "i": 31,
+   "text": "放下心中的困惑",
+   "t0": 161.44,
+   "t1": 165.37,
+   "t0_used": 161.44,
+   "t1_used": 165.37,
+   "snapped": false,
+   "snap_deltas": [
+    -0.194,
+    -0.165
+   ],
+   "approx": false,
+   "splits": [
+    163.608
+   ]
+  },
+  {
+   "i": 32,
+   "text": "雨点从两旁划过",
+   "t0": 165.37,
+   "t1": 169.18,
+   "t0_used": 165.37,
+   "t1_used": 169.18,
+   "snapped": false,
+   "snap_deltas": [
+    -0.165,
+    0.208
+   ],
+   "approx": false,
+   "splits": [
+    167.486
+   ]
+  },
+  {
+   "i": 33,
+   "text": "割开两种精神的我",
+   "t0": 169.18,
+   "t1": 173.23,
+   "t0_used": 169.18,
+   "t1_used": 173.23,
+   "snapped": false,
+   "snap_deltas": [
+    0.208,
+    -0.13
+   ],
+   "approx": false,
+   "splits": [
+    171.433
+   ]
+  },
+  {
+   "i": 34,
+   "text": "经过老伯的家",
+   "t0": 173.23,
+   "t1": 175.98,
+   "t0_used": 173.23,
+   "t1_used": 175.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.13,
+    0.205
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "篮框变得好高",
+   "t0": 175.98,
+   "t1": 179.6,
+   "t0_used": 175.98,
+   "t1_used": 179.6,
+   "snapped": false,
+   "snap_deltas": [
+    0.205,
+    -0.146
+   ],
+   "approx": false,
+   "splits": [
+    177.795
+   ]
+  },
+  {
+   "i": 36,
+   "text": "爬过的那棵树",
+   "t0": 179.6,
+   "t1": 181.84,
+   "t0_used": 179.6,
+   "t1_used": 181.84,
+   "snapped": false,
+   "snap_deltas": [
+    -0.146,
+    0.144
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "又何时变得渺小",
+   "t0": 181.84,
+   "t1": 188.96,
+   "t0_used": 181.84,
+   "t1_used": 188.987,
+   "snapped": true,
+   "snap_deltas": [
+    0.144,
+    -0.027
+   ],
+   "approx": false,
+   "splits": [
+    184.134,
+    186.596
+   ]
+  },
+  {
+   "i": 38,
+   "text": "这样也好",
+   "t0": 188.96,
+   "t1": 191.21,
+   "t0_used": 188.987,
+   "t1_used": 191.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    -0.239
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "开始没人注意到你我",
+   "t0": 191.21,
+   "t1": 195.14,
+   "t0_used": 191.21,
+   "t1_used": 195.14,
+   "snapped": false,
+   "snap_deltas": [
+    -0.239,
+    -0.233
+   ],
+   "approx": false,
+   "splits": [
+    193.399
+   ]
+  },
+  {
+   "i": 40,
+   "text": "等雨变强之前",
+   "t0": 195.14,
+   "t1": 197.26,
+   "t0_used": 195.14,
+   "t1_used": 197.277,
+   "snapped": true,
+   "snap_deltas": [
+    -0.233,
+    -0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "我们将会分化软弱",
+   "t0": 197.26,
+   "t1": 203.93,
+   "t0_used": 197.277,
+   "t1_used": 203.93,
+   "snapped": true,
+   "snap_deltas": [
+    -0.017,
+    -0.173
+   ],
+   "approx": false,
+   "splits": [
+    199.274,
+    201.735
+   ]
+  },
+  {
+   "i": 42,
+   "text": "趁时间没发觉",
+   "t0": 203.93,
+   "t1": 206.8,
+   "t0_used": 203.93,
+   "t1_used": 206.8,
+   "snapped": false,
+   "snap_deltas": [
+    -0.173,
+    0.212
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "让我带着你离开",
+   "t0": 206.8,
+   "t1": 210.92,
+   "t0_used": 206.8,
+   "t1_used": 211.0,
+   "snapped": true,
+   "snap_deltas": [
+    0.212,
+    -0.08
+   ],
+   "approx": false,
+   "splits": [
+    209.049
+   ]
+  },
+  {
+   "i": 44,
+   "text": "没有了证明",
+   "t0": 210.92,
+   "t1": 212.79,
+   "t0_used": 211.0,
+   "t1_used": 212.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.08,
+    -0.137
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "没有了空虚",
+   "t0": 212.79,
+   "t1": 214.79,
+   "t0_used": 212.79,
+   "t1_used": 214.79,
+   "snapped": false,
+   "snap_deltas": [
+    -0.137,
+    -0.111
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "基于两种立场我会罩着你",
+   "t0": 214.79,
+   "t1": 219.66,
+   "t0_used": 214.79,
+   "t1_used": 219.754,
+   "snapped": true,
+   "snap_deltas": [
+    -0.111,
+    -0.094
+   ],
+   "approx": false,
+   "splits": [
+    217.339
+   ]
+  },
+  {
+   "i": 47,
+   "text": "趁时间没发觉",
+   "t0": 219.66,
+   "t1": 222.46,
+   "t0_used": 219.754,
+   "t1_used": 222.46,
+   "snapped": true,
+   "snap_deltas": [
+    -0.094,
+    0.222
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "让我带着你离开",
+   "t0": 222.46,
+   "t1": 226.46,
+   "t0_used": 222.46,
+   "t1_used": 226.46,
+   "snapped": false,
+   "snap_deltas": [
+    0.222,
+    -0.144
+   ],
+   "approx": false,
+   "splits": [
+    224.676
+   ]
+  },
+  {
+   "i": 49,
+   "text": "这不是顽固",
+   "t0": 226.46,
+   "t1": 228.46,
+   "t0_used": 226.46,
+   "t1_used": 228.531,
+   "snapped": true,
+   "snap_deltas": [
+    -0.144,
+    -0.071
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "这不是逃避",
+   "t0": 228.46,
+   "t1": 230.4,
+   "t0_used": 228.531,
+   "t1_used": 230.4,
+   "snapped": true,
+   "snap_deltas": [
+    -0.071,
+    -0.128
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "没人绑着你走才快乐",
+   "t0": 230.4,
+   "t1": 233.4,
+   "t0_used": 230.4,
+   "t1_used": 233.5,
+   "snapped": true,
+   "snap_deltas": [
+    -0.128,
+    -0.1
+   ],
+   "approx": false,
+   "splits": [
+    232.014
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 52,
+  "lines_untimed": 0,
+  "lines_snapped": 25,
+  "lines_unsnapped": 27,
+  "lines_need_split": 33,
+  "total_splits": 43
+ },
+ "advisory": true
+}

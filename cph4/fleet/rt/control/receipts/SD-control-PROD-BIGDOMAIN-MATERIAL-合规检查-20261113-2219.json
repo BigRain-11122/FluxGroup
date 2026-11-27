@@ -1,0 +1,16 @@
+{
+ "id": "SD-control-PROD-BIGDOMAIN-MATERIAL-合规检查-20261113-2219",
+ "station": "control",
+ "product_id": "PROD-BIGDOMAIN-MATERIAL",
+ "stage": "合规检查",
+ "task_type": "T-TEXT-COMPLIANCE",
+ "verdict": "BLOCKED",
+ "why": "缺前置输入：cph4/fleet/out/bigdomain/copy.md",
+ "judge": "panel",
+ "judge_source": "card",
+ "deliverable": "cph4/fleet/out/bigdomain/compliance.json",
+ "bytes": -1,
+ "sha256": null,
+ "ts": "2026-11-13T22:19:44",
+ "by": "self-drive"
+}

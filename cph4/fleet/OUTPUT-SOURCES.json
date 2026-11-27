@@ -1,0 +1,17 @@
+{
+ "_comment": "每条线真正的产出落点（相对仓库根的 glob）。有此项时不看 queue-receipts；判定=最新产物 mtime vs stale_after_h。",
+ "lines": {
+  "bigstream-mv": ["cph4/fleet/mv0001-handover/canon/*.md", "cph4/fleet/mv0001-handover/outbound/**/*.mp4", "cph4/fleet/queue-receipts/biz-mv-promo-*.md", "cph4/fleet/queue-receipts/mv-gate-latest.json"],
+  "bigstream-drama": ["cph4/fleet/drama-dept-v1/**/*.md"],
+  "bigstream-duanju": ["cph4/fleet/duanju-dept-v1/**/*.md"],
+  "recon": ["cph4/fleet/recon-dept-v1/**/*.md", "cph4/research/**/*.md"],
+  "car-gaming": ["cph4/fleet/car-gaming-v1/**/*.md", "cph4/fleet/queue-receipts/biz-car-gaming-*.md"],
+  "biggame": ["gaming/MiniGame/Design/**/*", "gaming/MiniGame/Builds/**/*"],
+  "fluxverse": ["gaming/FluxVerse/world/**/*", "gaming/FluxVerse/City3D/**/*"],
+  "bigmoney": ["quant/bigmoney/results/**/*"],
+  "biglife": ["life/BigLife/census/**/*"],
+  "bighouse": ["house/BigHouse/**/*"],
+  "bigdomain": ["domain/BigDomain/**/*"],
+  "bigcompute": ["compute/BigCompute/**/*"]
+ }
+}

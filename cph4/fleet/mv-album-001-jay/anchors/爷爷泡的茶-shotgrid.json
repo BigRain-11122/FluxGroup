@@ -1,0 +1,1487 @@
+{
+ "song": "爷爷泡的茶",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 659,
+  "n_beats": 659,
+  "n_downbeats": 164,
+  "duration_sec": 240.51
+ },
+ "bpm_median": 172.4,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "爷爷泡的茶",
+   "t0": 6.27,
+   "t1": 7.23,
+   "t0_used": 6.269,
+   "t1_used": 7.221,
+   "snapped": true,
+   "snap_deltas": [
+    0.001,
+    0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "有一种味道叫做家",
+   "t0": 7.23,
+   "t1": 11.74,
+   "t0_used": 7.221,
+   "t1_used": 11.796,
+   "snapped": true,
+   "snap_deltas": [
+    0.009,
+    -0.056
+   ],
+   "approx": false,
+   "splits": [
+    9.334
+   ]
+  },
+  {
+   "i": 2,
+   "text": "陆羽泡的茶",
+   "t0": 11.74,
+   "t1": 12.82,
+   "t0_used": 11.796,
+   "t1_used": 12.864,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.044
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "听说名和利都不拿",
+   "t0": 12.82,
+   "t1": 17.49,
+   "t0_used": 12.864,
+   "t1_used": 17.461,
+   "snapped": true,
+   "snap_deltas": [
+    -0.044,
+    0.029
+   ],
+   "approx": false,
+   "splits": [
+    15.325
+   ]
+  },
+  {
+   "i": 4,
+   "text": "爷爷泡的茶",
+   "t0": 17.49,
+   "t1": 18.48,
+   "t0_used": 17.461,
+   "t1_used": 18.506,
+   "snapped": true,
+   "snap_deltas": [
+    0.029,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "有一种味道叫做家",
+   "t0": 18.48,
+   "t1": 20.23,
+   "t0_used": 18.506,
+   "t1_used": 20.271,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "爷爷泡的茶",
+   "t0": 20.23,
+   "t1": 21.4,
+   "t0_used": 20.271,
+   "t1_used": 21.339,
+   "snapped": true,
+   "snap_deltas": [
+    -0.041,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "口感味觉好啊",
+   "t0": 21.4,
+   "t1": 23.07,
+   "t0_used": 21.339,
+   "t1_used": 23.104,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    -0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "陆羽泡的茶",
+   "t0": 23.07,
+   "t1": 24.17,
+   "t0_used": 23.104,
+   "t1_used": 24.172,
+   "snapped": true,
+   "snap_deltas": [
+    -0.034,
+    -0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "像幅泼墨的山水画",
+   "t0": 24.17,
+   "t1": 29.11,
+   "t0_used": 24.172,
+   "t1_used": 29.095,
+   "snapped": true,
+   "snap_deltas": [
+    -0.002,
+    0.015
+   ],
+   "approx": false,
+   "splits": [
+    26.61
+   ]
+  },
+  {
+   "i": 10,
+   "text": "山泉在地表蜿蜒",
+   "t0": 29.11,
+   "t1": 30.92,
+   "t0_used": 29.095,
+   "t1_used": 30.859,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "从很久很久以前",
+   "t0": 30.92,
+   "t1": 32.84,
+   "t0_used": 30.859,
+   "t1_used": 32.84,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    -0.132
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "我有一张稚气的脸",
+   "t0": 32.84,
+   "t1": 34.43,
+   "t0_used": 32.84,
+   "t1_used": 34.389,
+   "snapped": true,
+   "snap_deltas": [
+    -0.132,
+    0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "泉水渗透进矿层岩",
+   "t0": 34.43,
+   "t1": 36.7,
+   "t0_used": 34.389,
+   "t1_used": 36.7,
+   "snapped": true,
+   "snap_deltas": [
+    0.041,
+    -0.173
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "爷爷栽种的樟木树苗在上面",
+   "t0": 36.7,
+   "t1": 39.53,
+   "t0_used": 36.7,
+   "t1_used": 39.53,
+   "snapped": false,
+   "snap_deltas": [
+    -0.173,
+    -0.153
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "犹记得那年",
+   "t0": 39.53,
+   "t1": 40.95,
+   "t0_used": 39.53,
+   "t1_used": 40.95,
+   "snapped": false,
+   "snap_deltas": [
+    -0.153,
+    -0.149
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "在一个雨天",
+   "t0": 40.95,
+   "t1": 42.41,
+   "t0_used": 40.95,
+   "t1_used": 42.493,
+   "snapped": true,
+   "snap_deltas": [
+    -0.149,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "那七岁的我躲在屋檐",
+   "t0": 42.41,
+   "t1": 44.48,
+   "t0_used": 42.493,
+   "t1_used": 44.48,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    -0.149
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "却一直想去荡秋千",
+   "t0": 44.48,
+   "t1": 46.62,
+   "t0_used": 44.48,
+   "t1_used": 46.62,
+   "snapped": false,
+   "snap_deltas": [
+    -0.149,
+    -0.122
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "爷爷抽着烟",
+   "t0": 46.62,
+   "t1": 47.99,
+   "t0_used": 46.62,
+   "t1_used": 47.99,
+   "snapped": false,
+   "snap_deltas": [
+    -0.122,
+    -0.145
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "说唐朝陆羽写茶经三卷",
+   "t0": 47.99,
+   "t1": 50.13,
+   "t0_used": 47.99,
+   "t1_used": 50.13,
+   "snapped": false,
+   "snap_deltas": [
+    -0.145,
+    -0.141
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "流传了千年",
+   "t0": 50.13,
+   "t1": 51.4,
+   "t0_used": 50.13,
+   "t1_used": 51.339,
+   "snapped": true,
+   "snap_deltas": [
+    -0.141,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "那天我翻阅字典",
+   "t0": 51.4,
+   "t1": 53.46,
+   "t0_used": 51.339,
+   "t1_used": 53.429,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    0.031
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "查什么字眼",
+   "t0": 53.46,
+   "t1": 54.86,
+   "t0_used": 53.429,
+   "t1_used": 54.869,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    -0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "形容一件事很遥远",
+   "t0": 54.86,
+   "t1": 57.03,
+   "t0_used": 54.869,
+   "t1_used": 56.982,
+   "snapped": true,
+   "snap_deltas": [
+    -0.009,
+    0.048
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "天边是否在海角对面",
+   "t0": 57.03,
+   "t1": 59.97,
+   "t0_used": 56.982,
+   "t1_used": 59.97,
+   "snapped": true,
+   "snap_deltas": [
+    0.048,
+    -0.17
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "直到九岁才知道浪费时间",
+   "t0": 59.97,
+   "t1": 62.47,
+   "t0_used": 59.97,
+   "t1_used": 62.47,
+   "snapped": false,
+   "snap_deltas": [
+    -0.17,
+    -0.154
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "这茶桌樟木的横切面",
+   "t0": 62.47,
+   "t1": 64.07,
+   "t0_used": 62.47,
+   "t1_used": 64.041,
+   "snapped": true,
+   "snap_deltas": [
+    -0.154,
+    0.029
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "年轮有二十三圈",
+   "t0": 64.07,
+   "t1": 65.6,
+   "t0_used": 64.041,
+   "t1_used": 65.6,
+   "snapped": true,
+   "snap_deltas": [
+    0.029,
+    0.143
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "镜头的另一边跳接我成熟的脸",
+   "t0": 65.6,
+   "t1": 68.51,
+   "t0_used": 65.6,
+   "t1_used": 68.51,
+   "snapped": false,
+   "snap_deltas": [
+    0.143,
+    -0.128
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "经过这些年爷爷的手茧",
+   "t0": 68.51,
+   "t1": 70.8,
+   "t0_used": 68.51,
+   "t1_used": 70.751,
+   "snapped": true,
+   "snap_deltas": [
+    -0.128,
+    0.049
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "泡在水里会有茶色蔓延",
+   "t0": 70.8,
+   "t1": 73.9,
+   "t0_used": 70.751,
+   "t1_used": 73.932,
+   "snapped": true,
+   "snap_deltas": [
+    0.049,
+    -0.032
+   ],
+   "approx": false,
+   "splits": [
+    72.168
+   ]
+  },
+  {
+   "i": 32,
+   "text": "爷爷泡的茶",
+   "t0": 73.9,
+   "t1": 74.99,
+   "t0_used": 73.932,
+   "t1_used": 75.0,
+   "snapped": true,
+   "snap_deltas": [
+    -0.032,
+    -0.01
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "有一种味道叫做家",
+   "t0": 74.99,
+   "t1": 76.72,
+   "t0_used": 75.0,
+   "t1_used": 76.742,
+   "snapped": true,
+   "snap_deltas": [
+    -0.01,
+    -0.022
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "没法挑剔它",
+   "t0": 76.72,
+   "t1": 77.82,
+   "t0_used": 76.742,
+   "t1_used": 77.81,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    0.01
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "口感味觉还不差",
+   "t0": 77.82,
+   "t1": 79.53,
+   "t0_used": 77.81,
+   "t1_used": 79.575,
+   "snapped": true,
+   "snap_deltas": [
+    0.01,
+    -0.045
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "陆羽泡的茶",
+   "t0": 79.53,
+   "t1": 80.66,
+   "t0_used": 79.575,
+   "t1_used": 80.643,
+   "snapped": true,
+   "snap_deltas": [
+    -0.045,
+    0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "听说名和利都不拿",
+   "t0": 80.66,
+   "t1": 82.1,
+   "t0_used": 80.643,
+   "t1_used": 82.036,
+   "snapped": true,
+   "snap_deltas": [
+    0.017,
+    0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "他牵着一匹瘦马在走天涯",
+   "t0": 82.1,
+   "t1": 85.17,
+   "t0_used": 82.036,
+   "t1_used": 85.217,
+   "snapped": true,
+   "snap_deltas": [
+    0.064,
+    -0.047
+   ],
+   "approx": false,
+   "splits": [
+    83.453
+   ]
+  },
+  {
+   "i": 39,
+   "text": "爷爷泡的茶",
+   "t0": 85.17,
+   "t1": 86.28,
+   "t0_used": 85.217,
+   "t1_used": 86.285,
+   "snapped": true,
+   "snap_deltas": [
+    -0.047,
+    -0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "有一种味道叫做家",
+   "t0": 86.28,
+   "t1": 87.97,
+   "t0_used": 86.285,
+   "t1_used": 88.027,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    -0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "他满头白发",
+   "t0": 87.97,
+   "t1": 89.09,
+   "t0_used": 88.027,
+   "t1_used": 89.095,
+   "snapped": true,
+   "snap_deltas": [
+    -0.057,
+    -0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "喝茶时不准说话",
+   "t0": 89.09,
+   "t1": 90.82,
+   "t0_used": 89.095,
+   "t1_used": 90.86,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    -0.04
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "陆羽泡的茶",
+   "t0": 90.82,
+   "t1": 91.93,
+   "t0_used": 90.86,
+   "t1_used": 91.928,
+   "snapped": true,
+   "snap_deltas": [
+    -0.04,
+    0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "像幅泼墨的山水画",
+   "t0": 91.93,
+   "t1": 93.43,
+   "t0_used": 91.928,
+   "t1_used": 93.344,
+   "snapped": true,
+   "snap_deltas": [
+    0.002,
+    0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "唐朝千年的风沙",
+   "t0": 93.43,
+   "t1": 94.71,
+   "t0_used": 93.344,
+   "t1_used": 94.737,
+   "snapped": true,
+   "snap_deltas": [
+    0.086,
+    -0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "现在还在刮",
+   "t0": 94.71,
+   "t1": 107.39,
+   "t0_used": 94.737,
+   "t1_used": 107.439,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    -0.049
+   ],
+   "approx": false,
+   "splits": [
+    97.222,
+    99.683,
+    102.516,
+    104.977
+   ]
+  },
+  {
+   "i": 47,
+   "text": "千年那天我翻阅字典",
+   "t0": 107.39,
+   "t1": 109.96,
+   "t0_used": 107.439,
+   "t1_used": 109.923,
+   "snapped": true,
+   "snap_deltas": [
+    -0.049,
+    0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "查什么字眼",
+   "t0": 109.96,
+   "t1": 111.34,
+   "t0_used": 109.923,
+   "t1_used": 111.34,
+   "snapped": true,
+   "snap_deltas": [
+    0.037,
+    0.0
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "形容一件事很遥远",
+   "t0": 111.34,
+   "t1": 113.51,
+   "t0_used": 111.34,
+   "t1_used": 113.453,
+   "snapped": true,
+   "snap_deltas": [
+    0.0,
+    0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "天边是否在海角对面",
+   "t0": 113.51,
+   "t1": 116.49,
+   "t0_used": 113.453,
+   "t1_used": 116.49,
+   "snapped": true,
+   "snap_deltas": [
+    0.057,
+    -0.121
+   ],
+   "approx": false,
+   "splits": [
+    114.869
+   ]
+  },
+  {
+   "i": 51,
+   "text": "直到九岁才知道浪费时间",
+   "t0": 116.49,
+   "t1": 118.99,
+   "t0_used": 116.49,
+   "t1_used": 118.99,
+   "snapped": false,
+   "snap_deltas": [
+    -0.121,
+    -0.105
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "这茶桌樟木的横切面",
+   "t0": 118.99,
+   "t1": 120.52,
+   "t0_used": 118.99,
+   "t1_used": 120.512,
+   "snapped": true,
+   "snap_deltas": [
+    -0.105,
+    0.008
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "年轮有二十三圈",
+   "t0": 120.52,
+   "t1": 122.12,
+   "t0_used": 120.512,
+   "t1_used": 122.12,
+   "snapped": true,
+   "snap_deltas": [
+    0.008,
+    -0.156
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "镜头的另一边跳接我成熟的脸",
+   "t0": 122.12,
+   "t1": 124.93,
+   "t0_used": 122.12,
+   "t1_used": 124.93,
+   "snapped": false,
+   "snap_deltas": [
+    -0.156,
+    -0.179
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "经过这些年爷爷的手茧",
+   "t0": 124.93,
+   "t1": 127.28,
+   "t0_used": 124.93,
+   "t1_used": 127.222,
+   "snapped": true,
+   "snap_deltas": [
+    -0.179,
+    0.058
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "泡在水里会有茶色蔓延",
+   "t0": 127.28,
+   "t1": 130.44,
+   "t0_used": 127.222,
+   "t1_used": 130.403,
+   "snapped": true,
+   "snap_deltas": [
+    0.058,
+    0.037
+   ],
+   "approx": false,
+   "splits": [
+    128.987
+   ]
+  },
+  {
+   "i": 57,
+   "text": "爷爷泡的茶",
+   "t0": 130.44,
+   "t1": 131.43,
+   "t0_used": 130.403,
+   "t1_used": 131.448,
+   "snapped": true,
+   "snap_deltas": [
+    0.037,
+    -0.018
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "有一种味道叫做家",
+   "t0": 131.43,
+   "t1": 133.21,
+   "t0_used": 131.448,
+   "t1_used": 133.213,
+   "snapped": true,
+   "snap_deltas": [
+    -0.018,
+    -0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 59,
+   "text": "没法挑剔它",
+   "t0": 133.21,
+   "t1": 134.31,
+   "t0_used": 133.213,
+   "t1_used": 134.281,
+   "snapped": true,
+   "snap_deltas": [
+    -0.003,
+    0.029
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "口感味觉还不差",
+   "t0": 134.31,
+   "t1": 135.97,
+   "t0_used": 134.281,
+   "t1_used": 136.046,
+   "snapped": true,
+   "snap_deltas": [
+    0.029,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "陆羽泡的茶",
+   "t0": 135.97,
+   "t1": 137.08,
+   "t0_used": 136.046,
+   "t1_used": 137.114,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 62,
+   "text": "听说名和利都不拿",
+   "t0": 137.08,
+   "t1": 138.48,
+   "t0_used": 137.114,
+   "t1_used": 138.507,
+   "snapped": true,
+   "snap_deltas": [
+    -0.034,
+    -0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 63,
+   "text": "他牵着一匹瘦马在走天涯",
+   "t0": 138.48,
+   "t1": 141.71,
+   "t0_used": 138.507,
+   "t1_used": 141.688,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    0.022
+   ],
+   "approx": false,
+   "splits": [
+    139.923
+   ]
+  },
+  {
+   "i": 64,
+   "text": "爷爷泡的茶",
+   "t0": 141.71,
+   "t1": 142.73,
+   "t0_used": 141.688,
+   "t1_used": 142.756,
+   "snapped": true,
+   "snap_deltas": [
+    0.022,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 65,
+   "text": "有一种味道叫做家",
+   "t0": 142.73,
+   "t1": 144.47,
+   "t0_used": 142.756,
+   "t1_used": 144.498,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.028
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 66,
+   "text": "他满头白发",
+   "t0": 144.47,
+   "t1": 145.58,
+   "t0_used": 144.498,
+   "t1_used": 145.589,
+   "snapped": true,
+   "snap_deltas": [
+    -0.028,
+    -0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 67,
+   "text": "喝茶时不准说话",
+   "t0": 145.58,
+   "t1": 147.32,
+   "t0_used": 145.589,
+   "t1_used": 147.331,
+   "snapped": true,
+   "snap_deltas": [
+    -0.009,
+    -0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 68,
+   "text": "陆羽泡的茶",
+   "t0": 147.32,
+   "t1": 148.42,
+   "t0_used": 147.331,
+   "t1_used": 148.399,
+   "snapped": true,
+   "snap_deltas": [
+    -0.011,
+    0.021
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 69,
+   "text": "像幅泼墨的山水画",
+   "t0": 148.42,
+   "t1": 150.02,
+   "t0_used": 148.399,
+   "t1_used": 150.02,
+   "snapped": true,
+   "snap_deltas": [
+    0.021,
+    -0.143
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "唐朝千年的风沙",
+   "t0": 150.02,
+   "t1": 151.25,
+   "t0_used": 150.02,
+   "t1_used": 151.208,
+   "snapped": true,
+   "snap_deltas": [
+    -0.143,
+    0.042
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 71,
+   "text": "现在还在刮",
+   "t0": 151.25,
+   "t1": 175.58,
+   "t0_used": 151.208,
+   "t1_used": 175.566,
+   "snapped": true,
+   "snap_deltas": [
+    0.042,
+    0.014
+   ],
+   "approx": false,
+   "splits": [
+    154.041,
+    156.502,
+    159.335,
+    162.145,
+    164.629,
+    167.439,
+    170.272,
+    172.756
+   ]
+  },
+  {
+   "i": 72,
+   "text": "爷爷泡的茶",
+   "t0": 175.58,
+   "t1": 176.56,
+   "t0_used": 175.566,
+   "t1_used": 176.634,
+   "snapped": true,
+   "snap_deltas": [
+    0.014,
+    -0.074
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 73,
+   "text": "有一种味道叫做家",
+   "t0": 176.56,
+   "t1": 178.38,
+   "t0_used": 176.634,
+   "t1_used": 178.399,
+   "snapped": true,
+   "snap_deltas": [
+    -0.074,
+    -0.019
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 74,
+   "text": "没法挑剔它",
+   "t0": 178.38,
+   "t1": 179.45,
+   "t0_used": 178.399,
+   "t1_used": 179.444,
+   "snapped": true,
+   "snap_deltas": [
+    -0.019,
+    0.006
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 75,
+   "text": "口感味觉还不差",
+   "t0": 179.45,
+   "t1": 181.2,
+   "t0_used": 179.444,
+   "t1_used": 181.209,
+   "snapped": true,
+   "snap_deltas": [
+    0.006,
+    -0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 76,
+   "text": "陆羽泡的茶",
+   "t0": 181.2,
+   "t1": 182.28,
+   "t0_used": 181.209,
+   "t1_used": 182.277,
+   "snapped": true,
+   "snap_deltas": [
+    -0.009,
+    0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 77,
+   "text": "听说名和利都不拿",
+   "t0": 182.28,
+   "t1": 183.85,
+   "t0_used": 182.277,
+   "t1_used": 183.85,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    0.157
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 78,
+   "text": "他牵着一匹瘦马在走天涯",
+   "t0": 183.85,
+   "t1": 186.84,
+   "t0_used": 183.85,
+   "t1_used": 186.874,
+   "snapped": true,
+   "snap_deltas": [
+    0.157,
+    -0.034
+   ],
+   "approx": false,
+   "splits": [
+    185.435
+   ]
+  },
+  {
+   "i": 79,
+   "text": "爷爷泡的茶",
+   "t0": 186.84,
+   "t1": 187.88,
+   "t0_used": 186.874,
+   "t1_used": 187.919,
+   "snapped": true,
+   "snap_deltas": [
+    -0.034,
+    -0.039
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 80,
+   "text": "有一种味道叫做家",
+   "t0": 187.88,
+   "t1": 189.66,
+   "t0_used": 187.919,
+   "t1_used": 189.684,
+   "snapped": true,
+   "snap_deltas": [
+    -0.039,
+    -0.024
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 81,
+   "text": "他满头白发",
+   "t0": 189.66,
+   "t1": 190.73,
+   "t0_used": 189.684,
+   "t1_used": 190.752,
+   "snapped": true,
+   "snap_deltas": [
+    -0.024,
+    -0.022
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 82,
+   "text": "喝茶时不准说话",
+   "t0": 190.73,
+   "t1": 192.51,
+   "t0_used": 190.752,
+   "t1_used": 192.517,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    -0.007
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 83,
+   "text": "陆羽泡的茶",
+   "t0": 192.51,
+   "t1": 193.6,
+   "t0_used": 192.517,
+   "t1_used": 193.585,
+   "snapped": true,
+   "snap_deltas": [
+    -0.007,
+    0.015
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 84,
+   "text": "像幅泼墨的山水画",
+   "t0": 193.6,
+   "t1": 195.08,
+   "t0_used": 193.585,
+   "t1_used": 195.08,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    0.102
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 85,
+   "text": "唐朝千年的风沙",
+   "t0": 195.08,
+   "t1": 196.36,
+   "t0_used": 195.08,
+   "t1_used": 196.394,
+   "snapped": true,
+   "snap_deltas": [
+    0.102,
+    -0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 86,
+   "text": "现在还在刮",
+   "t0": 196.36,
+   "t1": 198.1,
+   "t0_used": 196.394,
+   "t1_used": 198.159,
+   "snapped": true,
+   "snap_deltas": [
+    -0.034,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 87,
+   "text": "爷爷泡的茶",
+   "t0": 198.1,
+   "t1": 199.17,
+   "t0_used": 198.159,
+   "t1_used": 199.227,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    -0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 88,
+   "text": "有一种味道叫做家",
+   "t0": 199.17,
+   "t1": 203.87,
+   "t0_used": 199.227,
+   "t1_used": 203.802,
+   "snapped": true,
+   "snap_deltas": [
+    -0.057,
+    0.068
+   ],
+   "approx": false,
+   "splits": [
+    201.34
+   ]
+  },
+  {
+   "i": 89,
+   "text": "陆羽泡的茶",
+   "t0": 203.87,
+   "t1": 204.87,
+   "t0_used": 203.802,
+   "t1_used": 204.87,
+   "snapped": true,
+   "snap_deltas": [
+    0.068,
+    0.0
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 90,
+   "text": "听说名和利都不拿",
+   "t0": 204.87,
+   "t1": 209.44,
+   "t0_used": 204.87,
+   "t1_used": 209.444,
+   "snapped": true,
+   "snap_deltas": [
+    0.0,
+    -0.004
+   ],
+   "approx": false,
+   "splits": [
+    206.983
+   ]
+  },
+  {
+   "i": 91,
+   "text": "爷爷泡的茶",
+   "t0": 209.44,
+   "t1": 210.44,
+   "t0_used": 209.444,
+   "t1_used": 210.512,
+   "snapped": true,
+   "snap_deltas": [
+    -0.004,
+    -0.072
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 92,
+   "text": "有一种味道叫做家",
+   "t0": 210.44,
+   "t1": 215.12,
+   "t0_used": 210.512,
+   "t1_used": 215.11,
+   "snapped": true,
+   "snap_deltas": [
+    -0.072,
+    0.01
+   ],
+   "approx": false,
+   "splits": [
+    212.973
+   ]
+  },
+  {
+   "i": 93,
+   "text": "陆羽泡的茶",
+   "t0": 215.12,
+   "t1": 216.09,
+   "t0_used": 215.11,
+   "t1_used": 216.178,
+   "snapped": true,
+   "snap_deltas": [
+    0.01,
+    -0.088
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 94,
+   "text": "像幅泼墨的山水画",
+   "t0": 216.09,
+   "t1": 219.09,
+   "t0_used": 216.178,
+   "t1_used": 219.09,
+   "snapped": true,
+   "snap_deltas": [
+    -0.088,
+    0.103
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 95,
+  "lines_untimed": 0,
+  "lines_snapped": 86,
+  "lines_unsnapped": 9,
+  "lines_need_split": 14,
+  "total_splits": 24
+ },
+ "advisory": true
+}

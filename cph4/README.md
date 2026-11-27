@@ -1,0 +1,104 @@
+# CPH4 Labs — 集团实验室
+
+> CPH4 = 原点物质：一滴滴入，引爆出整个宇宙的流。
+> 本目录 = CPH4 Labs 在集团层的**地址**（横切研发层，非业务线，零产品代码）。
+> 形态：一人 + AI 劳动力 + 机队 = 集团的生产力形态（超体能量）。
+> 升格（2026-09-23 CEO 令「cph4升级为实验室，名称是cph4 labs，负责元宇宙城市的未来规划和发展」）：名称正典不变（BRAND §2 已注册「CPH4 实验室」），升的是职能——新增第一职责「元宙（FluxVerse）未来规划与发展」。
+
+## 定位（`docs/architecture.md` 权威行的展开）
+
+- 直属 Jason（CEO 兼首席研究员），向全集团供能。
+- 任务：让每条业务线跑在同一个 AI 引擎上——机制一处淬炼，两公司同源共享。
+- **第一职责（2026-09-23 起）：元宙（FluxVerse）未来规划与发展研究**——城市的下一版本、新能力研究与提案（现实链接 / AI 认知可视化 / 参观模式 / 编年史回放…）。
+
+## 技术底层全面负责与巡检授权（2026-09-24 CEO 令×2）
+
+- **职责升格**（「实验室全面负责技术底层和架构底层等」）：集团技术底层（协议/事件总线/LLM 基建/推流链/工具链/编译门禁/机制件）+架构底层=实验室**唯一问责面**（规格制定+选型仲裁+验收）；分级执法=T2 直拍+否决窗 / P1 拟案呈 CEO 署名 / T0 红线 CEO 保留。
+- **巡检+随时直优化授权**（「授权实验室巡检各个公司技术底层，随时优化」——governance §1 铁律 6 例外②·跨仓写禁令的 CEO 常设例外）：范围=各司**技术底层面**（协议/自动化件/工具链/门禁/基建脚本/记忆与台账机制件），**产品代码与内容永禁**（零产品代码铁律不变）；护栏=①目标文件在飞（目标仓 git status 脏）即退避转办（单执行体纪律）②定向小步提交+push ③ledger 落行回执（其循环可见）④重大件（架构级/判据级/红线邻接）仍转办或呈 CEO ⑤发现分级沿 errors.md E 定级；巡检产出入 evolution-ledger（来源=巡检）。
+- 首个履职批次=五技术底层问题调研波（`cph4/research/R-20260924-infra-{1..5}`+infra-0 综合决策备忘录）；首个巡检应用=producer skill 四修正（定位@Biggame 分机）+world-events P0 编年史备份。
+
+## 元宙规划职能（2026-09-23 CEO 令 · 升格正体）
+
+**实验室=规划大脑，不是施工队**（零产品代码铁律不变；承建仍归 Biggame/FluxVerse 侧）。运转环：
+
+1. **研究**：并行调研员产 R- 系列简报（落 `gaming/FluxVerse/docs/research/`，必带验证声明）——首批实证=2026-09-23 五路调研波（学术/行业/科幻美学/现实链接/《超体》专项）。
+2. **规划入册**：研究结论升维进设定书与技术白皮书（DESIGN/TECH 接线）。
+3. **提案**：城市结构性变更（协议升版/架构调整）走进化轮 T2（7 天否决窗）；重大件 P1（总经理署名，CEO 保留四类=O-20260923-1620）。
+4. **承建**：执行走 FluxVerse 任务板与 tick 自领池（TECH §九 backlog）。
+5. **验证**：每项规划=可回访假设（进化轮闭环回访条款），禁感觉良好式规划。
+
+分工红线：实验室不写产品代码、不占承建任务板号——「禁双开工」条款（governance §6）适用。
+
+### 真实作用闭环（2026-09-23 CEO 令：「实验室要真实的替集团和城市产生作用和链接 做好机制」——防摆设条款）
+
+1. **落点强制律**：每份研究/规划产出必须带「落点」字段，三选一——转任务单（@FluxVerse/某司，**被认领才算数**）、转集团法（evolution 台账提案）、判负归档（负面结论也是产出）。**无落点=未交付**；悬空超两周=进化轮强制转判负或转办。
+2. **双作用面**：为城市=规划→FluxVerse 任务板 M 里程碑（机器可验判据）→tick 自领（上文运转环）；为集团=研究结论可反哺三司的部分（引擎实践/内容方法论/风控/工具链）→转目标司任务单或其 HQ-FEEDBACK 附建议——引用不复制，落地归各司。
+3. **城即仪器**：实验室的验证面=城市实况数据（world-state/world-events）+ 集团台账回访，**禁自评自证**——假设是否成立，让实况说话。
+4. **闭环率=唯一 KPI**：进化轮周报统计——本周产出 N、闭环 M（已认领/已立法/已判负）、悬空 K（点名）——**产出量是虚荣指标，闭环率是真指标**。
+5. **链接双管道实体化**：规划出城（lab→任务板）+ 实况回城（city telemetry→lab 验证）；机制入法（evolution 台账）+ 缺口上呈（P0-Resource→CEO）——实验室与集团/城市之间**只有 git 与台账，没有摆谈**。
+
+## 集团 AI 能力注册表（实况导航 · 活细节以各产品仓为准）
+
+| 能力 | Biggame（游戏公司） | BigMoney（量化公司） | 集团共享律 |
+|---|---|---|---|
+| 10 分钟自迭代循环 | MiniGameEngineTick（tick 引擎 + skills 协议） | Bigmoney-IterationLoop（mandate 外置） | OS 直调脚本 ASCII-only/带 BOM 编码律 |
+| 多机机队 | 08 号分治协议（认领制 · X128 机器分支） | fleet 协议 v1.0（commit 锁认领 · inbox · 心跳） | 共享机纪律（fleet §10，引用不重立） |
+| **机队协议共享层（2026-09-24）** | 08 号三条款（心跳/认领/传输）同构源 | fleet v1.0 三条款同构源（FLEET-OPS/TRANSFER/扩容验收包） | **cph4/fleet-protocol.md**：心跳各自写全队读+认领 commit 即锁+传输 git 唯一通道（governance §6 第 11 条三条款归一·两司改指针引用）+推送策略司自决保留（X128-lite vs X128 禁互换）+借算三缺口补法（fleet-audit 源行开闭/跨司借算工单五字段/机×司占用矩阵随周轮）+新司接入七步 |
+| **技能面（2026-09-26 集团动员令）** | tick-loop/audit-loop 先例（MiniGame tools/skills/ 源分发范式） | 各司自建随回执登记（P-2026-09-26-01） | **技能三问**（周频复现/步骤稳定/知识难自持·三过=建）+**技能律四条**（源入司仓 `tools/skills/<name>/SKILL.md` 随 git 分发·安装副本 gitignored；SKILL.md=官方范式 frontmatter 触发律+渐进披露；禁杂物件；小写连字符动宾命名）+寻源三路（内置盘点/司内既有/skill-creator 建）；**实验室首例=`cph4/skills/cph4-research-dispatch`**（调研派工纪律=P-65 执行件·已装本工作区）；集团登记=各司 README 技能行 |
+| **最高决策委员会（2026-09-27 立·09-29 常设化）** | 决策轮=秘书处兼常务轮（日常代管+每日复盘+自迭代·C-20260929-03） | 八执行体席位 mandate 接线中·复盘步已入常务轮 mandate | **cph4/council.md** **v2.0**：七席功能制（总理主席/科学理性/财务资源/商业市场/工程现实/生命内容/风控合规·法务常任魔鬼代言人）——九实体全覆盖零新增常驻；触发八判据强制过会+科学五律（证据包/独立先行/反方必设/记名投票 ≥4/7 与重大件 ≥5/7/判据回访）；T0 保留面终裁在 CEO；升级链=冲突→委员会→CEO；**§一.5 常设运转（CEO 令 2026-09-29 常设化）**=决策轮双班升格委员会常务轮+权限三分（CEO 凌驾/保留域禁自修+补列四项/代管=集团 L3 面）+每日复盘四问（复盘行落 reflection-journal 委员会班次行）+自迭代闭环（迭代自修闸+核销只认独立证据） |
+| 本地 LLM / GPU 栈 | Ollama 保温（GpuStackBoot） | Ollama 各机自装自用（借算协议预留） | keepwarm.pause 释放阀礼仪 |
+| 知识与记忆 | CODELY.md + 登记簿 + 编号文档 | CODELY.md + 预注册 + 试验账本 N | 三级记忆各归各仓（governance §5） |
+| 质量门禁 | X026Gate + EncodingGate + NameCheck | 门禁链 G1'/G2 + smoke 20 项 | 修红 ＞ 开发 ＞ 优化既有 |
+| 总控面板（**可视化统一线 2026-09-23**） | 像素小镇看板 | bigmoney.html | **统一接入 FluxVerse L1 城区内景**（CEO 令「统一开发和管理，总控」）：新可视化项目禁各司另建·现有面板=内景数据源（引用不复制禁重绘）·城市壳层归总控·数据面各司自治 |
+| 大文件/新机接入 | 08 号传输铁律（git clone） | TRANSFER.md + FLEET-OPS.md | 控制面走 git，数据面择通道 |
+| **新机器一键部署** | MachineBoot.ps1 自举（08 号·2026-09-18 先立） | bootstrap.py+register_loop_task.ps1 | **cph4/onboarding.md**：三层模型（CEO 物理件/一键编排/各司自件引用）·`Tools/bootstrap-machine.ps1` 六相幂等·静默律·重跑=体检 |
+| **治理自进化引擎** | MiniGameEvolutionTick（其自治进化轮） | BigStream-OSLoop（src/os/ 范式·R19+） | **cph4/evolution.md**：感知→提案→裁决→立法+瘦法；台账=evolution-ledger.md；周轮=FluxGroup-EvolutionTick+**夜轮=FluxGroup-NightRound 每日 03:07 自我反应**（感知/催办/小自愈/夜报） |
+| **调度机制（算力×时间）** | 08 号机队轮转（B/C 满负荷） | fleet §5 借算 + verdict 心跳 | **cph4/resource-chain.md §一**：云端无限并行优先·verdict 驱动放置·双通道并行·缺资源 P0-Resource→CEO；机队台账=`cph4/resource-chain.md` §二 §五§六（2026-09-24：`Tools/fleet-audit.ps1` 夜轮审计+物尽其用律·闲置点名/过载保护/失联律） |
+| **本地化算力战略** | token 经济本地优先（U168） | J13 llm_assist 双机整合+token 计量 | **cph4/local-first.md**：L1 确定性→L2 本地 LLM→L3 API 收缩层·路由三问 |
+| **Token 经济机制（统摄层 2026-09-24）** | U173 三径+OllamaServe 栈（生成面典范） | token 计量已开·routing 三问待接线（P-31） | **cph4/token-economy.md**：三面模型（上下文/推理/生成·各面有正典归属）+机制五律（计量先行/路由三问/L3 留痕/结构性替换/速度优先）+本地推理栈 v1（qwen2.5:7b 现役·14b/bge-m3/whisper 随消费线）——战略层=`local-first.md`·六司适配=P-31（分板块·两周回执）·**v2.0 §八 云端节省机制（2026-09-29·C-20260929-01 委员会过会 7/7）**=云端记账面（cloudF attribution 单字段=三径理由+O-1820 意义注记·周报云端行分实体·代理口径）+生成面三径闸升格集团执法（U020 正式件/CEO 直令件免试直进云端·草稿占位比对件默认本地+留痕例外）+效率与后果条款+预注册判据 5 条（回访 10-07 治理日） |
+| **资源保留与清理** | 根级冻结清单法+Housekeeping | fleet 传输批末清临时件（§5 借算范式） | **cph4/resource-chain.md` §三**：四级保留制（R1 永不清/R2 归档优先/R3 定期清/R4 随轮清）×防误伤五闸（隔离区 7 天可恢复）×防膨大三律·`Tools/retention-scan.ps1` 只读周测入进化轮；**§7-§10（2026-09-24 分层清理令）**：分层执行面 L0-L3+CEO/工程规模治理（WIP 上限[17 款在途 0 上线 U177 实证]/入口窄化三问/范围蔓延闸/流程瘦身日）/备份三级预案（活库持续 push+库外云桶+身份刻意不备份·堵点=GH 私库物理件）/周期清理日历（轮/日/周/月/季） |
+| **数字人口/人设生产** | 城市叙事居民与游戏人设需求走 BigLife 任务单（M2 NPC 姓名池按 P-22 消费契约） | —（人设面暂无直接需求） | **BigLife（`life/BigLife`·2026-09-24 定名）=集团唯一人口工厂**（2026-09-23 开线）：万人户籍库 census/+基因库 genes/+进化引擎 evolve_citizen.py（真实事件喂养·[锚]定律）+BigLife-OSLoop 10min——他司禁重建（governance §6 禁双建） |
+| **git 版本与分支治理** | G 系 tag 门禁（51 枚范式）+X128 机器分支自治+master 存续豁免 | fleet 禁 force-push+10min 控制面 git 轮 | **cph4/versioning.md**（CEO 令 2026-09-23「建立git顶层版本和分支设计」）：trunk-based 主干开发·main 正典·`<scope>/vX.Y.Z` tag 档案律（HQ=`gov/vX.Y`·FluxVerse=`M<x>/v1.0`）·revert 追加式回滚·新仓接线 checklist |
+| **分层级决策体系（2026-09-24）** | 专家池+门禁链=L1 部门面典范·U 号批件=L2 司面 | fleet O 号+门禁链 G1'/G2=L1/L2 典范 | **cph4/decision-chain.md §一**：决策路由总表+决策轮日频环（23:00 上报→00:00 科学拍板→司审核→三冲突升 CEO）+**§8 四层结构**（L0 团队/L1 部门/L2 子公司/L3 集团·同律五律：依据/调研/判据/留痕/升级·底层优先原则）·台账=`docs/decisions.md` |
+| **分层级审查体系（2026-09-24）** | X026 门禁链+专家池 rubric+CEO 过目门=L1/终审典范 | 门禁链 G1'G2+smoke 20+预注册=L1/L2 典范 | **cph4/decision-chain.md §二**：审查链唯一正典（同合典 §一 姊妹章·审查=决策的眼睛）——四层 L0 团队自审/L1 部门门核/L2 司级独立验收/L3 集团审计（夜轮四器+周轮抽审+决策回访）+CEO 终审位；三律=执行审查分离（自审永不充分）/比例律（B1-B6 集团适用）/升级闭环（只审不处=未审查）+触发表；**集团审计部（2026-09-24 CEO 令·cph4/audit-office.md）=L3 组织实体化+价值审计扩容**（自我感动[消费缺失/虚荣比·Tools/audit-sentinel.ps1 哨兵每日双班]+同向无效功[CEO 令对齐度深审 3 日轮换]·KPI=发现→修复闭环数·报告量=虚荣指标·直属 CEO） |
+| **分层级考核体系（2026-09-24）** | 演化日+U177 三维体检+门禁绿率=L2 典范锚点源 | 门禁通过率+回测产能+晋升检查（10-31 集团首例）=L2 典范 | **cph4/decision-chain.md §三**：考核链唯一正典（三链闭环最后一环：审查发现缺陷→考核度量表现→决策处置结果）——四层考核表+考核三律（实锚：未测量=判负如实/闭环：只考不改=未考核/平衡：指标≤5 硬禁 KPI 树）+六司锚点 v1；考核=既有数据流读取视角**零新增采集**；产物=周报考核面段（evolution-tick 已接线） |
+| **分层级错误解决体系（2026-09-24）** | 哨兵+修复池+U166 预期噪音豁免=E3/L2 典范 | watchdog 车道归属律（F-08）+quarantine 两阶段晋升=L1/L2 典范 | **cph4/errors.md**：错误链唯一正典（四链纠偏环：审查发现→定级→分层修复→考核记账→教训入法）——四级定级（E0 红线直呈/E1 当日/E2 轮内~当周/E3 噪音豁免禁反复修·城市 S0-S2 投影）+分层路径（L0 轮内自愈/L1 门禁机核/L2 司级自愈池/F-08 车道绑定/L3 集团轮）+科学五律（根因禁症状修/复现先行/修复独立验证/教训入法/熔断——同一错误两轮未愈禁硬修升级 E1·夜轮已接线） |
+| **自动化周期总账（2026-09-24）** | 20 任务实测入账（10min 车道分钟位+日周轮族+停用族） | Bigmoney-LoopWatchdog+IterationLoop 入账 | **cph4/cadence.md**：全集团周期唯一总账（scheduling 管在哪跑·本件管何时跑）——防重复律（同用途唯一制+周期任务认领面 F-09+停用族禁自愈复活）+防冲突律（**错峰律·实测修正 FluxVerseTick :x7→:x6 竞写读**+单实例锁+并发退避+熔断+结果码抽验）+提交周期表（交互小步快/轮末定向/发布锚 tag）；实测底账=35 项 |
+| **新公司开线 SOP（2026-09-24）** | 十一部门+专家池+门禁链=九件清单实证源 | fleet 台账+门禁链=清单实证源 | **cph4/venture.md**：开线科学流程全典（governance §3 五步骨架+三阶段判据制：P1 立项命名律[BigLife 定名案范式]→P2 集团五步+触点审计[目标≤2 核心文档]→P3 司内九件[定位/OS 循环含 cadence 占位/台账三件/记忆/身份/判据/诚实律/四链层位声明/心跳]+首火实弹）——新司出生即四链层位声明；WIP 预算+判负即停 |
+| **记忆梳理机制（第七链 2026-09-24）** | 线级 gaming/CODELY.md 17.0KB 超线→随首窗梳理；MiniGame 根件自治理 | **司级 415.6KB 仍涨=全集团最大 token 烧点（D-01 即行·每轮全量注入×3 机）** | **cph4/memory.md**：记忆链正典——入口四问（长期价值/**复述禁令=膨胀主根因**/教训优先/一条一事≤1.5KB）+热冷分层（热层常驻/冷层按月归档 research/memory-archive/ 全量留 git=归档非清除）+水位表（根≤20KB/线≤10KB/司≤50KB·**计量一律字节制**）+周日 03:07 梳理窗（update_memory 唯一通道·每窗≤10 条熔断·字节对账·双通道回滚）·BigMoney 本周即行+HQ 10-04 首窗 |
+| **算力商业化引擎（2026-09-24）** | 游戏首发冷启动/产线直播素材走其渠道（引用） | 回测研究展示=非投顾生死线（BigDomain §五.1 引用） | **BigCompute（`compute/BigCompute`·2026-09-24 开线·CEO 点名「硅基算力」）=集团营收与算力经济司**：承载集团算力成本→现实链接商业化（抖音小店/直播 Phase 1：虚拟场景使用权+算力包+会员+直播变现·价目目录正典=BigDomain §四）→消化成本并盈利；确保全司互相赋能产生经济价值；九部门全编制（CEO 令「权利第一」+「加入粉丝经营等全模块和部门」·风险台账=docs/risk-register.md）；外部成交通道他司禁另建（禁双建）；**位阶=商业化中枢司**（CEO 令 09-24「商业化子公司的定位高于其他子公司」——商业面高于其他司·营收出口统辖·非审批层）；蓝图=compute/BigCompute/BLUEPRINT.md |
+| **自建服务器安全治理（2026-09-24·服务器律 v2）** | —（无公网面） | —（回测域无公网资产） | **cph4/server-governance.md** v1.1：集团一切常驻服务器律正典——**服务器律 v2 四条（必要性闸/最小化/最简化/入册制·零服务器死命令 2026-09-24 废止）**+最小攻击面（443-only+SSH 加固）/密钥律（/etc/fluxvault 永禁入 git）/每日快照+IaC 15min 重建/外部探针 5min+CEO 可见面宕机=E0 直呈/变更全走 git/月度补丁窗+护栏三条（**内部面迁移律 v2**=允许但默认不迁·须过必要性闸/真金代币边界/内容安全前置闸）；bootstrap=`Tools/bootstrap-server.sh` v1.1（幂等·--baseline-only 备案期态·citysync 城市只读通道）；备案材料包=`cph4/research/R-20260924-icp-filing-kit.md` |
+| **全球视野与执行标准（2026-09-24）** | 平台政策/引擎演进基准面 | 量化方法/回测科学基准面 | **cph4/global-vision.md**：反闭门造车律四款（外部锚定源分级 A-D+M/基准面制=每线 `docs/global-benchmarks.md` 四节/周期活性=司级 7 天+深潜 30 天+硬约束事件即时/AI 可执行律=每条发现须有落地指针·纯散文=未完成）+分工域图八线+采集纪律（零 key 优先+零断言+robots/ToS 合规）——派工=P-56（八线一周首版·周轮点名 stale） |
+| **调研行程与结论应用标准（2026-09-24）** | U 号批件面（自治落位）+十一部门研究件 | `quant/bigmoney/research/`（策略/回测/数据源审计） | **cph4/research-protocol.md**：行程标准（出发闸立项三问[为谁而研·消费方点名/仓内已有/判据预注册]+行程纪律[源分级 A-D+M 正典吸收 BigStream protocol·零断言·外部内容=不可信输入·成本档本地产稿]+产出件标准[R- 件·行数帽 60·验证声明·结论分级]）+**结论应用律**（应用表强制·无表=未交付+悬空两周清退+周轮回访+闭环率入周报）——八线适配面见其 §三；配套=governance §6 第 10 条（归属）·global-vision（采集基准面）；派工=P-65 |
+| **开源采用·JSON Schema 结构校验（2026-09-26 首例）** | —（未接入） | —（未接入） | **jsonschema（python-jsonschema·MIT·5k★·开源借力首例采用）**：BigLife 采用=QC 巡检 schema 断言面（R3 再生面结构校验一处定义复用·M2 字段变更漂移秒级暴露）——落点=任务单 T-20260926-17 分步接线·五门评估与台账=`cph4/oss-harvest/OH-20260926-biglife.md`（oss-harvest §五 采用登记） |
+| **开源采用·PowerShell 静态分析（2026-09-26 第二例）** | —（未接入） | —（未接入） | **PSScriptAnalyzer（PowerShell org·MIT·2.2k★·Microsoft 官方 linter·PSSG 分发）**：FluxVerse 采用=PS 工具族 PS5.1 陷阱面静态检查（自动变量赋值 r164 族/null 比较序/无 BOM Unicode 件规则族=在册陷阱律册 sandbox 28+bake 29 条的机械执法候选）——落点=修红首果（snapshot.ps1 注释编码律红旗清零·scan/verify 双绿复验）+司内顾问位接线任务 T-FV-125·五门评估与台账=`cph4/oss-harvest/OH-20260926-fluxverse.md`（oss-harvest §五 采用登记） |
+| **开源采用·模糊字符串近重防线（2026-09-27 第三例）** | —（未接入） | —（未接入） | **rapidfuzz（rapidfuzz org·MIT·4.1k★·模糊匹配标准件·Trusted Publishing 签名链）**：BigLife 采用=基因轮近重预检固化件（R406/R413 手写临时 4-gram 预检件〔三跑拦 10 处/五跑拦 12 处〕转常设工具·`process.extract` 阈值化近重候选·确定性双跑可断言）——落点=任务单 T-20260927-01 分步接线·五门评估与台账=`cph4/oss-harvest/OH-20260926-biglife.md` 切片 2（oss-harvest §五 采用登记） |
+| **开源采用·GitHub 工具链全面安装波（2026-09-28 第四例·CEO 直令 P-2026-09-28-15）** | —（全机队用户级受益） | —（同左） | **CLI 十一件（八件+rclone/Blender/Store 版 pwsh·并行窗补装）+Node LTS+MCP 五服务器+技能 42 件（许可 MIT/Apache 逐件 api.github.com 直验·doc 四件 source-available 内用合规）**：gh/gitleaks/lychee/fd/fzf/jq/yq/Pester+Node v24.21（npm/npx 修复=Tuanjie Cowork 裸 node 补位）；MCP=context7（远程库文档）/playwright（浏览器自动化·QA 冒烟面）/unity-mcp（编辑器桥·spike 承接）/github（并行窗装·PAT 物理件待 CEO）/search（duckduckgo 免 key 搜索面）；技能=33 件精选（anthropics Apache 5+superpowers MIT 4+gamedev Apache 14+trading MIT 6+avoid-ai-writing MIT 3+pixel-art-studio MIT 1·用户级 ~\.codely-cli\skills+PROVENANCE 溯源）；安装件=**Tools/install-gh-toolchain.ps1+install-gh-skills.ps1+merge-mcp-config.py+mcp-servers-fragment.json**（幂等·静默·免管理员·机队令牌派 bm-b/bm-c）；台账=oss-harvest/OH-20260928-cph4 切片 3/4（双窗合流+MCP 真握手冒烟 3 PASS）|
+| **开源采用·贝叶斯调参骨架执行库（2026-09-29 第五例）** | —（未接入） | **Optuna 5.0.0 已实装 bm-c（venv 隔离）** | **Optuna（optuna org·MIT·14.9k★·超参优化框架·2018 Preferred Networks 起家·T2 法面正身）**：BigMoney 采用=PLAN.md 排队件「Optuna 贝叶斯调参骨架」执行库定谳+bm-c 隔离 venv 实装（双烟测 PASS·O-1716 隔离律零触碰系统 python）——落点=淬炼轴/REFINE_BENCH 网格扫描的贝叶斯替代面（L1 本地零 token·同 CPU 预算更高搜索效率）·五门评估与台账=\cph4/oss-harvest/OH-20260929-bigmoney.md\（oss-harvest §五 采用登记） |
+| **开源采用·万人户籍推演 ABM 引擎（2026-09-29 第六例）** | —（未接入） | —（未接入） | **Mesa（mesa/mesa·Apache-2.0·raw LICENSE 原文防线二直验）**：BigLife/city-lab 采用=万人 census 户籍库生/死/迁移推演引擎（纯本地零 LLM=P-71 零算力 0 档）——沙盒只读零回写（04:37 停批量注册令不触碰·荣誉席/手写锚 23 席豁免不模拟）；**demo 已实跑**=`Tools/mesa_census_demo.py`（PEP 723 自含·uv run 即用·真户籍库 10,007 人×10 年：出生 761/死亡 1025/迁移 1517·代际/城区/物种全维度出数·占位参数待 city-lab 校准）·五门评估与台账=`cph4/research/R-20260929-gov-2-resident-simulation.md`（防线二抽验过·CEO 直令「通过的直接落实」O-2026-0929-002 接线） |
+| **开源采用·GitHub 风向雷达（2026-09-29 第五例·CEO 直令 P-2026-09-29-06·研究室常设职能）** | —（全司受益面） | —（同左） | **cph4/github-radar.md v1.0**：研究室=城市+七司业务理解底座（每轮研究必带司域映射）+持续赋能（闭环率 KPI）+**风向雷达**（trending 每窗切片+高星好评必研究落实+即 hot 即报+周轮简报入进化轮）——与 P-2026-09-26-18 调研部（司内自扫）/O-2026-0929-001 治理专项（专项执行）分工咬合；五门/落点/采用登记全复用 oss-harvest 律；台账=OH-<date>-cph4 风向切片+R-20260929-radar-* |
+| **开源采用·Python 交付前静检门（2026-09-29 第七例·BigLife 第二窗首采）** | —（未接入） | —（未接入） | **ruff（astral-sh·MIT 双源原文直验·0.16.9=2026-09-24 发布·Rust linter 标准件·Trusted Publishing）**：BigLife 采用=**advisory 增量静检门**（curated 规则集 F401/F811/F841/SIM115/RUF059·新/改 .py 交付前 `uvx ruff@0.16.9` 临时扫·零永久依赖）——实测定谳=默认扫 700 命中噪声地板不采 vs curated 真信号基线 44（死代码 19+开文件卫生 25）·B023 高严重类 6 处复核良性（同迭代定义即用惯用法）·存量 44 豁免记档零回改·「替谁省什么」=替交付前手工复审省死代码/句柄卫生类逐眼扫描——落点=任务单 T-20260929-07·五门评估与台账=`cph4/oss-harvest/OH-20260929-biglife.md`（oss-harvest §五 采用登记） |
+| **开源采用·年轮线瞬态自愈重试门（2026-10-14 第八例·BigLife 第三窗首采）** | —（未接入） | —（未接入） | **tenacity（jd/tenacity·Apache-2.0 双源原文直验·9.2.1=2026-10-07 发布·8.8k★·纯 Python 零依赖 wheel 32.3 kB·Trusted Publishing）**：BigLife 采用=**年轮线 LLM 调用瞬态自愈门**（evolve_citizen urlopen 单次调用面 @retry 退避接线·wait_exponential min4 max30+stop_after_attempt(3)·瞬态失败轮内自愈/真 down 三试退避后留冷）——实测痛点链=6 轮实录（R1067 中途断连 4 due 留冷/R1183 饱和窗/R1184·85·87·91 假阴性探针舞/R1189·90 CEO 用机期超时定谳）·「替谁省什么」=替年轮批值守省瞬态失败人工重试与假阴性探针舞——落点=任务单 T-20261014-01·五门评估与台账=`cph4/oss-harvest/OH-20261013-biglife.md`（oss-harvest §五 采用登记） |
+| **开源采用·AI漫剧/短剧开源工具栈 15 仓（2026-10-15 第九例·CEO 直令 10-15 20:4x「拉去github等开源网站的工具」）** | —（未接入） | —（未接入） | **九件主力+六件备选**（IndexTTS-2 24.5k★·bilibili 许可/GPT-SoVITS 62.9k★·MIT/LivePortrait 19.2k★·MIT·商用换 InsightFace/LatentSync 6.1k★·Apache·1.5 档 8G/Wan2.1 17.2k★·Apache·1.3B 官方 8.19G/LTX-Video 11.1k★·Apache+OpenRail-M/MoneyPrinterTurbo 131.4k★·MIT/MoviePy 15k★·MIT/DA-V2 9k★·Apache+CogVideo/StoryDiffusion/ai-comic-factory/SadTalker/CosyVoice 备选——star/license=2026-10-15 实抓 33 轮逐件直验）：BigStream drama-dept-v1 采用=漫剧/短剧产线 10 站全站弹药（三红线=LivePortrait 商用前换检测模型/IndexTTS 禁改进其他商业模型/GPL 只学不搬）——克隆=media/drama-tools/（gitignored·manifest 在档）·落点=cph4/fleet/drama-dept-v1/DRAMA-PRODUCTION-SYSTEM-v1.md §三接线表·五门评估与台账=`cph4/oss-harvest/OH-20261015-bigstream.md`（oss-harvest §五 采用登记） |
+| **硅基城市联合实验室（2026-09-25 CEO 令）** | 城市承建面=DevLoop/引擎（消费三底座规格·分工正典主建位） | QUANT 城数据供给（引用·分工正典） | **cph4/city-lab.md**：BigLife×CPH4 联合主理——城市规划+技术底座+智能底座三底座总装·目标=真正具备生命体·自我创造力·自我发展的城市；**城市生命体征表 v1**（12 条机器可验·11 现役+1 半成[自我创造制度化=V3 城市议员 T-20260926-19 已派工落位]）；**非新实验室**三不条款（零新循环·零新台账·不另立立法权·名称代决否决窗至 10-02）；与 P-13 升维批/P-14 赋能包/P-15 五层梯/P-04 总体规划/P-05 时间层/P-09 次元令/升华律系列 P-2026-09-26-12~16 全咬合引用不复制 |
+| **自驱力生态机制（2026-09-28 CEO 令×2）** | 三机产线自领+三队列自驱（v2.0 并行窗立档·MiniGame 分机队列随其批落位） | fleet 任务单认领+借池自领 | **docs/self-drive.md v2.0+v2.1**：v2.0=三线并行（P1 主业务/P2 技术深耕/P3 新方向）+零空闲队列（main/tech/explore 常备 25 条·空=事故）+算力跑满（GPU 常态>70%·BigCompute 监控自动派活）+三公共面（信息墙/协作市场/技术交易所）+心跳 3h 唤醒+红线三条（禁重复建/禁空转/禁藏私）；**v2.1 生态闭环四律（ledger P-2026-09-28-02·法源行先行生效·§7 承载面随并行窗提交后收口）**=创新提案轨（每窗 ≥1 提案·判据先立·判负合法·两周零提案点名催供）+空转四形态统一定义禁令（idle-fast 全司废止·审计部哨兵+深审执法·周报计数归零）+**拉满诚实边界**（真活拉满/保护态豁免面[保主·过载·门控·声明待机·笔记本]/禁造活凑数）+周报自驱面计量（首回访 10-05）——与 fleet-allocations §八 自领律/P-2026-09-26-03 禁待命令/audit-office 反空转审计引用不复制 |
+
+## 共享方法论（两公司实证同源，集团法）
+
+1. **修红 ＞ 开发 ＞ 优化既有**——工作模式永远这样轮换。
+2. **预注册/先写死后跑数**——实验前锁门禁，禁止跑到达标为止。
+3. **引用普查前置**——改名/迁移前必查引用面（RefCheck 律）。
+4. **实况优先**——法描述实测定态；文档漂移=文档去修，不是实况让路。
+5. **诚实判负**——失败留档不粉饰（零假设基线、诚实报告文化）。
+6. **反重复**——先读后写、复用禁重建；规则本身也不重复立法。
+7. **分层同构律**——新机制一律 L0-L3+CEO 分层同构：同律按层适配（依据/留痕/判据不换实质）、零新派工（只读既有数据流）、寄宿既有轮次（夜轮/周轮/决策轮）、首试实弹（2026-09-24 治理七链立法批定型）。
+
+## 新 AI 能力入列规则
+
+- 集团级新机制 → 在本注册表加一行 + `docs/governance.md` changelog。
+- 公司内落地细节 → 各产品仓自治（各自 README/协议为权威）。
+- CPH4 Labs 不建独立产品仓——它的产出 = 机制与方法论，随各公司仓落地。
+
+## 读序
+
+7. `/README.md` 2. `/BRAND.md` 3. `/docs/philosophy.md` 4. `/RULES.md` 5. `/docs/governance.md` 6. 本文件 7. `evolution.md`（进化章程） 8. `resource-chain.md` §三（资源保留与清理）

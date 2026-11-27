@@ -1,0 +1,955 @@
+{
+ "song": "她的睫毛",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 575,
+  "n_beats": 575,
+  "n_downbeats": 144,
+  "duration_sec": 232.89
+ },
+ "bpm_median": 151.9,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "亲爱的总有些事没办法教",
+   "t0": 19.95,
+   "t1": 23.42,
+   "t0_used": 19.95,
+   "t1_used": 23.42,
+   "snapped": false,
+   "snap_deltas": [
+    -0.182,
+    0.154
+   ],
+   "approx": false,
+   "splits": [
+    21.734
+   ]
+  },
+  {
+   "i": 1,
+   "text": "表错情的感觉有一点糟",
+   "t0": 23.42,
+   "t1": 26.63,
+   "t0_used": 23.42,
+   "t1_used": 26.63,
+   "snapped": false,
+   "snap_deltas": [
+    0.154,
+    -0.166
+   ],
+   "approx": false,
+   "splits": [
+    24.845
+   ]
+  },
+  {
+   "i": 2,
+   "text": "赖着不走会让人很感冒",
+   "t0": 26.63,
+   "t1": 29.93,
+   "t0_used": 26.63,
+   "t1_used": 29.977,
+   "snapped": true,
+   "snap_deltas": [
+    -0.166,
+    -0.047
+   ],
+   "approx": false,
+   "splits": [
+    28.398
+   ]
+  },
+  {
+   "i": 3,
+   "text": "以上这道理我全都了",
+   "t0": 29.93,
+   "t1": 32.97,
+   "t0_used": 29.977,
+   "t1_used": 32.97,
+   "snapped": true,
+   "snap_deltas": [
+    -0.047,
+    -0.165
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "我将不该犯的错都默背好",
+   "t0": 32.97,
+   "t1": 36.06,
+   "t0_used": 32.97,
+   "t1_used": 36.06,
+   "snapped": false,
+   "snap_deltas": [
+    -0.165,
+    0.162
+   ],
+   "approx": false,
+   "splits": [
+    34.342
+   ]
+  },
+  {
+   "i": 5,
+   "text": "仔细观察她的喜好",
+   "t0": 36.06,
+   "t1": 39.59,
+   "t0_used": 36.06,
+   "t1_used": 39.59,
+   "snapped": false,
+   "snap_deltas": [
+    0.162,
+    0.139
+   ],
+   "approx": false,
+   "splits": [
+    37.872
+   ]
+  },
+  {
+   "i": 6,
+   "text": "而我紧绷的外表",
+   "t0": 39.59,
+   "t1": 41.18,
+   "t0_used": 39.59,
+   "t1_used": 41.18,
+   "snapped": false,
+   "snap_deltas": [
+    0.139,
+    0.15
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "像上紧后的发条",
+   "t0": 41.18,
+   "t1": 42.72,
+   "t0_used": 41.18,
+   "t1_used": 42.72,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    0.111
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "等她的答案揭晓",
+   "t0": 42.72,
+   "t1": 45.65,
+   "t0_used": 42.72,
+   "t1_used": 45.743,
+   "snapped": true,
+   "snap_deltas": [
+    0.111,
+    -0.093
+   ],
+   "approx": false,
+   "splits": [
+    44.164
+   ]
+  },
+  {
+   "i": 9,
+   "text": "她的睫毛 弯的嘴角",
+   "t0": 45.65,
+   "t1": 48.79,
+   "t0_used": 45.743,
+   "t1_used": 48.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.093,
+    -0.111
+   ],
+   "approx": false,
+   "splits": [
+    47.322
+   ]
+  },
+  {
+   "i": 10,
+   "text": "无预警地对我笑",
+   "t0": 48.79,
+   "t1": 52.0,
+   "t0_used": 48.79,
+   "t1_used": 52.059,
+   "snapped": true,
+   "snap_deltas": [
+    -0.111,
+    -0.059
+   ],
+   "approx": false,
+   "splits": [
+    50.503
+   ]
+  },
+  {
+   "i": 11,
+   "text": "没有预兆出乎意料",
+   "t0": 52.0,
+   "t1": 55.09,
+   "t0_used": 52.059,
+   "t1_used": 55.09,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    -0.104
+   ],
+   "approx": false,
+   "splits": [
+    53.615
+   ]
+  },
+  {
+   "i": 12,
+   "text": "竟然先对我示好",
+   "t0": 55.09,
+   "t1": 58.27,
+   "t0_used": 55.09,
+   "t1_used": 58.352,
+   "snapped": true,
+   "snap_deltas": [
+    -0.104,
+    -0.082
+   ],
+   "approx": false,
+   "splits": [
+    56.796
+   ]
+  },
+  {
+   "i": 13,
+   "text": "她的睫毛弯的嘴角",
+   "t0": 58.27,
+   "t1": 61.38,
+   "t0_used": 58.352,
+   "t1_used": 61.38,
+   "snapped": true,
+   "snap_deltas": [
+    -0.082,
+    -0.13
+   ],
+   "approx": false,
+   "splits": [
+    59.954
+   ]
+  },
+  {
+   "i": 14,
+   "text": "用眼神对我拍照",
+   "t0": 61.38,
+   "t1": 64.59,
+   "t0_used": 61.38,
+   "t1_used": 64.59,
+   "snapped": false,
+   "snap_deltas": [
+    -0.13,
+    -0.101
+   ],
+   "approx": false,
+   "splits": [
+    63.112
+   ]
+  },
+  {
+   "i": 15,
+   "text": "我戒不掉她的微笑",
+   "t0": 64.59,
+   "t1": 67.77,
+   "t0_used": 64.59,
+   "t1_used": 67.825,
+   "snapped": true,
+   "snap_deltas": [
+    -0.101,
+    -0.055
+   ],
+   "approx": false,
+   "splits": [
+    66.247
+   ]
+  },
+  {
+   "i": 16,
+   "text": "洋溢幸福的味道",
+   "t0": 67.77,
+   "t1": 71.32,
+   "t0_used": 67.825,
+   "t1_used": 71.378,
+   "snapped": true,
+   "snap_deltas": [
+    -0.055,
+    -0.058
+   ],
+   "approx": false,
+   "splits": [
+    69.428
+   ]
+  },
+  {
+   "i": 17,
+   "text": "有些事没办法教",
+   "t0": 71.32,
+   "t1": 73.97,
+   "t0_used": 71.378,
+   "t1_used": 73.97,
+   "snapped": true,
+   "snap_deltas": [
+    -0.058,
+    -0.148
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "表错情的感觉有一点糟",
+   "t0": 73.97,
+   "t1": 77.3,
+   "t0_used": 73.97,
+   "t1_used": 77.299,
+   "snapped": true,
+   "snap_deltas": [
+    -0.148,
+    0.001
+   ],
+   "approx": false,
+   "splits": [
+    75.72
+   ]
+  },
+  {
+   "i": 19,
+   "text": "赖着不走会让人很感冒",
+   "t0": 77.3,
+   "t1": 80.2,
+   "t0_used": 77.299,
+   "t1_used": 80.2,
+   "snapped": true,
+   "snap_deltas": [
+    0.001,
+    0.138
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "以上这道理我全都了",
+   "t0": 80.2,
+   "t1": 83.45,
+   "t0_used": 80.2,
+   "t1_used": 83.45,
+   "snapped": false,
+   "snap_deltas": [
+    0.138,
+    -0.142
+   ],
+   "approx": false,
+   "splits": [
+    82.013
+   ]
+  },
+  {
+   "i": 21,
+   "text": "恋爱的方式无法拿笔来抄",
+   "t0": 83.45,
+   "t1": 86.51,
+   "t0_used": 83.45,
+   "t1_used": 86.51,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    0.155
+   ],
+   "approx": false,
+   "splits": [
+    84.799
+   ]
+  },
+  {
+   "i": 22,
+   "text": "也没有规则可以取巧",
+   "t0": 86.51,
+   "t1": 90.08,
+   "t0_used": 86.51,
+   "t1_used": 90.08,
+   "snapped": false,
+   "snap_deltas": [
+    0.155,
+    0.172
+   ],
+   "approx": false,
+   "splits": [
+    88.352
+   ]
+  },
+  {
+   "i": 23,
+   "text": "被动的缘分很不可靠",
+   "t0": 90.08,
+   "t1": 92.98,
+   "t0_used": 90.08,
+   "t1_used": 93.066,
+   "snapped": true,
+   "snap_deltas": [
+    0.172,
+    -0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "喜欢的对象要自己挑",
+   "t0": 92.98,
+   "t1": 96.29,
+   "t0_used": 93.066,
+   "t1_used": 96.223,
+   "snapped": true,
+   "snap_deltas": [
+    -0.086,
+    0.067
+   ],
+   "approx": false,
+   "splits": [
+    94.645
+   ]
+  },
+  {
+   "i": 25,
+   "text": "她粉嫩清秀的外表",
+   "t0": 96.29,
+   "t1": 98.8,
+   "t0_used": 96.223,
+   "t1_used": 98.8,
+   "snapped": true,
+   "snap_deltas": [
+    0.067,
+    0.185
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "像是多汁的水蜜桃谁都想咬",
+   "t0": 98.8,
+   "t1": 102.46,
+   "t0_used": 98.8,
+   "t1_used": 102.46,
+   "snapped": false,
+   "snap_deltas": [
+    0.185,
+    -0.103
+   ],
+   "approx": false,
+   "splits": [
+    100.589
+   ]
+  },
+  {
+   "i": 27,
+   "text": "她嘴上亮丽的唇膏",
+   "t0": 102.46,
+   "t1": 105.07,
+   "t0_used": 102.46,
+   "t1_used": 105.07,
+   "snapped": false,
+   "snap_deltas": [
+    -0.103,
+    0.162
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "有一股自信的骄傲我看得到",
+   "t0": 105.07,
+   "t1": 108.76,
+   "t0_used": 105.07,
+   "t1_used": 108.76,
+   "snapped": false,
+   "snap_deltas": [
+    0.162,
+    -0.118
+   ],
+   "approx": false,
+   "splits": [
+    106.881
+   ]
+  },
+  {
+   "i": 29,
+   "text": "她粉嫩清秀的外表",
+   "t0": 108.76,
+   "t1": 111.33,
+   "t0_used": 108.76,
+   "t1_used": 111.33,
+   "snapped": false,
+   "snap_deltas": [
+    -0.118,
+    0.106
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "像是多汁的水蜜桃谁都想咬",
+   "t0": 111.33,
+   "t1": 115.02,
+   "t0_used": 111.33,
+   "t1_used": 115.02,
+   "snapped": false,
+   "snap_deltas": [
+    0.106,
+    -0.128
+   ],
+   "approx": false,
+   "splits": [
+    113.174
+   ]
+  },
+  {
+   "i": 31,
+   "text": "她嘴上亮丽的唇膏",
+   "t0": 115.02,
+   "t1": 117.67,
+   "t0_used": 115.02,
+   "t1_used": 117.67,
+   "snapped": false,
+   "snap_deltas": [
+    -0.128,
+    0.131
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "有一股自信的骄傲我看得到",
+   "t0": 117.67,
+   "t1": 146.72,
+   "t0_used": 117.67,
+   "t1_used": 146.68,
+   "snapped": true,
+   "snap_deltas": [
+    0.131,
+    0.04
+   ],
+   "approx": false,
+   "splits": [
+    120.674,
+    123.414,
+    126.177,
+    129.335,
+    132.098,
+    134.885,
+    138.019,
+    140.783,
+    143.964
+   ]
+  },
+  {
+   "i": 33,
+   "text": "她粉嫩清秀的外表",
+   "t0": 146.72,
+   "t1": 149.19,
+   "t0_used": 146.68,
+   "t1_used": 149.19,
+   "snapped": true,
+   "snap_deltas": [
+    0.04,
+    0.118
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "像是多汁的水蜜桃谁都想咬",
+   "t0": 149.19,
+   "t1": 152.87,
+   "t0_used": 149.19,
+   "t1_used": 152.87,
+   "snapped": false,
+   "snap_deltas": [
+    0.118,
+    -0.15
+   ],
+   "approx": false,
+   "splits": [
+    151.046
+   ]
+  },
+  {
+   "i": 35,
+   "text": "她嘴上亮丽的唇膏",
+   "t0": 152.87,
+   "t1": 155.47,
+   "t0_used": 152.87,
+   "t1_used": 155.388,
+   "snapped": true,
+   "snap_deltas": [
+    -0.15,
+    0.082
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "有一股自信的骄傲我看得到",
+   "t0": 155.47,
+   "t1": 159.22,
+   "t0_used": 155.388,
+   "t1_used": 159.312,
+   "snapped": true,
+   "snap_deltas": [
+    0.082,
+    -0.092
+   ],
+   "approx": false,
+   "splits": [
+    157.338
+   ]
+  },
+  {
+   "i": 37,
+   "text": "她粉嫩清秀的外表",
+   "t0": 159.22,
+   "t1": 161.8,
+   "t0_used": 159.312,
+   "t1_used": 161.704,
+   "snapped": true,
+   "snap_deltas": [
+    -0.092,
+    0.096
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "像是多汁的水蜜桃谁都想咬",
+   "t0": 161.8,
+   "t1": 165.47,
+   "t0_used": 161.704,
+   "t1_used": 165.47,
+   "snapped": true,
+   "snap_deltas": [
+    0.096,
+    -0.158
+   ],
+   "approx": false,
+   "splits": [
+    163.677
+   ]
+  },
+  {
+   "i": 39,
+   "text": "她嘴上亮丽的唇膏",
+   "t0": 165.47,
+   "t1": 168.06,
+   "t0_used": 165.47,
+   "t1_used": 167.996,
+   "snapped": true,
+   "snap_deltas": [
+    -0.158,
+    0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "有一股自信的骄傲我看得到",
+   "t0": 168.06,
+   "t1": 172.11,
+   "t0_used": 167.996,
+   "t1_used": 172.11,
+   "snapped": true,
+   "snap_deltas": [
+    0.064,
+    0.189
+   ],
+   "approx": false,
+   "splits": [
+    169.947
+   ]
+  },
+  {
+   "i": 41,
+   "text": "她的睫毛 弯的嘴角",
+   "t0": 172.11,
+   "t1": 175.0,
+   "t0_used": 172.11,
+   "t1_used": 175.0,
+   "snapped": false,
+   "snap_deltas": [
+    0.189,
+    -0.102
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "无预警地对我笑",
+   "t0": 175.0,
+   "t1": 178.16,
+   "t0_used": 175.0,
+   "t1_used": 178.26,
+   "snapped": true,
+   "snap_deltas": [
+    -0.102,
+    -0.1
+   ],
+   "approx": false,
+   "splits": [
+    176.681
+   ]
+  },
+  {
+   "i": 43,
+   "text": "没有预兆出乎意料",
+   "t0": 178.16,
+   "t1": 181.29,
+   "t0_used": 178.26,
+   "t1_used": 181.29,
+   "snapped": true,
+   "snap_deltas": [
+    -0.1,
+    -0.104
+   ],
+   "approx": false,
+   "splits": [
+    179.839
+   ]
+  },
+  {
+   "i": 44,
+   "text": "竟然先对我示好",
+   "t0": 181.29,
+   "t1": 184.48,
+   "t0_used": 181.29,
+   "t1_used": 184.529,
+   "snapped": true,
+   "snap_deltas": [
+    -0.104,
+    -0.049
+   ],
+   "approx": false,
+   "splits": [
+    182.973
+   ]
+  },
+  {
+   "i": 45,
+   "text": "她的睫毛 弯的嘴角",
+   "t0": 184.48,
+   "t1": 187.59,
+   "t0_used": 184.529,
+   "t1_used": 187.59,
+   "snapped": true,
+   "snap_deltas": [
+    -0.049,
+    -0.12
+   ],
+   "approx": false,
+   "splits": [
+    186.131
+   ]
+  },
+  {
+   "i": 46,
+   "text": "用眼神对我拍照",
+   "t0": 187.59,
+   "t1": 190.78,
+   "t0_used": 187.59,
+   "t1_used": 190.845,
+   "snapped": true,
+   "snap_deltas": [
+    -0.12,
+    -0.065
+   ],
+   "approx": false,
+   "splits": [
+    189.289
+   ]
+  },
+  {
+   "i": 47,
+   "text": "我戒不掉她的微笑",
+   "t0": 190.78,
+   "t1": 194.0,
+   "t0_used": 190.845,
+   "t1_used": 194.003,
+   "snapped": true,
+   "snap_deltas": [
+    -0.065,
+    -0.003
+   ],
+   "approx": false,
+   "splits": [
+    192.424
+   ]
+  },
+  {
+   "i": 48,
+   "text": "洋溢幸福的味道",
+   "t0": 194.0,
+   "t1": 197.08,
+   "t0_used": 194.003,
+   "t1_used": 197.161,
+   "snapped": true,
+   "snap_deltas": [
+    -0.003,
+    -0.081
+   ],
+   "approx": false,
+   "splits": [
+    195.605
+   ]
+  },
+  {
+   "i": 49,
+   "text": "她的睫毛 弯的嘴角",
+   "t0": 197.08,
+   "t1": 198.63,
+   "t0_used": 197.161,
+   "t1_used": 198.716,
+   "snapped": true,
+   "snap_deltas": [
+    -0.081,
+    -0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "无预警地对我笑",
+   "t0": 198.63,
+   "t1": 200.29,
+   "t0_used": 198.716,
+   "t1_used": 200.295,
+   "snapped": true,
+   "snap_deltas": [
+    -0.086,
+    -0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "没有预兆出乎意料",
+   "t0": 200.29,
+   "t1": 201.77,
+   "t0_used": 200.295,
+   "t1_used": 201.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    -0.104
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "竟然先对我示好",
+   "t0": 201.77,
+   "t1": 203.42,
+   "t0_used": 201.77,
+   "t1_used": 203.453,
+   "snapped": true,
+   "snap_deltas": [
+    -0.104,
+    -0.033
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "她的睫毛 弯的嘴角",
+   "t0": 203.42,
+   "t1": 204.93,
+   "t0_used": 203.453,
+   "t1_used": 204.93,
+   "snapped": true,
+   "snap_deltas": [
+    -0.033,
+    -0.102
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "用眼神对我拍照",
+   "t0": 204.93,
+   "t1": 206.53,
+   "t0_used": 204.93,
+   "t1_used": 206.611,
+   "snapped": true,
+   "snap_deltas": [
+    -0.102,
+    -0.081
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "我戒不掉她的微笑",
+   "t0": 206.53,
+   "t1": 208.07,
+   "t0_used": 206.611,
+   "t1_used": 208.07,
+   "snapped": true,
+   "snap_deltas": [
+    -0.081,
+    -0.12
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "洋溢幸福的味道",
+   "t0": 208.07,
+   "t1": 211.07,
+   "t0_used": 208.07,
+   "t1_used": 211.07,
+   "snapped": false,
+   "snap_deltas": [
+    -0.12,
+    0.163
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 57,
+  "lines_untimed": 0,
+  "lines_snapped": 38,
+  "lines_unsnapped": 19,
+  "lines_need_split": 34,
+  "total_splits": 42
+ },
+ "advisory": true
+}

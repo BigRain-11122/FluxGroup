@@ -1,0 +1,119 @@
+{
+ "tag": "hei-full",
+ "shots": 89,
+ "prompts": "hei-kf-prompts-v2.json",
+ "avg": 9.73,
+ "verdict": "PASS",
+ "seats": [
+  {
+   "seat": "导演",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "empty%": 18.0,
+    "face%": 30.3,
+    "body%": 51.7
+   }
+  },
+  {
+   "seat": "摄影灯光",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "directional_light_shots": 89
+   }
+  },
+  {
+   "seat": "调色",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "grades": [
+     "tw2001"
+    ],
+    "grade_case": true
+   }
+  },
+  {
+   "seat": "服装道具",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "denim": 73,
+    "graphic tee": 73,
+    "silver chain": 73,
+    "leather bracelet": 73
+   }
+  },
+  {
+   "seat": "剪辑节奏",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "over_length": 0
+   }
+  },
+  {
+   "seat": "表演",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "emotion_words": 0
+   }
+  },
+  {
+   "seat": "受众",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "action_shots%": 58.4
+   }
+  },
+  {
+   "seat": "合规",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "name_hits": 0
+   }
+  },
+  {
+   "seat": "文字",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "text_risk": 0
+   }
+  },
+  {
+   "seat": "连续性",
+   "score": 10,
+   "verdict": "PASS",
+   "findings": [],
+   "detail": {
+    "person_id_variants": 1
+   }
+  },
+  {
+   "seat": "多模态",
+   "score": 7,
+   "verdict": "PASS",
+   "findings": [
+    "最差项：H001:画面描述与意图严重不符，未体现台；H018:人物面部特征模糊，缺乏具体五官细；H035:画面昏暗且无明确人物，缺乏 20；H052:人物面部模糊不清，无法辨识五官特；H069:构图拥挤杂乱，缺乏电影感留白"
+   ],
+   "detail": {
+    "vlm_avg": 7.0,
+    "samples": 5
+   }
+  }
+ ]
+}

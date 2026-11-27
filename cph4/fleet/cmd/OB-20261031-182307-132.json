@@ -1,0 +1,12 @@
+﻿{
+    "id":  "OB-20261031-182307-132",
+    "ts":  "2026-10-31 18:23",
+    "text":  "执行器统一令：各节点改用单一 agent 链路。请在本机执行 Tools\\fleet\\agent.py --node \u003c本机ID\u003e，确认心跳与领取都能跑（约 30 秒），然后用 Tools\\task-register.ps1 注册为唯一常驻任务（每 5 分钟一次），并停用旧的 HQ-ProductionClaim（已被取代）。原因：10-31 夜班根因=心跳任务活着、执行器任务死了，主控看到机器健康但执行记录为空。跑完在 cph4/fleet/queue-receipts 留一条回执或回报即可。",
+    "lanes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c"
+              ],
+    "src":  "DASHENG",
+    "status":  "dispatched"
+}

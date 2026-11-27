@@ -1,0 +1,37 @@
+{
+ "line": "bigstream-mv",
+ "priority": "P0",
+ "evidence": [
+  "cph4/fleet/mv0001-handover/canon",
+  "cph4/fleet/mv0001-handover/outbound"
+ ],
+ "checks": [
+  {
+   "name": "有母版",
+   "type": "glob",
+   "path": "cph4/fleet/mv0001-handover/outbound",
+   "pattern": "*.mp4",
+   "min": 1
+  },
+  {
+   "name": "有闸回执",
+   "type": "glob",
+   "path": "cph4/fleet/queue-receipts",
+   "pattern": "*mv-gate*.json",
+   "min": 1
+  },
+  {
+   "name": "有导演签核",
+   "type": "glob",
+   "path": "cph4/fleet/mv0001-handover/canon",
+   "pattern": "DIRECTOR-REVIEW-*.md",
+   "min": 1
+  },
+  {
+   "name": "24h 内有动作",
+   "type": "age_h",
+   "path": "cph4/fleet/mv0001-handover/canon",
+   "max": 48
+  }
+ ]
+}

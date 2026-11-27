@@ -1,0 +1,73 @@
+{
+ "ts": "2026-10-20T02:02:09",
+ "seed": 991210,
+ "krea_res": [
+  1344,
+  768
+ ],
+ "qwen_res": "1024 (QwenImage21 native latent)",
+ "rows": [
+  {
+   "subject": "sky",
+   "prompt": "deep indigo night sky, four bright stars with tight glowing cores joined by thin solid light lines into one connected chain across the middle of the frame, faint Milky Way band, film grain, 35mm film grain, telecine texture, 2001 Taiwan music video look",
+   "qwen": {
+    "tag": "qwen_sky",
+    "ok": true,
+    "wall_s": 64.5,
+    "peak_vram_mb": 14851,
+    "out": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\qwen_sky.png",
+    "bytes": 1124215
+   },
+   "krea": {
+    "tag": "krea_sky",
+    "ok": true,
+    "wall_s": 94.7,
+    "peak_vram_mb": 15214,
+    "out": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\krea_sky.png",
+    "bytes": 981376
+   }
+  },
+  {
+   "subject": "cassette",
+   "prompt": "close-up of a clear vintage audio cassette on a wooden desk, slanted warm window light, dust motes in the beam, shallow depth of field, 35mm film grain, telecine texture, 2001 Taiwan music video look",
+   "qwen": {
+    "tag": "qwen_cassette",
+    "ok": true,
+    "wall_s": 192.2,
+    "peak_vram_mb": 15848,
+    "out": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\qwen_cassette.png",
+    "bytes": 1523733
+   },
+   "krea": {
+    "tag": "krea_cassette",
+    "ok": true,
+    "wall_s": 97.8,
+    "peak_vram_mb": 15729,
+    "out": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\krea_cassette.png",
+    "bytes": 1012422
+   }
+  },
+  {
+   "subject": "dusk",
+   "prompt": "backlit silhouettes of a young couple standing back to back in a grass field against a burnt-orange dusk sky, strong halo rim light, 35mm film grain, telecine texture, 2001 Taiwan music video look",
+   "qwen": {
+    "tag": "qwen_dusk",
+    "ok": true,
+    "wall_s": 125.8,
+    "peak_vram_mb": 15832,
+    "out": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\qwen_dusk.png",
+    "bytes": 1244792
+   },
+   "krea": {
+    "tag": "krea_dusk",
+    "ok": true,
+    "wall_s": 44.6,
+    "peak_vram_mb": 15595,
+    "out": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\krea_dusk.png",
+    "bytes": 700530
+   }
+  }
+ ],
+ "board": "K:\\Fluxgroup\\FluxGroup\\media\\comfy-sidecar\\compare\\QWEN21-vs-KREA2-board-c2099.jpg",
+ "note": "serialised runs; sidecar freed between turns; quality face = board blind read (not self-graded)"
+}

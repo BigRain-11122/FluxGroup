@@ -1,0 +1,81 @@
+{
+ "ts": "2026-11-07T00:50:52",
+ "group": "batch-2026-11-07",
+ "shard": "2/4",
+ "inbox": "media\\asset\\inbox",
+ "inbox_files": 168,
+ "my_files": 41,
+ "segments": 27,
+ "skipped_files": [
+  [
+   "SSB00730001.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB02610007.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB02610009.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB03800003.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB05340006.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB05780014.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB05880007.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB05880011.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB05880014.wav",
+   "太短 1.7s"
+  ],
+  [
+   "SSB06660005.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB07100004.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB07100007.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB07100008.wav",
+   "切不出 2–12s 的片段"
+  ],
+  [
+   "SSB07100009.wav",
+   "太短 1.8s"
+  ],
+  [
+   "SSB07100011.wav",
+   "切不出 2–12s 的片段"
+  ]
+ ],
+ "peak_warnings": [],
+ "total_s": 81.6,
+ "sliced_dir": "media\\asset\\voices\\batch-2026-11-07\\sliced",
+ "asr_qc": {
+  "available": false,
+  "why": "uxGroup\\media\\asset\\voices\\batch-2026-11-07\\sliced\\_asr-qc锛堝洖鎵� K:\\Fluxgroup\\FluxGroup\\media\\asset\\voices\\batch-2026-11-07\\sliced\\_asr-qc\\_asr-qc-blocked.json锛�"
+ },
+ "verdict": "PASS",
+ "gaps": [],
+ "status": "PASS"
+}

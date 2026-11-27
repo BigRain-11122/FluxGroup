@@ -1,0 +1,903 @@
+{
+ "song": "星晴",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 378,
+  "n_beats": 378,
+  "n_downbeats": 95,
+  "duration_sec": 259.4
+ },
+ "bpm_median": 89.6,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "一步两步三步四步望着天手牵手",
+   "t0": null,
+   "t1": null,
+   "t0_used": null,
+   "t1_used": null,
+   "snapped": false,
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "一颗两颗三颗四颗连成线看星星",
+   "t0": null,
+   "t1": null,
+   "t0_used": null,
+   "t1_used": null,
+   "snapped": false,
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "一步两步三步四步望着天手牵手",
+   "t0": null,
+   "t1": null,
+   "t0_used": null,
+   "t1_used": null,
+   "snapped": false,
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "一颗两颗三颗四颗连成线看星",
+   "t0": null,
+   "t1": null,
+   "t0_used": null,
+   "t1_used": null,
+   "snapped": false,
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "乘着风游荡在蓝天边",
+   "t0": 33.16,
+   "t1": 37.74,
+   "t0_used": 33.16,
+   "t1_used": 37.74,
+   "snapped": false,
+   "snap_deltas": [
+    -0.27,
+    0.26
+   ],
+   "approx": false,
+   "splits": [
+    35.46
+   ]
+  },
+  {
+   "i": 5,
+   "text": "一片云掉落在我面前",
+   "t0": 38.52,
+   "t1": 43.22,
+   "t0_used": 38.52,
+   "t1_used": 43.22,
+   "snapped": false,
+   "snap_deltas": [
+    -0.31,
+    -0.33
+   ],
+   "approx": false,
+   "splits": [
+    40.85
+   ]
+  },
+  {
+   "i": 6,
+   "text": "捏成你的形状",
+   "t0": 43.86,
+   "t1": 46.5,
+   "t0_used": 43.86,
+   "t1_used": 46.5,
+   "snapped": false,
+   "snap_deltas": [
+    0.31,
+    0.25
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "随风跟着我",
+   "t0": 46.5,
+   "t1": 46.5,
+   "t0_used": 46.5,
+   "t1_used": 46.5,
+   "snapped": false,
+   "snap_deltas": [
+    0.25,
+    0.25
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "一口一口吃掉忧愁",
+   "t0": 46.5,
+   "t1": 51.8,
+   "t0_used": 46.5,
+   "t1_used": 51.8,
+   "snapped": false,
+   "snap_deltas": [
+    0.25,
+    0.16
+   ],
+   "approx": false,
+   "splits": [
+    48.95
+   ]
+  },
+  {
+   "i": 9,
+   "text": "载着你仿佛载着阳光",
+   "t0": 54.28,
+   "t1": 59.68,
+   "t0_used": 54.35,
+   "t1_used": 59.74,
+   "snapped": true,
+   "snap_deltas": [
+    -0.07,
+    -0.06
+   ],
+   "approx": false,
+   "splits": [
+    57.04
+   ]
+  },
+  {
+   "i": 10,
+   "text": "不管到哪里都是晴天",
+   "t0": 59.68,
+   "t1": 64.62,
+   "t0_used": 59.74,
+   "t1_used": 64.62,
+   "snapped": true,
+   "snap_deltas": [
+    -0.06,
+    0.15
+   ],
+   "approx": false,
+   "splits": [
+    62.44
+   ]
+  },
+  {
+   "i": 11,
+   "text": "蝴蝶自在飞",
+   "t0": 64.62,
+   "t1": 64.62,
+   "t0_used": 64.62,
+   "t1_used": 64.62,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    0.15
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "花也布满天",
+   "t0": 64.62,
+   "t1": 70.08,
+   "t0_used": 64.62,
+   "t1_used": 70.08,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    0.22
+   ],
+   "approx": false,
+   "splits": [
+    67.17
+   ]
+  },
+  {
+   "i": 13,
+   "text": "一朵一朵因你而香",
+   "t0": 70.08,
+   "t1": 73.42,
+   "t0_used": 70.08,
+   "t1_used": 73.42,
+   "snapped": false,
+   "snap_deltas": [
+    0.22,
+    0.18
+   ],
+   "approx": false,
+   "splits": [
+    71.89
+   ]
+  },
+  {
+   "i": 14,
+   "text": "试图让夕阳飞翔",
+   "t0": 73.42,
+   "t1": 78.82,
+   "t0_used": 73.42,
+   "t1_used": 78.82,
+   "snapped": false,
+   "snap_deltas": [
+    0.18,
+    0.18
+   ],
+   "approx": false,
+   "splits": [
+    75.93
+   ]
+  },
+  {
+   "i": 15,
+   "text": "带领你我环绕大自然",
+   "t0": 78.82,
+   "t1": 86.82,
+   "t0_used": 78.82,
+   "t1_used": 86.73,
+   "snapped": true,
+   "snap_deltas": [
+    0.18,
+    0.09
+   ],
+   "approx": false,
+   "splits": [
+    81.34,
+    84.03
+   ]
+  },
+  {
+   "i": 16,
+   "text": "迎着风",
+   "t0": 86.82,
+   "t1": 87.82,
+   "t0_used": 86.73,
+   "t1_used": 87.82,
+   "snapped": true,
+   "snap_deltas": [
+    0.09,
+    -0.26
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "开始共度每一天",
+   "t0": 87.82,
+   "t1": 95.58,
+   "t0_used": 87.82,
+   "t1_used": 95.5,
+   "snapped": true,
+   "snap_deltas": [
+    -0.26,
+    0.08
+   ],
+   "approx": false,
+   "splits": [
+    90.1,
+    92.8
+   ]
+  },
+  {
+   "i": 18,
+   "text": "手牵手",
+   "t0": 95.58,
+   "t1": 101.36,
+   "t0_used": 95.5,
+   "t1_used": 101.36,
+   "snapped": true,
+   "snap_deltas": [
+    0.08,
+    -0.21
+   ],
+   "approx": false,
+   "splits": [
+    98.2
+   ]
+  },
+  {
+   "i": 19,
+   "text": "一步两步三步四步望着天",
+   "t0": 101.36,
+   "t1": 101.36,
+   "t0_used": 101.36,
+   "t1_used": 101.36,
+   "snapped": false,
+   "snap_deltas": [
+    -0.21,
+    -0.21
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "看星星一颗两颗三颗四颗连成线",
+   "t0": 101.36,
+   "t1": 106.64,
+   "t0_used": 101.36,
+   "t1_used": 106.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.21,
+    -0.33
+   ],
+   "approx": false,
+   "splits": [
+    104.27
+   ]
+  },
+  {
+   "i": 21,
+   "text": "背对背",
+   "t0": 106.64,
+   "t1": 106.64,
+   "t0_used": 106.64,
+   "t1_used": 106.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.33,
+    -0.33
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "默默许下心愿",
+   "t0": 106.64,
+   "t1": 110.94,
+   "t0_used": 106.64,
+   "t1_used": 111.02,
+   "snapped": true,
+   "snap_deltas": [
+    -0.33,
+    -0.08
+   ],
+   "approx": false,
+   "splits": [
+    109.0
+   ]
+  },
+  {
+   "i": 23,
+   "text": "看远方的星",
+   "t0": 111.84,
+   "t1": 116.74,
+   "t0_used": 111.84,
+   "t1_used": 116.74,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    0.32
+   ],
+   "approx": false,
+   "splits": [
+    114.39
+   ]
+  },
+  {
+   "i": 24,
+   "text": "是否听的见",
+   "t0": 116.74,
+   "t1": 117.6,
+   "t0_used": 116.74,
+   "t1_used": 117.6,
+   "snapped": false,
+   "snap_deltas": [
+    0.32,
+    -0.18
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "手牵手",
+   "t0": 117.6,
+   "t1": 122.98,
+   "t0_used": 117.6,
+   "t1_used": 122.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.18,
+    -0.18
+   ],
+   "approx": false,
+   "splits": [
+    120.47
+   ]
+  },
+  {
+   "i": 26,
+   "text": "一步两步三步四步望着天",
+   "t0": 122.98,
+   "t1": 122.98,
+   "t0_used": 122.98,
+   "t1_used": 122.98,
+   "snapped": false,
+   "snap_deltas": [
+    -0.18,
+    -0.18
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "看星星一颗两颗三颗四颗连成线",
+   "t0": 122.98,
+   "t1": 128.2,
+   "t0_used": 122.98,
+   "t1_used": 128.2,
+   "snapped": false,
+   "snap_deltas": [
+    -0.18,
+    0.31
+   ],
+   "approx": false,
+   "splits": [
+    125.86
+   ]
+  },
+  {
+   "i": 28,
+   "text": "背对背",
+   "t0": 128.2,
+   "t1": 128.2,
+   "t0_used": 128.2,
+   "t1_used": 128.2,
+   "snapped": false,
+   "snap_deltas": [
+    0.31,
+    0.31
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "默默许下心愿",
+   "t0": 128.2,
+   "t1": 132.82,
+   "t0_used": 128.2,
+   "t1_used": 132.82,
+   "snapped": false,
+   "snap_deltas": [
+    0.31,
+    0.21
+   ],
+   "approx": false,
+   "splits": [
+    130.59
+   ]
+  },
+  {
+   "i": 30,
+   "text": "看远方的星",
+   "t0": 133.31,
+   "t1": 138.0,
+   "t0_used": 133.28,
+   "t1_used": 138.0,
+   "snapped": true,
+   "snap_deltas": [
+    0.03,
+    0.0
+   ],
+   "approx": false,
+   "splits": [
+    135.31
+   ]
+  },
+  {
+   "i": 31,
+   "text": "如果听的见",
+   "t0": 138.0,
+   "t1": 138.63,
+   "t0_used": 138.0,
+   "t1_used": 138.68,
+   "snapped": true,
+   "snap_deltas": [
+    0.0,
+    -0.05
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "它一定实现",
+   "t0": 138.63,
+   "t1": 140.76,
+   "t0_used": 138.68,
+   "t1_used": 140.68,
+   "snapped": true,
+   "snap_deltas": [
+    -0.05,
+    0.08
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "载着你仿佛载着阳光",
+   "t0": 162.82,
+   "t1": 167.5,
+   "t0_used": 162.82,
+   "t1_used": 167.5,
+   "snapped": false,
+   "snap_deltas": [
+    -0.14,
+    -0.19
+   ],
+   "approx": false,
+   "splits": [
+    164.99
+   ]
+  },
+  {
+   "i": 34,
+   "text": "不管到哪里都是晴天",
+   "t0": 168.18,
+   "t1": 172.38,
+   "t0_used": 168.18,
+   "t1_used": 172.41,
+   "snapped": true,
+   "snap_deltas": [
+    -0.18,
+    -0.03
+   ],
+   "approx": false,
+   "splits": [
+    170.39
+   ]
+  },
+  {
+   "i": 35,
+   "text": "蝴蝶自在飞",
+   "t0": 172.38,
+   "t1": 173.48,
+   "t0_used": 172.41,
+   "t1_used": 173.48,
+   "snapped": true,
+   "snap_deltas": [
+    -0.03,
+    -0.28
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "花也布满天",
+   "t0": 173.48,
+   "t1": 178.0,
+   "t0_used": 173.48,
+   "t1_used": 178.0,
+   "snapped": false,
+   "snap_deltas": [
+    -0.28,
+    0.2
+   ],
+   "approx": false,
+   "splits": [
+    175.78
+   ]
+  },
+  {
+   "i": 37,
+   "text": "一朵一朵因你而香",
+   "t0": 178.0,
+   "t1": 181.44,
+   "t0_used": 178.0,
+   "t1_used": 181.44,
+   "snapped": false,
+   "snap_deltas": [
+    0.2,
+    0.26
+   ],
+   "approx": false,
+   "splits": [
+    179.84
+   ]
+  },
+  {
+   "i": 38,
+   "text": "试图让夕阳飞翔",
+   "t0": 182.54,
+   "t1": 186.66,
+   "t0_used": 182.54,
+   "t1_used": 186.58,
+   "snapped": true,
+   "snap_deltas": [
+    0.0,
+    0.08
+   ],
+   "approx": false,
+   "splits": [
+    184.55
+   ]
+  },
+  {
+   "i": 39,
+   "text": "带领你我环绕大自然",
+   "t0": 186.66,
+   "t1": 192.8,
+   "t0_used": 186.58,
+   "t1_used": 192.8,
+   "snapped": true,
+   "snap_deltas": [
+    0.08,
+    0.15
+   ],
+   "approx": false,
+   "splits": [
+    188.6,
+    190.63
+   ]
+  },
+  {
+   "i": 40,
+   "text": "迎着风",
+   "t0": 192.8,
+   "t1": 195.7,
+   "t0_used": 192.8,
+   "t1_used": 195.7,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    -0.33
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "开始共度每一天",
+   "t0": 195.7,
+   "t1": 202.62,
+   "t0_used": 195.7,
+   "t1_used": 202.62,
+   "snapped": false,
+   "snap_deltas": [
+    -0.33,
+    -0.15
+   ],
+   "approx": false,
+   "splits": [
+    198.05,
+    200.07
+   ]
+  },
+  {
+   "i": 42,
+   "text": "手牵手一步两步三步四步望着天",
+   "t0": 203.68,
+   "t1": 209.36,
+   "t0_used": 203.68,
+   "t1_used": 209.36,
+   "snapped": false,
+   "snap_deltas": [
+    0.24,
+    -0.16
+   ],
+   "approx": false,
+   "splits": [
+    206.81
+   ]
+  },
+  {
+   "i": 43,
+   "text": "看星星一颗两颗三颗四颗连成线",
+   "t0": 209.36,
+   "t1": 214.68,
+   "t0_used": 209.36,
+   "t1_used": 214.68,
+   "snapped": false,
+   "snap_deltas": [
+    -0.16,
+    -0.24
+   ],
+   "approx": false,
+   "splits": [
+    212.22
+   ]
+  },
+  {
+   "i": 44,
+   "text": "背对背",
+   "t0": 214.68,
+   "t1": 214.68,
+   "t0_used": 214.68,
+   "t1_used": 214.68,
+   "snapped": false,
+   "snap_deltas": [
+    -0.24,
+    -0.24
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "默默许下心愿",
+   "t0": 214.68,
+   "t1": 219.16,
+   "t0_used": 214.68,
+   "t1_used": 219.16,
+   "snapped": false,
+   "snap_deltas": [
+    -0.24,
+    0.2
+   ],
+   "approx": false,
+   "splits": [
+    216.94
+   ]
+  },
+  {
+   "i": 46,
+   "text": "看远方的星",
+   "t0": 219.82,
+   "t1": 224.5,
+   "t0_used": 219.82,
+   "t1_used": 224.5,
+   "snapped": false,
+   "snap_deltas": [
+    0.18,
+    0.14
+   ],
+   "approx": false,
+   "splits": [
+    222.33
+   ]
+  },
+  {
+   "i": 47,
+   "text": "是否听的见",
+   "t0": 224.5,
+   "t1": 225.42,
+   "t0_used": 224.5,
+   "t1_used": 225.42,
+   "snapped": false,
+   "snap_deltas": [
+    0.14,
+    -0.29
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "手牵手一步两步三步四步望着天",
+   "t0": 225.42,
+   "t1": 230.94,
+   "t0_used": 225.42,
+   "t1_used": 230.94,
+   "snapped": false,
+   "snap_deltas": [
+    -0.29,
+    -0.17
+   ],
+   "approx": false,
+   "splits": [
+    228.4
+   ]
+  },
+  {
+   "i": 49,
+   "text": "看星星一颗两颗三颗四颗连成线",
+   "t0": 230.94,
+   "t1": 236.26,
+   "t0_used": 230.94,
+   "t1_used": 236.26,
+   "snapped": false,
+   "snap_deltas": [
+    -0.17,
+    -0.24
+   ],
+   "approx": false,
+   "splits": [
+    233.81
+   ]
+  },
+  {
+   "i": 50,
+   "text": "背对背",
+   "t0": 236.26,
+   "t1": 236.26,
+   "t0_used": 236.26,
+   "t1_used": 236.26,
+   "snapped": false,
+   "snap_deltas": [
+    -0.24,
+    -0.24
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "默默许下心愿",
+   "t0": 236.26,
+   "t1": 240.58,
+   "t0_used": 236.26,
+   "t1_used": 240.55,
+   "snapped": true,
+   "snap_deltas": [
+    -0.24,
+    0.03
+   ],
+   "approx": false,
+   "splits": [
+    238.53
+   ]
+  },
+  {
+   "i": 52,
+   "text": "看远方的星",
+   "t0": 241.38,
+   "t1": 246.2,
+   "t0_used": 241.38,
+   "t1_used": 246.2,
+   "snapped": false,
+   "snap_deltas": [
+    0.15,
+    0.25
+   ],
+   "approx": false,
+   "splits": [
+    243.92
+   ]
+  },
+  {
+   "i": 53,
+   "text": "如果听的见",
+   "t0": 246.2,
+   "t1": 246.2,
+   "t0_used": 246.2,
+   "t1_used": 246.2,
+   "snapped": false,
+   "snap_deltas": [
+    0.25,
+    0.25
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "它一定实现",
+   "t0": 246.2,
+   "t1": 248.76,
+   "t0_used": 246.2,
+   "t1_used": 248.73,
+   "snapped": true,
+   "snap_deltas": [
+    0.25,
+    0.03
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 55,
+  "lines_untimed": 4,
+  "lines_snapped": 16,
+  "lines_unsnapped": 35,
+  "lines_need_split": 33,
+  "total_splits": 37
+ },
+ "advisory": true
+}

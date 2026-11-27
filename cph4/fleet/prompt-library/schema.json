@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FluxGroup prompt-library entry",
+  "type": "object",
+  "required": ["id", "domain", "name", "template", "source", "verified"],
+  "properties": {
+    "id": {"type": "string", "description": "domain.name, stable, referenced by other docs"},
+    "domain": {"enum": ["structure", "camera", "performance", "dialogue", "style", "audio"]},
+    "name": {"type": "string"},
+    "use_when": {"type": "string", "description": "什么镜头该用这条（可执行的条件句）"},
+    "template": {"type": "string", "description": "可直接填槽的提示词骨架；{slot} 为槽位"},
+    "slots": {"type": "array", "items": {"type": "string"}},
+    "do": {"type": "array", "items": {"type": "string"}},
+    "dont": {"type": "array", "items": {"type": "string"}},
+    "source": {
+      "type": "object",
+      "required": ["repo", "stars"],
+      "properties": {
+        "repo": {"type": "string"},
+        "stars": {"type": "integer"},
+        "license": {"type": "string"},
+        "url": {"type": "string"},
+        "author": {"type": "string"}
+      }
+    },
+    "verified": {"type": "boolean", "description": "是否用我们自己的素材实测过；false 不许进正式镜头"},
+    "verified_on": {"type": "string", "description": "YYYY-MM-DD + 测试文件路径"},
+    "notes": {"type": "string"}
+  }
+}

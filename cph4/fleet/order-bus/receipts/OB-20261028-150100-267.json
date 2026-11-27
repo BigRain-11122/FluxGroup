@@ -1,0 +1,16 @@
+﻿{
+    "id":  "OB-20261028-150100-267",
+    "ts":  "2026-10-28 15:01",
+    "text":  "2026-10-28 CEO 令：机队其他机器（bm-b、bm-c）满负荷生产——所有可执行件立即开工，不许空转等派单；有排队件按队列连续跑，队列空的按本机车道自补产线（bm-b=配音/混音/词锚/声音类，bm-c=KF/i2v/渲染/画质链），不许以「等指令」为由闲置；每班回执行状态与产出件，产能按机队满载口径报。",
+    "lanes":  [
+                  "bm-b",
+                  "bm-c"
+              ],
+    "nodes":  [
+                  "bm-b",
+                  "bm-c"
+              ],
+    "sha":  "571b90f7bf18fa7a03c411e8966967a620f9514f",
+    "dispatch":  "DISPATCH reason=order:OB-20261028-150100-267 nodes=3 ok=3 fail=0 sha=571b90f7   bm-a ok=True accepted SYNCED 2s   bm-b ok=True accepted NOT-SYNCED head=10f43f7c   bm-c ok=True accepted NOT-SYNCED head=d7339348",
+    "dry":  false
+}

@@ -1,0 +1,843 @@
+{
+ "song": "对不起",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 511,
+  "n_beats": 511,
+  "n_downbeats": 127,
+  "duration_sec": 225.41
+ },
+ "bpm_median": 143.5,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "广场一枚铜币悲伤的很隐秘",
+   "t0": 21.26,
+   "t1": 24.61,
+   "t0_used": 21.26,
+   "t1_used": 24.59,
+   "snapped": true,
+   "snap_deltas": [
+    0.13,
+    0.02
+   ],
+   "approx": false,
+   "splits": [
+    22.872
+   ]
+  },
+  {
+   "i": 1,
+   "text": "它在许愿池里轻轻叹息",
+   "t0": 24.61,
+   "t1": 28.01,
+   "t0_used": 24.59,
+   "t1_used": 28.003,
+   "snapped": true,
+   "snap_deltas": [
+    0.02,
+    0.007
+   ],
+   "approx": false,
+   "splits": [
+    26.285
+   ]
+  },
+  {
+   "i": 2,
+   "text": "太多的我爱你让它喘不过气已经",
+   "t0": 28.01,
+   "t1": 33.14,
+   "t0_used": 28.003,
+   "t1_used": 33.158,
+   "snapped": true,
+   "snap_deltas": [
+    0.007,
+    -0.018
+   ],
+   "approx": false,
+   "splits": [
+    30.581
+   ]
+  },
+  {
+   "i": 3,
+   "text": "失去意义",
+   "t0": 33.14,
+   "t1": 34.97,
+   "t0_used": 33.158,
+   "t1_used": 34.876,
+   "snapped": true,
+   "snap_deltas": [
+    -0.018,
+    0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "戒指在哭泣静静躺在抽屉",
+   "t0": 34.97,
+   "t1": 38.34,
+   "t0_used": 34.876,
+   "t1_used": 38.29,
+   "snapped": true,
+   "snap_deltas": [
+    0.094,
+    0.05
+   ],
+   "approx": false,
+   "splits": [
+    36.571
+   ]
+  },
+  {
+   "i": 5,
+   "text": "它所拥有的只剩下回忆",
+   "t0": 38.34,
+   "t1": 41.75,
+   "t0_used": 38.29,
+   "t1_used": 41.749,
+   "snapped": true,
+   "snap_deltas": [
+    0.05,
+    0.001
+   ],
+   "approx": false,
+   "splits": [
+    40.031
+   ]
+  },
+  {
+   "i": 6,
+   "text": "相爱还有别离像无法被安排的雨",
+   "t0": 41.75,
+   "t1": 46.7,
+   "t0_used": 41.749,
+   "t1_used": 46.7,
+   "snapped": true,
+   "snap_deltas": [
+    0.001,
+    -0.181
+   ],
+   "approx": false,
+   "splits": [
+    44.304
+   ]
+  },
+  {
+   "i": 7,
+   "text": "随时准备来袭",
+   "t0": 46.7,
+   "t1": 49.16,
+   "t0_used": 46.7,
+   "t1_used": 49.16,
+   "snapped": false,
+   "snap_deltas": [
+    -0.181,
+    0.119
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "我怀念起国小的课桌椅",
+   "t0": 49.16,
+   "t1": 53.63,
+   "t0_used": 49.16,
+   "t1_used": 53.63,
+   "snapped": false,
+   "snap_deltas": [
+    0.119,
+    -0.124
+   ],
+   "approx": false,
+   "splits": [
+    51.2
+   ]
+  },
+  {
+   "i": 9,
+   "text": "怀念着用铅笔写日记",
+   "t0": 53.63,
+   "t1": 56.15,
+   "t0_used": 53.63,
+   "t1_used": 56.15,
+   "snapped": false,
+   "snap_deltas": [
+    -0.124,
+    -0.182
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "记录那最原始的美丽",
+   "t0": 56.15,
+   "t1": 59.59,
+   "t0_used": 56.15,
+   "t1_used": 59.59,
+   "snapped": false,
+   "snap_deltas": [
+    -0.182,
+    -0.155
+   ],
+   "approx": false,
+   "splits": [
+    58.05
+   ]
+  },
+  {
+   "i": 11,
+   "text": "记录第一次遇见的你",
+   "t0": 59.59,
+   "t1": 62.04,
+   "t0_used": 59.59,
+   "t1_used": 62.04,
+   "snapped": false,
+   "snap_deltas": [
+    -0.155,
+    0.136
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "Jay Chou",
+   "t0": 62.04,
+   "t1": 63.05,
+   "t0_used": 62.04,
+   "t1_used": 63.05,
+   "snapped": false,
+   "snap_deltas": [
+    0.136,
+    -0.131
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "如果我遇见你是一场悲剧",
+   "t0": 63.05,
+   "t1": 66.41,
+   "t0_used": 63.05,
+   "t1_used": 66.41,
+   "snapped": false,
+   "snap_deltas": [
+    -0.131,
+    0.21
+   ],
+   "approx": false,
+   "splits": [
+    64.9
+   ]
+  },
+  {
+   "i": 14,
+   "text": "我想我这辈子注定一个人演戏",
+   "t0": 66.41,
+   "t1": 69.85,
+   "t0_used": 66.41,
+   "t1_used": 69.85,
+   "snapped": false,
+   "snap_deltas": [
+    0.21,
+    -0.205
+   ],
+   "approx": false,
+   "splits": [
+    68.336
+   ]
+  },
+  {
+   "i": 15,
+   "text": "最后再一个人慢慢地回忆",
+   "t0": 69.85,
+   "t1": 73.33,
+   "t0_used": 69.85,
+   "t1_used": 73.33,
+   "snapped": false,
+   "snap_deltas": [
+    -0.205,
+    -0.161
+   ],
+   "approx": false,
+   "splits": [
+    71.773
+   ]
+  },
+  {
+   "i": 16,
+   "text": "没有了过去我将往事抽离",
+   "t0": 73.33,
+   "t1": 76.76,
+   "t0_used": 73.33,
+   "t1_used": 76.76,
+   "snapped": false,
+   "snap_deltas": [
+    -0.161,
+    -0.168
+   ],
+   "approx": false,
+   "splits": [
+    75.209
+   ]
+  },
+  {
+   "i": 17,
+   "text": "如果我遇见你是一场悲剧",
+   "t0": 76.76,
+   "t1": 80.18,
+   "t0_used": 76.76,
+   "t1_used": 80.18,
+   "snapped": false,
+   "snap_deltas": [
+    -0.168,
+    -0.161
+   ],
+   "approx": false,
+   "splits": [
+    78.646
+   ]
+  },
+  {
+   "i": 18,
+   "text": "我可以让生命就这样毫无意义",
+   "t0": 80.18,
+   "t1": 83.63,
+   "t0_used": 80.18,
+   "t1_used": 83.63,
+   "snapped": false,
+   "snap_deltas": [
+    -0.161,
+    -0.148
+   ],
+   "approx": false,
+   "splits": [
+    82.059
+   ]
+  },
+  {
+   "i": 19,
+   "text": "或许在最后能听到你一句",
+   "t0": 83.63,
+   "t1": 87.0,
+   "t0_used": 83.63,
+   "t1_used": 87.0,
+   "snapped": false,
+   "snap_deltas": [
+    -0.148,
+    -0.191
+   ],
+   "approx": false,
+   "splits": [
+    85.496
+   ]
+  },
+  {
+   "i": 20,
+   "text": "轻轻地叹息后悔着对不起",
+   "t0": 87.0,
+   "t1": 106.14,
+   "t0_used": 87.0,
+   "t1_used": 106.14,
+   "snapped": false,
+   "snap_deltas": [
+    -0.191,
+    -0.161
+   ],
+   "approx": false,
+   "splits": [
+    89.792,
+    92.369,
+    95.364,
+    97.942,
+    100.519,
+    103.515
+   ]
+  },
+  {
+   "i": 21,
+   "text": "一枚铜币悲伤的很隐秘",
+   "t0": 106.14,
+   "t1": 108.88,
+   "t0_used": 106.14,
+   "t1_used": 108.902,
+   "snapped": true,
+   "snap_deltas": [
+    -0.161,
+    -0.022
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "它在许愿池里轻轻叹息",
+   "t0": 108.88,
+   "t1": 112.33,
+   "t0_used": 108.902,
+   "t1_used": 112.338,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    -0.008
+   ],
+   "approx": false,
+   "splits": [
+    110.62
+   ]
+  },
+  {
+   "i": 23,
+   "text": "太多的我爱你让它喘不过气已经",
+   "t0": 112.33,
+   "t1": 117.36,
+   "t0_used": 112.338,
+   "t1_used": 117.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.008,
+    -0.11
+   ],
+   "approx": false,
+   "splits": [
+    114.916
+   ]
+  },
+  {
+   "i": 24,
+   "text": "失去意义",
+   "t0": 117.36,
+   "t1": 119.13,
+   "t0_used": 117.36,
+   "t1_used": 119.188,
+   "snapped": true,
+   "snap_deltas": [
+    -0.11,
+    -0.058
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "戒指在哭泣静静躺在抽屉",
+   "t0": 119.13,
+   "t1": 122.62,
+   "t0_used": 119.188,
+   "t1_used": 122.625,
+   "snapped": true,
+   "snap_deltas": [
+    -0.058,
+    -0.005
+   ],
+   "approx": false,
+   "splits": [
+    120.906
+   ]
+  },
+  {
+   "i": 26,
+   "text": "它所拥有的只剩下回忆",
+   "t0": 122.62,
+   "t1": 126.06,
+   "t0_used": 122.625,
+   "t1_used": 126.084,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    -0.024
+   ],
+   "approx": false,
+   "splits": [
+    124.343
+   ]
+  },
+  {
+   "i": 27,
+   "text": "相爱还有别离像无法被安排的雨",
+   "t0": 126.06,
+   "t1": 131.08,
+   "t0_used": 126.084,
+   "t1_used": 131.08,
+   "snapped": true,
+   "snap_deltas": [
+    -0.024,
+    -0.136
+   ],
+   "approx": false,
+   "splits": [
+    128.639
+   ]
+  },
+  {
+   "i": 28,
+   "text": "随时准备来袭",
+   "t0": 131.08,
+   "t1": 133.9,
+   "t0_used": 131.08,
+   "t1_used": 133.9,
+   "snapped": false,
+   "snap_deltas": [
+    -0.136,
+    0.107
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "我怀念起国小的课桌椅",
+   "t0": 133.9,
+   "t1": 138.21,
+   "t0_used": 133.9,
+   "t1_used": 138.21,
+   "snapped": false,
+   "snap_deltas": [
+    0.107,
+    0.144
+   ],
+   "approx": false,
+   "splits": [
+    135.93
+   ]
+  },
+  {
+   "i": 30,
+   "text": "用铅笔写日记",
+   "t0": 138.21,
+   "t1": 140.63,
+   "t0_used": 138.21,
+   "t1_used": 140.643,
+   "snapped": true,
+   "snap_deltas": [
+    0.144,
+    -0.013
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "记录那最原始的美丽",
+   "t0": 140.63,
+   "t1": 144.07,
+   "t0_used": 140.643,
+   "t1_used": 144.08,
+   "snapped": true,
+   "snap_deltas": [
+    -0.013,
+    -0.01
+   ],
+   "approx": false,
+   "splits": [
+    142.362
+   ]
+  },
+  {
+   "i": 32,
+   "text": "记录第一次遇见的你",
+   "t0": 144.07,
+   "t1": 146.16,
+   "t0_used": 144.08,
+   "t1_used": 146.216,
+   "snapped": true,
+   "snap_deltas": [
+    -0.01,
+    -0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "Jay Chou",
+   "t0": 146.16,
+   "t1": 147.12,
+   "t0_used": 146.216,
+   "t1_used": 147.075,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    0.045
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "如果我遇见你是一场悲剧",
+   "t0": 147.12,
+   "t1": 150.61,
+   "t0_used": 147.075,
+   "t1_used": 150.512,
+   "snapped": true,
+   "snap_deltas": [
+    0.045,
+    0.098
+   ],
+   "approx": false,
+   "splits": [
+    148.793
+   ]
+  },
+  {
+   "i": 35,
+   "text": "我想我这辈子注定一个人演戏",
+   "t0": 150.61,
+   "t1": 154.1,
+   "t0_used": 150.512,
+   "t1_used": 154.1,
+   "snapped": true,
+   "snap_deltas": [
+    0.098,
+    0.152
+   ],
+   "approx": false,
+   "splits": [
+    152.23
+   ]
+  },
+  {
+   "i": 36,
+   "text": "最后再一个人慢慢地回忆",
+   "t0": 154.1,
+   "t1": 157.63,
+   "t0_used": 154.1,
+   "t1_used": 157.63,
+   "snapped": false,
+   "snap_deltas": [
+    0.152,
+    -0.196
+   ],
+   "approx": false,
+   "splits": [
+    155.667
+   ]
+  },
+  {
+   "i": 37,
+   "text": "没有了过去我将往事抽离",
+   "t0": 157.63,
+   "t1": 161.02,
+   "t0_used": 157.63,
+   "t1_used": 161.02,
+   "snapped": false,
+   "snap_deltas": [
+    -0.196,
+    -0.219
+   ],
+   "approx": false,
+   "splits": [
+    159.521
+   ]
+  },
+  {
+   "i": 38,
+   "text": "如果我遇见你是一场悲剧",
+   "t0": 161.02,
+   "t1": 164.52,
+   "t0_used": 161.02,
+   "t1_used": 164.52,
+   "snapped": false,
+   "snap_deltas": [
+    -0.219,
+    -0.156
+   ],
+   "approx": false,
+   "splits": [
+    162.958
+   ]
+  },
+  {
+   "i": 39,
+   "text": "我可以让生命就这样毫无意义",
+   "t0": 164.52,
+   "t1": 167.79,
+   "t0_used": 164.52,
+   "t1_used": 167.79,
+   "snapped": false,
+   "snap_deltas": [
+    -0.156,
+    0.119
+   ],
+   "approx": false,
+   "splits": [
+    165.953
+   ]
+  },
+  {
+   "i": 40,
+   "text": "或许在最后能听到你一句",
+   "t0": 167.79,
+   "t1": 171.28,
+   "t0_used": 167.79,
+   "t1_used": 171.28,
+   "snapped": false,
+   "snap_deltas": [
+    0.119,
+    0.195
+   ],
+   "approx": false,
+   "splits": [
+    169.39
+   ]
+  },
+  {
+   "i": 41,
+   "text": "轻轻地叹息后悔着对不起",
+   "t0": 171.28,
+   "t1": 192.11,
+   "t0_used": 171.28,
+   "t1_used": 192.122,
+   "snapped": true,
+   "snap_deltas": [
+    0.195,
+    -0.012
+   ],
+   "approx": false,
+   "splits": [
+    174.103,
+    177.099,
+    180.117,
+    183.113,
+    186.108,
+    189.127
+   ]
+  },
+  {
+   "i": 42,
+   "text": "如果我遇见你是一场悲剧",
+   "t0": 192.11,
+   "t1": 195.46,
+   "t0_used": 192.122,
+   "t1_used": 195.535,
+   "snapped": true,
+   "snap_deltas": [
+    -0.012,
+    -0.075
+   ],
+   "approx": false,
+   "splits": [
+    193.84
+   ]
+  },
+  {
+   "i": 43,
+   "text": "我想我这辈子注定一个人演戏",
+   "t0": 195.46,
+   "t1": 198.79,
+   "t0_used": 195.535,
+   "t1_used": 198.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.075,
+    -0.205
+   ],
+   "approx": false,
+   "splits": [
+    197.254
+   ]
+  },
+  {
+   "i": 44,
+   "text": "最后再一个人慢慢地回忆",
+   "t0": 198.79,
+   "t1": 202.28,
+   "t0_used": 198.79,
+   "t1_used": 202.28,
+   "snapped": false,
+   "snap_deltas": [
+    -0.205,
+    -0.128
+   ],
+   "approx": false,
+   "splits": [
+    200.713
+   ]
+  },
+  {
+   "i": 45,
+   "text": "没有了过去我将往事抽离",
+   "t0": 202.28,
+   "t1": 206.21,
+   "t0_used": 202.28,
+   "t1_used": 206.286,
+   "snapped": true,
+   "snap_deltas": [
+    -0.128,
+    -0.076
+   ],
+   "approx": false,
+   "splits": [
+    204.127
+   ]
+  },
+  {
+   "i": 46,
+   "text": "如果我遇见你是一场悲剧",
+   "t0": 206.21,
+   "t1": 211.77,
+   "t0_used": 206.286,
+   "t1_used": 211.859,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.089
+   ],
+   "approx": false,
+   "splits": [
+    209.281
+   ]
+  },
+  {
+   "i": 47,
+   "text": "我轻轻地叹息",
+   "t0": 211.77,
+   "t1": 215.3,
+   "t0_used": 211.859,
+   "t1_used": 215.272,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    0.028
+   ],
+   "approx": false,
+   "splits": [
+    213.554
+   ]
+  },
+  {
+   "i": 48,
+   "text": "后悔着对不起",
+   "t0": 215.3,
+   "t1": 218.3,
+   "t0_used": 215.272,
+   "t1_used": 218.268,
+   "snapped": true,
+   "snap_deltas": [
+    0.028,
+    0.032
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 49,
+  "lines_untimed": 0,
+  "lines_snapped": 27,
+  "lines_unsnapped": 22,
+  "lines_need_split": 37,
+  "total_splits": 47
+ },
+ "advisory": true
+}

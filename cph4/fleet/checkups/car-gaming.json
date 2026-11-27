@@ -1,0 +1,23 @@
+{
+ "line": "car-gaming",
+ "priority": "P3",
+ "evidence": [
+  "cph4/fleet/car-gaming-v1"
+ ],
+ "checks": [
+  {
+   "name": "有立项件",
+   "type": "glob",
+   "path": "cph4/fleet/car-gaming-v1",
+   "pattern": "*.md",
+   "min": 1
+  },
+  {
+   "name": "有演示包",
+   "type": "glob",
+   "path": "cph4/fleet/car-gaming-v1",
+   "pattern": "*.zip",
+   "min": 1
+  }
+ ]
+}

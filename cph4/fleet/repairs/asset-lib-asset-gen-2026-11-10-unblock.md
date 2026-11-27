@@ -1,0 +1,1 @@
+缺资源 (RAM<4G)；BM-C 执行 8188 启动 ComfyUI 后自动解锁；BM-C

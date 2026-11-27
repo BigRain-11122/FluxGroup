@@ -1,0 +1,26 @@
+<- 220 newxmmxsza27-0.qq.com MX QQ Mail Server.
+-> EHLO dasheng.fluxverse.cn
+<- 250-newxmmxsza27-0.qq.com
+<- 250-STARTTLS
+<- 250-8BITMIME
+<- 250-SMTPUTF8
+<- 250-SIZE 66060288
+<- 250 OK
+-> STARTTLS
+<- 220 Ready to start TLS from 58.33.9.194 to newxmmxsza27-0.qq.com.
+-> EHLO dasheng.fluxverse.cn
+<- 250-newxmmxsza27-0.qq.com
+<- 250-8BITMIME
+<- 250-SMTPUTF8
+<- 250-SIZE 66060288
+<- 250 OK
+-> MAIL FROM:<flux-brief@fluxverse.cn>
+<- 250 OK
+-> RCPT TO:<sjs208@qq.com>
+<- 250 OK
+-> DATA
+<- 354 End data with <CR><LF>.<CR><LF>.
+-> [body 4943 bytes + terminator]
+<- 250 OK: queued as.
+-> QUIT
+<- 221 Bye.

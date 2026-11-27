@@ -1,0 +1,30 @@
+{
+ "ts": "2026-11-27T17:45:37",
+ "node": "bm-c",
+ "kind": "production-router",
+ "gpu": {
+  "util": 1,
+  "mem_used_mb": 4190,
+  "mem_total_mb": 16384
+ },
+ "comfy": {
+  "8189": true,
+  "8188": true
+ },
+ "batches": {
+  "heroine_factory": 0
+ },
+ "throughput": {
+  "pl_ql_last10min": 0
+ },
+ "stalls": [],
+ "plan": "gpu-mainline",
+ "lanes": {
+  "gpu-mainline": "heroine-lora-factory (ql in-flight, then tm/hk...)",
+  "gpu-alt-1": "main-dispatch KF batches (8188)",
+  "gpu-alt-2": "v3 dataset expansion / verify boards",
+  "cpu-mainline": "voicebank corpus (audio-separator+whisperX, awaiting jobs list)",
+  "cpu-alt-1": "asset-lib proposals (styles/typography)",
+  "cpu-alt-2": "captions/cleanup for training data"
+ }
+}

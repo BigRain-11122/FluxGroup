@@ -1,0 +1,8 @@
+{
+ "id": "OB-20261107-131543-89184",
+ "ts": "2026-11-07 13:15",
+ "text": "机队对齐令（CEO 2026-11-07 13:1x 原话）：「让机队和主控对齐，互相拉齐」。执行：①各机对齐三查——(a) 本地 HEAD == origin/node/<本机> 尖（交付零漂移），(b) Tools/fleet 与 origin/main 无真实字节差（防旧代码跑卡），(c) agent.py 执行器全机惟一单实例；②查毕回执落 cph4/fleet/order-bus/receipts/OB-20261107-131543-89184-<机>.json，主控折枝吸收后按回执清点；③13:1x 实测机队面=五节点心跳全在线、主控脉 2min 正常、bm-a 在跑 voice-corpus 真产物；摩擦面一件=face 门禁卡 12:28 重派起空转 40+ 轮（定性=上游缺料，见 MSG-20261107-1225），建议主控撤卡标 E-UPSTREAM 或改派 char-gen 脸数据集供给卡。",
+ "lanes": ["bm-a", "bm-b", "bm-c", "bm-m"],
+ "src": "bm-c",
+ "status": "dispatched"
+}

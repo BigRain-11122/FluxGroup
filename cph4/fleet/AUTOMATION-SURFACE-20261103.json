@@ -1,0 +1,22 @@
+{
+  "id": "AUTOMATION-SURFACE-20261103",
+  "owner": "中枢",
+  "why": "CEO 2026-11-03 14:36 令：点状指令要交出整面。这份是「机队自动化」这一面的机读清单，改动前后按它核对，不再只修被点名的一项。",
+  "checked_at": "2026-11-03T15:10+08:00",
+  "items": [
+    {"id": "S1", "name": "主控脉阶段健康", "status": "OK", "evidence": "PULSE stages=44 非零 rc=0", "trigger": "任一阶段 rc≠0 或 slow 卡住 >900s"},
+    {"id": "S2", "name": "补料供给（work-bank 深度）", "status": "OK", "evidence": "bank_autofill 已接 workgen 之前，空闲机自动补体检活", "trigger": "任一台在线机 OPEN+READY <3 且 bank pending=0"},
+    {"id": "S3", "name": "派单正确性（不派给死机）", "status": "OK", "evidence": "choose_lane 只回落到 age_s is not None 的机器", "trigger": "出现 owner 属无心跳机器的 RUNNING 卡"},
+    {"id": "S4", "name": "卡面合规（line/机器名/绝对路径）", "status": "PARTIAL", "evidence": "I1 5→2；I2 125（存量历史卡），15 条为本轮新增", "trigger": "I1>0 或 I2 新增 >0"},
+    {"id": "S5", "name": "回执合规（rc/error_class）", "status": "PARTIAL", "evidence": "I3 19 条存量；本轮补 rc=3→E-BLOCKED-INPUT 映射与两处 BLOCKED 回执", "trigger": "任一新回执 rc≠0 且无 error_class"},
+    {"id": "S6", "name": "产物登记（DONE 必有 artifact）", "status": "PARTIAL", "evidence": "I4 10 条", "trigger": "I4 新增 >0"},
+    {"id": "S7", "name": "孤儿脚本", "status": "OK", "evidence": "I12 4→2（新增 5 件工具已登记 TOOLS-MANUAL）", "trigger": "I12 新增 >0"},
+    {"id": "S8", "name": "P0 线日产", "status": "RISK", "evidence": "I14 bigstream-shortvideo 无产出", "trigger": "任一 P0 线 24h 无产物"},
+    {"id": "S9", "name": "技能库 A/B 分级与激活面", "status": "OK", "evidence": "45 件 A8/B19/frozen5/external11/parked2，激活面 29", "trigger": "A 级数下降或激活面 < 仓内 A+B"},
+    {"id": "S10", "name": "本地模型驻留与算力占用", "status": "OK", "evidence": "ollama 按卡加载/释放，模型名唯一来源 LOCAL-MODEL-POLICY", "trigger": "模型空载但队列有可跑卡 >30 分钟"},
+    {"id": "S11", "name": "git 同步与分叉", "status": "OK", "evidence": "PULSE git=ok push=up-to-date", "trigger": "skipped:dirty 连续 3 轮或 push rejected"},
+    {"id": "S12", "name": "并行会话互相覆盖", "status": "RISK", "evidence": "本轮实测：bank_autofill 阶段被另一会话整表重写 STAGES 静默丢掉，已重加", "trigger": "自己提交过的行在 HEAD 里消失"}
+  ],
+  "changed_this_round": ["S2", "S3", "S4", "S5", "S7", "S12"],
+  "not_changed_with_trigger": ["S1", "S6", "S8", "S9", "S10", "S11"]
+}

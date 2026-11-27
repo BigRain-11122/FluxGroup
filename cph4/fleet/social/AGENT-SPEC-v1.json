@@ -1,0 +1,123 @@
+{
+ "_why": "养号线智能体的岗位职责表（CEO 2026-11-21「智能体建立好，你好好规划，还有自动任务什么的」）。每一项必须带：谁执行（真实工具路径）、证据在哪（真实产物路径）、多久一次、多久没证据算失效、拿不到证据怎么办。agent_audit.py 只认这三样，不认自述。",
+ "version": "v1-20261121",
+ "agent": {
+  "name": "social-keeper",
+  "open": "一条线一个身体：两个号各一个常驻 daemon（agent_daemon.py --account），训练/自举/嵌入/烘焙各一个定时器，GPU 之间用 gpu_lease.py 互斥。",
+  "boundary": [
+   "不对外承诺、不引流、不删评论、不跨平台导流",
+   "被问是不是 AI / 创作者身份 / 引战 → 一律不代答（留给人工）",
+   "训练与出稿共用一块 GPU：拿不到租约就让路并记账，不排队"
+  ]
+ },
+ "duties": [
+  {
+   "id": "S01",
+   "name": "出稿（评论为主）",
+   "exec": "Tools/fleet/agent_daemon.py --account acct1/acct3",
+   "evidence": "cph4/fleet/social/USER-AGENT-LEDGER.jsonl",
+   "cadence_s": 3600,
+   "stale_after_s": 14400,
+   "fallback": "daemon 崩了由 launchd 拉起；连续 4h 无动作 → 记 STALE 并检查登录态/profile 锁"
+  },
+  {
+   "id": "S02",
+   "name": "采集与学习（看片、抽语料）",
+   "exec": "Tools/fleet/social_loop.py --once",
+   "evidence": "cph4/fleet/social/SOCIAL-LOOP-LEDGER.jsonl",
+   "cadence_s": 1800,
+   "stale_after_s": 10800,
+   "fallback": "browser profile 被占 → 顺延不空转；连续 3h 无产出 → 检查 social_collect 锁"
+  },
+  {
+   "id": "S03",
+   "name": "段训练",
+   "exec": "Tools/fleet/train_forever.py --once",
+   "evidence": "cph4/fleet/social/train/TRAIN-LOOP-LEDGER.jsonl",
+   "cadence_s": 3600,
+   "stale_after_s": 21600,
+   "fallback": "GPU 让路记 BLOCKED；连续 6h 无 KEEP/REJECT → 检查是否被出稿永久挤掉"
+  },
+  {
+   "id": "S04",
+   "name": "自举补语料",
+   "exec": "Tools/fleet/selfgen.py --per 8",
+   "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
+   "cadence_s": 10800,
+   "stale_after_s": 43200,
+   "fallback": "拿不到租约自己跳过；连续 12h 一条没留 → 检查闸是否过严"
+  },
+  {
+   "id": "S05",
+   "name": "语料烘焙（去 AI 腔/去重/分段）",
+   "exec": "Tools/fleet/corpus_bake.py",
+   "evidence": "cph4/fleet/social/corpus/human/BAKED-stats.json",
+   "cadence_s": 21600,
+   "stale_after_s": 86400,
+   "fallback": "烘焙失败 → 保留上一份 BAKED，训练继续用旧集并记 STALE"
+  },
+  {
+   "id": "S06",
+   "name": "健康哨兵（登录态/止损/账号）",
+   "exec": "Tools/fleet/social_health.py --fix",
+   "evidence": ".codely-cli/state/HEALTH.json",
+   "cadence_s": 900,
+   "stale_after_s": 3600,
+   "fallback": "自动修复失败 → 写告警，不自行注册/下单/对外"
+  },
+  {
+   "id": "S07",
+   "name": "量化账本（一屏数字）",
+   "exec": "Tools/fleet/social_metrics.py",
+   "evidence": "cph4/fleet/social/METRICS.json",
+   "cadence_s": 3600,
+   "stale_after_s": 10800,
+   "fallback": "指标算不出 → 报缺哪个输入文件，不用估值糊"
+  },
+  {
+   "id": "S08",
+   "name": "多样性体检",
+   "exec": "Tools/fleet/diversity_audit.py",
+   "evidence": "cph4/fleet/social/state/DIVERSITY.json",
+   "cadence_s": 86400,
+   "stale_after_s": 259200,
+   "fallback": "阈值不过 → 记录不过的项，不许改阈值迁就数据"
+  },
+  {
+   "id": "S09",
+   "name": "平台作息与语汇刷新",
+   "exec": "Tools/fleet/activity_clock.py",
+   "evidence": "cph4/fleet/social/ACTIVITY-CLOCK.json",
+   "cadence_s": 604800,
+   "stale_after_s": 1209600,
+   "fallback": "采不到样本 → 沿用旧时钟，不拍脑袋改时段"
+  },
+  {
+   "id": "S10",
+   "name": "闸回归（误杀/漏网）",
+   "exec": "Tools/fleet/gate_regression.py",
+   "evidence": "cph4/fleet/social/GATE-REGRESSION.json",
+   "cadence_s": 86400,
+   "stale_after_s": 259200,
+   "fallback": "正控放行 <90% → 判误杀，先改闸不改数据"
+  },
+  {
+   "id": "S11",
+   "name": "标题与内容简报",
+   "exec": "Tools/fleet/video_titles_fill.py + video_brief.py",
+   "evidence": "cph4/fleet/social/VIDEO-BRIEFS.json",
+   "cadence_s": 86400,
+   "stale_after_s": 259200,
+   "fallback": "补不到标题 → 用评论词做简报，标 no_title 计数"
+  },
+  {
+   "id": "S12",
+   "name": "评测功率复测（n=30 重复性）",
+   "exec": "Tools/fleet/train_eval.py --per-segment --samples 30",
+   "evidence": "cph4/fleet/social/train/SEGMENT-EVAL.json",
+   "cadence_s": 604800,
+   "stale_after_s": 1209600,
+   "fallback": "两次差值 >5 分 → 判定不可信，把 n 提到 30 再判"
+  }
+ ]
+}

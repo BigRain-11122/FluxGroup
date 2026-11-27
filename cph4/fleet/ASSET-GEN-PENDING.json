@@ -1,0 +1,19 @@
+{
+ "note": "当日生成额度(100)耗尽；次日 00:00 后按 slug+prompt 各补 1 张第三角度，落 incoming/props，回读实测补 manifest，目检无字标后才算完",
+ "items": [
+  {
+   "ts": "2026-11-05T19:20:00",
+   "slug": "old-mobile-phone",
+   "file": "prop-old-mobile-phone-03.png",
+   "why": "当日生成额度满(100)，等 2026-11-06 00:00 重置",
+   "prompt": "Close-up product photograph of the front keypad of a generic silver early-2000s candybar feature phone, low side-angle view looking slightly up at the numeric keypad, blank unprinted rubber keys, scuffed matte-plastic lower edge, plain white seamless background, soft even studio light, keypad fills 80% of frame. No text, no logo, no brand markings, no letters or numerals, no hands, no people."
+  },
+  {
+   "ts": "2026-11-05T19:20:00",
+   "slug": "cassette-walkman",
+   "file": "prop-cassette-walkman-03.png",
+   "why": "当日生成额度满(100)，等 2026-11-06 00:00 重置",
+   "prompt": "Product photograph of a generic 1990s cassette walkman closed, top-down flat lay on plain light-grey seamless surface, metal front plate with blank transport buttons, closed clear cassette window showing tape reels, black earphone cable coiled to one side. Soft even diffused light, subject fills 75% of frame. No text, no logo, no brand markings, no letters or numerals, no hands, no people."
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "id": "SD-control-PROD-MV-SINGLE-mv-plan-20261114-1138",
+ "station": "control",
+ "product_id": "PROD-MV-SINGLE",
+ "stage": "mv-plan",
+ "task_type": "T-TEXT-SCRIPT",
+ "verdict": "FAILED",
+ "why": "执行失败 rc=1",
+ "judge": "panel",
+ "judge_source": "card",
+ "deliverable": "cph4/fleet/mv0001-handover/plan/kf_prompts.json",
+ "bytes": -1,
+ "sha256": null,
+ "ts": "2026-11-14T11:38:35",
+ "by": "self-drive"
+}

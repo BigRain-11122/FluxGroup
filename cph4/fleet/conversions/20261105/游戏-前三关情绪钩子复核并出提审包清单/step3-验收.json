@@ -1,0 +1,21 @@
+{
+ "ts": "2026-11-05T17:40:31",
+ "conv": "cph4/fleet/conversions/20261105/游戏-前三关情绪钩子复核并出提审包清单",
+ "step": 3,
+ "stage": "验收",
+ "idea": "游戏：前三关情绪钩子复核并出提审包清单",
+ "verify_rc": 0,
+ "verify_tail": [
+  "  ? bigmoney-backtest-2026-11-03-v3 :: 主控看不到交付物（可能跨机）",
+  "  ? asset-lib-index-2026-11-04 :: 内容像拒答/阻塞说明(blocked)",
+  "  ? CHT-20261105T134725-02 :: 过小(57B)",
+  "  ? R-NEXT-FLUXVERSE-CITY-STA-20261105 :: 内容像拒答/阻塞说明(blocked)",
+  "  ? SIM-20261105T151049-02-0 :: 过小(46B)"
+ ],
+ "criteria": [
+  "交付物存在且非空",
+  "判据可机器判",
+  "无 BLOCKED 未具名"
+ ],
+ "ok": false
+}

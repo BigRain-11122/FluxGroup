@@ -1,0 +1,41 @@
+{
+ "batch": "r1017 sec-8 item-6 version-management correction (S7R label conform)",
+ "runner": "bm-c C2125",
+ "ts": "2026-10-20T06:48:54",
+ "variants_source": "abatch_s7r (untouched - no variant pixel was rewritten)",
+ "label_map": {
+  "orig": "orig <frame>",
+  "s7rA": "s7rA grain 0.14",
+  "s7rB": "s7rB shoulder+grain",
+  "s7rC": "s7rC esrgan4x+LANCZOS"
+ },
+ "boards": [
+  {
+   "name": "xq-AB-S7R-BOARD-1-r1058.jpg",
+   "bytes": 480629,
+   "sha256": "6148e34ee688ccccebea38f3b1a0ae24afdf9759a69387b520e80549ef7b3578",
+   "mirror": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\xq-AB-S7R-BOARD-1-r1058.jpg"
+  },
+  {
+   "name": "xq-AB-S7R-BOARD-2-r1058.jpg",
+   "bytes": 617155,
+   "sha256": "675319983ed50f76dc0c3fc10052c95fc3998e15552456dfa14e9980f5a53f4e",
+   "mirror": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\xq-AB-S7R-BOARD-2-r1058.jpg"
+  },
+  {
+   "name": "xq-AB-S7R-COMPARE-S5-26-r1058.jpg",
+   "bytes": 197965,
+   "sha256": "81eb2b37de3cc6b0e7c623e0024f275a576912ecc7d0526e17c9c8bf8b402806",
+   "mirror": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\xq-AB-S7R-COMPARE-S5-26-r1058.jpg"
+  },
+  {
+   "name": "xq-AB-S7R-COMPARE-S0-03-r1058.jpg",
+   "bytes": 608937,
+   "sha256": "81fe7c73f70aa78786f8ff6b64a71d4958b8f7535dbfa5adae94814a6c9c660f",
+   "mirror": "K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\xq-AB-S7R-COMPARE-S0-03-r1058.jpg"
+  }
+ ],
+ "receipt_conform": "headers now use s7rA/s7rB/s7rC exactly as named in xq-s7r-abatch-receipt-r1058.json",
+ "typo_fix": "S5-26 strip header reads ORIGINAL (was ORGINAL)",
+ "zero_gpu": true
+}

@@ -1,0 +1,16 @@
+{
+ "id": "R-PLAN-BIGDOMAIN-20261115",
+ "station": "control",
+ "product_id": null,
+ "stage": null,
+ "task_type": null,
+ "verdict": "CANCELLED",
+ "why": "命令未授权，卡作废（不重试）：命令不在 PRODUCTS 已审清单里，且卡上没有 cmd_reviewed 标记",
+ "judge": "",
+ "judge_source": "none",
+ "deliverable": "cph4/fleet/queue-receipts/triage-bigdomain-20261115.md",
+ "bytes": -1,
+ "sha256": null,
+ "ts": "2026-11-15T00:08:13",
+ "by": "self-drive"
+}
