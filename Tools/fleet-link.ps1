@@ -60,6 +60,7 @@ $ErrorActionPreference = 'Continue'
 $Dir = Join-Path $env:USERPROFILE '.codely-cli\fleet-link'
 if (-not (Test-Path $Dir)) { New-Item -ItemType Directory -Path $Dir | Out-Null }
 $LogF = Join-Path $Dir 'log.jsonl'
+$ExecLogF = Join-Path $Dir 'exec.jsonl'
 $StateF = Join-Path $Dir 'state.json'
 
 function FL-Log([string]$evt, [string]$detail) {
@@ -92,7 +93,10 @@ if ($NodeId -eq '') { $NodeId = $env:COMPUTERNAME }
 # task that lets that box claim any work could never be requested by name (measured:
 # bm-c wakes stopped at MiniGameRadarTick while its roster had three more). Cap is
 # now the roster's own size, kept finite so a hand-crafted body cannot fan out.
-$Vers = '1.9.7'
+# v1.9.8 (2026-11-27 T0 CEO order): /exec - fleet-to-fleet command execution.
+# Restricted to tailnet IPs listed in Tools/fleet-nodes.json (plus loopback),
+# 25s cap, audited to exec.jsonl, child runs hidden without a window.
+$Vers = '1.9.8'
 # v1.9.4: a same-version listener already owning the port means "healthy";
 # exit silently. Before this, every supervisor run logged 2 bind-fail lines,
 # which rotated the real sync history out of log.jsonl (200-line cap).
@@ -189,6 +193,43 @@ function Test-ClientIp([string]$ip) {
   $o2 = 0
   if (-not [int]::TryParse($p[1], [ref]$o2)) { return $false }
   return ($o2 -ge 64 -and $o2 -le 127)
+}
+
+function Test-ExecAllowed([string]$ip) {
+  if ([string]::IsNullOrWhiteSpace($ip)) { return $false }
+  if ($ip.StartsWith('127.')) { return $true }
+  try {
+    $cfg = Get-Content -Raw -Encoding UTF8 (Join-Path $Root 'Tools\fleet-nodes.json') | ConvertFrom-Json
+    foreach ($n in @($cfg.nodes)) { if ([string]$n.tailnet_ip -eq $ip) { return $true } }
+  } catch { }
+  return $false
+}
+
+function Invoke-FleetExec([string]$cmd, [int]$timeoutSec) {
+  $sw = [Diagnostics.Stopwatch]::StartNew()
+  $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($cmd))
+  $psi = New-Object Diagnostics.ProcessStartInfo
+  $psi.FileName = 'powershell.exe'
+  $psi.Arguments = '-NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand ' + $enc
+  $psi.UseShellExecute = $false
+  $psi.RedirectStandardOutput = $true
+  $psi.RedirectStandardError = $true
+  $psi.CreateNoWindow = $true
+  $p = [Diagnostics.Process]::Start($psi)
+  $so = $p.StandardOutput.ReadToEndAsync()
+  $se = $p.StandardError.ReadToEndAsync()
+  $done = $p.WaitForExit($timeoutSec * 1000)
+  if (-not $done) {
+    try { & taskkill /T /F /PID $p.Id 2>&1 | Out-Null } catch { try { $p.Kill() } catch { } }
+    return [ordered]@{ ok = $false; rc = -1; timeout = $true; ms = $sw.ElapsedMilliseconds; out = ''; err = 'timeout' }
+  }
+  try { $p.WaitForExit() } catch { }
+  $out = ''; $err = ''
+  try { $out = [string]$so.Result } catch { }
+  try { $err = [string]$se.Result } catch { }
+  if ($out.Length -gt 65536) { $out = $out.Substring(0, 65536) }
+  if ($err.Length -gt 65536) { $err = $err.Substring(0, 65536) }
+  return [ordered]@{ ok = $true; rc = $p.ExitCode; timeout = $false; ms = $sw.ElapsedMilliseconds; out = $out; err = $err }
 }
 
 function Send-Resp($client, [int]$code, [string]$reason, [string]$json) {
@@ -496,6 +537,29 @@ function Handle-Client($client) {
     $o = [ordered]@{ ok = $true; accepted = $true; node = $NodeId; version = $Vers; ts = (Get-Date -Format s) }
     Send-Resp $client 200 'OK' ($o | ConvertTo-Json -Compress)
     Start-PokeWorker $reason $tasks $repos
+    return
+  }
+  if ($path -eq '/exec') {
+    if ([string]$req.m -ne 'POST') { Send-Resp $client 405 'Method Not Allowed' '{"ok":false,"err":"post-only"}'; return }
+    if ($req['bigbody']) { Send-Resp $client 200 'OK' '{"ok":false,"err":"body-too-large"}'; return }
+    if (-not (Test-ExecAllowed $rip)) { Send-Resp $client 403 'Forbidden' '{"ok":false,"err":"exec-forbidden"}'; FL-Log 'exec-deny' $rip; return }
+    $cmd = ''; $to = 20
+    try {
+      $b = ([string]$req.body) | ConvertFrom-Json
+      if ($b.PSObject.Properties.Name -contains 'cmd') { $cmd = [string]$b.cmd }
+      if ($b.PSObject.Properties.Name -contains 'timeout') { $to = [int]$b.timeout }
+    } catch { }
+    if ($cmd -eq '') { Send-Resp $client 400 'Bad Request' '{"ok":false,"err":"cmd-required"}'; return }
+    if ($cmd.Length -gt 8000) { Send-Resp $client 400 'Bad Request' '{"ok":false,"err":"cmd-too-long"}'; return }
+    if ($to -lt 5) { $to = 5 }
+    if ($to -gt 25) { $to = 25 }
+    FL-Log 'exec' ($rip + ' len=' + $cmd.Length + ' to=' + $to)
+    $res = Invoke-FleetExec $cmd $to
+    try {
+      $logObj = [ordered]@{ ts = (Get-Date -Format s); ip = $rip; len = $cmd.Length; rc = $res.rc; ms = $res.ms; timeout = $res.timeout }
+      ($logObj | ConvertTo-Json -Compress) | Add-Content -LiteralPath $ExecLogF -Encoding UTF8
+    } catch { }
+    Send-Resp $client 200 'OK' ($res | ConvertTo-Json -Compress -Depth 4)
     return
   }
   if ($path -eq '/sync') {
