@@ -1,0 +1,61 @@
+{
+ "ts": "20261127-140947",
+ "run_dir": "cph4/fleet/social/train/RUNS/20261127-140947",
+ "rc": 0,
+ "plumbing_only": false,
+ "base_model": "/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit",
+ "argv": [
+  "mlx_lm",
+  "lora",
+  "--train",
+  "--model",
+  "/Users/junsheng.sun/.fluxgroup/models/qwen3.5-4b-4bit",
+  "--data",
+  "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train-music_seeker",
+  "--batch-size",
+  "1",
+  "--iters",
+  "400",
+  "--num-layers",
+  "16",
+  "--learning-rate",
+  "1e-05",
+  "--max-seq-length",
+  "320",
+  "--steps-per-eval",
+  "50",
+  "--adapter-path",
+  "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261127-140947/adapter",
+  "--seed",
+  "20261117",
+  "--mask-prompt",
+  "--grad-checkpoint"
+ ],
+ "train_rows": 370,
+ "data_sha": {
+  "train.jsonl": "960bc5924a3acb09",
+  "valid.jsonl": "9a97aee5aa661a04"
+ },
+ "iters": 400,
+ "train_loss_last": 2.252,
+ "val_loss_last": 3.132,
+ "train_loss_head": [
+  4.415,
+  3.616,
+  3.162
+ ],
+ "val_loss_all": [
+  5.648,
+  3.479,
+  3.393,
+  3.131,
+  3.406,
+  3.11,
+  3.301,
+  3.181,
+  3.132
+ ],
+ "wall_sec": 1541.5,
+ "models_unloaded": [],
+ "adapter": "cph4/fleet/social/train/RUNS/20261127-140947/adapter"
+}
