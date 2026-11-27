@@ -135,7 +135,10 @@ def per_segment(base_model, adapter_path, samples, max_tokens, temp, segs=None, 
     for seg in (segs or [s["id"] for s in spec["segments"]]):
         if not with_lora:
             k = _base_key(base_model, seg, samples, max_tokens, temp)
-            if k in cache:
+            # 缓存必须带 sd 才算可用（2026-11-27）：judge_keep 的噪声闸靠 base.sd 算标准误，
+            # 而 sd 是后加的字段——旧缓存没有它，于是 noise_se 返回 None、噪声闸静默失效，
+            # 判决里还显示成"噪声 ±0.0"（看着像量过，其实没量）。缺 sd 就重采一次。
+            if k in cache and "sd" in (cache[k] or {}):
                 rows.append(dict(cache[k], seg=seg, cached=True))
                 continue
         block = sgm.style_block(seg, spec)

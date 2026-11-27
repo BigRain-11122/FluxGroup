@@ -333,7 +333,9 @@ def judge_keep(base, lora):
     dh = float(lora.get("avg_human") or 0) - float(base.get("avg_human") or 0)
     if dh < -KEEP_HUMAN_DROP:
         return False, "人味退步 %.1f（总分靠语感刷上去不算变好）" % dh
-    return True, "均分 %+.1f（噪声 ±%.1f）/ 人味 %+.1f" % (gain, se or 0, dh)
+    # se=None 表示没量到（缺 sd），要如实写"噪声未知"，不许显示成 ±0.0 让人以为量过。
+    _noise = "噪声未知" if se is None else "噪声 ±%.1f" % se
+    return True, "均分 %+.1f（%s）/ 人味 %+.1f" % (gain, _noise, dh)
 
 
 def sh(cmd, timeout=7200):
