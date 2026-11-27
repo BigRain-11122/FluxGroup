@@ -331,3 +331,4 @@ ilm grain 重复句。复核=warm skin 0 条、grain 重复 0 条。③包内语
 全部推完写 cph4/fleet/mv0001-handover/transfer/BATCH-DONE.json，然后 poke bm-c。
 
 本令取代 OB-20261124-222844-550 与 OB-20261124-223249-233 里的交付路径：改用直推收件口，不再需要 git 分片。」 | **机队自动分发令（id=OB-20261124-224243-258）**：车道=bm-a；bm-a=拆解/装配/核验/回执；HQ 车道可执行件立即开工；各车道轮首自领、禁等人工分配；回执落 cph4/fleet/order-bus/receipts/ | dispatched OB-20261124-224243-258 | [via fleet-order-bus.py] |
+| 2026-11-27 17:45（校时 17:45） | CEO 令（原话）：「你传过去让他们执行，ceo最高级别命令」（**T0 机队网络自愈执行令**·@HQ 立即） | **dispatched（@bm-b/@bm-c/@bm-m-1）**：立即执行 `cph4/fleet/AGENT-NET-UNIVERSAL-PROMPT.md` 全文；Windows 管理员跑 `Tools/fleet-fix-admin.ps1`（w32time+S4U）；回执落 `cph4/fleet/receipts/net-<id>-20261127.md` 并推 main；不得跳步/不得碰红线。投达实况=bm-c FleetLink v1.9.7 在线 /sync 直投｜bm-b 仅 Taildrop｜bm-m-1 直连。全文=`cph4/fleet/T0-ORDER-NET-SELFHEAL-20261127.md` | dispatched [via bm-a 交互窗] |
