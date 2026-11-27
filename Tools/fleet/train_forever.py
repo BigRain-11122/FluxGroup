@@ -67,6 +67,15 @@ GROWTH_GATE = 1.15      # 被否过的段，语料要涨 15% 才重训
 # 单次训练的墙钟上限：正常 40-50 分钟；给到 2 小时是留足慢盘/降速余量。
 # 超过就整组杀掉——租约 TTL 是 4 小时，没有这道闸，一次死锁会白占一整晚。
 TRAIN_MAX_S = 2 * 3600
+# 天花板闸：基座分已经这么高的段，训 LoRA 只会把它拉低，不该再烧 GPU。
+# 2026-11-27 实锚：craft_learner 基座 81.4（n=30 测量），训完掉到 68-75，连续三轮都是负分；
+# 它本来就是"带技术细节"的段，基座已经写得很好，缺的不是风格而是内容。
+CEILING_SKIP = 80.0
+# 反复被否的段：累计被否这么多次之后，只有"语料翻倍"才值得再试一次。
+# 2026-11-27 实锚：craft_learner 17 次、feeler 16 次、shallow 15 次被否，
+# 而 15% 增长门槛让它们每隔几小时就回来烧一轮——这不是探索，是重复同一个失败。
+HARD_REJECT_N = 10
+HARD_GROWTH = 2.0
 KEEP_GAIN = 5.0         # 段内均分要比基座高这么多
 KEEP_HUMAN_DROP = 2.0   # 人味允许波动；掉超过 2 分即判退步
 
@@ -170,6 +179,11 @@ def eligible(seg, rows, st, rejects, now=None):
             int(rj0.get("n") or 0) >= 3 and n < int(rj0.get("rows") or 0) * GROWTH_GATE)):
         return True, "配方更新 %s（%d 行）" % (RECIPE_V, n)
     rj = rejects.get(seg) or {}
+    # 被否太多次的段：门槛从 15% 提到"翻倍"。只有在数据形态真的大变时才值得再试。
+    if rj and int(rj.get("n") or 0) >= HARD_REJECT_N:
+        if n < int(rj.get("rows") or 0) * HARD_GROWTH:
+            return False, "已被否 %d 次，语料 %d 未到 %.1f 倍（%d），不再重复同一个失败" % (
+                int(rj.get("n") or 0), n, HARD_GROWTH, int(int(rj.get("rows") or 0) * HARD_GROWTH))
     if rj and n < int(rj.get("rows") or 0) * GROWTH_GATE:
         return False, "上次被否（%d 行）且语料只到 %d，未涨 %.0f%%" % (
             int(rj.get("rows") or 0), n, (GROWTH_GATE - 1) * 100)
@@ -261,6 +275,26 @@ def pick(rows, st, rejects, now=None, built=None):
 # 2026-11-27 由 8 提到 30：memer 同一提示 n=10 判 KEEP(+9.7)、n=30 判 REJECT(-4.4)，
 # 说明 8-10 条的判决不可信；30 条把标准误压到 ~5 分以内，配合 noise_se 才能下结论。
 MIN_EVAL_N = 30
+
+
+def ceiling_of(seg, min_n=None):
+    """该段基座的天花板（历史里 n≥MIN_EVAL_N 的最大 base_avg）。没有可信测量返回 None。
+
+    只用 n≥30 的记录：n=10 的基座分本身就在 ±5 抖，拿它设天花板会把好段误停。
+    """
+    min_n = MIN_EVAL_N if min_n is None else int(min_n)
+    best = None
+    for r in _ledger_rows():
+        if r.get("seg") != seg:
+            continue
+        if int(r.get("eval_n") or 0) < min_n:
+            continue
+        try:
+            b = float(r.get("base_avg"))
+        except Exception:
+            continue
+        best = b if best is None else max(best, b)
+    return best
 
 
 def noise_se(base, lora):
@@ -652,6 +686,21 @@ def run_one(a):
         _lane("idle-no-task", why="；".join(why_not)[:120])
         return 0
     seg = task["seg"]
+    # 天花板闸（手动 --seg 不拦，那是显式指令）：基座已经 ≥80 分的段，训 LoRA 只会拉低。
+    # 2026-11-27 实锚：craft_learner 基座 81.4 → 连训三轮 68.5/75.0/68.4，全是负分。
+    if not a.seg:
+        _ceil = ceiling_of(seg)
+        if _ceil is not None and _ceil >= CEILING_SKIP:
+            print("[loop] 跳过 %s：基座已 %.1f 分（≥%.0f 天花板），训了只会拉低" % (
+                seg, _ceil, CEILING_SKIP))
+            record_fail(seg, task["rows"], "CEILING",
+                        "基座 %.1f 已达天花板 %.0f" % (_ceil, CEILING_SKIP))
+            st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
+                                       last_rc="CEILING")
+            _save(LOOP_STATE, st)
+            _lane("skip-ceiling", seg=seg, ceiling=round(_ceil, 1))
+            board(st, rows, rejects)
+            return 0
     ok_power, why_power = power_ok()
     if not ok_power:
         print("[loop] 暂停开训：%s" % why_power)
@@ -995,6 +1044,7 @@ def run_one(a):
 
 
 def self_test():
+    global LEDGER
     cases = []
     # 数据集指纹：同内容必须同 fp、不同内容必须不同 fp、缺失必须为空。
     # 这条闸曾经写成"拿台账里的 built 跟台账里的 built 比"（同源自比，恒判未变），
@@ -1032,6 +1082,12 @@ def self_test():
     rj2 = {"a": {"rows": 300}}
     ok4, why4 = eligible("a", rows, st3, rj2)
     cases.append(("被否且语料未涨 15% → 不可训", not ok4 and "未涨" in why4))
+    # 反复被否的段：累计 ≥10 次后只有"翻倍"才放行（负控：涨 15% 不够）
+    rj_hard = {"a": {"n": HARD_REJECT_N, "rows": 300}}
+    okh, whyh = eligible("a", {"a": 400}, st3, rj_hard)
+    cases.append(("被否10次后：涨15% 不够 → 不可训", (not okh) and "不再重复" in whyh))
+    oky, _ = eligible("a", {"a": 650}, st3, rj_hard)
+    cases.append(("被否10次后：语料翻倍 → 可训", oky))
     rows2 = {"a": 400}
     ok5, _ = eligible("a", rows2, st3, rj2)
     cases.append(("被否但语料涨够 → 可训", ok5))
@@ -1064,6 +1120,22 @@ def self_test():
     cases.append(("总分涨但人味掉 3 → 不采用", (not keep2) and "人味" in why6))
     keep3, _ = judge_keep(B, {"n": 30, "avg": 52, "sd": 12, "pass_rate": 70, "avg_human": 20})
     cases.append(("均分只 +2 → 不采用", not keep3))
+    # 天花板闸：n≥30 的基座高分要能读到；n=10 的记录不许拿来设天花板（本身就是抖）
+    import tempfile as _tf2
+    _saved2 = LEDGER
+    _fd2, _tmp2 = _tf2.mkstemp()
+    os.close(_fd2)
+    try:
+        with open(_tmp2, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-27T00:00:00", "seg": "hi",
+                                "eval_n": 30, "base_avg": 85.5}) + "\n")
+            f.write(json.dumps({"ts": "2026-11-27T00:10:00", "seg": "lo",
+                                "eval_n": 10, "base_avg": 90.0}) + "\n")
+        LEDGER = _tmp2
+        cases.append(("天花板：n≥30 的基座高分能读到", ceiling_of("hi") == 85.5))
+        cases.append(("天花板：n=10 的记录不许设天花板", ceiling_of("lo") is None))
+    finally:
+        LEDGER = _saved2
     keep4, why7 = judge_keep({"n": 3, "avg": 30, "pass_rate": 0, "avg_human": 0},
                              {"n": 3, "avg": 90, "pass_rate": 100, "avg_human": 30})
     cases.append(("只有 3 条样本 → 不判（噪声 ±30 分）",
@@ -1072,7 +1144,6 @@ def self_test():
     # 丢了它，eligible() 就永远判「配方更新」放行，冷却与被否后的 15% 增长闸静默失效
     # （实锚：8 段里 7 段 recipe=None，同一段 3.5h 重训一次，17 次 run 只出 7 个模型）。
     import tempfile
-    global LEDGER
     _saved_ledger = LEDGER
     _tmp = None
     try:
