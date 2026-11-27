@@ -32,6 +32,7 @@ import argparse
 import glob
 import json
 import os
+import subprocess
 import sys
 import time
 from datetime import datetime, timezone
@@ -145,6 +146,30 @@ def verdict_of(age_h):
     return "DARK"
 
 
+def _tailnet_map(timeout=3.0):
+    """尾网在线表（node -> True/False）。只用来区分「机器断电」和「机器在网但没 agent」。
+
+    注意：在线 ≠ 活着。bm-b 实测 online=True 却 249 小时零证据，说明网络层通了、
+    应用层没人干活——这两种故障的处理办法完全不同（一个要通电，一个要起任务），
+    所以这里只当旁证，绝不参与 verdict 的 ALIVE 判定。
+    """
+    try:
+        out = subprocess.run(
+            ["curl", "-s", "--max-time", str(int(timeout)),
+             "--unix-socket", "/var/run/tailscaled.socket",
+             "http://local-tailscaled.sock/localapi/v0/status"],
+            capture_output=True, text=True, timeout=timeout + 2).stdout
+        d = json.loads(out or "{}")
+    except Exception:
+        return {}
+    m = {"__self__": ((d.get("Self") or {}).get("HostName") or "").strip().lower()}
+    for v in (d.get("Peer") or {}).values():
+        name = (v.get("HostName") or "").strip().lower()
+        if name:
+            m[name] = bool(v.get("Online"))
+    return m
+
+
 def snapshot(root=ROOT):
     matrix = _read_json(os.path.join(root, "cph4", "fleet", "OS-MATRIX-v1.json")) or {}
     machines = matrix.get("machines") or {}
@@ -153,6 +178,7 @@ def snapshot(root=ROOT):
     here = os.uname().nodename if hasattr(os, "uname") else ""
 
     rows = []
+    tailnet = _tailnet_map()
     for key, m in machines.items():
         station = m.get("station") or key
         st = by_station.get(station) or {}
@@ -171,17 +197,26 @@ def snapshot(root=ROOT):
         best = max(ev, key=lambda x: x["epoch"]) if ev else None
         age_h = round((_now() - best["epoch"]) / 3600.0, 2) if best else None
         declared = m.get("os") == "unverified" and "NOT-INSTALLED" or (st.get("status") or "unknown")
+        verdict = "NOT-INSTALLED" if (st.get("status") == "not_installed") else verdict_of(age_h)
+        net = tailnet.get(node)
+        if node == tailnet.get("__self__"):
+            net = True          # 本机不在 Peer 表里，别把自己读成离线
+        if net and verdict in ("STALE", "DARK", "NO-EVIDENCE"):
+            # 网通了但没人干活：不是断电，是任务没起/心跳没开，处置办法完全不同。
+            verdict = "ONLINE-NO-AGENT"
         rows.append({
             "node": node, "station": station,
             "machine": m.get("name") or st.get("machine") or node,
             "hostname": m.get("hostname"),
             "declared_status": declared,
+            "tailnet_online": net,
             "age_h": age_h,
-            "verdict": "NOT-INSTALLED" if (st.get("status") == "not_installed") else verdict_of(age_h),
+            "verdict": verdict,
             "best_source": best["source"] if best else None,
             "evidence": [{k: v for k, v in e.items() if k != "epoch"} for e in ev],
         })
-    order = {"ALIVE": 0, "WARM": 1, "STALE": 2, "DARK": 3, "NO-EVIDENCE": 4, "NOT-INSTALLED": 5}
+    order = {"ALIVE": 0, "WARM": 1, "STALE": 2, "DARK": 3, "ONLINE-NO-AGENT": 4,
+             "NO-EVIDENCE": 5, "NOT-INSTALLED": 6}
     rows.sort(key=lambda r: (order.get(r["verdict"], 9), r["station"]))
     return {"ts": datetime.now().isoformat(timespec="seconds"),
             "thresholds_h": {"alive": ALIVE_H, "warm": WARM_H, "stale": STALE_H},
@@ -190,22 +225,28 @@ def snapshot(root=ROOT):
 
 def render(snap):
     out = ["== 机队判活（三通道合并：NATS / git 回执 / 本机 rt）==",
-           "%-6s %-10s %-14s %-11s %-8s %-7s %s" % ("节点", "工位", "机器", "判定", "证据龄", "来源", "静态申报")]
+           "%-6s %-10s %-14s %-11s %-8s %-7s %-7s %s" % (
+               "节点", "工位", "机器", "判定", "证据龄", "来源", "尾网", "静态申报")]
     for r in snap["nodes"]:
         age = "-" if r["age_h"] is None else "%.2fh" % r["age_h"]
-        out.append("%-6s %-10s %-14s %-11s %-8s %-7s %s" % (
+        net = "-" if r.get("tailnet_online") is None else ("在线" if r["tailnet_online"] else "离线")
+        out.append("%-6s %-10s %-14s %-11s %-8s %-7s %-7s %s" % (
             r["node"], r["station"], (r["machine"] or "")[:14], r["verdict"], age,
-            r["best_source"] or "-", r["declared_status"]))
+            r["best_source"] or "-", net, r["declared_status"]))
         for e in r["evidence"]:
             out.append("        └ %-12s %s" % (e["source"], e.get("path") or ""))
-    bad = [r for r in snap["nodes"] if r["verdict"] in ("STALE", "DARK", "NO-EVIDENCE")]
+    bad = [r for r in snap["nodes"] if r["verdict"] in ("STALE", "DARK", "NO-EVIDENCE",
+                                                        "ONLINE-NO-AGENT")]
     out.append("")
     if bad:
         out.append("需主控过问：")
         for r in bad:
-            out.append("  - %s（%s）：%s，证据龄 %s，最佳来源 %s" % (
+            hint = {"ONLINE-NO-AGENT": "网通但无 agent/心跳：要起任务，不是通电",
+                    "DARK": "连网都不通或久无任何证据：先确认电源/网络"}.get(r["verdict"], "")
+            out.append("  - %s（%s）：%s，证据龄 %s，最佳来源 %s%s" % (
                 r["station"], r["node"], r["verdict"],
-                "-" if r["age_h"] is None else "%.1fh" % r["age_h"], r["best_source"] or "无"))
+                "-" if r["age_h"] is None else "%.1fh" % r["age_h"], r["best_source"] or "无",
+                ("；" + hint) if hint else ""))
     else:
         out.append("全部节点有 6 小时内的证据。")
     return "\n".join(out)
@@ -254,7 +295,8 @@ def main(argv=None):
         json.dump(snap, f, ensure_ascii=False, indent=1)
     os.replace(tmp, os.path.join(STATE, "fleet-liveness.json"))
     print(json.dumps(snap, ensure_ascii=False, indent=1) if a.json else render(snap))
-    return 1 if any(r["verdict"] in ("STALE", "DARK", "NO-EVIDENCE") for r in snap["nodes"]) else 0
+    return 1 if any(r["verdict"] in ("STALE", "DARK", "NO-EVIDENCE", "ONLINE-NO-AGENT")
+                    for r in snap["nodes"]) else 0
 
 
 if __name__ == "__main__":
