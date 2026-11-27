@@ -1,7 +1,0 @@
-{
- "ts": "2026-11-23T23:06:37",
- "rc": null,
- "note": "命令未授权：命令不在 PRODUCTS 已审清单里，且卡上没有 cmd_reviewed 标记",
- "cmd": "git -C . branch -f backup/bm-a-20261123 HEAD && git -C . reset --hard origin/main && git -C . log -1 --oneline > cph4/fleet/reports/node-sync-bm-a-20261123.md",
- "station": "control"
-}
