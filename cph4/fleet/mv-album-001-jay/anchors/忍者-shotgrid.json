@@ -1,0 +1,997 @@
+{
+ "song": "忍者",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 272,
+  "n_beats": 272,
+  "n_downbeats": 68,
+  "duration_sec": 158.52
+ },
+ "bpm_median": 107.5,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "居酒屋里的小神龛",
+   "t0": 8.97,
+   "t1": 10.63,
+   "t0_used": 8.97,
+   "t1_used": 10.63,
+   "snapped": false,
+   "snap_deltas": [
+    -0.248,
+    0.274
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "离铺满鹅卵石的玄关",
+   "t0": 10.63,
+   "t1": 11.9,
+   "t0_used": 10.63,
+   "t1_used": 11.9,
+   "snapped": false,
+   "snap_deltas": [
+    0.274,
+    -0.151
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "差不多一米宽的信仰",
+   "t0": 11.9,
+   "t1": 13.22,
+   "t0_used": 11.9,
+   "t1_used": 13.189,
+   "snapped": true,
+   "snap_deltas": [
+    -0.151,
+    0.031
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "我坐着喝味噌汤",
+   "t0": 13.22,
+   "t1": 14.33,
+   "t0_used": 13.189,
+   "t1_used": 14.303,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "在旁观看 庭园假山",
+   "t0": 14.33,
+   "t1": 15.37,
+   "t0_used": 14.303,
+   "t1_used": 15.464,
+   "snapped": true,
+   "snap_deltas": [
+    0.027,
+    -0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "京都的夜晚",
+   "t0": 15.37,
+   "t1": 16.32,
+   "t0_used": 15.464,
+   "t1_used": 16.32,
+   "snapped": true,
+   "snap_deltas": [
+    -0.094,
+    -0.259
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "有一种榻榻米的稻香叫做禅",
+   "t0": 16.32,
+   "t1": 18.51,
+   "t0_used": 16.32,
+   "t1_used": 18.51,
+   "snapped": false,
+   "snap_deltas": [
+    -0.259,
+    0.236
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "那里 神社许愿",
+   "t0": 18.51,
+   "t1": 19.88,
+   "t0_used": 18.51,
+   "t1_used": 19.88,
+   "snapped": false,
+   "snap_deltas": [
+    0.236,
+    -0.112
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "闪过一个画面",
+   "t0": 19.88,
+   "t1": 21.03,
+   "t0_used": 19.88,
+   "t1_used": 21.107,
+   "snapped": true,
+   "snap_deltas": [
+    -0.112,
+    -0.077
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "这里 忍者蒙着脸",
+   "t0": 21.03,
+   "t1": 22.26,
+   "t0_used": 21.107,
+   "t1_used": 22.245,
+   "snapped": true,
+   "snap_deltas": [
+    -0.077,
+    0.015
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "在角落吹暗箭",
+   "t0": 22.26,
+   "t1": 23.21,
+   "t0_used": 22.245,
+   "t1_used": 23.21,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    -0.172
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "心里 幕府又重现",
+   "t0": 23.21,
+   "t1": 25.04,
+   "t0_used": 23.21,
+   "t1_used": 25.078,
+   "snapped": true,
+   "snap_deltas": [
+    -0.172,
+    -0.038
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "从前老东京那条山手线",
+   "t0": 25.04,
+   "t1": 26.3,
+   "t0_used": 25.078,
+   "t1_used": 26.215,
+   "snapped": true,
+   "snap_deltas": [
+    -0.038,
+    0.085
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "像一出怀旧的默片",
+   "t0": 26.3,
+   "t1": 28.67,
+   "t0_used": 26.215,
+   "t1_used": 28.67,
+   "snapped": true,
+   "snap_deltas": [
+    0.085,
+    0.226
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "呵 呵 嘿",
+   "t0": 28.67,
+   "t1": 36.95,
+   "t0_used": 28.67,
+   "t1_used": 36.966,
+   "snapped": true,
+   "snap_deltas": [
+    0.226,
+    -0.016
+   ],
+   "approx": false,
+   "splits": [
+    31.3,
+    34.11
+   ]
+  },
+  {
+   "i": 15,
+   "text": "伊贺流忍者的想法",
+   "t0": 36.95,
+   "t1": 38.84,
+   "t0_used": 36.966,
+   "t1_used": 38.84,
+   "snapped": true,
+   "snap_deltas": [
+    -0.016,
+    0.179
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "嘿 只会用武士刀比划 嘿",
+   "t0": 38.84,
+   "t1": 41.41,
+   "t0_used": 38.84,
+   "t1_used": 41.494,
+   "snapped": true,
+   "snap_deltas": [
+    0.179,
+    -0.084
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "我一个人在家",
+   "t0": 41.41,
+   "t1": 42.52,
+   "t0_used": 41.494,
+   "t1_used": 42.52,
+   "snapped": true,
+   "snap_deltas": [
+    -0.084,
+    -0.112
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "乖乖的学插花",
+   "t0": 42.52,
+   "t1": 43.95,
+   "t0_used": 42.52,
+   "t1_used": 43.95,
+   "snapped": false,
+   "snap_deltas": [
+    -0.112,
+    0.18
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "はい はい はい わかりました",
+   "t0": 43.95,
+   "t1": 45.91,
+   "t0_used": 43.95,
+   "t1_used": 45.999,
+   "snapped": true,
+   "snap_deltas": [
+    0.18,
+    -0.089
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "いち に さん し 樱花落满地",
+   "t0": 45.91,
+   "t1": 48.21,
+   "t0_used": 45.999,
+   "t1_used": 48.274,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    -0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "有一种神秘 凝结了空气",
+   "t0": 48.21,
+   "t1": 50.47,
+   "t0_used": 48.274,
+   "t1_used": 50.55,
+   "snapped": true,
+   "snap_deltas": [
+    -0.064,
+    -0.08
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "いち に さん し 黑夜里偷袭",
+   "t0": 50.47,
+   "t1": 52.78,
+   "t0_used": 50.55,
+   "t1_used": 52.779,
+   "snapped": true,
+   "snap_deltas": [
+    -0.08,
+    0.001
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "去攻击 烟雾当武器",
+   "t0": 52.78,
+   "t1": 55.01,
+   "t0_used": 52.779,
+   "t1_used": 55.078,
+   "snapped": true,
+   "snap_deltas": [
+    0.001,
+    -0.068
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "いち に さん し 忍者的物语",
+   "t0": 55.01,
+   "t1": 57.22,
+   "t0_used": 55.078,
+   "t1_used": 57.22,
+   "snapped": true,
+   "snap_deltas": [
+    -0.068,
+    -0.11
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "要切断过去 忠心是唯一",
+   "t0": 57.22,
+   "t1": 59.53,
+   "t0_used": 57.22,
+   "t1_used": 59.606,
+   "snapped": true,
+   "snap_deltas": [
+    -0.11,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "いち に さん し 隐身要彻底",
+   "t0": 59.53,
+   "t1": 61.79,
+   "t0_used": 59.606,
+   "t1_used": 61.858,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.068
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "要忘记 什么是自己",
+   "t0": 61.79,
+   "t1": 81.36,
+   "t0_used": 61.858,
+   "t1_used": 81.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.068,
+    0.253
+   ],
+   "approx": false,
+   "splits": [
+    64.691,
+    67.524,
+    70.356,
+    73.189,
+    75.999,
+    78.855
+   ]
+  },
+  {
+   "i": 28,
+   "text": "居酒屋里的小神龛",
+   "t0": 81.36,
+   "t1": 83.12,
+   "t0_used": 81.36,
+   "t1_used": 83.12,
+   "snapped": false,
+   "snap_deltas": [
+    0.253,
+    -0.263
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "离铺满鹅卵石的玄关",
+   "t0": 83.12,
+   "t1": 84.44,
+   "t0_used": 83.12,
+   "t1_used": 84.497,
+   "snapped": true,
+   "snap_deltas": [
+    -0.263,
+    -0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "差不多一米宽的信仰",
+   "t0": 84.44,
+   "t1": 85.66,
+   "t0_used": 84.497,
+   "t1_used": 85.658,
+   "snapped": true,
+   "snap_deltas": [
+    -0.057,
+    0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "我坐着喝味噌汤",
+   "t0": 85.66,
+   "t1": 86.77,
+   "t0_used": 85.658,
+   "t1_used": 86.773,
+   "snapped": true,
+   "snap_deltas": [
+    0.002,
+    -0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "在旁观看 庭园假山",
+   "t0": 86.77,
+   "t1": 87.85,
+   "t0_used": 86.773,
+   "t1_used": 87.911,
+   "snapped": true,
+   "snap_deltas": [
+    -0.003,
+    -0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "京都的夜晚",
+   "t0": 87.85,
+   "t1": 88.74,
+   "t0_used": 87.911,
+   "t1_used": 88.74,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    0.272
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "有一种榻榻米的稻香叫做禅",
+   "t0": 88.74,
+   "t1": 90.99,
+   "t0_used": 88.74,
+   "t1_used": 90.99,
+   "snapped": false,
+   "snap_deltas": [
+    0.272,
+    0.246
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "那里 神社许愿",
+   "t0": 90.99,
+   "t1": 92.24,
+   "t0_used": 90.99,
+   "t1_used": 92.24,
+   "snapped": false,
+   "snap_deltas": [
+    0.246,
+    -0.199
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "闪过一个画面",
+   "t0": 92.24,
+   "t1": 93.5,
+   "t0_used": 92.24,
+   "t1_used": 93.576,
+   "snapped": true,
+   "snap_deltas": [
+    -0.199,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "这里 忍者蒙着脸",
+   "t0": 93.5,
+   "t1": 94.65,
+   "t0_used": 93.576,
+   "t1_used": 94.714,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "在角落吹暗箭",
+   "t0": 94.65,
+   "t1": 95.77,
+   "t0_used": 94.714,
+   "t1_used": 95.829,
+   "snapped": true,
+   "snap_deltas": [
+    -0.064,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "心里 幕府又重现",
+   "t0": 95.77,
+   "t1": 97.53,
+   "t0_used": 95.829,
+   "t1_used": 97.524,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    0.006
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "从前老东京那条山手线",
+   "t0": 97.53,
+   "t1": 98.89,
+   "t0_used": 97.524,
+   "t1_used": 98.89,
+   "snapped": true,
+   "snap_deltas": [
+    0.006,
+    0.228
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "像一出怀旧的默片",
+   "t0": 98.89,
+   "t1": 101.11,
+   "t0_used": 98.89,
+   "t1_used": 101.11,
+   "snapped": false,
+   "snap_deltas": [
+    0.228,
+    0.196
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "呵 呵 嘿",
+   "t0": 101.11,
+   "t1": 109.45,
+   "t0_used": 101.11,
+   "t1_used": 109.436,
+   "snapped": true,
+   "snap_deltas": [
+    0.196,
+    0.014
+   ],
+   "approx": false,
+   "splits": [
+    103.747,
+    106.58
+   ]
+  },
+  {
+   "i": 43,
+   "text": "伊贺流忍者的想法",
+   "t0": 109.45,
+   "t1": 111.46,
+   "t0_used": 109.436,
+   "t1_used": 111.46,
+   "snapped": true,
+   "snap_deltas": [
+    0.014,
+    -0.205
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "嘿 只会用武士刀比划 嘿",
+   "t0": 111.46,
+   "t1": 113.84,
+   "t0_used": 111.46,
+   "t1_used": 113.94,
+   "snapped": true,
+   "snap_deltas": [
+    -0.205,
+    -0.1
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "我一个人在家",
+   "t0": 113.84,
+   "t1": 114.96,
+   "t0_used": 113.94,
+   "t1_used": 114.96,
+   "snapped": true,
+   "snap_deltas": [
+    -0.1,
+    -0.118
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "乖乖的学插花",
+   "t0": 114.96,
+   "t1": 116.54,
+   "t0_used": 114.96,
+   "t1_used": 116.54,
+   "snapped": false,
+   "snap_deltas": [
+    -0.118,
+    -0.233
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "はい はい はい わかりました",
+   "t0": 116.54,
+   "t1": 118.45,
+   "t0_used": 116.54,
+   "t1_used": 118.468,
+   "snapped": true,
+   "snap_deltas": [
+    -0.233,
+    -0.018
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "いち に さん し 樱花落满地",
+   "t0": 118.45,
+   "t1": 120.69,
+   "t0_used": 118.468,
+   "t1_used": 120.744,
+   "snapped": true,
+   "snap_deltas": [
+    -0.018,
+    -0.054
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "有一种神秘 凝结了空气",
+   "t0": 120.69,
+   "t1": 122.94,
+   "t0_used": 120.744,
+   "t1_used": 122.996,
+   "snapped": true,
+   "snap_deltas": [
+    -0.054,
+    -0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "いち に さん し 黑夜里偷袭",
+   "t0": 122.94,
+   "t1": 125.21,
+   "t0_used": 122.996,
+   "t1_used": 125.248,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.038
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "去攻击 烟雾当武器",
+   "t0": 125.21,
+   "t1": 127.53,
+   "t0_used": 125.248,
+   "t1_used": 127.547,
+   "snapped": true,
+   "snap_deltas": [
+    -0.038,
+    -0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "いち に さん し 忍者的物语",
+   "t0": 127.53,
+   "t1": 129.73,
+   "t0_used": 127.547,
+   "t1_used": 129.776,
+   "snapped": true,
+   "snap_deltas": [
+    -0.017,
+    -0.046
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "要切断过去 忠心是唯一",
+   "t0": 129.73,
+   "t1": 131.98,
+   "t0_used": 129.776,
+   "t1_used": 132.052,
+   "snapped": true,
+   "snap_deltas": [
+    -0.046,
+    -0.072
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "いち に さん し 隐身要彻底",
+   "t0": 131.98,
+   "t1": 134.29,
+   "t0_used": 132.052,
+   "t1_used": 134.327,
+   "snapped": true,
+   "snap_deltas": [
+    -0.072,
+    -0.037
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "要忘记 什么是自己",
+   "t0": 134.29,
+   "t1": 136.54,
+   "t0_used": 134.327,
+   "t1_used": 136.557,
+   "snapped": true,
+   "snap_deltas": [
+    -0.037,
+    -0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "いち に さん し 樱花落满地",
+   "t0": 136.54,
+   "t1": 138.77,
+   "t0_used": 136.557,
+   "t1_used": 138.855,
+   "snapped": true,
+   "snap_deltas": [
+    -0.017,
+    -0.085
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 57,
+   "text": "有一种神秘 凝结了空气",
+   "t0": 138.77,
+   "t1": 141.03,
+   "t0_used": 138.855,
+   "t1_used": 141.108,
+   "snapped": true,
+   "snap_deltas": [
+    -0.085,
+    -0.078
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "いち に さん し 黑夜里偷袭",
+   "t0": 141.03,
+   "t1": 143.31,
+   "t0_used": 141.108,
+   "t1_used": 143.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.078,
+    -0.05
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 59,
+   "text": "去攻击 烟雾当武器",
+   "t0": 143.31,
+   "t1": 145.58,
+   "t0_used": 143.36,
+   "t1_used": 145.659,
+   "snapped": true,
+   "snap_deltas": [
+    -0.05,
+    -0.079
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "いち に さん し 忍者的物语",
+   "t0": 145.58,
+   "t1": 147.85,
+   "t0_used": 145.659,
+   "t1_used": 147.911,
+   "snapped": true,
+   "snap_deltas": [
+    -0.079,
+    -0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "いち に さん し 要切断过去",
+   "t0": 147.85,
+   "t1": 150.09,
+   "t0_used": 147.911,
+   "t1_used": 150.163,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    -0.073
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 62,
+   "text": "いち に さん し 忠心是唯一",
+   "t0": 150.09,
+   "t1": 152.36,
+   "t0_used": 150.163,
+   "t1_used": 152.439,
+   "snapped": true,
+   "snap_deltas": [
+    -0.073,
+    -0.079
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 63,
+   "text": "いち に さん し",
+   "t0": 152.36,
+   "t1": 155.36,
+   "t0_used": 152.439,
+   "t1_used": 155.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.079,
+    1.249
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 64,
+  "lines_untimed": 0,
+  "lines_snapped": 54,
+  "lines_unsnapped": 10,
+  "lines_need_split": 3,
+  "total_splits": 10
+ },
+ "advisory": true
+}

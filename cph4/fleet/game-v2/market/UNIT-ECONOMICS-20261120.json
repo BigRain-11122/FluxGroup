@@ -1,0 +1,82 @@
+{
+ "assumptions": {
+  "price_usd": 14.99,
+  "fx": 7.15,
+  "regional_factor": 0.75,
+  "steam_cut": 0.3,
+  "tax": 0.2,
+  "refund": 0.15,
+  "cost_per_title_cny": 11000
+ },
+ "scenarios": [
+  {
+   "discount": 0.0,
+   "avg_price_usd": 11.24,
+   "gross_cny_per_copy": 80.38,
+   "net_cny_per_copy": 38.26,
+   "copies_for_gross_30k": 374,
+   "copies_for_net_30k": 785,
+   "copies_to_recover_cost": 288
+  },
+  {
+   "discount": 0.1,
+   "avg_price_usd": 10.12,
+   "gross_cny_per_copy": 72.35,
+   "net_cny_per_copy": 34.44,
+   "copies_for_gross_30k": 415,
+   "copies_for_net_30k": 872,
+   "copies_to_recover_cost": 320
+  },
+  {
+   "discount": 0.15,
+   "avg_price_usd": 9.56,
+   "gross_cny_per_copy": 68.33,
+   "net_cny_per_copy": 32.52,
+   "copies_for_gross_30k": 440,
+   "copies_for_net_30k": 923,
+   "copies_to_recover_cost": 339
+  },
+  {
+   "discount": 0.3,
+   "avg_price_usd": 7.87,
+   "gross_cny_per_copy": 56.27,
+   "net_cny_per_copy": 26.78,
+   "copies_for_gross_30k": 534,
+   "copies_for_net_30k": 1121,
+   "copies_to_recover_cost": 411
+  }
+ ],
+ "portfolio": [
+  {
+   "titles_per_year": 4,
+   "lifetime_copies_each": 1800,
+   "copies_per_year": 7200,
+   "net_year_cny": 234144,
+   "net_month_cny": 19512,
+   "gross_year_cny": 491976,
+   "cost_year_cny": 44000,
+   "net_margin": 0.812
+  },
+  {
+   "titles_per_year": 6,
+   "lifetime_copies_each": 1800,
+   "copies_per_year": 10800,
+   "net_year_cny": 351216,
+   "net_month_cny": 29268,
+   "gross_year_cny": 737964,
+   "cost_year_cny": 66000,
+   "net_margin": 0.812
+  },
+  {
+   "titles_per_year": 8,
+   "lifetime_copies_each": 1800,
+   "copies_per_year": 14400,
+   "net_year_cny": 468288,
+   "net_month_cny": 39024,
+   "gross_year_cny": 983952,
+   "cost_year_cny": 88000,
+   "net_margin": 0.812
+  }
+ ],
+ "note": "gross=流水；net=扣 Steam 30%、税 20%、退款 15% 后；未计本地化/外包/音乐采购。默认值对齐宪法 C-12。"
+}

@@ -1,0 +1,403 @@
+# ⛔ 已退役（2026-11-11）：旧队列 PRODUCTION-QUEUE.jsonl 已移档，机制改为分片 rt/<工位>/。本脚本不再被调用。
+# -*- coding: utf-8 -*-
+"""queue_claim.py - the self-serving work loop the fleet was missing.
+
+Problem it fixes: the machines had hundreds of "Ready" supervision tasks but no queue of
+actual production work, so a free GPU had nothing to claim. This script is the claim side:
+take the next OPEN job from the production queue, run its command, write a receipt, mark it
+DONE or FAILED. Any machine can run it; whoever is idle claims first.
+
+2026-10-27 hardening (CEO: idling must never look healthy):
+  - always writes _last_claim.json (QUEUE-EMPTY included) so the dispatcher can flag
+    SUPPLY-DRY instead of trusting a silent exit 0
+  - bm-a refuses GPU jobs during the CEO work-hour yield (09:00-19:00) unless
+    --allow-gpu-workhours is passed
+
+Queue file: cph4/fleet/PRODUCTION-QUEUE.jsonl (append-only, one JSON object per line)
+Job fields: id, title, cmd, cwd, needs (gpu|cpu), deliverable, state
+
+Usage:
+  py queue_claim.py --node bm-a [--needs gpu] [--dry] [--allow-gpu-workhours]
+"""
+import argparse
+import json
+import os
+import subprocess
+import sys
+import time
+from datetime import datetime
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QUEUE = os.path.join(ROOT, "cph4", "fleet", "PRODUCTION-QUEUE.jsonl")
+RECEIPT_DIR = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
+LAST = os.path.join(RECEIPT_DIR, "_last_claim.json")
+
+
+def load():
+    if not os.path.exists(QUEUE):
+        return []
+    rows = []
+    with open(QUEUE, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                rows.append(json.loads(line))
+    return rows
+
+
+def save(rows, only=None):
+    """队列只有一个写入口（2026-11-02）：走 fleet_lane 的加锁按 id 合并。
+
+    本脚本是 Windows 侧的遗留领取通道（bm-a/bm-b/bm-c 的计划任务还指着它），
+    所以不删，只把"读全表→整表覆盖"换成"只提交我改过的行"，
+    避免与主控/补料/应急同时写同一条队列时互相抹掉。
+    only: 本脚本改过的行；不给则拒绝写（防误用整表覆盖）。
+    """
+    if only is None:
+        raise SystemExit("queue_claim.save() now requires only=<rows you changed>")
+    sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+    import fleet_lane as _fl
+    return _fl.merge_jsonl(QUEUE, only)
+
+
+def write_last(state, **kw):
+    os.makedirs(RECEIPT_DIR, exist_ok=True)
+    rec = {"ts": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), "state": state}
+    rec.update(kw)
+    with open(LAST, "w", encoding="utf-8") as f:
+        json.dump(rec, f, ensure_ascii=False, indent=1)
+
+
+# ---- dispatcher POOL cards (bm-b r1186, OB-20261027-182254-574) --------------
+# Why this exists: queue_claim only knew cph4/fleet/PRODUCTION-QUEUE.jsonl, so the
+# numbered cards in cph4/fleet/dispatcher/POOL.json were structurally unclaimable by
+# any machine - POOL-0018/0019 sat RE-OFFERED for 8 days with no claim task anywhere.
+# Law boundary: POOL.json state transitions are written by the dispatcher-proxy seat,
+# not by nodes. So this mode NEVER edits POOL.json; it emits a claim INTENT receipt
+# the proxy consumes (that is what clears blocked_by=no-claim-task:<node>).
+POOL_REL = "cph4/fleet/dispatcher/POOL.json"
+POOL_JSON = os.path.join(ROOT, *POOL_REL.split("/"))
+POOL_PRIO = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
+
+
+def _pool_source():
+    """Pool face + where it came from (origin blob is fresh by construction)."""
+    try:
+        sha = subprocess.run(["git", "-C", ROOT, "rev-parse", "origin/main"],
+                             capture_output=True, text=True, timeout=30)
+        if sha.returncode == 0:
+            blob = subprocess.run(["git", "-C", ROOT, "show", "origin/main:" + POOL_REL],
+                                  capture_output=True, timeout=60)
+            if blob.returncode == 0 and blob.stdout.strip():
+                return (json.loads(blob.stdout.decode("utf-8")),
+                        {"face": "origin", "origin_sha": sha.stdout.strip()})
+    except Exception:
+        pass
+    with open(POOL_JSON, encoding="utf-8") as f:
+        return json.load(f), {"face": "worktree", "origin_sha": None}
+
+
+CLAIM_CLEARS = "no-claim-task:"   # this tool's intent receipt is exactly what clears it
+POOL_STUCK_AFTER = 3              # why: on 2026-10-29 one intent was re-emitted 252 times over
+# 21h and nothing ran, because a POOL card carries no cmd - the intent leg has no execute leg.
+# Re-emitting silently made an idle GPU look healthy for 8 SUPPLY-DRY rounds. Past this count the
+# claim reports POOL-STUCK so the dispatcher flags phantom supply instead of reading exit 0 as work.
+
+
+def _pool_gate(card, node):
+    """(claimable, blockers). A card blocked by anything other than 'no claim task on
+    this node' is not ours to claim - that block names a different fix (a receipt, a
+    physical part, another lane), and claiming it would bury the real blocker."""
+    blockers = [str(b) for b in (card.get("blocked_by") or []) if str(b).strip()]
+    foreign = [b for b in blockers if b != CLAIM_CLEARS + node]
+    return (not foreign), (foreign or blockers)
+
+
+def _pick_pool(cards, node):
+    """OPEN, unblocked cards for this lane, priority then id. Pure - selftest covers it."""
+    mine = [c for c in cards
+            if str(c.get("lane") or "").strip() == node
+            and str(c.get("status") or "").strip().lower() == "open"
+            and _pool_gate(c, node)[0]]
+    mine.sort(key=lambda c: (POOL_PRIO.get(str(c.get("priority") or "").upper(), 9),
+                             str(c.get("id"))))
+    return mine
+
+
+def run_pool(a):
+    try:
+        cards, src = _pool_source()
+    except Exception as e:
+        write_last("POOL-UNAVAILABLE", node=a.node, error=str(e)[:300])
+        print("POOL-UNAVAILABLE:", e)
+        return 2
+    if not isinstance(cards, list):
+        write_last("POOL-UNAVAILABLE", node=a.node, error="pool face is not a list")
+        print("POOL-UNAVAILABLE: pool face shape")
+        return 2
+    mine = _pick_pool(cards, a.node)
+    if a.pool_list:
+        for c in mine:
+            print("%-10s %-3s %s" % (c.get("id"), c.get("priority"), str(c.get("title"))[:80]))
+        print("POOL-OPEN %d node=%s face=%s" % (len(mine), a.node, src["face"]))
+        return 0
+    if not mine:
+        held = [{"id": c.get("id"), "blocked_by": _pool_gate(c, a.node)[1]}
+                for c in cards
+                if str(c.get("lane") or "").strip() == a.node
+                and str(c.get("status") or "").strip().lower() == "open"]
+        write_last("POOL-EMPTY", node=a.node, face=src["face"], blocked=held)
+        print("POOL-EMPTY node=%s face=%s blocked=%s" % (a.node, src["face"], held))
+        return 0
+    os.makedirs(RECEIPT_DIR, exist_ok=True)
+    for c in mine[:1]:
+        cid = str(c.get("id"))
+        rc_f = os.path.join(RECEIPT_DIR, "%s-%s.json" % (cid, a.node))
+        prev = None
+        if os.path.exists(rc_f):
+            try:
+                with open(rc_f, encoding="utf-8") as f:
+                    prev = json.load(f)
+            except Exception:
+                prev = None
+        if prev and prev.get("first_ts") and not a.pool_republish:
+            prev["last_seen_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+            prev["seen_count"] = int(prev.get("seen_count") or 1) + 1
+            prev["face"] = src["face"]
+            prev["origin_sha"] = src["origin_sha"]
+            with open(rc_f, "w", encoding="utf-8") as f:
+                json.dump(prev, f, ensure_ascii=False, indent=1)
+            write_last("POOL-CLAIMED", node=a.node, id=cid, face=src["face"],
+                       seen_count=prev["seen_count"])
+            print("POOL-ALREADY-CLAIMED %s (intent from %s, seen %d)"
+                  % (cid, prev["first_ts"], prev["seen_count"]))
+            if prev["seen_count"] > POOL_STUCK_AFTER:
+                write_last("POOL-STUCK", node=a.node, id=cid, face=src["face"],
+                           seen_count=prev["seen_count"], first_ts=prev["first_ts"],
+                           note="intent re-emitted without execution: the card carries no cmd, so "
+                                "this leg has no execute leg. Dispatcher must materialize a "
+                                "PRODUCTION-QUEUE job (job_ref) or the card is phantom supply.")
+                print("POOL-STUCK %s seen %d since %s :: no executable cmd on the card - "
+                      "materialize a PRODUCTION-QUEUE job (gate: Tools/pool_lint.py)"
+                      % (cid, prev["seen_count"], prev["first_ts"]))
+            return 0
+        now = time.strftime("%Y-%m-%dT%H:%M:%S")
+        rec = {"card": cid, "node": a.node, "action": "claimed", "kind": "claim-intent",
+               "lane": c.get("lane"), "priority": c.get("priority"), "title": c.get("title"),
+               "first_ts": now, "last_seen_ts": now, "seen_count": 1,
+               "face": src["face"], "origin_sha": src["origin_sha"],
+               "note": ("claim INTENT only - POOL.json transitions are proxy-written (pool law). "
+                        "Dispatcher clears blocked_by on this receipt; the lane executes the card "
+                        "and reports done with this card id + evidence pointer.")}
+        with open(rc_f, "w", encoding="utf-8") as f:
+            json.dump(rec, f, ensure_ascii=False, indent=1)
+        write_last("POOL-CLAIMED", node=a.node, id=cid, face=src["face"])
+        print("POOL-CLAIM %s %s :: %s" % (cid, c.get("priority"), str(c.get("title"))[:70]))
+        print("receipt:", os.path.relpath(rc_f, ROOT))
+    return 0
+
+
+def pool_selftest():
+    cards = [
+        {"id": "POOL-9002", "lane": "bm-b", "status": "open", "priority": "P1"},
+        {"id": "POOL-9001", "lane": "bm-b", "status": "open", "priority": "P1"},
+        {"id": "POOL-9000", "lane": "bm-b", "status": "open", "priority": "P0"},
+        {"id": "POOL-9003", "lane": "bm-c", "status": "open", "priority": "P0"},
+        {"id": "POOL-9004", "lane": "bm-b", "status": "claimed", "priority": "P0"},
+        {"id": "POOL-9005", "lane": "bm-b", "status": "OPEN", "priority": "P2"},
+        {"id": "POOL-9006", "lane": "bm-b", "status": "open", "priority": "P1",
+         "blocked_by": ["no-claim-task:bm-b"]},
+        {"id": "POOL-9007", "lane": "bm-b", "status": "open", "priority": "P0",
+         "blocked_by": ["receipt-owed"]},
+        {"id": "POOL-9008", "lane": "bm-b", "status": "open", "priority": "P0",
+         "blocked_by": ["no-claim-task:bm-c"]},
+    ]
+    got = [c["id"] for c in _pick_pool(cards, "bm-b")]
+    legs = [
+        ("lane filter drops other nodes", got == ["POOL-9000", "POOL-9001", "POOL-9002",
+                                                   "POOL-9006", "POOL-9005"]),
+        ("a foreign block (receipt-owed) holds the card", "POOL-9007" not in got),
+        ("another node's no-claim-task block is not ours", "POOL-9008" not in got),
+        ("this node's no-claim-task block stays claimable", "POOL-9006" in got),
+        ("foreign block wins over a clearable one", _pool_gate(
+            {"blocked_by": ["receipt-owed", "no-claim-task:bm-b"]}, "bm-b") == (
+                False, ["receipt-owed"])),
+        ("claimed card is not claimable", "POOL-9004" not in got),
+        ("status match is case-insensitive", "POOL-9005" in got),
+        ("priority order P0 before P1", got[0] == "POOL-9000"),
+        ("unknown priority sorts last", _pick_pool([{"id": "x", "lane": "bm-b", "status": "open",
+                                                   "priority": "P9"},
+                                                   {"id": "y", "lane": "bm-b", "status": "open",
+                                                    "priority": "P2"}], "bm-b")[0]["id"] == "y"),
+    ]
+    bad = [n for n, ok in legs if not ok]
+    print("pool selftest %d/%d %s" % (len(legs) - len(bad), len(legs),
+                                     "PASS" if not bad else "FAIL: " + ", ".join(bad)))
+    return 0 if not bad else 1
+
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--node", required=True)
+ap.add_argument("--needs", default="")
+ap.add_argument("--dry", action="store_true")
+ap.add_argument("--allow-gpu-workhours", action="store_true")
+ap.add_argument("--pool", action="store_true",
+                help="emit a claim-intent receipt for an OPEN dispatcher POOL card in this node lane")
+ap.add_argument("--pool-list", action="store_true", help="list claimable POOL cards and exit")
+ap.add_argument("--pool-republish", action="store_true",
+                help="re-emit an existing intent receipt instead of only bumping last_seen")
+ap.add_argument("--pool-selftest", action="store_true", help="offline selftest of the pool picker")
+ap.add_argument("--allow-foreign", action="store_true",
+                help="claim rows pinned to other nodes (emergency only; breaks hard-node pins)")
+ap.add_argument("--node-selftest", action="store_true", help="offline selftest of the node-affinity guard")
+a = ap.parse_args()
+if a.pool_selftest:
+    sys.exit(pool_selftest())
+if a.node_selftest:
+    sys.exit(node_selftest())
+
+if a.pool or a.pool_list:
+    sys.exit(run_pool(a))
+
+
+# Lane mode (2026-10-29): the master agent is the only scheduler now. If this node has a
+# lane assignment file (origin/main:cph4/fleet/lanes/<node>.json), execute exactly what the
+# master assigned and never write the shared queue - separate clones diverge otherwise.
+# Falls through to the legacy global claim only when no lane file exists at all.
+sys.path.insert(0, os.path.join(ROOT, "Tools", "fleet"))
+try:
+    from lane_agent import run_lane_cycle
+    lane_res = run_lane_cycle(a.node, ROOT, a.dry, a.allow_gpu_workhours)
+    if lane_res != "NO-JOBS":
+        sys.exit(0)
+    # 2026-11-07: lane file exists but is empty and nothing self-dispatchable ->
+    # the shared queue is the last real supply. Without this the OPEN jobs never ran.
+    print("lane-mode: empty lane + nothing self-dispatchable -> falling back to shared queue")
+except Exception as _e:
+    print("lane-mode skipped: %s" % str(_e)[:200])
+
+rows = load()
+hour = datetime.now().hour
+weekday = datetime.now().weekday() < 5
+# CEO work-hour yield on bm-a: GPU production is off 09:00-19:00 on weekdays.
+gpu_blocked = (a.node == "bm-a" and weekday and 9 <= hour < 19 and not a.allow_gpu_workhours)
+
+def node_ok(row, node, allow_foreign=False):
+    """Node-affinity guard (2026-11-06 event shift).
+
+    The legacy global path used to ignore nodes/hard_nodes entirely, so bm-a claimed a
+    hard_nodes=[bm-b] clock card, ran clock_resync.py locally and wrote rc=0 -- a green
+    receipt that calibrated bm-a's own clock. Same mechanism let bm-a eat the 17
+    voice-corpus cards pinned to bm-b while bm-b's lane sat starved for 26h.
+    Rows that carry fallback_from/fallback_why were re-routed on purpose, so soft
+    `nodes` yields to that; `hard_nodes` never yields without --allow-foreign.
+    """
+    if allow_foreign:
+        return True, ""
+    hard = [str(x) for x in (row.get("hard_nodes") or []) if x]
+    if hard and node not in hard:
+        return False, "HARD-NODE:" + ",".join(hard)
+    pinned = [str(x) for x in (row.get("nodes") or []) if x]
+    routed = bool(row.get("fallback_from") or row.get("fallback_why"))
+    if pinned and node not in pinned and not routed:
+        return False, "NODE:" + ",".join(pinned)
+    return True, ""
+
+
+def pick(candidates):
+    skipped = 0
+    foreign = []
+    for r in candidates:
+        if r.get("state") != "OPEN":
+            continue
+        if a.needs and r.get("needs") and r["needs"] != a.needs:
+            continue
+        if gpu_blocked and r.get("needs") == "gpu":
+            skipped += 1
+            continue
+        ok, why = node_ok(r, a.node, a.allow_foreign)
+        if not ok:
+            foreign.append("%s(%s)" % (r.get("id"), why))
+            continue
+        return r, skipped, foreign
+    return None, skipped, foreign
+
+
+def node_selftest():
+    mine = {"id": "A", "hard_nodes": ["bm-b"]}
+    assert node_ok(mine, "bm-a")[0] is False, "hard pin must block other nodes"
+    assert node_ok(mine, "bm-b")[0] is True, "hard pin must allow its owner"
+    assert node_ok(mine, "bm-a", True)[0] is True, "--allow-foreign is the only override"
+    soft = {"id": "B", "nodes": ["bm-c"]}
+    assert node_ok(soft, "bm-a")[0] is False, "soft pin blocks a random node"
+    assert node_ok(soft, "bm-c")[0] is True, "soft pin allows its owner"
+    routed = {"id": "C", "nodes": ["bm-c"], "fallback_from": ["bm-c"], "fallback_why": "down"}
+    assert node_ok(routed, "bm-b")[0] is True, "declared re-route yields soft nodes"
+    routed_hard = {"id": "D", "hard_nodes": ["bm-c"], "fallback_from": ["bm-c"]}
+    assert node_ok(routed_hard, "bm-b")[0] is False, "re-route must not bypass hard pin"
+    assert node_ok({"id": "E"}, "bm-a")[0] is True, "unpinned rows stay claimable"
+    print("node_selftest 6/6 PASS")
+    return 0
+
+
+job, skipped_gpu, skipped_foreign = pick(rows)
+if job is None:
+    # Self-refill: enqueue only jobs whose inputs already exist on this machine.
+    try:
+        from backlog_fill import fill as fill_backlog
+        if fill_backlog(ROOT) > 0:
+            rows = load()
+            job, skipped_gpu, skipped_foreign = pick(rows)
+    except Exception as e:
+        print("backlog_fill skipped:", e)
+
+if not job:
+    note = "QUEUE-EMPTY (no OPEN job%s)" % (" for " + a.needs if a.needs else "")
+    if skipped_gpu:
+        note += " [gpu jobs skipped: %d, bm-a work-hour yield]" % skipped_gpu
+    if skipped_foreign:
+        note += " [pinned elsewhere: %d]" % len(skipped_foreign)
+    write_last("QUEUE-EMPTY", node=a.node, needs=a.needs, skipped_gpu=skipped_gpu,
+               skipped_foreign=skipped_foreign[:20])
+    print(note)
+    sys.exit(0)
+
+print("CLAIM %s :: %s" % (job["id"], job["title"]), flush=True)
+if a.dry:
+    print("cmd:", job.get("cmd"))
+    sys.exit(0)
+
+job["state"] = "RUNNING"
+job["owner"] = a.node
+job["claimed_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+save(rows, only=[job])
+write_last("RUNNING", node=a.node, needs=a.needs, id=job["id"])
+
+t0 = time.time()
+r = subprocess.run(job["cmd"], shell=True, cwd=job.get("cwd") or ROOT,
+                   capture_output=True, text=True, errors="replace")
+dur = time.time() - t0
+
+os.makedirs(RECEIPT_DIR, exist_ok=True)
+receipt = os.path.join(RECEIPT_DIR, "%s-%s.json" % (job["id"], a.node))
+ok = r.returncode == 0
+with open(receipt, "w", encoding="utf-8") as f:
+    json.dump({"id": job["id"], "node": a.node, "rc": r.returncode, "seconds": round(dur, 1),
+               "cmd": job["cmd"], "stdout_tail": r.stdout[-2000:], "stderr_tail": r.stderr[-2000:]},
+              f, ensure_ascii=False, indent=1)
+
+rows = load()
+done_row = None
+for x in rows:
+    if x["id"] == job["id"]:
+        x["state"] = "DONE" if ok else "FAILED"
+        x["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        x["receipt"] = os.path.relpath(receipt, ROOT)
+        done_row = x
+save(rows, only=[done_row] if done_row else [])
+write_last("DONE" if ok else "FAILED", node=a.node, needs=a.needs, id=job["id"],
+           rc=r.returncode, seconds=round(dur, 1))
+print("%s %s (%.1fs) receipt=%s" % (job["id"], "DONE" if ok else "FAILED", dur, receipt))
+if not ok:
+    print((r.stderr or r.stdout)[-800:])
+    sys.exit(1)

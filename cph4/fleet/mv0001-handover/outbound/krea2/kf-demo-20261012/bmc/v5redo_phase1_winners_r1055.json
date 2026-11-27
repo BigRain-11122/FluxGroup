@@ -1,0 +1,26 @@
+{
+ "verdict": "PASS-with-conditions",
+ "director": "bm-a 导演席（tw-mv-director 正身）",
+ "review_ts": "2026-10-16T18:05:00",
+ "board": "bmc/V5-TRIALS-BOARD-r1054.jpg",
+ "trial_gate": "composition/posture 六镜全过——零整镜判负，V5 批准进 phase2 768P INT8 17 件",
+ "winners": {
+  "B01_weary_v5": {"seed": 9911, "reason": "背 C 形塌陷+头深垂+火光细弱侧逆=真疲惫达标；s9912 背弓浅+火偏大居次", "cond": "凿槌道具 768P 帧复核（480P 不可辨）"},
+  "INT1_desk_breath_v5": {"seed": 9901, "reason": "肩线水平正对桌沿+纸正前+双前臂落桌+灯左上=全项命中；s9902 躯干右拧微散", "cond": ""},
+  "INT2_paper_v5": {"seed": 9904, "reason": "按压近纸外缘+腕背拱起=掌根压实读得出+窗-纸-手三点清楚", "cond": "768P 正片中纸角掀动可读性复核（非判负项·加分位）"},
+  "INT3_photo_stare_v5": {"seed": 9905, "reason": "拓片字符栅格清晰非空白卡+捧持微下倾视线落纸最贴规格；s9906 拇指遮字+脸型微漂", "cond": ""},
+  "INT4_rubbing_v5": {"seed": 9907, "reason": "俯身单一剪影+右臂单轮廓干净+无重影幻影——s9908 前臂疑双轮廓弃用", "cond": "**正片若见任何重影/双轮廓=立即判负重烧（s9907 兜底料在库）**"},
+  "INT5_head_bow_v5": {"seed": 9910, "reason": "头位更低+肩线随沉+背立不塌=「疲惫但撑住」层级最准", "cond": ""}
+ },
+ "single_seed_kf": "C01/D01/D03b/E01c/E03/R06/E04/C04/D05/SIL1 十镜单种子 KF（s9913-9922）——随 768P 批在 QC 拼板过帧闸（帧级人眼+比对板），不单独开轮",
+ "phase2_requirements": [
+  "① 全 17 件 QC 拼板 JAY-V5-QC-SHEET-r10xx.jpg（帧级：构图/表演三段/ID/AI 伪影六检）",
+  "② E03/R06/E04 女主锚帧单独大图比对板（CHK-E2：脸型/厚齐刘海/长直发/奶白衫——ID_F_2001 基准）",
+  "③ INT4 重影红线执法：正片帧 100% 放大复核前臂轮廓",
+  "④ B01 凿槌道具可见性复核",
+  "⑤ min_duration>=5.0s 断言（交付哨契约在监）",
+  "⑥ 歌名卡选位：INT2 s9904 正片帧到货后由 bm-a 装配站按 V5-TYPOGRAPHY-SPEC §一 实帧定 x/y（避脸避缘>=120px·暗琥珀区）"
+ ],
+ "phase2_eta_window": "夜窗连烧（队列驻留律）——17 件 INT8 768P·音轨 -an",
+ "orders_row": "docs/orders.md 2026-10-16 18:0x 行"
+}

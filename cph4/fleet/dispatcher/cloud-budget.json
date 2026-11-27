@@ -1,0 +1,12 @@
+{
+ "_comment": "云端日预算（2026-11-02）：积分口径，超限即拒；次日自动归零",
+ "date": "2026-11-02",
+ "daily_cap_credits": 200,
+ "spent_credits": 0,
+ "calls": 0,
+ "rules": {
+  "periodic_automation_forbidden": true,
+  "require_reason": true,
+  "escalate_only_after_local_failures": 2
+ }
+}

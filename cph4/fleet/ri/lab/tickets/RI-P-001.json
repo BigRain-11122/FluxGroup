@@ -1,0 +1,19 @@
+{
+ "id": "RI-P-001",
+ "seat": "ri-lab",
+ "group": "platform",
+ "title": "生产力上收：组级工具并入平台",
+ "stage": "SCOUT",
+ "hypothesis": "组级重复造的工具按 LAB-TOOL-LEDGER 收口后，平台工具数不增、可用面变宽",
+ "sources": [
+  "cph4/fleet/LAB-TOOL-LEDGER.jsonl",
+  "cph4/fleet/CONSOLIDATION-20261102.md"
+ ],
+ "opened": "2026-11-02",
+ "touched": "2026-11-02",
+ "due": "2026-11-30",
+ "touches": [],
+ "probe": {},
+ "adoption": {},
+ "kill": {}
+}

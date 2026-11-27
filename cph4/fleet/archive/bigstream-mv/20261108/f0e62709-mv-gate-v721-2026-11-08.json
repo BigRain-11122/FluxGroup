@@ -1,0 +1,70 @@
+{
+ "file": "cph4\\fleet\\mv0001-handover\\outbound\\krea2\\30s-reel-v1\\full_mv_v721.mp4",
+ "frames": 5623,
+ "fps": 24.0,
+ "shots": 85,
+ "dup_pairs": 0,
+ "static_shots": [
+  [
+   0,
+   84,
+   0.38,
+   0.16
+  ],
+  [
+   180,
+   276,
+   0.26,
+   0.12
+  ],
+  [
+   1013,
+   1056,
+   0.41,
+   0.24
+  ],
+  [
+   4138,
+   4152,
+   0.32,
+   0.31
+  ],
+  [
+   4318,
+   4366,
+   0.37,
+   0.35
+  ],
+  [
+   4416,
+   4447,
+   0.34,
+   0.13
+  ],
+  [
+   4596,
+   4632,
+   0.35,
+   0.26
+  ],
+  [
+   4965,
+   5008,
+   0.29,
+   0.09
+  ]
+ ],
+ "reprise_whitelisted": 0,
+ "reprise_unlisted": 10,
+ "stability": {
+  "seams": [],
+  "freezes": []
+ },
+ "flicker": [],
+ "grammar": null,
+ "fails": [
+  "D1 shot reused on screen: 10 pair(s), first 45.21s vs 223.88s",
+  "D2 near-static shots: 8 (first 0.00-3.50s mean_mad=0.38)"
+ ],
+ "verdict": "FAIL"
+}

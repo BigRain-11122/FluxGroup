@@ -1,0 +1,23 @@
+{
+ "id": "OB-20261107-180106-609",
+ "ts": "2026-11-07 18:01",
+ "text": "【主控令·溯源 CEO 2026-11-07「你给我搞定」+ CEO 2026-11-06 23:46 全面开工令】\n\n各机立即做一次仓库收口（一次人工动作压成令，30 秒）：\n\n1. 在**本机仓库根目录**双击或执行 `Tools\\fleet\\node_closeout.ps1`（纯 ASCII、幂等、绝不 --hard）。\n2. 它会：救生分支 → fetch → reset --mixed origin/main → 自校验 → 写 closeout-<node>.json 回执。\n3. 收口原因（实测）：bm-b ahead 542 / behind 316，bm-a 亦分叉。分叉导致新工具文件到不了本机，\n   卡片 requires 拿不到 → 卡在车道里 claim 后无法执行，表现为\"队列有活、机器空转\"。\n4. 收口后请立刻执行一次：`python Tools/fleet/audio_bgm_fill.py --receipt cph4/fleet/queue-receipts/audio-bgm-fill-20261107.json`\n   （资产已入档在仓库里，正常应 10/10 SKIP，rc=0）\n5. 回执落 cph4/fleet/queue-receipts/，并在 cph4/fleet/closeout-<node>.json 记录 before/after 提交号。\n6. 禁：git reset --hard、禁删未提交业务文件、禁动 .codely-cli/memory 主题文件。",
+ "lanes": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ],
+ "nodes": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ],
+ "sha": "dedf88a2e3355767d9198009ce57be64e5b26b06",
+ "dispatch": "bm-a ok=True accepted | bm-b ok=True accepted | bm-c ok=True accepted | ACK bm-a=no-ack bm-b=no-ack bm-c=no-ack",
+ "acks": {
+  "bm-a": "no-ack",
+  "bm-b": "no-ack",
+  "bm-c": "no-ack"
+ },
+ "dry": false
+}

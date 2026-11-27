@@ -1,0 +1,37 @@
+{
+ "ts": "2026-11-23T21:18:18",
+ "rounds": 2,
+ "budget_s": 30.0,
+ "pass": 2,
+ "fail": 0,
+ "rows": [
+  {
+   "round": 1,
+   "ok": true,
+   "video": "V14E411P7sJ/",
+   "seg": "craft_learner",
+   "text": "蒙版遮罩那块转场挺实用的，配乐和歌词卡点也够稳。",
+   "lane": "lora",
+   "score": 80,
+   "tries": 3,
+   "gen_s": 16.7,
+   "total_s": 16.8,
+   "stage": "dry",
+   "rejects": []
+  },
+  {
+   "round": 2,
+   "ok": true,
+   "video": "BV15es76gEgL",
+   "seg": "craft_learner",
+   "text": "15 分钟视频你剪辑得这么碎，那个转场连我都看懵了。",
+   "lane": "lora",
+   "score": 90,
+   "tries": 3,
+   "gen_s": 11.5,
+   "total_s": 11.7,
+   "stage": "dry",
+   "rejects": []
+  }
+ ]
+}

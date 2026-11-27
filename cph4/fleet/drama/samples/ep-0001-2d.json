@@ -1,0 +1,152 @@
+{
+ "series": {
+  "form": "2d-i2v",
+  "kind": "manju",
+  "platform": "hongguo",
+  "style_anchor": "day"
+ },
+ "episode": {
+  "no": 1,
+  "duration_s": 75,
+  "arc": {
+   "hook_3s": true,
+   "conflicts": 3,
+   "closed_loop": true,
+   "ending_hook_strength": 0.9,
+   "max_conflict_strength": 0.6
+  }
+ },
+ "assets": [
+  {
+   "id": "c1",
+   "type": "character",
+   "refs": 5,
+   "identity": {
+    "face_ref": true,
+    "identity_string": "C1-LOCK",
+    "seed": 1234,
+    "strength": 0.8
+   },
+   "voice_ids": [
+    "v-c1-1"
+   ]
+  },
+  {
+   "id": "s1",
+   "type": "scene",
+   "refs": 2
+  }
+ ],
+ "shots": [
+  {
+   "no": 1,
+   "dur_s": 2.5,
+   "framing": "MS",
+   "move": "static",
+   "chars": [
+    "c1"
+   ],
+   "scene": "s1",
+   "action": "推门进来",
+   "emotion": "警觉",
+   "line": "谁在外面",
+   "kf": {
+    "w": 1080,
+    "h": 1920,
+    "hand_ok": true,
+    "face_ok": true,
+    "edge_ok": true,
+    "no_pseudo_text": true
+   },
+   "i2v": {
+    "takes": 2,
+    "morph_ok": true,
+    "no_pseudo_text": true,
+    "physics_ok": true,
+    "no_drift": true,
+    "first_frame_ok": true,
+    "continuity_ok": true,
+    "lip_sync_ok": true,
+    "accepted": true
+   },
+   "audio": {
+    "voice": true,
+    "sfx": 1,
+    "level_lufs": -14
+   }
+  },
+  {
+   "no": 2,
+   "dur_s": 2.5,
+   "framing": "MS",
+   "move": "static",
+   "chars": [
+    "c1"
+   ],
+   "scene": "s1",
+   "action": "推门进来",
+   "emotion": "警觉",
+   "line": "",
+   "kf": {
+    "w": 1080,
+    "h": 1920,
+    "hand_ok": true,
+    "face_ok": true,
+    "edge_ok": true,
+    "no_pseudo_text": true
+   },
+   "i2v": {
+    "takes": 2,
+    "morph_ok": true,
+    "no_pseudo_text": true,
+    "physics_ok": true,
+    "no_drift": true,
+    "first_frame_ok": true,
+    "continuity_ok": true,
+    "lip_sync_ok": false,
+    "accepted": true
+   },
+   "audio": {
+    "voice": false,
+    "sfx": 1,
+    "level_lufs": -14
+   }
+  }
+ ],
+ "assembly": {
+  "fps": 30,
+  "res": [
+   1080,
+   1920
+  ],
+  "sample_rate": 48000,
+  "subtitle_max_chars": 15,
+  "speed_interpolated": true,
+  "first3s_diff": 0.05,
+  "transitions": [
+   "cut",
+   "match_action"
+  ]
+ },
+ "qc": {
+  "seven": {
+   "resolution": true,
+   "fps": true,
+   "audio_track": true,
+   "loudness": true,
+   "shot_len": true,
+   "first3s": true,
+   "subtitle": true
+  },
+  "blind_score": 9.2,
+  "versions": 2
+ },
+ "publish": {
+  "aigc": {
+   "visual": true,
+   "metadata": true,
+   "per_episode": true
+  },
+  "filing": "done"
+ }
+}

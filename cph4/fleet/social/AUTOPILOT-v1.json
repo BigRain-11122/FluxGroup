@@ -1,0 +1,31 @@
+{
+  "version": "AUTOPILOT-v1",
+  "updated": "2026-11-18",
+  "_comment": "养号全自动化的唯一开关文件（CEO 令 2026-11-17「全自动化 不管什么形式和方法」，见 docs/orders.md 同日条）。改这个文件=改生产行为，必须同时在 orders 留一行。",
+  "tier": 3,
+  "tier2_enabled": true,
+  "tier2_note": "T2=官方接口自动发送（平台许可范围内）。当前生效：抖音企业号 video.comment 回复、公众号客服消息（待接入）。",
+  "tier3_enabled": true,
+  "tier3_risk_ack": "CEO 2026-11-17 11:5x 令「只能人工你也要操作我的电脑或者页面自己搞定」（docs/orders.md 同日条）——封号风险由 CEO 接受",
+  "tier3_note": "T3=无官方接口平台用登录态浏览器自动化。执行器=Tools/fleet/social_browser.py；选择器未标定的平台仍拒绝执行（不猜）。",
+  "kill_switch": false,
+  "kill_switch_note": "置 true 立即整体停发（只排队不发），用于异常时止血。",
+  "daily_cap": {
+    "douyin.comment": 10,
+    "douyin.dm": 0,
+    "wechat_mp.comment": 10,
+    "wechat_mp.dm": 0,
+    "default": 5
+  },
+  "cooldown_minutes": 30,
+  "gates": [
+    "redline",
+    "fact",
+    "voice",
+    "template",
+    "quota"
+  ],
+  "retry_max": 2,
+  "audit": "cph4/fleet/social/audit.jsonl",
+  "queue": "cph4/fleet/social/queue.jsonl"
+}

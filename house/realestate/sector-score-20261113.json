@@ -1,0 +1,233 @@
+{
+  "version": "v1.0-20261113",
+  "weights": {
+    "yield": 0.3,
+    "rent": 0.15,
+    "transit": 0.2,
+    "supply": 0.1,
+    "amenity": 0.1,
+    "retrofit": 0.1,
+    "plan": 0.05
+  },
+  "ranking": [
+    {
+      "sector": "尹山湖（吴中郭巷）",
+      "score": 77.0,
+      "grade": "B+",
+      "dims": {
+        "yield": {
+          "score": 82,
+          "conf": "H",
+          "note": "小区均价1.58-2.13万；60㎡一居月租2500-3400 → 租售比3.0-3.5%"
+        },
+        "rent": {
+          "score": 76,
+          "conf": "H",
+          "note": "一居60㎡ 2500-3400；三居98㎡ 3500-4300"
+        },
+        "transit": {
+          "score": 92,
+          "conf": "H",
+          "note": "2/3/7号线三轨；尹山湖隧道+独墅湖南隧道已通；两站到园区"
+        },
+        "supply": {
+          "score": 45,
+          "conf": "M",
+          "note": "郭巷在售5570套；单小区在租9-12套"
+        },
+        "amenity": {
+          "score": 80,
+          "conf": "H",
+          "note": "歌林公园/长申购物/梦之城；苏大附中尹山湖；尹山湖医院"
+        },
+        "retrofit": {
+          "score": 62,
+          "conf": "M",
+          "note": "2010-2016次新，户型方正；但次新改造空间小、物业可能管分租"
+        },
+        "plan": {
+          "score": 78,
+          "conf": "M",
+          "note": "尹山湖控规534.69公顷；14号线规划穿湖；生物医药新质蓝湾"
+        }
+      }
+    },
+    {
+      "sector": "姑苏老城",
+      "score": 76.3,
+      "grade": "B+",
+      "dims": {
+        "yield": {
+          "score": 72,
+          "conf": "M",
+          "note": "二手1.6-2.2万；一居月租2200-3200 → 约2.4-2.7%"
+        },
+        "rent": {
+          "score": 82,
+          "conf": "M",
+          "note": "核心地段租金高，小户型溢价明显"
+        },
+        "transit": {
+          "score": 85,
+          "conf": "H",
+          "note": "1/2/4/6号线密集；古城区路网成熟"
+        },
+        "supply": {
+          "score": 55,
+          "conf": "M",
+          "note": "老破小存量大，但优质小户型稀缺"
+        },
+        "amenity": {
+          "score": 92,
+          "conf": "H",
+          "note": "观前/平江/苏大附一院/名校密集"
+        },
+        "retrofit": {
+          "score": 80,
+          "conf": "M",
+          "note": "老破小改造空间大；但砖混结构拆改受限"
+        },
+        "plan": {
+          "score": 55,
+          "conf": "M",
+          "note": "古城保护限制新建，规划增量少"
+        }
+      }
+    },
+    {
+      "sector": "吴中城南/郭巷",
+      "score": 70.6,
+      "grade": "B+",
+      "dims": {
+        "yield": {
+          "score": 70,
+          "conf": "M",
+          "note": "二手1.4-1.7万；一居1800-2600 → 约2.3-2.6%"
+        },
+        "rent": {
+          "score": 68,
+          "conf": "M",
+          "note": "租金中等，园区外溢客"
+        },
+        "transit": {
+          "score": 78,
+          "conf": "H",
+          "note": "2/4号线；南湖快速路"
+        },
+        "supply": {
+          "score": 60,
+          "conf": "M",
+          "note": "供给充足但同质化中等"
+        },
+        "amenity": {
+          "score": 70,
+          "conf": "M",
+          "note": "商业/学校基本齐全，缺三甲"
+        },
+        "retrofit": {
+          "score": 78,
+          "conf": "M",
+          "note": "老小区+次新混合，改造空间较好"
+        },
+        "plan": {
+          "score": 60,
+          "conf": "M",
+          "note": "城南更新，增量有限"
+        }
+      }
+    },
+    {
+      "sector": "园区湖东",
+      "score": 69.0,
+      "grade": "B",
+      "dims": {
+        "yield": {
+          "score": 40,
+          "conf": "H",
+          "note": "二手1.7-2.5万（改善新盘4.6-5.4万）；一居2800-4000 → 约2.0%"
+        },
+        "rent": {
+          "score": 95,
+          "conf": "H",
+          "note": "租金全市最高，空置最低"
+        },
+        "transit": {
+          "score": 95,
+          "conf": "H",
+          "note": "1/3/5号线；星湖街/现代大道"
+        },
+        "supply": {
+          "score": 70,
+          "conf": "M",
+          "note": "新盘去化好，二手优质房源减少"
+        },
+        "amenity": {
+          "score": 95,
+          "conf": "H",
+          "note": "湖东CBD/久光/诚品/星海学区"
+        },
+        "retrofit": {
+          "score": 30,
+          "conf": "M",
+          "note": "单价高、物业严、业主自住为主，分割基本做不了"
+        },
+        "plan": {
+          "score": 85,
+          "conf": "M",
+          "note": "自贸区+总部经济"
+        }
+      }
+    },
+    {
+      "sector": "相城高铁新城",
+      "score": 61.4,
+      "grade": "C",
+      "dims": {
+        "yield": {
+          "score": 58,
+          "conf": "M",
+          "note": "二手1.48-1.63万；一居1600-2400 → 约2.0-2.3%"
+        },
+        "rent": {
+          "score": 55,
+          "conf": "M",
+          "note": "租金偏低，供给同质化"
+        },
+        "transit": {
+          "score": 82,
+          "conf": "H",
+          "note": "2/4号线+高铁北站；到上海约30分钟"
+        },
+        "supply": {
+          "score": 35,
+          "conf": "M",
+          "note": "库存大、新盘多、去化周期长"
+        },
+        "amenity": {
+          "score": 62,
+          "conf": "M",
+          "note": "高铁新城配套在建"
+        },
+        "retrofit": {
+          "score": 60,
+          "conf": "M",
+          "note": "次新为主，改造空间一般"
+        },
+        "plan": {
+          "score": 72,
+          "conf": "M",
+          "note": "高铁枢纽+长三角一体化"
+        }
+      }
+    }
+  ],
+  "retrofit_case_yinshanhu": {
+    "area": 98,
+    "price_per_sqm": 15800,
+    "rent_whole": 3700,
+    "cost": 180000,
+    "rent_unit_low": 2800,
+    "rent_unit_high": 3200,
+    "vacancy_months": 1.2
+  }
+}

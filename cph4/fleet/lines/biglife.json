@@ -1,0 +1,16 @@
+{
+ "id": "biglife",
+ "name": "BigLife·数字生命",
+ "owner": "生命生产席",
+ "status": "ACTIVE",
+ "cadence_h": 48,
+ "inputs": [
+  "life/BigLife/census",
+  "life/BigLife/census"
+ ],
+ "outputs": [
+  "life/BigLife/census/**/*"
+ ],
+ "lanes": [],
+ "needs": "cpu"
+}

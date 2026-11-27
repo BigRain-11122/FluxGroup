@@ -1,0 +1,62 @@
+{
+ "ts": "2026-11-12T16:50:44",
+ "total": 5,
+ "by_level": {
+  "HIGH": 3,
+  "MED": 1,
+  "LOW": 1
+ },
+ "must_human": [
+  "d1",
+  "d2",
+  "d3",
+  "d5"
+ ],
+ "rows": [
+  {
+   "id": "d1",
+   "kind": "question_ai",
+   "level": "HIGH",
+   "must_human": true,
+   "why": "被问是否 AI 制作：披露口径归 CEO，机器不代答",
+   "has_draft": false,
+   "state": "PENDING_REVIEW"
+  },
+  {
+   "id": "d2",
+   "kind": "question_identity",
+   "level": "HIGH",
+   "must_human": true,
+   "why": "被问创作者身份/经历：口径归 CEO，机器不代答",
+   "has_draft": false,
+   "state": "PENDING_REVIEW"
+  },
+  {
+   "id": "d3",
+   "kind": "legal",
+   "level": "HIGH",
+   "must_human": true,
+   "why": "涉法务/抄袭指控，答错等于自认或激化",
+   "has_draft": false,
+   "state": "PENDING_REVIEW"
+  },
+  {
+   "id": "d5",
+   "kind": "spam",
+   "level": "MED",
+   "must_human": true,
+   "why": "广告/导流，不回复即可",
+   "has_draft": false,
+   "state": "PENDING_REVIEW"
+  },
+  {
+   "id": "d4",
+   "kind": "question",
+   "level": "LOW",
+   "must_human": false,
+   "why": "普通提问，草稿可用但需人过一眼",
+   "has_draft": true,
+   "state": "PENDING_REVIEW"
+  }
+ ]
+}

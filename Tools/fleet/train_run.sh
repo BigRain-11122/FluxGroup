@@ -1,0 +1,111 @@
+#!/bin/bash
+# 训练批：先腾内存（卸 ollama 模型 + 停 8788 LoRA 服务），训完无条件恢复。
+# 为什么要这样：训练要 ~10GB，8788 的 LoRA 服务常驻 2.9GB 却不参与训练，
+# 留着就是把 swap 往死里推（2026-11-17 实锚：跑到 590 步 swap +1.3GB、空闲只剩 393MB）。
+set -uo pipefail
+
+ROOT="/Users/junsheng.sun/FluxGroup"
+UID_N="$(id -u)"
+LOG="$ROOT/.codely-cli/state/train-run.log"
+PY="/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
+
+# 互斥：同一时刻只允许一份训练。2026-11-19 实锚——调度器在 40 分钟内两次调本脚本，
+# 两份 ~10GB 叠在 32GB 统一内存上，swap 顶到 6.3GB/7.2GB，两份都变慢却不报错，
+# 症状只是"训练变慢了"，从进程看仍然在跑。锁必须在改动任何状态之前拿到。
+LOCK="$ROOT/.codely-cli/state/TRAIN-RUNLOCK"
+if mkdir "$LOCK" 2>/dev/null; then
+  echo $$ > "$LOCK/pid"
+  date '+%Y-%m-%dT%H:%M:%S' > "$LOCK/at"
+elif [[ -n "$(cat "$LOCK/pid" 2>/dev/null || true)" ]] && ps -p "$(cat "$LOCK/pid")" >/dev/null 2>&1; then
+  echo "[train] SKIP-ALREADY-TRAINING pid=$(cat "$LOCK/pid") 本次放弃，不叠第二份 $(date '+%H:%M:%S')"
+  exit 0
+else
+  # 锁残留（持有者已不在）：接管。否则一次崩溃会把训练永久锁死。
+  echo "[train] 接管残留锁（原 pid $(cat "$LOCK/pid" 2>/dev/null || echo 无) 已不在）"
+  echo $$ > "$LOCK/pid"
+  date '+%Y-%m-%dT%H:%M:%S' > "$LOCK/at"
+fi
+
+restore() {
+  rm -rf "$LOCK"
+  for j in ${PAUSED_JOBS[*]:-}; do
+    launchctl bootstrap "gui/$UID_N" "$HOME/Library/LaunchAgents/$j.plist" >/dev/null 2>&1
+  done
+  # 8788 现在训练期间不再停：还活着就别重启（重启会打断正在出稿的养号请求）
+  if launchctl print "gui/$UID_N/com.fluxgroup.mlxlora" >/dev/null 2>&1; then
+    echo "[train] 8788 全程在跑，不重启 $(date '+%H:%M:%S')"
+  else
+    echo "[train] 恢复 8788 LoRA 服务 $(date '+%H:%M:%S')"
+    launchctl bootstrap "gui/$UID_N" "$HOME/Library/LaunchAgents/com.fluxgroup.mlxlora.plist" 2>/dev/null
+    sleep 25
+  fi
+  "$PY" "$ROOT/Tools/fleet/vram_ceiling.py" --apply default 2>&1 | tail -3
+  # 白名单回到训练前的样子（默认 2B+4B），否则日常两条车道会被清扫器误伤
+  if [[ -f "$LANE_OK.trainbak" ]]; then
+    mv "$LANE_OK.trainbak" "$LANE_OK"
+  fi
+  echo "[train] 结束 $(date '+%H:%M:%S')"
+}
+# EXIT trap 在起看门狗后统一安装（见下方 GUARD_PID 处）。这里不能先装一次：
+# bash 的 trap 是覆盖语义，第二个 trap 会把这里的 restore 顶掉，崩溃后锁与独占哨兵
+# 全留在盘上，机器卡在"只留 4B + 训练中"态（2026-11-25 实锚：强杀 60233 后
+# TRAIN-RUNLOCK/TRAIN-EXCLUSIVE 双双残留、LANE-OK 仍只写 4B）。
+
+SENT="/Users/junsheng.sun/FluxGroup/.codely-cli/state/TRAIN-EXCLUSIVE"
+LANE_OK="/Users/junsheng.sun/FluxGroup/.codely-cli/state/TRAIN-LANE-OK"
+# 共用档的白名单必须只剩 4B：清扫器按这个文件"护住"模型，若 2B 还在名单里，
+# 采集/日间智能体把它抢回来 3.1GB，浏览器就没地方站（2026-11-19 实锚）。
+cp "$LANE_OK" "$LANE_OK.trainbak" 2>/dev/null || true
+echo "qwen3.5:4b-mlx" > "$LANE_OK"
+echo "$(date '+%Y-%m-%dT%H:%M:%S') $$" > "$SENT"
+# 哨兵只是"意图"，清扫器才是"执行"。2026-11-19 实锚：TRAIN-LANE-OK 写着只留 4B，
+# 但 com.fluxgroup.trainlock 是 RunAtLoad 一次性任务，从没被踢起过——2B 4B 9B
+# 照样驻留 7GB，训练被挤到只剩 77MB 空闲。这里必须显式拉起。
+launchctl kickstart -k "gui/$UID_N/com.fluxgroup.trainlock" >/dev/null 2>&1 \
+  && echo "[train] 独占清扫器已拉起 $(date '+%H:%M:%S')"
+# 哨兵：训练期间别的组件不许再往 ollama 装模型。2026-11-18 实锚——训练跑到一半，
+# 机队别处把 9B(9GB)+4B(5GB) 装了回来，训练进程 rss 从 3.9GB 被换出到 0.43GB，
+# 9 分钟没落一个 checkpoint。事后清理不够，必须在调用方就先挡住。
+# 别的常驻会随时往 ollama 装 9B/4B，把训练挤到换页（实锚：26 分钟没落一个 checkpoint）。
+# 训练窗口内让路：停掉会拉模型的常驻，训完由 restore 拉回。
+# 2026-11-19 CEO「采集和训练的同时，养号实战」→ 不再一刀切让路。
+# 实测（Tools/fleet/tri_lane_probe.py，40 iter）：训练 + 8788 出稿 + 采集浏览器同时跑，
+# swap 零增长、pageouts 6-88/分（阈值 120）、训练 3.0-3.5s/步、出稿 10/10 成功。
+# 所以：留 8788、留采集（sociallearn/socialagentday）；只停会拉 9B 的 modelqueue，
+# 档位改用 train-shared（只留 4B@8k，9B/8B 禁入——9B 一进来就 9GB，训练会被换出）。
+PAUSED_JOBS=()
+for j in com.fluxgroup.modelqueue; do
+  if launchctl print "gui/$UID_N/$j" >/dev/null 2>&1; then
+    launchctl bootout "gui/$UID_N/$j" >/dev/null 2>&1 && PAUSED_JOBS+=("$j")
+  fi
+done
+echo "[train] 让路（仅拉大模型的队列）：${PAUSED_JOBS[*]:-无}"
+echo "[train] 切 train-shared 档（保留 4B 与 8788，禁 9B/8B） $(date '+%H:%M:%S')"
+"$PY" "$ROOT/Tools/fleet/vram_ceiling.py" --apply train-shared 2>&1 | tail -2
+sleep 3
+
+SW0=$(sysctl -n vm.swapusage | sed -n 's/.*used = \([0-9.]*\)M.*/\1/p')
+echo "[train] 起训 swap=${SW0}MB iters=$*"
+# 运行中看门狗：swap 增长/换出超标时先卸闲置 ollama 模型（不杀训练）。
+# 2026-11-20 实测：常驻 7.26GB 模型才是换页来源，训练只要 3.3GB。
+"$PY" "$ROOT/Tools/fleet/train_guard.py" --on-breach unload --interval 60 \
+  --minutes $(( 9 * 60 )) >"$ROOT/.codely-cli/state/train-guard.log" 2>&1 &
+GUARD_PID=$!
+# 唯一的 EXIT trap：看门狗、独占哨兵、锁、显存档一次全收，任何退出路径都不留残态。
+trap 'kill ${GUARD_PID:-} 2>/dev/null; rm -f "$SENT"; restore' EXIT
+"$PY" -u "$ROOT/Tools/fleet/train_lora.py" "$@"
+rc=$?
+SW1=$(sysctl -n vm.swapusage | sed -n 's/.*used = \([0-9.]*\)M.*/\1/p')
+echo "[train] 训练结束 rc=$rc swap ${SW0}MB→${SW1}MB"
+# 训练期换页必须落盘（CEO「不触发 swap」的判据只看真实生成/真实训练，不看"装得下"）。
+# 2026-11-21 实锚：craft_learner 那轮训练前 swap 已 3.7GB，中途失败，事后无记录可查。
+"$PY" - "$SW0" "$SW1" "$rc" <<'PYEOF' 2>/dev/null || true
+import json, sys, time
+sw0, sw1, rc = sys.argv[1], sys.argv[2], sys.argv[3]
+p = "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/state/TRAIN-SWAP.jsonl"
+with open(p, "a", encoding="utf-8") as f:
+    f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                        "sw0": float(sw0 or 0), "sw1": float(sw1 or 0),
+                        "rc": int(rc or 0), "src": "train_run.sh"}, ensure_ascii=False) + "\n")
+PYEOF
+exit $rc

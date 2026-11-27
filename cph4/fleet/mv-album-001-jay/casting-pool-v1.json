@@ -1,0 +1,215 @@
+{
+  "version": "v1",
+  "created": "2026-11-12",
+  "source": "CEO 亲授名单 2026-11-12（10 风格 × 20 人 = 200）",
+  "boundary": "只取气质、做原创脸。名单仅内部美学索引，禁入提示词、禁复刻本人、禁 img2img 直近似。",
+  "laws": [
+    "CASTING-LAW.md（每曲独立选角·禁跨曲复用同一张脸）",
+    "research/SEAT-casting-20261020.md（四锚点数值预算 / 反向三问 / ArcFace 向量台账）",
+    "ANTI_K 反韩锚（韩系平眉/水光肌/渐变唇/美瞳感一律禁）"
+  ],
+  "no_lead": {
+    "songs": ["忍者", "双截棍", "龙拳", "双刀", "半兽人"],
+    "note": "动作/魔幻题材·女主位为空或缺席；如剧情需要女性只做背景或对手，不建选角案（禁为凑数造女主）"
+  },
+  "compliance": {
+    "names_never_in_prompt": true,
+    "reverse_test": "同一帧换三种措辞问多模态（像哪位艺人/让你想到谁/这是谁的旧照），三答全 NOBODY 才过，原文留档",
+    "anchor_deviation": "四锚点（眉形/眼距/鼻翼宽/唇形）相对本曲族均值 ≥2 项偏离 ≥8% 才算独立脸",
+    "cross_song_cosine_max": 0.4,
+    "same_song_cosine_min": 0.5,
+    "prompt_lint": "Tools/mv_casting_pool.py lint <file> —— 命中任一真名即判负"
+  },
+  "families": [
+    {
+      "id": "ql",
+      "name": "清冷破碎",
+      "internal_index_only": ["张柏芝", "陈都灵", "韩素希", "刘浩存", "沈银河", "董洁", "李沁", "周也", "张婧仪", "小松菜奈", "中谷美纪", "娜塔莉·波特曼", "莉莉·柯林斯", "凯拉·奈特莉", "文淇", "邓恩熙", "金智秀", "裴秀智", "许玮甯", "广末凉子"],
+      "gaze": "疏离·不上迎·视线略偏镜外；情绪=忍住的难过而非哭泣",
+      "structure": {
+        "brow": "细直眉·眉峰位偏后且低·眉尾平收（拒绝上挑）",
+        "eye": "眼距略宽·内眼角偏尖·上眼睑薄·虹膜冷调深褐",
+        "nose": "鼻梁直而窄·鼻头小·鼻翼宽=脸宽 0.18-0.20",
+        "lips": "上唇薄于下唇·口宽小·唇色裸·嘴角平（不上扬）",
+        "jaw": "下颌骨清晰·脸型窄长椭圆·下巴不尖",
+        "skin": "冷白·哑光·毛孔可见·零水光",
+        "hair": "长直发中分·发丝自然·无造型感"
+      },
+      "prompt_block": "a woman of about twenty, narrow oval face with a clean defined jawline, high flat cheekbones, straight thin brows with a low subtle peak, slightly wide-set calm eyes with a cool dark-brown iris, straight narrow nose bridge with a small tip, thin upper lip and a small quiet mouth, long dark straight hair center-parted falling behind the shoulders, pale translucent skin with visible pores, matte finish, no visible makeup, distant steady gaze a little off the lens, slender neck, neutral unsmiling expression, natural film grain, 2000s East Asian film look",
+      "era_2000_tw": {"fit": "high", "note": "可直用。清冷校花/雨中白裙是本年代正牌脸型族；禁韩式冷感妆与水光肌"},
+      "music_fit": ["龙卷风", "黑色幽默", "安静", "分裂", "对不起", "懦夫", "完美主义"],
+      "avoid": ["水光肌", "锥子脸", "韩式平眉", "浓妆", "美瞳高光", "伪素颜厚底妆"]
+    },
+    {
+      "id": "tm",
+      "name": "甜妹软萌",
+      "internal_index_only": ["徐若瑄", "田曦薇", "章若楠", "桥本环奈", "IU李知恩", "叶蕴仪", "赖薇如", "江语晨", "陈妍希", "杨丞琳", "有村架纯", "今田美樱", "赵露思", "虞书欣", "孙怡", "李一桐", "蒋依依", "张淼怡", "赵丽颖", "滨边美波"],
+      "gaze": "弯眼微笑·视线肯迎镜头之外一点点·情绪=无防备的高兴",
+      "structure": {
+        "brow": "柔拱眉·峰圆钝·眉尾自然下落",
+        "eye": "眼距标准偏近·眼型圆大·外眼角微上翘·眼白清透",
+        "nose": "鼻短·鼻头圆软·鼻翼宽=脸宽 0.20-0.22",
+        "lips": "上下唇厚比近 1:1.1·口宽中等·嘴角天生微上扬",
+        "jaw": "下颌软圆·脸颊留婴儿肥·小下巴",
+        "skin": "暖白·通透·毛孔可见·鼻梁淡雀斑可留",
+        "hair": "长直发·薄斜分刘海·发尾自然内扣"
+      },
+      "prompt_block": "a woman of about nineteen or twenty, soft round face with light baby fat in the cheeks, small rounded chin, bright wide rounded eyes with clear whites and a gentle upward tilt at the outer corner, soft arched brows with a rounded peak, short small nose with a soft round tip, small full lips with a slight natural upturn at the corners, light peach bare lip, warm clear skin with visible pores and a few faint freckles, long straight dark hair with a thin side-parted fringe, one dimple showing when she smiles, soft smiling eyes, natural unadorned look, 2000s East Asian film grain",
+      "era_2000_tw": {"fit": "high", "note": "本专辑主线脸型族（2000-2001 台湾清纯挂正牌）；厚度感铁刘海属偏晚，仍用薄斜分"},
+      "music_fit": ["可爱女人", "星晴", "开不了口", "回到过去", "你听得到", "暗号", "斗牛"],
+      "avoid": ["浓妆", "渐变唇", "水光肌", "锥子脸", "厚铁刘海", "大直径美瞳"]
+    },
+    {
+      "id": "hx",
+      "name": "狐系柔媚",
+      "internal_index_only": ["郭珍霓", "温碧霞", "Jennie金珍妮", "李丽珍", "陈雅伦", "黄圣依", "杨幂", "佟丽娅", "毛晓彤", "张予曦", "鞠婧祎", "王楚然", "张雨绮", "柳岩", "张馨予", "霍思燕", "金晨", "王鸥", "高圆圆", "钟欣潼"],
+      "gaze": "半垂眼睑·目光有钩但不直勾·笑意不到眼底",
+      "structure": {
+        "brow": "细眉·外段高拱长尾·眉峰明显上提",
+        "eye": "眼距偏宽·杏仁长眼·外眼角上挑·内眼角亮",
+        "nose": "鼻梁细直·鼻尖精致·鼻翼宽=脸宽 0.17-0.19",
+        "lips": "上下唇偏厚·唇峰清晰·唇线利落",
+        "jaw": "心形脸·下颌软收至小尖下巴（禁失真尖）",
+        "skin": "蜜调暖皮·哑光·毛孔可见",
+        "hair": "长发·发尾内扣微卷·鬓角留两缕"
+      },
+      "prompt_block": "a woman of about twenty-two, heart-shaped face tapering to a soft pointed chin, long almond eyes with a lifted outer corner and a slight inner-corner glow, thin brows with a high arched outer tail, narrow straight nose with a refined tip, full soft lips with a defined cupid's bow, warm honey-toned clear skin with visible pores, long dark hair with a soft inward wave at the ends, knowing half-lidded gaze, faint smile that does not reach the eyes, elegant neck, 2000s East Asian film grain",
+      "era_2000_tw": {"fit": "medium", "note": "适合都市暧昧/成熟情感线；校园少女曲慎用（媚态与清纯受众预期冲突）"},
+      "music_fit": ["她的睫毛", "娘子", "伊斯坦堡", "同一种调调", "暗号"],
+      "avoid": ["烟熏过重", "欧美丰唇填充感", "失真尖下巴", "网感卧蚕"]
+    },
+    {
+      "id": "hk",
+      "name": "复古港风",
+      "internal_index_only": ["王祖贤", "关之琳", "李嘉欣", "黎姿", "朱茵", "袁咏仪", "蔡少芬", "舒淇", "杨恭如", "陈法蓉", "于莉", "盖丽丽", "王璐瑶", "童飞", "胡然", "王紫璇", "廖子妤", "周慧敏", "洪欣", "万绮雯"],
+      "gaze": "正面直视·目光稳且有底气·不闪躲",
+      "structure": {
+        "brow": "浓密原生粗眉·几乎不修·眉峰硬朗",
+        "eye": "眼窝较深·上眼睑厚·眼神沉稳",
+        "nose": "鼻梁直·鼻骨略宽·鼻头有肉感",
+        "lips": "厚唇·唇形饱满·哑光砖红",
+        "jaw": "下颌角明显·方圆脸·骨相撑得住",
+        "skin": "暖橄榄皮·有肌理·哑光粉感",
+        "hair": "蓬松大波浪或高鬟·发量感强"
+      },
+      "prompt_block": "a woman of about twenty-four, strong oval face with a high brow ridge and a defined jaw angle, deep-set dark eyes with a heavy upper lid, naturally thick straight brows, straight nose with a slightly wide bridge, full lips with a matte brick-red tint, warm olive-toned skin with visible texture, voluminous dark wavy hair swept back from the face, confident direct gaze, matte powdery finish, 1990s Hong Kong film grain and soft halation",
+      "era_2000_tw": {"fit": "restricted", "note": "1990s 港风形制=年代穿越高危。只准用于三类位：①时间对话层/记忆闪回 ②民国·1943 上海线（娘子/上海一九四三）③东方复古概念段；主时间线 2000 台北禁用"},
+      "music_fit": ["上海一九四三", "娘子", "东风破", "反方向的钟"],
+      "avoid": ["主时间线直用", "现代磨皮", "水光肌", "亮片眼影", "细挑眉"]
+    },
+    {
+      "id": "sx",
+      "name": "森系文艺",
+      "internal_index_only": ["苍井优", "宫崎葵", "南笙", "鬼束千寻", "Lykke Li", "Charlotte Gainsbourg", "李呈媛", "傅淼", "吕一", "郭晓婷", "庄达菲", "永作博美", "濑户朝香", "朴善英", "瑞秋·麦克亚当斯", "Sasha Sloan", "陈绮贞", "桂纶镁", "田馥甄", "张悬"],
+      "gaze": "安静下垂·常不看镜头·情绪=自处的平静",
+      "structure": {
+        "brow": "稀疏近乎直眉·几乎无修饰",
+        "eye": "眼型细长·外眼角微垂·眼神低垂",
+        "nose": "鼻小挺直·鼻翼窄=脸宽 0.17-0.19",
+        "lips": "薄唇·豆沙玫瑰色·唇线自然模糊",
+        "jaw": "下颌线柔而长·脸型狭长",
+        "skin": "裸肌·毛孔清晰·鼻梁与颧骨有淡雀斑",
+        "hair": "未打理的长直发·单侧别耳后"
+      },
+      "prompt_block": "a woman of about twenty, long narrow face with a soft undefined jawline, thin sparse brows with an almost straight line, calm low-set eyes with a quiet downward gaze, small straight nose, thin natural lips in a muted rose tone, bare skin with visible pores and light freckles across the nose bridge, long unstyled dark hair tucked behind one ear, no makeup at all, loose linen clothing, still and unhurried presence, soft daylight, 2000s East Asian film grain",
+      "era_2000_tw": {"fit": "high", "note": "2000-2003 台湾文艺挂正牌（桂纶镁世代）；与甜妹靠「下颌软硬+唇厚+刘海」三项拉开，防同曲撞脸"},
+      "music_fit": ["半岛铁盒", "梯田", "爷爷泡的茶", "晴天", "印地安老斑鸠", "火车叨位去"],
+      "avoid": ["精致妆容", "卷发造型感", "网红滤镜", "高饱和"]
+    },
+    {
+      "id": "yj",
+      "name": "御姐熟感",
+      "internal_index_only": ["莫妮卡·贝鲁奇", "苏菲·玛索", "许晴", "蒋勤勤", "陈德容", "杨童舒", "巩俐", "宁静", "陈数", "刘嘉玲", "金喜善", "范冰冰", "查理兹·塞隆", "妮可·基德曼", "凯特·布兰切特", "秦岚", "小宋佳", "曾黎", "俞飞鸿", "林志玲"],
+      "gaze": "平视审视·不示弱·情绪=知情后的克制",
+      "structure": {
+        "brow": "平直眉·眉尾有力下压",
+        "eye": "眼窝清晰·双眼皮深·目光稳",
+        "nose": "鼻梁高直·鼻头立·鼻翼宽=脸宽 0.19-0.21",
+        "lips": "饱满厚唇·哑光豆沙·唇形明确",
+        "jaw": "下颌骨强·颧骨高·脸型长椭圆",
+        "skin": "暖白·有细纹与肌理·禁磨皮",
+        "hair": "肩下长度·侧分·顺直下垂"
+      },
+      "prompt_block": "a woman of about twenty-eight, long oval face with a strong defined jawline and high cheekbones, level straight brows with a firm tail, clear deep-set eyes with a steady appraising gaze, straight nose with a defined bridge, full lips with a matte muted rose tint, fair warm skin with visible pores and fine texture, shoulder-length dark hair with a soft side sweep, composed confident posture, minimal elegant makeup, 2000s East Asian film grain",
+      "era_2000_tw": {"fit": "medium", "note": "适合成熟情感线（分手/苦恋）；校园与初恋曲禁用（受众预期为邻家）"},
+      "music_fit": ["爱情悬崖", "黑色幽默", "以父之名", "最后的战役", "懦夫"],
+      "avoid": ["幼态圆脸", "水光肌", "网红妆", "过磨皮抹平年龄感"]
+    },
+    {
+      "id": "rx",
+      "name": "日系写真",
+      "internal_index_only": ["佐佐木希", "长泽雅美", "泽尻英龙华", "户田惠梨香", "伊藤由奈", "西奈真里", "广濑铃", "桐谷美玲", "中条彩未", "古畑奈和", "街山美穗", "东云海", "桃月梨子", "牧野真莉爱", "尾茂井奏良", "永江梨乃", "贺喜遥香", "enako", "宫泽理惠", "酒井法子"],
+      "gaze": "温柔平视·笑意含蓄·情绪=被善待的安心",
+      "structure": {
+        "brow": "细软直眉·眉尾自然平收",
+        "eye": "眼型宽圆·外眼角微垂·暖褐虹膜",
+        "nose": "鼻小圆·鼻梁柔·鼻翼窄",
+        "lips": "唇软·自然珊瑚色·闭合微笑",
+        "jaw": "圆润椭脸·下颌线柔和",
+        "skin": "水润但真实·毛孔可见·禁塑料感",
+        "hair": "中长发·空气感透视薄刘海"
+      },
+      "prompt_block": "a woman of about twenty, soft round-oval face with gentle contours, straight soft brows, wide gentle eyes with a warm brown iris and a slight downward outer corner, small rounded nose, soft lips with a natural coral tint, dewy but natural skin with visible pores, medium-length dark hair with airy see-through bangs, soft even window light, gentle closed-mouth smile, quiet candid mood, 2000s Japanese photo-book look with fine grain",
+      "era_2000_tw": {"fit": "high", "note": "2000 台湾受日系影响强（写真集/杂志妆）可直用；须去现代日系过曝滤镜与厚腮红"},
+      "music_fit": ["简单爱", "伊斯坦堡", "你听得到", "星晴", "同一种调调"],
+      "avoid": ["现代过曝滤镜", "塑料磨皮", "大直径美瞳", "厚涂腮红"]
+    },
+    {
+      "id": "kr",
+      "name": "韩系爱豆",
+      "internal_index_only": ["Rosé朴彩英", "Lisa", "YooA柳諟我", "姜泰莉", "李娜恩", "康美娜", "方智玟", "张元英", "安宥真", "金玟池Minji", "Danielle牟智慧", "外园彩羽Iroha", "李妍熙", "刘仁英", "姜素拉", "韩佳人", "孙艺珍", "宋慧乔", "朴敏英", "韩彩英"],
+      "gaze": "镜前定点·表演性凝视（非本产线用法）",
+      "structure": {
+        "brow": "平直一字眉（ANTI_K 禁项本体）",
+        "eye": "卧蚕强调·美瞳感·眼线平拉",
+        "nose": "鼻梁细高·鼻头收窄",
+        "lips": "渐变咬唇·水光",
+        "jaw": "V 形小尖下巴",
+        "skin": "玻璃水光肌",
+        "hair": "造型感强·染烫·空气刘海"
+      },
+      "prompt_block": "REFERENCE-ONLY, never generate on the 2000-2003 Taiwan timeline: straight flat one-piece brows, dewy glass skin, small V-line jaw, gradient watery lip tint, colored contact lenses, heavy aegyo-sal",
+      "era_2000_tw": {"fit": "banned", "note": "ANTI_K 反韩锚（CEO 令「不要像韩国的」）。本族只作反面清单与风险对照，禁进入任何提示词正句"},
+      "music_fit": [],
+      "avoid": ["全部·本族即禁项库（平直眉/水光肌/渐变唇/美瞳/锥脸/造型感发型/卧蚕强调）"]
+    },
+    {
+      "id": "eu",
+      "name": "欧美性感",
+      "internal_index_only": ["艾曼纽·贝阿", "米拉·库尼斯", "Sophie Ellis-Bextor", "艾玛·沃特森", "克里斯汀·斯图尔特", "赛琳娜·戈麦斯", "安雅·泰勒-乔伊", "玛格特·罗比", "斯塔西·马汀", "艾莎·冈萨雷斯", "Benedetta Porcaroli", "FKA twigs", "玛丽莲·梦露", "金·卡戴珊", "波·德瑞克", "乌苏拉·安德丝", "西德妮·斯威尼", "卡梅隆·迪亚茨", "奥黛丽·塔图", "梅根·福克斯"],
+      "gaze": "松弛直视·自信不讨好·情绪=笃定",
+      "structure": {
+        "brow": "自然厚度拱眉·眉峰柔和",
+        "eye": "眼距宽·浅色虹膜（浅褐/灰绿）·直视",
+        "nose": "鼻梁直·鼻头精致·鼻翼宽=脸宽 0.20-0.22",
+        "lips": "厚唇·自然玫瑰色·唇峰清晰",
+        "jaw": "高颧骨·脸型立体椭圆·下颌硬朗",
+        "skin": "暖白/浅褐·毛孔与淡雀斑·真实肌理",
+        "hair": "长卷发·中分·发量蓬松"
+      },
+      "prompt_block": "a woman of about twenty-four, sculpted oval face with a high forehead and defined cheekbones, softly arched brows with a natural thickness, wide-set eyes with a light hazel-green iris and a calm direct gaze, straight nose with a fine tip, full lips with a natural rose tone, warm fair skin with visible pores and faint freckles, long wavy chestnut hair with a center part, relaxed confident posture, minimal makeup, Mediterranean summer light, fine film grain",
+      "era_2000_tw": {"fit": "situational", "note": "仅用于三类题：①古文明/异域（爱在西元前）②欧美地域（米兰的小铁匠/威廉古堡）③战争/黑帮（以父之名/最后的战役）；2000 台北日常线禁用"},
+      "music_fit": ["爱在西元前", "以父之名", "威廉古堡", "米兰的小铁匠", "最后的战役"],
+      "avoid": ["整形感丰唇", "过度修容", "现代滤镜", "浓密假睫毛", "皮质松垮感缺失"]
+    },
+    {
+      "id": "wm",
+      "name": "网红素人出圈",
+      "internal_index_only": ["张辛苑", "黄灿灿", "母其弥雅", "李亚红", "李颖芝", "吴春怡", "王秋紫", "张馨月", "林小宅", "周韦彤", "赵奕欢", "汤敏", "王玉雯", "郑合惠子", "包上恩", "黄杨钿甜", "柴蔚", "Cece Natalie", "三原羽衣", "出口夏希"],
+      "gaze": "被抓拍的自然视线·有时看镜头也不设防·情绪=生活里的真",
+      "structure": {
+        "brow": "自然眉·几乎不修·眉形随骨相",
+        "eye": "眼型不标准·略有不对称·虹膜素净",
+        "nose": "鼻型普通偏小·鼻翼不抢",
+        "lips": "中等厚度·唇色裸·唇线不清晰",
+        "jaw": "小椭圆脸·下颌软·立体度不高",
+        "skin": "真实肌理·毛孔/小瑕疵保留·禁精修",
+        "hair": "无造型长直发·随手扎起或散落"
+      },
+      "prompt_block": "a woman of about nineteen or twenty, small oval face with soft natural contours, straight natural brows with little shaping, clear wide eyes with a plain dark iris, small straight nose, medium full lips with a bare natural tone, healthy clear skin with visible pores and a slight unevenness, long dark straight hair with no styling, no makeup, plain cotton t-shirt, unposed candid expression, real-person texture, 2000s East Asian snapshot look",
+      "era_2000_tw": {"fit": "high", "note": "最贴 2000「寻找 MTV 女主角」素人选角传统（当年选角=素人清丽脸而非明星脸）；须去网感：禁锥脸/大眼特效/精修"},
+      "music_fit": ["晴天", "三年二班", "简单爱", "星晴", "斗牛", "爷爷泡的茶", "梯田", "火车叨位去", "爸我回来了"],
+      "avoid": ["锥子脸", "大眼特效", "浓妆", "精修感", "AI 平均脸", "网感卧蚕"]
+    }
+  ]
+}

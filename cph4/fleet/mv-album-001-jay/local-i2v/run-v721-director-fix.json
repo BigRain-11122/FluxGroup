@@ -1,0 +1,71 @@
+{
+  "policy": "480P verification slice first. 五条换镜/修瑕疵重烧，过 480P 人眼与闸后才 768P 正片。基线=v721（1344x768/24fps/5623帧）。",
+  "gate": "480P: 无悬空手/字形与远景一致/主体有微动作/无同源复用；768P 前置: mv_stability_gate.py freezes=0 且 seams=0",
+  "wave": "v721-director-fix-R1R5",
+  "source_master": "cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/full_mv_v721.mp4",
+  "review": "cph4/fleet/mv0001-handover/DIRECTOR-REVIEW-V721-20261108.md",
+  "total": 5,
+  "units": [
+    {
+      "id": "R1-museum-lead-newshot",
+      "track": "museum",
+      "replaces_shot": 21,
+      "win_s": 3.7,
+      "speed": 1.0,
+      "policy_band": "3-5s",
+      "defect": "女主正中静止站立在博物馆人流中，双手垂下、视线直视，像被贴进背景",
+      "frame_hint": "EDL 行对应镜 21（50.500-54.208s）；KF 取该行源帧，若无则从 v721 抽 52.0s 帧作参考图",
+      "i2v_prompt": "Three-quarter rear view, medium close-up, in a warm-lit museum hall. She stands slightly off-centre, body turned toward the display case on her right. A visitor in the foreground passes within half a metre and briefly blocks her shoulder; she shifts her weight to the other foot and her eyes follow that visitor for a beat, then return to the case. Her hand lifts toward her chest and settles back down. Top light from the display case rakes across one side of her face, the other side falls into shadow. Slow, small movement, no smile, no camera move."
+    },
+    {
+      "id": "R2-museum-lead-repeat",
+      "track": "museum",
+      "replaces_shot": 40,
+      "win_s": 3.7,
+      "speed": 1.0,
+      "policy_band": "3-5s",
+      "defect": "与镜 21 同源复用（D1 真重复）",
+      "frame_hint": "同 R1，但必须换角度与景别，禁与 R1 同构图",
+      "i2v_prompt": "Wide shot from the far side of the museum hall, she is small in frame, walking slowly along the wall of exhibits while a stream of visitors crosses between her and the camera. She stops once, half-turns toward a lit case, and continues. Warm tungsten practicals on the ceiling, deep shadows in the corridor beyond. Gentle handheld drift, no zoom."
+    },
+    {
+      "id": "R3-desk-closeup-wardrobe",
+      "track": "modern",
+      "replaces_shot": 2,
+      "win_s": 1.6,
+      "speed": 1.0,
+      "policy_band": "1.5-2s",
+      "defect": "3.5s 切点：中景灰夹克+白T，切到特写变深蓝针织衫；纸张从空白变写满手稿",
+      "frame_hint": "镜 2（3.500-4.667s）源帧",
+      "i2v_prompt": "Close-up of a hand in a grey canvas jacket sleeve with a white t-shirt cuff, writing with a black fountain pen on the same blank white sheet seen in the previous shot. The pen finishes a line, lifts, and hovers for a beat. Desk lamp from the left, warm pool of light, the rest of the room dark. No other clothing, no other paper."
+    },
+    {
+      "id": "R4-clay-pencil-ghost",
+      "track": "ancient",
+      "replaces_shot": 5,
+      "win_s": 3.0,
+      "speed": 1.0,
+      "policy_band": "2-4s",
+      "defect": "14.3s 帧里有悬空的手握铅笔浮在男主头前（AI 瑕疵），紧接着硬切到写字",
+      "frame_hint": "镜 5（11.500-14.583s）源帧；只保留刻线动作",
+      "i2v_prompt": "Close on a clay tablet on a wooden table under a brass desk lamp. A hand holds a pointed stylus and presses short wedge marks into the wet clay, row by row, the clay deforming slightly at each stroke. Warm side light, thin dust in the air. Only one hand in frame, holding only the stylus. No pencil, no hand above the head, no second person."
+    },
+    {
+      "id": "R5-glyph-closeup-match",
+      "track": "ancient",
+      "replaces_shot": 11,
+      "win_s": 2.5,
+      "speed": 1.0,
+      "policy_band": "2-3s",
+      "defect": "30.8s 切点：远景为圆润凹刻楔形字，特写变成尖锐三角几何符，笔粗细与材质都不同",
+      "frame_hint": "镜 11（30.792-33.292s）；以 29.3s 远景墙面字形为唯一参考",
+      "i2v_prompt": "Extreme close-up of the same stone wall seen in the wide shot: rows of pressed cuneiform wedges, round-headed and slightly sunken, each wedge the same width and depth as in the wide shot. Two torch flames flicker at the frame edges, their light grazing the surface and deepening the grooves. Slow lateral drift of a few centimetres. No triangular or geometric symbols, no glossy modern engraving."
+    }
+  ],
+  "rebuild_after": {
+    "tool": "Tools/mv_rebuild_from_edl.py",
+    "target_frames": 5623,
+    "note": "五条到位后重建成片；重建已在本机空跑通过（73 行 / 234.25s / 5623 帧 / 音源在）",
+    "gate_after": "mv_delivery_gate.py 必带 --whitelist（否则重演假红）"
+  }
+}

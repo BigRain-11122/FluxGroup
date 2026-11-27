@@ -1,0 +1,51 @@
+{
+  "receipt": "QC-r951b",
+  "round": "r951 (absorb continuation of dead r951 session, executed by r951b window)",
+  "machine": "bm-c",
+  "ts": "2026-10-13T03:06:00+08:00",
+  "scope": "r951b patrol: 6 landed clips frame-level multimodal 4-eye (C02_sand_bury_v3 reshake + C04-C08 factory landings), threshold PASS>=7.5; method = ffmpeg 4-6 frames/clip + PIL contact sheets results/_r951bmc_qc_sheet{1,2}.png + single multimodal pass per sheet",
+  "verdicts": [
+    {"tag": "C02_sand_bury_v3", "score": 6.4, "pass": false,
+     "note": "FAIL: fix origin HEALED (pour from a point, accreting base mound t=3.7-4.5s, dusty scatter at stream edges), black-block HEALED (9/10), relief crispness 7/10, ghost 9/10, palette 9/10, camera 8/10 -- BUT sand_physics still 5/10: t=2.1-2.9s reads as wide translucent liquid curtain (cuneiform visible straight through the pour, coherent internal streaks, zero grain separation, zero bounce at impact); stream width unstable (narrow ribbon t=1.3s fans to full-face sheet t=2.1s); 'gradually buried' end-state never lands (stele fully exposed t=4.5s). Trajectory 5.5->5.5->6.4 improving."},
+    {"tag": "C04_words_alive", "score": 7.0, "pass": false,
+     "note": "FAIL (borderline): text_symbols 7 (triangular wedges canon-safe, no readable script), physics 9, ghost 8, palette 9 -- motion_quality 6: reads as slow push-in/rotate of the disk, not raking light; wedge geometry near hub re-flows 2.0-4.4s (morph); camera 6. Concept deviation: 'light alive on words' delivered as camera drift."},
+    {"tag": "C05_flame_gap", "score": 8.8, "pass": true,
+     "note": "PASS: text_symbols 10, physics 9 (natural flicker), motion 8, ghost 8 (faint illumination smear upper-left 0.8-2.0s out of sync with flame, minor), palette 9, camera 9. Cleanest clip on the sheet."},
+    {"tag": "C06_forever_cut", "score": 6.5, "pass": false,
+     "note": "FAIL: text_symbols 10 (channels clean blank), motion 7, camera 7 -- physics 4 HARD FAIL: chip under chisel tip stretches/dangles like wet putty at t=3.2s (granular-debris canon violation); ghost 7: unexplained dark mass intrudes bottom-left at t=4.4s; palette 9."},
+    {"tag": "C07_stele_sink", "score": 7.1, "pass": false,
+     "note": "FAIL: text_symbols 7 (glyph band small, wedges unverifiable at size, zero Kufic), physics 8 (base speckle granular), ghost 9, camera 8 -- motion_quality 5: effectively locked shot, zero sink/erode across 0.8-4.4s (concept undelivered); palette 6: blown-out white horizon band breaks amber/deep-black monochrome (single-visual-language breach)."},
+    {"tag": "C08_strike_burst", "score": 8.3, "pass": true,
+     "note": "PASS: text_symbols 10, physics 7 (chips mostly granular; a few streaks elongate toward ribbon-length at 2.0s, borderline), motion 8 (coherent wind-up->burst->hammer contact->dust settle), ghost 8, palette 9 (brazier fire on-palette), camera 8. Stone hammer era-correct at 3.2s."}
+  ],
+  "reshake_rider": {
+    "trigger": "patrol law <7.5 re-shake w/ seed",
+    "script": "bmc_reshake_r951b.py (reuses bmc_night_factory.run_i2v/cdn_upload verbatim; sequential self-interleave submission -- each next reshake enters shared 8188 FIFO only after previous completes, R-series progress preserved; launched 03:05 background PID 27720, log bmc/reshake_r951b.log)",
+    "jobs": [
+      {"tag": "C02_sand_bury_v4", "seed": 9209, "submitted": "03:05:10",
+       "prompt_fix": "single narrow bead-ribbon stream SAME width top-to-bottom whole take, dense opaque distinct grains, landing scattered bounce, mound grows ONLY at foot (v3 curtain fan-out direct fix)"},
+      {"tag": "C04_words_alive_v2", "seed": 9210, "pending_rider",
+       "prompt_fix": "camera locked-off, stone motionless, torch-light sweep ONLY, wedges hold exact shape and position throughout (HOLD-slot law vs morph)"},
+      {"tag": "C06_forever_cut_v2", "seed": 9211, "pending_rider",
+       "prompt_fix": "one strike early, dust as fine separate specks each breaking clear on own arc, lower frame edge clean unlit stone (taffy-chip + dark-mass direct fix)"},
+      {"tag": "C07_stele_sink_v2", "seed": 9212, "pending_rider",
+       "prompt_fix": "camera pull-back + crane-up carries all motion (S-region strength), stele shrinks in frame, horizon dim ember glow deep in shadow gradation, sky near-black (monochrome breach direct fix)"}
+    ]
+  },
+  "c03_track_decision": {
+    "frame_root_cause": "C03_dig_reveal 3.0 FAIL is FRAME-LEVEL (r840 frame carries Kufic pseudo-script, pre-props-canon) -- i2v reshake cannot heal; frame regen required",
+    "track_1_bm_a": "DEAD-LEGGED: dead r951 session's MSG-20261013-0215 to bm-a never landed in any inbox (verified empty); zero bm-a frame artifacts in group tree; NOT revived (zero working channel evidence)",
+    "track_2_bmc_self": "ARMED as primary path: after R-series + reshake rider drain (~05:00-05:45), model swap H3->Krea2 (server restart between swaps per crawl law), frame regen with PROPS BANDS-style wedge subject anchor, then i2v C03_v2; if timeline slips past ~05:30 batch-drain, disclose C03 as FAIL at closeout and let director seat (bm-a 07:00 assembly) decide retime/omit -- deathline discipline: 06:30 closeout > C03_v2 gamble"
+  },
+  "assembly_slot_state": {
+    "C02": "no passing row yet (v1 5.5 / v2 5.5 / v3 6.4 / v4 pending) -- if v4 <7.5 disclose + director falls back to best segment/trim",
+    "C04": "v1 7.0 borderline-keepable as slow push-in with disclosure; v2 pending",
+    "C05": "PASS 8.8 locked",
+    "C06": "v1 6.5 (taffy chip at 3.2s trimmable -- strike lands early); v2 pending",
+    "C07": "v1 7.1 (stable wide, palette breach); v2 pending",
+    "C08": "PASS 8.3 locked",
+    "C09": "burning at patrol time (landed ~03:1x per factory log), QC next round",
+    "R01-R06": "factory queue behind C09, ETA ~04:00-05:45; pre-burn frame sweep ALL PASS (r951 dead session, 3 ADVISORY: C09 meander-decor / R03 archaic-Greek drift flag / R06 bust-niche concept deviation with gaze-chain intact)"
+  },
+  "factory_state_at_patrol": {"burning": "C09_oath_weather (SUBMITTED 02:57:09)", "queued": "C02_v4 (rider, submitted 03:05:10) + factory R01-R06 + rider C04_v2/C06_v2/C07_v2 self-interleaved", "eta": "R06 + rider drain ~05:00-05:45; 06:30 closeout tally; bm-a 07:00 assembly; 08:30 CEO screen"}
+}

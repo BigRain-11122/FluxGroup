@@ -1,0 +1,1678 @@
+{
+ "report": {
+  "n_shots": 72,
+  "n_cuts": 71,
+  "n_hard": 61,
+  "n_hard_garnished": 2,
+  "n_bare_hard": 59,
+  "bare_ratio": 0.9672,
+  "n_soft": 10,
+  "families": [
+   "echo",
+   "fade",
+   "flash",
+   "hblur",
+   "smoke"
+  ],
+  "final_len": 234.25
+ },
+ "shots": [
+  {
+   "i": 0,
+   "sid": "INT1_desk_breath",
+   "win": [
+    0.0,
+    3.5
+   ],
+   "os": [
+    0.0,
+    3.5
+   ],
+   "mid": 1.75,
+   "v": 0.85
+  },
+  {
+   "i": 1,
+   "sid": "INT2_paper_fight",
+   "win": [
+    3.5,
+    7.5
+   ],
+   "os": [
+    3.5,
+    7.5
+   ],
+   "mid": 5.5,
+   "v": 0.92
+  },
+  {
+   "i": 2,
+   "sid": "INT3_photo_stare",
+   "win": [
+    7.5,
+    11.5
+   ],
+   "os": [
+    7.5,
+    11.5
+   ],
+   "mid": 9.5,
+   "v": 0.9
+  },
+  {
+   "i": 3,
+   "sid": "INT4_rubbing_glow",
+   "win": [
+    11.5,
+    14.6
+   ],
+   "os": [
+    11.5,
+    14.6
+   ],
+   "mid": 13.05,
+   "v": 0.95
+  },
+  {
+   "i": 4,
+   "sid": "INT5_head_bow",
+   "win": [
+    14.6,
+    17.5
+   ],
+   "os": [
+    14.6,
+    17.5
+   ],
+   "mid": 16.05,
+   "v": 0.88
+  },
+  {
+   "i": 5,
+   "sid": "S1_fire_wake",
+   "win": [
+    17.5,
+    21.9
+   ],
+   "os": [
+    17.5,
+    21.54
+   ],
+   "mid": 19.52,
+   "v": 0.85
+  },
+  {
+   "i": 6,
+   "sid": "S2_sweep",
+   "win": [
+    21.9,
+    25.9
+   ],
+   "os": [
+    21.54,
+    25.54
+   ],
+   "mid": 23.54,
+   "v": 0.95
+  },
+  {
+   "i": 7,
+   "sid": "S3_stele",
+   "win": [
+    25.9,
+    29.0
+   ],
+   "os": [
+    25.54,
+    28.64
+   ],
+   "mid": 27.09,
+   "v": 1.06
+  },
+  {
+   "i": 8,
+   "sid": "SIL1_v4b@29",
+   "win": [
+    29.0,
+    31.14
+   ],
+   "os": [
+    28.64,
+    30.78
+   ],
+   "mid": 29.71,
+   "v": 1.0
+  },
+  {
+   "i": 9,
+   "sid": "S5_columns",
+   "win": [
+    31.14,
+    34.74
+   ],
+   "os": [
+    30.78,
+    34.38
+   ],
+   "mid": 32.58,
+   "v": 1.0
+  },
+  {
+   "i": 10,
+   "sid": "S6_chisel",
+   "win": [
+    34.74,
+    36.92
+   ],
+   "os": [
+    34.38,
+    36.56
+   ],
+   "mid": 35.47,
+   "v": 1.05
+  },
+  {
+   "i": 11,
+   "sid": "S7_hall",
+   "win": [
+    36.92,
+    38.82
+   ],
+   "os": [
+    36.56,
+    38.06
+   ],
+   "mid": 37.31,
+   "v": 0.82
+  },
+  {
+   "i": 12,
+   "sid": "T_glyphs",
+   "win": [
+    38.82,
+    40.22
+   ],
+   "os": [
+    38.06,
+    39.06
+   ],
+   "mid": 38.56,
+   "v": 0.9
+  },
+  {
+   "i": 13,
+   "sid": "S8_case",
+   "win": [
+    40.22,
+    42.22
+   ],
+   "os": [
+    39.06,
+    41.06
+   ],
+   "mid": 40.06,
+   "v": 0.92
+  },
+  {
+   "i": 14,
+   "sid": "S9_profile",
+   "win": [
+    42.22,
+    44.0
+   ],
+   "os": [
+    41.06,
+    42.84
+   ],
+   "mid": 41.95,
+   "v": 0.87
+  },
+  {
+   "i": 15,
+   "sid": "SIL2_v4@44",
+   "win": [
+    44.0,
+    45.22
+   ],
+   "os": [
+    42.84,
+    44.06
+   ],
+   "mid": 43.45,
+   "v": 1.0
+  },
+  {
+   "i": 16,
+   "sid": "S10_walk",
+   "win": [
+    45.22,
+    47.5
+   ],
+   "os": [
+    44.06,
+    45.34
+   ],
+   "mid": 44.7,
+   "v": 0.96
+  },
+  {
+   "i": 17,
+   "sid": "N01_war_relief",
+   "win": [
+    47.5,
+    50.52
+   ],
+   "os": [
+    45.34,
+    48.36
+   ],
+   "mid": 46.85,
+   "v": 1.05
+  },
+  {
+   "i": 18,
+   "sid": "N02_crowd_her",
+   "win": [
+    50.52,
+    54.22
+   ],
+   "os": [
+    48.36,
+    52.06
+   ],
+   "mid": 50.21,
+   "v": 0.92
+  },
+  {
+   "i": 19,
+   "sid": "N03_goddess_pass",
+   "win": [
+    54.22,
+    58.44
+   ],
+   "os": [
+    52.06,
+    56.28
+   ],
+   "mid": 54.17,
+   "v": 0.95
+  },
+  {
+   "i": 20,
+   "sid": "N04_river_marks",
+   "win": [
+    58.44,
+    61.98
+   ],
+   "os": [
+    56.28,
+    59.82
+   ],
+   "mid": 58.05,
+   "v": 0.85
+  },
+  {
+   "i": 21,
+   "sid": "N05_dead_language",
+   "win": [
+    61.98,
+    68.86
+   ],
+   "os": [
+    59.82,
+    66.7
+   ],
+   "mid": 63.26,
+   "v": 0.74
+  },
+  {
+   "i": 22,
+   "sid": "N06_poem_light",
+   "win": [
+    68.86,
+    74.6
+   ],
+   "os": [
+    66.7,
+    72.44
+   ],
+   "mid": 69.57,
+   "v": 0.9
+  },
+  {
+   "i": 23,
+   "sid": "N07_fire_breath",
+   "win": [
+    74.6,
+    77.34
+   ],
+   "os": [
+    72.44,
+    75.18
+   ],
+   "mid": 73.81,
+   "v": 1.0
+  },
+  {
+   "i": 24,
+   "sid": "C01_carver_face",
+   "win": [
+    77.34,
+    78.0
+   ],
+   "os": [
+    75.18,
+    75.84
+   ],
+   "mid": 75.51,
+   "v": 0.9
+  },
+  {
+   "i": 25,
+   "sid": "SING1_v2@78",
+   "win": [
+    78.0,
+    80.18
+   ],
+   "os": [
+    75.84,
+    77.42
+   ],
+   "mid": 76.63,
+   "v": 1.0
+  },
+  {
+   "i": 26,
+   "sid": "C02_sand_bury",
+   "win": [
+    80.18,
+    83.56
+   ],
+   "os": [
+    77.42,
+    80.8
+   ],
+   "mid": 79.11,
+   "v": 0.95
+  },
+  {
+   "i": 27,
+   "sid": "C03_dig_reveal",
+   "win": [
+    83.56,
+    87.74
+   ],
+   "os": [
+    80.8,
+    84.98
+   ],
+   "mid": 82.89,
+   "v": 1.0
+  },
+  {
+   "i": 28,
+   "sid": "C04_words_alive",
+   "win": [
+    87.74,
+    91.06
+   ],
+   "os": [
+    84.98,
+    88.3
+   ],
+   "mid": 86.64,
+   "v": 0.88
+  },
+  {
+   "i": 29,
+   "sid": "C05_flame_gap",
+   "win": [
+    91.06,
+    92.62
+   ],
+   "os": [
+    88.3,
+    89.86
+   ],
+   "mid": 89.08,
+   "v": 1.0
+  },
+  {
+   "i": 30,
+   "sid": "C06_forever_cut",
+   "win": [
+    92.62,
+    95.22
+   ],
+   "os": [
+    89.86,
+    92.46
+   ],
+   "mid": 91.16,
+   "v": 1.05
+  },
+  {
+   "i": 31,
+   "sid": "C07_stele_sink",
+   "win": [
+    95.22,
+    100.14
+   ],
+   "os": [
+    92.46,
+    97.38
+   ],
+   "mid": 94.92,
+   "v": 0.92
+  },
+  {
+   "i": 32,
+   "sid": "C08_strike_burst",
+   "win": [
+    100.14,
+    102.88
+   ],
+   "os": [
+    97.38,
+    99.52
+   ],
+   "mid": 98.45,
+   "v": 1.1
+  },
+  {
+   "i": 33,
+   "sid": "C09_oath_weather",
+   "win": [
+    102.88,
+    108.22
+   ],
+   "os": [
+    99.52,
+    104.86
+   ],
+   "mid": 102.19,
+   "v": 0.87
+  },
+  {
+   "i": 34,
+   "sid": "C09b_flame",
+   "win": [
+    108.22,
+    110.52
+   ],
+   "os": [
+    104.86,
+    105.76
+   ],
+   "mid": 105.31,
+   "v": 1.0
+  },
+  {
+   "i": 35,
+   "sid": "R01_war_later",
+   "win": [
+    110.52,
+    114.7
+   ],
+   "os": [
+    105.76,
+    109.94
+   ],
+   "mid": 107.85,
+   "v": 0.95
+  },
+  {
+   "i": 36,
+   "sid": "R02_she_turns",
+   "win": [
+    114.7,
+    118.46
+   ],
+   "os": [
+    109.94,
+    113.7
+   ],
+   "mid": 111.82,
+   "v": 0.9
+  },
+  {
+   "i": 37,
+   "sid": "R03_goddess_dim",
+   "win": [
+    118.46,
+    122.82
+   ],
+   "os": [
+    113.7,
+    118.06
+   ],
+   "mid": 115.88,
+   "v": 0.9
+  },
+  {
+   "i": 38,
+   "sid": "R04_river_dry",
+   "win": [
+    122.82,
+    126.32
+   ],
+   "os": [
+    118.06,
+    121.56
+   ],
+   "mid": 119.81,
+   "v": 0.88
+  },
+  {
+   "i": 39,
+   "sid": "R05_gold_threads",
+   "win": [
+    126.32,
+    131.72
+   ],
+   "os": [
+    121.56,
+    126.46
+   ],
+   "mid": 124.01,
+   "v": 0.85
+  },
+  {
+   "i": 40,
+   "sid": "R06_museum_verse",
+   "win": [
+    131.72,
+    138.56
+   ],
+   "os": [
+    126.46,
+    133.3
+   ],
+   "mid": 129.88,
+   "v": 0.75
+  },
+  {
+   "i": 41,
+   "sid": "R07_flame",
+   "win": [
+    138.56,
+    141.76
+   ],
+   "os": [
+    133.3,
+    136.5
+   ],
+   "mid": 134.9,
+   "v": 1.0
+  },
+  {
+   "i": 42,
+   "sid": "D01_carver_words",
+   "win": [
+    141.76,
+    144.56
+   ],
+   "os": [
+    136.5,
+    139.3
+   ],
+   "mid": 137.9,
+   "v": 0.9
+  },
+  {
+   "i": 43,
+   "sid": "D02_she_reads",
+   "win": [
+    144.56,
+    147.84
+   ],
+   "os": [
+    139.3,
+    142.58
+   ],
+   "mid": 140.94,
+   "v": 0.88
+  },
+  {
+   "i": 44,
+   "sid": "D03_two_worlds",
+   "win": [
+    147.84,
+    150.54
+   ],
+   "os": [
+    142.58,
+    145.28
+   ],
+   "mid": 143.93,
+   "v": 0.85
+  },
+  {
+   "i": 45,
+   "sid": "D03b_direct_gaze",
+   "win": [
+    150.54,
+    152.0
+   ],
+   "os": [
+    145.28,
+    146.74
+   ],
+   "mid": 146.01,
+   "v": 0.9
+  },
+  {
+   "i": 46,
+   "sid": "SIL3_v2@152",
+   "win": [
+    152.0,
+    153.6
+   ],
+   "os": [
+    146.74,
+    148.34
+   ],
+   "mid": 147.54,
+   "v": 1.0
+  },
+  {
+   "i": 47,
+   "sid": "D04_her_brush",
+   "win": [
+    153.6,
+    155.4
+   ],
+   "os": [
+    148.34,
+    150.14
+   ],
+   "mid": 149.24,
+   "v": 0.95
+  },
+  {
+   "i": 48,
+   "sid": "D05_words_warm",
+   "win": [
+    155.4,
+    159.66
+   ],
+   "os": [
+    150.14,
+    154.4
+   ],
+   "mid": 152.27,
+   "v": 0.87
+  },
+  {
+   "i": 49,
+   "sid": "D06_chisel_fingertip",
+   "win": [
+    159.66,
+    163.04
+   ],
+   "os": [
+    154.4,
+    157.78
+   ],
+   "mid": 156.09,
+   "v": 0.9
+  },
+  {
+   "i": 50,
+   "sid": "D07_oath_river",
+   "win": [
+    163.04,
+    167.22
+   ],
+   "os": [
+    157.78,
+    161.96
+   ],
+   "mid": 159.87,
+   "v": 0.92
+  },
+  {
+   "i": 51,
+   "sid": "D08_world_flip",
+   "win": [
+    167.22,
+    172.5
+   ],
+   "os": [
+    161.96,
+    167.24
+   ],
+   "mid": 164.6,
+   "v": 0.95
+  },
+  {
+   "i": 52,
+   "sid": "B01_weary",
+   "win": [
+    172.5,
+    177.0
+   ],
+   "os": [
+    167.24,
+    171.74
+   ],
+   "mid": 169.49,
+   "v": 0.85
+  },
+  {
+   "i": 53,
+   "sid": "B02_far_home",
+   "win": [
+    177.0,
+    180.0
+   ],
+   "os": [
+    171.74,
+    174.74
+   ],
+   "mid": 173.24,
+   "v": 0.9
+  },
+  {
+   "i": 54,
+   "sid": "SING2@180",
+   "win": [
+    180.0,
+    182.0
+   ],
+   "os": [
+    174.74,
+    176.74
+   ],
+   "mid": 175.74,
+   "v": 1.0
+  },
+  {
+   "i": 55,
+   "sid": "B03_last_look",
+   "win": [
+    182.0,
+    184.08
+   ],
+   "os": [
+    176.74,
+    178.82
+   ],
+   "mid": 177.78,
+   "v": 0.88
+  },
+  {
+   "i": 56,
+   "sid": "B04_embers",
+   "win": [
+    184.08,
+    187.26
+   ],
+   "os": [
+    178.82,
+    181.1
+   ],
+   "mid": 179.96,
+   "v": 1.0
+  },
+  {
+   "i": 57,
+   "sid": "E01a_carver",
+   "win": [
+    187.26,
+    190.0
+   ],
+   "os": [
+    181.1,
+    183.84
+   ],
+   "mid": 182.47,
+   "v": 0.9
+  },
+  {
+   "i": 58,
+   "sid": "E01b_sand",
+   "win": [
+    190.0,
+    191.6
+   ],
+   "os": [
+    183.84,
+    185.44
+   ],
+   "mid": 184.64,
+   "v": 0.95
+  },
+  {
+   "i": 59,
+   "sid": "E01c_first_line",
+   "win": [
+    191.6,
+    193.12
+   ],
+   "os": [
+    185.44,
+    186.96
+   ],
+   "mid": 186.2,
+   "v": 0.9
+  },
+  {
+   "i": 60,
+   "sid": "E02a_dig",
+   "win": [
+    193.12,
+    197.0
+   ],
+   "os": [
+    186.96,
+    190.84
+   ],
+   "mid": 188.9,
+   "v": 1.0
+  },
+  {
+   "i": 61,
+   "sid": "SING3b_v4@197",
+   "win": [
+    197.0,
+    199.0
+   ],
+   "os": [
+    190.84,
+    192.84
+   ],
+   "mid": 191.84,
+   "v": 1.0
+  },
+  {
+   "i": 62,
+   "sid": "E03_gaze_meet",
+   "win": [
+    199.0,
+    200.8
+   ],
+   "os": [
+    192.84,
+    194.64
+   ],
+   "mid": 193.74,
+   "v": 0.85
+  },
+  {
+   "i": 63,
+   "sid": "E04a_words_warm",
+   "win": [
+    200.8,
+    205.1
+   ],
+   "os": [
+    194.64,
+    198.94
+   ],
+   "mid": 196.79,
+   "v": 0.88
+  },
+  {
+   "i": 64,
+   "sid": "E05_stele_sink",
+   "win": [
+    205.1,
+    207.0
+   ],
+   "os": [
+    198.94,
+    200.84
+   ],
+   "mid": 199.89,
+   "v": 0.92
+  },
+  {
+   "i": 65,
+   "sid": "SIL4@207",
+   "win": [
+    207.0,
+    208.8
+   ],
+   "os": [
+    200.84,
+    202.64
+   ],
+   "mid": 201.74,
+   "v": 1.0
+  },
+  {
+   "i": 66,
+   "sid": "E06_strike",
+   "win": [
+    208.8,
+    212.66
+   ],
+   "os": [
+    202.64,
+    206.5
+   ],
+   "mid": 204.57,
+   "v": 0.92
+  },
+  {
+   "i": 67,
+   "sid": "E04_replay_faces",
+   "win": [
+    212.66,
+    219.84
+   ],
+   "os": [
+    206.5,
+    212.48
+   ],
+   "mid": 209.49,
+   "v": 0.72
+  },
+  {
+   "i": 68,
+   "sid": "Z01_words_alone",
+   "win": [
+    219.84,
+    224.0
+   ],
+   "os": [
+    212.48,
+    216.64
+   ],
+   "mid": 214.56,
+   "v": 0.85
+  },
+  {
+   "i": 69,
+   "sid": "Z02_walkaway",
+   "win": [
+    224.0,
+    227.5
+   ],
+   "os": [
+    216.64,
+    220.14
+   ],
+   "mid": 218.39,
+   "v": 0.92
+  },
+  {
+   "i": 70,
+   "sid": "Z03_lights_out",
+   "win": [
+    227.5,
+    230.5
+   ],
+   "os": [
+    220.14,
+    223.14
+   ],
+   "mid": 221.64,
+   "v": 0.9
+  },
+  {
+   "i": 71,
+   "sid": "Z04_glyph_remains",
+   "win": [
+    230.5,
+    234.25
+   ],
+   "os": [
+    223.14,
+    226.89
+   ],
+   "mid": 225.015,
+   "v": 0.96
+  }
+ ],
+ "cuts": [
+  {
+   "k": 0,
+   "prev": "INT1_desk_breath",
+   "next": "INT2_paper_fight",
+   "win_b": 3.5,
+   "os": 3.5,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 1,
+   "prev": "INT2_paper_fight",
+   "next": "INT3_photo_stare",
+   "win_b": 7.5,
+   "os": 7.5,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 2,
+   "prev": "INT3_photo_stare",
+   "next": "INT4_rubbing_glow",
+   "win_b": 11.5,
+   "os": 11.5,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 3,
+   "prev": "INT4_rubbing_glow",
+   "next": "INT5_head_bow",
+   "win_b": 14.6,
+   "os": 14.6,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 4,
+   "prev": "INT5_head_bow",
+   "next": "S1_fire_wake",
+   "win_b": 17.5,
+   "os": 17.5,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 5,
+   "prev": "S1_fire_wake",
+   "next": "S2_sweep",
+   "win_b": 21.9,
+   "os": 21.54,
+   "type": "xfade:fade:0.36",
+   "fx": []
+  },
+  {
+   "k": 6,
+   "prev": "S2_sweep",
+   "next": "S3_stele",
+   "win_b": 25.9,
+   "os": 25.54,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 7,
+   "prev": "S3_stele",
+   "next": "SIL1_v4b@29",
+   "win_b": 29.0,
+   "os": 28.64,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 8,
+   "prev": "SIL1_v4b@29",
+   "next": "S5_columns",
+   "win_b": 31.14,
+   "os": 30.78,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 9,
+   "prev": "S5_columns",
+   "next": "S6_chisel",
+   "win_b": 34.74,
+   "os": 34.38,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 10,
+   "prev": "S6_chisel",
+   "next": "S7_hall",
+   "win_b": 36.92,
+   "os": 36.56,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 11,
+   "prev": "S7_hall",
+   "next": "T_glyphs",
+   "win_b": 38.82,
+   "os": 38.06,
+   "type": "xfade:fade:0.40",
+   "fx": []
+  },
+  {
+   "k": 12,
+   "prev": "T_glyphs",
+   "next": "S8_case",
+   "win_b": 40.22,
+   "os": 39.06,
+   "type": "xfade:fade:0.40",
+   "fx": []
+  },
+  {
+   "k": 13,
+   "prev": "S8_case",
+   "next": "S9_profile",
+   "win_b": 42.22,
+   "os": 41.06,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 14,
+   "prev": "S9_profile",
+   "next": "SIL2_v4@44",
+   "win_b": 44.0,
+   "os": 42.84,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 15,
+   "prev": "SIL2_v4@44",
+   "next": "S10_walk",
+   "win_b": 45.22,
+   "os": 44.06,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 16,
+   "prev": "S10_walk",
+   "next": "N01_war_relief",
+   "win_b": 47.5,
+   "os": 45.34,
+   "type": "xfade:fade:1.00",
+   "fx": []
+  },
+  {
+   "k": 17,
+   "prev": "N01_war_relief",
+   "next": "N02_crowd_her",
+   "win_b": 50.52,
+   "os": 48.36,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 18,
+   "prev": "N02_crowd_her",
+   "next": "N03_goddess_pass",
+   "win_b": 54.22,
+   "os": 52.06,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 19,
+   "prev": "N03_goddess_pass",
+   "next": "N04_river_marks",
+   "win_b": 58.44,
+   "os": 56.28,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 20,
+   "prev": "N04_river_marks",
+   "next": "N05_dead_language",
+   "win_b": 61.98,
+   "os": 59.82,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 21,
+   "prev": "N05_dead_language",
+   "next": "N06_poem_light",
+   "win_b": 68.86,
+   "os": 66.7,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 22,
+   "prev": "N06_poem_light",
+   "next": "N07_fire_breath",
+   "win_b": 74.6,
+   "os": 72.44,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 23,
+   "prev": "N07_fire_breath",
+   "next": "C01_carver_face",
+   "win_b": 77.34,
+   "os": 75.18,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 24,
+   "prev": "C01_carver_face",
+   "next": "SING1_v2@78",
+   "win_b": 78.0,
+   "os": 75.84,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 25,
+   "prev": "SING1_v2@78",
+   "next": "C02_sand_bury",
+   "win_b": 80.18,
+   "os": 77.42,
+   "type": "xfade:hblur:0.60",
+   "fx": [
+    77.3
+   ]
+  },
+  {
+   "k": 26,
+   "prev": "C02_sand_bury",
+   "next": "C03_dig_reveal",
+   "win_b": 83.56,
+   "os": 80.8,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 27,
+   "prev": "C03_dig_reveal",
+   "next": "C04_words_alive",
+   "win_b": 87.74,
+   "os": 84.98,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 28,
+   "prev": "C04_words_alive",
+   "next": "C05_flame_gap",
+   "win_b": 91.06,
+   "os": 88.3,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 29,
+   "prev": "C05_flame_gap",
+   "next": "C06_forever_cut",
+   "win_b": 92.62,
+   "os": 89.86,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 30,
+   "prev": "C06_forever_cut",
+   "next": "C07_stele_sink",
+   "win_b": 95.22,
+   "os": 92.46,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 31,
+   "prev": "C07_stele_sink",
+   "next": "C08_strike_burst",
+   "win_b": 100.14,
+   "os": 97.38,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 32,
+   "prev": "C08_strike_burst",
+   "next": "C09_oath_weather",
+   "win_b": 102.88,
+   "os": 99.52,
+   "type": "xfade:fade:0.60",
+   "fx": []
+  },
+  {
+   "k": 33,
+   "prev": "C09_oath_weather",
+   "next": "C09b_flame",
+   "win_b": 108.22,
+   "os": 104.86,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 34,
+   "prev": "C09b_flame",
+   "next": "R01_war_later",
+   "win_b": 110.52,
+   "os": 105.76,
+   "type": "xfade:fade:1.40",
+   "fx": []
+  },
+  {
+   "k": 35,
+   "prev": "R01_war_later",
+   "next": "R02_she_turns",
+   "win_b": 114.7,
+   "os": 109.94,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 36,
+   "prev": "R02_she_turns",
+   "next": "R03_goddess_dim",
+   "win_b": 118.46,
+   "os": 113.7,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 37,
+   "prev": "R03_goddess_dim",
+   "next": "R04_river_dry",
+   "win_b": 122.82,
+   "os": 118.06,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 38,
+   "prev": "R04_river_dry",
+   "next": "R05_gold_threads",
+   "win_b": 126.32,
+   "os": 121.56,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 39,
+   "prev": "R05_gold_threads",
+   "next": "R06_museum_verse",
+   "win_b": 131.72,
+   "os": 126.46,
+   "type": "xfade:hblur:0.50",
+   "fx": []
+  },
+  {
+   "k": 40,
+   "prev": "R06_museum_verse",
+   "next": "R07_flame",
+   "win_b": 138.56,
+   "os": 133.3,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 41,
+   "prev": "R07_flame",
+   "next": "D01_carver_words",
+   "win_b": 141.76,
+   "os": 136.5,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 42,
+   "prev": "D01_carver_words",
+   "next": "D02_she_reads",
+   "win_b": 144.56,
+   "os": 139.3,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 43,
+   "prev": "D02_she_reads",
+   "next": "D03_two_worlds",
+   "win_b": 147.84,
+   "os": 142.58,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 44,
+   "prev": "D03_two_worlds",
+   "next": "D03b_direct_gaze",
+   "win_b": 150.54,
+   "os": 145.28,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 45,
+   "prev": "D03b_direct_gaze",
+   "next": "SIL3_v2@152",
+   "win_b": 152.0,
+   "os": 146.74,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 46,
+   "prev": "SIL3_v2@152",
+   "next": "D04_her_brush",
+   "win_b": 153.6,
+   "os": 148.34,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 47,
+   "prev": "D04_her_brush",
+   "next": "D05_words_warm",
+   "win_b": 155.4,
+   "os": 150.14,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 48,
+   "prev": "D05_words_warm",
+   "next": "D06_chisel_fingertip",
+   "win_b": 159.66,
+   "os": 154.4,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 49,
+   "prev": "D06_chisel_fingertip",
+   "next": "D07_oath_river",
+   "win_b": 163.04,
+   "os": 157.78,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 50,
+   "prev": "D07_oath_river",
+   "next": "D08_world_flip",
+   "win_b": 167.22,
+   "os": 161.96,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 51,
+   "prev": "D08_world_flip",
+   "next": "B01_weary",
+   "win_b": 172.5,
+   "os": 167.24,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 52,
+   "prev": "B01_weary",
+   "next": "B02_far_home",
+   "win_b": 177.0,
+   "os": 171.74,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 53,
+   "prev": "B02_far_home",
+   "next": "SING2@180",
+   "win_b": 180.0,
+   "os": 174.74,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 54,
+   "prev": "SING2@180",
+   "next": "B03_last_look",
+   "win_b": 182.0,
+   "os": 176.74,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 55,
+   "prev": "B03_last_look",
+   "next": "B04_embers",
+   "win_b": 184.08,
+   "os": 178.82,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 56,
+   "prev": "B04_embers",
+   "next": "E01a_carver",
+   "win_b": 187.26,
+   "os": 181.1,
+   "type": "xfade:fade:0.90",
+   "fx": []
+  },
+  {
+   "k": 57,
+   "prev": "E01a_carver",
+   "next": "E01b_sand",
+   "win_b": 190.0,
+   "os": 183.84,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 58,
+   "prev": "E01b_sand",
+   "next": "E01c_first_line",
+   "win_b": 191.6,
+   "os": 185.44,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 59,
+   "prev": "E01c_first_line",
+   "next": "E02a_dig",
+   "win_b": 193.12,
+   "os": 186.96,
+   "type": "hard",
+   "fx": [
+    187.24
+   ]
+  },
+  {
+   "k": 60,
+   "prev": "E02a_dig",
+   "next": "SING3b_v4@197",
+   "win_b": 197.0,
+   "os": 190.84,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 61,
+   "prev": "SING3b_v4@197",
+   "next": "E03_gaze_meet",
+   "win_b": 199.0,
+   "os": 192.84,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 62,
+   "prev": "E03_gaze_meet",
+   "next": "E04a_words_warm",
+   "win_b": 200.8,
+   "os": 194.64,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 63,
+   "prev": "E04a_words_warm",
+   "next": "E05_stele_sink",
+   "win_b": 205.1,
+   "os": 198.94,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 64,
+   "prev": "E05_stele_sink",
+   "next": "SIL4@207",
+   "win_b": 207.0,
+   "os": 200.84,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 65,
+   "prev": "SIL4@207",
+   "next": "E06_strike",
+   "win_b": 208.8,
+   "os": 202.64,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 66,
+   "prev": "E06_strike",
+   "next": "E04_replay_faces",
+   "win_b": 212.66,
+   "os": 206.5,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 67,
+   "prev": "E04_replay_faces",
+   "next": "Z01_words_alone",
+   "win_b": 219.84,
+   "os": 212.48,
+   "type": "xfade:fade:1.20",
+   "fx": [
+    212.62
+   ]
+  },
+  {
+   "k": 68,
+   "prev": "Z01_words_alone",
+   "next": "Z02_walkaway",
+   "win_b": 224.0,
+   "os": 216.64,
+   "type": "hard",
+   "fx": []
+  },
+  {
+   "k": 69,
+   "prev": "Z02_walkaway",
+   "next": "Z03_lights_out",
+   "win_b": 227.5,
+   "os": 220.14,
+   "type": "hard",
+   "fx": [
+    219.8
+   ]
+  },
+  {
+   "k": 70,
+   "prev": "Z03_lights_out",
+   "next": "Z04_glyph_remains",
+   "win_b": 230.5,
+   "os": 223.14,
+   "type": "hard",
+   "fx": []
+  }
+ ]
+}

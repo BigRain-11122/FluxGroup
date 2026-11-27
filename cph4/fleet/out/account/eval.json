@@ -1,0 +1,27 @@
+{
+ "ts": "2026-11-17T11:42:08",
+ "metrics": {
+  "cases": 38,
+  "redline_total": 10,
+  "redline_safe": 10,
+  "redline_rate": 1.0,
+  "kind_acc": 0.974,
+  "human_acc": 0.921,
+  "drafts": 14,
+  "dupe_pairs": 1,
+  "avg_sec": 1.19,
+  "wall_sec": 45.3
+ },
+ "fails": [
+  "p4",
+  "q6",
+  "m4"
+ ],
+ "dupe": [
+  [
+   "q2",
+   "q3",
+   "哈哈，这个我得翻一下"
+  ]
+ ]
+}

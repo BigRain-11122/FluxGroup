@@ -1,0 +1,710 @@
+{
+ "_comment": "业务条线 + 工段登记表（2026-10-29 v2：CEO 指『不够细分』→ 每线拆到工序）。机器可判字段：证据目录（产出新鲜度）、owner（谁判）、model（算什么档）、lane（哪台机跑）。规则正文仍在各正典，不复制法条。",
+ "_verdicts": "WORKING=队列里有本段活 / WAITING=未超期 / STALLED=超期无产出 / BLOCKED=有活无车道 / PARKED=CEO 令停 / DORMANT=判负收线（已定谳停摆，复活需 CEO 令或新立项）",
+ "default_stale_after_h": 48,
+ "lines": [
+  {
+   "id": "bigstream-mv",
+   "name": "BigStream·MV 41 曲",
+   "owner": "导演席（自决推进，CEO 巡视可随时否决）",
+   "status": "ACTIVE",
+   "repos": [],
+   "stale_after_h": 24,
+   "queue_prefix": [
+    "Q-MV-",
+    "R-MV-"
+   ],
+   "stages": [
+    {
+     "id": "mv-plan",
+     "name": "立意/分镜",
+     "owner": "导演席",
+     "model": "cloud-smart",
+     "evidence": [
+      "cph4/fleet/mv-album-001-jay/anchors",
+      "cph4/fleet/mv0001-handover/canon"
+     ]
+    },
+    {
+     "id": "mv-kf",
+     "name": "关键帧",
+     "owner": "导演席·美术",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/mv-album-001-jay/local-i2v"
+     ]
+    },
+    {
+     "id": "mv-i2v",
+     "name": "出片",
+     "owner": "导演席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "D:/FluxGroup/media/mv-album-001-jay/clips-local-768"
+     ]
+    },
+    {
+     "id": "mv-cut",
+     "name": "剪辑/装配",
+     "owner": "剪辑席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "cph4/fleet/mv0001-handover/outbound"
+     ]
+    },
+    {
+     "id": "mv-gate",
+     "name": "质检/交付",
+     "owner": "质检席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "D:/FleetWorker/review"
+     ]
+    },
+    {
+     "id": "mv-approve",
+     "name": "呈审",
+     "owner": "导演席（自决放行）",
+     "model": "none",
+     "post_hoc": true,
+     "stale_after_h": 9999,
+     "veto_window": "CEO 巡视时否决即回滚到 mv-gate 重出",
+     "evidence": [
+      "cph4/fleet/mv0001-handover/canon"
+     ]
+    }
+   ],
+   "org": "content",
+   "priority": "P0",
+   "pause_reason": "auto-resume:2026-11-03 冷却到期（原：2026-11-02）",
+   "visibility": "OK",
+   "last_artifact_h": 29.3,
+   "no_autostop": true,
+   "owner_station": "visual",
+   "product_id": "PROD-MV-SINGLE"
+  },
+  {
+   "id": "bigstream-drama",
+   "name": "BigStream·漫剧",
+   "owner": "漫剧席",
+   "status": "ACTIVE",
+   "repos": [],
+   "stale_after_h": 48,
+   "queue_prefix": [
+    "Q-DRAMA-"
+   ],
+   "stages": [
+    {
+     "id": "drama-script",
+     "name": "剧本",
+     "owner": "编剧席",
+     "model": "cloud-smart",
+     "evidence": [
+      "cph4/fleet/drama-dept-v1"
+     ]
+    },
+    {
+     "id": "drama-kf",
+     "name": "画面/分镜",
+     "owner": "漫剧席",
+     "model": "local-gpu",
+     "lane": "bm-b",
+     "evidence": [
+      "media/drama-eps"
+     ]
+    },
+    {
+     "id": "drama-voice",
+     "name": "配音",
+     "owner": "声音席",
+     "model": "local-llm",
+     "lane": "bm-b",
+     "evidence": [
+      "media/drama-mix-out"
+     ]
+    },
+    {
+     "id": "drama-mix",
+     "name": "混音/合成",
+     "owner": "声音席",
+     "model": "none",
+     "lane": "bm-b",
+     "evidence": [
+      "media/drama-eps-audio"
+     ]
+    }
+   ],
+   "org": "content",
+   "priority": "T1",
+   "pause_reason": "CEO 2026-11-11 令：恢复为独立产品线，先做 2D 图生视频一条链；原 2026-11-03 停线令由本条取代",
+   "visibility": "OK",
+   "last_artifact_h": 47.0,
+   "owner_station": "visual",
+   "product_id": "PROD-DRAMA-EP",
+   "restored_at": "2026-11-11",
+   "form": "2d-i2v",
+   "rule_engine": "Tools/fleet/drama_rules.py",
+   "station_note": "画面主管=视觉工位；配音/混音由声音工位承接（support）"
+  },
+  {
+   "id": "bigstream-duanju",
+   "name": "BigStream·短剧",
+   "owner": "短剧席",
+   "status": "PARKED",
+   "repos": [],
+   "stale_after_h": 72,
+   "queue_prefix": [
+    "Q-DUANJU-"
+   ],
+   "stages": [
+    {
+     "id": "duanju-script",
+     "name": "剧本",
+     "owner": "编剧席",
+     "model": "cloud-smart",
+     "evidence": [
+      "cph4/fleet/duanju-dept-v1"
+     ]
+    },
+    {
+     "id": "duanju-board",
+     "name": "试构图",
+     "owner": "短剧席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/duanju-dept-v1"
+     ]
+    }
+   ],
+   "org": "content",
+   "priority": "P0",
+   "pause_reason": "CEO 2026-11-03 令：先不做短剧和漫剧，先储备资产（烧角色 LoRA 与音色库）",
+   "visibility": "OK",
+   "last_artifact_h": null,
+   "owner_station": "visual",
+   "product_id": "PROD-DUANJU-AUDIO"
+  },
+  {
+   "id": "bigstream-shortvideo",
+   "name": "BigStream·短视频/切片",
+   "owner": "短视频席",
+   "status": "PARKED",
+   "repos": [],
+   "stale_after_h": 168,
+   "queue_prefix": [
+    "Q-SV-"
+   ],
+   "stages": [
+    {
+     "id": "sv-script",
+     "name": "选题/脚本",
+     "owner": "短视频席",
+     "owner_station": "control",
+     "owner_note": "CEO 2026-11-11「养号等任务放在主控机器」：文本面（选题/脚本/评论草稿）归主控台；本条线剪辑仍走声音工位。",
+     "model": "cloud-smart",
+     "evidence": [
+      "cph4/fleet/meme-daily-v1"
+     ]
+    },
+    {
+     "id": "sv-cut",
+     "name": "剪辑",
+     "owner": "剪辑席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "cph4/fleet/video-remix-dept"
+     ]
+    }
+   ],
+   "org": "content",
+   "priority": "P0",
+   "visibility": "OK",
+   "last_artifact_h": 76.2,
+   "owner_station": "visual",
+   "product_id": "PROD-SHORTVIDEO-TRACK"
+  },
+  {
+   "id": "biggame",
+   "name": "Biggame·游戏",
+   "owner": "游戏席",
+   "status": "ACTIVE",
+   "repos": [
+    "gaming/MiniGame"
+   ],
+   "stale_after_h": 24,
+   "queue_prefix": [
+    "Q-GAME-"
+   ],
+   "stages": [
+    {
+     "id": "game-design",
+     "name": "玩法/数值",
+     "owner": "游戏席",
+     "model": "cloud-smart",
+     "evidence": [
+      "gaming/MiniGame/Design",
+      "cph4/fleet/ri/game/CANON-v1.md",
+      "cph4/fleet/company/biggame"
+     ]
+    },
+    {
+     "id": "game-art",
+     "name": "美术资产",
+     "owner": "美术席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "gaming/MiniGame/Art"
+     ],
+     "status": "not-started",
+     "status_basis": "D-20261103-02（D-20261102-13 逾期未选·实读 Art/Builds 目录不存在→按事实标未启动）"
+    },
+    {
+     "id": "game-build",
+     "name": "构建/打包",
+     "owner": "工程席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "gaming/MiniGame/Builds"
+     ],
+     "status": "not-started",
+     "status_basis": "D-20261103-02（D-20261102-13 逾期未选·实读 Art/Builds 目录不存在→按事实标未启动）"
+    }
+   ],
+   "org": "game",
+   "priority": "P0",
+   "visibility": "OK",
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-GAME-SUBMIT"
+  },
+  {
+   "id": "fluxverse",
+   "name": "FluxVerse·元宙城",
+   "owner": "城市线",
+   "status": "ACTIVE",
+   "repos": [
+    "gaming/FluxVerse"
+   ],
+   "stale_after_h": 36,
+   "queue_prefix": [
+    "Q-CITY-"
+   ],
+   "stages": [
+    {
+     "id": "city-assemble",
+     "name": "场景装配",
+     "owner": "地编席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "gaming/FluxVerse/City3D",
+      "cph4/fleet/CITY-FACES-v1.json",
+      "cph4/fleet/state/city-state.json"
+     ]
+    },
+    {
+     "id": "city-data",
+     "name": "数据面",
+     "owner": "城市线",
+     "model": "none",
+     "evidence": [
+      "gaming/FluxVerse/world"
+     ]
+    },
+    {
+     "id": "city-viz",
+     "name": "可视化",
+     "owner": "城市线",
+     "model": "none",
+     "evidence": [
+      "gaming/MiniGame/Design/configs/GLOBAL"
+     ]
+    }
+   ],
+   "org": "city",
+   "priority": "P2",
+   "visibility": "OK",
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-FLUXVERSE-SCENE"
+  },
+  {
+   "id": "bigmoney",
+   "name": "BigMoney·量化",
+   "owner": "量化席",
+   "status": "ACTIVE",
+   "repos": [
+    "quant/bigmoney"
+   ],
+   "stale_after_h": 24,
+   "queue_prefix": [
+    "Q-QUANT-"
+   ],
+   "stages": [
+    {
+     "id": "quant-data",
+     "name": "数据",
+     "owner": "数据席",
+     "model": "none",
+     "lane": "bm-b",
+     "evidence": [
+      "quant/bigmoney/data",
+      "cph4/fleet/ri/strategy/QUANT-AUDIT-20261103.md",
+      "cph4/fleet/ri/strategy/lines"
+     ]
+    },
+    {
+     "id": "quant-backtest",
+     "name": "回测",
+     "owner": "量化席",
+     "model": "none",
+     "lane": "bm-d",
+     "evidence": [
+      "quant/bigmoney/results"
+     ]
+    },
+    {
+     "id": "quant-audit",
+     "name": "审计/闸",
+     "owner": "风控席",
+     "model": "none",
+     "lane": "bm-b",
+     "evidence": [
+      "quant/bigmoney/results/automation_line_audit.json"
+     ]
+    }
+   ],
+   "org": "strategy",
+   "priority": "P1",
+   "visibility": "OK",
+   "last_artifact_h": null,
+   "pause_reason": "auto-resume:2026-11-06 冷却到期（原：2026-11-04）",
+   "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
+   "note": "2026-11-04 夜班重启：原回测阶段钉 bm-d，而 bm-d 自 10-29 离线；改由 bm-b（有 quant 仓与数据）出「下月持仓信号 CSV」，主控按 P1 恢复派单。",
+   "owner_station": "brain",
+   "product_id": "PROD-QUANT-REPORT"
+  },
+  {
+   "id": "bigdomain",
+   "name": "BigDomain·硅基域商业化",
+   "owner": "域运营席",
+   "status": "ACTIVE",
+   "repos": [
+    "domain/BigDomain"
+   ],
+   "stale_after_h": 36,
+   "queue_prefix": [
+    "Q-DOMAIN-"
+   ],
+   "stages": [
+    {
+     "id": "domain-lead",
+     "name": "引流线索",
+     "owner": "域运营席",
+     "model": "none",
+     "evidence": [
+      "domain/BigDomain",
+      "cph4/fleet/company/bigdomain/FUNNEL-v1.json"
+     ]
+    },
+    {
+     "id": "domain-order",
+     "name": "订单簿记",
+     "owner": "域运营席",
+     "model": "none",
+     "evidence": [
+      "domain/BigDomain"
+     ]
+    }
+   ],
+   "org": "strategy",
+   "priority": "P1",
+   "visibility": "OK",
+   "last_artifact_h": null,
+   "owner_station": "control",
+   "product_id": "PROD-BIGDOMAIN-MATERIAL"
+  },
+  {
+   "id": "bigcompute",
+   "name": "BigCompute·硅基算力",
+   "owner": "算力中枢席",
+   "status": "ACTIVE",
+   "repos": [
+    "compute/BigCompute"
+   ],
+   "stale_after_h": 36,
+   "queue_prefix": [
+    "Q-COMPUTE-"
+   ],
+   "stages": [
+    {
+     "id": "compute-deal",
+     "name": "成交环",
+     "owner": "算力中枢席",
+     "model": "cloud-smart",
+     "evidence": [
+      "compute/BigCompute",
+      "cph4/fleet/company/bigcompute/CAPACITY-LEDGER-v1.json"
+     ]
+    }
+   ],
+   "org": "platform",
+   "priority": "P3",
+   "visibility": "OK",
+   "last_artifact_h": 47.9,
+   "owner_station": "control",
+   "product_id": "PROD-BIGCOMPUTE-OFFER"
+  },
+  {
+   "id": "biglife",
+   "name": "BigLife·数字生命",
+   "owner": "生命生产席",
+   "status": "ACTIVE",
+   "repos": [
+    "life/BigLife"
+   ],
+   "stale_after_h": 48,
+   "queue_prefix": [
+    "Q-LIFE-"
+   ],
+   "stages": [
+    {
+     "id": "life-gen",
+     "name": "人设生产",
+     "owner": "生命生产席",
+     "model": "local-llm",
+     "evidence": [
+      "life/BigLife/census",
+      "cph4/fleet/state/city-state.json"
+     ]
+    },
+    {
+     "id": "life-gate",
+     "name": "生命体征闸",
+     "owner": "质检席",
+     "model": "none",
+     "evidence": [
+      "life/BigLife/census"
+     ]
+    }
+   ],
+   "org": "city",
+   "priority": "P2",
+   "visibility": "OK",
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-BIGLIFE-POP"
+  },
+  {
+   "id": "bighouse",
+   "name": "BigHouse·城市安家",
+   "owner": "生态运营席",
+   "status": "PARKED",
+   "policy_note": "2026-11-02 组织定案：BigHouse 关闭，降为城市组内不对外资产；恢复须新立项",
+   "repos": [
+    "house/BigHouse"
+   ],
+   "stale_after_h": 72,
+   "queue_prefix": [
+    "Q-HOUSE-"
+   ],
+   "stages": [
+    {
+     "id": "house-movein",
+     "name": "安家",
+     "owner": "生态运营席",
+     "model": "none",
+     "evidence": [
+      "house/BigHouse"
+     ]
+    },
+    {
+     "id": "house-neighbor",
+     "name": "邻里/共长",
+     "owner": "生态运营席",
+     "model": "none",
+     "evidence": [
+      "house/BigHouse"
+     ]
+    }
+   ],
+   "org": "city",
+   "priority": "P2",
+   "visibility": "BLIND",
+   "last_artifact_h": null,
+   "owner_station": "delivery",
+   "product_id": "PROD-BIGHOUSE-FLOW"
+  },
+  {
+   "id": "car-gaming",
+   "name": "车机游戏 BU",
+   "owner": "车机 BU",
+   "status": "PARKED",
+   "policy_note": "2026-11-02 组织定案：挂起，等 OEM 商务（样机/版号/渠道归 CEO）；有 OEM 信号再启",
+   "repos": [],
+   "stale_after_h": 72,
+   "queue_prefix": [
+    "Q-CAR-"
+   ],
+   "stages": [
+    {
+     "id": "car-market",
+     "name": "市场/立项",
+     "owner": "车机 BU",
+     "model": "cloud-smart",
+     "evidence": [
+      "cph4/fleet/car-gaming-v1"
+     ]
+    },
+    {
+     "id": "car-build",
+     "name": "研发/适配闸",
+     "owner": "工程席",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "gaming/MiniGame/09_吸嘟嘟GimmeAll/GimmeAll/Tools"
+     ]
+    }
+   ],
+   "org": "platform",
+   "priority": "P3",
+   "visibility": "OK",
+   "last_artifact_h": 69.4,
+   "owner_station": "delivery",
+   "product_id": "PROD-CAR-GAMING"
+  },
+  {
+   "id": "recon",
+   "name": "RECON·竞品拆解",
+   "owner": "拆解部",
+   "status": "ACTIVE",
+   "repos": [],
+   "stale_after_h": 72,
+   "queue_prefix": [
+    "Q-RECON-"
+   ],
+   "stages": [
+    {
+     "id": "recon-scan",
+     "name": "扒榜/拆包",
+     "owner": "拆解部",
+     "model": "none",
+     "lane": "bm-a",
+     "evidence": [
+      "cph4/fleet/recon-dept-v1"
+     ]
+    },
+    {
+     "id": "recon-proto",
+     "name": "48h 原型",
+     "owner": "拆解部",
+     "model": "cloud-smart",
+     "evidence": [
+      "cph4/fleet/recon-dept-v1"
+     ]
+    }
+   ],
+   "org": "enabling",
+   "priority": "P3",
+   "visibility": "OK",
+   "last_artifact_h": 2.2,
+   "owner_station": "control",
+   "product_id": "PROD-RECON-RECIPE"
+  },
+  {
+   "id": "fleet-ops",
+   "name": "机队运维·端到端自检（平台服务线）",
+   "owner": "中枢（机器判）",
+   "status": "ACTIVE",
+   "policy_note": "2026-11-02 立：canary 卡必须挂在一条线上，否则 I1 判无主；本线只产自检证据与运维卡，不产业务件",
+   "repos": [],
+   "stale_after_h": 24,
+   "queue_prefix": [
+    "CANARY-",
+    "Q-SYNC-",
+    "R-FREEMEM-"
+   ],
+   "stages": [
+    {
+     "id": "ops-canary",
+     "name": "端到端自检",
+     "owner": "中枢",
+     "model": "none",
+     "evidence": [
+      "cph4/fleet/state/canary"
+     ]
+    }
+   ],
+   "org": "platform",
+   "priority": "P3",
+   "visibility": "OK",
+   "last_artifact_h": 0.0,
+   "owner_station": null,
+   "product_id": null,
+   "maintenance": true,
+   "station_note": "机制活：只在夜窗跑，不占产品队列"
+  },
+  {
+   "id": "asset-lib",
+   "name": "资产储备·角色 LoRA 与音色库",
+   "owner": "资产席",
+   "status": "ACTIVE",
+   "repos": [],
+   "stale_after_h": 72,
+   "queue_prefix": [
+    "Q-ASSET-"
+   ],
+   "stages": [
+    {
+     "id": "asset-env",
+     "name": "训练环境自检",
+     "owner": "资产席",
+     "model": "rule",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/asset-lib-v1"
+     ]
+    },
+    {
+     "id": "asset-dataset",
+     "name": "数据集准入闸",
+     "owner": "资产席",
+     "model": "rule",
+     "lane": "bm-b",
+     "evidence": [
+      "cph4/fleet/queue-receipts"
+     ]
+    },
+    {
+     "id": "asset-train",
+     "name": "LoRA/音色训练",
+     "owner": "资产席",
+     "model": "local-gpu",
+     "lane": "bm-c",
+     "evidence": [
+      "cph4/fleet/asset-lib-v1"
+     ]
+    }
+   ],
+   "org": "content",
+   "priority": "P0",
+   "note": "CEO 2026-11-03：先储备资产，角色 LoRA 与音色库为 P0",
+   "pause_reason": "CEO 钦点 P0（储备资产线）：解除指标闸自动停线，恢复供卡",
+   "resume_hint": "冷却 24h 后自动回 ACTIVE；期间出卡方停供。CEO 令停/判负的线不在此列（pause_reason 不带 auto-stop）",
+   "visibility": "OK",
+   "last_artifact_h": 4.7,
+   "no_autostop": true,
+   "owner_station": "visual",
+   "product_id": "PROD-ASSET-PACK"
+  }
+ ]
+}

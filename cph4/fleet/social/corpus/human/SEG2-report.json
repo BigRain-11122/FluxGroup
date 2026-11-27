@@ -1,0 +1,550 @@
+{
+ "ts": "2026-11-21T19:00:03",
+ "generic_rows": 43040,
+ "k": 48,
+ "clusters_asked": 48,
+ "moved": 11944,
+ "moved_ratio": 0.278,
+ "emb_sec": 0.1,
+ "kmeans_sec": 3.1,
+ "ask_sec": 94.8,
+ "total_sec": 98.1,
+ "assign": {
+  "0": {
+   "seg": "memer",
+   "n": 869,
+   "raw": "memer|memer",
+   "agree": true,
+   "samples": [
+    "哈哈哈哈哈",
+    "点了哈哈哈哈",
+    "啊哈哈哈哈"
+   ]
+  },
+  "1": {
+   "seg": "generic",
+   "n": 720,
+   "raw": "beginner|peer_pro",
+   "agree": false,
+   "samples": [
+    "在这里",
+    "你是在哪个国内？",
+    "这个地方好戳"
+   ]
+  },
+  "2": {
+   "seg": "memer",
+   "n": 1057,
+   "raw": "memer|memer",
+   "agree": true,
+   "samples": [
+    "看下小红书？[吃瓜]",
+    "图活好啊[吃瓜][吃瓜][吃瓜]",
+    "一口吃掉"
+   ]
+  },
+  "3": {
+   "seg": "generic",
+   "n": 1121,
+   "raw": "memer|pepper",
+   "agree": false,
+   "samples": [
+    "现在不都这种吗",
+    "这还没问题？？",
+    "现在呢"
+   ]
+  },
+  "4": {
+   "seg": "generic",
+   "n": 599,
+   "raw": "critic|tech_nerd",
+   "agree": false,
+   "samples": [
+    "比上个好点，但前面没声音的太长了",
+    "配音听着不舒服，太急促了",
+    "声音有些不同步啊"
+   ]
+  },
+  "5": {
+   "seg": "generic",
+   "n": 809,
+   "raw": "beginner|ai_creator",
+   "agree": false,
+   "samples": [
+    "我觉得ai",
+    "这个ai",
+    "主要是ai"
+   ]
+  },
+  "6": {
+   "seg": "generic",
+   "n": 177,
+   "raw": "critic|memer",
+   "agree": false,
+   "samples": [
+    "5090d是全方位的显卡，又不是专门用来剪视频的单比这个没意义，而且他的功耗500多瓦，和苹果低功耗的芯片都不是一个频道的，现在的人用英伟达的gpu大多数是为了cuda，真正买来打游戏的竟然已经成为小众了。。。",
+    "4090给我们抽了吧，反正你们用5090[微笑][微笑][微笑][微笑]",
+    "主播主播，你的5090d确实很强，但还是太吃钱包了，有没有更便宜的显卡"
+   ]
+  },
+  "7": {
+   "seg": "critic",
+   "n": 1274,
+   "raw": "critic|critic",
+   "agree": true,
+   "samples": [
+    "没有了",
+    "怎么没了",
+    "没关啊"
+   ]
+  },
+  "8": {
+   "seg": "generic",
+   "n": 1418,
+   "raw": "beginner|critic",
+   "agree": false,
+   "samples": [
+    "这个视频很好，创意点很多，还能看到这个人的视频吗？",
+    "现在没意思了，这个视频刚出来的时候，高级弹幕真的秀。",
+    "对的，好多剪的一塌糊涂的视频反而播放量很高"
+   ]
+  },
+  "9": {
+   "seg": "memer",
+   "n": 1763,
+   "raw": "memer|memer",
+   "agree": true,
+   "samples": [
+    "无敌了",
+    "《豪强》",
+    "gen无敌"
+   ]
+  },
+  "10": {
+   "seg": "generic",
+   "n": 298,
+   "raw": "peer_pro|member",
+   "agree": false,
+   "samples": [
+    "这文案是gpt吧",
+    "这文案AI的吧",
+    "这文案也太GPT了"
+   ]
+  },
+  "11": {
+   "seg": "beginner",
+   "n": 1035,
+   "raw": "beginner|beginner",
+   "agree": true,
+   "samples": [
+    "现在还有人看吗？[脸红] 真的百看不腻。",
+    "这段我看过",
+    "下班来看回放了"
+   ]
+  },
+  "12": {
+   "seg": "generic",
+   "n": 1234,
+   "raw": "beginner|memer",
+   "agree": false,
+   "samples": [
+    "这段原片很精彩",
+    "这段还行，有纪录片那味了",
+    "赶快检查了一下刚出炉的片子。正苦恼为啥片子如此平庸无聊。"
+   ]
+  },
+  "13": {
+   "seg": "generic",
+   "n": 992,
+   "raw": "peer_pro|feeler",
+   "agree": false,
+   "samples": [
+    "没起来，补下回放，暂时不知道怎么赢得",
+    "第一把没看到就输了，第二把起来的",
+    "我倒要看看是怎么赢的"
+   ]
+  },
+  "14": {
+   "seg": "generic",
+   "n": 1176,
+   "raw": "beginner|meme",
+   "agree": false,
+   "samples": [
+    "偶尔做做差不多了，量产你能信那还是补补脑子好了",
+    "突然觉得第一个还可以了",
+    "体验太多，没感觉了"
+   ]
+  },
+  "15": {
+   "seg": "generic",
+   "n": 1209,
+   "raw": "beginner|feeler",
+   "agree": false,
+   "samples": [
+    "我靠，感觉瞬间不一样",
+    "我也要",
+    "我也[OK]"
+   ]
+  },
+  "16": {
+   "seg": "peer_pro",
+   "n": 1055,
+   "raw": "peer_pro|peer_pro",
+   "agree": true,
+   "samples": [
+    "五十万了",
+    "60万了",
+    "五万了"
+   ]
+  },
+  "17": {
+   "seg": "generic",
+   "n": 864,
+   "raw": "peers_nerd|ai_creator",
+   "agree": false,
+   "samples": [
+    "没有电脑端的吗？貌似找到的都是手机端的。",
+    "不可以，得用第三方工具",
+    "手机用不了这个"
+   ]
+  },
+  "18": {
+   "seg": "generic",
+   "n": 1161,
+   "raw": "critic|beginner",
+   "agree": false,
+   "samples": [
+    "还有",
+    "三联",
+    "这个"
+   ]
+  },
+  "19": {
+   "seg": "beginner",
+   "n": 728,
+   "raw": "beginner|beginner",
+   "agree": true,
+   "samples": [
+    "自己随便剪剪，就用剪映了",
+    "必剪太卡了，剪映就很好",
+    "刚好最近刚开始在用剪映，太合适了"
+   ]
+  },
+  "20": {
+   "seg": "generic",
+   "n": 864,
+   "raw": "beginner|techno",
+   "agree": false,
+   "samples": [
+    "原摄像绝对没有这个效果啊",
+    "拍的真牛逼",
+    "拍的很好，有电影的感觉"
+   ]
+  },
+  "21": {
+   "seg": "beginner",
+   "n": 898,
+   "raw": "beginner|beginner",
+   "agree": true,
+   "samples": [
+    "已买课，认真学习中[打call][打call]",
+    "我要学这个",
+    "？？？？你自己听不懂就说课程没用，有时候想想自己的原因"
+   ]
+  },
+  "22": {
+   "seg": "generic",
+   "n": 786,
+   "raw": "memer|music_seeker",
+   "agree": false,
+   "samples": [
+    "不想活了",
+    "体验过漫长的人生，来体验一个朝生暮死的生命",
+    "你永生不死也就没有任何追求和动力了，另一种意义上的死亡"
+   ]
+  },
+  "23": {
+   "seg": "generic",
+   "n": 1123,
+   "raw": "peer_pro|peel_pro",
+   "agree": false,
+   "samples": [
+    "这个太牛了",
+    "这个太好了",
+    "太不错了吧"
+   ]
+  },
+  "24": {
+   "seg": "generic",
+   "n": 404,
+   "raw": "critic|requester",
+   "agree": false,
+   "samples": [
+    "已经违法了，但是维权成本高，难以实现",
+    "肯定有付费，不然这么大早就被维权了",
+    "这种人赔钱根本不痛不痒，就应该留案底 就老实了"
+   ]
+  },
+  "25": {
+   "seg": "generic",
+   "n": 1386,
+   "raw": "memer|meme",
+   "agree": false,
+   "samples": [
+    "请问这是被faker秀了的那个岳伦吗",
+    "像王冰冰",
+    "吴青峰"
+   ]
+  },
+  "26": {
+   "seg": "generic",
+   "n": 806,
+   "raw": "critic|beginner",
+   "agree": false,
+   "samples": [
+    "大家都没活干了啊，他又不熟悉这边业务，要是能安生呆着我觉得他们也不会厚着脸皮干自己无法完成的工作。",
+    "这个只有少数能做到，你就是少数人，大部分年轻人是不接受这种，凭什么我什么都干就拿一份工资，挣到钱的都是经历了很多痛苦的事之后才会有改变吧，但是现在时代年轻人是不接受这种流程的。所以只有少数人能起来，大部人还是被压榨",
+    "据说up有本职工作，这个是业余做的，不是专业的，有人跟他联系，他都没接！"
+   ]
+  },
+  "27": {
+   "seg": "generic",
+   "n": 1188,
+   "raw": "critic|beginner",
+   "agree": false,
+   "samples": [
+    "这歌单和我的口味有90%的默契度",
+    "不说这首歌就是为了给像mv里那种女孩唱的么，mv莫得毛病了",
+    "你们第一遍听的时候能听清歌词吗？我都得看一遍歌词才能对上号[笑哭]"
+   ]
+  },
+  "28": {
+   "seg": "generic",
+   "n": 1090,
+   "raw": "beginner|memer",
+   "agree": false,
+   "samples": [
+    "Fath bian",
+    "@KindnessAyu",
+    "@-Kazuha"
+   ]
+  },
+  "29": {
+   "seg": "generic",
+   "n": 900,
+   "raw": "memer|meme",
+   "agree": false,
+   "samples": [
+    "这得是小鹿的吧",
+    "犬子",
+    "牛牛牛"
+   ]
+  },
+  "30": {
+   "seg": "feeler",
+   "n": 861,
+   "raw": "feeler|feeler",
+   "agree": true,
+   "samples": [
+    "我相信爱情",
+    "爱而不得，没有再爱的勇气",
+    "14号之前刷到这个！是想告诉我，爱还是会来的嘛？只要一直保持着一颗有爱心[喜极而泣][喜极而泣]但，请尽快来啊！"
+   ]
+  },
+  "31": {
+   "seg": "beginner",
+   "n": 297,
+   "raw": "beginner|beginner",
+   "agree": true,
+   "samples": [
+    "[星星眼]",
+    "没错[星星眼]",
+    "[星星眼][星星眼][星星眼]"
+   ]
+  },
+  "32": {
+   "seg": "memer",
+   "n": 912,
+   "raw": "memer|memer",
+   "agree": true,
+   "samples": [
+    "[笑哭][笑哭][笑哭][笑哭][笑哭]",
+    "[笑哭]",
+    "[笑哭][笑哭][笑哭]"
+   ]
+  },
+  "33": {
+   "seg": "generic",
+   "n": 278,
+   "raw": "memer|meme",
+   "agree": false,
+   "samples": [
+    "我感觉刘华强已经慌了",
+    "感觉刘华强好霸气，一个真正的好大哥",
+    "刘华文自己比刘华强还嚣张"
+   ]
+  },
+  "34": {
+   "seg": "generic",
+   "n": 577,
+   "raw": "critic|tech_nerd",
+   "agree": false,
+   "samples": [
+    "大概是丧尸没有辨认活人和机器人的智力吧，看到会动的就上了",
+    "生化危机",
+    "希望生化危机永远只是一个游戏，一个电影，而不是纪录片"
+   ]
+  },
+  "35": {
+   "seg": "generic",
+   "n": 338,
+   "raw": "meme|music_seeker",
+   "agree": false,
+   "samples": [
+    "这才是B站啊",
+    "这才是B站啊[大哭][大哭][大哭]",
+    "这是b站，请停止你的动作"
+   ]
+  },
+  "36": {
+   "seg": "generic",
+   "n": 1151,
+   "raw": "peer_pro|meme",
+   "agree": false,
+   "samples": [
+    "好像鳌拜是被陷害的吧",
+    "如果没记错的话，鳌拜最忠了",
+    "个人心目中最霸气的鳌拜"
+   ]
+  },
+  "37": {
+   "seg": "generic",
+   "n": 969,
+   "raw": "beginner|feeler",
+   "agree": false,
+   "samples": [
+    "这不就是我得水平吗，一块钱我都觉得贵",
+    "这得1000了吧",
+    "这个50我都嫌贵啊"
+   ]
+  },
+  "38": {
+   "seg": "generic",
+   "n": 1328,
+   "raw": "shallow|memer",
+   "agree": false,
+   "samples": [
+    "《那个》",
+    "再来回味一下",
+    "回到2015了"
+   ]
+  },
+  "39": {
+   "seg": "generic",
+   "n": 594,
+   "raw": "memer|critic",
+   "agree": false,
+   "samples": [
+    "这口音太搞了",
+    "其中没有出现普通话，简体中文 而是英文，粤语，繁体字 可能是为了让观者更加注重画面本身 不让人去仔细思索话后的意思 大概就和衣服上少有中文而多有英文的原因类似",
+    "华文这点倒是真没说错。。。"
+   ]
+  },
+  "40": {
+   "seg": "generic",
+   "n": 1458,
+   "raw": "beginner|memer",
+   "agree": false,
+   "samples": [
+    "美姨啊。。。。",
+    "@阳子YoungZi",
+    "这李梅也是jian的。。。。。无语"
+   ]
+  },
+  "41": {
+   "seg": "generic",
+   "n": 1466,
+   "raw": "peer_pro|critic",
+   "agree": false,
+   "samples": [
+    "都是冤大头",
+    "更离谱的是还能杀错人",
+    "不是慌也不是仇富，是舔的一手好骨头，让人反感。"
+   ]
+  },
+  "42": {
+   "seg": "generic",
+   "n": 442,
+   "raw": "critic|memer",
+   "agree": false,
+   "samples": [
+    "几个伴舞真的没绷住。。。。",
+    "如果某些地方更有力量感那毕竟是生成的嘛，已经超出了人类的能力，有那么多模仿者你们看有哪个能比MJ跳的更好更有力量感",
+    "一众大佬给他伴舞，也是没谁了。。"
+   ]
+  },
+  "43": {
+   "seg": "generic",
+   "n": 281,
+   "raw": "peer_pro|beginner",
+   "agree": false,
+   "samples": [
+    "BLG这么牛逼啊",
+    "BLG牛逼！我们是冠军！",
+    "恭喜BLG夺冠"
+   ]
+  },
+  "44": {
+   "seg": "generic",
+   "n": 358,
+   "raw": "tech_nerd|critic",
+   "agree": false,
+   "samples": [
+    "也就是V社能靠着steam这样耍了。如果是其他家的，这种模式根本进行不下去。",
+    "从消费者角度来讲Steam Machine无疑是难吃的，但进了开源社区，V社无疑是伟大的",
+    "懂了，v社在抢玩家资源呗，让尽可能多的玩家选择在steam的平台上玩游戏，这样v社就能美美吃游戏分成，玩家爱怎么捣鼓捣鼓，反正硬件标准还是不会统一，大伙系统可能还是千奇百怪，反正对开发者来说没差，对玩家来说只是多了一条折腾的方式"
+   ]
+  },
+  "45": {
+   "seg": "generic",
+   "n": 1071,
+   "raw": "beginner|memer",
+   "agree": false,
+   "samples": [
+    "不是全局了？发条刚用了啊",
+    "第一把还是第二把",
+    "啥都用了，就是不用套子。"
+   ]
+  },
+  "46": {
+   "seg": "critic",
+   "n": 1195,
+   "raw": "critic|critic",
+   "agree": true,
+   "samples": [
+    "颜色太别扭了",
+    "这个技术我是不懂，但起码这个人审美不行",
+    "吃相太难看，就得有人制衡一下"
+   ]
+  },
+  "47": {
+   "seg": "generic",
+   "n": 460,
+   "raw": "tech_nerd|feeler",
+   "agree": false,
+   "samples": [
+    "以后多点高质量，显卡贵就贵吧",
+    "显卡还是太便宜了",
+    "老黄的显卡都干这事了，"
+   ]
+  }
+ },
+ "seg_counts": {
+  "generic": 36,
+  "memer": 4,
+  "beginner": 4,
+  "critic": 2,
+  "peer_pro": 1,
+  "feeler": 1
+ }
+}

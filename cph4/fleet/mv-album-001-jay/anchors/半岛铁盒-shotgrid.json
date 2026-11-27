@@ -1,0 +1,1440 @@
+{
+ "song": "半岛铁盒",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 680,
+  "n_beats": 680,
+  "n_downbeats": 170,
+  "duration_sec": 319.4
+ },
+ "bpm_median": 129.3,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "走廊灯关上 书包放",
+   "t0": 17.12,
+   "t1": 19.19,
+   "t0_used": 17.12,
+   "t1_used": 19.19,
+   "snapped": false,
+   "snap_deltas": [
+    0.193,
+    -0.106
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "走到房间窗外望",
+   "t0": 19.19,
+   "t1": 21.17,
+   "t0_used": 19.19,
+   "t1_used": 21.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.106,
+    0.04
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "回想刚买的书",
+   "t0": 21.17,
+   "t1": 22.75,
+   "t0_used": 21.13,
+   "t1_used": 22.75,
+   "snapped": true,
+   "snap_deltas": [
+    0.04,
+    -0.191
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "一本名叫半岛铁盒",
+   "t0": 22.75,
+   "t1": 24.67,
+   "t0_used": 22.75,
+   "t1_used": 24.67,
+   "snapped": false,
+   "snap_deltas": [
+    -0.191,
+    -0.152
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "放在床边堆好多",
+   "t0": 24.67,
+   "t1": 26.38,
+   "t0_used": 24.67,
+   "t1_used": 26.38,
+   "snapped": false,
+   "snap_deltas": [
+    -0.152,
+    0.165
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "第一页第六页第七页序",
+   "t0": 26.38,
+   "t1": 28.65,
+   "t0_used": 26.38,
+   "t1_used": 28.65,
+   "snapped": false,
+   "snap_deltas": [
+    0.165,
+    0.136
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "我永远都想不到",
+   "t0": 28.65,
+   "t1": 30.23,
+   "t0_used": 28.65,
+   "t1_used": 30.23,
+   "snapped": false,
+   "snap_deltas": [
+    0.136,
+    -0.118
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "陪我看这书的你会要走",
+   "t0": 30.23,
+   "t1": 32.15,
+   "t0_used": 30.23,
+   "t1_used": 32.206,
+   "snapped": true,
+   "snap_deltas": [
+    -0.118,
+    -0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "不再是不再有",
+   "t0": 32.15,
+   "t1": 33.97,
+   "t0_used": 32.206,
+   "t1_used": 34.04,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.07
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "现在已经看不到",
+   "t0": 33.97,
+   "t1": 36.21,
+   "t0_used": 34.04,
+   "t1_used": 36.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.07,
+    -0.152
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "铁盒的钥匙孔",
+   "t0": 36.21,
+   "t1": 37.58,
+   "t0_used": 36.21,
+   "t1_used": 37.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.152,
+    -0.152
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "透了光看见它锈了好久",
+   "t0": 37.58,
+   "t1": 39.74,
+   "t0_used": 37.58,
+   "t1_used": 39.74,
+   "snapped": false,
+   "snap_deltas": [
+    -0.152,
+    0.15
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "好旧好旧",
+   "t0": 39.74,
+   "t1": 40.9,
+   "t0_used": 39.74,
+   "t1_used": 40.983,
+   "snapped": true,
+   "snap_deltas": [
+    0.15,
+    -0.083
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "外围的灰尘包围了我",
+   "t0": 40.9,
+   "t1": 43.38,
+   "t0_used": 40.983,
+   "t1_used": 43.282,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    0.098
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "好暗好暗",
+   "t0": 43.38,
+   "t1": 44.47,
+   "t0_used": 43.282,
+   "t1_used": 44.47,
+   "snapped": true,
+   "snap_deltas": [
+    0.098,
+    -0.205
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "铁盒的钥匙我找不到",
+   "t0": 44.47,
+   "t1": 47.33,
+   "t0_used": 44.47,
+   "t1_used": 47.33,
+   "snapped": false,
+   "snap_deltas": [
+    -0.205,
+    -0.108
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "放在糖果旁的",
+   "t0": 47.33,
+   "t1": 49.9,
+   "t0_used": 47.33,
+   "t1_used": 49.9,
+   "snapped": false,
+   "snap_deltas": [
+    -0.108,
+    0.163
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "是我很想回忆的甜",
+   "t0": 49.9,
+   "t1": 54.64,
+   "t0_used": 49.9,
+   "t1_used": 54.64,
+   "snapped": false,
+   "snap_deltas": [
+    0.163,
+    -0.182
+   ],
+   "approx": false,
+   "splits": [
+    52.059
+   ]
+  },
+  {
+   "i": 18,
+   "text": "然而过滤了你和我",
+   "t0": 54.64,
+   "t1": 57.88,
+   "t0_used": 54.64,
+   "t1_used": 57.88,
+   "snapped": false,
+   "snap_deltas": [
+    -0.182,
+    -0.193
+   ],
+   "approx": false,
+   "splits": [
+    56.216
+   ]
+  },
+  {
+   "i": 19,
+   "text": "沦落而成美",
+   "t0": 57.88,
+   "t1": 62.17,
+   "t0_used": 57.88,
+   "t1_used": 62.183,
+   "snapped": true,
+   "snap_deltas": [
+    -0.193,
+    -0.013
+   ],
+   "approx": false,
+   "splits": [
+    59.884
+   ]
+  },
+  {
+   "i": 20,
+   "text": "沉在盒子里的是你",
+   "t0": 62.17,
+   "t1": 65.3,
+   "t0_used": 62.183,
+   "t1_used": 65.3,
+   "snapped": true,
+   "snap_deltas": [
+    -0.013,
+    -0.157
+   ],
+   "approx": false,
+   "splits": [
+    63.599
+   ]
+  },
+  {
+   "i": 21,
+   "text": "给我的快乐",
+   "t0": 65.3,
+   "t1": 69.31,
+   "t0_used": 65.3,
+   "t1_used": 69.31,
+   "snapped": false,
+   "snap_deltas": [
+    -0.157,
+    0.161
+   ],
+   "approx": false,
+   "splits": [
+    67.291
+   ]
+  },
+  {
+   "i": 22,
+   "text": "我很想记得可是我记不得",
+   "t0": 69.31,
+   "t1": 75.11,
+   "t0_used": 69.31,
+   "t1_used": 75.14,
+   "snapped": true,
+   "snap_deltas": [
+    0.161,
+    -0.03
+   ],
+   "approx": false,
+   "splits": [
+    72.353
+   ]
+  },
+  {
+   "i": 23,
+   "text": "为什么这样子",
+   "t0": 75.11,
+   "t1": 78.6,
+   "t0_used": 75.14,
+   "t1_used": 78.6,
+   "snapped": true,
+   "snap_deltas": [
+    -0.03,
+    -0.232
+   ],
+   "approx": false,
+   "splits": [
+    76.974
+   ]
+  },
+  {
+   "i": 24,
+   "text": "你拉着我 说你有些犹豫",
+   "t0": 78.6,
+   "t1": 82.89,
+   "t0_used": 78.6,
+   "t1_used": 82.988,
+   "snapped": true,
+   "snap_deltas": [
+    -0.232,
+    -0.098
+   ],
+   "approx": false,
+   "splits": [
+    80.666
+   ]
+  },
+  {
+   "i": 25,
+   "text": "怎么这样子",
+   "t0": 82.89,
+   "t1": 85.92,
+   "t0_used": 82.988,
+   "t1_used": 85.92,
+   "snapped": true,
+   "snap_deltas": [
+    -0.098,
+    0.169
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "雨还没停你就撑伞要走",
+   "t0": 85.92,
+   "t1": 90.05,
+   "t0_used": 85.92,
+   "t1_used": 90.05,
+   "snapped": false,
+   "snap_deltas": [
+    0.169,
+    0.142
+   ],
+   "approx": false,
+   "splits": [
+    88.05
+   ]
+  },
+  {
+   "i": 27,
+   "text": "已经习惯不去阻止你",
+   "t0": 90.05,
+   "t1": 93.85,
+   "t0_used": 90.05,
+   "t1_used": 93.85,
+   "snapped": false,
+   "snap_deltas": [
+    0.142,
+    -0.191
+   ],
+   "approx": false,
+   "splits": [
+    91.742
+   ]
+  },
+  {
+   "i": 28,
+   "text": "过好一阵子你就会回来",
+   "t0": 93.85,
+   "t1": 98.24,
+   "t0_used": 93.85,
+   "t1_used": 98.22,
+   "snapped": true,
+   "snap_deltas": [
+    -0.191,
+    0.02
+   ],
+   "approx": false,
+   "splits": [
+    95.898
+   ]
+  },
+  {
+   "i": 29,
+   "text": "印象中的爱情",
+   "t0": 98.24,
+   "t1": 100.6,
+   "t0_used": 98.22,
+   "t1_used": 100.519,
+   "snapped": true,
+   "snap_deltas": [
+    0.02,
+    0.081
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "好像顶不住那时间",
+   "t0": 100.6,
+   "t1": 104.5,
+   "t0_used": 100.519,
+   "t1_used": 104.5,
+   "snapped": true,
+   "snap_deltas": [
+    0.081,
+    -0.176
+   ],
+   "approx": false,
+   "splits": [
+    102.354
+   ]
+  },
+  {
+   "i": 31,
+   "text": "为什么这样子",
+   "t0": 104.5,
+   "t1": 107.82,
+   "t0_used": 104.5,
+   "t1_used": 107.903,
+   "snapped": true,
+   "snap_deltas": [
+    -0.176,
+    -0.083
+   ],
+   "approx": false,
+   "splits": [
+    106.069
+   ]
+  },
+  {
+   "i": 32,
+   "text": "你看着我说你已经决定",
+   "t0": 107.82,
+   "t1": 112.22,
+   "t0_used": 107.903,
+   "t1_used": 112.22,
+   "snapped": true,
+   "snap_deltas": [
+    -0.083,
+    0.16
+   ],
+   "approx": false,
+   "splits": [
+    110.225
+   ]
+  },
+  {
+   "i": 33,
+   "text": "我拉不住你",
+   "t0": 112.22,
+   "t1": 115.2,
+   "t0_used": 112.22,
+   "t1_used": 115.264,
+   "snapped": true,
+   "snap_deltas": [
+    0.16,
+    -0.064
+   ],
+   "approx": false,
+   "splits": [
+    113.917
+   ]
+  },
+  {
+   "i": 34,
+   "text": "他的手应该比我更暖",
+   "t0": 115.2,
+   "t1": 119.71,
+   "t0_used": 115.264,
+   "t1_used": 119.71,
+   "snapped": true,
+   "snap_deltas": [
+    -0.064,
+    -0.198
+   ],
+   "approx": false,
+   "splits": [
+    117.586
+   ]
+  },
+  {
+   "i": 35,
+   "text": "铁盒的序变成了日记",
+   "t0": 119.71,
+   "t1": 123.4,
+   "t0_used": 119.71,
+   "t1_used": 123.4,
+   "snapped": false,
+   "snap_deltas": [
+    -0.198,
+    -0.2
+   ],
+   "approx": false,
+   "splits": [
+    121.742
+   ]
+  },
+  {
+   "i": 36,
+   "text": "变成了空气 演化成回忆",
+   "t0": 123.4,
+   "t1": 127.59,
+   "t0_used": 123.4,
+   "t1_used": 127.59,
+   "snapped": false,
+   "snap_deltas": [
+    -0.2,
+    -0.166
+   ],
+   "approx": false,
+   "splits": [
+    125.434
+   ]
+  },
+  {
+   "i": 37,
+   "text": "印象中的爱情",
+   "t0": 127.59,
+   "t1": 130.13,
+   "t0_used": 127.59,
+   "t1_used": 130.055,
+   "snapped": true,
+   "snap_deltas": [
+    -0.166,
+    0.075
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "好像顶不住那时间",
+   "t0": 130.13,
+   "t1": 133.89,
+   "t0_used": 130.055,
+   "t1_used": 133.89,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    0.143
+   ],
+   "approx": false,
+   "splits": [
+    131.913
+   ]
+  },
+  {
+   "i": 39,
+   "text": "所以你弃权",
+   "t0": 133.89,
+   "t1": 149.74,
+   "t0_used": 133.89,
+   "t1_used": 149.74,
+   "snapped": false,
+   "snap_deltas": [
+    0.143,
+    -0.145
+   ],
+   "approx": false,
+   "splits": [
+    136.51,
+    139.273,
+    141.595,
+    144.358,
+    147.122
+   ]
+  },
+  {
+   "i": 40,
+   "text": "走廊灯关上 书包放",
+   "t0": 149.74,
+   "t1": 152.05,
+   "t0_used": 149.74,
+   "t1_used": 152.05,
+   "snapped": false,
+   "snap_deltas": [
+    -0.145,
+    -0.157
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "走到房间窗外望",
+   "t0": 152.05,
+   "t1": 153.87,
+   "t0_used": 152.05,
+   "t1_used": 153.87,
+   "snapped": false,
+   "snap_deltas": [
+    -0.157,
+    -0.171
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "回想刚买的书",
+   "t0": 153.87,
+   "t1": 155.58,
+   "t0_used": 153.87,
+   "t1_used": 155.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.171,
+    0.146
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "一本名叫半岛铁盒",
+   "t0": 155.58,
+   "t1": 157.56,
+   "t0_used": 155.58,
+   "t1_used": 157.56,
+   "snapped": false,
+   "snap_deltas": [
+    0.146,
+    -0.196
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "放在床 边堆好多",
+   "t0": 157.56,
+   "t1": 159.33,
+   "t0_used": 157.56,
+   "t1_used": 159.33,
+   "snapped": false,
+   "snap_deltas": [
+    -0.196,
+    0.204
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "第一页第六页第七页序",
+   "t0": 159.33,
+   "t1": 161.37,
+   "t0_used": 159.33,
+   "t1_used": 161.448,
+   "snapped": true,
+   "snap_deltas": [
+    0.204,
+    -0.078
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "我永远都想不到",
+   "t0": 161.37,
+   "t1": 163.12,
+   "t0_used": 161.448,
+   "t1_used": 163.12,
+   "snapped": true,
+   "snap_deltas": [
+    -0.078,
+    -0.163
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "陪我看这书的你会要走",
+   "t0": 163.12,
+   "t1": 165.05,
+   "t0_used": 163.12,
+   "t1_used": 165.14,
+   "snapped": true,
+   "snap_deltas": [
+    -0.163,
+    -0.09
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "不再是不再有",
+   "t0": 165.05,
+   "t1": 166.85,
+   "t0_used": 165.14,
+   "t1_used": 166.85,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.125
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "现在已经看不到",
+   "t0": 166.85,
+   "t1": 168.69,
+   "t0_used": 166.85,
+   "t1_used": 168.69,
+   "snapped": false,
+   "snap_deltas": [
+    -0.125,
+    -0.119
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "铁盒的钥匙孔 透了光",
+   "t0": 168.69,
+   "t1": 170.92,
+   "t0_used": 168.69,
+   "t1_used": 170.92,
+   "snapped": false,
+   "snap_deltas": [
+    -0.119,
+    -0.211
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "看见它锈了好久",
+   "t0": 170.92,
+   "t1": 172.43,
+   "t0_used": 170.92,
+   "t1_used": 172.524,
+   "snapped": true,
+   "snap_deltas": [
+    -0.211,
+    -0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "好旧好旧",
+   "t0": 172.43,
+   "t1": 173.98,
+   "t0_used": 172.524,
+   "t1_used": 173.894,
+   "snapped": true,
+   "snap_deltas": [
+    -0.094,
+    0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "外围的灰尘包围了我",
+   "t0": 173.98,
+   "t1": 176.12,
+   "t0_used": 173.894,
+   "t1_used": 176.216,
+   "snapped": true,
+   "snap_deltas": [
+    0.086,
+    -0.096
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "好暗好暗",
+   "t0": 176.12,
+   "t1": 177.25,
+   "t0_used": 176.216,
+   "t1_used": 177.25,
+   "snapped": true,
+   "snap_deltas": [
+    -0.096,
+    0.128
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "铁盒的钥匙我找不到",
+   "t0": 177.25,
+   "t1": 180.2,
+   "t0_used": 177.25,
+   "t1_used": 180.2,
+   "snapped": false,
+   "snap_deltas": [
+    0.128,
+    -0.173
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "放在糖果旁的",
+   "t0": 180.2,
+   "t1": 182.61,
+   "t0_used": 180.2,
+   "t1_used": 182.671,
+   "snapped": true,
+   "snap_deltas": [
+    -0.173,
+    -0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 57,
+   "text": "是我很想回忆的甜",
+   "t0": 182.61,
+   "t1": 187.47,
+   "t0_used": 182.671,
+   "t1_used": 187.47,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    0.178
+   ],
+   "approx": false,
+   "splits": [
+    184.993
+   ]
+  },
+  {
+   "i": 58,
+   "text": "然而过滤了你和我",
+   "t0": 187.47,
+   "t1": 190.6,
+   "t0_used": 187.47,
+   "t1_used": 190.52,
+   "snapped": true,
+   "snap_deltas": [
+    0.178,
+    0.08
+   ],
+   "approx": false,
+   "splits": [
+    189.127
+   ]
+  },
+  {
+   "i": 59,
+   "text": "沦落而成美",
+   "t0": 190.6,
+   "t1": 194.96,
+   "t0_used": 190.52,
+   "t1_used": 194.96,
+   "snapped": true,
+   "snap_deltas": [
+    0.08,
+    -0.157
+   ],
+   "approx": false,
+   "splits": [
+    192.819
+   ]
+  },
+  {
+   "i": 60,
+   "text": "沉在盒子里的是你",
+   "t0": 194.96,
+   "t1": 198.03,
+   "t0_used": 194.96,
+   "t1_used": 198.03,
+   "snapped": false,
+   "snap_deltas": [
+    -0.157,
+    0.126
+   ],
+   "approx": false,
+   "splits": [
+    196.534
+   ]
+  },
+  {
+   "i": 61,
+   "text": "给我的快乐",
+   "t0": 198.03,
+   "t1": 202.04,
+   "t0_used": 198.03,
+   "t1_used": 202.06,
+   "snapped": true,
+   "snap_deltas": [
+    0.126,
+    -0.02
+   ],
+   "approx": false,
+   "splits": [
+    200.226
+   ]
+  },
+  {
+   "i": 62,
+   "text": "我很想记得可是我记不得",
+   "t0": 202.04,
+   "t1": 207.93,
+   "t0_used": 202.06,
+   "t1_used": 207.93,
+   "snapped": true,
+   "snap_deltas": [
+    -0.02,
+    -0.121
+   ],
+   "approx": false,
+   "splits": [
+    204.823
+   ]
+  },
+  {
+   "i": 63,
+   "text": "为什么这样子",
+   "t0": 207.93,
+   "t1": 211.11,
+   "t0_used": 207.93,
+   "t1_used": 211.11,
+   "snapped": false,
+   "snap_deltas": [
+    -0.121,
+    -0.192
+   ],
+   "approx": false,
+   "splits": [
+    209.444
+   ]
+  },
+  {
+   "i": 64,
+   "text": "你拉着我说你有些犹豫",
+   "t0": 211.11,
+   "t1": 215.45,
+   "t0_used": 211.11,
+   "t1_used": 215.435,
+   "snapped": true,
+   "snap_deltas": [
+    -0.192,
+    0.015
+   ],
+   "approx": false,
+   "splits": [
+    213.136
+   ]
+  },
+  {
+   "i": 65,
+   "text": "怎么这样子",
+   "t0": 215.45,
+   "t1": 218.68,
+   "t0_used": 215.435,
+   "t1_used": 218.662,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    0.018
+   ],
+   "approx": false,
+   "splits": [
+    216.828
+   ]
+  },
+  {
+   "i": 66,
+   "text": "雨还没停你就撑伞要走",
+   "t0": 218.68,
+   "t1": 222.84,
+   "t0_used": 218.662,
+   "t1_used": 222.819,
+   "snapped": true,
+   "snap_deltas": [
+    0.018,
+    0.021
+   ],
+   "approx": false,
+   "splits": [
+    220.52
+   ]
+  },
+  {
+   "i": 67,
+   "text": "已经习惯不去阻止你",
+   "t0": 222.84,
+   "t1": 226.68,
+   "t0_used": 222.819,
+   "t1_used": 226.68,
+   "snapped": true,
+   "snap_deltas": [
+    0.021,
+    0.169
+   ],
+   "approx": false,
+   "splits": [
+    224.676
+   ]
+  },
+  {
+   "i": 68,
+   "text": "过好一阵子你就会回来",
+   "t0": 226.68,
+   "t1": 231.07,
+   "t0_used": 226.68,
+   "t1_used": 231.131,
+   "snapped": true,
+   "snap_deltas": [
+    0.169,
+    -0.061
+   ],
+   "approx": false,
+   "splits": [
+    228.833
+   ]
+  },
+  {
+   "i": 69,
+   "text": "印象中的爱情",
+   "t0": 231.07,
+   "t1": 233.48,
+   "t0_used": 231.131,
+   "t1_used": 233.453,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "好像顶不住那时间",
+   "t0": 233.48,
+   "t1": 237.22,
+   "t0_used": 233.453,
+   "t1_used": 237.145,
+   "snapped": true,
+   "snap_deltas": [
+    0.027,
+    0.075
+   ],
+   "approx": false,
+   "splits": [
+    235.288
+   ]
+  },
+  {
+   "i": 71,
+   "text": "为什么这样子",
+   "t0": 237.22,
+   "t1": 240.94,
+   "t0_used": 237.145,
+   "t1_used": 240.94,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    0.103
+   ],
+   "approx": false,
+   "splits": [
+    238.98
+   ]
+  },
+  {
+   "i": 72,
+   "text": "你拉着我 说你有些犹豫",
+   "t0": 240.94,
+   "t1": 244.99,
+   "t0_used": 240.94,
+   "t1_used": 244.994,
+   "snapped": true,
+   "snap_deltas": [
+    0.103,
+    -0.004
+   ],
+   "approx": false,
+   "splits": [
+    243.136
+   ]
+  },
+  {
+   "i": 73,
+   "text": "怎么这样子",
+   "t0": 244.99,
+   "t1": 248.37,
+   "t0_used": 244.994,
+   "t1_used": 248.37,
+   "snapped": true,
+   "snap_deltas": [
+    -0.004,
+    0.149
+   ],
+   "approx": false,
+   "splits": [
+    246.828
+   ]
+  },
+  {
+   "i": 74,
+   "text": "雨还没停你就撑伞要走",
+   "t0": 248.37,
+   "t1": 252.49,
+   "t0_used": 248.37,
+   "t1_used": 252.49,
+   "snapped": false,
+   "snap_deltas": [
+    0.149,
+    0.136
+   ],
+   "approx": false,
+   "splits": [
+    250.52
+   ]
+  },
+  {
+   "i": 75,
+   "text": "已经习惯不去阻止你",
+   "t0": 252.49,
+   "t1": 256.21,
+   "t0_used": 252.49,
+   "t1_used": 256.21,
+   "snapped": false,
+   "snap_deltas": [
+    0.136,
+    0.164
+   ],
+   "approx": false,
+   "splits": [
+    254.212
+   ]
+  },
+  {
+   "i": 76,
+   "text": "过好一阵子你就会回来",
+   "t0": 256.21,
+   "t1": 260.76,
+   "t0_used": 256.21,
+   "t1_used": 260.667,
+   "snapped": true,
+   "snap_deltas": [
+    0.164,
+    0.093
+   ],
+   "approx": false,
+   "splits": [
+    258.368
+   ]
+  },
+  {
+   "i": 77,
+   "text": "印象中的爱情",
+   "t0": 260.76,
+   "t1": 263.05,
+   "t0_used": 260.667,
+   "t1_used": 262.966,
+   "snapped": true,
+   "snap_deltas": [
+    0.093,
+    0.084
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 78,
+   "text": "好像顶不住那时间",
+   "t0": 263.05,
+   "t1": 266.98,
+   "t0_used": 262.966,
+   "t1_used": 266.98,
+   "snapped": true,
+   "snap_deltas": [
+    0.084,
+    -0.142
+   ],
+   "approx": false,
+   "splits": [
+    264.824
+   ]
+  },
+  {
+   "i": 79,
+   "text": "为什么这样子",
+   "t0": 266.98,
+   "t1": 270.63,
+   "t0_used": 266.98,
+   "t1_used": 270.63,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    -0.184
+   ],
+   "approx": false,
+   "splits": [
+    268.98
+   ]
+  },
+  {
+   "i": 80,
+   "text": "你看着我说你已经决定",
+   "t0": 270.63,
+   "t1": 274.6,
+   "t0_used": 270.63,
+   "t1_used": 274.53,
+   "snapped": true,
+   "snap_deltas": [
+    -0.184,
+    0.07
+   ],
+   "approx": false,
+   "splits": [
+    272.672
+   ]
+  },
+  {
+   "i": 81,
+   "text": "我拉不住你",
+   "t0": 274.6,
+   "t1": 277.91,
+   "t0_used": 274.53,
+   "t1_used": 277.91,
+   "snapped": true,
+   "snap_deltas": [
+    0.07,
+    0.176
+   ],
+   "approx": false,
+   "splits": [
+    276.364
+   ]
+  },
+  {
+   "i": 82,
+   "text": "他的手应该比我更暖",
+   "t0": 277.91,
+   "t1": 283.14,
+   "t0_used": 277.91,
+   "t1_used": 283.14,
+   "snapped": false,
+   "snap_deltas": [
+    0.176,
+    -0.143
+   ],
+   "approx": false,
+   "splits": [
+    280.52
+   ]
+  },
+  {
+   "i": 83,
+   "text": "铁盒的序变成了日记",
+   "t0": 283.14,
+   "t1": 285.63,
+   "t0_used": 283.14,
+   "t1_used": 285.582,
+   "snapped": true,
+   "snap_deltas": [
+    -0.143,
+    0.048
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 84,
+   "text": "变成了空气 演化成回忆",
+   "t0": 285.63,
+   "t1": 290.24,
+   "t0_used": 285.582,
+   "t1_used": 290.203,
+   "snapped": true,
+   "snap_deltas": [
+    0.048,
+    0.037
+   ],
+   "approx": false,
+   "splits": [
+    287.904
+   ]
+  },
+  {
+   "i": 85,
+   "text": "印象中的爱情",
+   "t0": 290.24,
+   "t1": 292.93,
+   "t0_used": 290.203,
+   "t1_used": 292.989,
+   "snapped": true,
+   "snap_deltas": [
+    0.037,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 86,
+   "text": "好像顶不住那时间",
+   "t0": 292.93,
+   "t1": 296.96,
+   "t0_used": 292.989,
+   "t1_used": 296.96,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    -0.163
+   ],
+   "approx": false,
+   "splits": [
+    294.824
+   ]
+  },
+  {
+   "i": 87,
+   "text": "所以你弃权",
+   "t0": 296.96,
+   "t1": 299.96,
+   "t0_used": 296.96,
+   "t1_used": 299.909,
+   "snapped": true,
+   "snap_deltas": [
+    -0.163,
+    0.051
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 88,
+  "lines_untimed": 0,
+  "lines_snapped": 57,
+  "lines_unsnapped": 31,
+  "lines_need_split": 46,
+  "total_splits": 50
+ },
+ "advisory": true
+}

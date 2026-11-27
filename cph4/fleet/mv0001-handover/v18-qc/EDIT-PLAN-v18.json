@@ -1,0 +1,79 @@
+{
+ "_doc": "v18：字幕每句 pos 锁定 / 换掉复用镜 / 末句延长到 30.00",
+ "fps": 24,
+ "cut_mode": "lyric_bound",
+ "blocks": [
+  {
+   "i": 1,
+   "t0": 0.0,
+   "t1": 3.0,
+   "desc": "开场·她的正脸",
+   "src": "R06_her_read"
+  },
+  {
+   "i": 2,
+   "t0": 3.0,
+   "t1": 5.5,
+   "desc": "石碑全景",
+   "src": "KF3_R3_STELE_MOTION",
+   "allow_static": true
+  },
+  {
+   "i": 3,
+   "t0": 5.5,
+   "t1": 8.792,
+   "desc": "真楔文碑面",
+   "src": "STELE_FACE_push_sharp",
+   "allow_static": true
+  },
+  {
+   "i": 4,
+   "t0": 8.792,
+   "t1": 12.333,
+   "desc": "她走进展厅",
+   "src": "L01_ENTRY_DOLLY"
+  },
+  {
+   "i": 5,
+   "t0": 12.333,
+   "t1": 13.583,
+   "desc": "他睁眼",
+   "src": "AN_01_PUSH"
+  },
+  {
+   "i": 6,
+   "t0": 13.583,
+   "t1": 16.542,
+   "desc": "她侧脸+玻璃反射",
+   "src": "KF9_profile_norm"
+  },
+  {
+   "i": 7,
+   "t0": 16.542,
+   "t1": 20.417,
+   "desc": "神殿横移",
+   "src": "HALL_PAN"
+  },
+  {
+   "i": 8,
+   "t0": 20.417,
+   "t1": 24.083,
+   "desc": "她贴玻璃",
+   "src": "KF8_R4_CASE_MOTION"
+  },
+  {
+   "i": 9,
+   "t0": 24.083,
+   "t1": 28.333,
+   "desc": "亚述女神浮雕",
+   "src": "KF4_crown_darkR"
+  },
+  {
+   "i": 10,
+   "t0": 28.333,
+   "t1": 30.0,
+   "desc": "手贴玻璃收尾",
+   "src": "HANDGLASS_cropL"
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+ "id": "recon",
+ "name": "RECON·竞品拆解",
+ "owner": "拆解部",
+ "status": "ACTIVE",
+ "cadence_h": 72,
+ "inputs": [
+  "cph4/fleet/recon-dept-v1",
+  "cph4/fleet/recon-dept-v1"
+ ],
+ "outputs": [
+  "cph4/fleet/recon-dept-v1/**/*.md",
+  "cph4/research/**/*.md"
+ ],
+ "lanes": [
+  "bm-a"
+ ],
+ "needs": "cpu"
+}

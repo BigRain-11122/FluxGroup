@@ -1,0 +1,21 @@
+{
+ "input": "media/drama-sample-v2/voice.mp3",
+ "segments": 1,
+ "duration_s": 4.61,
+ "speech_s": 4.06,
+ "coverage": 0.881,
+ "chars": 14,
+ "cps": 3.45,
+ "elapsed_s": 2.46,
+ "rtf": 0.533,
+ "cer": 0.6667,
+ "gaps": [
+  "字错率 66.7% > 5%（金标对照）"
+ ],
+ "verdict": "FAIL",
+ "ts": "2026-11-03T16:51:01",
+ "backend": "mlx",
+ "model": "/Users/junsheng.sun/.cache/whisper-mlx/large-v3-turbo",
+ "srt": "cph4/fleet/drama-dept-v1/subs/2026-11-03-voice.srt",
+ "text": "这次协议,你签也得签,不签也得签。"
+}

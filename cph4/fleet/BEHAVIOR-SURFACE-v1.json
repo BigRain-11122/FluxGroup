@@ -1,0 +1,99 @@
+{
+  "version": "v1-20261123",
+  "_why": "CEO 2026-11-23：「主要训练符合各个平台的用户行为，行为面要扩大，不要只是评论」。本件定行为面（动作清单+分布），不是文案风格。",
+  "_principle": [
+    "真人的破绽不在动作种类少，而在分布错：机器人只有点赞+评论，真人还有搜索、划走、拖进度、收藏夹整理、看主页。",
+    "所以每新增一个动作，必须同时给『参数量』：它在一次会话里的占比上界，以及它和别的动作的先后关系。",
+    "动作一律走平台自己的接口/页面（浏览器或设备端），不用服务端直连（实测必被拦）。"
+  ],
+  "actions_vocab": {
+    "read": "观看/阅读：进入详情、停留、滚动、看完比例",
+    "like": "点赞/赞同",
+    "coin": "投币（B站）",
+    "fav": "收藏",
+    "follow": "关注",
+    "danmaku": "发弹幕（B站）",
+    "comment": "发评论",
+    "share": "转发/分享到动态",
+    "search": "主动搜索关键词再进结果",
+    "progress": "拖动进度条/倍速/暂停/关弹幕",
+    "uninterest": "不感兴趣/减少推荐",
+    "space": "进作者主页看上一条",
+    "live": "进直播间看+发弹幕",
+    "collection": "收藏夹整理/分类",
+    "note_detail": "小红书展开笔记详情+看评论",
+    "swipe_away": "抖音划走（负反馈的一部分）",
+    "article_more": "公众号展开全文",
+    "zaikan": "公众号在看"
+  },
+  "platforms": {
+    "bilibili": {
+      "implemented": ["read", "like", "coin", "fav", "follow", "danmaku", "comment"],
+      "evidence": "Tools/fleet/user_agent.py 的 like/coin/fav/follow/danmaku_line + plan_session；2026-11-23 双号 GREEN",
+      "distribution_now": {"like": "≤60% 视频数", "danmaku+comment": "≤30% 视频数（至少1条）", "纯看": "≥3 条"},
+      "todo": [
+        {"action": "search", "why": "真人开场常常是搜一个词，不是直接刷推荐；只刷推荐是机器味最重的特征", "judge": "会话内 ≥1 次搜索且关键词来自该账号近期兴趣池，不重复同词", "freq": "每 2 场 ≥1 次"},
+        {"action": "progress", "why": "真人会拖回去看、会切 1.5x、会关弹幕；从头到尾 1.0x 播完是不存在的", "judge": "每场 ≥2 次进度操作（拖动/倍速/暂停/弹幕开关），且落在视频中段"},
+        {"action": "uninterest", "why": "负反馈是真人最强指纹，机器人几乎从不点「不感兴趣」", "judge": "每场 ≤2 次，只对与兴趣明显不符的卡片使用，且 7 天内不重复同 UP"},
+        {"action": "share", "why": "建立『会传播』的人味；但公开转发会留痕，量必须极小", "judge": "每周 ≤1 次，只转自己评论区互动过的视频"},
+        {"action": "space", "why": "刷到熟人会点进主页看；这解释了『为什么这个号总看同一批人』", "judge": "复用既有 up_visits 记录（7 天 ≤2 次同 UP）不变"},
+        {"action": "live", "why": "直播间有弹幕互动，是最自然的『说话』场景", "judge": "每周 ≤2 次，进入 ≥3 分钟，发 ≤2 条弹幕"}
+      ]
+    },
+    "gzh": {
+      "implemented": ["read"],
+      "evidence": "Tools/fleet/wechat_article.py（单篇约 3 秒取全字段）",
+      "todo": [
+        {"action": "article_more", "why": "公众号文章折叠，真人是点开全文读完的，直接抓 HTML 会漏『阅读行为』", "judge": "每篇记录展开前后字数差"},
+        {"action": "zaikan", "why": "在看是最轻的互动，公众号没有公开 API，只能浏览器做", "judge": "每日 ≤3 篇，仅对自己读完 ≥80% 的"},
+        {"action": "collect", "why": "收藏是真人常见的『以后再看』", "judge": "每日 ≤5 篇"}
+      ],
+      "note": "后台会话约 4h 过期；长期应改 AppID/AppSecret 走官方接口（阅读数据须人工后台看）"
+    },
+    "zhihu": {
+      "implemented": ["read"],
+      "evidence": "2026-11-23 晚 login_pass 实测 z_c0 命中；长文语料可读",
+      "todo": [
+        {"action": "like", "why": "知乎的『赞同』是主要互动，且不产生文本痕迹，风险最低", "judge": "每日 ≤10，只赞读完 ≥70% 的回答"},
+        {"action": "collect", "why": "收藏夹是知乎的强习惯", "judge": "每日 ≤5"},
+        {"action": "follow", "why": "关注问题比关注人更自然", "judge": "每日 ≤3，优先关注问题"},
+        {"action": "search", "why": "知乎的使用形态就是搜索，不搜等于不像人", "judge": "每场 ≥1 次，问题式关键词"},
+        {"action": "comment", "why": "知乎评论是长逻辑语体，先补语料再开评论", "judge": "自有语料 ≥2000 行后才开，且过品味闸"}
+      ]
+    },
+    "xhs": {
+      "implemented": ["read"],
+      "evidence": "login_pass 实测 web_session 命中（profile=browser-xiaohongshu）",
+      "todo": [
+        {"action": "note_detail", "why": "小红书必须在笔记详情页才算『看过』，列表页只算划过", "judge": "每篇详情 ≥8 秒 + 滚到底"},
+        {"action": "like", "why": "小红书点赞率高于 B 站，不点反而怪", "judge": "≤70% 笔记数"},
+        {"action": "collect", "why": "收藏是小红书的核心行为（种草）", "judge": "≤30% 笔记数"},
+        {"action": "follow", "why": "关注博主是常态", "judge": "每日 ≤5"},
+        {"action": "search", "why": "小红书一半流量来自搜索", "judge": "每场 ≥1 次，词来自美妆/母婴/家居兴趣池"},
+        {"action": "comment", "why": "语体是 emoji+口语，和 B 站差异大，必须先有自有语料", "judge": "自有语料 ≥2000 行后再开"}
+      ]
+    },
+    "douyin": {
+      "implemented": ["read"],
+      "evidence": "login_pass 实测 sessionid+sessionid_ss 命中",
+      "todo": [
+        {"action": "swipe_away", "why": "抖音的真人是『快速划走』为主，只看少量；不快划就是机器", "judge": "每 20 条里 ≥8 条在 3 秒内划走"},
+        {"action": "like", "why": "抖音点赞门槛极低", "judge": "≤50% 视频"},
+        {"action": "collect", "why": "收藏率高是抖音特征", "judge": "≤20%"},
+        {"action": "follow", "why": "关注少而准", "judge": "每日 ≤3"},
+        {"action": "search", "why": "抖音也是搜索入口", "judge": "每场 ≥1 次"},
+        {"action": "comment", "why": "抖音评论语体最短最口语，风险也最高", "judge": "自有语料 ≥2000 行后再开，且每日 ≤5"}
+      ]
+    },
+    "toutiao": {"implemented": ["read"], "note": "只做选题/语料源，不做互动"},
+    "chejiahao": {"implemented": ["read"], "note": "只做对标语料镜像，不做互动"},
+    "weibo": {"implemented": [], "state": "need-login", "note": "无登录态，不排班"},
+    "weixin_channels": {"implemented": [], "state": "need-account", "note": "未建号，不排班"}
+  },
+  "next_actions_priority": [
+    {"rank": 1, "action": "bilibili.search + progress + uninterest", "why": "零额外账号风险，直接把『只有点赞评论』这个最大机器味补掉"},
+    {"rank": 2, "action": "xhs.note_detail + like + collect", "why": "小红书语料断供，先把详情页行为跑通才有料"},
+    {"rank": 3, "action": "douyin.swipe_away", "why": "抖音不划走就不是抖音"},
+    {"rank": 4, "action": "zhihu.search + like + collect", "why": "长逻辑语料，评论最后开"}
+  ]
+}

@@ -1,0 +1,1319 @@
+{
+  "song": "反方向的钟",
+  "version": "anchor-shotgrid v2.0 resnap (word-onset select / beat place)",
+  "inputs": {
+    "beats_sha_face": 400,
+    "n_beats": 400,
+    "n_downbeats": 100,
+    "duration_sec": 258.11
+  },
+  "bpm_median": 95.7,
+  "snap_tol_sec": 0.1,
+  "max_shot_sec": 3.0,
+  "grid": [
+    {
+      "i": 0,
+      "text": "迷迷蒙蒙 你给的梦",
+      "t0": 45.57,
+      "t1": 47.97,
+      "t0_used": 45.488,
+      "t1_used": 48.019,
+      "snapped": true,
+      "snap_deltas": [
+        0.082,
+        -0.049
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 67.059,
+      "cut1": 67.663,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 0.006,
+      "resnap": "beat"
+    },
+    {
+      "i": 1,
+      "text": "出现裂缝 隐隐作痛",
+      "t0": 47.97,
+      "t1": 50.35,
+      "t0_used": 48.019,
+      "t1_used": 50.35,
+      "snapped": true,
+      "snap_deltas": [
+        -0.049,
+        -0.223
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 67.663,
+      "cut1": 68.313,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 0.61,
+      "resnap": "beat"
+    },
+    {
+      "i": 2,
+      "text": "怎么沟通 你都没空",
+      "t0": 50.35,
+      "t1": 52.8,
+      "t0_used": 50.35,
+      "t1_used": 52.8,
+      "snapped": false,
+      "snap_deltas": [
+        -0.223,
+        -0.304
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 68.313,
+      "cut1": 68.94,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 1.26,
+      "resnap": "beat"
+    },
+    {
+      "i": 3,
+      "text": "说我不懂 说了没用",
+      "t0": 52.8,
+      "t1": 55.5,
+      "t0_used": 52.8,
+      "t1_used": 55.5,
+      "snapped": false,
+      "snap_deltas": [
+        -0.304,
+        -0.135
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 68.94,
+      "cut1": 69.59,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 1.887,
+      "resnap": "beat"
+    },
+    {
+      "i": 4,
+      "text": "他的笑容 有何不同",
+      "t0": 55.5,
+      "t1": 57.85,
+      "t0_used": 55.5,
+      "t1_used": 57.85,
+      "snapped": false,
+      "snap_deltas": [
+        -0.135,
+        0.311
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 69.59,
+      "cut1": 70.24,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 2.537,
+      "resnap": "beat"
+    },
+    {
+      "i": 5,
+      "text": "在你心中 我不再受宠",
+      "t0": 57.85,
+      "t1": 60.68,
+      "t0_used": 57.85,
+      "t1_used": 60.72,
+      "snapped": true,
+      "snap_deltas": [
+        0.311,
+        -0.04
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 70.24,
+      "cut1": 70.867,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 3.187,
+      "resnap": "beat"
+    },
+    {
+      "i": 6,
+      "text": "我的天空 是雨是风",
+      "t0": 60.68,
+      "t1": 63.0,
+      "t0_used": 60.72,
+      "t1_used": 63.0,
+      "snapped": true,
+      "snap_deltas": [
+        -0.04,
+        -0.251
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 70.867,
+      "cut1": 71.494,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 3.814,
+      "resnap": "beat"
+    },
+    {
+      "i": 7,
+      "text": "还是彩虹 你在操纵",
+      "t0": 63.0,
+      "t1": 66.51,
+      "t0_used": 63.0,
+      "t1_used": 66.51,
+      "snapped": false,
+      "snap_deltas": [
+        -0.251,
+        0.101
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 71.494,
+      "cut1": 72.121,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 4.441,
+      "resnap": "beat"
+    },
+    {
+      "i": 8,
+      "text": "恨自己真的没用",
+      "t0": 66.51,
+      "t1": 68.59,
+      "t0_used": 66.51,
+      "t1_used": 68.59,
+      "snapped": false,
+      "snap_deltas": [
+        0.101,
+        0.277
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 72.121,
+      "cut1": 72.771,
+      "on_beat": true,
+      "word_onset": 67.053,
+      "onset_offset": 5.068,
+      "resnap": "beat"
+    },
+    {
+      "i": 9,
+      "text": "情绪激动",
+      "t0": 68.59,
+      "t1": 71.12,
+      "t0_used": 68.59,
+      "t1_used": 71.12,
+      "snapped": false,
+      "snap_deltas": [
+        0.277,
+        0.253
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 72.771,
+      "cut1": 73.398,
+      "on_beat": true,
+      "word_onset": 68.594,
+      "onset_offset": 4.177,
+      "resnap": "beat"
+    },
+    {
+      "i": 10,
+      "text": "一颗心到现在还在抽痛",
+      "t0": 71.12,
+      "t1": 75.0,
+      "t0_used": 71.12,
+      "t1_used": 75.0,
+      "snapped": false,
+      "snap_deltas": [
+        0.253,
+        -0.302
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 73.398,
+      "cut1": 74.652,
+      "on_beat": true,
+      "word_onset": 70.995,
+      "onset_offset": 2.403,
+      "resnap": "beat"
+    },
+    {
+      "i": 11,
+      "text": "还为分手前那句抱歉",
+      "t0": 75.0,
+      "t1": 80.28,
+      "t0_used": 75.0,
+      "t1_used": 80.364,
+      "snapped": true,
+      "snap_deltas": [
+        -0.302,
+        -0.084
+      ],
+      "approx": false,
+      "splits": [
+        77.81
+      ],
+      "cut0": 74.652,
+      "cut1": 79.737,
+      "on_beat": true,
+      "word_onset": 74.957,
+      "onset_offset": 0.305,
+      "resnap": "beat"
+    },
+    {
+      "i": 12,
+      "text": "在感动",
+      "t0": 80.28,
+      "t1": 86.22,
+      "t0_used": 80.364,
+      "t1_used": 86.22,
+      "snapped": true,
+      "snap_deltas": [
+        -0.084,
+        0.144
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 79.737,
+      "cut1": 82.268,
+      "on_beat": true,
+      "word_onset": 79.999,
+      "onset_offset": 0.262,
+      "resnap": "beat"
+    },
+    {
+      "i": 13,
+      "text": "穿梭时间的画面的钟",
+      "t0": 86.22,
+      "t1": 90.97,
+      "t0_used": 86.22,
+      "t1_used": 90.97,
+      "snapped": false,
+      "snap_deltas": [
+        0.144,
+        -0.192
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 82.268,
+      "cut1": 82.918,
+      "on_beat": true,
+      "word_onset": 82.42,
+      "onset_offset": 0.152,
+      "resnap": "beat"
+    },
+    {
+      "i": 14,
+      "text": "从反方向开始移动",
+      "t0": 90.97,
+      "t1": 96.17,
+      "t0_used": 90.97,
+      "t1_used": 96.247,
+      "snapped": true,
+      "snap_deltas": [
+        -0.192,
+        -0.077
+      ],
+      "approx": false,
+      "splits": [
+        86.076,
+        88.631,
+        91.162,
+        93.693,
+        96.247,
+        98.778,
+        101.309,
+        103.84,
+        106.394
+      ],
+      "cut0": 82.918,
+      "cut1": 107.648,
+      "on_beat": true,
+      "word_onset": 82.42,
+      "onset_offset": 0.498,
+      "resnap": "beat"
+    },
+    {
+      "i": 15,
+      "text": "回到当初爱你的时空",
+      "t0": 96.17,
+      "t1": 101.01,
+      "t0_used": 96.247,
+      "t1_used": 101.01,
+      "snapped": true,
+      "snap_deltas": [
+        -0.077,
+        -0.299
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 107.648,
+      "cut1": 108.275,
+      "on_beat": true,
+      "word_onset": 106.945,
+      "onset_offset": 0.703,
+      "resnap": "beat"
+    },
+    {
+      "i": 16,
+      "text": "停格内容不忠",
+      "t0": 101.01,
+      "t1": 106.52,
+      "t0_used": 101.01,
+      "t1_used": 106.52,
+      "snapped": false,
+      "snap_deltas": [
+        -0.299,
+        0.126
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 108.275,
+      "cut1": 108.925,
+      "on_beat": true,
+      "word_onset": 106.945,
+      "onset_offset": 1.33,
+      "resnap": "beat"
+    },
+    {
+      "i": 17,
+      "text": "所有回忆对着我进攻",
+      "t0": 106.52,
+      "t1": 111.26,
+      "t0_used": 106.52,
+      "t1_used": 111.26,
+      "snapped": false,
+      "snap_deltas": [
+        0.126,
+        -0.196
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 108.925,
+      "cut1": 111.456,
+      "on_beat": true,
+      "word_onset": 106.945,
+      "onset_offset": 1.98,
+      "resnap": "beat"
+    },
+    {
+      "i": 18,
+      "text": "我的伤口被你拆封",
+      "t0": 111.26,
+      "t1": 116.4,
+      "t0_used": 111.26,
+      "t1_used": 116.4,
+      "snapped": false,
+      "snap_deltas": [
+        -0.196,
+        -0.141
+      ],
+      "approx": false,
+      "splits": [
+        113.987
+      ],
+      "cut0": 111.456,
+      "cut1": 116.541,
+      "on_beat": true,
+      "word_onset": 111.29,
+      "onset_offset": 0.166,
+      "resnap": "beat"
+    },
+    {
+      "i": 19,
+      "text": "誓言太沉重泪被纵容",
+      "t0": 116.4,
+      "t1": 121.28,
+      "t0_used": 116.4,
+      "t1_used": 121.28,
+      "snapped": false,
+      "snap_deltas": [
+        -0.141,
+        0.304
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 116.541,
+      "cut1": 117.795,
+      "on_beat": true,
+      "word_onset": 116.336,
+      "onset_offset": 0.205,
+      "resnap": "beat"
+    },
+    {
+      "i": 20,
+      "text": "脸上汹涌失控",
+      "t0": 121.28,
+      "t1": 136.57,
+      "t0_used": 121.28,
+      "t1_used": 136.57,
+      "snapped": false,
+      "snap_deltas": [
+        0.304,
+        -0.242
+      ],
+      "approx": false,
+      "splits": [
+        120.976,
+        124.134,
+        126.688,
+        129.196,
+        131.75,
+        134.281,
+        136.812
+      ],
+      "cut0": 117.795,
+      "cut1": 137.439,
+      "on_beat": true,
+      "word_onset": 117.758,
+      "onset_offset": 0.037,
+      "resnap": "beat"
+    },
+    {
+      "i": 21,
+      "text": "城市霓虹 不安跳动",
+      "t0": 136.57,
+      "t1": 138.35,
+      "t0_used": 136.57,
+      "t1_used": 138.35,
+      "snapped": false,
+      "snap_deltas": [
+        -0.242,
+        0.261
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 137.439,
+      "cut1": 138.089,
+      "on_beat": true,
+      "word_onset": 137.53,
+      "onset_offset": 0.091,
+      "resnap": "beat"
+    },
+    {
+      "i": 22,
+      "text": "染红夜空",
+      "t0": 138.35,
+      "t1": 139.22,
+      "t0_used": 138.35,
+      "t1_used": 139.22,
+      "snapped": false,
+      "snap_deltas": [
+        0.261,
+        -0.146
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 138.089,
+      "cut1": 139.366,
+      "on_beat": true,
+      "word_onset": 138.351,
+      "onset_offset": 0.262,
+      "resnap": "beat"
+    },
+    {
+      "i": 23,
+      "text": "过去种种 像一场梦",
+      "t0": 139.22,
+      "t1": 140.68,
+      "t0_used": 139.22,
+      "t1_used": 140.62,
+      "snapped": true,
+      "snap_deltas": [
+        -0.146,
+        0.06
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 139.366,
+      "cut1": 140.62,
+      "on_beat": true,
+      "word_onset": 139.171,
+      "onset_offset": 0.195,
+      "resnap": "beat"
+    },
+    {
+      "i": 24,
+      "text": "不敢去碰 一想就痛",
+      "t0": 140.68,
+      "t1": 141.82,
+      "t0_used": 140.62,
+      "t1_used": 141.897,
+      "snapped": true,
+      "snap_deltas": [
+        0.06,
+        -0.077
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 140.62,
+      "cut1": 141.897,
+      "on_beat": true,
+      "word_onset": 140.732,
+      "onset_offset": 0.112,
+      "resnap": "beat"
+    },
+    {
+      "i": 25,
+      "text": "心碎内容 每一秒钟",
+      "t0": 141.82,
+      "t1": 143.07,
+      "t0_used": 141.897,
+      "t1_used": 143.151,
+      "snapped": true,
+      "snap_deltas": [
+        -0.077,
+        -0.081
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 141.897,
+      "cut1": 143.151,
+      "on_beat": true,
+      "word_onset": 141.853,
+      "onset_offset": 0.044,
+      "resnap": "beat"
+    },
+    {
+      "i": 26,
+      "text": "都有不同 你不懂",
+      "t0": 143.07,
+      "t1": 144.16,
+      "t0_used": 143.151,
+      "t1_used": 144.16,
+      "snapped": true,
+      "snap_deltas": [
+        -0.081,
+        -0.268
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 143.151,
+      "cut1": 144.428,
+      "on_beat": true,
+      "word_onset": 143.114,
+      "onset_offset": 0.037,
+      "resnap": "beat"
+    },
+    {
+      "i": 27,
+      "text": "连一句珍重 也有苦衷",
+      "t0": 144.16,
+      "t1": 145.74,
+      "t0_used": 144.16,
+      "t1_used": 145.705,
+      "snapped": true,
+      "snap_deltas": [
+        -0.268,
+        0.035
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 144.428,
+      "cut1": 145.705,
+      "on_beat": true,
+      "word_onset": 144.255,
+      "onset_offset": 0.173,
+      "resnap": "beat"
+    },
+    {
+      "i": 28,
+      "text": "也不想送",
+      "t0": 145.74,
+      "t1": 146.51,
+      "t0_used": 145.705,
+      "t1_used": 146.51,
+      "snapped": true,
+      "snap_deltas": [
+        0.035,
+        0.178
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 145.705,
+      "cut1": 146.332,
+      "on_beat": true,
+      "word_onset": 145.816,
+      "onset_offset": 0.111,
+      "resnap": "beat"
+    },
+    {
+      "i": 29,
+      "text": "寒风中 废墟烟囱",
+      "t0": 146.51,
+      "t1": 147.81,
+      "t0_used": 146.51,
+      "t1_used": 147.81,
+      "snapped": false,
+      "snap_deltas": [
+        0.178,
+        0.201
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 146.332,
+      "cut1": 147.609,
+      "on_beat": true,
+      "word_onset": 146.477,
+      "onset_offset": 0.145,
+      "resnap": "beat"
+    },
+    {
+      "i": 30,
+      "text": "停止转动 一切落空",
+      "t0": 147.81,
+      "t1": 149.07,
+      "t0_used": 147.81,
+      "t1_used": 149.07,
+      "snapped": false,
+      "snap_deltas": [
+        0.201,
+        0.207
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 147.609,
+      "cut1": 148.863,
+      "on_beat": true,
+      "word_onset": 147.718,
+      "onset_offset": 0.109,
+      "resnap": "beat"
+    },
+    {
+      "i": 31,
+      "text": "在人海中 盲目跟从",
+      "t0": 149.07,
+      "t1": 150.57,
+      "t0_used": 149.07,
+      "t1_used": 150.57,
+      "snapped": false,
+      "snap_deltas": [
+        0.207,
+        -0.197
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 148.863,
+      "cut1": 150.767,
+      "on_beat": true,
+      "word_onset": 148.979,
+      "onset_offset": 0.116,
+      "resnap": "beat"
+    },
+    {
+      "i": 32,
+      "text": "别人的梦 全面放纵",
+      "t0": 150.57,
+      "t1": 151.87,
+      "t0_used": 150.57,
+      "t1_used": 151.87,
+      "snapped": false,
+      "snap_deltas": [
+        -0.197,
+        -0.174
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 150.767,
+      "cut1": 151.417,
+      "on_beat": true,
+      "word_onset": 150.6,
+      "onset_offset": 0.167,
+      "resnap": "beat"
+    },
+    {
+      "i": 33,
+      "text": "恨没有用 疗伤止痛",
+      "t0": 151.87,
+      "t1": 153.29,
+      "t0_used": 151.87,
+      "t1_used": 153.298,
+      "snapped": true,
+      "snap_deltas": [
+        -0.174,
+        -0.008
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 151.417,
+      "cut1": 153.298,
+      "on_beat": true,
+      "word_onset": 151.661,
+      "onset_offset": 0.244,
+      "resnap": "beat"
+    },
+    {
+      "i": 34,
+      "text": "不再感动 没有梦",
+      "t0": 153.29,
+      "t1": 154.5,
+      "t0_used": 153.298,
+      "t1_used": 154.575,
+      "snapped": true,
+      "snap_deltas": [
+        -0.008,
+        -0.075
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 153.298,
+      "cut1": 154.575,
+      "on_beat": true,
+      "word_onset": 153.262,
+      "onset_offset": 0.036,
+      "resnap": "beat"
+    },
+    {
+      "i": 35,
+      "text": "痛不知轻重 泪水鲜红",
+      "t0": 154.5,
+      "t1": 156.03,
+      "t0_used": 154.575,
+      "t1_used": 156.03,
+      "snapped": true,
+      "snap_deltas": [
+        -0.075,
+        0.178
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 154.575,
+      "cut1": 155.852,
+      "on_beat": true,
+      "word_onset": 154.363,
+      "onset_offset": 0.212,
+      "resnap": "beat"
+    },
+    {
+      "i": 36,
+      "text": "全面放纵",
+      "t0": 156.03,
+      "t1": 167.75,
+      "t0_used": 156.03,
+      "t1_used": 167.75,
+      "snapped": false,
+      "snap_deltas": [
+        0.178,
+        -0.13
+      ],
+      "approx": false,
+      "splits": [
+        159.01,
+        162.191,
+        164.722,
+        167.253
+      ],
+      "cut0": 155.852,
+      "cut1": 169.784,
+      "on_beat": true,
+      "word_onset": 156.084,
+      "onset_offset": 0.232,
+      "resnap": "beat"
+    },
+    {
+      "i": 37,
+      "text": "恨自己真的没用 情绪激动",
+      "t0": 167.75,
+      "t1": 172.28,
+      "t0_used": 167.75,
+      "t1_used": 172.339,
+      "snapped": true,
+      "snap_deltas": [
+        -0.13,
+        -0.059
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 169.784,
+      "cut1": 172.339,
+      "on_beat": true,
+      "word_onset": 169.774,
+      "onset_offset": 0.01,
+      "resnap": "beat"
+    },
+    {
+      "i": 38,
+      "text": "一颗心到现在还在抽痛",
+      "t0": 172.28,
+      "t1": 177.41,
+      "t0_used": 172.339,
+      "t1_used": 177.4,
+      "snapped": true,
+      "snap_deltas": [
+        -0.059,
+        0.01
+      ],
+      "approx": false,
+      "splits": [
+        174.869
+      ],
+      "cut0": 172.339,
+      "cut1": 177.4,
+      "on_beat": true,
+      "word_onset": 172.476,
+      "onset_offset": 0.137,
+      "resnap": "beat"
+    },
+    {
+      "i": 39,
+      "text": "还为分手前那句抱歉",
+      "t0": 177.41,
+      "t1": 181.38,
+      "t0_used": 177.4,
+      "t1_used": 181.38,
+      "snapped": true,
+      "snap_deltas": [
+        0.01,
+        0.171
+      ],
+      "approx": false,
+      "splits": [
+        179.931
+      ],
+      "cut0": 177.4,
+      "cut1": 181.209,
+      "on_beat": true,
+      "word_onset": 177.561,
+      "onset_offset": 0.161,
+      "resnap": "beat"
+    },
+    {
+      "i": 40,
+      "text": "在感动",
+      "t0": 181.38,
+      "t1": 187.66,
+      "t0_used": 181.38,
+      "t1_used": 187.571,
+      "snapped": true,
+      "snap_deltas": [
+        0.171,
+        0.089
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 181.209,
+      "cut1": 182.462,
+      "on_beat": true,
+      "word_onset": 181.444,
+      "onset_offset": 0.235,
+      "resnap": "beat"
+    },
+    {
+      "i": 41,
+      "text": "穿梭时间的画面的钟",
+      "t0": 187.66,
+      "t1": 192.22,
+      "t0_used": 187.571,
+      "t1_used": 192.22,
+      "snapped": true,
+      "snap_deltas": [
+        0.089,
+        0.237
+      ],
+      "approx": false,
+      "splits": [
+        185.017,
+        187.571,
+        190.102,
+        192.633,
+        195.164,
+        197.695
+      ],
+      "cut0": 182.462,
+      "cut1": 198.322,
+      "on_beat": true,
+      "word_onset": 182.445,
+      "onset_offset": 0.017,
+      "resnap": "beat"
+    },
+    {
+      "i": 42,
+      "text": "从反方向开始移动",
+      "t0": 192.22,
+      "t1": 197.59,
+      "t0_used": 192.22,
+      "t1_used": 197.59,
+      "snapped": false,
+      "snap_deltas": [
+        0.237,
+        -0.105
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 198.322,
+      "cut1": 198.972,
+      "on_beat": true,
+      "word_onset": 198.449,
+      "onset_offset": 0.127,
+      "resnap": "beat"
+    },
+    {
+      "i": 43,
+      "text": "回到当初爱你的时空",
+      "t0": 197.59,
+      "t1": 202.44,
+      "t0_used": 197.59,
+      "t1_used": 202.44,
+      "snapped": false,
+      "snap_deltas": [
+        -0.105,
+        0.31
+      ],
+      "approx": false,
+      "splits": [
+        202.13
+      ],
+      "cut0": 198.972,
+      "cut1": 202.13,
+      "on_beat": true,
+      "word_onset": 198.449,
+      "onset_offset": 0.523,
+      "resnap": "beat"
+    },
+    {
+      "i": 44,
+      "text": "停格内容不忠",
+      "t0": 202.44,
+      "t1": 207.83,
+      "t0_used": 202.44,
+      "t1_used": 207.865,
+      "snapped": true,
+      "snap_deltas": [
+        0.31,
+        -0.035
+      ],
+      "approx": false,
+      "splits": [
+        205.311
+      ],
+      "cut0": 202.13,
+      "cut1": 205.311,
+      "on_beat": true,
+      "word_onset": 202.41,
+      "onset_offset": 0.28,
+      "resnap": "beat"
+    },
+    {
+      "i": 45,
+      "text": "所有回忆对着我进攻",
+      "t0": 207.83,
+      "t1": 212.63,
+      "t0_used": 207.865,
+      "t1_used": 212.63,
+      "snapped": true,
+      "snap_deltas": [
+        -0.035,
+        -0.297
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 205.311,
+      "cut1": 205.938,
+      "on_beat": true,
+      "word_onset": 205.551,
+      "onset_offset": 0.24,
+      "resnap": "beat"
+    },
+    {
+      "i": 46,
+      "text": "我的伤口被你拆封",
+      "t0": 212.63,
+      "t1": 217.97,
+      "t0_used": 212.63,
+      "t1_used": 218.012,
+      "snapped": true,
+      "snap_deltas": [
+        -0.297,
+        -0.042
+      ],
+      "approx": false,
+      "splits": [
+        209.119,
+        212.3,
+        215.458,
+        218.012,
+        220.543,
+        223.074,
+        225.605,
+        228.159
+      ],
+      "cut0": 205.938,
+      "cut1": 228.786,
+      "on_beat": true,
+      "word_onset": 205.551,
+      "onset_offset": 0.387,
+      "resnap": "beat"
+    },
+    {
+      "i": 47,
+      "text": "誓言太沉重泪被纵容",
+      "t0": 217.97,
+      "t1": 222.81,
+      "t0_used": 218.012,
+      "t1_used": 222.81,
+      "snapped": true,
+      "snap_deltas": [
+        -0.042,
+        -0.264
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 228.786,
+      "cut1": 229.413,
+      "on_beat": true,
+      "word_onset": 228.7,
+      "onset_offset": 0.086,
+      "resnap": "beat"
+    },
+    {
+      "i": 48,
+      "text": "脸上汹涌失控",
+      "t0": 222.81,
+      "t1": 228.37,
+      "t0_used": 222.81,
+      "t1_used": 228.37,
+      "snapped": false,
+      "snap_deltas": [
+        -0.264,
+        0.211
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 229.413,
+      "cut1": 230.063,
+      "on_beat": true,
+      "word_onset": 228.7,
+      "onset_offset": 0.713,
+      "resnap": "beat"
+    },
+    {
+      "i": 49,
+      "text": "穿梭时间的画面的钟",
+      "t0": 228.37,
+      "t1": 232.85,
+      "t0_used": 228.37,
+      "t1_used": 232.85,
+      "snapped": false,
+      "snap_deltas": [
+        0.211,
+        0.256
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 230.063,
+      "cut1": 232.594,
+      "on_beat": true,
+      "word_onset": 228.7,
+      "onset_offset": 1.363,
+      "resnap": "beat"
+    },
+    {
+      "i": 50,
+      "text": "从反方向开始移动",
+      "t0": 232.85,
+      "t1": 238.1,
+      "t0_used": 232.85,
+      "t1_used": 238.1,
+      "snapped": false,
+      "snap_deltas": [
+        0.256,
+        -0.206
+      ],
+      "approx": false,
+      "splits": [
+        235.752
+      ],
+      "cut0": 232.594,
+      "cut1": 237.029,
+      "on_beat": true,
+      "word_onset": 232.841,
+      "onset_offset": 0.247,
+      "resnap": "beat"
+    },
+    {
+      "i": 51,
+      "text": "回到当初爱你的时空",
+      "t0": 238.1,
+      "t1": 243.03,
+      "t0_used": 238.1,
+      "t1_used": 243.03,
+      "snapped": false,
+      "snap_deltas": [
+        -0.206,
+        0.289
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 237.029,
+      "cut1": 237.656,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 0.047,
+      "resnap": "beat"
+    },
+    {
+      "i": 52,
+      "text": "停格内容不忠",
+      "t0": 243.03,
+      "t1": 250.55,
+      "t0_used": 243.03,
+      "t1_used": 250.55,
+      "snapped": false,
+      "snap_deltas": [
+        0.289,
+        0.192
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 237.656,
+      "cut1": 238.306,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 0.674,
+      "resnap": "beat"
+    },
+    {
+      "i": 53,
+      "text": "Guitar：倪方来",
+      "t0": 250.55,
+      "t1": 250.76,
+      "t0_used": 250.55,
+      "t1_used": 250.76,
+      "snapped": false,
+      "snap_deltas": [
+        0.192,
+        -0.224
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 238.306,
+      "cut1": 238.933,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 1.324,
+      "resnap": "beat"
+    },
+    {
+      "i": 54,
+      "text": "合声编写：周杰伦",
+      "t0": 250.76,
+      "t1": 251.09,
+      "t0_used": 250.76,
+      "t1_used": 251.09,
+      "snapped": false,
+      "snap_deltas": [
+        -0.224,
+        0.106
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 238.933,
+      "cut1": 239.56,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 1.951,
+      "resnap": "beat"
+    },
+    {
+      "i": 55,
+      "text": "过带录音师：Gary Yang (J&A 录音室)",
+      "t0": 251.09,
+      "t1": 251.24,
+      "t0_used": 251.09,
+      "t1_used": 251.24,
+      "snapped": false,
+      "snap_deltas": [
+        0.106,
+        0.256
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 239.56,
+      "cut1": 240.21,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 2.578,
+      "resnap": "beat"
+    },
+    {
+      "i": 56,
+      "text": "配唱录音师：Gary Yang (J&A 录音室)",
+      "t0": 251.24,
+      "t1": 251.37,
+      "t0_used": 251.24,
+      "t1_used": 251.37,
+      "snapped": false,
+      "snap_deltas": [
+        0.256,
+        -0.241
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 240.21,
+      "cut1": 240.837,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 3.228,
+      "resnap": "beat"
+    },
+    {
+      "i": 57,
+      "text": "混音录音师：杨大纬 (J&A 录音室)",
+      "t0": 251.37,
+      "t1": 251.81,
+      "t0_used": 251.37,
+      "t1_used": 251.81,
+      "snapped": false,
+      "snap_deltas": [
+        -0.241,
+        0.199
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 240.837,
+      "cut1": 241.464,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 3.855,
+      "resnap": "beat"
+    },
+    {
+      "i": 58,
+      "text": "ISRC-TW-C23-00-001-10",
+      "t0": 251.81,
+      "t1": 254.81,
+      "t0_used": 251.81,
+      "t1_used": 254.793,
+      "snapped": true,
+      "snap_deltas": [
+        0.199,
+        0.017
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 241.464,
+      "cut1": 242.091,
+      "on_beat": true,
+      "word_onset": 236.982,
+      "onset_offset": 4.482,
+      "resnap": "beat"
+    }
+  ],
+  "summary": {
+    "lines": 59,
+    "cuts": 100,
+    "cuts_on_beat": 100,
+    "mean_onset_offset_sec": 0.171,
+    "max_onset_offset_sec": 0.305,
+    "same_window_rows_removed": 0,
+    "degenerate_rows_repaired": 0,
+    "old_lines": 59,
+    "old_snapped": 27
+  },
+  "advisory": true
+}

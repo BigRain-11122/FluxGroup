@@ -1,0 +1,83 @@
+{
+  "config": {
+    "property": {
+      "name": "尹山湖韵佳苑 135.15㎡ / 172万（二套口径）",
+      "area": 135.15,
+      "price": 1720000,
+      "deed_tax_rate": 0.01,
+      "agency_buy": 0.015,
+      "other_buy": 0.002
+    },
+    "rent": {
+      "units": [
+        {
+          "name": "整租三房",
+          "area": 135.15,
+          "rent": 4600,
+          "vacancy_days": 30
+        }
+      ],
+      "growth": 0.02,
+      "bad_debt": 0.01
+    },
+    "opex": {
+      "property_fee_per_sqm": 2.05,
+      "maintenance_pct": 0.05,
+      "appliance_reserve": 1500,
+      "insurance": 500,
+      "management_pct": 0.0,
+      "letting_cost_months": 0.5,
+      "utilities_vacant": 80
+    },
+    "tax": {
+      "vat_rate": 0.015,
+      "income_tax_rate": 0.1,
+      "property_tax_rate": 0.0
+    },
+    "capex": {
+      "initial": 30000,
+      "major_cycle_years": 10,
+      "major_per_sqm": 400
+    },
+    "finance": {
+      "down": 0.3,
+      "rate": 0.033,
+      "years": 30,
+      "valuation_ratio": 0.95
+    },
+    "exit": {
+      "years": 10,
+      "price_growth": 0.02,
+      "sell_agency": 0.015,
+      "sell_tax": 0.01
+    },
+    "discount_rate": 0.05,
+    "mc_sd_price_growth": 0.05,
+    "mc_sd_rent_growth": 0.015
+  },
+  "metrics": {
+    "noi_y1": 38521.679315,
+    "cap_rate_on_total_cost": 0.021443,
+    "cap_rate_on_price": 0.022396,
+    "cash_on_cash_y1": -0.042945,
+    "dscr_y1": 0.640832,
+    "irr": 0.036998,
+    "npv": -79997.9749,
+    "equity_multiple": 1.510412,
+    "payback_years": 10,
+    "total_profit": 302388.736169,
+    "equity": 592440.0,
+    "discount_rate": 0.05,
+    "years": 10
+  },
+  "monte_carlo": {
+    "p10": -0.3052892737022399,
+    "p50": 0.03146417781900014,
+    "p90": 0.1469709478309312,
+    "mean": -0.05221101710216925,
+    "loss_prob": 0.3965,
+    "no_solution": 142,
+    "n": 2000
+  },
+  "self_test": "pass"
+}

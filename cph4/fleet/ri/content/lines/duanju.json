@@ -1,0 +1,109 @@
+{
+ "line": "bigstream-duanju",
+ "name": "短剧（配音质检→带声合流→可发集数）",
+ "group": "content",
+ "note": "素材与配音在工作机（bm-b/bm-c）。真正的产出是'可发布集数'而不是报告，所以第四段必须给出集号清单。每段都必须留证据件：缺素材时回执写 BLOCKED 并写明缺什么，不许零产物退出（否则线会静默停摆）。",
+ "stages": [
+  {
+   "id": "inventory",
+   "name": "素材盘点（先找到这台机上的真目录）",
+   "cmd": "python {root_tools}/fleet/drama_inventory.py --out cph4/fleet/queue-receipts/duanju-inventory-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-inventory-{date}.json",
+   "accept": "列出每个素材目录的视频/音频文件数与最新时间；0 个目录也要写明 media 是否存在",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 10
+  },
+  {
+   "id": "tts-qc",
+   "name": "配音质检（逐集检出缺句/静音/削波）",
+   "cmd": "python {root_tools}/fleet/tts_batch_check.py --dir media/drama-tts-batch --out cph4/fleet/queue-receipts/duanju-tts-qc-{date}.md",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-tts-qc-{date}.md",
+   "accept": "每集给出合格/不合格与原因；目录不存在时回执写明 BLOCKED - dir missing（rc=3 属正常等上游）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 15,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "inventory"
+   ]
+  },
+  {
+   "id": "manifest",
+   "name": "装配清单（把盘上片段/人声/配乐变成 manifest）",
+   "cmd": "python {root_tools}/fleet/drama_manifest.py --dir media/drama-clips --out cph4/fleet/queue-receipts/duanju-manifest-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-manifest-{date}.json",
+   "accept": "manifest 里 clips 非空且按镜号排序；没片段时 clips 为空并写 blocked 原因（rc=3 属正常等上游）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 1,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "tts-qc"
+   ]
+  },
+  {
+   "id": "remux",
+   "name": "带声合流（i2v 片段+人声+配乐 → 成片，loudnorm -14）",
+   "cmd": "python {root_tools}/fleet/drama_assemble.py --manifest cph4/fleet/queue-receipts/duanju-manifest-{date}.json --out media/drama-out/duanju-{date}.mp4 --qa cph4/fleet/queue-receipts/duanju-qa-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-qa-{date}.json",
+   "accept": "verdict=PASS 出成片；缺 manifest/片段时回执 verdict=BLOCKED 并写明缺哪一段（rc=3 属正常等待上游）",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 20,
+   "ok_rc": [
+    0,
+    3
+   ],
+   "depends_on": [
+    "manifest"
+   ]
+  },
+  {
+   "id": "episode-list",
+   "name": "可发集数清单（集号+时长+体积+闸结论）",
+   "cmd": "python {root_tools}/fleet/line_triage.py --line bigstream-duanju",
+   "deliverable": "cph4/fleet/queue-receipts/duanju-shippable-{date}.md",
+   "accept": "给出可直接发的集号，或写明卡在哪一步",
+   "needs": "cpu",
+   "nodes": [
+    "bm-b",
+    "bm-c"
+   ],
+   "minutes": 5,
+   "depends_on": [
+    "remux"
+   ]
+  },
+  {
+   "id": "accept",
+   "name": "质量验收（缺一份闸回执就不算交付）",
+   "cmd": "python {root_tools}/fleet/quality_gate.py --line bigstream-duanju --out cph4/fleet/queue-receipts/quality-bigstream-duanju-{date}.json",
+   "deliverable": "cph4/fleet/queue-receipts/quality-bigstream-duanju-{date}.json",
+   "accept": "verdict=PASS；否则列出缺哪份闸/哪份 FAIL",
+   "needs": "cpu",
+   "minutes": 1,
+   "depends_on": [
+    "episode-list"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,795 @@
+{
+ "song": "伊斯坦堡",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 533,
+  "n_beats": 533,
+  "n_downbeats": 134,
+  "duration_sec": 209.16
+ },
+ "bpm_median": 161.3,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "Guitar：倪方来",
+   "t0": 208.69,
+   "t1": 208.81,
+   "t0_used": 208.69,
+   "t1_used": 208.81,
+   "snapped": false,
+   "snap_deltas": [
+    5.631,
+    5.751
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "合声编写：周杰伦",
+   "t0": 208.81,
+   "t1": 209.07,
+   "t0_used": 208.81,
+   "t1_used": 209.07,
+   "snapped": false,
+   "snap_deltas": [
+    5.751,
+    6.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "过带录音师：谢光华 (明水 录音室)",
+   "t0": 209.07,
+   "t1": 209.16,
+   "t0_used": 209.07,
+   "t1_used": 209.16,
+   "snapped": false,
+   "snap_deltas": [
+    6.011,
+    6.101
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "配唱录音师：杨大纬 (J&A 录音室)",
+   "t0": 209.16,
+   "t1": 212.16,
+   "t0_used": 209.16,
+   "t1_used": 212.16,
+   "snapped": false,
+   "snap_deltas": [
+    6.101,
+    9.101
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "混音录音师：杨大纬 (J&A 录音室)",
+   "t0": 209.16,
+   "t1": 212.16,
+   "t0_used": 209.16,
+   "t1_used": 212.16,
+   "snapped": false,
+   "snap_deltas": [
+    6.101,
+    9.101
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "ISRC-TW-C23-00-001-07",
+   "t0": 209.16,
+   "t1": 212.16,
+   "t0_used": 209.16,
+   "t1_used": 212.16,
+   "snapped": false,
+   "snap_deltas": [
+    6.101,
+    9.101
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "走过了很多地方",
+   "t0": 24.88,
+   "t1": 27.81,
+   "t0_used": 24.845,
+   "t1_used": 27.887,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    -0.077
+   ],
+   "approx": false,
+   "splits": [
+    26.355
+   ]
+  },
+  {
+   "i": 7,
+   "text": "我来到伊斯坦堡",
+   "t0": 27.81,
+   "t1": 30.73,
+   "t0_used": 27.887,
+   "t1_used": 30.73,
+   "snapped": true,
+   "snap_deltas": [
+    -0.077,
+    0.173
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "就像是童话故事",
+   "t0": 30.73,
+   "t1": 33.66,
+   "t0_used": 30.73,
+   "t1_used": 33.576,
+   "snapped": true,
+   "snap_deltas": [
+    0.173,
+    0.084
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "有教堂有城堡",
+   "t0": 33.66,
+   "t1": 36.83,
+   "t0_used": 33.576,
+   "t1_used": 36.83,
+   "snapped": true,
+   "snap_deltas": [
+    0.084,
+    -0.159
+   ],
+   "approx": false,
+   "splits": [
+    35.109
+   ]
+  },
+  {
+   "i": 10,
+   "text": "每天忙碌地寻找",
+   "t0": 36.83,
+   "t1": 39.86,
+   "t0_used": 36.83,
+   "t1_used": 39.86,
+   "snapped": false,
+   "snap_deltas": [
+    -0.159,
+    0.177
+   ],
+   "approx": false,
+   "splits": [
+    38.522
+   ]
+  },
+  {
+   "i": 11,
+   "text": "到底什么我想要",
+   "t0": 39.86,
+   "t1": 43.14,
+   "t0_used": 39.86,
+   "t1_used": 43.073,
+   "snapped": true,
+   "snap_deltas": [
+    0.177,
+    0.067
+   ],
+   "approx": false,
+   "splits": [
+    41.564
+   ]
+  },
+  {
+   "i": 12,
+   "text": "却发现迷了路怎么找也找不着",
+   "t0": 43.14,
+   "t1": 49.64,
+   "t0_used": 43.073,
+   "t1_used": 49.551,
+   "snapped": true,
+   "snap_deltas": [
+    0.067,
+    0.089
+   ],
+   "approx": false,
+   "splits": [
+    45.372,
+    47.276
+   ]
+  },
+  {
+   "i": 13,
+   "text": "心血来潮起个大早",
+   "t0": 49.64,
+   "t1": 52.21,
+   "t0_used": 49.551,
+   "t1_used": 52.198,
+   "snapped": true,
+   "snap_deltas": [
+    0.089,
+    0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "怎么我也睡不着",
+   "t0": 52.21,
+   "t1": 56.1,
+   "t0_used": 52.198,
+   "t1_used": 56.007,
+   "snapped": true,
+   "snap_deltas": [
+    0.012,
+    0.093
+   ],
+   "approx": false,
+   "splits": [
+    54.102
+   ]
+  },
+  {
+   "i": 15,
+   "text": "昨晚梦里你来找 我才",
+   "t0": 56.1,
+   "t1": 61.9,
+   "t0_used": 56.007,
+   "t1_used": 61.9,
+   "snapped": true,
+   "snap_deltas": [
+    0.093,
+    -0.19
+   ],
+   "approx": false,
+   "splits": [
+    59.048
+   ]
+  },
+  {
+   "i": 16,
+   "text": "原来我只想要你",
+   "t0": 61.9,
+   "t1": 63.71,
+   "t0_used": 61.9,
+   "t1_used": 63.71,
+   "snapped": false,
+   "snap_deltas": [
+    -0.19,
+    0.111
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "陪我去吃汉堡",
+   "t0": 63.71,
+   "t1": 65.17,
+   "t0_used": 63.71,
+   "t1_used": 65.109,
+   "snapped": true,
+   "snap_deltas": [
+    0.111,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "说穿了其实我的愿望就怎么小",
+   "t0": 65.17,
+   "t1": 67.79,
+   "t0_used": 65.109,
+   "t1_used": 67.779,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "就怎么每天祈祷我的心跳你知道",
+   "t0": 67.79,
+   "t1": 73.7,
+   "t0_used": 67.779,
+   "t1_used": 73.7,
+   "snapped": true,
+   "snap_deltas": [
+    0.011,
+    -0.163
+   ],
+   "approx": false,
+   "splits": [
+    70.821
+   ]
+  },
+  {
+   "i": 20,
+   "text": "杵在伊斯坦堡 却只想你和汉堡",
+   "t0": 73.7,
+   "t1": 77.13,
+   "t0_used": 73.7,
+   "t1_used": 77.13,
+   "snapped": false,
+   "snap_deltas": [
+    -0.163,
+    -0.169
+   ],
+   "approx": false,
+   "splits": [
+    75.372
+   ]
+  },
+  {
+   "i": 21,
+   "text": "我想要你的微笑每天都能看到",
+   "t0": 77.13,
+   "t1": 80.4,
+   "t0_used": 77.13,
+   "t1_used": 80.318,
+   "snapped": true,
+   "snap_deltas": [
+    -0.169,
+    0.082
+   ],
+   "approx": false,
+   "splits": [
+    78.809
+   ]
+  },
+  {
+   "i": 22,
+   "text": "我知道这里很美但家乡的你更美",
+   "t0": 80.4,
+   "t1": 110.0,
+   "t0_used": 80.318,
+   "t1_used": 109.923,
+   "snapped": true,
+   "snap_deltas": [
+    0.082,
+    0.077
+   ],
+   "approx": false,
+   "splits": [
+    83.383,
+    86.401,
+    89.049,
+    92.09,
+    95.132,
+    98.151,
+    101.216,
+    103.886,
+    106.928
+   ]
+  },
+  {
+   "i": 23,
+   "text": "走过了很多地方",
+   "t0": 110.0,
+   "t1": 112.87,
+   "t0_used": 109.923,
+   "t1_used": 112.87,
+   "snapped": true,
+   "snap_deltas": [
+    0.077,
+    -0.142
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "我来到伊斯坦堡",
+   "t0": 112.87,
+   "t1": 115.55,
+   "t0_used": 112.87,
+   "t1_used": 115.55,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    -0.109
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "就像是童话故事",
+   "t0": 115.55,
+   "t1": 118.62,
+   "t0_used": 115.55,
+   "t1_used": 118.677,
+   "snapped": true,
+   "snap_deltas": [
+    -0.109,
+    -0.057
+   ],
+   "approx": false,
+   "splits": [
+    117.191
+   ]
+  },
+  {
+   "i": 26,
+   "text": "有教堂有城堡",
+   "t0": 118.62,
+   "t1": 121.75,
+   "t0_used": 118.677,
+   "t1_used": 121.719,
+   "snapped": true,
+   "snap_deltas": [
+    -0.057,
+    0.031
+   ],
+   "approx": false,
+   "splits": [
+    120.21
+   ]
+  },
+  {
+   "i": 27,
+   "text": "每天忙碌地寻找",
+   "t0": 121.75,
+   "t1": 124.78,
+   "t0_used": 121.719,
+   "t1_used": 124.784,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    -0.004
+   ],
+   "approx": false,
+   "splits": [
+    123.252
+   ]
+  },
+  {
+   "i": 28,
+   "text": "到底什么我想要",
+   "t0": 124.78,
+   "t1": 128.2,
+   "t0_used": 124.784,
+   "t1_used": 128.197,
+   "snapped": true,
+   "snap_deltas": [
+    -0.004,
+    0.003
+   ],
+   "approx": false,
+   "splits": [
+    126.665
+   ]
+  },
+  {
+   "i": 29,
+   "text": "却发现迷了路怎么找也找不着",
+   "t0": 128.2,
+   "t1": 134.51,
+   "t0_used": 128.197,
+   "t1_used": 134.51,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    -0.143
+   ],
+   "approx": false,
+   "splits": [
+    130.473,
+    132.377
+   ]
+  },
+  {
+   "i": 30,
+   "text": "心血来潮起个大早",
+   "t0": 134.51,
+   "t1": 137.23,
+   "t0_used": 134.51,
+   "t1_used": 137.3,
+   "snapped": true,
+   "snap_deltas": [
+    -0.143,
+    -0.07
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "怎么我也睡不着",
+   "t0": 137.23,
+   "t1": 141.27,
+   "t0_used": 137.3,
+   "t1_used": 141.27,
+   "snapped": true,
+   "snap_deltas": [
+    -0.07,
+    0.139
+   ],
+   "approx": false,
+   "splits": [
+    139.227
+   ]
+  },
+  {
+   "i": 32,
+   "text": "昨晚梦里你来找 我才",
+   "t0": 141.27,
+   "t1": 146.66,
+   "t0_used": 141.27,
+   "t1_used": 146.66,
+   "snapped": false,
+   "snap_deltas": [
+    0.139,
+    -0.183
+   ],
+   "approx": false,
+   "splits": [
+    143.778
+   ]
+  },
+  {
+   "i": 33,
+   "text": "原来我只想要你",
+   "t0": 146.66,
+   "t1": 148.58,
+   "t0_used": 146.66,
+   "t1_used": 148.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.183,
+    -0.144
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "陪我去吃汉堡",
+   "t0": 148.58,
+   "t1": 149.99,
+   "t0_used": 148.58,
+   "t1_used": 149.99,
+   "snapped": false,
+   "snap_deltas": [
+    -0.144,
+    0.128
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "说穿了其实我的愿望就怎么小",
+   "t0": 149.99,
+   "t1": 153.17,
+   "t0_used": 149.99,
+   "t1_used": 153.17,
+   "snapped": false,
+   "snap_deltas": [
+    0.128,
+    -0.105
+   ],
+   "approx": false,
+   "splits": [
+    151.766
+   ]
+  },
+  {
+   "i": 36,
+   "text": "就怎么每天祈祷我的心跳你知道",
+   "t0": 153.17,
+   "t1": 159.02,
+   "t0_used": 153.17,
+   "t1_used": 158.987,
+   "snapped": true,
+   "snap_deltas": [
+    -0.105,
+    0.033
+   ],
+   "approx": false,
+   "splits": [
+    155.922
+   ]
+  },
+  {
+   "i": 37,
+   "text": "杵在伊斯坦堡 却只想你和汉堡",
+   "t0": 159.02,
+   "t1": 162.25,
+   "t0_used": 158.987,
+   "t1_used": 162.25,
+   "snapped": true,
+   "snap_deltas": [
+    0.033,
+    -0.15
+   ],
+   "approx": false,
+   "splits": [
+    160.496
+   ]
+  },
+  {
+   "i": 38,
+   "text": "我想要你的微笑每天都能看到",
+   "t0": 162.25,
+   "t1": 165.32,
+   "t0_used": 162.25,
+   "t1_used": 165.32,
+   "snapped": false,
+   "snap_deltas": [
+    -0.15,
+    -0.122
+   ],
+   "approx": false,
+   "splits": [
+    163.91
+   ]
+  },
+  {
+   "i": 39,
+   "text": "我知道这里很美但家乡的你更美",
+   "t0": 165.32,
+   "t1": 171.33,
+   "t0_used": 165.32,
+   "t1_used": 171.33,
+   "snapped": false,
+   "snap_deltas": [
+    -0.122,
+    -0.173
+   ],
+   "approx": false,
+   "splits": [
+    167.323,
+    169.227
+   ]
+  },
+  {
+   "i": 40,
+   "text": "原来我只想要你",
+   "t0": 171.33,
+   "t1": 172.94,
+   "t0_used": 171.33,
+   "t1_used": 173.035,
+   "snapped": true,
+   "snap_deltas": [
+    -0.173,
+    -0.095
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "陪我去吃汉堡",
+   "t0": 172.94,
+   "t1": 174.45,
+   "t0_used": 173.035,
+   "t1_used": 174.544,
+   "snapped": true,
+   "snap_deltas": [
+    -0.095,
+    -0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "说穿了其实我的愿望就怎么小",
+   "t0": 174.45,
+   "t1": 177.02,
+   "t0_used": 174.544,
+   "t1_used": 177.02,
+   "snapped": true,
+   "snap_deltas": [
+    -0.094,
+    0.177
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "就怎么每天祈祷我的心跳你知道",
+   "t0": 177.02,
+   "t1": 183.32,
+   "t0_used": 177.02,
+   "t1_used": 183.298,
+   "snapped": true,
+   "snap_deltas": [
+    0.177,
+    0.022
+   ],
+   "approx": false,
+   "splits": [
+    179.096,
+    181.023
+   ]
+  },
+  {
+   "i": 44,
+   "text": "杵在伊斯坦堡 却只想你和汉堡",
+   "t0": 183.32,
+   "t1": 186.3,
+   "t0_used": 183.298,
+   "t1_used": 186.317,
+   "snapped": true,
+   "snap_deltas": [
+    0.022,
+    -0.017
+   ],
+   "approx": false,
+   "splits": [
+    184.808
+   ]
+  },
+  {
+   "i": 45,
+   "text": "我想要你的微笑每天都能看到",
+   "t0": 186.3,
+   "t1": 189.43,
+   "t0_used": 186.317,
+   "t1_used": 189.359,
+   "snapped": true,
+   "snap_deltas": [
+    -0.017,
+    0.071
+   ],
+   "approx": false,
+   "splits": [
+    187.849
+   ]
+  },
+  {
+   "i": 46,
+   "text": "我知道这里很美但家乡的你更美",
+   "t0": 189.43,
+   "t1": 192.43,
+   "t0_used": 189.359,
+   "t1_used": 192.401,
+   "snapped": true,
+   "snap_deltas": [
+    0.071,
+    0.029
+   ],
+   "approx": false,
+   "splits": [
+    190.891
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 47,
+  "lines_untimed": 0,
+  "lines_snapped": 31,
+  "lines_unsnapped": 16,
+  "lines_need_split": 27,
+  "total_splits": 39
+ },
+ "advisory": true
+}

@@ -1,0 +1,747 @@
+{
+ "song": "黑色幽默",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 297,
+  "n_beats": 297,
+  "n_downbeats": 74,
+  "duration_sec": 283.13
+ },
+ "bpm_median": 64.6,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "难过是因为闷了很久",
+   "t0": 14.72,
+   "t1": 20.37,
+   "t0_used": 14.698,
+   "t1_used": 20.317,
+   "snapped": true,
+   "snap_deltas": [
+    0.022,
+    0.053
+   ],
+   "approx": false,
+   "splits": [
+    17.554
+   ]
+  },
+  {
+   "i": 1,
+   "text": "是因为想了太多",
+   "t0": 20.52,
+   "t1": 24.04,
+   "t0_used": 20.52,
+   "t1_used": 24.102,
+   "snapped": true,
+   "snap_deltas": [
+    0.203,
+    -0.062
+   ],
+   "approx": false,
+   "splits": [
+    22.245
+   ]
+  },
+  {
+   "i": 2,
+   "text": "是心里起了作用",
+   "t0": 24.04,
+   "t1": 29.08,
+   "t0_used": 24.102,
+   "t1_used": 29.08,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    0.287
+   ],
+   "approx": false,
+   "splits": [
+    26.935
+   ]
+  },
+  {
+   "i": 3,
+   "text": "你说苦笑常常陪着你",
+   "t0": 30.44,
+   "t1": 35.28,
+   "t0_used": 30.44,
+   "t1_used": 35.364,
+   "snapped": true,
+   "snap_deltas": [
+    -0.234,
+    -0.084
+   ],
+   "approx": false,
+   "splits": [
+    32.461
+   ]
+  },
+  {
+   "i": 4,
+   "text": "在一起有点勉强",
+   "t0": 35.58,
+   "t1": 38.92,
+   "t0_used": 35.58,
+   "t1_used": 38.92,
+   "snapped": false,
+   "snap_deltas": [
+    0.216,
+    -0.206
+   ],
+   "approx": false,
+   "splits": [
+    37.245
+   ]
+  },
+  {
+   "i": 5,
+   "text": "该不该现在休了我",
+   "t0": 38.92,
+   "t1": 43.62,
+   "t0_used": 38.92,
+   "t1_used": 43.62,
+   "snapped": false,
+   "snap_deltas": [
+    -0.206,
+    -0.173
+   ],
+   "approx": false,
+   "splits": [
+    40.983
+   ]
+  },
+  {
+   "i": 6,
+   "text": "不想太多",
+   "t0": 43.62,
+   "t1": 46.78,
+   "t0_used": 43.62,
+   "t1_used": 46.78,
+   "snapped": false,
+   "snap_deltas": [
+    -0.173,
+    0.201
+   ],
+   "approx": false,
+   "splits": [
+    45.65
+   ]
+  },
+  {
+   "i": 7,
+   "text": "我想一定是我",
+   "t0": 46.78,
+   "t1": 49.46,
+   "t0_used": 46.78,
+   "t1_used": 49.435,
+   "snapped": true,
+   "snap_deltas": [
+    0.201,
+    0.025
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "听错弄错搞错",
+   "t0": 49.46,
+   "t1": 54.52,
+   "t0_used": 49.435,
+   "t1_used": 54.52,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    -0.349
+   ],
+   "approx": true,
+   "splits": [
+    52.222
+   ]
+  },
+  {
+   "i": 9,
+   "text": "拜托我想是你的",
+   "t0": 54.52,
+   "t1": 58.78,
+   "t0_used": 54.52,
+   "t1_used": 58.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.349,
+    0.01
+   ],
+   "approx": false,
+   "splits": [
+    56.935
+   ]
+  },
+  {
+   "i": 10,
+   "text": "脑袋有问题",
+   "t0": 58.78,
+   "t1": 59.46,
+   "t0_used": 58.77,
+   "t1_used": 59.46,
+   "snapped": true,
+   "snap_deltas": [
+    0.01,
+    -0.192
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "随便说说",
+   "t0": 59.46,
+   "t1": 61.96,
+   "t0_used": 59.46,
+   "t1_used": 61.96,
+   "snapped": false,
+   "snap_deltas": [
+    -0.192,
+    -0.455
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "其实我早已经猜透",
+   "t0": 61.96,
+   "t1": 64.44,
+   "t0_used": 61.96,
+   "t1_used": 64.412,
+   "snapped": true,
+   "snap_deltas": [
+    -0.455,
+    0.028
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "看透不想多说",
+   "t0": 64.44,
+   "t1": 69.18,
+   "t0_used": 64.412,
+   "t1_used": 69.126,
+   "snapped": true,
+   "snap_deltas": [
+    0.028,
+    0.054
+   ],
+   "approx": false,
+   "splits": [
+    66.293
+   ]
+  },
+  {
+   "i": 14,
+   "text": "只是我怕眼泪撑不住",
+   "t0": 69.18,
+   "t1": 74.26,
+   "t0_used": 69.126,
+   "t1_used": 74.26,
+   "snapped": true,
+   "snap_deltas": [
+    0.054,
+    -0.392
+   ],
+   "approx": false,
+   "splits": [
+    71.935
+   ]
+  },
+  {
+   "i": 15,
+   "text": "不懂你的黑色幽默",
+   "t0": 75.26,
+   "t1": 81.64,
+   "t0_used": 75.26,
+   "t1_used": 81.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.391,
+    0.324
+   ],
+   "approx": false,
+   "splits": [
+    77.555,
+    79.435
+   ]
+  },
+  {
+   "i": 16,
+   "text": "想通却又再考倒我",
+   "t0": 82.26,
+   "t1": 89.62,
+   "t0_used": 82.245,
+   "t1_used": 89.62,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    -0.102
+   ],
+   "approx": false,
+   "splits": [
+    85.055,
+    86.889
+   ]
+  },
+  {
+   "i": 17,
+   "text": "说散你想很久了吧",
+   "t0": 90.22,
+   "t1": 96.2,
+   "t0_used": 90.22,
+   "t1_used": 96.293,
+   "snapped": true,
+   "snap_deltas": [
+    -0.454,
+    -0.093
+   ],
+   "approx": false,
+   "splits": [
+    92.555,
+    94.412
+   ]
+  },
+  {
+   "i": 18,
+   "text": "我不想拆穿你",
+   "t0": 97.2,
+   "t1": 102.4,
+   "t0_used": 97.222,
+   "t1_used": 102.4,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    -0.464
+   ],
+   "approx": false,
+   "splits": [
+    100.055
+   ]
+  },
+  {
+   "i": 19,
+   "text": "当作是你开的玩笑",
+   "t0": 104.5,
+   "t1": 111.86,
+   "t0_used": 104.5,
+   "t1_used": 111.86,
+   "snapped": false,
+   "snap_deltas": [
+    -0.245,
+    -0.385
+   ],
+   "approx": false,
+   "splits": [
+    106.626,
+    109.389
+   ]
+  },
+  {
+   "i": 20,
+   "text": "想通却又再考倒我",
+   "t0": 111.86,
+   "t1": 119.66,
+   "t0_used": 111.86,
+   "t1_used": 119.722,
+   "snapped": true,
+   "snap_deltas": [
+    -0.385,
+    -0.062
+   ],
+   "approx": false,
+   "splits": [
+    114.103,
+    116.912
+   ]
+  },
+  {
+   "i": 21,
+   "text": "说散你想很久了吧",
+   "t0": 119.66,
+   "t1": 125.2,
+   "t0_used": 119.722,
+   "t1_used": 125.2,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    -0.165
+   ],
+   "approx": false,
+   "splits": [
+    122.532
+   ]
+  },
+  {
+   "i": 22,
+   "text": "败给你的黑色幽默",
+   "t0": 125.2,
+   "t1": 163.88,
+   "t0_used": 125.2,
+   "t1_used": 163.88,
+   "snapped": false,
+   "snap_deltas": [
+    -0.165,
+    -0.215
+   ],
+   "approx": true,
+   "splits": [
+    128.197,
+    131.007,
+    133.956,
+    136.905,
+    139.714,
+    143.476,
+    146.286,
+    149.095,
+    151.905,
+    154.715,
+    157.524,
+    161.286
+   ]
+  },
+  {
+   "i": 23,
+   "text": "不想太多",
+   "t0": 163.88,
+   "t1": 167.0,
+   "t0_used": 163.88,
+   "t1_used": 166.905,
+   "snapped": true,
+   "snap_deltas": [
+    -0.215,
+    0.095
+   ],
+   "approx": false,
+   "splits": [
+    165.024
+   ]
+  },
+  {
+   "i": 24,
+   "text": "我想一定是我",
+   "t0": 167.0,
+   "t1": 169.68,
+   "t0_used": 166.905,
+   "t1_used": 169.715,
+   "snapped": true,
+   "snap_deltas": [
+    0.095,
+    -0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "听错弄错搞错",
+   "t0": 169.68,
+   "t1": 174.76,
+   "t0_used": 169.715,
+   "t1_used": 174.76,
+   "snapped": true,
+   "snap_deltas": [
+    -0.035,
+    0.378
+   ],
+   "approx": true,
+   "splits": [
+    172.501
+   ]
+  },
+  {
+   "i": 26,
+   "text": "拜托我想是你的",
+   "t0": 174.76,
+   "t1": 178.96,
+   "t0_used": 174.76,
+   "t1_used": 178.96,
+   "snapped": false,
+   "snap_deltas": [
+    0.378,
+    -0.136
+   ],
+   "approx": false,
+   "splits": [
+    177.215
+   ]
+  },
+  {
+   "i": 27,
+   "text": "脑袋有问题",
+   "t0": 178.96,
+   "t1": 179.82,
+   "t0_used": 178.96,
+   "t1_used": 179.82,
+   "snapped": false,
+   "snap_deltas": [
+    -0.136,
+    -0.204
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "随便说",
+   "t0": 179.82,
+   "t1": 181.54,
+   "t0_used": 179.82,
+   "t1_used": 181.54,
+   "snapped": false,
+   "snap_deltas": [
+    -0.204,
+    -0.365
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "已经猜透看透",
+   "t0": 181.54,
+   "t1": 183.4,
+   "t0_used": 181.54,
+   "t1_used": 183.4,
+   "snapped": false,
+   "snap_deltas": [
+    -0.365,
+    -0.363
+   ],
+   "approx": true,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "不想多说",
+   "t0": 183.4,
+   "t1": 190.6,
+   "t0_used": 183.4,
+   "t1_used": 190.6,
+   "snapped": false,
+   "snap_deltas": [
+    -0.363,
+    0.266
+   ],
+   "approx": false,
+   "splits": [
+    185.644,
+    188.453
+   ]
+  },
+  {
+   "i": 31,
+   "text": "怕眼泪撑不住",
+   "t0": 190.6,
+   "t1": 194.2,
+   "t0_used": 190.6,
+   "t1_used": 194.2,
+   "snapped": false,
+   "snap_deltas": [
+    0.266,
+    0.128
+   ],
+   "approx": false,
+   "splits": [
+    192.215
+   ]
+  },
+  {
+   "i": 32,
+   "text": "不懂你的黑色幽默",
+   "t0": 194.2,
+   "t1": 202.12,
+   "t0_used": 194.2,
+   "t1_used": 202.12,
+   "snapped": false,
+   "snap_deltas": [
+    0.128,
+    -0.404
+   ],
+   "approx": false,
+   "splits": [
+    196.905,
+    199.715
+   ]
+  },
+  {
+   "i": 33,
+   "text": "想通却又再考倒我",
+   "t0": 202.12,
+   "t1": 209.4,
+   "t0_used": 202.12,
+   "t1_used": 209.4,
+   "snapped": false,
+   "snap_deltas": [
+    -0.404,
+    0.304
+   ],
+   "approx": false,
+   "splits": [
+    204.405,
+    207.145
+   ]
+  },
+  {
+   "i": 34,
+   "text": "说散你想很久了吧",
+   "t0": 210.4,
+   "t1": 216.54,
+   "t0_used": 210.4,
+   "t1_used": 216.596,
+   "snapped": true,
+   "snap_deltas": [
+    0.376,
+    -0.056
+   ],
+   "approx": false,
+   "splits": [
+    212.834,
+    214.715
+   ]
+  },
+  {
+   "i": 35,
+   "text": "我不想拆穿你",
+   "t0": 217.4,
+   "t1": 222.78,
+   "t0_used": 217.4,
+   "t1_used": 222.78,
+   "snapped": false,
+   "snap_deltas": [
+    -0.125,
+    -0.364
+   ],
+   "approx": false,
+   "splits": [
+    220.334
+   ]
+  },
+  {
+   "i": 36,
+   "text": "当作是你开的玩笑",
+   "t0": 225.34,
+   "t1": 232.4,
+   "t0_used": 225.34,
+   "t1_used": 232.4,
+   "snapped": false,
+   "snap_deltas": [
+    0.315,
+    -0.125
+   ],
+   "approx": false,
+   "splits": [
+    227.834,
+    229.692
+   ]
+  },
+  {
+   "i": 37,
+   "text": "想通却又再考倒我",
+   "t0": 232.4,
+   "t1": 239.74,
+   "t0_used": 232.4,
+   "t1_used": 239.74,
+   "snapped": false,
+   "snap_deltas": [
+    -0.125,
+    -0.285
+   ],
+   "approx": false,
+   "splits": [
+    234.405,
+    237.215
+   ]
+  },
+  {
+   "i": 38,
+   "text": "说散你想很久了吧",
+   "t0": 240.4,
+   "t1": 246.34,
+   "t0_used": 240.4,
+   "t1_used": 246.34,
+   "snapped": false,
+   "snap_deltas": [
+    0.375,
+    -0.256
+   ],
+   "approx": false,
+   "splits": [
+    243.786
+   ]
+  },
+  {
+   "i": 39,
+   "text": "败给你的黑色幽默",
+   "t0": 249.24,
+   "t1": 252.62,
+   "t0_used": 249.24,
+   "t1_used": 252.62,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    0.358
+   ],
+   "approx": false,
+   "splits": [
+    251.286
+   ]
+  },
+  {
+   "i": 40,
+   "text": "说散你想很久了吧",
+   "t0": 255.12,
+   "t1": 261.8,
+   "t0_used": 255.12,
+   "t1_used": 261.712,
+   "snapped": true,
+   "snap_deltas": [
+    -0.137,
+    0.088
+   ],
+   "approx": false,
+   "splits": [
+    257.207,
+    259.088
+   ]
+  },
+  {
+   "i": 41,
+   "text": "我的认真败给黑色幽默",
+   "t0": 261.8,
+   "t1": 272.02,
+   "t0_used": 261.712,
+   "t1_used": 272.02,
+   "snapped": true,
+   "snap_deltas": [
+    0.088,
+    -0.141
+   ],
+   "approx": false,
+   "splits": [
+    264.522,
+    266.379,
+    269.328
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 42,
+  "lines_untimed": 0,
+  "lines_snapped": 22,
+  "lines_unsnapped": 20,
+  "lines_need_split": 34,
+  "total_splits": 59
+ },
+ "advisory": true
+}

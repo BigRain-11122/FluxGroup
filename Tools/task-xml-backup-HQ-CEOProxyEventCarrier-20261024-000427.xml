@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>G1 night-window event shift carrier, BLUEPRINT v2 Phase 1-alpha, O-20261014-1745</Description>
+    <URI>\HQ-CEOProxyEventCarrier</URI>
+  </RegistrationInfo>
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-21-218629463-268220586-815392110-1001</UserId>
+      <LogonType>InteractiveToken</LogonType>
+    </Principal>
+  </Principals>
+  <Settings>
+    <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <IdleSettings>
+      <Duration>PT10M</Duration>
+      <WaitTimeout>PT1H</WaitTimeout>
+      <StopOnIdleEnd>true</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+  </Settings>
+  <Triggers>
+    <TimeTrigger>
+      <StartBoundary>2026-10-14T19:11:06+08:00</StartBoundary>
+      <Repetition>
+        <Interval>PT5M</Interval>
+        <Duration>P3650D</Duration>
+        <StopAtDurationEnd>true</StopAtDurationEnd>
+      </Repetition>
+    </TimeTrigger>
+  </Triggers>
+  <Actions Context="Author">
+    <Exec>
+      <Command>wscript.exe</Command>
+      <Arguments>//B //nologo "C:\Users\sjs20\Desktop\FluxGroup\Tools\InvisibleRunner.vbs" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Users\sjs20\Desktop\FluxGroup\Tools\proxy-event-carrier.ps1"</Arguments>
+    </Exec>
+  </Actions>
+</Task>

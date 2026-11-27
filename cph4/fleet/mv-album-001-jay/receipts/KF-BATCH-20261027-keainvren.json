@@ -1,0 +1,19 @@
+{
+ "job": "kf_batch",
+ "pack": "可爱女人 KF-PACK-A（已签发）",
+ "node": "bm-a",
+ "prompts": 30,
+ "done": 30,
+ "failed": 0,
+ "skipped": 0,
+ "out": "D:\\FluxGroup\\media\\mv-test\\keainvren\\batch1",
+ "preflight_lines": 30,
+ "png_count": 30,
+ "total_mb": 29.6,
+ "first": "KN01.png",
+ "last": "KN30.png",
+ "ts": "2026-10-27T23:05",
+ "command": "python Tools/mv_kf_batch.py --prompts D:\\FluxGroup\\media\\mv-test\\keainvren\\prompts.json --out D:\\FluxGroup\\media\\mv-test\\keainvren\\batch1 --limit 30",
+ "mechanism_note": "本次为手动拉起（先停常驻 LLM、ComfyUI lowvram）；下一次用 Tools/fleet/job_kf_batch.py 一条命令完成 acquire->run->receipt->release",
+ "gpu_release": "ComfyUI 已停，MiniGameOllamaKeepWarm/Serve 已恢复，显存回到常驻 4B 基线"
+}

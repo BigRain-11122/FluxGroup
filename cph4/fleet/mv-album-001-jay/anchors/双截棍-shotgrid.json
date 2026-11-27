@@ -1,0 +1,1330 @@
+{
+ "song": "双截棍",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 321,
+  "n_beats": 321,
+  "n_downbeats": 80,
+  "duration_sec": 201.01
+ },
+ "bpm_median": 99.5,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "岩烧店的烟味弥漫",
+   "t0": 29.73,
+   "t1": 31.0,
+   "t0_used": 29.73,
+   "t1_used": 31.022,
+   "snapped": true,
+   "snap_deltas": [
+    -0.108,
+    -0.022
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "隔壁是国术馆",
+   "t0": 31.0,
+   "t1": 32.18,
+   "t0_used": 31.022,
+   "t1_used": 32.206,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "店里面的妈妈桑",
+   "t0": 32.18,
+   "t1": 33.2,
+   "t0_used": 32.206,
+   "t1_used": 33.2,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.167
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "茶道 有三段",
+   "t0": 33.2,
+   "t1": 34.43,
+   "t0_used": 33.2,
+   "t1_used": 34.43,
+   "snapped": false,
+   "snap_deltas": [
+    -0.167,
+    -0.145
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "教拳脚武术的老板",
+   "t0": 34.43,
+   "t1": 35.64,
+   "t0_used": 34.43,
+   "t1_used": 35.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.145,
+    -0.119
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "练铁沙掌 耍杨家枪",
+   "t0": 35.64,
+   "t1": 36.96,
+   "t0_used": 35.64,
+   "t1_used": 36.943,
+   "snapped": true,
+   "snap_deltas": [
+    -0.119,
+    0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "硬底子功夫最擅长",
+   "t0": 36.96,
+   "t1": 38.16,
+   "t0_used": 36.943,
+   "t1_used": 38.127,
+   "snapped": true,
+   "snap_deltas": [
+    0.017,
+    0.033
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "还会金钟罩铁布衫",
+   "t0": 38.16,
+   "t1": 39.46,
+   "t0_used": 38.127,
+   "t1_used": 39.46,
+   "snapped": true,
+   "snap_deltas": [
+    0.033,
+    0.125
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "他们儿子我习惯",
+   "t0": 39.46,
+   "t1": 40.41,
+   "t0_used": 39.46,
+   "t1_used": 40.496,
+   "snapped": true,
+   "snap_deltas": [
+    0.125,
+    -0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "从小就耳濡目染",
+   "t0": 40.41,
+   "t1": 41.65,
+   "t0_used": 40.496,
+   "t1_used": 41.703,
+   "snapped": true,
+   "snap_deltas": [
+    -0.086,
+    -0.053
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "什么刀枪跟棍棒",
+   "t0": 41.65,
+   "t1": 42.62,
+   "t0_used": 41.703,
+   "t1_used": 42.62,
+   "snapped": true,
+   "snap_deltas": [
+    -0.053,
+    -0.267
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "我都耍的有模有样",
+   "t0": 42.62,
+   "t1": 44.24,
+   "t0_used": 42.62,
+   "t1_used": 44.24,
+   "snapped": false,
+   "snap_deltas": [
+    -0.267,
+    0.145
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "什么兵器最喜欢",
+   "t0": 44.24,
+   "t1": 45.24,
+   "t0_used": 44.24,
+   "t1_used": 45.279,
+   "snapped": true,
+   "snap_deltas": [
+    0.145,
+    -0.039
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "双截棍柔中带刚",
+   "t0": 45.24,
+   "t1": 46.3,
+   "t0_used": 45.279,
+   "t1_used": 46.3,
+   "snapped": true,
+   "snap_deltas": [
+    -0.039,
+    -0.163
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "想要去河南嵩山",
+   "t0": 46.3,
+   "t1": 47.48,
+   "t0_used": 46.3,
+   "t1_used": 47.48,
+   "snapped": false,
+   "snap_deltas": [
+    -0.163,
+    -0.167
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "学少林跟武当",
+   "t0": 47.48,
+   "t1": 48.85,
+   "t0_used": 47.48,
+   "t1_used": 48.832,
+   "snapped": true,
+   "snap_deltas": [
+    -0.167,
+    0.018
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "干什么",
+   "t0": 48.85,
+   "t1": 49.39,
+   "t0_used": 48.832,
+   "t1_used": 49.435,
+   "snapped": true,
+   "snap_deltas": [
+    0.018,
+    -0.045
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "干什么",
+   "t0": 49.39,
+   "t1": 50.05,
+   "t0_used": 49.435,
+   "t1_used": 50.039,
+   "snapped": true,
+   "snap_deltas": [
+    -0.045,
+    0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "呼吸吐纳心自在",
+   "t0": 50.05,
+   "t1": 51.1,
+   "t0_used": 50.039,
+   "t1_used": 51.1,
+   "snapped": true,
+   "snap_deltas": [
+    0.011,
+    -0.1
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "干什么",
+   "t0": 51.1,
+   "t1": 51.65,
+   "t0_used": 51.1,
+   "t1_used": 51.65,
+   "snapped": false,
+   "snap_deltas": [
+    -0.1,
+    -0.154
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "干什么",
+   "t0": 51.65,
+   "t1": 52.29,
+   "t0_used": 51.65,
+   "t1_used": 52.29,
+   "snapped": false,
+   "snap_deltas": [
+    -0.154,
+    -0.117
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "气沉丹田手心开",
+   "t0": 52.29,
+   "t1": 53.41,
+   "t0_used": 52.29,
+   "t1_used": 53.41,
+   "snapped": false,
+   "snap_deltas": [
+    -0.117,
+    -0.158
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "干什么",
+   "t0": 53.41,
+   "t1": 53.91,
+   "t0_used": 53.41,
+   "t1_used": 53.91,
+   "snapped": false,
+   "snap_deltas": [
+    -0.158,
+    -0.262
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "干什么",
+   "t0": 53.91,
+   "t1": 54.74,
+   "t0_used": 53.91,
+   "t1_used": 54.776,
+   "snapped": true,
+   "snap_deltas": [
+    -0.262,
+    -0.036
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "日行千里系沙袋",
+   "t0": 54.74,
+   "t1": 55.79,
+   "t0_used": 54.776,
+   "t1_used": 55.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.036,
+    -0.147
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "飞檐走壁莫奇怪",
+   "t0": 55.79,
+   "t1": 57.12,
+   "t0_used": 55.79,
+   "t1_used": 57.121,
+   "snapped": true,
+   "snap_deltas": [
+    -0.147,
+    -0.001
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "去去就来",
+   "t0": 57.12,
+   "t1": 58.03,
+   "t0_used": 57.121,
+   "t1_used": 58.03,
+   "snapped": true,
+   "snap_deltas": [
+    -0.001,
+    -0.275
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "一个马步向前",
+   "t0": 58.03,
+   "t1": 59.46,
+   "t0_used": 58.03,
+   "t1_used": 59.536,
+   "snapped": true,
+   "snap_deltas": [
+    -0.275,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "一记左钩拳右钩拳",
+   "t0": 59.46,
+   "t1": 61.21,
+   "t0_used": 59.536,
+   "t1_used": 61.21,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.114
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "一句惹毛我的人有危险",
+   "t0": 61.21,
+   "t1": 62.91,
+   "t0_used": 61.21,
+   "t1_used": 62.91,
+   "snapped": false,
+   "snap_deltas": [
+    -0.114,
+    -0.179
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "一再重演",
+   "t0": 62.91,
+   "t1": 63.7,
+   "t0_used": 62.91,
+   "t1_used": 63.692,
+   "snapped": true,
+   "snap_deltas": [
+    -0.179,
+    0.008
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "一根我不抽的烟",
+   "t0": 63.7,
+   "t1": 64.85,
+   "t0_used": 63.692,
+   "t1_used": 64.877,
+   "snapped": true,
+   "snap_deltas": [
+    0.008,
+    -0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "一放好多年",
+   "t0": 64.85,
+   "t1": 65.83,
+   "t0_used": 64.877,
+   "t1_used": 65.83,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    -0.231
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "它一直在身边",
+   "t0": 65.83,
+   "t1": 67.69,
+   "t0_used": 65.83,
+   "t1_used": 67.69,
+   "snapped": false,
+   "snap_deltas": [
+    -0.231,
+    -0.159
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "干什么",
+   "t0": 67.69,
+   "t1": 68.19,
+   "t0_used": 67.69,
+   "t1_used": 68.19,
+   "snapped": false,
+   "snap_deltas": [
+    -0.159,
+    -0.262
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "干什么",
+   "t0": 68.19,
+   "t1": 68.9,
+   "t0_used": 68.19,
+   "t1_used": 68.9,
+   "snapped": false,
+   "snap_deltas": [
+    -0.262,
+    -0.156
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "我打开任督二脉",
+   "t0": 68.9,
+   "t1": 70.03,
+   "t0_used": 68.9,
+   "t1_used": 70.03,
+   "snapped": false,
+   "snap_deltas": [
+    -0.156,
+    -0.187
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "干什么",
+   "t0": 70.03,
+   "t1": 70.67,
+   "t0_used": 70.03,
+   "t1_used": 70.67,
+   "snapped": false,
+   "snap_deltas": [
+    -0.187,
+    -0.151
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "干什么",
+   "t0": 70.67,
+   "t1": 71.31,
+   "t0_used": 70.67,
+   "t1_used": 71.31,
+   "snapped": false,
+   "snap_deltas": [
+    -0.151,
+    -0.115
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "东亚病夫的招牌",
+   "t0": 71.31,
+   "t1": 72.46,
+   "t0_used": 71.31,
+   "t1_used": 72.46,
+   "snapped": false,
+   "snap_deltas": [
+    -0.115,
+    -0.149
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "干什么",
+   "t0": 72.46,
+   "t1": 73.08,
+   "t0_used": 72.46,
+   "t1_used": 73.08,
+   "snapped": false,
+   "snap_deltas": [
+    -0.149,
+    -0.109
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "干什么",
+   "t0": 73.08,
+   "t1": 73.72,
+   "t0_used": 73.08,
+   "t1_used": 73.793,
+   "snapped": true,
+   "snap_deltas": [
+    -0.109,
+    -0.073
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "已被我一脚踢开",
+   "t0": 73.72,
+   "t1": 76.21,
+   "t0_used": 73.793,
+   "t1_used": 76.185,
+   "snapped": true,
+   "snap_deltas": [
+    -0.073,
+    0.025
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 76.21,
+   "t1": 78.44,
+   "t0_used": 76.185,
+   "t1_used": 78.53,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    -0.09
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 78.44,
+   "t1": 80.78,
+   "t0_used": 78.53,
+   "t1_used": 80.78,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.142
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "习武之人切记 仁者无敌",
+   "t0": 80.78,
+   "t1": 83.09,
+   "t0_used": 80.78,
+   "t1_used": 83.09,
+   "snapped": false,
+   "snap_deltas": [
+    -0.142,
+    -0.2
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "是谁在练太极 风生水起",
+   "t0": 83.09,
+   "t1": 85.5,
+   "t0_used": 83.09,
+   "t1_used": 85.5,
+   "snapped": false,
+   "snap_deltas": [
+    -0.2,
+    -0.182
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 85.5,
+   "t1": 87.88,
+   "t0_used": 85.5,
+   "t1_used": 87.88,
+   "snapped": false,
+   "snap_deltas": [
+    -0.182,
+    -0.17
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 87.88,
+   "t1": 90.27,
+   "t0_used": 87.88,
+   "t1_used": 90.27,
+   "snapped": false,
+   "snap_deltas": [
+    -0.17,
+    -0.149
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "如果我有轻功 飞檐走壁",
+   "t0": 90.27,
+   "t1": 92.58,
+   "t0_used": 90.27,
+   "t1_used": 92.58,
+   "snapped": false,
+   "snap_deltas": [
+    -0.149,
+    -0.207
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "为人耿直不屈 一身正气",
+   "t0": 92.58,
+   "t1": 95.93,
+   "t0_used": 92.58,
+   "t1_used": 95.93,
+   "snapped": false,
+   "snap_deltas": [
+    -0.207,
+    0.148
+   ],
+   "approx": false,
+   "splits": [
+    93.994
+   ]
+  },
+  {
+   "i": 51,
+   "text": "他们儿子我习惯",
+   "t0": 95.93,
+   "t1": 97.15,
+   "t0_used": 95.93,
+   "t1_used": 97.15,
+   "snapped": false,
+   "snap_deltas": [
+    0.148,
+    0.183
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "从小就耳濡目染",
+   "t0": 97.15,
+   "t1": 98.29,
+   "t0_used": 97.15,
+   "t1_used": 98.29,
+   "snapped": false,
+   "snap_deltas": [
+    0.183,
+    0.139
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "什么刀枪跟棍棒",
+   "t0": 98.29,
+   "t1": 99.48,
+   "t0_used": 98.29,
+   "t1_used": 99.48,
+   "snapped": false,
+   "snap_deltas": [
+    0.139,
+    0.145
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "我都耍的有模有样",
+   "t0": 99.48,
+   "t1": 100.78,
+   "t0_used": 99.48,
+   "t1_used": 100.78,
+   "snapped": false,
+   "snap_deltas": [
+    0.145,
+    0.238
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "什么兵器最喜欢",
+   "t0": 100.78,
+   "t1": 101.86,
+   "t0_used": 100.78,
+   "t1_used": 101.86,
+   "snapped": false,
+   "snap_deltas": [
+    0.238,
+    0.133
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "双截棍柔中带刚",
+   "t0": 101.86,
+   "t1": 102.91,
+   "t0_used": 101.86,
+   "t1_used": 102.911,
+   "snapped": true,
+   "snap_deltas": [
+    0.133,
+    -0.001
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 57,
+   "text": "想要去河南嵩山",
+   "t0": 102.91,
+   "t1": 104.34,
+   "t0_used": 102.911,
+   "t1_used": 104.34,
+   "snapped": true,
+   "snap_deltas": [
+    -0.001,
+    0.245
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "学少林跟武当",
+   "t0": 104.34,
+   "t1": 114.29,
+   "t0_used": 104.34,
+   "t1_used": 114.219,
+   "snapped": true,
+   "snap_deltas": [
+    0.245,
+    0.071
+   ],
+   "approx": false,
+   "splits": [
+    107.067,
+    109.436,
+    111.827
+   ]
+  },
+  {
+   "i": 59,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 114.29,
+   "t1": 116.4,
+   "t0_used": 114.219,
+   "t1_used": 116.4,
+   "snapped": true,
+   "snap_deltas": [
+    0.071,
+    -0.164
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 116.4,
+   "t1": 118.76,
+   "t0_used": 116.4,
+   "t1_used": 118.76,
+   "snapped": false,
+   "snap_deltas": [
+    -0.164,
+    -0.196
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "习武之人切记 仁者无敌",
+   "t0": 118.76,
+   "t1": 121.08,
+   "t0_used": 118.76,
+   "t1_used": 121.08,
+   "snapped": false,
+   "snap_deltas": [
+    -0.196,
+    -0.244
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 62,
+   "text": "是谁在练太极 风生水起",
+   "t0": 121.08,
+   "t1": 123.54,
+   "t0_used": 121.08,
+   "t1_used": 123.54,
+   "snapped": false,
+   "snap_deltas": [
+    -0.244,
+    -0.176
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 63,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 123.54,
+   "t1": 125.93,
+   "t0_used": 123.54,
+   "t1_used": 125.93,
+   "snapped": false,
+   "snap_deltas": [
+    -0.176,
+    -0.154
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 64,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 125.93,
+   "t1": 128.32,
+   "t0_used": 125.93,
+   "t1_used": 128.32,
+   "snapped": false,
+   "snap_deltas": [
+    -0.154,
+    -0.133
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 65,
+   "text": "如果我有轻功 飞檐走壁",
+   "t0": 128.32,
+   "t1": 130.64,
+   "t0_used": 128.32,
+   "t1_used": 130.64,
+   "snapped": false,
+   "snap_deltas": [
+    -0.133,
+    -0.181
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 66,
+   "text": "为人耿直不屈 一身正气",
+   "t0": 130.64,
+   "t1": 133.84,
+   "t0_used": 130.64,
+   "t1_used": 133.817,
+   "snapped": true,
+   "snap_deltas": [
+    -0.181,
+    0.023
+   ],
+   "approx": false,
+   "splits": [
+    132.005
+   ]
+  },
+  {
+   "i": 67,
+   "text": "他们儿子我习惯",
+   "t0": 133.84,
+   "t1": 135.08,
+   "t0_used": 133.817,
+   "t1_used": 135.08,
+   "snapped": true,
+   "snap_deltas": [
+    0.023,
+    0.102
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 68,
+   "text": "从小就耳濡目染",
+   "t0": 135.08,
+   "t1": 136.26,
+   "t0_used": 135.08,
+   "t1_used": 136.185,
+   "snapped": true,
+   "snap_deltas": [
+    0.102,
+    0.075
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 69,
+   "text": "什么刀枪跟棍棒",
+   "t0": 136.26,
+   "t1": 137.45,
+   "t0_used": 136.185,
+   "t1_used": 137.369,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    0.081
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "我都耍的有模有样",
+   "t0": 137.45,
+   "t1": 138.74,
+   "t0_used": 137.369,
+   "t1_used": 138.74,
+   "snapped": true,
+   "snap_deltas": [
+    0.081,
+    0.187
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 71,
+   "text": "什么兵器最喜欢",
+   "t0": 138.74,
+   "t1": 139.86,
+   "t0_used": 138.74,
+   "t1_used": 139.86,
+   "snapped": false,
+   "snap_deltas": [
+    0.187,
+    0.122
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 72,
+   "text": "双截棍柔中带刚",
+   "t0": 139.86,
+   "t1": 140.97,
+   "t0_used": 139.86,
+   "t1_used": 140.922,
+   "snapped": true,
+   "snap_deltas": [
+    0.122,
+    0.048
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 73,
+   "text": "想要去河南嵩山",
+   "t0": 140.97,
+   "t1": 142.3,
+   "t0_used": 140.922,
+   "t1_used": 142.3,
+   "snapped": true,
+   "snap_deltas": [
+    0.048,
+    0.171
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 74,
+   "text": "学少林跟武当",
+   "t0": 142.3,
+   "t1": 152.34,
+   "t0_used": 142.3,
+   "t1_used": 152.34,
+   "snapped": false,
+   "snap_deltas": [
+    0.171,
+    0.273
+   ],
+   "approx": false,
+   "splits": [
+    145.101,
+    147.47,
+    149.838
+   ]
+  },
+  {
+   "i": 75,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 152.34,
+   "t1": 154.44,
+   "t0_used": 152.34,
+   "t1_used": 154.44,
+   "snapped": false,
+   "snap_deltas": [
+    0.273,
+    -0.158
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 76,
+   "text": "快使用双截棍 哼哼哈兮",
+   "t0": 154.44,
+   "t1": 156.78,
+   "t0_used": 154.44,
+   "t1_used": 156.78,
+   "snapped": false,
+   "snap_deltas": [
+    -0.158,
+    -0.21
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 77,
+   "text": "习武之人切记 仁者无敌",
+   "t0": 156.78,
+   "t1": 159.09,
+   "t0_used": 156.78,
+   "t1_used": 159.09,
+   "snapped": false,
+   "snap_deltas": [
+    -0.21,
+    -0.269
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 78,
+   "text": "是谁在练太极 风生水起",
+   "t0": 159.09,
+   "t1": 161.53,
+   "t0_used": 159.09,
+   "t1_used": 161.53,
+   "snapped": false,
+   "snap_deltas": [
+    -0.269,
+    -0.197
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 79,
+   "text": "快使用双截棍 哼",
+   "t0": 161.53,
+   "t1": 164.13,
+   "t0_used": 161.53,
+   "t1_used": 164.095,
+   "snapped": true,
+   "snap_deltas": [
+    -0.197,
+    0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 80,
+   "text": "快使用双截棍 哼",
+   "t0": 164.13,
+   "t1": 166.47,
+   "t0_used": 164.095,
+   "t1_used": 166.487,
+   "snapped": true,
+   "snap_deltas": [
+    0.035,
+    -0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 81,
+   "text": "如果我有轻功 哼",
+   "t0": 166.47,
+   "t1": 168.7,
+   "t0_used": 166.487,
+   "t1_used": 168.7,
+   "snapped": true,
+   "snap_deltas": [
+    -0.017,
+    -0.156
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 82,
+   "text": "为人耿直不屈 一身正气 哼",
+   "t0": 168.7,
+   "t1": 173.61,
+   "t0_used": 168.7,
+   "t1_used": 173.616,
+   "snapped": true,
+   "snap_deltas": [
+    -0.156,
+    -0.006
+   ],
+   "approx": false,
+   "splits": [
+    171.247
+   ]
+  },
+  {
+   "i": 83,
+   "text": "快使用双截棍 哼",
+   "t0": 173.61,
+   "t1": 175.68,
+   "t0_used": 173.616,
+   "t1_used": 175.68,
+   "snapped": true,
+   "snap_deltas": [
+    -0.006,
+    0.276
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 84,
+   "text": "我用手刀防御 哼",
+   "t0": 175.68,
+   "t1": 178.26,
+   "t0_used": 175.68,
+   "t1_used": 178.26,
+   "snapped": false,
+   "snap_deltas": [
+    0.276,
+    -0.116
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 85,
+   "text": "漂亮的回旋踢",
+   "t0": 178.26,
+   "t1": 181.26,
+   "t0_used": 178.26,
+   "t1_used": 181.325,
+   "snapped": true,
+   "snap_deltas": [
+    -0.116,
+    -0.065
+   ],
+   "approx": false,
+   "splits": [
+    179.537
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 86,
+  "lines_untimed": 0,
+  "lines_snapped": 45,
+  "lines_unsnapped": 41,
+  "lines_need_split": 6,
+  "total_splits": 10
+ },
+ "advisory": true
+}

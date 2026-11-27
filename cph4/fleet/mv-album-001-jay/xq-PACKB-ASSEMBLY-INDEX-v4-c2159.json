@@ -1,0 +1,1323 @@
+{
+ "schema": "xq-packb-assembly-index/v3",
+ "batch": "C2159",
+ "ts": "2026-10-24T00:26:02+08:00",
+ "project": "mv0001-xingqing",
+ "edl": "v5",
+ "why": "Director seat returned REVISE on v2. This pass closes R1 (title card), R2 (edit language), R3 (opening prop out of focus) and R5 (tail plate protection) on the picture side, keeps the frame grid and carries the v3 audio over untouched.",
+ "fps": 24,
+ "timeline_seconds": 238.0,
+ "timeline_frames": 5712,
+ "slots": null,
+ "units": 40,
+ "cut_frames": 5712,
+ "drift_frames": 0,
+ "deficit_frames": 0,
+ "padded_frames": 0,
+ "clips": [
+  {
+   "shot": "F0-01a",
+   "file": "clips-packA-768/XQ_F0-01a.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 48,
+   "want_frames": 48,
+   "deficit_frames": 0,
+   "slot": [
+    0.0,
+    2.0
+   ],
+   "timeline_frames": [
+    0,
+    48
+   ],
+   "timeline": [
+    0.0,
+    2.0
+   ],
+   "cut_span": 2.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 48,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "F0-01b",
+   "file": "clips-packA-768/XQ_F0-01b.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 48,
+   "want_frames": 48,
+   "deficit_frames": 0,
+   "slot": [
+    2.0,
+    4.0
+   ],
+   "timeline_frames": [
+    48,
+    96
+   ],
+   "timeline": [
+    2.0,
+    4.0
+   ],
+   "cut_span": 2.0,
+   "transition": {
+    "type": "dissolve",
+    "frames": 6,
+    "xfade": "fade"
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 6,
+   "out_frames": 54,
+   "pad_frames": 0,
+   "used_headroom": 6
+  },
+  {
+   "shot": "S0-02",
+   "file": "clips-packA-768/XQ_S0-02.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 48,
+   "want_frames": 48,
+   "deficit_frames": 0,
+   "slot": [
+    4.0,
+    6.0
+   ],
+   "timeline_frames": [
+    96,
+    144
+   ],
+   "timeline": [
+    4.0,
+    6.0
+   ],
+   "cut_span": 2.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 48,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S0-03",
+   "file": "clips-packA-768/XQ_S0-03.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    6.0,
+    12.0
+   ],
+   "timeline_frames": [
+    144,
+    288
+   ],
+   "timeline": [
+    6.0,
+    12.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S0-04",
+   "file": "clips-packA-768/XQ_S0-04.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    12.0,
+    18.0
+   ],
+   "timeline_frames": [
+    288,
+    432
+   ],
+   "timeline": [
+    12.0,
+    18.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S0-05",
+   "file": "clips-packA-768/XQ_S0-05.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    18.0,
+    24.0
+   ],
+   "timeline_frames": [
+    432,
+    576
+   ],
+   "timeline": [
+    18.0,
+    24.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S0-06",
+   "file": "clips-packA-768/XQ_S0-06.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    24.0,
+    30.0
+   ],
+   "timeline_frames": [
+    576,
+    720
+   ],
+   "timeline": [
+    24.0,
+    30.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S1-07",
+   "file": "clips-packA-768/XQ_S1-07.mp4",
+   "src_frames": 226,
+   "in_frame": 0,
+   "frames": 195,
+   "want_frames": 192,
+   "deficit_frames": 0,
+   "slot": [
+    30.0,
+    38.0
+   ],
+   "timeline_frames": [
+    720,
+    915
+   ],
+   "timeline": [
+    30.0,
+    38.125
+   ],
+   "cut_span": 8.125,
+   "transition": {
+    "type": "motion",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 195,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S1-08",
+   "file": "clips-local-768/XQ_B-S1-08.mp4",
+   "src_frames": 141,
+   "in_frame": 0,
+   "frames": 141,
+   "want_frames": 141,
+   "deficit_frames": 0,
+   "slot": [
+    38.0,
+    44.0
+   ],
+   "timeline_frames": [
+    915,
+    1056
+   ],
+   "timeline": [
+    38.125,
+    44.0
+   ],
+   "cut_span": 5.875,
+   "transition": {
+    "type": "blur",
+    "frames": 8,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 8,
+   "tail_frames": 0,
+   "out_frames": 141,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S1-09",
+   "file": "clips-packA-768/XQ_S1-09.mp4",
+   "src_frames": 226,
+   "in_frame": 0,
+   "frames": 226,
+   "want_frames": 226,
+   "deficit_frames": 0,
+   "slot": [
+    44.0,
+    53.417
+   ],
+   "timeline_frames": [
+    1056,
+    1282
+   ],
+   "timeline": [
+    44.0,
+    53.4167
+   ],
+   "cut_span": 9.4167,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 8,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 226,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-10",
+   "file": "clips-packA-768/XQ_S2-10.mp4",
+   "src_frames": 226,
+   "in_frame": 0,
+   "frames": 206,
+   "want_frames": 206,
+   "deficit_frames": 0,
+   "slot": [
+    53.417,
+    62.0
+   ],
+   "timeline_frames": [
+    1282,
+    1488
+   ],
+   "timeline": [
+    53.4167,
+    62.0
+   ],
+   "cut_span": 8.5833,
+   "transition": {
+    "type": "motion",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 206,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-11",
+   "file": "clips-packA-768/XQ_S2-11.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 40,
+   "want_frames": 40,
+   "deficit_frames": 0,
+   "slot": [
+    62.0,
+    67.0
+   ],
+   "timeline_frames": [
+    1488,
+    1528
+   ],
+   "timeline": [
+    62.0,
+    63.6667
+   ],
+   "cut_span": 1.6667,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 40,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-12",
+   "file": "clips-packA-768/XQ_S2-12.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 40,
+   "want_frames": 40,
+   "deficit_frames": 0,
+   "slot": [
+    62.0,
+    67.0
+   ],
+   "timeline_frames": [
+    1528,
+    1568
+   ],
+   "timeline": [
+    63.6667,
+    65.3333
+   ],
+   "cut_span": 1.6667,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 40,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-13",
+   "file": "clips-packA-768/XQ_S2-13.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 40,
+   "want_frames": 40,
+   "deficit_frames": 0,
+   "slot": [
+    62.0,
+    67.0
+   ],
+   "timeline_frames": [
+    1568,
+    1608
+   ],
+   "timeline": [
+    65.3333,
+    67.0
+   ],
+   "cut_span": 1.6667,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 40,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-14",
+   "file": "clips-packA-redo-r1/XQ_S2-14-redo-r1.mp4",
+   "src_frames": 243,
+   "in_frame": 0,
+   "frames": 216,
+   "want_frames": 216,
+   "deficit_frames": 0,
+   "slot": [
+    67.0,
+    76.0
+   ],
+   "timeline_frames": [
+    1608,
+    1824
+   ],
+   "timeline": [
+    67.0,
+    76.0
+   ],
+   "cut_span": 9.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 216,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-15",
+   "file": "clips-packA-768/XQ_S2-15.mp4",
+   "src_frames": 226,
+   "in_frame": 0,
+   "frames": 192,
+   "want_frames": 192,
+   "deficit_frames": 0,
+   "slot": [
+    76.0,
+    84.0
+   ],
+   "timeline_frames": [
+    1824,
+    2016
+   ],
+   "timeline": [
+    76.0,
+    84.0
+   ],
+   "cut_span": 8.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 192,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S2-16",
+   "file": "clips-packA-768/XQ_S2-16.mp4",
+   "src_frames": 328,
+   "in_frame": 0,
+   "frames": 288,
+   "want_frames": 288,
+   "deficit_frames": 0,
+   "slot": [
+    84.0,
+    96.0
+   ],
+   "timeline_frames": [
+    2016,
+    2304
+   ],
+   "timeline": [
+    84.0,
+    96.0
+   ],
+   "cut_span": 12.0,
+   "transition": {
+    "type": "dissolve",
+    "frames": 8,
+    "xfade": "fade"
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 8,
+   "out_frames": 296,
+   "pad_frames": 0,
+   "used_headroom": 8
+  },
+  {
+   "shot": "S3-18",
+   "file": "clips-packA-768/XQ_S3-18.mp4",
+   "src_frames": 226,
+   "in_frame": 0,
+   "frames": 216,
+   "want_frames": 216,
+   "deficit_frames": 0,
+   "slot": [
+    95.6,
+    105.017
+   ],
+   "timeline_frames": [
+    2304,
+    2520
+   ],
+   "timeline": [
+    96.0,
+    105.0
+   ],
+   "cut_span": 9.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 216,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S3-18cont",
+   "file": "clips-local-768/XQ_B-S3-18cont.mp4",
+   "src_frames": 124,
+   "in_frame": 0,
+   "frames": 120,
+   "want_frames": 120,
+   "deficit_frames": 0,
+   "slot": [
+    105.017,
+    110.0
+   ],
+   "timeline_frames": [
+    2520,
+    2640
+   ],
+   "timeline": [
+    105.0,
+    110.0
+   ],
+   "cut_span": 5.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 120,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S3-19",
+   "file": "clips-packA-redo-r1/XQ_S3-19-redo-r1.mp4",
+   "src_frames": 277,
+   "in_frame": 0,
+   "frames": 240,
+   "want_frames": 240,
+   "deficit_frames": 0,
+   "slot": [
+    110.0,
+    120.0
+   ],
+   "timeline_frames": [
+    2640,
+    2880
+   ],
+   "timeline": [
+    110.0,
+    120.0
+   ],
+   "cut_span": 10.0,
+   "transition": {
+    "type": "blur",
+    "frames": 8,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 8,
+   "tail_frames": 0,
+   "out_frames": 240,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S3-20",
+   "file": "clips-packA-redo-r1/XQ_S3-20-redo-r1.mp4",
+   "src_frames": 328,
+   "in_frame": 0,
+   "frames": 288,
+   "want_frames": 288,
+   "deficit_frames": 0,
+   "slot": [
+    120.0,
+    132.0
+   ],
+   "timeline_frames": [
+    2880,
+    3168
+   ],
+   "timeline": [
+    120.0,
+    132.0
+   ],
+   "cut_span": 12.0,
+   "transition": {
+    "type": "blur",
+    "frames": 8,
+    "xfade": null
+   },
+   "head_blur": 8,
+   "tail_blur": 8,
+   "tail_frames": 0,
+   "out_frames": 288,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S3-21",
+   "file": "clips-local-768/XQ_B-S3-21.mp4",
+   "src_frames": 226,
+   "in_frame": 0,
+   "frames": 210,
+   "want_frames": 210,
+   "deficit_frames": 0,
+   "slot": [
+    132.0,
+    140.76
+   ],
+   "timeline_frames": [
+    3168,
+    3378
+   ],
+   "timeline": [
+    132.0,
+    140.75
+   ],
+   "cut_span": 8.75,
+   "transition": {
+    "type": "dissolve",
+    "frames": 8,
+    "xfade": "fade"
+   },
+   "head_blur": 8,
+   "tail_blur": 0,
+   "tail_frames": 8,
+   "out_frames": 218,
+   "pad_frames": 0,
+   "used_headroom": 8
+  },
+  {
+   "shot": "S4-22",
+   "file": "clips-packA-redo-r1/XQ_S4-22-redo-r1.mp4",
+   "src_frames": 141,
+   "in_frame": 0,
+   "frames": 126,
+   "want_frames": 126,
+   "deficit_frames": 0,
+   "slot": [
+    140.76,
+    146.0
+   ],
+   "timeline_frames": [
+    3378,
+    3504
+   ],
+   "timeline": [
+    140.75,
+    146.0
+   ],
+   "cut_span": 5.25,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 126,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S4-23",
+   "file": "clips-packA-768/XQ_S4-23.mp4",
+   "src_frames": 328,
+   "in_frame": 0,
+   "frames": 288,
+   "want_frames": 288,
+   "deficit_frames": 0,
+   "slot": [
+    146.0,
+    158.0
+   ],
+   "timeline_frames": [
+    3504,
+    3792
+   ],
+   "timeline": [
+    146.0,
+    158.0
+   ],
+   "cut_span": 12.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 288,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S4-24",
+   "file": "clips-packA-redo-r1/XQ_S4-24-redo-r1.mp4",
+   "src_frames": 141,
+   "in_frame": 0,
+   "frames": 116,
+   "want_frames": 116,
+   "deficit_frames": 0,
+   "slot": [
+    158.0,
+    162.82
+   ],
+   "timeline_frames": [
+    3792,
+    3908
+   ],
+   "timeline": [
+    158.0,
+    162.8333
+   ],
+   "cut_span": 4.8333,
+   "transition": {
+    "type": "dissolve",
+    "frames": 8,
+    "xfade": "fade"
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 8,
+   "out_frames": 124,
+   "pad_frames": 0,
+   "used_headroom": 8
+  },
+  {
+   "shot": "S5-25",
+   "file": "clips-packA-768/XQ_S5-25.mp4",
+   "src_frames": 260,
+   "in_frame": 0,
+   "frames": 220,
+   "want_frames": 220,
+   "deficit_frames": 0,
+   "slot": [
+    162.82,
+    172.0
+   ],
+   "timeline_frames": [
+    3908,
+    4128
+   ],
+   "timeline": [
+    162.8333,
+    172.0
+   ],
+   "cut_span": 9.1667,
+   "transition": {
+    "type": "dissolve",
+    "frames": 10,
+    "xfade": "fade"
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 10,
+   "out_frames": 230,
+   "pad_frames": 0,
+   "used_headroom": 10
+  },
+  {
+   "shot": "S5-26",
+   "file": "clips-packA-768/XQ_S5-26.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 56,
+   "slot": [
+    172.0,
+    186.0
+   ],
+   "timeline_frames": [
+    4128,
+    4184
+   ],
+   "timeline": [
+    172.0,
+    174.3333
+   ],
+   "cut_span": 2.3333,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 56,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-27",
+   "file": "clips-packA-768/XQ_S5-27.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 56,
+   "slot": [
+    172.0,
+    186.0
+   ],
+   "timeline_frames": [
+    4184,
+    4240
+   ],
+   "timeline": [
+    174.3333,
+    176.6667
+   ],
+   "cut_span": 2.3333,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 56,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-28",
+   "file": "clips-packA-768/XQ_S5-28.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 56,
+   "slot": [
+    172.0,
+    186.0
+   ],
+   "timeline_frames": [
+    4240,
+    4296
+   ],
+   "timeline": [
+    176.6667,
+    179.0
+   ],
+   "cut_span": 2.3333,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 56,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-26",
+   "file": "clips-packA-768/XQ_S5-26.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 56,
+   "slot": [
+    172.0,
+    186.0
+   ],
+   "timeline_frames": [
+    4296,
+    4352
+   ],
+   "timeline": [
+    179.0,
+    181.3333
+   ],
+   "cut_span": 2.3333,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 56,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-27",
+   "file": "clips-packA-768/XQ_S5-27.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 56,
+   "slot": [
+    172.0,
+    186.0
+   ],
+   "timeline_frames": [
+    4352,
+    4408
+   ],
+   "timeline": [
+    181.3333,
+    183.6667
+   ],
+   "cut_span": 2.3333,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 56,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-28",
+   "file": "clips-packA-768/XQ_S5-28.mp4",
+   "src_frames": 56,
+   "in_frame": 0,
+   "frames": 56,
+   "slot": [
+    172.0,
+    186.0
+   ],
+   "timeline_frames": [
+    4408,
+    4464
+   ],
+   "timeline": [
+    183.6667,
+    186.0
+   ],
+   "cut_span": 2.3333,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 56,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-29",
+   "file": "clips-packA-768/XQ_S5-29.mp4",
+   "src_frames": 277,
+   "in_frame": 0,
+   "frames": 240,
+   "want_frames": 240,
+   "deficit_frames": 0,
+   "slot": [
+    186.0,
+    196.0
+   ],
+   "timeline_frames": [
+    4464,
+    4704
+   ],
+   "timeline": [
+    186.0,
+    196.0
+   ],
+   "cut_span": 10.0,
+   "transition": {
+    "type": "motion",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 240,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-30",
+   "file": "clips-packA-768/XQ_S5-30.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    196.0,
+    202.0
+   ],
+   "timeline_frames": [
+    4704,
+    4848
+   ],
+   "timeline": [
+    196.0,
+    202.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "blur",
+    "frames": 8,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 8,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-31",
+   "file": "clips-local-768/XQ_B-S5-31.mp4",
+   "src_frames": 277,
+   "in_frame": 0,
+   "frames": 240,
+   "want_frames": 240,
+   "deficit_frames": 0,
+   "slot": [
+    202.0,
+    212.0
+   ],
+   "timeline_frames": [
+    4848,
+    5088
+   ],
+   "timeline": [
+    202.0,
+    212.0
+   ],
+   "cut_span": 10.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 8,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 240,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "S5-32",
+   "file": "clips-packA-768/XQ_S5-32.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    212.0,
+    218.0
+   ],
+   "timeline_frames": [
+    5088,
+    5232
+   ],
+   "timeline": [
+    212.0,
+    218.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "F5-33a",
+   "file": "clips-packA-redo-r1/XQ_F5-33a-redo-r1.mp4",
+   "src_frames": 107,
+   "in_frame": 0,
+   "frames": 96,
+   "want_frames": 96,
+   "deficit_frames": 0,
+   "slot": [
+    218.0,
+    222.0
+   ],
+   "timeline_frames": [
+    5232,
+    5328
+   ],
+   "timeline": [
+    218.0,
+    222.0
+   ],
+   "cut_span": 4.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 96,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "F5-33b",
+   "file": "clips-packA-768/XQ_F5-33b.mp4",
+   "src_frames": 107,
+   "in_frame": 0,
+   "frames": 96,
+   "want_frames": 96,
+   "deficit_frames": 0,
+   "slot": [
+    222.0,
+    226.0
+   ],
+   "timeline_frames": [
+    5328,
+    5424
+   ],
+   "timeline": [
+    222.0,
+    226.0
+   ],
+   "cut_span": 4.0,
+   "transition": {
+    "type": "cut",
+    "frames": 0,
+    "xfade": null
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 96,
+   "pad_frames": 0,
+   "used_headroom": 0
+  },
+  {
+   "shot": "F5-33c",
+   "file": "clips-packA-768/XQ_F5-33c.mp4",
+   "src_frames": 158,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    226.0,
+    232.0
+   ],
+   "timeline_frames": [
+    5424,
+    5568
+   ],
+   "timeline": [
+    226.0,
+    232.0
+   ],
+   "cut_span": 6.0,
+   "transition": {
+    "type": "dissolve",
+    "frames": 10,
+    "xfade": "fade"
+   },
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 10,
+   "out_frames": 154,
+   "pad_frames": 0,
+   "used_headroom": 10
+  },
+  {
+   "shot": "F5-34",
+   "file": "clips-packA-768/XQ_F5-34.mp4",
+   "src_frames": 175,
+   "in_frame": 0,
+   "frames": 144,
+   "want_frames": 144,
+   "deficit_frames": 0,
+   "slot": [
+    232.0,
+    238.0
+   ],
+   "timeline_frames": [
+    5568,
+    5712
+   ],
+   "timeline": [
+    232.0,
+    238.0
+   ],
+   "cut_span": 6.0,
+   "transition": null,
+   "head_blur": 0,
+   "tail_blur": 0,
+   "tail_frames": 0,
+   "out_frames": 144,
+   "pad_frames": 0,
+   "used_headroom": 0
+  }
+ ]
+}

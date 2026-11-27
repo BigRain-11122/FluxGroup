@@ -1,0 +1,87 @@
+{
+  "_doc": "苏州地产市场基线。每个数字必须带 src（出处）与 tier（证据等级）。T0=我方实测官方原始数据；T1=机构正式报告；T2=机构/本地号二手转述；T3=平台挂牌（仅参考）。改数必须同时改 src 与 asof。",
+  "asof": "2026-11-16",
+  "market": {
+    "secondhand_psm": {
+      "v": 14486, "unit": "元/㎡",
+      "src": "苏州洪观楼市 / 买房梦想家 2026-11-04（10月二手均价，下半年横盘）",
+      "tier": "T2"
+    },
+    "newhome_psm_ytd": {
+      "v": 27113, "unit": "元/㎡",
+      "src": "克而瑞苏州房产测评 2026-11-02（2026年1-10月市区新建商品住宅成交均价）",
+      "tier": "T1"
+    },
+    "inventory_units": {
+      "v": 42771, "unit": "套",
+      "src": "中策行地产顾问 2026-11-13（截至2026-10-31 市区商品住宅库存，总量与去化周期双降）",
+      "tier": "T2"
+    },
+    "newhome_monthly_units": {
+      "v": 2021, "unit": "套/月",
+      "src": "苏州洪观楼市 2026-11-04（10月新房网签，环比+20%）",
+      "tier": "T2"
+    },
+    "secondhand_monthly_units": {
+      "v": 5084, "unit": "套/月",
+      "src": "苏州洪观楼市 2026-11-04（10月二手网签；经套均面积校验：55万㎡/5084=108㎡ 与官方103.3㎡吻合，另一说法3444套反算160㎡/套不可信）",
+      "tier": "T2"
+    },
+    "secondhand_monthly_area_wm2": {
+      "v": 55, "unit": "万㎡/月",
+      "src": "戈文问说楼市 2026-11-02（10月二手成交面积，同比+38%）",
+      "tier": "T2"
+    },
+    "avg_unit_area_secondhand": {
+      "v": 103.3, "unit": "㎡/套",
+      "src": "房管局 2026-11-16 实测（六区二手住宅均套面积）",
+      "tier": "T0"
+    },
+    "secondhand_daily_units": {
+      "v": 214, "unit": "套/日",
+      "src": "房管局 2026-11-16 16:11 实测（六区二手住宅；与机构月报日均212套吻合1%）",
+      "tier": "T0"
+    },
+    "park_secondhand_psm": {
+      "v": 23700, "unit": "元/㎡",
+      "src": "楼市茶谈 2026-11-09（园区二手成交加权均价，非挂牌）",
+      "tier": "T2"
+    }
+  },
+  "policy": {
+    "supply_cap_months": 36,
+    "note": "江苏『一楼盘一策』2026-11 定调：去化周期>36个月停止供地（供给端收紧，对存量房属利好）",
+    "src": "苏商E家亲 2026-11-07",
+    "stance": "托底"
+  },
+  "community": {
+    "yunjiaoyuan": {
+      "name": "天鸿尹山湖韵佳苑",
+      "sector": "郭巷",
+      "district": "吴中",
+      "build_year": 2016,
+      "households": 1521,
+      "buildings": 12,
+      "fee_psm": 2.05,
+      "title_mixed": true,
+      "title_note": "13# 为 40 年产权公寓（50-60㎡），住宅为 70 年；买前必核房本",
+      "deal_mid_psm_by_band": {
+        "83-87": 14950,
+        "107-111": 14066,
+        "128-135": 14351
+      },
+      "deals_6m_by_band": {"83-87": 8, "107-111": 9, "128-135": 1},
+      "community_avg_listed_psm": 17106,
+      "community_avg_listed_src": "安居客/房天下 小区挂牌均价 2026-11",
+      "deal_band_observed": {"lo": 12953, "hi": 16438,
+                             "src": "20 笔真实成交单价区间 2026-05~09"},
+      "monthly_deals": 4,
+      "listings_platform": 73,
+      "listings_broker": 81,
+      "static_months": 19,
+      "rent_by_band": {"84": 3150, "110": 4050, "135": 4550},
+      "src": "COMMUNITY-20261116-yunjiaoyuan.md（房天下成交页 2026-05~09 共20笔）",
+      "tier": "T2"
+    }
+  }
+}

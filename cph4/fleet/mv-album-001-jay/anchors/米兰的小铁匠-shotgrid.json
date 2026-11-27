@@ -1,0 +1,905 @@
+{
+ "song": "米兰的小铁匠",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 360,
+  "n_beats": 360,
+  "n_downbeats": 90,
+  "duration_sec": 240.6
+ },
+ "bpm_median": 92.3,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "跑遍了牧场又绕过了村庄",
+   "t0": 33.77,
+   "t1": 36.36,
+   "t0_used": 33.77,
+   "t1_used": 36.36,
+   "snapped": false,
+   "snap_deltas": [
+    0.217,
+    0.23
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "他就站在街角的旧报摊",
+   "t0": 36.36,
+   "t1": 38.98,
+   "t0_used": 36.36,
+   "t1_used": 38.98,
+   "snapped": false,
+   "snap_deltas": [
+    0.23,
+    0.272
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "眼睛盯着隔壁里的橱窗",
+   "t0": 38.98,
+   "t1": 41.52,
+   "t0_used": 38.98,
+   "t1_used": 41.52,
+   "snapped": false,
+   "snap_deltas": [
+    0.272,
+    0.235
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "一把吉他远远欣赏",
+   "t0": 41.52,
+   "t1": 44.79,
+   "t0_used": 41.52,
+   "t1_used": 44.79,
+   "snapped": false,
+   "snap_deltas": [
+    0.235,
+    0.277
+   ],
+   "approx": false,
+   "splits": [
+    43.236
+   ]
+  },
+  {
+   "i": 4,
+   "text": "木炭一箩筐",
+   "t0": 44.79,
+   "t1": 47.33,
+   "t0_used": 44.79,
+   "t1_used": 47.33,
+   "snapped": false,
+   "snap_deltas": [
+    0.277,
+    0.217
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "木炭一直放",
+   "t0": 47.33,
+   "t1": 49.89,
+   "t0_used": 47.33,
+   "t1_used": 49.89,
+   "snapped": false,
+   "snap_deltas": [
+    0.217,
+    0.199
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "木炭剩一半",
+   "t0": 49.89,
+   "t1": 51.74,
+   "t0_used": 49.89,
+   "t1_used": 51.74,
+   "snapped": false,
+   "snap_deltas": [
+    0.199,
+    0.122
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "火炉烫 小铁匠存钱买希望 在流汗",
+   "t0": 51.74,
+   "t1": 55.52,
+   "t0_used": 51.74,
+   "t1_used": 55.496,
+   "snapped": true,
+   "snap_deltas": [
+    0.122,
+    0.024
+   ],
+   "approx": false,
+   "splits": [
+    53.568
+   ]
+  },
+  {
+   "i": 8,
+   "text": "巴洛克建筑的街道旁",
+   "t0": 55.52,
+   "t1": 58.09,
+   "t0_used": 55.496,
+   "t1_used": 58.073,
+   "snapped": true,
+   "snap_deltas": [
+    0.024,
+    0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "一家烟雾缭绕的酒馆",
+   "t0": 58.09,
+   "t1": 60.39,
+   "t0_used": 58.073,
+   "t1_used": 60.39,
+   "snapped": true,
+   "snap_deltas": [
+    0.017,
+    -0.261
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "波兰的吟唱诗人在弹唱",
+   "t0": 60.39,
+   "t1": 62.61,
+   "t0_used": 60.39,
+   "t1_used": 62.601,
+   "snapped": true,
+   "snap_deltas": [
+    -0.261,
+    0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "小铁匠在门外进不去在苦恼",
+   "t0": 62.61,
+   "t1": 65.23,
+   "t0_used": 62.601,
+   "t1_used": 65.155,
+   "snapped": true,
+   "snap_deltas": [
+    0.009,
+    0.075
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "他的铜板还太少",
+   "t0": 65.23,
+   "t1": 68.36,
+   "t0_used": 65.155,
+   "t1_used": 68.383,
+   "snapped": true,
+   "snap_deltas": [
+    0.075,
+    -0.023
+   ],
+   "approx": false,
+   "splits": [
+    67.036
+   ]
+  },
+  {
+   "i": 13,
+   "text": "他真的真的想知道",
+   "t0": 68.36,
+   "t1": 70.69,
+   "t0_used": 68.383,
+   "t1_used": 70.69,
+   "snapped": true,
+   "snap_deltas": [
+    -0.023,
+    -0.293
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "那首来自东欧的民谣和弦",
+   "t0": 70.69,
+   "t1": 73.43,
+   "t0_used": 70.69,
+   "t1_used": 73.43,
+   "snapped": false,
+   "snap_deltas": [
+    -0.293,
+    -0.131
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "到底什么调",
+   "t0": 73.43,
+   "t1": 74.41,
+   "t0_used": 73.43,
+   "t1_used": 74.41,
+   "snapped": false,
+   "snap_deltas": [
+    -0.131,
+    0.199
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "米兰的天空刚破晓",
+   "t0": 74.41,
+   "t1": 75.84,
+   "t0_used": 74.41,
+   "t1_used": 75.84,
+   "snapped": false,
+   "snap_deltas": [
+    0.199,
+    -0.321
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "那马蹄铁还要敲多少",
+   "t0": 75.84,
+   "t1": 78.0,
+   "t0_used": 75.84,
+   "t1_used": 78.089,
+   "snapped": true,
+   "snap_deltas": [
+    -0.321,
+    -0.089
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "吉他才能买得到",
+   "t0": 78.0,
+   "t1": 79.4,
+   "t0_used": 78.089,
+   "t1_used": 79.389,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    0.011
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "他真的真的想知道",
+   "t0": 79.4,
+   "t1": 80.73,
+   "t0_used": 79.389,
+   "t1_used": 80.689,
+   "snapped": true,
+   "snap_deltas": [
+    0.011,
+    0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "他不知道怎么办才好睡不着",
+   "t0": 80.73,
+   "t1": 84.49,
+   "t0_used": 80.689,
+   "t1_used": 84.544,
+   "snapped": true,
+   "snap_deltas": [
+    0.041,
+    -0.054
+   ],
+   "approx": false,
+   "splits": [
+    82.617
+   ]
+  },
+  {
+   "i": 21,
+   "text": "他将那扑满打破了",
+   "t0": 84.49,
+   "t1": 85.97,
+   "t0_used": 84.544,
+   "t1_used": 85.97,
+   "snapped": true,
+   "snap_deltas": [
+    -0.054,
+    0.126
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "小小愿望就快实现了他在笑",
+   "t0": 85.97,
+   "t1": 100.92,
+   "t0_used": 85.97,
+   "t1_used": 100.92,
+   "snapped": false,
+   "snap_deltas": [
+    0.126,
+    0.238
+   ],
+   "approx": false,
+   "splits": [
+    89.072,
+    91.812,
+    95.202,
+    97.756
+   ]
+  },
+  {
+   "i": 23,
+   "text": "跑遍了牧场又绕过了村庄",
+   "t0": 100.92,
+   "t1": 103.48,
+   "t0_used": 100.92,
+   "t1_used": 103.48,
+   "snapped": false,
+   "snap_deltas": [
+    0.238,
+    0.221
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "他就站在街角的旧报摊",
+   "t0": 103.48,
+   "t1": 106.07,
+   "t0_used": 103.48,
+   "t1_used": 106.07,
+   "snapped": false,
+   "snap_deltas": [
+    0.221,
+    0.233
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "眼睛盯着隔壁里的橱窗",
+   "t0": 106.07,
+   "t1": 108.64,
+   "t0_used": 106.07,
+   "t1_used": 108.64,
+   "snapped": false,
+   "snap_deltas": [
+    0.233,
+    0.226
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "一把吉他远远欣赏",
+   "t0": 108.64,
+   "t1": 111.87,
+   "t0_used": 108.64,
+   "t1_used": 111.87,
+   "snapped": false,
+   "snap_deltas": [
+    0.226,
+    0.228
+   ],
+   "approx": false,
+   "splits": [
+    110.364
+   ]
+  },
+  {
+   "i": 27,
+   "text": "木炭一箩筐",
+   "t0": 111.87,
+   "t1": 114.44,
+   "t0_used": 111.87,
+   "t1_used": 114.44,
+   "snapped": false,
+   "snap_deltas": [
+    0.228,
+    0.198
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "木炭一直放",
+   "t0": 114.44,
+   "t1": 116.91,
+   "t0_used": 114.44,
+   "t1_used": 116.82,
+   "snapped": true,
+   "snap_deltas": [
+    0.198,
+    0.09
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "木炭剩一半",
+   "t0": 116.91,
+   "t1": 118.86,
+   "t0_used": 116.82,
+   "t1_used": 118.86,
+   "snapped": true,
+   "snap_deltas": [
+    0.09,
+    0.113
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "火炉烫 小铁匠存钱买希望 在流汗",
+   "t0": 118.86,
+   "t1": 122.65,
+   "t0_used": 118.86,
+   "t1_used": 122.625,
+   "snapped": true,
+   "snap_deltas": [
+    0.113,
+    0.025
+   ],
+   "approx": false,
+   "splits": [
+    120.697
+   ]
+  },
+  {
+   "i": 31,
+   "text": "巴洛克建筑的街道旁",
+   "t0": 122.65,
+   "t1": 125.05,
+   "t0_used": 122.625,
+   "t1_used": 125.05,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    -0.152
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "一家烟雾缭绕的酒馆",
+   "t0": 125.05,
+   "t1": 127.6,
+   "t0_used": 125.05,
+   "t1_used": 127.6,
+   "snapped": false,
+   "snap_deltas": [
+    -0.152,
+    -0.203
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "波兰的吟唱诗人在弹唱",
+   "t0": 127.6,
+   "t1": 129.71,
+   "t0_used": 127.6,
+   "t1_used": 129.73,
+   "snapped": true,
+   "snap_deltas": [
+    -0.203,
+    -0.02
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "小铁匠在门外进不去在苦恼",
+   "t0": 129.71,
+   "t1": 132.32,
+   "t0_used": 129.73,
+   "t1_used": 132.284,
+   "snapped": true,
+   "snap_deltas": [
+    -0.02,
+    0.036
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "他的铜板还太少",
+   "t0": 132.32,
+   "t1": 135.66,
+   "t0_used": 132.284,
+   "t1_used": 135.721,
+   "snapped": true,
+   "snap_deltas": [
+    0.036,
+    -0.061
+   ],
+   "approx": false,
+   "splits": [
+    133.724
+   ]
+  },
+  {
+   "i": 36,
+   "text": "他真的真的想知道",
+   "t0": 135.66,
+   "t1": 137.97,
+   "t0_used": 135.721,
+   "t1_used": 137.97,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    0.276
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "那首来自东欧的民谣和弦",
+   "t0": 137.97,
+   "t1": 140.74,
+   "t0_used": 137.97,
+   "t1_used": 140.74,
+   "snapped": false,
+   "snap_deltas": [
+    0.276,
+    -0.182
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "到底什么调",
+   "t0": 140.74,
+   "t1": 141.61,
+   "t0_used": 140.74,
+   "t1_used": 141.572,
+   "snapped": true,
+   "snap_deltas": [
+    -0.182,
+    0.038
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "米兰的天空刚破晓",
+   "t0": 141.61,
+   "t1": 143.23,
+   "t0_used": 141.572,
+   "t1_used": 143.23,
+   "snapped": true,
+   "snap_deltas": [
+    0.038,
+    -0.269
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "那马蹄铁还要敲多少",
+   "t0": 143.23,
+   "t1": 145.21,
+   "t0_used": 143.23,
+   "t1_used": 145.21,
+   "snapped": false,
+   "snap_deltas": [
+    -0.269,
+    -0.217
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "吉他才能买得到",
+   "t0": 145.21,
+   "t1": 146.65,
+   "t0_used": 145.21,
+   "t1_used": 146.727,
+   "snapped": true,
+   "snap_deltas": [
+    -0.217,
+    -0.077
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "他真的真的想知道",
+   "t0": 146.65,
+   "t1": 148.19,
+   "t0_used": 146.727,
+   "t1_used": 148.19,
+   "snapped": true,
+   "snap_deltas": [
+    -0.077,
+    0.163
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "他不知道怎么办才好睡不着",
+   "t0": 148.19,
+   "t1": 152.0,
+   "t0_used": 148.19,
+   "t1_used": 152.0,
+   "snapped": false,
+   "snap_deltas": [
+    0.163,
+    0.118
+   ],
+   "approx": false,
+   "splits": [
+    149.954
+   ]
+  },
+  {
+   "i": 44,
+   "text": "他将那扑满打破了",
+   "t0": 152.0,
+   "t1": 153.45,
+   "t0_used": 152.0,
+   "t1_used": 153.45,
+   "snapped": false,
+   "snap_deltas": [
+    0.118,
+    0.268
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "小小愿望就快实现了他在笑",
+   "t0": 153.45,
+   "t1": 199.12,
+   "t0_used": 153.45,
+   "t1_used": 199.12,
+   "snapped": false,
+   "snap_deltas": [
+    0.268,
+    -0.13
+   ],
+   "approx": false,
+   "splits": [
+    156.41,
+    159.01,
+    162.191,
+    164.722,
+    167.927,
+    170.388,
+    173.476,
+    176.054,
+    179.397,
+    181.905,
+    185.156,
+    187.71,
+    190.264,
+    193.469,
+    196.023
+   ]
+  },
+  {
+   "i": 46,
+   "text": "他真的真的想知道",
+   "t0": 199.12,
+   "t1": 201.67,
+   "t0_used": 199.12,
+   "t1_used": 201.67,
+   "snapped": false,
+   "snap_deltas": [
+    -0.13,
+    -0.181
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "那首来自东欧的民谣和弦",
+   "t0": 201.67,
+   "t1": 204.32,
+   "t0_used": 201.67,
+   "t1_used": 204.32,
+   "snapped": false,
+   "snap_deltas": [
+    -0.181,
+    -0.108
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "到底什么调",
+   "t0": 204.32,
+   "t1": 205.12,
+   "t0_used": 204.32,
+   "t1_used": 205.079,
+   "snapped": true,
+   "snap_deltas": [
+    -0.108,
+    0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "米兰的天空刚破晓",
+   "t0": 205.12,
+   "t1": 206.55,
+   "t0_used": 205.079,
+   "t1_used": 206.55,
+   "snapped": true,
+   "snap_deltas": [
+    0.041,
+    0.171
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "那马蹄铁还要敲多少",
+   "t0": 206.55,
+   "t1": 208.89,
+   "t0_used": 206.55,
+   "t1_used": 208.933,
+   "snapped": true,
+   "snap_deltas": [
+    0.171,
+    -0.043
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "吉他才能买得到",
+   "t0": 208.89,
+   "t1": 210.29,
+   "t0_used": 208.933,
+   "t1_used": 210.233,
+   "snapped": true,
+   "snap_deltas": [
+    -0.043,
+    0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "他真的真的想知道",
+   "t0": 210.29,
+   "t1": 211.93,
+   "t0_used": 210.233,
+   "t1_used": 211.93,
+   "snapped": true,
+   "snap_deltas": [
+    0.057,
+    -0.254
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "他不知道怎么办才好睡不着",
+   "t0": 211.93,
+   "t1": 215.27,
+   "t0_used": 211.93,
+   "t1_used": 215.27,
+   "snapped": false,
+   "snap_deltas": [
+    -0.254,
+    -0.142
+   ],
+   "approx": false,
+   "splits": [
+    213.461
+   ]
+  },
+  {
+   "i": 54,
+   "text": "他将那扑满打破了",
+   "t0": 215.27,
+   "t1": 216.72,
+   "t0_used": 215.27,
+   "t1_used": 216.689,
+   "snapped": true,
+   "snap_deltas": [
+    -0.142,
+    0.031
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "小小愿望就快实现了他在笑",
+   "t0": 216.72,
+   "t1": 219.72,
+   "t0_used": 216.689,
+   "t1_used": 219.72,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    -0.196
+   ],
+   "approx": false,
+   "splits": [
+    217.989
+   ]
+  }
+ ],
+ "summary": {
+  "lines": 56,
+  "lines_untimed": 0,
+  "lines_snapped": 31,
+  "lines_unsnapped": 25,
+  "lines_need_split": 12,
+  "total_splits": 29
+ },
+ "advisory": true
+}

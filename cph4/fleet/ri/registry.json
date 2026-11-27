@@ -1,0 +1,137 @@
+{
+ "version": "RI-1",
+ "updated": "2026-11-02",
+ "charter": "cph4/fleet/RI-DEPT-v1.md",
+ "note": "机器可读席位登记。字段缺一项即 I17 红；组级席 writes 越出 cph4/fleet/ri/<group>/ 或 Tools/ri/<group>/ 即 I18 红。",
+ "seats": [
+  {
+   "id": "ri-content",
+   "group": "content",
+   "name": "内容创新席",
+   "level": "group",
+   "status": "ACTIVE",
+   "created": "2026-11-02",
+   "owner": "AI 席位（组内自决，CEO 抽查可否决）",
+   "lane": ["bm-c", "bm-b", "bm-a"],
+   "scope": [
+    "MV/短剧/漫剧/切片的题材与叙事调研、竞品拆解",
+    "本组工序模板化（关键帧→出片→装配→闸）与提示词配方",
+    "本组工具改造：逐镜体检、转场审计、交付闸的业务侧扩展"
+   ],
+   "writes": ["cph4/fleet/ri/content", "Tools/ri/content"],
+   "forbid": ["Tools/fleet", "cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/products"],
+   "cadence": {"brief_days": 7, "settle_days": 14, "probe_deadline_days": 45},
+   "acceptance": [
+    "每 7 天 ≥1 份扫描简报（≤1 页：事实 3 条 + 可执行建议 3 条 + 对应 probe）",
+    "每 14 天 ≥1 个 probe 通过（可跑命令或可看样片在盘）",
+    "任何进入成片的工序改动必须带闸回执"
+   ],
+   "kpi": {"adoption_rate_min": 0.5, "window_days": 45},
+   "handoff_to": "ri-lab",
+   "supersedes": "recon-dept-v1 的选题调研段（并入本席，不新增人力）；video-remix-dept 的切片选题"
+  },
+  {
+   "id": "ri-game",
+   "group": "game",
+   "name": "游戏创新席",
+   "level": "group",
+   "status": "ACTIVE",
+   "created": "2026-11-02",
+   "owner": "AI 席位（组内自决）",
+   "lane": ["bm-a", "bm-m"],
+   "scope": [
+    "榜单与竞品拆解、前 3 关情绪设计（三关三种情绪，禁同一动词）",
+    "爽点前置验证：10 秒内到达率、半径/拉力同步、吐偏是否白玩",
+    "本组工具：关卡编辑器、玩法数值表、整屏 UI 分层流程"
+   ],
+   "writes": ["cph4/fleet/ri/game", "Tools/ri/game"],
+   "forbid": ["Tools/fleet", "cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/products"],
+   "cadence": {"brief_days": 7, "settle_days": 14, "probe_deadline_days": 45},
+   "acceptance": [
+    "每 7 天 ≥1 份扫描简报，必须含 1 个可玩片段的验证结论",
+    "每 14 天 ≥1 个 probe（可玩片段或数值表），过 2D 与 60–90 秒硬约束",
+    "所有 UI 走整屏全图→原位拆层，禁单件生成"
+   ],
+   "kpi": {"adoption_rate_min": 0.5, "window_days": 45},
+   "handoff_to": "ri-lab",
+   "supersedes": "GAME-PARALLEL-START-20261018 的选题试错段"
+  },
+  {
+   "id": "ri-strategy",
+   "group": "strategy",
+   "name": "策略创新席",
+   "level": "group",
+   "status": "ACTIVE",
+   "created": "2026-11-02",
+   "owner": "AI 席位（组内自决，不代客实盘）",
+   "lane": ["bm-b", "bm-d"],
+   "scope": [
+    "回测口径与结论标准化（同一份数据同一结论，可复现）",
+    "19.9 算力包的套餐/交付形态与前台转化调研",
+    "本组工具：回测脚本、指标卡、风控红线检查"
+   ],
+   "writes": ["cph4/fleet/ri/strategy", "Tools/ri/strategy"],
+   "forbid": ["Tools/fleet", "cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/products"],
+   "cadence": {"brief_days": 7, "settle_days": 14, "probe_deadline_days": 45},
+   "acceptance": [
+    "每 7 天 ≥1 份扫描简报，必须含 1 份可复现回测结论",
+    "每 14 天 ≥1 个 probe（回测脚本 + 结论文件 + 指纹）",
+    "结论必须给样本区间、成本假设、失效条件"
+   ],
+   "kpi": {"adoption_rate_min": 0.5, "window_days": 45},
+   "handoff_to": "ri-lab",
+   "supersedes": "无（新席，同时收掉散落在 orders 里的临时调研条目）"
+  },
+  {
+   "id": "ri-city",
+   "group": "city",
+   "name": "城市创新席（代管）",
+   "level": "group",
+   "status": "PROXY",
+   "created": "2026-11-02",
+   "owner": "内容创新席代管（P2，出人不出新工具）",
+   "lane": ["bm-m"],
+   "scope": [
+    "BigLife/FluxVerse 的看板与人口库形态调研",
+    "车机（等 OEM）恢复条件跟踪"
+   ],
+   "writes": ["cph4/fleet/ri/city", "Tools/ri/city"],
+   "forbid": ["Tools/fleet", "cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl", "cph4/fleet/products"],
+   "cadence": {"brief_days": 30, "settle_days": 30, "probe_deadline_days": 90},
+   "acceptance": [
+    "每 30 天 ≥1 份简报；出人不出新工具",
+    "不占用 P0/P1 算力与配额"
+   ],
+   "kpi": {"adoption_rate_min": 0.3, "window_days": 90},
+   "handoff_to": "ri-lab",
+   "supersedes": "无（代管，不新增编制）"
+  },
+  {
+   "id": "ri-lab",
+   "group": "platform",
+   "name": "集团实验室",
+   "level": "platform",
+   "status": "ACTIVE",
+   "created": "2026-11-02",
+   "owner": "实验室席（自决推进，CEO 抽查）",
+   "lane": ["bm-m", "bm-a", "bm-b", "bm-c", "bm-d"],
+   "scope": [
+    "整体生产力：契约/闸/调度/路由/资产/一屏的更新与瘦身",
+    "把组级重复造的工具上收为平台能力（每月一次）",
+    "运行时不与模型选型（dsh + SQLite step journal + 模型分层）"
+   ],
+   "writes": ["Tools/fleet", "cph4/fleet/lab", "cph4/fleet/ri/lab"],
+   "forbid": ["cph4/fleet/products", "cph4/fleet/PRODUCTION-QUEUE.jsonl", "cph4/fleet/PRODUCTION-BACKLOG.jsonl"],
+   "cadence": {"brief_days": 7, "settle_days": 14, "probe_deadline_days": 45},
+   "acceptance": [
+    "每 7 天 ≥1 份生产力简报（含被替代/合并的旧机制）",
+    "每 14 天 ≥1 个平台级 probe，必须带断言或闸",
+    "每月 1 次上收：组级工具进平台或明确不做",
+    "任何新增规则必须一进一出（net-zero 或写明替代项）"
+   ],
+   "kpi": {"adoption_rate_min": 0.8, "window_days": 45},
+   "handoff_to": "ceo",
+   "supersedes": "散落的工具打磨与一次性脚本（并入本席统一收口）"
+  }
+ ]
+}

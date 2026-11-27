@@ -1,0 +1,21 @@
+{
+ "ts": "2026-11-21T23:08:41",
+ "input": "cph4/fleet/out/drama/EP002/ep002.mp4",
+ "spec": "DRAMA-QUALITY-SPEC-v2",
+ "verdict": "PASS",
+ "gaps": [],
+ "measured": {
+  "w": 1080,
+  "h": 1920,
+  "subs": "burned",
+  "fps": 30.0,
+  "duration_s": 54.83,
+  "has_audio": true,
+  "audio_sr": 48000,
+  "mean_volume_db": -13.71,
+  "first3s_motion": 0.0712,
+  "cuts": 20,
+  "avg_shot_s": 2.61
+ },
+ "status": "PASS"
+}

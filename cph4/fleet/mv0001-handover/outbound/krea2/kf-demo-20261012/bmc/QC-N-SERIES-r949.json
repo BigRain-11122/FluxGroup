@@ -1,0 +1,27 @@
+{
+  "receipt": "QC-N-SERIES-r949",
+  "round": "r949",
+  "machine": "bm-c",
+  "ts": "2026-10-13T01:27:00+08:00",
+  "scope": "O-2330 bm-c local 21-shot N/C/R sequence -- N-series 7/7 landed clips, frame-level QC patrol (multimodal 4-eye), threshold PASS>=7.5",
+  "verdicts": [
+    {"tag": "N01_war_relief", "score": 9.4, "pass": true, "note": "war relief carving, light sweep + dolly, material 9.5, palette 10, zero ghost"},
+    {"tag": "N02_crowd_her", "score": 6.5, "pass": false, "note": "FAIL: subject fully static zero blink/breathing (dead-fish), heavy smeared crowd blur, plastic over-smooth face; palette 9 only saving dimension"},
+    {"tag": "N03_goddess_pass", "score": 9.5, "pass": true, "note": "goddess walk-through, hands release + push-in, textbook physical motion"},
+    {"tag": "N04_river_marks", "score": 9.0, "pass": true, "note": "carved river relief, orbital pull-back, material 9.5"},
+    {"tag": "N05_dead_language", "score": 8.0, "pass": true, "note": "cuneiform close-up, clean carve, zero pseudo-glyphs, steady push"},
+    {"tag": "N06_poem_light", "score": 9.0, "pass": true, "note": "fire-lit stele reveal, flame flicker physical, dolly-out"},
+    {"tag": "N07_fire_breath", "score": 9.0, "pass": true, "note": "torch flame breathing + ember particles, palette 10, zero ghost"}
+  ],
+  "tally": {"total": 7, "pass": 6, "fail": 1},
+  "reshake": {
+    "trigger": "patrol law <7.5 re-shake w/ seed",
+    "tag": "N02_crowd_her_v2",
+    "seed": 9202,
+    "script": "bmc_reshake_n02.py (reuses bmc_night_factory.run_i2v/cdn_upload verbatim)",
+    "prompt_fix": "life-pulse law anchors: one slow blink + quiet chest breathing + loose hair strands sway + soft-focus slow crowd + natural skin texture fine pores (positive phrasing, negation-wall law)",
+    "status": "SUBMITTED 01:27:32, queued into shared 8188 FIFO behind burning factory shot, autonomous download->CDN->index append",
+    "assembly_note": "06:30 closeout: bm-a assembly uses N02_crowd_her_v2 row for shot N02 (v1 row kept as ledger, FAILED QC 6.5); if v2 also <7.5 at closeout QC, disclose + assembly may trim to best segment (3.7s window)"
+  },
+  "factory_state_at_patrol": {"landed": "N01-N07 7/21 + KF/INT 12 whitelist = index 19 rows", "burning": "C02_sand_bury", "remaining": "C03-C09 + R01-R06 = 13", "eta": "~04:00-05:30 local"}
+}
