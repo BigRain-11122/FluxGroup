@@ -656,7 +656,32 @@ def social_session_active():
         return False
 
 
+_TICK_LOCK = {}
+
+
+def _claim_tick():
+    """本轮 tick 的单实例锁：抢不到就说明另一拍正在跑，直接退出。
+
+    2026-11-27 实锚：轮询从 300s 压到 60s 之后，造集阶段（还没拿 GPU 租约）出现窗口，
+    两次调用会各自造一遍集、各打印一次「选中段 memer / 变体 v0-base」——GPU 有租约把关
+    不会真的并行训练，但白造一次集、日志也会让人以为起了两个训练。
+    """
+    import fcntl
+    path = os.path.join(STATE, "train-tick.lock")
+    try:
+        os.makedirs(STATE, exist_ok=True)
+        fh = open(path, "a+")
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        _TICK_LOCK["fh"] = fh
+        return True
+    except Exception:
+        return False
+
+
 def run_one(a):
+    if not _claim_tick():
+        print("[loop] 另一拍正在跑（tick 锁），本次跳过")
+        return 0
     holder = busy_holder()
     if holder:
         print("[loop] 训练进行中（pid %d），本次跳过" % holder)
@@ -1064,6 +1089,8 @@ def run_one(a):
 def self_test():
     global LEDGER
     cases = []
+    # tick 锁：同进程第二次抢占必须失败（否则 60 秒轮询会重复造集）
+    cases.append(("tick 锁：第二次抢占必须被挡", _claim_tick() and not _claim_tick()))
     # 数据集指纹：同内容必须同 fp、不同内容必须不同 fp、缺失必须为空。
     # 这条闸曾经写成"拿台账里的 built 跟台账里的 built 比"（同源自比，恒判未变），
     # 结果所有段一次性全被挡住——所以指纹必须来自磁盘文件，且要能被负控抓出来。
