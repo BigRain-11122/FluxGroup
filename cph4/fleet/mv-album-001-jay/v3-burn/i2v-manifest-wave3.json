@@ -1,0 +1,59 @@
+{
+ "policy": "v3 第三波：修 4 条废/弱镜",
+ "wave": "v3-burn-wave3",
+ "total": 4,
+ "units": [
+  {
+   "id": "B1v2_N_burial_solid",
+   "track": "MV0001",
+   "win_s": 5.2,
+   "speed": 1.0,
+   "src_s": 5.2,
+   "policy_band": "5s",
+   "kind": "wave3",
+   "why": "B1 鬼影重影 -> 实心碑",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\v3-burn\\kf\\B1v2_N_burial_solid.png",
+   "note": "B1 鬼影重影 -> 实心碑",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Locked wide shot of the plain. Sand streams low from left to right in thin veils, piling against the base of the stele; the stone stays perfectly solid and sharp. The distant glow flickers faintly. Dust thickens then thins. Extremely slow push. No people, no text."
+  },
+  {
+   "id": "B2v2_N_river_wedges",
+   "track": "MV0001",
+   "win_s": 5.2,
+   "speed": 1.0,
+   "src_s": 5.2,
+   "policy_band": "5s",
+   "kind": "wave3",
+   "why": "B2 普通湖面 -> 楔形水纹",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\v3-burn\\kf\\B2v2_N_river_wedges.png",
+   "note": "B2 普通湖面 -> 楔形水纹",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Low locked shot on black water. Angular ripple crests travel slowly from the far bank toward camera, each catching and losing the amber streak; the wedge shapes repeat and dissolve. No camera move. No people, no text."
+  },
+  {
+   "id": "A4v2_stele_rect",
+   "track": "MV0001",
+   "win_s": 5.2,
+   "speed": 1.0,
+   "src_s": 5.2,
+   "policy_band": "5s",
+   "kind": "wave3",
+   "why": "A4 圆头墓碑 -> 矩形玄武岩碑",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\v3-burn\\kf\\A4v2_stele_rect.png",
+   "note": "A4 圆头墓碑 -> 矩形玄武岩碑",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Locked wide shot from behind. His arm rises and strikes in a slow steady rhythm; chips fall; the torch beside the slab flares and settles so the raking light sweeps the carved face. Smoke curls. Very small push. No text."
+  },
+  {
+   "id": "B8v2_N_glyph_wedge",
+   "track": "MV0001",
+   "win_s": 5.2,
+   "speed": 1.0,
+   "src_s": 5.2,
+   "policy_band": "5s",
+   "kind": "wave3",
+   "why": "B8 长出拉丁字母 -> 纯楔形符号",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\v3-burn\\kf\\B8v2_N_glyph_wedge.png",
+   "note": "B8 长出拉丁字母 -> 纯楔形符号",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Locked close shot of the row of wedge marks. The glow dims slowly from left to right until only the first two wedges hold light, then they fade too. Dust drifts. No camera move. No letters, no text."
+  }
+ ]
+}

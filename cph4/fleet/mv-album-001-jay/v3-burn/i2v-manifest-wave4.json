@@ -1,0 +1,33 @@
+{
+ "policy": "v3 第四波：末两条修正",
+ "wave": "v3-burn-wave4",
+ "total": 2,
+ "units": [
+  {
+   "id": "B2v3_N_river_night",
+   "track": "MV0001",
+   "win_s": 5.2,
+   "speed": 1.0,
+   "src_s": 5.2,
+   "policy_band": "5s",
+   "kind": "wave4",
+   "why": "B2v2 仍是日落河面（与全片夜色冲突）",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\v3-burn\\kf\\B2v3_N_river_night.png",
+   "note": "B2v2 仍是日落河面（与全片夜色冲突）",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Low locked shot on black water at night. Angular crests travel slowly toward camera, each briefly catching the single amber glint and dropping back to black. No camera move. No people, no text, no daylight."
+  },
+  {
+   "id": "A4v3_slab_cuneiform",
+   "track": "MV0001",
+   "win_s": 5.2,
+   "speed": 1.0,
+   "src_s": 5.2,
+   "policy_band": "5s",
+   "kind": "wave4",
+   "why": "A4v2 刻成了雕像脸（碑应满是楔形字）",
+   "frame": "K:\\Fluxgroup\\FluxGroup\\media\\mv-album-001-jay\\v3-burn\\kf\\A4v3_slab_cuneiform.png",
+   "note": "A4v2 刻成了雕像脸（碑应满是楔形字）",
+   "i2v_prompt": "Single continuous take at 24fps, 16:9. Locked wide shot from behind the carver. His arm rises and strikes in a slow rhythm; chips fall from the rows of wedge cuts; the torch flares and settles so the raking light sweeps across them. Smoke curls. Very small push. No face on the stone, no text."
+  }
+ ]
+}
