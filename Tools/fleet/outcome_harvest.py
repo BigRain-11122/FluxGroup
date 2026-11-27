@@ -78,11 +78,72 @@ def my_posts(days=3, now=None):
     return out
 
 
-def observe(rpid, aid, fetch):
-    """查一条评论的真实状态。返回 dict(visible= True/False/None, likes, rcount, note)。
+def _page(aid, pn=1, sort=0, limit=20):
+    """取一页 root 评论。返 {code,replies,count} 或 None（连 daemon 都没答上来）。
 
-    fetch(aid) 必须返回 (code, replies) 或 None（= 取不到数）。
+    sort=0 按时间（自己刚发的评论在最新一批里）；sort=1 按热门。
+    limit 必须 ≤20：该接口 ps>20 直接 -400（2026-11-27 实锚）。
     """
+    try:
+        import social_comment as sc
+        r = sc._daemon("roots2", {"aid": aid, "limit": limit, "sort": sort,
+                                  "pn": pn, "priority": "post"}, timeout=60)
+    except Exception:
+        return None
+    if not isinstance(r, dict) or not r.get("ok"):
+        return None
+    res = r.get("res")
+    if not isinstance(res, dict):
+        return None
+    return res
+
+
+def scan(aid, rpid, pages=3, fetch_page=None):
+    """按时间序翻页找自己的 rpid，判可见/不可见/未知。
+
+    为什么不能只看热门第一页：自己刚发的评论 0 赞，热门序永远排在后面，
+    "第一页查不到"会被读成"被删了"——这是假阴性（2026-11-27 实锚：
+    旧口径下 27 条有 rpid 的评论全判 unknown，其中 DOM 兜底那 3 条判成不可见）。
+
+    三条纪律：
+      1. 用 `count` 判是否扫遍。扫遍仍没有 = 不在公开列表（对"有没有人看见"是
+         同一个结果，但 note 里明确写出是被删/审核/沉底未知，不冒充死因）。
+      2. 任何一页都取不到数 → unknown。坏一页不等于查遍。
+      3. 扫了部分就停（页数上限）→ 若一条都没扫到才算 unknown；扫到了但没命中，
+         仍是不可见（新评论不在最新 N 条里，别人就看不到）。
+    """
+    fetch_page = fetch_page or _page
+    seen, total, any_ok = 0, None, False
+    for pn in range(1, pages + 1):
+        d = fetch_page(aid, pn)
+        if d is None or d.get("code") != 0:
+            continue
+        any_ok = True
+        if total is None:
+            total = int(d.get("count") or 0)
+        reps = d.get("replies") or []
+        for x in reps:
+            if not isinstance(x, dict):
+                continue
+            seen += 1
+            if str(x.get("rpid")) == str(rpid):
+                return {"visible": True, "likes": int(x.get("like") or 0),
+                        "rcount": int(x.get("rcount") or 0),
+                        "note": "时间序第 %d 页命中（该视频 %s 条 root）" % (pn, total)}
+        if len(reps) < 20:
+            break
+    if not any_ok:
+        return {"visible": None, "likes": None, "rcount": None,
+                "note": "所有页都取不到数 → unknown，不是不可见"}
+    if total is not None and seen >= total:
+        return {"visible": False, "likes": None, "rcount": None,
+                "note": "翻遍全部 %d 条公开 root 评论都没有 → 不在公开列表" % total}
+    return {"visible": False, "likes": None, "rcount": None,
+            "note": "时间序前 %d 条（总 %s）没有 → 不在最新一批" % (seen, total)}
+
+
+def observe(rpid, aid, fetch):
+    """兼容旧签名：fetch(aid) 返 (code, replies) 或 None。仅供自检用。"""
     got = fetch(aid)
     if got is None:
         return {"visible": None, "likes": None, "rcount": None,
@@ -133,77 +194,73 @@ def _dom_visible(url, texts, collect=None):
             "note": "DOM 匹配%s（按文案前 12 字）" % ("命中" if hit else "未命中")}
 
 
-def _fetch_via_daemon(aid, limit=50):
-    """用常驻浏览器取 time 序第一页。返 (code, replies) 或 None。"""
-    try:
-        import social_comment as sc
-        r = sc._daemon("roots2", {"aid": aid, "limit": limit, "priority": "post"}, timeout=60)
-    except Exception:
-        return None
-    if not r or not r.get("ok"):
-        return None
-    res = r.get("res")
-    if not isinstance(res, dict):
-        return None
-    return res.get("code"), res.get("replies") or []
+def scan_many(aid, rpids, pages=3, fetch_page=None):
+    """同一视频下多条评论一次扫完（省掉重复翻页）。返 {rpid: obs}。
+
+    判据与 scan() 完全一致，只是把"命中"这一步延后到整组比完：
+    这样 N 条评论只付 N 次翻页的代价，不是 N×页数 次请求。
+    """
+    fetch_page = fetch_page or _page
+    want = {str(x): x for x in rpids}
+    hits, seen, total, any_ok = {}, 0, None, False
+    for pn in range(1, pages + 1):
+        d = fetch_page(aid, pn)
+        if d is None or d.get("code") != 0:
+            continue
+        any_ok = True
+        if total is None:
+            total = int(d.get("count") or 0)
+        reps = [x for x in (d.get("replies") or []) if isinstance(x, dict)]
+        for x in reps:
+            seen += 1
+            rp = str(x.get("rpid"))
+            if rp in want and rp not in hits:
+                hits[rp] = {"visible": True, "likes": int(x.get("like") or 0),
+                            "rcount": int(x.get("rcount") or 0),
+                            "note": "时间序第 %d 页命中（该视频 %s 条 root）" % (pn, total)}
+        if len(reps) < 20:
+            break
+    if not any_ok:
+        miss = {"visible": None, "likes": None, "rcount": None,
+                "note": "所有页都取不到数 → unknown，不是不可见"}
+    elif total is not None and seen >= total:
+        miss = {"visible": False, "likes": None, "rcount": None,
+                "note": "翻遍全部 %d 条公开 root 评论都没有 → 不在公开列表" % total}
+    else:
+        miss = {"visible": False, "likes": None, "rcount": None,
+                "note": "时间序前 %d 条（总 %s）没有 → 不在最新一批" % (seen, total)}
+    return {rp: hits.get(rp, miss) for rp in want}
 
 
-def harvest(days=3, fetch=None, now=None, collect=None):
+def harvest(days=3, now=None, collect=None, fetch_page=None):
     """采集并追加。返回 (本次新增条数, 本轮统计)。"""
-    fetch = fetch or _fetch_via_daemon
     posts = my_posts(days=days, now=now)
     added, stat = 0, {"total": 0, "visible": 0, "invisible": 0, "unknown": 0}
     os.makedirs(SOCIAL, exist_ok=True)
-    # 同一视频只抓一次：接口优先（有 likes/rcount），判不出再用 DOM 兜底（只有可见性）。
     import collections
     by_aid = collections.defaultdict(list)
     for p in posts:
         by_aid[p.get("aid")].append(p)
-    dom_cache = {}
     with open(OUT, "a", encoding="utf-8") as f:
       for _aid, group in by_aid.items():
-        _api_ok = False
+        obs_map = scan_many(_aid, [p.get("rpid") for p in group], fetch_page=fetch_page)
+        # 只有整组都 unknown 时，才退回 DOM 做第二意见（DOM 只给可见性，不给点赞数）
+        if all(o.get("visible") is None for o in obs_map.values()) and collect is not False:
+            d = _dom_visible((group[0].get("video") or ""),
+                             [q.get("text") for q in group], collect=collect)
+            if isinstance(d, dict) and d.get("visible") is not None:
+                for o in obs_map.values():
+                    o.update({"visible": d["visible"],
+                              "note": (d.get("note") or "") + "（DOM 兜底）"})
         for p in group:
-            obs = observe(p.get("rpid"), p.get("aid"), fetch)
-            if obs["visible"] is not None:
-                _api_ok = True
-            else:
-                # 接口判不出：整组退回 DOM（用该视频下所有文案一起匹配）
-                if _aid not in dom_cache:
-                    dom_cache[_aid] = _dom_visible(
-                        (group[0].get("video") or ""), [q.get("text") for q in group],
-                        collect=collect)
-                d = dom_cache[_aid] or {}
-                if d.get("visible") is not None:
-                    obs = dict(obs, visible=d["visible"], note=d.get("note") or "")
+            obs = obs_map.get(str(p.get("rpid"))) or {
+                "visible": None, "likes": None, "rcount": None, "note": "未扫到 → unknown"}
             rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
                    "posted_at": p.get("ts"), "rpid": str(p.get("rpid")), "aid": p.get("aid"),
                    "text": (p.get("text") or "")[:80],
                    "seg": p.get("seg") or p.get("persona"), "arm": p.get("arm"),
                    "serving": p.get("serving"),
-                   "basis": "roots2-pn1" if obs["likes"] is not None or "接口" in (obs.get("note") or "") else "dom"}
-            rec.update(obs)
-            if not (rec.get("seg") and rec.get("arm") and rec.get("text")):
-                rec["attribution_incomplete"] = True
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            added += 1
-            stat["total"] += 1
-            if obs["visible"] is True:
-                stat["visible"] += 1
-            elif obs["visible"] is False:
-                stat["invisible"] += 1
-            else:
-                stat["unknown"] += 1
-    write_summary()
-    return added, stat
-    with open(OUT, "a", encoding="utf-8") as f:
-        for p in posts:
-            obs = observe(p.get("rpid"), p.get("aid"), fetch)
-            rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                   "posted_at": p.get("ts"), "rpid": str(p.get("rpid")), "aid": p.get("aid"),
-                   "text": (p.get("text") or "")[:80],
-                   "seg": p.get("seg") or p.get("persona"), "arm": p.get("arm"),
-                   "serving": p.get("serving"), "basis": "roots2-pn1"}
+                   "basis": "roots2-time-pn1-%d" % 3}
             rec.update(obs)
             if not (rec.get("seg") and rec.get("arm") and rec.get("text")):
                 rec["attribution_incomplete"] = True
@@ -270,6 +327,35 @@ def self_test():
     cases.append(("DOM：采集异常 → unknown（不许当不可见）", d3["visible"] is None))
     d4 = _dom_visible("u", ["x"], collect=lambda *a, **k: [])
     cases.append(("DOM：一条都没抓到 → unknown（不许当不可见）", d4["visible"] is None))
+    # 6 scan_many：翻遍全部（count<=扫到的条数）才算"确实不在"
+    def mk_pages(pages_map, count):
+        return lambda aid, pn: ({"code": 0, "count": count,
+                                 "replies": pages_map.get(pn, [])})
+    full = {1: [{"rpid": str(i), "like": 0} for i in range(1, 21)],
+            2: [{"rpid": str(i), "like": 0} for i in range(21, 24)]}
+    m = scan_many(9, ["99"], pages=3, fetch_page=mk_pages(full, 23))
+    cases.append(("翻遍 23 条仍没有 → 不可见且注明'翻遍'",
+                  m["99"]["visible"] is False and "翻遍" in m["99"]["note"]))
+    # 7 命中：第 2 页找到 → 可见 + 点赞
+    full2 = dict(full); full2[2] = full[2] + [{"rpid": "99", "like": 7, "rcount": 1}]
+    m = scan_many(9, ["99"], pages=3, fetch_page=mk_pages(full2, 24))
+    cases.append(("第 2 页命中 → 可见且带点赞",
+                  m["99"]["visible"] is True and m["99"]["likes"] == 7))
+    # 8 负控：只扫了 20 条但总数 5000 → 不可见，但必须写出"前 20 条"
+    big = {1: [{"rpid": str(i), "like": 0} for i in range(1, 21)]}
+    m = scan_many(9, ["99"], pages=1, fetch_page=mk_pages(big, 5000))
+    cases.append(("扫不全 → 不可见且注明'前 20 条'（不冒充'翻遍'）",
+                  m["99"]["visible"] is False and "前 20 条" in m["99"]["note"]))
+    # 9 负控：所有页都取不到 → unknown（一条坏的页面不许升级成不可见）
+    m = scan_many(9, ["99"], pages=3, fetch_page=lambda a, p: None)
+    cases.append(("所有页取不到 → unknown（不许当不可见）", m["99"]["visible"] is None))
+    # 10 一页坏一页好：好页扫遍仍没有 → 仍按"翻遍"判（不因一页坏就放弃结论）
+    def flaky(aid, pn):
+        return None if pn == 1 else {"code": 0, "count": 2,
+                                     "replies": [{"rpid": "88", "like": 0}]}
+    m = scan_many(9, ["99"], pages=2, fetch_page=flaky)
+    cases.append(("一页坏一页扫遍 → 不可见（有至少一页可信且有总数）",
+                  m["99"]["visible"] is False))
     # 5 汇总口径：unknown 不许进可见率分母
     global OUT, SUMMARY
     import tempfile

@@ -251,10 +251,17 @@ def _op(payload):
             pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=20000)
         aid = payload.get("aid")
         limit = int(payload.get("limit") or 20)
+        # sort/pn 可指定：默认 sort=1（热门）用于找 root 评论回复；核验自己刚发的评论
+        # （0 赞）必须用 sort=0（按时间）+ 翻页，否则"热门第一页查不到"会被误判成不可见。
+        sort = int(payload.get("sort") or 1)
+        pn = int(payload.get("pn") or 1)
+        # ps 硬顶 20：这个接口 ps>20 直接 -400（2026-11-27 实锚），
+        # 采集器传 limit=50 时曾整批判成 unknown。
+        ps = max(1, min(20, limit))
         def _fetch_once():
             return pg.evaluate("""async(d)=>{const r=await fetch('https://api.bilibili.com/x/v2/reply'
-                +'?type=1&oid='+d.aid+'&pn=1&ps='+d.ps+'&sort=1',{credentials:'include'});
-                return await r.text();}""", {"aid": aid, "ps": min(50, limit)})
+                +'?type=1&oid='+d.aid+'&pn='+d.pn+'&ps='+d.ps+'&sort='+d.sort,{credentials:'include'});
+                return await r.text();}""", {"aid": aid, "ps": ps, "sort": sort, "pn": pn})
 
         raw = _fetch_once()
         try:
@@ -270,14 +277,19 @@ def _op(payload):
                 d = json.loads(raw or "{}")
             except Exception:
                 d = {}
-        reps = ((d.get("data") or {}).get("replies") or [])[:limit]
+        reps = ((d.get("data") or {}).get("replies") or [])[:ps]
+        page = (d.get("data") or {}).get("page") or {}
         out = [{"rpid": str(x.get("rpid")),
                 "author": ((x.get("member") or {}).get("uname") or ""),
                 "text": ((x.get("content") or {}).get("message") or ""),
                 "rcount": int(x.get("rcount") or 0),
                 "ctime": int(x.get("ctime") or 0),
                 "like": int(x.get("like") or 0)} for x in reps]
-        return {"ok": True, "res": {"code": d.get("code"), "replies": out}}
+        # count = 该视频 root 评论总数。没有它，调用方无法区分
+        # "扫遍了确实没有" 与 "只扫了前 20 条所以没看到"。
+        return {"ok": True, "res": {"code": d.get("code"), "replies": out,
+                                    "count": int(page.get("count") or 0),
+                                    "pn": pn, "sort": sort}}
     if kind == "roots":
         res = sc._roots_in(ctx, payload.get("aid"), limit=int(payload.get("limit") or 20))
         return {"ok": True, "res": res}
