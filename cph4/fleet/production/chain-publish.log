@@ -3539,3 +3539,7 @@ Please make sure you have the push=pushed lane=lane-cooldown(3m)
 2026-11-27T14:31:32 RECEIPT IDLE gpu=1 vram=4103MB busy=-
 2026-11-27T14:31:53 TICK commit=committed:4 converge=up-to-date push=pushed lane=lane-cooldown(9m)
 2026-11-27T14:36:32 RECEIPT IDLE gpu=2 vram=4103MB busy=-
+2026-11-27T14:36:54 LANE jobs=1 fresh=1 -> run one card
+2026-11-27T14:37:06 LANE rc=0 done=- 
+2026-11-27T14:37:06 TICK commit=committed:7 converge=up-to-date push=pushed lane=lane-rc-0(0 done)
+2026-11-27T14:41:32 RECEIPT IDLE gpu=2 vram=4103MB busy=-
