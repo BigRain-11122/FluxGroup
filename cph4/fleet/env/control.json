@@ -1,36 +1,24 @@
 {
- "ts": "2026-11-20T15:32:37",
+ "ts": "2026-11-26T23:42:14",
  "station": "control",
  "hostname": "junshengsundeMacBook-Pro.local",
  "os": "darwin",
  "machine": "arm64",
  "cpu_count": 10,
  "python": {
-  "version": "3.13.18",
+  "version": "3.15.2",
   "implementation": "CPython",
-  "executable": "/Users/junsheng.sun/.pyenv/versions/3.13.18/bin/python3"
+  "executable": "/Users/junsheng.sun/.homebrew/opt/python@3.15/bin/python3.15"
  },
- "packages": {
-  "torch": "2.15.0",
-  "numpy": "2.5.4",
-  "pillow": "13.0.0",
-  "requests": "2.34.2",
-  "transformers": "5.23.0"
- },
+ "packages": {},
  "ollama": {
   "url": "http://127.0.0.1:11434",
-  "version": "0.40.16",
+  "version": "0.40.17",
   "models": [
    {
     "name": "qwen2.5:0.5b",
     "size_gb": 0.4,
     "digest": "a8b0c51577010a27",
-    "quant": "Q4_K_M"
-   },
-   {
-    "name": "qwen3:8b",
-    "size_gb": 5.23,
-    "digest": "500a1f067a9f7826",
     "quant": "Q4_K_M"
    },
    {

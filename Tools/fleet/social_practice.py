@@ -38,6 +38,9 @@ sys.path.insert(0, HERE)
 
 # 同领域优先：在这些词命中的视频下留评论，才是"同行/学习者"的自然行为
 NICHE = ("剪辑", "教程", "MV", "mv", "转场", "调色", "分镜", "短片", "拍摄", "剪映", "运镜")
+# 标题滑窗取词时要排除的通用词：它们出现在任何句子里都不代表"在说这条视频"。
+TITLE_STOP = {"这个", "那个", "我们", "你们", "他们", "什么", "怎么", "真的", "可以",
+              "就是", "不过", "时候", "一个", "没有", "不是", "这些", "那些", "自己"}
 def _policy():
     """频率上限来自 freq_policy（可见率驱动），工具里不再写死。"""
     try:
@@ -67,7 +70,6 @@ ADDRESS_PAT = re.compile(r"([\u4e00-\u9fff]{2,3})这(教程|期|集|视频|波|�
 
 def safe_to_send(text, title="", topics=()):
     """返回 (ok, 原因)。只放行"不编人、不编事、且与本视频相关"的评论。
-
     2026-11-21 修：原来领域判据是写死的剪辑/MV 词表（NICHE），可出稿早已跨段
     （tech_nerd/shallow/情感…），于是「用蒙版遮掉侧面杂音再叠加歌词」这种明明在讲
     这条视频的话也被判"与本视频领域无关"——闸太窄把好话挡在门外。
@@ -77,6 +79,12 @@ def safe_to_send(text, title="", topics=()):
     txt = (text or "").strip()
     if len(txt) < 8:
         return False, "太短"
+    # 元话术（2026-11-27 实锚）：模型会把提示词当内容复述——实际发出过
+    # 「标题里那个"抽卡"环节剪辑得真带感啊」。真人不说"标题里"，这是指令泄漏，
+    # 既露馅又不像人话，发送前直接拦（提示词那侧也做了修改，两边都守）。
+    for w in ("标题里", "标题中", "标题上", "视频里说", "这条视频里", "视频标题"):
+        if w in txt:
+            return False, "元话术「%s」（指令泄漏）" % w
     for pat, why in FAKE_PAT:
         if pat.search(txt):
             return False, why
@@ -100,10 +108,20 @@ def safe_to_send(text, title="", topics=()):
     # 标题词回填：扩池后大量新视频没有采集过评论 → topics 为空 → 任何句子都被这条闸拒，
     # 出稿直接归零（2026-11-22 实锚：17:44 连续 3 条"与本视频无关"、当天 8 小时没发出）。
     # 视频自己的标题就是最直接的"这条在讲什么"，用它兜底才对得上"与本视频相关"的本意。
-    import re as _re
-    for w in _re.findall(r"[\u4e00-\u9fff]{2,6}", (title or "")):
-        if w not in pool:
-            pool.append(w)
+    #
+    # 2026-11-27 修：原来用 r"[\u4e00-\u9fff]{2,6}" 取标题词，那是**最长匹配**——
+    # 「剪辑教程：游戏击杀卡点氛围感效果」只产出 剪辑教程 / 游戏击杀卡点 / 氛围感效果 三个词，
+    # 等于要求评论照抄 4-6 字的整段短语。实时实测：12 条候选里 6 条全死在
+    # 「与本视频无关（不含该视频话题词/标题词）」，而模型写的"游戏卡点挺带感"明明是贴题的。
+    # 正解是按 2-4 字滑窗取词，让 剪辑/教程/游戏/击杀/卡点/氛围 都能命中；
+    # 这不是放宽判据，是把"标题说了什么"算对。
+    for run in re.findall(r"[\u4e00-\u9fff]{2,}", title or ""):
+        for n in (2, 3, 4):
+            for i in range(0, max(0, len(run) - n + 1)):
+                w = run[i:i + n]
+                if w in TITLE_STOP or w in pool:
+                    continue
+                pool.append(w)
     if not any(w in txt for w in pool):
         return False, "与本视频无关（不含该视频话题词/标题词）"
     return True, ""
@@ -125,6 +143,11 @@ def sent_today():
 
     2026-11-18 实锚：每条帖在台账里落 post + verify 两行，按行数算日限会把
     1 条记成 2 条，额度直接砍半（今天只剩 1 条却报 2/2）。
+
+    2026-11-27 修（宣称分级）：post 行原来只要有 text 就算发出去，于是一条
+    **rpid 为空**的失败记录（00:41:47「标题里那个抽卡环节剪辑得真带感啊…」rpid=）
+    被算成"今日已发 1 条"。没有 rpid 就等于没有回执，最多算"已提交待回执"，
+    不能计入额度——否则额度被失败记录吃掉，真发的时候反而没配额。
     """
     today = datetime.now().strftime("%Y-%m-%d")
     out = []
@@ -133,8 +156,9 @@ def sent_today():
             continue
         if r.get("action") == "verify":
             continue
-        if r.get("action") in ("post", None) and (r.get("rpid") or r.get("reply") or r.get("text")):
-            out.append(r)
+        if r.get("action") in ("post", None):
+            if r.get("rpid") or r.get("reply"):
+                out.append(r)
     return out
 
 
@@ -251,7 +275,12 @@ def main(argv=None):
     if not ok:
         return 1
     if rpid:
-        vis, vwhy = sc.verify_comment(aid, rpid, wait_s=900)
+        # 优先按正文回验（接口已被 412，DOM 通道可用），拿不到数再退回 rpid 查
+        vis, vwhy = sc.verify_text(aid, row["text"])
+        if vis is None:
+            _v2, _w2 = sc.verify_comment(aid, rpid, wait_s=120)
+            if _v2 is not None:
+                vis, vwhy = _v2, _w2
         _log({"action": "verify", "aid": aid, "rpid": rpid, "visible": vis, "why": vwhy})
         print("[practice] 回验：%s（%s）" % ("公开可见" if vis else "不可见", vwhy))
     return 0
@@ -272,6 +301,18 @@ def self_test():
         ("同领域优先", ("剪辑" in NICHE)),
         ("日限为正数", MAX_PER_DAY > 0),
     ]
+    # 标题贴题判据（2026-11-27）：滑窗取词必须让"贴题的短句"过、让"无关句"拒。
+    # 负控的必要性：旧实现用最长匹配取词，等于要求照抄 4-6 字整段短语，
+    # 实际把 6/12 条贴题候选全拒了——这条测试就是为了不让它被改回去。
+    _t = "剪辑教程：游戏击杀卡点氛围感效果"
+    _on, _ = safe_to_send("游戏击杀那下卡点很带感", title=_t, topics=())
+    _off, _ = safe_to_send("今天天气不错我出去走走了", title=_t, topics=())
+    cases += [("标题滑窗：贴题短句必须放行", _on is True),
+              ("标题滑窗：无关句必须仍拒", _off is False)]
+    # 元话术必须拦（实锚：真发出过「标题里那个"抽卡"环节剪辑得真带感啊」）
+    _meta, _ = safe_to_send(
+        "标题里那个抽卡环节剪辑得真带感啊", title="剪辑教程：抽卡", topics=())
+    cases.append(("元话术（指令泄漏）必须拦", _meta is False))
     ok = 0
     for n, c in cases:
         print("  [%s] %s" % ("PASS" if c else "FAIL", n))

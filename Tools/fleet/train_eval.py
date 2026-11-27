@@ -61,8 +61,17 @@ def score_texts(texts, seg=None):
     n = len(per) or 1
     # 人味（human）必须单列：总分可以被语感和格式刷上去，人味掉了才是真退步
     # （CEO 2026-11-19「要有人味」）。有了它，循环才敢按"人味不许退"当判据。
+    #
+    # 2026-11-27 加 sd/median：只给均分等于让判词赌运气。
+    # 实锚：memer 同一提示 n=10 得 +9.7（KEEP），加采样到 n=30 变成 -4.4（REJECT）；
+    # tech_nerd 得 +4.6、差 0.4 分不及格。没有离差，谁也说不出这 4.6 是不是噪声。
+    tot = [s["total"] for s in per]
+    mean = sum(tot) / n
+    sd = (sum((x - mean) ** 2 for x in tot) / max(1, n - 1)) ** 0.5 if n > 1 else 0.0
     return {"n": len(per),
-            "avg": round(sum(s["total"] for s in per) / n, 1),
+            "avg": round(mean, 1),
+            "sd": round(sd, 1),
+            "median": sorted(tot)[n // 2] if tot else 0,
             "pass_rate": round(100.0 * sum(1 for s in per if s["verdict"] == "PASS") / n),
             "avg_logic": round(sum(s["logic"] for s in per) / n, 1),
             "avg_human": round(sum(s["human"] for s in per) / n, 1),
@@ -126,7 +135,10 @@ def per_segment(base_model, adapter_path, samples, max_tokens, temp, segs=None, 
     for seg in (segs or [s["id"] for s in spec["segments"]]):
         if not with_lora:
             k = _base_key(base_model, seg, samples, max_tokens, temp)
-            if k in cache:
+            # 缓存必须带 sd 才算可用（2026-11-27）：judge_keep 的噪声闸靠 base.sd 算标准误，
+            # 而 sd 是后加的字段——旧缓存没有它，于是 noise_se 返回 None、噪声闸静默失效，
+            # 判决里还显示成"噪声 ±0.0"（看着像量过，其实没量）。缺 sd 就重采一次。
+            if k in cache and "sd" in (cache[k] or {}):
                 rows.append(dict(cache[k], seg=seg, cached=True))
                 continue
         block = sgm.style_block(seg, spec)

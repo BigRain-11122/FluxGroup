@@ -54,9 +54,9 @@
 ## 落地计划（本轮先做前三块）
 
 1. 写 `cph4/fleet/SERVICE-LEVEL-v1.json`：每类任务的 SLI 定义 + SLO 目标 + 窗口。
-2. 写 `Tools/fleet/slo_budget.py`：从回执算 SLI、剩余错误预算、快燃/慢燃状态。
+2. **已建** `Tools/fleet/slo_budget.py`（2026-11-25，自检 10/10）：从回执/队列/轮次台账算 SLI 与剩余错误预算，算不出的写 NO-DATA。
 3. 写 `Tools/fleet/quality_score.py`：产出 rubric 打分（规则为主，4B 只写一句理由）。
-4. 写 `Tools/fleet/cost_attrib.py`：按线/任务累计成本，出"最贵 TOP5"。
+4. **已建** `Tools/fleet/cost_attrib.py`（2026-11-25，自检 10/10）：按席位/机器归集机器时间成本，出最贵 TOP5；云端 token 费用未接，如实标注。
 5. 三个都接脉（每日或每小时），并在一屏留一行。
 6. 安全与供应链台账本轮先出清单（第 11、12 项），下一轮做扫描器。
 

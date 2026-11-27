@@ -302,9 +302,12 @@ def refresh_screen(note=""):
             posts[key] = r
         elif r.get("action") == "verify" and r.get("rpid"):
             vis[r["rpid"]] = bool(r.get("visible"))
+    # 回执齐全（有 rpid）才算"确认发出"。没有 rpid 的行仍进表（否则行数对不上），
+    # 但要在汇总里分开计数——2026-11-27 实锚：一条 rpid 为空的失败记录被读成"今日已发 1 条"。
+    confirmed = sum(1 for k in posts if not str(k).startswith("norp-"))
     L = ["# 实战滚动清单 %s" % datetime.now().strftime("%m-%d %H:%M"), "",
-         "- 今日已发 %d 条 ｜ 公开可见 %d 条 ｜ 最近 %d 条可见率 %s"
-         % (len(posts), sum(vis.values()), len(recent_visibility()),
+         "- 今日已提交 %d 条（其中回执齐全 %d 条）｜ 公开可见 %d 条 ｜ 最近 %d 条可见率 %s"
+         % (len(posts), confirmed, sum(vis.values()), len(recent_visibility()),
             "%.0f%%" % (100.0 * sum(recent_visibility()) / max(len(recent_visibility()), 1))),
          "- 本拍：%s" % (note or "-"), "",
          "| # | 时间 | 动作 | 文案 | rpid | 可见 |", "|---|---|---|---|---|---|"]
@@ -484,7 +487,14 @@ def _lora_ready(timeout=4):
 
 
 def _coexist_gap_ok(gap_s=600):
-    """两条共存发布之间至少隔 10 分钟：训练拿绝对多数时间，出稿只取它够用的那一小段。"""
+    """两次"占用共存窗口"之间至少隔 10 分钟：训练拿绝对多数时间，出稿只取它够用的那一小段。
+
+    2026-11-27 修（判据只看动作不看产出）：原来只认 `coexist-publish`，而那一行是在
+    **获批窗口**时写的、当时还没出稿。实锚：00:18:10 那条 coexist-publish 既没有 text
+    也没有 rpid——台账读起来像"发过一条"，实际那一拍后面是"无文案过闸"。
+    现在窗口授权记 `coexist-grant`（它是资源配额，冷却仍按它算），
+    真实发文另记 `post` 并带 rpid；两者都计入冷却，但读台账不会再混淆。
+    """
     import time as _t
     try:
         rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
@@ -492,13 +502,93 @@ def _coexist_gap_ok(gap_s=600):
         return True
     last = 0
     for r in rows[-80:]:
-        if r.get("action") in ("coexist-publish", "post"):
+        if r.get("action") in ("coexist-grant", "coexist-publish", "post"):
             try:
                 ts = __import__("datetime").datetime.fromisoformat(str(r.get("ts")))
                 last = max(last, _t.mktime(ts.timetuple()))
             except Exception:
                 continue
     return (time.time() - last) >= gap_s if last else True
+
+
+def _lane(phase, **meta):
+    """写本线状态件（lane-practice.json）。失败吞掉——旁证不许挡住发帖。"""
+    try:
+        import lane_state as ls
+        ls.put("practice", phase, **meta)
+    except Exception:
+        pass
+
+
+def risk_recent(window_s=3 * 3600, need=3):
+    """最近 window_s 内出现过几次"风控签名"的失败。返回 (次数, 最后一条原因)。
+
+    为什么要有它（2026-11-27 实测）：B站同时把 `/x/web-interface/nav`（报"未登录"）
+    与 `/x/v2/reply`（返回非 JSON）拦住，而账号 cookie 并未失效——这是风控，不是掉登录。
+    这种情况下每 30 分钟硬试一次只会加重风控，所以攒够 need 次就自动静默一段时间。
+    """
+    import time as _t
+    from datetime import datetime as _dt
+    pats = ("未登录", "接口未返回 JSON", "非 JSON", "风控", "-412", "code=-412")
+    n, last = 0, ""
+    try:
+        rows = [json.loads(l) for l in open(LEDGER, encoding="utf-8") if l.strip()]
+    except Exception:
+        return 0, ""
+    for r in rows[-200:]:
+        why = str(r.get("why") or "") + str(r.get("res") or "")
+        if not any(p in why for p in pats):
+            continue
+        try:
+            ts = _dt.fromisoformat(str(r.get("ts")))
+        except Exception:
+            continue
+        if _t.time() - _t.mktime(ts.timetuple()) <= window_s:
+            n += 1
+            last = why[:70]
+    return n, last
+
+
+def login_probe():
+    """零副作用探一次"能不能发"：用 dry=True 走完整的 nav+签名+参数拼装，但不提交。
+
+    为什么要有它（2026-11-27 实测）：B站风控会把 `/x/web-interface/nav` 与 `/x/v2/reply`
+    一起拦住，此时 `_post_in` 报"未登录"，而 cookie 其实没掉。旧流程会先花 40 秒生成
+    12 条候选、再在发帖时才发现被拦——一夜下来白烧 GPU 还加重风控。
+    干跑只读不写，1 秒出结论。
+    返回 (ok, 原因)。探测本身失败也当"不可发"（宁可少发一条，不在风控期硬试）。
+    """
+    import social_comment as sc
+    aid = 0
+    try:
+        p = os.path.join(ROOT, ".codely-cli", "state", "LOGIN-PROBE-AID.json")
+        aid = int((json.load(open(p, encoding="utf-8")) or {}).get("aid") or 0)
+        if not aid:
+            raise ValueError("no cache")
+    except Exception:
+        # 没缓存就现取一个已知 aid（只用于登录探测，不用于发帖目标）。
+        # 键是 URL（不是 bvid），值里带 bvid——按值取，别再假设键格式。
+        try:
+            tv = json.load(open(os.path.join(SOCIAL, "VIDEO-TITLES.json"), encoding="utf-8"))
+            meta = next(iter(tv.values()))
+            bv = (meta or {}).get("bvid") or ""
+            r = sc._daemon("aid", {"bvid": bv}, timeout=30) if bv else None
+            aid = int(((r or {}).get("res") or {}).get("aid") or 0)
+            if aid:
+                json.dump({"aid": aid, "bvid": bv},
+                          open(os.path.join(ROOT, ".codely-cli", "state",
+                                            "LOGIN-PROBE-AID.json"), "w", encoding="utf-8"))
+        except Exception:
+            pass
+    if not aid:
+        return False, "探测用 aid 取不到"
+    try:
+        ok, res = sc.post_reply(aid, 0, "这条内容先记一下", dry=True)
+    except Exception as e:
+        return False, "探测异常：%s" % str(e)[:50]
+    if ok:
+        return True, ""
+    return False, str(res)[:60]
 
 
 def main():
@@ -510,6 +600,23 @@ def main():
             print("[tick] 补做成熟回验 %d 条" % n_fix)
     except Exception as e:
         print("[tick] 成熟回验失败：%s" % e)
+    # 0.5 风控退避（2026-11-27）：B站把 nav 与 reply 接口一起拦住时（cookie 并未失效），
+    # 每 30 分钟硬试只会加重风控。干跑探一次，被拦就静默这一轮，等它自己放开。
+    _pok, _pwhy = login_probe()
+    if not _pok:
+        _rn, _rwhy = risk_recent()
+        # 2026-11-27 分清两种"发不出去"，因为处理方式完全不同：
+        #   · 未登录（nav 返回 -101）→ 需要人工扫码登录一次，脚本怎么重试都没用；
+        #   · 非 JSON（验证页/风控）→ 等它自己放开，不要硬试。
+        # 昨天我把两者混成"风控"，于是晨报写成"不用重登"——那是错的。
+        _need_login = "未登录" in _pwhy
+        _phase = "login-required" if _need_login else "risk-backoff"
+        print("[tick] %s：发帖预检未通过（%s；近 3 小时 %d 次）" % (
+            "需要人工登录" if _need_login else "风控退避", _pwhy, _rn))
+        _lane(_phase, probe=_pwhy, n=_rn, why=_rwhy,
+              hint="扫码登录一次后自动恢复" if _need_login else "等风控放开")
+        log({"action": "skip", "why": "%s:%s" % (_phase, _pwhy)})
+        return 0
     # 1 止损闸
     b = blocked()
     if b:
@@ -754,7 +861,9 @@ def main():
     # 与 train_forever 的"出稿到期让路"配成一对：训练让出窗口，出稿在窗口里拿锁。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=20)
+        # TTL 600→120：出稿正常 5 秒完成，10 分钟只够让卡死的进程白占租约。
+        # 卡住时（浏览器无响应，CPU 0%）120 秒后过期，gpu_lease 的僵尸回收能接手。
+        _got, _why = _gl.acquire("publish", ttl_s=120, wait_s=20)
     except Exception:
         _got, _why = True, ""
     if (not _got and "train" in str(_why)
@@ -764,7 +873,7 @@ def main():
         # 直接进受限共存，省掉最多 90 秒空等（实测 total 188.7→117.1 就是这 90 秒的差）
         _got, _exclusive = True, False
         _why = "coexist（训练持锁，8788 在位，跳过举手等待）"
-        log({"action": "coexist-publish", "why": _why})
+        log({"action": "coexist-grant", "why": _why})
     if not _got and "train" in str(_why):
         # 2026-11-22 握手：训练只在"出稿到期"时让路，可手动/会话触发的这一拍可能还没到期，
         # 于是干等。出稿这里举一次手（PUBLISH-REQUEST），训练侧看到就 SIGSTOP 让路，
@@ -778,7 +887,7 @@ def main():
         t_w = time.time()
         while time.time() - t_w < 90:
             time.sleep(5)
-            _got, _why = _gl.acquire("publish", ttl_s=600, wait_s=5)
+            _got, _why = _gl.acquire("publish", ttl_s=120, wait_s=5)
             if _got:
                 log({"action": "yield-wait", "secs": round(time.time() - t_w, 1)})
                 break
@@ -791,10 +900,11 @@ def main():
         # 训练持锁是 4 小时 TTL：它一占，出稿就被饿死（2026-11-22 实锚：13:25→21:42 零产出）。
         # 而 train_run.sh 自己的探针已证明"训练 + 8788 出稿 + 采集"可同时跑
         # （swap 零增长、训练 3.0–3.5s/步、出稿 10/10 成功）。所以允许**受限共存**：
-        # ①只在 8788 在位时 ②共存发布间隔 ≥10 分钟 ③落账 coexist-publish 可归因。
+        # ①只在 8788 在位时 ②两次共存窗口间隔 ≥10 分钟 ③窗口授权落成 coexist-grant
+        # （不是 coexist-publish——那一刻还没出稿，记成"已发"就是假绿）。
         if _lora_ready() and _coexist_gap_ok():
             _got, _why, _exclusive = True, "coexist（训练持锁，8788 在位）", False
-            log({"action": "coexist-publish", "why": _why})
+            log({"action": "coexist-grant", "why": _why})
         else:
             _why = _why + "； coexist 不可用（8788 不在位或间隔未到）"
     if not _got:
@@ -897,6 +1007,14 @@ def main():
             # D 臂要求含具体对象，提示词不要求就会被形态闸整批拒（2026-11-22 实锚：
             # 连拒 5 条、日志只写 gate:[True,'']，看不出是形态闸）
             p += "提到一个具体的东西（画面/剪辑/镜头/转场/配乐）。"
+        # 贴题：2026-11-26 统计今日拒稿，"与本视频无关"56 条是最大单项——模型写的是
+        # 泛泛夸赞（"这个真的太好了"），既不落标题也不落领域词，于是被判无关。
+        # 这不是闸太严（闸接受"标题里任意 2-6 字词"），而是提示词没要求贴题。
+        # 所以补一句要求，不动判据。
+        # 2026-11-27 修：原来写"可以把标题里的词直接用在句子里"，模型照着说了
+        # 「标题里那个"抽卡"环节剪辑得真带感啊」——把指令当内容，真人不会这样说话。
+        # 改成只描述"像看过之后说的"，并且显式禁掉这几个元话术词。
+        p += "像看过之后那样直接说画面或内容本身，不要出现“标题”“视频里”“这条视频”这类说法。"
         # 温度在车道函数内部固定，这里不改签名（改了要动 social_comment_gen）；
         # 多样性靠上面的随机角度 + 不同的目标字数，不靠温度。
         # 车道按人群段定（2026-11-24）：实测有 3 个段 adapter 比基座差，
@@ -965,6 +1083,7 @@ def main():
         refresh_screen("本拍无文案过闸（不硬发）")
         log({"action": "skip", "why": "no text passed gates", "arm": arm, "video": url})
         print("[tick] 跳过：无文案过闸")
+        _lane("skip-notext", arm=arm, video=(url or "")[-24:])
         return 0
 
     # 生成段到此结束。此前 gen_s 是在 ap.run 之后才算的，把发帖往返也吞了进去，
@@ -1075,6 +1194,7 @@ def main():
     refresh_screen("本轮 %s 臂已发（%s 车道）：%s" % (arm, lane_used, text[:20]))
     print("[tick] 发出 rpid=%s 可见=%s 车道=%s"
           % (res.get("rpid"), res.get("visible"), lane_used))
+    _lane("posted", arm=arm, rpid=str(res.get("rpid") or ""), visible=res.get("visible"))
     return 0
 
 
@@ -1090,9 +1210,15 @@ def unblock():
 def status():
     b = blocked()
     rv = recent_visibility()
-    n = len([r for r in rows_today() if r.get("action") == "post"])
-    print("[tick] 今日已发 %d 条 ｜ 最近 %d 条可见 %d ｜ 止损 %s"
-          % (n, len(rv), sum(rv), ("中(%s)" % b["why"]) if b else "未触发"))
+    rows = [r for r in rows_today() if r.get("action") == "post"]
+    # 回执齐全才算"确认发出"：2026-11-27 实锚，一条 rpid 为空的记录被读成"今日已发 1 条"。
+    n = sum(1 for r in rows if r.get("rpid"))
+    if len(rows) != n:
+        print("[tick] 今日已发 %d 条（另有 %d 条无回执，不计入额度）｜ 最近 %d 条可见 %d ｜ 止损 %s"
+              % (n, len(rows) - n, len(rv), sum(rv), ("中(%s)" % b["why"]) if b else "未触发"))
+    else:
+        print("[tick] 今日已发 %d 条 ｜ 最近 %d 条可见 %d ｜ 止损 %s"
+              % (n, len(rv), sum(rv), ("中(%s)" % b["why"]) if b else "未触发"))
     return 0
 
 
@@ -1171,6 +1297,13 @@ def self_test():
         write([{"action": "post", "rpid": "p%d" % i, "ts": now} for i in range(mx)])
         rc = main()
         check("E 日限已满→跳过零发帖", rc == 0 and posts() == mx)
+
+        # F 2026-11-27：共存**窗口授权**不是发文（实锚 00:18:10 那条 coexist-publish
+        #   既无 text 也无 rpid，台账读起来像"发过一条"，实际后面是"无文案过闸"）。
+        #   两条都要守：①授权不计入发文 ②冷却仍按授权算（否则每拍都能开窗口烧 GPU）。
+        write([{"action": "coexist-grant", "why": "coexist", "ts": now}])
+        check("F 窗口授权不计入发文", posts() == 0)
+        check("F 冷却仍按窗口授权算", _coexist_gap_ok() is False)
 
             # J 取数失败（visible=None）不得计入可见率——这是 11-19 假止损的直接原因
         with open(LEDGER, "w", encoding="utf-8") as f:

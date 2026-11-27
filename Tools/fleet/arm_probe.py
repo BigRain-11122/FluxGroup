@@ -31,6 +31,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -160,6 +161,19 @@ def gates(text, ctx="", topics=(), taste_gate=False):
                                    "verdict": (s or {}).get("verdict")}
 
 
+ROOTS_RETRY_S = [15, 30]    # 常驻浏览器让路/限流时的两次退避（自检里置 0）
+# 2026-11-27 实测：B站评论接口会短时限流，返回非 JSON。间歇性出现，等 60 秒即恢复，
+# 所以 4s/8s 那种"礼貌退避"根本跨不过去；一拍最多多等 45 秒，比整拍白跑便宜。
+
+
+def _transient(msg):
+    """这条失败值不值得重试。只有"被占用/让路/超时"是暂时的；
+    解析失败、参数错、接口改版都是永久错误，重试只会多烧 12 秒。"""
+    s = str(msg or "").lower()
+    return ("post-pending" in s or "忙" in s or "timeout" in s
+            or "超时" in s or "occupied" in s or "busy" in s)
+
+
 def fetch_roots(aid, limit=20):
     """同源取第一页 root 评论（带 rpid），并滤掉注销号/空内容。
 
@@ -167,10 +181,52 @@ def fetch_roots(aid, limit=20):
     抛 RuntimeError，整拍白跑 3 分钟。改为先走常驻浏览器（同一上下文里一个标签页）。
     """
     import social_comment as sc
-    hit = sc._daemon("roots", {"aid": aid, "limit": limit}, timeout=90)
-    if hit is not None and hit.get("ok"):
-        return hit.get("res") or []
-    mod, _ = sc._pw()
+    # 2026-11-27 实锚（各司其职）：常驻浏览器**在**但这一拍让路（post-pending）或忙时，
+    # 旧代码立刻回落到"自己开浏览器"，而同一个 profile 只能一个持有者——于是白等 180 秒
+    # 拿锁超时，日志写成"profile 被占用（先放补采或学习循环）"，看着像采集抢锁，
+    # 其实是自己在跟常驻浏览器抢。正法：daemon 活着就只重试 daemon；
+    # 只有 daemon 确实不在（端口没响应）才允许冷启动回落。
+    #
+    # 2026-11-27 二次实锚：`roots` 动作会先 goto 视频页。实测它对真实 aid 恒返回空白体
+    # （json.loads 报 char 0），而 `roots2`（不导航、非 JSON 自动回首页重试）同一 aid
+    # 能正常取到 replies。所以优先 roots2，roots 只作退一步。
+    daemon_alive = False
+    last = ""
+    for attempt in range(3):
+        # priority="post"：取 root 评论是发帖流程的一部分，不该被发帖自己的让路标记挡住
+        hit = sc._daemon("roots2", {"aid": aid, "limit": limit, "priority": "post"},
+                         timeout=90)
+        if hit is None:
+            break                      # 端口不通：daemon 不在，才考虑冷启动
+        daemon_alive = True
+        if hit.get("ok"):
+            res = hit.get("res") or {}
+            if isinstance(res, dict):
+                reps = res.get("replies") or []
+                code = res.get("code")
+                if reps:
+                    return reps[:limit]
+                if code == 0:
+                    # code=0 且真的没有 replies = 这条视频确实没人评论，属正常答复
+                    return []
+                # code=None 说明 fetch 拿到的是非 JSON（验证页/限流），**不是"没人评论"**。
+                # 2026-11-27 实锚：旧写法把 None 也当成功返回空表，于是每一拍都记
+                # 「第一页没有可用 root 评论」——把解析失败说成了视频没有评论。
+                last = "接口未返回 JSON（code=%s）" % code
+            else:
+                last = "非结构化答复"
+        else:
+            last = str(hit.get("res") or "")
+            if not _transient(last):
+                break                  # 解析失败/参数错属永久错误，重试只是白等
+        if attempt < 2:
+            time.sleep(ROOTS_RETRY_S[attempt])  # 让路/占用都是暂时的，退避比抢锁便宜
+    if daemon_alive:
+        hit = sc._daemon("roots", {"aid": aid, "limit": limit, "priority": "post"}, timeout=90)
+        if hit is not None and hit.get("ok"):
+            return (hit.get("res") or [])[:limit]
+        print("[arm] 常驻浏览器在但取评论列表失败（%s），不抢 profile" % (last or "未知")[:70])
+        return []
     mod, _ = sc._pw()
     from time import sleep
     with mod.sync_playwright() as p:
@@ -225,12 +281,17 @@ def run(arm, video, text, root="auto", dry=False, wait_s=120, ctx="", topics=(),
             try:
                 roots = fetch_roots(aid)
             except Exception as e:
-                # 2026-11-19 实锚：评论已 code=0 发出，却因下游常量缺失在这里抛 NameError，
-                # 结果台账只留一条 post、丢了 lane/persona 归因。已发出的事实不许被下游覆盖。
+                # 原来这里写「按已发出处理」——那是错的：fetch_roots 在 post_reply **之前**，
+                # 走到这里评论根本还没发出去。真实行为是返回 stage=root 的失败，但日志让人
+                # 以为"已发出"，于是同一条失败每天都在台账里被读成"今天发过了"。
+                # 2026-11-26 实锚：practice-tick.log 连续多条「取评论列表失败：按已发出处理」+
+                # 「第一页没有可用 root 评论」，实际是采集侧取不到列表，与"发出"无关。
                 roots = []
-                print("[arm] 取评论列表失败（%s）：按已发出处理" % type(e).__name__)
+                print("[arm] 取 target 评论列表失败（%s: %s）——尚未发出，本次放弃"
+                      % (type(e).__name__, str(e)[:60]))
             if not roots:
-                return {"ok": False, "stage": "root", "why": "第一页没有可用 root 评论"}
+                return {"ok": False, "stage": "root",
+                        "why": "第一页没有可用 root 评论（可能是列表接口失败或该视频已关评）"}
             root_rpid = int(roots[0]["rpid"])
         else:
             root_rpid = int(root)
@@ -284,6 +345,49 @@ def self_test():
     """负控 ≥3 条 + 正向：闸该拒的必须拒，该过的必须过（用临时台账，不碰真账）。"""
     import tempfile
     cases = []
+    # 负控（2026-11-27）：常驻浏览器**在**但这一拍让路时，绝不自己开浏览器抢同一个 profile。
+    # 实锚：旧代码回落后白等 180s 拿锁超时，日志写成"profile 被占用（先放补采或学习循环）"，
+    # 把"自己在抢自己"读成了采集抢锁。
+    import social_comment as _sc
+    _d0, _l0 = _sc._daemon, _sc._launch
+    _r0 = list(ROOTS_RETRY_S)
+    calls = {"launch": 0, "daemon": 0}
+
+    def _fake_daemon(op, payload, timeout=120):
+        calls["daemon"] += 1
+        return {"ok": False, "res": "post-pending（%s 让路给发帖）" % op}
+
+    def _fake_launch(p):
+        calls["launch"] += 1
+        raise RuntimeError("daemon 活着时不该走到这里")
+    try:
+        _sc._daemon, _sc._launch = _fake_daemon, _fake_launch
+        ROOTS_RETRY_S[:] = [0, 0]
+        _out = fetch_roots(123)
+        cases.append(("常驻浏览器在但让路 → 只重试不抢 profile",
+                      _out == [] and calls["launch"] == 0 and calls["daemon"] >= 3))
+        # 正向：daemon 不在（None）才允许冷启动回落。
+        # 用一个带标记的 _pw 证明"确实走进了回落路径"——直接数 _launch 不可靠，
+        # 因为回落路径本身会先要 playwright 模块（这里是桩，拿不到）。
+        calls["launch"] = 0
+        _sc._daemon = lambda op, payload, timeout=120: None
+        _pw0 = _sc._pw
+
+        def _fake_pw():
+            raise RuntimeError("PW-CALLED")
+        _sc._pw = _fake_pw
+        try:
+            _msg = ""
+            try:
+                fetch_roots(123)
+            except RuntimeError as e:
+                _msg = str(e)
+            cases.append(("daemon 不在 → 允许冷启动回落", _msg == "PW-CALLED"))
+        finally:
+            _sc._pw = _pw0
+    finally:
+        _sc._daemon, _sc._launch = _d0, _l0
+        ROOTS_RETRY_S[:] = _r0
     pol = {"max_per_day": 2, "min_gap_min": 90, "stage": 0}
     tmp = tempfile.mkdtemp()
     p1, p2 = os.path.join(tmp, "a.jsonl"), os.path.join(tmp, "b.jsonl")

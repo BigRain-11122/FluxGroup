@@ -8,8 +8,11 @@ UID_N="$(id -u)"
 ADAPTER="${1:-}"
 REASON="${2:-}"
 if [[ -z "$ADAPTER" ]]; then echo "用法: lora_switch.sh <adapter 相对路径|base> [切换依据]"; exit 2; fi
-if [[ "$ADAPTER" != "base" && ! -f "$ROOT/$ADAPTER/adapters.safetensors" ]]; then
-  echo "适配器不存在：$ROOT/$ADAPTER"; exit 2
+# 归档在 ~/.fluxgroup/lora-archive 下，不在仓库内；只认相对路径会让"归档再切换"做不到
+if [[ "$ADAPTER" == /* ]]; then
+  [[ "$ADAPTER" != "base" && ! -f "$ADAPTER/adapters.safetensors" ]] && { echo "适配器不存在：$ADAPTER"; exit 2; }
+else
+  [[ "$ADAPTER" != "base" && ! -f "$ROOT/$ADAPTER/adapters.safetensors" ]] && { echo "适配器不存在：$ROOT/$ADAPTER"; exit 2; }
 fi
 python3 - "$ROOT" "$ADAPTER" "$REASON" <<'PY'
 import json, sys, os

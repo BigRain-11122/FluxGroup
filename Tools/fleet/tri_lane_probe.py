@@ -176,8 +176,15 @@ def main():
     rec["verdict"] = verdict
     rec["why"] = why or ["swap 与 pageouts 均在阈值内"]
 
-    out = os.path.join(STATE, "tri-lane-%s.json" % datetime.now().strftime("%Y%m%d-%H%M%S"))
-    json.dump(rec, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    # 原地更新一个固定的状态件，不再每次新造 tri-lane-<时间戳>.json。
+    # 2026-11-26 实锚：这样一次一文件，state 目录里堆了 24 份同构报告，谁也说不清
+    # 哪份是"现在"。CEO 令「经常更新，但不要互相影响 应该各司其职」——探针就该
+    # 只维护自己那一个件，写多少次都只有一份。
+    out = os.path.join(STATE, "tri-lane-latest.json")
+    tmp = out + ".tmp"
+    rec["ts"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    json.dump(rec, open(tmp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    os.replace(tmp, out)
     print("[probe] %s ｜ swap %+dMB ｜ pageouts %.0f/min ｜ 步速 %s ms ｜ 出稿 %s ｜ 采集 rc=%s"
           % (verdict, swap_growth, pageouts_rate, step_ms, inf or "-", col_rc))
     print("[probe] 报告 %s" % os.path.relpath(out, ROOT))

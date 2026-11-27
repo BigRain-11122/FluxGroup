@@ -192,6 +192,12 @@ def plan_violates(plan):
 # ---------------- 点赞原语（真实用户最常做的动作） ----------------
 def like(aid, dry=False):
     import social_comment as sc
+    # 先走常驻浏览器：它 24 小时握着 profile 锁，自己再 _launch() 必然抢不到锁，
+    # 于是整场会话在 "profile 起不来" 上抛出、点赞永远为 0（2026-11-26 实锚）。
+    # 守护不可用（返回 None）时才回落到冷启动，行为与旧路径一致。
+    hit = sc._daemon("like", {"aid": aid, "dry": dry}, timeout=60)
+    if hit is not None:
+        return bool(hit.get("ok")), hit.get("res")
     mod, _ = sc._pw()
     with mod.sync_playwright() as p:
         ctx = sc._launch(p)

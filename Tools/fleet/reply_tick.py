@@ -52,12 +52,24 @@ SENSITIVE = re.compile(r"\d+\s*岁|年龄|显老|老了|变胖|胖了|瘦了|变
                        r"离婚|出轨|去世|自杀|抑郁|癌症|生病|政治|宗教|工资|房价")
 
 
-def _fabricates(reply, comment):
-    """回复里出现了评论中没有的数字/专名，就判为编造。
+# 承诺交付类表述：回复里出现就等于替公司许了一个我们兑现不了的愿。
+# 2026-11-26 实锚：一条真发出去的回复写着「安装包和字体我打包发你，自取就好」——
+# 根本没有这个包。_fabricates 原来只查数字和英文，这类承诺全漏。
+# 红线：不承诺、不导流、不索要联系方式，比"像不像人"更重要。
+_PROMISE = re.compile(
+    r"(打包|发你|传你|私信|自取|加我|给你发|转你|邮箱给你|链接给你|放群里|上传|"
+    r"置顶评论|评论区置顶|主页有|简介里有)")
 
-    只查两类最硬的信号：数字，以及评论里没有的 2 字以上英文/大写缩写。
+
+def _fabricates(reply, comment):
+    """回复里出现了评论中没有的数字/专名，或任何交付承诺，就判为编造。
+
+    两类硬信号：数字 / 评论里没有的 2 字以上英文缩写；外加一类更危险的——
+    "我打包发你"这种替公司许愿的表述（兑现不了就是欺骗，比 AI 腔严重得多）。
     """
     if not reply:
+        return True
+    if _PROMISE.search(reply):
         return True
     for d in set(re.findall(r"\d+", reply)):
         if d not in (comment or ""):
@@ -69,11 +81,17 @@ def _fabricates(reply, comment):
 
 
 def _ontopic(reply, comment, min_share=2):
-    """回复要与评论共享 ≥2 个汉字二元组，否则算自说自话。
+    """回复要与评论共享足够的汉字二元组，否则算自说自话。
 
     为什么用二元组而不是分词：正则切出来的"实词"是整段连写的长串
     （"当年确实被严重低估"），两边永远不相等，实测把 7/8 条好回复误杀。
     二元组比较的是字面相邻关系，不需要分词器也不会被连写打败。
+
+    2026-11-26：原来固定要求共享 ≥2 个二元组，短评必死——"这歌真好听"只有
+    {这歌,歌真,真好,好听} 4 个二元组，正常改写（"你说好听，看来这旋律确实
+    有点东西"）只能共享 1 个"好听"，于是被当成跑题。实测一批回复里 7/10 都
+    死在这条上，而人读起来是切题的。改成按评论长度分级：短评要 1 个，长评要 2 个，
+    判据随"这条评论一共有多少可共享的东西"缩放，而不是一刀切。
     """
     def bg(s):
         s = re.sub(r"[^\u4e00-\u9fff]", "", s or "")
@@ -81,7 +99,10 @@ def _ontopic(reply, comment, min_share=2):
     a, b = bg(reply), bg(comment)
     if not a or not b:
         return False
-    return len(a & b) >= min_share
+    # 短中评只要有 1 个共享二元组（"别自说自话"的地板），
+    # 长评（≥12 个二元组 ≈14 字）要 2 个：长评里单个二元组太容易撞。
+    need = min(int(min_share), 2) if len(b) >= 12 else 1
+    return len(a & b) >= need
 
 
 def _now():
@@ -298,6 +319,14 @@ _RULE = ("要求：10-24字；只回应他说的那一件事；不许编造具�
          "不许客套和客服腔；一句话。\n")
 
 
+_LAST_WHY = {"why": ""}
+
+
+def _why(msg):
+    """记下这一条为什么没出稿，供台账写具体原因（不再是笼统一句）。"""
+    _LAST_WHY["why"] = msg
+
+
 def _reply_text(comment, video_title=""):
     """生成一条回复。返回空串表示这条不该发（过不了闸）。"""
     _setup_profile()
@@ -310,24 +339,36 @@ def _reply_text(comment, video_title=""):
         r = lc.generate_lora(prompt, max_tokens=48, temperature=0.75)
     except Exception:
         return ""
+    if not r.get("ok", True):
+        # 8788 忙/不可用时 generate_lora 返回 ok=False + 空文本。
+        # 原来这一支被当成"无稿"静默吞掉，于是台账里 91% 都是"闸拒或无稿"，
+        # 分不清是模型挂了还是稿子被闸拦了（2026-11-26 实锚：日志里一条原因都没有）。
+        _why("8788 不可用：%s" % str(r.get("why"))[:70])
+        return ""
     t = (r.get("text") or "").strip().strip("“”\"'").split("\n")[0].strip()
     if not t:
+        _why("模型返回空文本")
         return ""
     if not (8 <= len(t) <= 30):
         print("     [len] %d 字不在 8-30：%s" % (len(t), t[:20]))
+        _why("长度 %d 字不在 8-30" % len(t))
         return ""
     ok, why, _ = cg.gate(t, face="reply", taste_gate=False)
     if not ok:
         print("     [gate] 拦下：%s" % why)
+        _why("闸拒：%s" % str(why)[:40])
         return ""
     if dz.check(t)["verdict"] != "clean":
         print("     [deai] 有 AI 腔：%s" % t[:20])
+        _why("AI 腔：%s" % t[:16])
         return ""
     if _fabricates(t, comment):
         print("     [编造] 出现评论里没有的信息：%s" % t[:20])
+        _why("编造：%s" % t[:16])
         return ""
     if not _ontopic(t, comment):
         print("     [跑题] 与评论无实词交集：%s" % t[:20])
+        _why("跑题：%s" % t[:16])
         return ""
     return t
 
@@ -371,9 +412,12 @@ def reply(n=1):
                 if SENSITIVE.search(txt):
                     _append({"action": "skip", "rpid": rid, "why": "敏感话题"})
                     continue
+                _LAST_WHY["why"] = ""
                 t = _reply_text(txt, v.get("title") or "")
                 if not t:
-                    _append({"action": "skip", "rpid": rid, "why": "闸拒或无稿"})
+                    _append({"action": "skip", "rpid": rid,
+                             "src": txt[:60], "text": t or "",
+                             "why": _LAST_WHY["why"] or "无稿（未记录原因）"})
                     continue
                 ok, res = ses.reply(aid, rid, t)
                 _append({"action": "reply", "rpid": rid, "aid": aid, "bvid": v["bvid"],
@@ -406,6 +450,20 @@ def self_test():
     """负控：台账去重、rcount>0 不抢、夜间不动、上限生效。"""
     cases = []
     cases.append(("MAX_PER_TICK 上限存在", MAX_PER_TICK >= 1))
+    # 跑题判据：正控（短评 + 正常改写必须过）+ 负控（无关内容必须拦）
+    cases.append(("短评正常改写 → 判切题",
+                  _ontopic("你说好听，看来这旋律确实有点东西", "这歌真好听")))
+    cases.append(("长评正常改写 → 判切题",
+                  _ontopic("当年确实被严重低估了，现在听还是很顶", "当年确实被严重低估")))
+    cases.append(("完全无关 → 判跑题",
+                  not _ontopic("今天股市又跌了心情很差", "这歌真好听")))
+    cases.append(("空评论 → 判跑题（不许放行）", not _ontopic("随便说点什么", "")))
+    # 承诺检测：真发出去过的那句必须判编造
+    cases.append(("承诺发文件 → 判编造",
+                  _fabricates("三连已收到，安装包和字体我打包发你，自取就好。", "求所有安装包")))
+    cases.append(("承诺私信 → 判编造", _fabricates("私信我发你链接", "求素材")))
+    cases.append(("正常回复不误伤", not _fabricates("这旋律确实有点东西", "这歌真好听")))
+    cases.append(("编数字 → 判编造", _fabricates("我练了 30 天", "怎么练的")))
     import tempfile
     global LOG
     saved = LOG

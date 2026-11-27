@@ -84,22 +84,42 @@ def sample_one(title, desc, k, seg, temperature=0.85, url=""):
     return str(r or "").strip(), ""
 
 
+def _lane(phase, **meta):
+    """写本线状态件（lane-selfgen.json）。失败吞掉——旁证不许挡住生产。"""
+    try:
+        import lane_state as ls
+        ls.put("selfgen", phase, **meta)
+    except Exception:
+        pass
+
+
 def run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""):
     # 一块 GPU 一把租约（2026-11-21）：与训练/嵌入互斥，拿不到就让路，不抢。
+    # TTL 10 分钟 + 每处理一条续约（2026-11-26）：原来写死 3 小时，一次卡顿就把 GPU
+    # 锁满三小时，回收器要等 stale 才有机会介入——训练因此白等 7444s。短 TTL 让
+    # 卡死十分钟即可被回收，健康长跑靠 renew 续命。
     try:
         import gpu_lease as _gl
-        got, why = _gl.acquire("selfgen", ttl_s=3 * 3600)
+        got, why = _gl.acquire("selfgen", ttl_s=600)
     except Exception as _e:
         got, why = True, "租约不可用：%s" % str(_e)[:40]
     if not got:
+        _lane("yield", why=str(why)[:80])
         return {"skipped": why}
+    _lane("running", seg=seg or "all", per=per)
     try:
-        return _run(titles_limit, per, seg, dry, temperature, out_name)
+        out = _run(titles_limit, per, seg, dry, temperature, out_name)
     finally:
         try:
             _gl.release("selfgen")
         except Exception:
             pass
+    try:
+        _lane("done", kept=(out or {}).get("kept"), added=(out or {}).get("added"),
+              reasons=str((out or {}).get("reasons"))[:60])
+    except Exception:
+        pass
+    return out
 
 
 def _run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""):
@@ -137,6 +157,13 @@ def _run(titles_limit=0, per=8, seg="", dry=False, temperature=0.85, out_name=""
         desc = (meta or {}).get("desc") or ""
         if not title:
             continue
+        # 每处理完一个标题就续约：健康长跑不会因短 TTL 掉锁，卡死则 10 分钟自动过期
+        try:
+            import gpu_lease as _gl2
+            if not _gl2.renew("selfgen", ttl_s=600):
+                pass
+        except Exception:
+            pass
         for k in range(per):
             t, why = sample_one(title, desc, k, seg, temperature, url)
             if why:

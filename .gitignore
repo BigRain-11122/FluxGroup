@@ -372,3 +372,10 @@ cph4/fleet/social/train/RUNS/**/optimizer*
 /torchinductor_*/
 /_offload/
 /_pub/
+
+# 第三方 vendor：只提交 UPSTREAM.json 与安装脚本，源码/依赖不入库
+cph4/fleet/social/gzh/vendor/md/
+
+# 第三方技能包 vendor：只提交 UPSTREAM.json，源码不入库
+cph4/skills/_vendor-gzh/wewrite/
+cph4/skills/_vendor-gzh/wechat-article-skills/

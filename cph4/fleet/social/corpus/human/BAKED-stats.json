@@ -1,35 +1,35 @@
 {
- "ts": "2026-11-23T23:44:25",
- "rows": 65298,
+ "ts": "2026-11-27T15:17:24",
+ "rows": 103291,
  "workers": 7,
- "bake_sec": 462.5,
- "rows_per_sec": 141.2,
- "near_dup": 1029,
+ "bake_sec": 249.3,
+ "rows_per_sec": 414.4,
+ "near_dup": 1434,
  "segments": {
-  "generic": 47501,
-  "memer": 4801,
-  "shallow": 3059,
-  "craft_learner": 2594,
-  "feeler": 1916,
-  "peer_pro": 1477,
-  "tech_nerd": 969,
-  "student": 760,
-  "music_seeker": 542,
-  "family": 495,
-  "ai_creator": 361,
-  "critic": 359,
-  "beginner": 320,
-  "requester": 92,
-  "traditional": 52
+  "generic": 78488,
+  "memer": 5857,
+  "shallow": 4467,
+  "feeler": 3424,
+  "craft_learner": 2914,
+  "peer_pro": 1616,
+  "critic": 1320,
+  "student": 1276,
+  "tech_nerd": 1127,
+  "family": 1074,
+  "music_seeker": 674,
+  "ai_creator": 449,
+  "beginner": 396,
+  "traditional": 112,
+  "requester": 97
  },
  "verdicts": {
-  "PASS": 12060,
-  "RISKY": 44062,
-  "REJECT": 9176
+  "PASS": 15864,
+  "RISKY": 77575,
+  "REJECT": 9852
  },
- "ai_smell_cut": 2695,
+ "ai_smell_cut": 3440,
  "ai_smell_why": {
-  "AI 腔": 2647,
-  "烂梗": 48
+  "AI 腔": 3349,
+  "烂梗": 91
  }
 }

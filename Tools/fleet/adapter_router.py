@@ -36,6 +36,9 @@ STATE = os.path.join(ROOT, ".codely-cli", "state")
 LOG = os.path.join(STATE, "adapter-router.jsonl")
 
 
+MIN_DEPLOY_N = 30       # 上线门槛：判决样本量低于这个数，一律不采（宁可用基座）
+
+
 def pick_best(rows, exists=None):
     """从台账行里挑每段最优件：**按增益取最大，不是取最后一次 KEEP**。
 
@@ -56,7 +59,10 @@ def pick_best(rows, exists=None):
         if r.get("verdict") != "KEEP" or not r.get("adapter"):
             continue
         n = int(r.get("eval_n") or 0)
-        if n < 10:
+        # 2026-11-27：门槛 10 → 30。实锚：shallow 今天全被否、只能退回 11-21 那个
+        # "n=10、+21.1 分"的旧件上线；而同一段 memer 的 n=10 KEEP(+9.7) 在 n=30 下是 -4.4。
+        # n<30 的判决是抽样运气，不许拿它决定线上挂哪个模型——宁可挂基座。
+        if n < MIN_DEPLOY_N:
             continue
         if rejected.get(r["adapter"], 0) >= n:
             continue
@@ -176,20 +182,20 @@ def self_test():
 
     # 负控：合成的台账行，不碰真实文件与真实台账
     fake = [
-        {"seg": "X", "verdict": "KEEP", "adapter": "a", "lora_avg": 87.3, "base_avg": 47.6, "eval_n": 10},
-        {"seg": "X", "verdict": "KEEP", "adapter": "b", "lora_avg": 73.6, "base_avg": 53.0, "eval_n": 10},
-        {"seg": "Y", "verdict": "KEEP", "adapter": "c", "lora_avg": 99.0, "base_avg": 10.0, "eval_n": 3},
+        {"seg": "X", "verdict": "KEEP", "adapter": "a", "lora_avg": 87.3, "base_avg": 47.6, "eval_n": 30},
+        {"seg": "X", "verdict": "KEEP", "adapter": "b", "lora_avg": 73.6, "base_avg": 53.0, "eval_n": 30},
+        {"seg": "Y", "verdict": "KEEP", "adapter": "c", "lora_avg": 99.0, "base_avg": 10.0, "eval_n": 10},
         {"seg": "Z", "verdict": "REJECT", "adapter": "d", "lora_avg": 99.0, "base_avg": 10.0, "eval_n": 20},
     ]
     picked = pick_best(fake, exists=lambda p: True)
     cases.append(("后写的差件不能顶掉好件（应取 +39.7 的 a）",
                   (picked.get("X") or {}).get("adapter") == "a"))
-    cases.append(("n<10 的 KEEP 一律不采", "Y" not in picked))
+    cases.append(("n<30 的 KEEP 一律不采（10 也不行）", "Y" not in picked))
     cases.append(("REJECT 不采", "Z" not in picked))
 
     # 负控：同件先 n=10 KEEP、后 n=30 REJECT —— 必须被推翻，不许继续当最优
     fake2 = [
-        {"seg": "W", "verdict": "KEEP", "adapter": "k", "lora_avg": 70.0, "base_avg": 50.0, "eval_n": 10},
+        {"seg": "W", "verdict": "KEEP", "adapter": "k", "lora_avg": 70.0, "base_avg": 50.0, "eval_n": 30},
         {"seg": "W", "verdict": "REJECT", "adapter": "k", "lora_avg": 46.8, "base_avg": 50.0, "eval_n": 30},
     ]
     picked2 = pick_best(fake2, exists=lambda p: True)

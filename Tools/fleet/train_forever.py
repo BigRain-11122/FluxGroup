@@ -64,6 +64,18 @@ MIN_ROWS = 200          # 段内可用语料下限：低于这个数只学会抄
 MIN_BUILD = 180         # 造集后训练样本下限
 COOLDOWN_S = 6 * 3600   # 同段冷却：一天最多训 4 次，避免对着同一批语料反复过拟合
 GROWTH_GATE = 1.15      # 被否过的段，语料要涨 15% 才重训
+# 单次训练的墙钟上限：正常 40-50 分钟；给到 2 小时是留足慢盘/降速余量。
+# 超过就整组杀掉——租约 TTL 是 4 小时，没有这道闸，一次死锁会白占一整晚。
+TRAIN_MAX_S = 2 * 3600
+# 天花板闸：基座分已经这么高的段，训 LoRA 只会把它拉低，不该再烧 GPU。
+# 2026-11-27 实锚：craft_learner 基座 81.4（n=30 测量），训完掉到 68-75，连续三轮都是负分；
+# 它本来就是"带技术细节"的段，基座已经写得很好，缺的不是风格而是内容。
+CEILING_SKIP = 80.0
+# 反复被否的段：累计被否这么多次之后，只有"语料翻倍"才值得再试一次。
+# 2026-11-27 实锚：craft_learner 17 次、feeler 16 次、shallow 15 次被否，
+# 而 15% 增长门槛让它们每隔几小时就回来烧一轮——这不是探索，是重复同一个失败。
+HARD_REJECT_N = 10
+HARD_GROWTH = 2.0
 KEEP_GAIN = 5.0         # 段内均分要比基座高这么多
 KEEP_HUMAN_DROP = 2.0   # 人味允许波动；掉超过 2 分即判退步
 
@@ -153,6 +165,12 @@ def eligible(seg, rows, st, rejects, now=None):
     # 训练节奏跟着**数据**走，不跟时钟走：语料涨够 10% 就是新的一课，
     # 比"每 6 小时再来一遍同样的数据"科学（那只会过拟合）。
     grown = last_rows and n >= last_rows * 1.10
+    # 冷却必须先于"配方更新"判定：否则状态里一旦缺 recipe（重建/历史台账没有这个字段），
+    # 每轮都判"配方更新"直接放行，6 小时冷却形同不存在。
+    # 2026-11-26 实锚：shallow 00:15 与 03:49 两次训出同一指纹，17 次 run 只 7 个模型。
+    if last and now - last < COOLDOWN_S and not grown:
+        return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (
+            (now - last) / 3600.0, last_rows, n)
     # 配方变了（话语配比/开头配额）也是重训理由：同一批语料换个喂法就是新的一课
     rj0 = rejects.get(seg) or {}
     # 状态里没有 recipe 字段 = 无法证明这件是用当前配方训的（状态丢失/重建都会这样）。
@@ -160,14 +178,81 @@ def eligible(seg, rows, st, rejects, now=None):
     if (not rec.get("recipe")) or (rec["recipe"] != RECIPE_V and not (
             int(rj0.get("n") or 0) >= 3 and n < int(rj0.get("rows") or 0) * GROWTH_GATE)):
         return True, "配方更新 %s（%d 行）" % (RECIPE_V, n)
-    if now - last < COOLDOWN_S and not grown:
-        return False, "冷却中（%.1fh 前刚训过，语料 %d→%d 未涨 10%%）" % (
-            (now - last) / 3600.0, last_rows, n)
     rj = rejects.get(seg) or {}
+    # 被否太多次的段：门槛从 15% 提到"翻倍"。只有在数据形态真的大变时才值得再试。
+    if rj and int(rj.get("n") or 0) >= HARD_REJECT_N:
+        if n < int(rj.get("rows") or 0) * HARD_GROWTH:
+            return False, "已被否 %d 次，语料 %d 未到 %.1f 倍（%d），不再重复同一个失败" % (
+                int(rj.get("n") or 0), n, HARD_GROWTH, int(int(rj.get("rows") or 0) * HARD_GROWTH))
     if rj and n < int(rj.get("rows") or 0) * GROWTH_GATE:
         return False, "上次被否（%d 行）且语料只到 %d，未涨 %.0f%%" % (
             int(rj.get("rows") or 0), n, (GROWTH_GATE - 1) * 100)
     return True, "可训（%d 行）" % n
+
+
+def _ledger_rows():
+    """读台账原始行（给实验矩阵判"这个变体跑过没"）。读不到就返回空表：
+    空表只会让矩阵多开一次实验，不会让闸误判"已跑过"。"""
+    rows = []
+    try:
+        for ln in open(LEDGER, encoding="utf-8", errors="replace"):
+            ln = ln.strip()
+            if ln:
+                try:
+                    rows.append(json.loads(ln))
+                except Exception:
+                    continue
+    except Exception:
+        return []
+    return rows
+
+
+def dataset_fp(ds):
+    """训练集指纹：train.jsonl 的 sha256 前 16 位。文件不存在返回 ""。
+
+    为什么用文件而不是行数：行数相同内容可能不同（换了一批等长的句子），
+    行数不同内容也可能等价（顺序变了）。真正决定权重的就是这份文件本身。
+    """
+    p = os.path.join(ds, "train.jsonl")
+    try:
+        import hashlib
+        h = hashlib.sha256()
+        with open(p, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()[:16]
+    except Exception:
+        return ""
+
+
+def weight_sha(ckpt_dir):
+    """适配器权重的 sha256 前 12 位。拿不到返回 ""。"""
+    try:
+        import hashlib
+        p = os.path.join(ckpt_dir, "adapters.safetensors")
+        h = hashlib.sha256()
+        with open(p, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()[:12]
+    except Exception:
+        return ""
+
+
+def seen_weight_sha(exclude_dir=None):
+    """已归档过的全部权重指纹集合（用来发现"这次训出来的是同一份权重"）。"""
+    out = {}
+    try:
+        for name in os.listdir(ARCHIVE):
+            d = os.path.join(ARCHIVE, name)
+            if not os.path.isdir(d):
+                continue
+            h = weight_sha(d)
+            if h:
+                out.setdefault(h, []).append(name)
+    except Exception:
+        pass
+    return out
 
 
 def built_map(path=None):
@@ -190,6 +275,7 @@ def built_map(path=None):
     except Exception:
         pass
     return m
+
 
 
 def pick(rows, st, rejects, now=None, built=None):
@@ -215,11 +301,51 @@ def pick(rows, st, rejects, now=None, built=None):
     return {"seg": seg, "rows": -negn, "why": why}, cands
 
 
-MIN_EVAL_N = 8          # 少于这个条数，判词是在评噪声不是评权重
+# 少于这个条数，判词是在评噪声不是评权重。
+# 2026-11-27 由 8 提到 30：memer 同一提示 n=10 判 KEEP(+9.7)、n=30 判 REJECT(-4.4)，
+# 说明 8-10 条的判决不可信；30 条把标准误压到 ~5 分以内，配合 noise_se 才能下结论。
+MIN_EVAL_N = 30
+
+
+def ceiling_of(seg, min_n=None):
+    """该段基座的天花板（历史里 n≥MIN_EVAL_N 的最大 base_avg）。没有可信测量返回 None。
+
+    只用 n≥30 的记录：n=10 的基座分本身就在 ±5 抖，拿它设天花板会把好段误停。
+    """
+    min_n = MIN_EVAL_N if min_n is None else int(min_n)
+    best = None
+    for r in _ledger_rows():
+        if r.get("seg") != seg:
+            continue
+        if int(r.get("eval_n") or 0) < min_n:
+            continue
+        try:
+            b = float(r.get("base_avg"))
+        except Exception:
+            continue
+        best = b if best is None else max(best, b)
+    return best
+
+
+def noise_se(base, lora):
+    """两组均分之差的标准误（近似，不假设配对）：sqrt(sd_b²/n_b + sd_l²/n_l)。
+
+    2026-11-27 实锚：同一提示 memer n=10 得 +9.7（KEEP），加到 n=30 变成 -4.4（REJECT）；
+    tech_nerd +4.6 差 0.4 分不及格。说明 5 分门槛落在噪声里，判词全凭运气。
+    有了 se，"这条改进比噪声大不大"才是可算的。任一侧缺 sd 时返回 None（不启用该闸）。
+    """
+    try:
+        nb, nl = int(base.get("n") or 0), int(lora.get("n") or 0)
+        sb, sl = float(base.get("sd")), float(lora.get("sd"))
+    except Exception:
+        return None
+    if nb <= 1 or nl <= 1:
+        return None
+    return (sb * sb / nb + sl * sl / nl) ** 0.5
 
 
 def judge_keep(base, lora):
-    """留档判据：均分 +5、PASS 不降、人味不降 2。样本不足时一律不判。"""
+    """留档判据：均分 +5、PASS 不降、人味不降 2，且改进必须大于噪声。样本不足时一律不判。"""
     if not base or not lora:
         return False, "缺评测数据"
     n = min(int(base.get("n") or 0), int(lora.get("n") or 0))
@@ -228,13 +354,18 @@ def judge_keep(base, lora):
     gain = float(lora.get("avg") or 0) - float(base.get("avg") or 0)
     if gain < KEEP_GAIN:
         return False, "均分只 %+.1f（需 ≥%.1f）" % (gain, KEEP_GAIN)
+    se = noise_se(base, lora)
+    if se is not None and gain <= se:
+        return False, "均分 %+.1f 未超过噪声（±%.1f，n=%d）" % (gain, se, n)
     if float(lora.get("pass_rate") or 0) < float(base.get("pass_rate") or 0):
         return False, "PASS %d%% < 基座 %d%%" % (lora.get("pass_rate") or 0,
                                                  base.get("pass_rate") or 0)
     dh = float(lora.get("avg_human") or 0) - float(base.get("avg_human") or 0)
     if dh < -KEEP_HUMAN_DROP:
         return False, "人味退步 %.1f（总分靠语感刷上去不算变好）" % dh
-    return True, "均分 %+.1f / 人味 %+.1f" % (gain, dh)
+    # se=None 表示没量到（缺 sd），要如实写"噪声未知"，不许显示成 ±0.0 让人以为量过。
+    _noise = "噪声未知" if se is None else "噪声 ±%.1f" % se
+    return True, "均分 %+.1f（%s）/ 人味 %+.1f" % (gain, _noise, dh)
 
 
 def sh(cmd, timeout=7200):
@@ -388,22 +519,144 @@ def reconcile(st):
         seg = r.get("seg")
         if not seg:
             continue
+        # 让路（BLOCKED）不是训练事件：没占 GPU、没动数据、没产出模型。
+        # 2026-11-26 实锚：把它当训练记录会刷新 last_ts，冷却时钟被自己的重试推着走，
+        # 于是同一段每 1-2 分钟重新排队（21:06→21:25 共 7 次）。
+        if r.get("no_progress") or r.get("verdict") == "BLOCKED":
+            d = segs.setdefault(seg, {})
+            d["last_blocked_ts"] = r.get("ts") and time.mktime(
+                time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time()
+            continue
+        # 复验（re_verify）是**评测**，不是训练：它没造集、没训权重，只是拿旧 adapter
+        # 重新打了一次分。2026-11-26 实锚：social_loop 写进来的复验行只有
+        # run/verdict/adapter，没有 recipe 与 built——一旦让它覆盖段状态，
+        # 该段的配方与烘焙记录就被抹成 None，冷却闸静默失效；
+        # 而且它还会推进 last_ts，等于一次复验白给该段加 6 小时冷却。
+        # 所以只记 last_verify_ts / last_verify_rc，不碰训练时钟。
+        if r.get("re_verify"):
+            d = segs.setdefault(seg, {})
+            d["last_verify_ts"] = r.get("ts") and time.mktime(
+                time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time()
+            d["last_verify_rc"] = r.get("verdict")
+            d["last_verify_adapter"] = r.get("adapter")
+            continue
+        prev = segs.get(seg) or {}
         segs[seg] = {"last_ts": r.get("ts") and time.mktime(
                          time.strptime(r["ts"][:19], "%Y-%m-%dT%H:%M:%S")) or time.time(),
                      "last_rc": r.get("verdict"), "rows": r.get("rows"),
+                     # built/recipe 缺了就沿用上一次已知值：台账里任何一条"没有这两个
+                     # 字段"的记录（外部工具写的）都不许把它们抹成空，否则依赖它们的闸
+                     # （同款重训闸、冷却闸）会静默放行。
+                     "built": r.get("built") if r.get("built") is not None else prev.get("built"),
                      "run": r.get("run"), "step": r.get("step"),
-                     "val_min": r.get("val_min")}
+                     "val_min": r.get("val_min"),
+                     # recipe 必须一起重建：少了它，eligible() 会判"配方更新"
+                     # 而永远放行，冷却与被否后的 15% 增长闸全部失效。
+                     # 2026-11-26 实锚：8 个段里 7 个 recipe=None，同一段 3.5 小时
+                     # 就重训一次、17 次 run 只出 7 个不同模型（feeler 0/14 还在烧）。
+                     "recipe": r.get("recipe") if r.get("recipe") is not None else prev.get("recipe")}
+        if prev.get("last_verify_ts"):
+            segs[seg]["last_verify_ts"] = prev["last_verify_ts"]
+            segs[seg]["last_verify_rc"] = prev.get("last_verify_rc")
     st["segments"] = segs
     st["runs"] = rows[-40:]
     return st
 
 
+def _lane(phase, **meta):
+    """写本线状态件（lane-train.json）。失败一律吞掉——状态件坏了不许拖垮训练。
+
+    为什么要这层包装：lane_state 是"每线一个件、互不干扰"的落点（CEO 2026-11-26
+    「经常更新，但不要互相影响」）。它只是旁证，不能成为训练的前置条件。
+    """
+    try:
+        import lane_state as ls
+        ls.put("train", phase, **meta)
+    except Exception:
+        pass
+
+
+def prune_runs(keep_hours=48, dry=False):
+    """清掉非在用训练 run，防止磁盘被 186MB/run 堆满。
+
+    为什么要有（2026-11-27 实锚）：trainloop 每 300s 就可能开一个 run，两天堆出 54 个、
+    15.1GB，磁盘从 191G 掉到 171G 只用两天——之前没有任何清理逻辑。
+
+    保守判据（缺一条就保留）：
+      1) 台账 verdict=KEEP（已采用）→ 留
+      2) LOOP-STATE 里每段最后一次 → 留
+      3) 修改时间在 keep_hours 内 → 留
+    返回 (删除数, 释放MB)。
+    """
+    import glob
+    runs_dir = os.path.join(TRAIN, "RUNS")
+    if not os.path.isdir(runs_dir):
+        return 0, 0
+    keep = set()
+    try:
+        with open(LEDGER, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if r.get("verdict") == "KEEP" and r.get("run"):
+                    keep.add(r["run"])
+    except FileNotFoundError:
+        pass
+    try:
+        st = _load(LOOP_STATE, {}) or {}
+        for _seg, rec in (st.get("segments") or {}).items():
+            if rec.get("run"):
+                keep.add(rec["run"])
+    except Exception:
+        pass
+    now, n, freed = time.time(), 0, 0
+    for d in sorted(glob.glob(os.path.join(runs_dir, "*"))):
+        name = os.path.basename(d)
+        if not os.path.isdir(d) or name in keep:
+            continue
+        if (now - os.path.getmtime(d)) / 3600.0 <= keep_hours:
+            continue
+        try:
+            mb = int(sum(os.path.getsize(os.path.join(r, f))
+                         for r, _ds, fs in os.walk(d) for f in fs) / 1048576)
+        except Exception:
+            mb = 0
+        if dry:
+            n += 1
+            freed += mb
+            continue
+        try:
+            shutil.rmtree(d)
+            n += 1
+            freed += mb
+        except Exception:
+            continue
+    if n and not dry:
+        print("[prune] 清掉 %d 个非在用 run，释放 %dMB（保留 KEEP/每段最新/%dh 内）"
+              % (n, freed, keep_hours))
+    return n, freed
+
+
 def record_fail(seg, rows, kind, why, built=0):
     """失败也要进台账：状态是从台账重建的，不写台账等于"这次失败不存在"，
     于是同一段会被无限重试（2026-11-20 实锚：memer 连续两次被选中）。
+
+    2026-11-26 实锚：本函数原来不写 recipe，而 reconcile 是从台账重建状态的——
+    每一条 BLOCKED/TRAIN-FAIL 都把该段的 recipe 抹成 None，下一轮 eligible() 就判
+    "配方更新"直接放行。结果 21:06→21:25 同一段被重排 7 次，每 1-2 分钟一次。
+    所以 recipe 必须一起落盘；BLOCKED（让路）还要标 no_progress —— 它没占 GPU、
+    没动数据，不该刷新冷却时钟。
     """
     rec = {"ts": now_iso(), "seg": seg, "rows": rows, "built": built,
-           "eval_n": 0, "verdict": kind, "why": why, "adapter": None}
+           "eval_n": 0, "verdict": kind, "why": why, "adapter": None,
+           "recipe": RECIPE_V}
+    if kind == "BLOCKED":
+        rec["no_progress"] = True
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     return rec
@@ -433,10 +686,36 @@ def social_session_active():
         return False
 
 
+_TICK_LOCK = {}
+
+
+def _claim_tick():
+    """本轮 tick 的单实例锁：抢不到就说明另一拍正在跑，直接退出。
+
+    2026-11-27 实锚：轮询从 300s 压到 60s 之后，造集阶段（还没拿 GPU 租约）出现窗口，
+    两次调用会各自造一遍集、各打印一次「选中段 memer / 变体 v0-base」——GPU 有租约把关
+    不会真的并行训练，但白造一次集、日志也会让人以为起了两个训练。
+    """
+    import fcntl
+    path = os.path.join(STATE, "train-tick.lock")
+    try:
+        os.makedirs(STATE, exist_ok=True)
+        fh = open(path, "a+")
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        _TICK_LOCK["fh"] = fh
+        return True
+    except Exception:
+        return False
+
+
 def run_one(a):
+    if not _claim_tick():
+        print("[loop] 另一拍正在跑（tick 锁），本次跳过")
+        return 0
     holder = busy_holder()
     if holder:
         print("[loop] 训练进行中（pid %d），本次跳过" % holder)
+        _lane("inflight", holder=holder)
         return 0
     if social_session_active() and os.environ.get("FLUX_TRAIN_FORCE") != "1":
         print("[loop] 会话时段（养号出稿用 GPU），训练让路 5 分钟后再看")
@@ -453,14 +732,42 @@ def run_one(a):
     else:
         task, _cands = pick(rows, st, rejects)
     if not task:
+        # 轮询已压到 60 秒：队列空时不要每分钟刷一遍日志与看板。
+        # 用自己写的状态件当"刚判过空"的证据，10 分钟内只记一次。
+        try:
+            import lane_state as _ls
+            _d = _ls.get("train") or {}
+            if (_d.get("phase") == "idle-no-task"
+                    and time.time() - float(_d.get("ts") or 0) < 600):
+                return 0
+        except Exception:
+            pass
         board(st, rows, rejects)
         why_not = []
         for seg in sorted(rows, key=lambda x: -rows[x])[:4]:
             _ok, w = eligible(seg, rows, st, rejects)
             why_not.append("%s(%s)" % (seg, w))
         print("[loop] 无料可训：%s" % "；".join(why_not))
+        # 留痕：夜班早上要看得出"是没活可干"还是"循环停了"。
+        # 只看进程活着的判据救不了这个——队列空也是一种状态，必须写进状态件。
+        _lane("idle-no-task", why="；".join(why_not)[:120])
         return 0
     seg = task["seg"]
+    # 天花板闸（手动 --seg 不拦，那是显式指令）：基座已经 ≥80 分的段，训 LoRA 只会拉低。
+    # 2026-11-27 实锚：craft_learner 基座 81.4 → 连训三轮 68.5/75.0/68.4，全是负分。
+    if not a.seg:
+        _ceil = ceiling_of(seg)
+        if _ceil is not None and _ceil >= CEILING_SKIP:
+            print("[loop] 跳过 %s：基座已 %.1f 分（≥%.0f 天花板），训了只会拉低" % (
+                seg, _ceil, CEILING_SKIP))
+            record_fail(seg, task["rows"], "CEILING",
+                        "基座 %.1f 已达天花板 %.0f" % (_ceil, CEILING_SKIP))
+            st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
+                                       last_rc="CEILING")
+            _save(LOOP_STATE, st)
+            _lane("skip-ceiling", seg=seg, ceiling=round(_ceil, 1))
+            board(st, rows, rejects)
+            return 0
     ok_power, why_power = power_ok()
     if not ok_power:
         print("[loop] 暂停开训：%s" % why_power)
@@ -488,7 +795,10 @@ def run_one(a):
 
     ds = os.path.join(SOCIAL, "train-%s" % seg)
     build_cmd = [PY, os.path.join(HERE, "train_build.py"), "--out", ds,
-                 "--min-human", "5",
+                 # 人味下限：默认 5（现行）。可命令行覆盖，用于"语料可利用率"对照实验——
+                 # 抽样实测当前训练集 PASS 56/60、taste<45 为 0 条，说明这道闸把
+                 # RISKY 里 40-49 分那 1.8 万条全挡在外面了，值不值得放进来必须实测。
+                 "--min-human", str(getattr(a, "min_human", 5)),
                  # 2026-11-21：硬阈值会把段砍成零头（shallow 4396→293），回填到 1200 条
                  # 再训——278 条训 LoRA 等于没训，这是在浪费 50 分钟 GPU。
                  "--target-rows", "1200"]
@@ -497,14 +807,47 @@ def run_one(a):
     rc, out = sh(build_cmd, timeout=1200)
     m = re.search(r"train\.jsonl (\d+) 条", out)
     built = int(m.group(1)) if m else 0
+    # 训练文件指纹：判"这一课跟上一课是不是同一课"只能靠**真正喂进去的文件**。
+    # 2026-11-26 踩坑：先写的版本拿 built_map() 与段状态里的 built 比，两者同源
+    # （都来自台账自己的 built 字段），等于自己跟自己比，恒判"未变"——于是所有段
+    # 一次性全被挡住。指纹必须来自磁盘上的 train.jsonl。
+    fp = dataset_fp(ds)
     if rc != 0 or built < MIN_BUILD:
         print("[loop] 造集不足（rc=%d, %d 条）：%s" % (rc, built, out.strip()[-160:]))
         record_fail(seg, task["rows"], "SUPPLY", "造集不足 %d 条" % built, built)
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
-                                   last_rc="SUPPLY", built=built)
+                                   last_rc="SUPPLY", built=built, fp=fp)
         _save(LOOP_STATE, st)
         board(st, rows, rejects)
         return 0
+
+    # 无人值守也要有"每次只换一个变量"的纪律：同一批数据 + 同一配置重训，产出的是
+    # 同一个模型（实锚：music_seeker built 305 三次 KEEP、adapter SHA 完全相同）。
+    # 所以由实验矩阵决定这次跑哪个变体；变体跑尽了就如实停手等新语料，
+    # 而不是硬跑一份已知结果骗"GPU 没闲着"。
+    vid, vwhy, veff = None, "实验矩阵不可用", None
+    try:
+        import exp_matrix as xm
+        vid, vwhy = xm.next_variant(seg, fp, _ledger_rows())
+        veff = xm.effective(vid) if vid else None
+    except Exception as _e:
+        vid, vwhy, veff = None, "实验矩阵不可用：%s" % str(_e)[:60], None
+    if not vid:
+        print("[loop] 跳过训练：%s（%s，fp=%s）" % (seg, vwhy, fp))
+        record_fail(seg, task["rows"], "SAME-DATASET", "%s（fp=%s）" % (vwhy, fp), built)
+        st["segments"][seg] = dict(st["segments"].get(seg) or {},
+                                   last_rc="SAME-DATASET", built=built, fp=fp)
+        _save(LOOP_STATE, st)
+        _lane("skip-no-variant", seg=seg, fp=fp, why=str(vwhy)[:60])
+        board(st, rows, rejects)
+        return 0
+    # 手动 --iters 显式覆盖时才认命令行，否则以变体为准
+    iters = a.iters if a.iters != 400 else int(veff.get("iters") or a.iters)
+    n_layers = int(veff.get("num_layers") or 16)
+    seval = int(veff.get("steps_per_eval") or 50)
+    lr = veff.get("learning_rate")          # None = 用 train_lora 的默认 1e-5
+    bs = veff.get("batch_size")             # None = 默认 1（默认不开大，免得顶 swap）
+    print("[loop] 变体 %s：%s" % (vid, vwhy), flush=True)
 
     # 出稿优先（COMPUTE-SCHEDULE.json lanes.publish priority=1）：
     # 训练一轮 40–50 分钟会连续占住 GPU，而出稿每 30 分钟才要 60 秒。
@@ -520,6 +863,7 @@ def run_one(a):
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc="YIELD-PUBLISH")
         _save(LOOP_STATE, st)
+        _lane("yield-publish", seg=seg, why=str(_why)[:80])
         return 0
 
     # 2026-11-22「快点弄好」：白天训练不许抢出稿。判据两条——
@@ -547,7 +891,10 @@ def run_one(a):
     # 10 步/分掉到 3.3 步/分，两小时变六小时。拿不到就不抢，写清让路原因，本轮返回 0。
     try:
         import gpu_lease as _gl
-        _got, _why = _gl.acquire("train", ttl_s=4 * 3600)
+        # wait_s=90：原来不设等待＝零耐心，出稿（正常 5 秒）一占就立刻放弃，
+        # 而出稿每 12 分钟一次，训练于是长期抢不到窗口（2026-11-26 实锚：
+        # 连续三次「让路：publish（已 71s/131s）」）。等 90 秒足够跨过一次出稿。
+        _got, _why = _gl.acquire("train", ttl_s=4 * 3600, wait_s=200)
     except Exception as _e:
         _got, _why = True, "租约不可用（%s），不拦" % str(_e)[:40]
     if not _got:
@@ -556,7 +903,9 @@ def run_one(a):
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc="GPU-BUSY")
         _save(LOOP_STATE, st)
+        _lane("yield-gpu", seg=seg, why=str(_why)[:80])
         return 0
+    _lane("training", seg=seg, rows=task.get("rows"), iters=iters, variant=vid)
     # 2026-11-22 CEO「太慢了，真人不会这样」：一轮训练 25–45 分钟独占租约，
     # 出稿只能等轮间——白天一整天发不出一条。改成**轮内让路**：训练照跑（GPU 时间片，
     # 不 SIGSTOP），但每 30 秒看一次"出稿是否到期"；到期就把租约让出去最多 3 分钟，
@@ -566,9 +915,13 @@ def run_one(a):
 
     try:
         cmd = ["/bin/bash", os.path.join(HERE, "train_run.sh"),
-               "--data", ds, "--iters", str(a.iters), "--num-layers", "16",
-               "--max-seq-length", str(seq_len), "--steps-per-eval", "50",
+               "--data", ds, "--iters", str(iters), "--num-layers", str(n_layers),
+               "--max-seq-length", str(seq_len), "--steps-per-eval", str(seval),
                "--grad-checkpoint"]
+        if lr:
+            cmd += ["--learning-rate", str(lr)]
+        if bs:
+            cmd += ["--batch-size", str(bs)]
         _p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                               text=True, cwd=ROOT, start_new_session=True)
         _buf = []
@@ -582,7 +935,33 @@ def run_one(a):
         _th = threading.Thread(target=_reader, args=(_p.stdout,), daemon=True)
         _th.start()
         _last = 0.0
+        _t0 = time.time()
+        _killed_for_age = False
         while _p.poll() is None:
+            # 墙钟上限（2026-11-27 夜班）：一次训练正常 40-50 分钟，租约 TTL 却是 4 小时。
+            # 没有这道闸，MLX 一旦死锁，整整 4 小时没人动它——夜里就废了。
+            # 超时就整组杀掉并记 TRAIN-TIMEOUT，让下一拍去试别的段/变体。
+            if time.time() - _t0 > TRAIN_MAX_S:
+                _killed_for_age = True
+                print("[loop] 训练超时（%.0f 分钟 > 上限 %.0f），杀进程组" % (
+                    (time.time() - _t0) / 60, TRAIN_MAX_S / 60), flush=True)
+                try:
+                    os.killpg(os.getpgid(_p.pid), 15)
+                except Exception:
+                    try:
+                        _p.terminate()
+                    except Exception:
+                        pass
+                time.sleep(20)
+                if _p.poll() is None:
+                    try:
+                        os.killpg(os.getpgid(_p.pid), 9)
+                    except Exception:
+                        try:
+                            _p.kill()
+                        except Exception:
+                            pass
+                break
             if time.time() - _last >= 30:      # 每 30 秒看一次"出稿是否到期"
                 try:
                     import practice_due as _pd
@@ -597,7 +976,10 @@ def run_one(a):
             time.sleep(2)
         _th.join(timeout=5)
         rc = _p.returncode
-        out = "".join(_buf)
+        if _killed_for_age:
+            rc = rc or 124              # 124 = 超时退出码，与 task 失败的 rc 语义一致
+            out = "".join(_buf) + "\nTRAIN-TIMEOUT %.0f 分钟" % ((time.time() - _t0) / 60)
+            _lane("timeout", seg=seg, minutes=round((time.time() - _t0) / 60))
         if ystats["yields"]:
             print("[loop] 训练期间让路出稿 %d 次（共等 %.0fs，内存不足跳过 %d 次）"
                   % (ystats["yields"], ystats["waited_s"], ystats["blocked"]))
@@ -616,6 +998,7 @@ def run_one(a):
         st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                    last_rc=kind)
         _save(LOOP_STATE, st)
+        _lane("fail", seg=seg, kind=kind, why=str(out.strip().splitlines()[-1][:80]) if out.strip() else "rc=%d" % rc)
         board(st, rows, rejects)
         return 0 if skip else 1
 
@@ -683,18 +1066,24 @@ def run_one(a):
         keep = False
     rec = {"ts": now_iso(), "seg": seg, "rows": task["rows"], "built": built, "eval_n": eval_n,
            "run": os.path.basename(run), "step": real_step, "val_step": step,
-           "val_min": val,
+           "val_min": val, "recipe": RECIPE_V,
+           # fp+variant 是实验矩阵的唯一性键：没有它们，下一轮无法判断
+           # "这批数据的这个配置是不是已经问过"（缺了就会重复跑同一课）。
+           "fp": fp, "variant": vid, "iters": iters, "num_layers": n_layers,
+           "steps_per_eval": seval, "learning_rate": lr, "batch_size": bs,
            "base_avg": base.get("avg"), "lora_avg": lora.get("avg"),
            "base_human": base.get("avg_human"), "lora_human": lora.get("avg_human"),
            "human_delta": human_delta, "verdict": "KEEP" if keep else "REJECT",
            "why": why, "adapter": os.path.relpath(ck, ROOT) if ck else None}
     st["segments"][seg] = dict(st["segments"].get(seg) or {}, last_ts=time.time(),
                                last_rc=verdict, recipe=RECIPE_V, rows=task["rows"],
-                               run=rec["run"], step=real_step, val_min=val)
+                               built=built, fp=fp, run=rec["run"], step=real_step, val_min=val)
     st["runs"].append(rec)
     _save(LOOP_STATE, st)
     with open(LEDGER, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    _lane("done", seg=seg, verdict=("KEEP" if keep else "REJECT"),
+          built=built, lora_avg=lora.get("avg"), base_avg=base.get("avg"))
 
     # 边训练边总结经验：每落一卡就把台账重算成"可被推翻的断言"（幂等；失败不影响训练）
     try:
@@ -706,6 +1095,15 @@ def run_one(a):
     if verdict == "INSUFFICIENT":
         print("[loop] 段 %s 样本不足（n=%d），既不归档也不记被否——先加大评测条数" % (seg, eval_n))
     elif keep and ck:
+        # 权重去重（2026-11-27）：变体虽然不同，最终选中的 checkpoint 可能是同一步，
+        # 于是落出**完全相同的权重**（实锚：今天 9 个归档里有 2 对 SHA 相同）。
+        # 同款权重再存一份等于把库存和"产量"都注水，所以不入档、判词降为 DUPLICATE。
+        _sha = weight_sha(ck)
+        _dup = seen_weight_sha().get(_sha)
+        if _sha and _dup:
+            print("[loop] 段 %s 训出的权重与已有件完全相同（%s），不重复入档" % (seg, _sha))
+            _lane("duplicate-weight", seg=seg, sha=_sha, same=_dup[:2])
+            return 0
         dst = os.path.join(ARCHIVE, "%s-%s-ckpt%s" % (time.strftime("%Y%m%d-%H%M%S"), seg, step))
         os.makedirs(dst, exist_ok=True)
         for fn in ("adapters.safetensors", "adapter_config.json"):
@@ -719,11 +1117,36 @@ def run_one(a):
         _save(REJECTS, rejects)
         print("[loop] 段 %s 不采用（%s）→ 先补语料再训" % (seg, why))
     board(st, rows, rejects)
+    # 跑完一卡顺手做一次保守清理（判据见 prune_runs；失败不影响训练）
+    try:
+        prune_runs(keep_hours=48)
+    except Exception:
+        pass
     return 0
 
 
 def self_test():
+    global LEDGER
     cases = []
+    # tick 锁：同进程第二次抢占必须失败（否则 60 秒轮询会重复造集）
+    cases.append(("tick 锁：第二次抢占必须被挡", _claim_tick() and not _claim_tick()))
+    # 数据集指纹：同内容必须同 fp、不同内容必须不同 fp、缺失必须为空。
+    # 这条闸曾经写成"拿台账里的 built 跟台账里的 built 比"（同源自比，恒判未变），
+    # 结果所有段一次性全被挡住——所以指纹必须来自磁盘文件，且要能被负控抓出来。
+    import tempfile as _tf
+    _d = _tf.mkdtemp(prefix="fp-")
+    try:
+        _p = os.path.join(_d, "train.jsonl")
+        open(_p, "w").write('{"text":"甲"}\n')
+        fp1 = dataset_fp(_d)
+        fp1b = dataset_fp(_d)
+        open(_p, "w").write('{"text":"乙"}\n')
+        fp2 = dataset_fp(_d)
+        cases.append(("指纹：同内容同 fp、不同内容不同 fp", fp1 and fp1 == fp1b and fp1 != fp2))
+        cases.append(("指纹：文件不存在返回空（不许瞎比）", dataset_fp(os.path.join(_d, "nope")) == ""))
+    finally:
+        import shutil as _sh
+        _sh.rmtree(_d, ignore_errors=True)
     rows = {"a": 300, "b": 50}
     st = {}
     rj = {}
@@ -734,10 +1157,21 @@ def self_test():
     st2 = {"segments": {"a": {"last_ts": time.time() - 600, "recipe": RECIPE_V}}}
     ok3, why3 = eligible("a", rows, st2, rj)
     cases.append(("冷却中 → 不可训", not ok3 and "冷却" in why3))
+    # 负控 2026-11-26：状态缺 recipe（历史台账没字段）且刚训过 → 必须仍被冷却挡住，
+    # 不许因为"配方不明"就立刻重训（实锚：同一段 3.5h 重训一次，指纹完全相同）。
+    st2b = {"segments": {"a": {"last_ts": time.time() - 600}}}
+    ok3b, why3b = eligible("a", rows, st2b, rj)
+    cases.append(("缺 recipe 但在冷却内 → 不可训", not ok3b and "冷却" in why3b))
     st3 = {"segments": {"a": {"last_ts": 0, "recipe": RECIPE_V}}}
     rj2 = {"a": {"rows": 300}}
     ok4, why4 = eligible("a", rows, st3, rj2)
     cases.append(("被否且语料未涨 15% → 不可训", not ok4 and "未涨" in why4))
+    # 反复被否的段：累计 ≥10 次后只有"翻倍"才放行（负控：涨 15% 不够）
+    rj_hard = {"a": {"n": HARD_REJECT_N, "rows": 300}}
+    okh, whyh = eligible("a", {"a": 400}, st3, rj_hard)
+    cases.append(("被否10次后：涨15% 不够 → 不可训", (not okh) and "不再重复" in whyh))
+    oky, _ = eligible("a", {"a": 650}, st3, rj_hard)
+    cases.append(("被否10次后：语料翻倍 → 可训", oky))
     rows2 = {"a": 400}
     ok5, _ = eligible("a", rows2, st3, rj2)
     cases.append(("被否但语料涨够 → 可训", ok5))
@@ -754,18 +1188,113 @@ def self_test():
     # 无 built 历史 → 回退 original rows（不许因为缺数据就什么都不选）
     task3, _ = pick(rows_c, {}, {}, time.time(), built={})
     cases.append(("无 built 历史时回退 rows", task3 is not None and task3["seg"] == "a"))
-
-    B = {"n": 10, "avg": 50, "pass_rate": 60, "avg_human": 20}
-    keep, _ = judge_keep(B, {"n": 10, "avg": 56, "pass_rate": 60, "avg_human": 20})
+    B = {"n": 30, "avg": 50, "sd": 12, "pass_rate": 60, "avg_human": 20}
+    keep, _ = judge_keep(B, {"n": 30, "avg": 56, "sd": 12, "pass_rate": 60, "avg_human": 20})
     cases.append(("均分 +6 且人味不退 → KEEP", keep))
-    keep2, why6 = judge_keep(B, {"n": 10, "avg": 60, "pass_rate": 60, "avg_human": 17})
+    # 负控 2026-11-27：改进没超过噪声就不许 KEEP（实锚 tech_nerd +4.6 被判不及格）
+    # 过 5 分线但没超过噪声（sd=30、n=30 → se≈7.8，gain=6）——典型"看着涨了其实是抖"
+    nk, nwhy = judge_keep({"n": 30, "avg": 54.0, "sd": 30, "pass_rate": 50, "avg_human": 20},
+                          {"n": 30, "avg": 60.0, "sd": 30, "pass_rate": 55, "avg_human": 20})
+    cases.append(("改进未超过噪声 → 不许 KEEP", (not nk) and "噪声" in nwhy))
+    # 负控：n<30 一律不判（memer n=10 假 KEEP 的根治手段）
+    small, swhy = judge_keep({"n": 10, "avg": 38.7, "sd": 9, "pass_rate": 40, "avg_human": 15},
+                             {"n": 10, "avg": 48.4, "sd": 9, "pass_rate": 50, "avg_human": 18})
+    cases.append(("n=10 不判（哪怕看着 +9.7）", (not small) and "样本不足" in swhy))
+    keep2, why6 = judge_keep(B, {"n": 30, "avg": 60, "sd": 12, "pass_rate": 60, "avg_human": 17})
     cases.append(("总分涨但人味掉 3 → 不采用", (not keep2) and "人味" in why6))
-    keep3, _ = judge_keep(B, {"n": 10, "avg": 52, "pass_rate": 70, "avg_human": 20})
+    keep3, _ = judge_keep(B, {"n": 30, "avg": 52, "sd": 12, "pass_rate": 70, "avg_human": 20})
     cases.append(("均分只 +2 → 不采用", not keep3))
+    # 天花板闸：n≥30 的基座高分要能读到；n=10 的记录不许拿来设天花板（本身就是抖）
+    import tempfile as _tf2
+    _saved2 = LEDGER
+    _fd2, _tmp2 = _tf2.mkstemp()
+    os.close(_fd2)
+    try:
+        with open(_tmp2, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-27T00:00:00", "seg": "hi",
+                                "eval_n": 30, "base_avg": 85.5}) + "\n")
+            f.write(json.dumps({"ts": "2026-11-27T00:10:00", "seg": "lo",
+                                "eval_n": 10, "base_avg": 90.0}) + "\n")
+        LEDGER = _tmp2
+        cases.append(("天花板：n≥30 的基座高分能读到", ceiling_of("hi") == 85.5))
+        cases.append(("天花板：n=10 的记录不许设天花板", ceiling_of("lo") is None))
+    finally:
+        LEDGER = _saved2
     keep4, why7 = judge_keep({"n": 3, "avg": 30, "pass_rate": 0, "avg_human": 0},
                              {"n": 3, "avg": 90, "pass_rate": 100, "avg_human": 30})
     cases.append(("只有 3 条样本 → 不判（噪声 ±30 分）",
                   (not keep4) and "样本不足" in why7))
+    # 负控 2026-11-26：reconcile 重建状态时必须保住 recipe。
+    # 丢了它，eligible() 就永远判「配方更新」放行，冷却与被否后的 15% 增长闸静默失效
+    # （实锚：8 段里 7 段 recipe=None，同一段 3.5h 重训一次，17 次 run 只出 7 个模型）。
+    import tempfile
+    _saved_ledger = LEDGER
+    _tmp = None
+    try:
+        _fd, _tmp = tempfile.mkstemp()
+        os.close(_fd)
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T00:00:00", "seg": "a", "rows": 300,
+                                "verdict": "REJECT", "recipe": RECIPE_V}) + "\n")
+        LEDGER = _tmp
+        st_r = reconcile({"segments": {}, "runs": []})
+        cases.append(("reconcile 保住 recipe（否则冷却闸失效）",
+                      st_r["segments"]["a"].get("recipe") == RECIPE_V))
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T00:00:00", "seg": "b", "rows": 300,
+                                "verdict": "REJECT"}) + "\n")
+        st_r2 = reconcile({"segments": {}, "runs": []})
+        cases.append(("台账里没有 recipe 时如实为空（不编造）",
+                      st_r2["segments"]["b"].get("recipe") is None))
+        # 负控 2026-11-26 坏卡循环：BLOCKED（让路）不得推进冷却时钟。
+        # 实锚：21:06→21:25 同一段被重排 7 次、每次 built=0，因为让路记录刷新了 last_ts
+        # 且抹掉了 recipe，eligible() 每轮都判「配方更新」放行。
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T00:00:00", "seg": "c", "rows": 300,
+                                "verdict": "KEEP", "recipe": RECIPE_V, "step": 400}) + "\n")
+            f.write(json.dumps({"ts": "2026-11-26T00:05:00", "seg": "c", "rows": 300,
+                                "verdict": "BLOCKED", "recipe": RECIPE_V,
+                                "no_progress": True}) + "\n")
+        st_r3 = reconcile({"segments": {}, "runs": []})
+        lag = st_r3["segments"]["c"].get("last_ts") or 0
+        cases.append(("BLOCKED 不推进冷却时钟（坏卡循环根治）",
+                      abs(lag - time.mktime(time.strptime("2026-11-26T00:00:00",
+                                                          "%Y-%m-%dT%H:%M:%S"))) < 2
+                      and st_r3["segments"]["c"].get("last_blocked_ts")))
+        # 负控：让路记录也必须带 recipe（否则下一次读台账又丢配方）
+        with open(_tmp, "w", encoding="utf-8") as f:
+            pass
+        LEDGER = _tmp
+        record_fail("d", 300, "BLOCKED", "被让路")
+        rec_d = [json.loads(x) for x in open(_tmp, encoding="utf-8") if x.strip()][-1]
+        cases.append(("record_fail 必须写 recipe 且标 no_progress",
+                      rec_d.get("recipe") == RECIPE_V and rec_d.get("no_progress") is True))
+        # 负控 2026-11-26：复验行（social_loop 写的，只有 run/verdict/adapter）
+        # 不许推进训练时钟，也不许把已有 built/recipe 抹成空。
+        with open(_tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps({"ts": "2026-11-26T10:00:00", "seg": "e", "rows": 400,
+                                "built": 320, "verdict": "KEEP",
+                                "recipe": RECIPE_V, "step": 400}) + "\n")
+            f.write(json.dumps({"ts": "2026-11-26T12:00:00", "seg": "e", "verdict": "REJECT",
+                                "why": "均分只 -8.9（需 ≥5.0）", "run": "x",
+                                "re_verify": True, "adapter": "a"}) + "\n")
+        st_r4 = reconcile({"segments": {}, "runs": []})
+        e = st_r4["segments"]["e"]
+        t10 = time.mktime(time.strptime("2026-11-26T10:00:00", "%Y-%m-%dT%H:%M:%S"))
+        cases.append(("复验不推进训练时钟（否则白给 6h 冷却）",
+                      abs((e.get("last_ts") or 0) - t10) < 2))
+        cases.append(("复验缺 built/recipe 时不抹掉已有关（同款闸不许失效）",
+                      e.get("built") == 320 and e.get("recipe") == RECIPE_V))
+        cases.append(("复验仍留下 last_verify_rc（判决可查）",
+                      e.get("last_verify_rc") == "REJECT"))
+    finally:
+        LEDGER = _saved_ledger
+        if _tmp:
+            try:
+                os.remove(_tmp)
+            except Exception:
+                pass
+
     okc = 0
     cases.append(("电池供电→拒绝开训", power_verdict(False, False)[0] is False))
     cases.append(("低功耗模式→拒绝开训", power_verdict(True, True)[0] is False))
@@ -959,8 +1488,10 @@ def main(argv=None):
     # 一天能多跑 4–5 轮。代价是 epoch 从 1.1 降到 0.9——比"训得慢但只学一遍"更亏的是
     # "一天只训几遍"，所以先换频率；数据量涨上来（自举/更多真实语料）再回调步数。
     ap.add_argument("--iters", type=int, default=400)
+    ap.add_argument("--min-human", type=int, default=5, dest="min_human",
+                    help="造集的人味下限（默认 5；调低用于验证是否值得吃进更多语料）")
     ap.add_argument("--self-test-yield", action="store_true")
-    ap.add_argument("--samples", type=int, default=10,
+    ap.add_argument("--samples", type=int, default=30,
                     help="每段评测条数；3 条时同一权重两次评测得 +46.7 与 +16.6（噪声 ±30）")
     ap.add_argument("--seg", default=None,
                     help="手动指定这一段（跳过队列与冷却，运维复核用；仍照常落台账）")

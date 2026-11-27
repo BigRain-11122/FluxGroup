@@ -92,6 +92,40 @@ def _append(path, rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+# 静态垂类源：由 gzh_corpus_expand.py 抓，语料落 ARTICLES-INDUSTRY.jsonl。
+# 这里必须跳过——否则 gasgoo 链接会被送进公众号提取器找 #js_content，
+# 每条必然卡满 25 秒超时（2026-11-25 实锚：71 条 × 25 秒 = 900 秒跑爆）。
+STATIC_HOSTS = ("auto.gasgoo.com", "www.d1ev.com", "d1ev.com")
+FAILED = os.path.join(GZH, "URLS-FAILED.jsonl")
+DEAD_STRIKES = 2          # 同一链接失败这么多次就不再试
+
+
+def _static_host(url):
+    from urllib.parse import urlsplit
+    host = urlsplit(url or "").netloc.lower()
+    return any(host == h or host.endswith("." + h) for h in STATIC_HOSTS)
+
+
+def failed_urls():
+    """死链台账：返回已达 DEAD_STRIKES 次的 uid 集合。"""
+    c = {}
+    try:
+        for line in open(FAILED, encoding="utf-8"):
+            line = line.strip()
+            if not line:
+                continue
+            r = json.loads(line)
+            c[r.get("_uid")] = c.get(r.get("_uid"), 0) + 1
+    except FileNotFoundError:
+        pass
+    return {u for u, n in c.items() if u and n >= DEAD_STRIKES}
+
+
+def mark_failed(url, why):
+    _append(FAILED, {"_uid": _uid(url), "url": url, "why": str(why)[:120],
+                     "at": datetime.now().isoformat(timespec="seconds")})
+
+
 def discover(keyword, pages=3, sleep_lo=4.0, sleep_hi=9.0, rng=None, via="serp"):
     """按关键词建 URL 池。via=serp 走搜索引擎 site: 查询（更宽容）；
     via=sogou 走搜狗微信（常被验证码拦，失败就返回原因，不硬磕）。"""
@@ -251,46 +285,65 @@ def _strip_html(h):
     return "\n".join(x.strip() for x in t.split("\n") if x.strip())
 
 
-def discover_chejiahao(author_id, pages=1, rng=None, limit=40):
-    """车家号作者页取文章链接（对标对象本人的镜像，公开可翻页）。
+def discover_chejiahao(author_id, pages=1, rng=None, limit=40, scrolls=8):
+    """车家号作者页取文章链接（对标对象本人的镜像）。
 
-    2026-11-23 实测：作者页 287 个链接里有 /info/<id>，详情页正文在 __NEXT_DATA__ 的
-    articleContent.content（HTML），比公众号网页稳定，不需要登录。
-    标注为"镜像"：只用于学写法，不声称是公众号原文。
+    2026-11-25 实测纠正：作者页是**无限滚动**，不是分页——
+    `?page=2` 返回的仍是第一屏同一批内容（实测两次首条完全相同），
+    所以原「按 page 翻页」写法只能拿到 49 条。滚动加载后同一页能出 **102** 条。
+    pages 参数保留但只作为滚动次数的下限，避免调用方改代码。
+
+    2026-11-23 实测：详情页正文在 __NEXT_DATA__ 的 articleContent.content（HTML），
+    比公众号网页稳定，不需要登录。标注为"镜像"：只用于学写法，不声称是公众号原文。
     """
     rng = rng or random.Random()
     mod, kw = _browser()
     known = _seen(URLS)
     added = 0
+    n_scroll = max(int(scrolls), int(pages) * 2, 6)
     with mod.sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(**kw)
         try:
             pg = ctx.new_page()
             pg.set_default_timeout(15000)
-            for page in range(1, int(pages) + 1):
-                url = ("https://chejiahao.autohome.com.cn/authors/%s" % author_id
-                       + ("?page=%d" % page if page > 1 else ""))
-                pg.goto(url, wait_until="domcontentloaded", timeout=35000)
-                pg.wait_for_timeout(2500)
-                items = pg.evaluate("""()=>Array.from(document.querySelectorAll('a'))
-                    .map(a=>({t:(a.innerText||'').trim(), h:a.href.split('#')[0]}))
-                    .filter(x=>/\/info\/\d+/.test(x.h) && x.t.length>8)""")
-                seen_here = set()
-                for it in items:
-                    u = it["h"]
-                    if u in seen_here:
-                        continue
-                    seen_here.add(u)
-                    uid = _uid(u)
-                    if uid in known or added >= limit:
-                        continue
-                    known.add(uid)
-                    _append(URLS, {"_uid": uid, "url": u, "title": it["t"],
-                                   "source": "chejiahao", "mirror": True,
-                                   "author_id": str(author_id),
-                                   "found_at": datetime.now().isoformat(timespec="seconds")})
-                    added += 1
-                time.sleep(rng.uniform(3, 6))
+            pg.goto("https://chejiahao.autohome.com.cn/authors/%s" % author_id,
+                    wait_until="domcontentloaded", timeout=35000)
+            pg.wait_for_timeout(2500)
+
+            # 滚到底触发懒加载，直到连续 3 次不再增长（或滚满次数）
+            # 坑：单次等待 <2.5s 时懒加载还没回来，会被误判成"已到底"而提前收工
+            last, stall = 0, 0
+            for i in range(n_scroll):
+                n = pg.evaluate("document.querySelectorAll('a[href*=\"/info/\"]').length")
+                if n > last:
+                    last, stall = n, 0
+                else:
+                    stall += 1
+                    if stall >= 3:
+                        break
+                pg.evaluate("window.scrollTo(0,document.body.scrollHeight)")
+                pg.wait_for_timeout(int(rng.uniform(2500, 3200)))
+
+            items = pg.evaluate("""()=>Array.from(document.querySelectorAll('a'))
+                .map(a=>({t:(a.innerText||'').trim(), h:a.href.split('#')[0]}))
+                .filter(x=>/\\/info\\/\\d+/.test(x.h) && x.t.length>8)""")
+            seen_here = set()
+            for it in items:
+                u = it["h"]
+                if u in seen_here:
+                    continue
+                seen_here.add(u)
+                uid = _uid(u)
+                if uid in known or added >= limit:
+                    continue
+                known.add(uid)
+                _append(URLS, {"_uid": uid, "url": u, "title": it["t"],
+                               "source": "chejiahao", "mirror": True,
+                               "author_id": str(author_id),
+                               "found_at": datetime.now().isoformat(timespec="seconds")})
+                added += 1
+            print("[gzh] 作者页滚动 %d 次，可见 %d 条，新增入库 %d 条"
+                  % (i + 1, len(items), added))
         finally:
             try:
                 ctx.close()
@@ -358,6 +411,119 @@ def fetch(url, retries=1):
         if i < retries:
             time.sleep(5)
     return None, why
+
+
+def discover_authors_from(urls, limit=6, rng=None):
+    """从文章页反查作者主页 id（车家号作者链接是 /Authors/<id>，**大写 A**）。
+
+    为什么需要：作者页单屏只给约 49 条带标题的文章链接，滚动加载的是内容不是新链接
+    （实测 102 个锚点里仅 49 个有标题，滚到底仍是 49）。所以「200 篇」靠单作者拿不到，
+    必须扩作者数——而作者 id 只能从文章页反查。
+    坑：正则写成小写 /authors/ 会永远匹配 0 个（2026-11-25 实锚）。
+    """
+    rng = rng or random.Random()
+    mod, kw = _browser()
+    found = {}
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page()
+            pg.set_default_timeout(20000)
+            for u in urls[:limit]:
+                try:
+                    pg.goto(u, wait_until="domcontentloaded", timeout=35000)
+                    pg.wait_for_timeout(int(rng.uniform(2000, 3000)))
+                    ids = pg.evaluate(
+                        """()=>Array.from(document.querySelectorAll('a')).map(a=>a.href)
+                             .map(h=>{const m=h.match(/\\/Authors\\/(\\d+)/i);return m?m[1]:null})
+                             .filter(Boolean)""")
+                    for i in ids:
+                        found.setdefault(i, 0)
+                        found[i] += 1
+                except Exception:  # noqa: BLE001
+                    continue
+                time.sleep(rng.uniform(1.5, 3))
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    return sorted(found.items(), key=lambda kv: -kv[1])
+
+
+def expand_once(limit=6, rng=None):
+    """两跳扩池：访问池内文章 → ①反查作者 id ②收推荐 /info/ 链接回池。
+
+    为什么必须两跳：作者页只给约 49 条，单作者到不了 200 篇；
+    而推荐位只暴露 /info/（不暴露作者），所以要先拿推荐文，再从推荐文反查作者。
+    """
+    rng = rng or random.Random()
+    rows = []
+    if os.path.exists(URLS):
+        for line in open(URLS, encoding="utf-8"):
+            line = line.strip()
+            if line:
+                try:
+                    rows.append(json.loads(line))
+                except Exception:  # noqa: BLE001
+                    pass
+    known = _seen(URLS)
+    # 坑（2026-11-25 实锚）：原来用 r.get("visited") 过滤，但从来没写过这个字段，
+    # 于是每一轮都重复访问最前面那几篇 → 永远在原地打转，扩不出新作者。
+    # 正解=单独一个访问台账，跑过就记，跨轮次可续。
+    visited_path = os.path.expanduser("~/.fluxgroup/cj-visited.json")
+    visited = set()
+    if os.path.exists(visited_path):
+        try:
+            visited = set(json.load(open(visited_path, encoding="utf-8")))
+        except Exception:  # noqa: BLE001
+            visited = set()
+    todo = [r for r in rows if "/info/" in (r.get("url") or "")
+            and r.get("url") not in visited][:limit]
+    authors, added = {}, 0
+    mod, kw = _browser()
+    with mod.sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(**kw)
+        try:
+            pg = ctx.new_page(); pg.set_default_timeout(20000)
+            for r in todo:
+                try:
+                    pg.goto(r["url"], wait_until="domcontentloaded", timeout=35000)
+                    pg.wait_for_timeout(int(rng.uniform(2000, 3000)))
+                    got = pg.evaluate(r"""()=>{
+                      const hrefs=Array.from(document.querySelectorAll('a')).map(a=>a.href);
+                      const auth=hrefs.map(h=>{const m=h.match(/\/Authors\/(\d+)/i);return m?m[1]:null}).filter(Boolean);
+                      const info=hrefs.filter(h=>/\/info\/\d+/.test(h));
+                      return {auth:[...new Set(auth)], info:[...new Set(info)]};}""")
+                    for a in got.get("auth") or []:
+                        authors[a] = authors.get(a, 0) + 1
+                    for u in got.get("info") or []:
+                        if u == r["url"]:
+                            continue
+                        uid = _uid(u)
+                        if uid in known or added >= 60:
+                            continue
+                        known.add(uid); added += 1
+                        _append(URLS, {"_uid": uid, "url": u, "title": "",
+                                       "source": "chejiahao", "mirror": True,
+                                       "author_id": (got.get("auth") or [None])[0],
+                                       "found_at": datetime.now().isoformat(timespec="seconds")})
+                except Exception:  # noqa: BLE001
+                    continue
+                visited.add(r["url"])
+                time.sleep(rng.uniform(1.5, 3))
+        finally:
+            try:
+                ctx.close()
+            except Exception:
+                pass
+    try:
+        os.makedirs(os.path.dirname(visited_path), exist_ok=True)
+        json.dump(sorted(visited), open(visited_path, "w", encoding="utf-8"),
+                  ensure_ascii=False)
+    except Exception:  # noqa: BLE001
+        pass
+    return authors, added
 
 
 def _fetch_chejiahao(url):
@@ -466,8 +632,23 @@ def write_blocklist():
     return out
 
 
-def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
+def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None,
+            budget_secs=540, max_attempts=None):
+    """从池里抓一批。
+
+    三个必须有的刹车（2026-11-25 实锚：一次 `--harvest 8` 把 900 秒预算跑爆，
+    循环记 CRASHED）：
+      1. **整批墙钟预算** budget_secs：到点就收工退 0，绝不拖死调用方；
+      2. **尝试上限** max_attempts：limit 是"入库几篇"不是"看几条链接"，
+         池里死链多时只按 limit 循环会一路扫到池底；
+      3. **死链台账** URLS-FAILED：同一个链接连续失败 2 次就不再试，
+         否则每次都排在队头，形成永久队头阻塞。
+
+    静态垂类源（盖世/第一电动）不在这里抓：它们归 gzh_corpus_expand.py，
+    语料分开落盘、训练时分开口径；这里遇到只跳过并计数，不记失败。
+    """
     rng = rng or random.Random()
+    t0 = time.time()
     src = urls if urls is not None else [
         json.loads(l) for l in open(URLS, encoding="utf-8") if l.strip()]
     done = _seen(ARTICLES)
@@ -477,19 +658,36 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
               for a in (json.loads(l) for l in open(ARTICLES, encoding="utf-8") if l.strip())}
     known = _seen(URLS)
     _bl = blocked_accounts()      # 一次算完，别在循环里反复读语料池
-    got, fail = 0, []
+    dead = failed_urls()          # 已经死了两轮的链接，不再占队头
+    attempts_cap = max_attempts if max_attempts is not None else max(2 * int(limit), 8)
+    got, fail, skip_static, attempts, stopped = 0, [], 0, 0, "pool-exhausted"
     for row in src:
         if got >= int(limit):
+            stopped = "limit"
+            break
+        if attempts >= attempts_cap:
+            stopped = "attempts"
+            break
+        if time.time() - t0 > budget_secs:
+            stopped = "budget"
             break
         u = row.get("url")
         if not u or _uid(u) in done:
             continue
+        if _static_host(u):
+            skip_static += 1
+            continue
+        if _uid(u) in dead:
+            fail.append({"url": u, "why": "死链台账（已失败 2 次）"})
+            continue
         if row.get("account") and row.get("account") in _bl:
             fail.append({"url": u, "why": "账号已止损（%s）" % row.get("account")})
             continue
+        attempts += 1
         art, why = fetch(u)
         if art is None:
             fail.append({"url": u, "why": why})
+            mark_failed(u, why)
             continue
         done.add(art["_uid"])
         art["genre"], art["genre_why"] = genre_of(art)
@@ -509,7 +707,9 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None):
                            "account": art.get("account"),   # 记账号：池里才知道这条属于谁
                            "found_at": datetime.now().isoformat(timespec="seconds")})
         time.sleep(rng.uniform(sleep_lo, sleep_hi))
-    return got, fail
+    stats = {"secs": round(time.time() - t0, 1), "attempts": attempts,
+             "skip_static": skip_static, "stopped": stopped, "budget": budget_secs}
+    return got, fail, stats
 
 
 def summarize(arts):
@@ -548,11 +748,59 @@ def self_test():
     # 4 去重集合真的能挡住重复
     import tempfile
     d = tempfile.mkdtemp(prefix="gzh-")
+    # 整个自检期间死链台账指向临时文件：自检不许写生产状态（2026-11-25 踩过）
+    global FAILED
+    saved_failed = FAILED
+    FAILED = os.path.join(d, "failed.jsonl")
     f = os.path.join(d, "x.jsonl")
     _append(f, {"_uid": "u1", "url": "a"})
     _append(f, {"_uid": "u2", "url": "b"})
     cases.append(("去重读到 2 条", len(_seen(f)) == 2))
     cases.append(("未知 uid 不在已采集", "u3" not in _seen(f)))
+
+    # 5 静态垂类源必须被识别出来（2026-11-25 实锚：71 条 gasgoo 链接被送进
+    #   公众号提取器，每条卡满 25 秒，一次 900 秒预算直接跑爆）
+    cases.append(("静态源[盖世] 被识别", _static_host("https://auto.gasgoo.com/news/202611/x.shtml")))
+    cases.append(("静态源[第一电动] 被识别", _static_host("https://www.d1ev.com/news/shuju/312498")))
+    cases.append(("负控[公众号] 不被误判静态", not _static_host("https://mp.weixin.qq.com/s/abc")))
+    cases.append(("负控[车家号] 不被误判静态",
+                  not _static_host("https://chejiahao.autohome.com.cn/info/26906205")))
+    cases.append(("负控[仿冒域名] 不算静态源",
+                  not _static_host("https://evil-d1ev.com/news/shuju/1")))
+
+    # 6 死链台账：失败 1 次还试，失败 2 次就不试（否则队头永久阻塞）
+    # 整个自检期间 FAILED 一律指向临时文件——2026-11-25 踩过：自检往生产台账
+    # 写了 18 行「桩失败」，第二次跑就自己被这些假死链判红，还污染了真实数据。
+    u1 = "https://chejiahao.autohome.com.cn/info/111111"
+    mark_failed(u1, "timeout")
+    cases.append(("死链 1 次→仍会重试", _uid(u1) not in failed_urls()))
+    mark_failed(u1, "timeout")
+    cases.append(("死链 2 次→不再重试", _uid(u1) in failed_urls()))
+    cases.append(("负控[别的链接] 不受影响",
+                  _uid("https://chejiahao.autohome.com.cn/info/222222") not in failed_urls()))
+
+    # 7 预算/尝试上限真的会刹车（不联网：fetch 换成恒失败的桩）
+    global fetch
+    saved_fetch = fetch
+    try:
+        fetch = lambda url, retries=1: (None, "桩失败")
+        pool = os.path.join(d, "pool.jsonl")
+        for i in range(20):
+            _append(pool, {"url": "https://chejiahao.autohome.com.cn/info/%d" % (900000 + i)})
+        rows = [json.loads(l) for l in open(pool, encoding="utf-8")]
+        g, fl, st = harvest(limit=5, budget_secs=0, rng=random.Random(0),
+                            urls=rows, max_attempts=3)
+        cases.append(("预算 0 秒→立刻收工且不抓任何一篇", g == 0 and st["attempts"] == 0
+                      and st["stopped"] == "budget"))
+        g2, fl2, st2 = harvest(limit=5, budget_secs=60, rng=random.Random(0),
+                               urls=rows, max_attempts=3)
+        cases.append(("尝试上限 3→只试 3 次就收工", st2["attempts"] == 3
+                      and st2["stopped"] == "attempts"))
+        cases.append(("负控[不应跑到池底]", len(fl2) <= 4))
+    finally:
+        fetch = saved_fetch
+        FAILED = saved_failed
+
     ok = sum(1 for _, v in cases if v)
     for n, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", n))
@@ -566,8 +814,16 @@ def main():
     ap.add_argument("--sogou")
     ap.add_argument("--serp")
     ap.add_argument("--cj-author", help="车家号作者 id（对标对象镜像）")
+    ap.add_argument("--cj-expand", type=int, default=0,
+                    help="两跳扩池：访问 N 篇池内文章，反查作者并收推荐链接")
+    ap.add_argument("--cj-discover", type=int, default=0,
+                    help="从池里取 N 篇文章反查作者 id（车家号 /Authors/<id>）")
     ap.add_argument("--pages", type=int, default=3)
+    ap.add_argument("--scrolls", type=int, default=8,
+                    help="作者页滚动加载次数（车家号是无限滚动，?page=N 无效）")
     ap.add_argument("--harvest", type=int, default=0)
+    ap.add_argument("--budget-secs", type=int, default=540,
+                    help="整批墙钟预算：到点收工退 0，绝不拖死调用方（默认 540）")
     ap.add_argument("--limit", type=int, default=0, help="每次最多抓几篇（防手滑抓太多）")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
@@ -583,8 +839,32 @@ def main():
                  len(art.get("heads") or []), art.get("imgs") or 0))
         print("[gzh] 开头：%s" % (art.get("lead") or "")[:160].replace("\n", " / "))
         return 0
+    if a.cj_expand:
+        auth, added = expand_once(a.cj_expand)
+        print("[gzh] 两跳扩池：文章 %d 篇 → 新作者 %d 个 / 新链接 %d 条"
+              % (a.cj_expand, len(auth), added))
+        for aid, hits in sorted(auth.items(), key=lambda kv: -kv[1])[:10]:
+            print("   /Authors/%s  出现 %d 次" % (aid, hits))
+        return 0
+    if a.cj_discover:
+        rows = []
+        if os.path.exists(URLS):
+            for line in open(URLS, encoding="utf-8"):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rows.append(json.loads(line))
+                except Exception:  # noqa: BLE001
+                    pass
+        urls = [r.get("url") for r in rows if "/info/" in (r.get("url") or "")]
+        pairs = discover_authors_from(urls, limit=a.cj_discover)
+        print("[gzh] 反查到作者 %d 个：" % len(pairs))
+        for aid, hits in pairs[:12]:
+            print("   /Authors/%s  出现 %d 次" % (aid, hits))
+        return 0
     if a.cj_author:
-        n = discover_chejiahao(a.cj_author, pages=a.pages)
+        n = discover_chejiahao(a.cj_author, pages=a.pages, scrolls=a.scrolls, limit=(a.limit or 40))
         print("[gzh] 车家号建池 %d 条 → %s" % (n, os.path.relpath(URLS, ROOT)))
         return 0 if n else 1
     if a.sogou or a.serp:
@@ -604,12 +884,18 @@ def main():
             print("[gzh] 让位/拒绝 rc=%d：%s" % (rc, why))
             return 75 if rc == 75 else 76
         lim = a.limit or a.harvest
-        got, fail = harvest(min(lim, a.harvest))
+        got, fail, st = harvest(min(lim, a.harvest), budget_secs=a.budget_secs)
         arts = [json.loads(l) for l in open(ARTICLES, encoding="utf-8")
                 if l.strip()][-got:] if got else []
-        print("[gzh] 入库 %d 篇，失败 %d 次%s"
-              % (got, len(fail), ("（首个失败：%s）" % fail[0]["why"]) if fail else ""))
-        print("[gzh] 本批：%s" % summarize(arts))
+        print("[gzh] 入库 %d 篇，失败 %d 次，跳过静态源 %d 条"
+              % (got, len(fail), st["skip_static"]))
+        print("[gzh] 本拍 %.1f 秒 / 尝试 %d 次 / 收工原因 %s（预算 %d 秒）"
+              % (st["secs"], st["attempts"], st["stopped"], st["budget"]))
+        if fail:
+            print("[gzh] 首个失败：%s" % fail[0]["why"])
+        if got:
+            print("[gzh] 本批：%s" % summarize(arts))
+        # 预算到点收工不是失败：已入库的照算，退 0 让循环继续下一拍。
         return 0
     print(__doc__)
     return 0
