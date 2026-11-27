@@ -1,0 +1,24 @@
+{
+  "id": "m-v4-audio",
+  "name": "声音与氛围",
+  "domain": "表现",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "城里的底噪、广播、一个人的声音",
+  "inputs": "事件",
+  "outputs": "音频",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先做一条广播",
+  "writes": [
+    "modules/m-v4-audio/data/"
+  ],
+  "reads": [
+    "modules/m-w2-clock/data/events.jsonl"
+  ]
+}

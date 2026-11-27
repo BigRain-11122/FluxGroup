@@ -1,0 +1,23 @@
+{
+  "id": "m-f1-contracts",
+  "name": "契约与数据",
+  "domain": "平台",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "维护 CONTRACTS/，定义区域/人/事件/模块的字段；所有人只读",
+  "inputs": "各模块的需求",
+  "outputs": "world.schema.json / module.schema.json",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "—",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "加事件与模块的校验规则",
+  "writes": [],
+  "reads": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ]
+}

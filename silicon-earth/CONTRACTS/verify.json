@@ -1,0 +1,14 @@
+{
+  "note": "任务验收命令的唯一权威。只有总控能改；worker 改这个文件会被 guard 拦下。TASKS.json 里的 verify 仅供参考。",
+  "verify": {
+    "T01": "python tools/sim_test.py --only T3",
+    "T02": "python tools/sim_test.py --only T4",
+    "T03": "python tools/sim_test.py --only T5",
+    "T11": "python tools/sim_test.py --only T8",
+    "T12": "python tools/sim_test.py --only T12",
+    "T06": "python modules/m-r2-translate/check.py",
+    "T04": "python modules/m-v1-globe/check.py",
+    "T05": "python modules/m-v3-interact/check.py",
+    "T07": "python modules/m-b1-output/check.py"
+  }
+}

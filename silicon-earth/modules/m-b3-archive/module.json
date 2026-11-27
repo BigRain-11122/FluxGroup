@@ -1,0 +1,22 @@
+{
+  "id": "m-b3-archive",
+  "name": "保管",
+  "domain": "生意",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "把一段真实的话/影像存进来，且能被找到",
+  "inputs": "用户内容",
+  "outputs": "档案",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先定「存什么、找得到什么」",
+  "writes": [
+    "modules/m-b3-archive/data/"
+  ],
+  "reads": []
+}

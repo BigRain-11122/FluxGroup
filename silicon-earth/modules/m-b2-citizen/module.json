@@ -1,0 +1,22 @@
+{
+  "id": "m-b2-citizen",
+  "name": "身份与入籍",
+  "domain": "生意",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "入籍、命名、认领一块地方",
+  "inputs": "用户",
+  "outputs": "身份记录",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先定三档身份与权限",
+  "writes": [
+    "modules/m-b2-citizen/data/"
+  ],
+  "reads": []
+}

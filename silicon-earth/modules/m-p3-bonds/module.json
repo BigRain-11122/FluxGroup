@@ -1,0 +1,24 @@
+{
+  "id": "m-p3-bonds",
+  "name": "关系与相助",
+  "domain": "人",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "谁帮过谁、谁欠谁、谁会来",
+  "inputs": "帮助类事件",
+  "outputs": "关系图",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先做「相助记账」：帮一次记一次",
+  "writes": [
+    "modules/m-p3-bonds/data/bonds.json"
+  ],
+  "reads": [
+    "modules/m-w2-clock/data/events.jsonl"
+  ]
+}

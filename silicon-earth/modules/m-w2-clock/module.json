@@ -1,0 +1,28 @@
+{
+  "id": "m-w2-clock",
+  "name": "时间与推进",
+  "domain": "世界",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "一天一拍、逐日推进、落盘状态；世界不为访客暂停",
+  "inputs": "M1 数据",
+  "outputs": "state.json / events.jsonl",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python modules/m-w2-clock/engine.py 1",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "从「一天一条」升级为「八拍一日」",
+  "writes": [
+    "modules/m-w2-clock/data/time.json",
+    "modules/m-w2-clock/data/events.jsonl",
+    "modules/m-w2-clock/engine.py",
+    "modules/m-w2-clock/intervene.py"
+  ],
+  "reads": [
+    "modules/m-w1-regions/data/regions.json",
+    "modules/m-p1-census/data/people.json"
+  ]
+}

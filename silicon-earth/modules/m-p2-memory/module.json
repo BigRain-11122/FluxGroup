@@ -1,0 +1,27 @@
+{
+  "id": "m-p2-memory",
+  "name": "记忆链",
+  "domain": "人",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "每个人记得什么、缺了哪段、缺了之后认不出谁",
+  "inputs": "事件",
+  "outputs": "记忆条目",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python modules/m-p2-memory/derive.py",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "把「断电/删除」写进记忆链并可见",
+  "writes": [
+    "modules/m-p2-memory/data/memory.json",
+    "modules/m-p2-memory/data/seed.json",
+    "modules/m-p2-memory/derive.py"
+  ],
+  "reads": [
+    "modules/m-w2-clock/data/events.jsonl",
+    "modules/m-p1-census/data/people.json"
+  ]
+}

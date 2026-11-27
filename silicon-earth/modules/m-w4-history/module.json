@@ -1,0 +1,24 @@
+{
+  "id": "m-w4-history",
+  "name": "历史与纪年",
+  "domain": "世界",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "把事件沉淀成历史：哪一天发生了什么，谁记得",
+  "inputs": "events.jsonl",
+  "outputs": "history.json",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先做「纪年」：用大事给年代命名",
+  "writes": [
+    "modules/m-w4-history/data/history.json"
+  ],
+  "reads": [
+    "modules/m-w2-clock/data/events.jsonl"
+  ]
+}

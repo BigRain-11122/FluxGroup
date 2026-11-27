@@ -1,0 +1,10 @@
+{
+  "note": "验收标准的唯一权威。worker 改 TASKS.json 里的 acceptance 会被 validate 拦下。",
+  "acceptance": {
+    "T01": "5 个坏样本逐个被 validate 拒；干净副本必须通过",
+    "T02": "删掉派生文件重跑逐字节一致；state.day == time.day",
+    "T03": "断电后该人新增一条 lost，unrecognized 指向同区真人，event_id 真实存在",
+    "T11": "两进程同时 claim 同一任务，恰好一个成功，持有者唯一",
+    "T12": "60 天后九区都有事件、至少 3 块数值变化、至少三分之一事件带 causes"
+  }
+}

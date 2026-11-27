@@ -1,0 +1,24 @@
+{
+  "id": "m-v2-city",
+  "name": "城市渲染",
+  "domain": "表现",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "放大到一座城：街区、人流、灯火",
+  "inputs": "区域数据",
+  "outputs": "3D 城景",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "把 CityWeb 接成一个区",
+  "writes": [
+    "modules/m-v2-city/src/"
+  ],
+  "reads": [
+    "modules/m-w1-regions/data/regions.json"
+  ]
+}

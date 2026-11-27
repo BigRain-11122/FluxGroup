@@ -1,0 +1,25 @@
+{
+  "id": "m-f4-qa",
+  "name": "质量闸",
+  "domain": "平台",
+  "status": "building",
+  "owner": "未指派",
+  "duty": "校验契约、跑冒烟测试、给出可合并/不可合并",
+  "inputs": "所有模块",
+  "outputs": "体检报告",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python tools/world_ops.py validate",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "把 world_ops validate 扩展成契约测试",
+  "writes": [
+    "tools/world_ops.py"
+  ],
+  "reads": [
+    "modules/",
+    "CONTRACTS/"
+  ]
+}

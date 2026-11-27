@@ -1,0 +1,26 @@
+{
+  "id": "m-v1-globe",
+  "name": "地球渲染",
+  "domain": "表现",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "能转的球：九块区域、状态灯、一眼看出谁在长谁在等",
+  "inputs": "regions.json",
+  "outputs": "3D 球面",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python modules/m-v1-globe/build.py",
+  "verify": "python modules/m-v1-globe/check.py",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "复用 CityWeb 的 three.js 栈",
+  "writes": [
+    "modules/m-v1-globe/build.py",
+    "modules/m-v1-globe/dist/"
+  ],
+  "reads": [
+    "modules/m-w1-regions/data/regions.json",
+    "modules/m-w3-settle/data/state.json"
+  ]
+}

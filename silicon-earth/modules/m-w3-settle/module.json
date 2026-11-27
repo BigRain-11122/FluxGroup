@@ -1,0 +1,26 @@
+{
+  "id": "m-w3-settle",
+  "name": "状态结算",
+  "domain": "世界",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "从事件流回放，算出每块区域的 positivity 与状态；可随时重建",
+  "inputs": "events.jsonl",
+  "outputs": "state.json",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python modules/m-w3-settle/settle.py",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "把年龄/人口变化也纳入结算",
+  "writes": [
+    "modules/m-w3-settle/data/state.json",
+    "modules/m-w3-settle/settle.py"
+  ],
+  "reads": [
+    "modules/m-w2-clock/data/events.jsonl",
+    "modules/m-w1-regions/data/regions.json"
+  ]
+}

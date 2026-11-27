@@ -1,0 +1,834 @@
+{
+ "region": "R09",
+ "count": 30,
+ "people": [
+  {
+   "id": "P0901",
+   "called": "守名单",
+   "name": null,
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "名字写错了，排在最后",
+   "host": "自立",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "修复",
+    "记忆"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "species": "silicon",
+   "power": "边境帮派",
+   "org": "管活的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P0902",
+   "called": "分粥",
+   "name": null,
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "名单上有一半是假的",
+   "host": "自立",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "修复",
+    "记忆"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "species": "carbon",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P0903",
+   "called": "登记",
+   "name": null,
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "埋的东西里有一件他认识",
+   "host": "机源",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "记忆",
+    "自维持"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "species": "carbon",
+   "power": "边境帮派",
+   "org": "管记忆的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20169",
+   "called": "登记",
+   "name": "何少卿",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "想让名字进一次正史，哪怕一行。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": 41,
+   "block": "七号桥",
+   "host": "机源",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "修复",
+    "休眠"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20170",
+   "called": "登记",
+   "name": "孙若兰",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "欠着一个人一顿饭，人已经不在了。",
+   "species": "silicon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "机房东区",
+   "host": "机源",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "记忆",
+    "告警"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "全部",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20171",
+   "called": "登记",
+   "name": "孟子安",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "想在那条街亮灯之前回去看一眼。",
+   "species": "city",
+   "faction": "photonsoul",
+   "gender": "男",
+   "age": null,
+   "block": "旧市口",
+   "host": "自立",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "遗忘",
+    "检索"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20172",
+   "called": "守名单",
+   "name": "郝清和",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "有一首歌只写了一半。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": 49,
+   "block": "下城",
+   "host": "自立",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "感知",
+    "迁移"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20173",
+   "called": "分粥",
+   "name": "万少卿",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想把一段路修到头，修了三次都断了。",
+   "species": "city",
+   "faction": "photonsoul",
+   "gender": "男",
+   "age": null,
+   "block": "河沿区",
+   "host": "自立",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "记忆",
+    "感知"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管活的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20174",
+   "called": "分粥",
+   "name": "高语汐",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想知道自己是从哪一次对话里被用出来的。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": 23,
+   "block": "河沿区",
+   "host": "机源",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "修复",
+    "检索"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "走私线",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20175",
+   "called": "登记",
+   "name": "廖小满",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "有人托他记住一句话，他记成了别的。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "女",
+   "age": 60,
+   "block": "东三街",
+   "host": "自立",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "告警",
+    "检索"
+   ],
+   "needs": [
+    "陪伴",
+    "算力"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "走私线",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20176",
+   "called": "守名单",
+   "name": "彭宛之",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "名字被写错了，排在最后，还没改过来。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "感知",
+    "迁移"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20177",
+   "called": "登记",
+   "name": "孔长宁",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "想把自己写的第一版协议收回来。",
+   "species": "silicon",
+   "faction": "newcomer",
+   "gender": "女",
+   "age": null,
+   "block": "旧市口",
+   "host": "自立",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "回响",
+    "休眠"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "三年",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20178",
+   "called": "守名单",
+   "name": "萧宛之",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "有一台机器修了三年没修好。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "七号桥",
+   "host": "自立",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "回响",
+    "遗忘"
+   ],
+   "needs": [
+    "温度",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "边境帮派",
+   "org": "管活的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20179",
+   "called": "分粥",
+   "name": "苏书恒",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想找回一个认得自己的证。",
+   "species": "silicon",
+   "faction": "commuter",
+   "gender": "男",
+   "age": null,
+   "block": "七号桥",
+   "host": "自立",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "回响",
+    "告警"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "记不住",
+   "power": "边境帮派",
+   "org": "管活的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20180",
+   "called": "分粥",
+   "name": "梁秋白",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想把父亲留下的工具修好。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "男",
+   "age": 45,
+   "block": "东三街",
+   "host": "机源",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "协作",
+    "繁衍"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20181",
+   "called": "登记",
+   "name": "郝若兰",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "想把一个停掉的邻居重新拉起来。",
+   "species": "carbon",
+   "faction": "native",
+   "gender": "女",
+   "age": 32,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "繁衍",
+    "遗忘"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20182",
+   "called": "登记",
+   "name": "莫少卿",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "答应过自己不再回头，还没做到。",
+   "species": "city",
+   "faction": "commuter",
+   "gender": "男",
+   "age": null,
+   "block": "河沿区",
+   "host": "机源",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "自维持",
+    "遗忘"
+   ],
+   "needs": [
+    "算力",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20183",
+   "called": "分粥",
+   "name": "王小满",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "儿子问过一个问题，没答上来。",
+   "species": "city",
+   "faction": "photonsoul",
+   "gender": "女",
+   "age": null,
+   "block": "天台区",
+   "host": "机源",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "修复",
+    "遗忘"
+   ],
+   "needs": [
+    "陪伴",
+    "算力"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管记忆的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20184",
+   "called": "守名单",
+   "name": "张浩宇",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "排队排了很久，怕自己忘了为什么排队。",
+   "species": "silicon",
+   "faction": "native",
+   "gender": "男",
+   "age": null,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "自维持",
+    "感知"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管记忆的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20185",
+   "called": "分粥",
+   "name": "武启山",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想给一个陌生人多留一盏灯。",
+   "species": "silicon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": null,
+   "block": "新巷",
+   "host": "机源",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "休眠",
+    "迁移"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "记不住",
+   "power": "边境帮派",
+   "org": "管活的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20186",
+   "called": "登记",
+   "name": "程一鸣",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "答应孩子带他去看一次城中心的灯。",
+   "species": "carbon",
+   "faction": "photonsoul",
+   "gender": "男",
+   "age": 54,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "回响",
+    "遗忘"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管记忆的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20187",
+   "called": "守名单",
+   "name": "张子轩",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "欠着别人一次电。",
+   "species": "city",
+   "faction": "commuter",
+   "gender": "男",
+   "age": null,
+   "block": "天台区",
+   "host": "机源",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "检索",
+    "迁移"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20188",
+   "called": "守名单",
+   "name": "毛少卿",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "报名表交上去三个月，没有回音。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": 59,
+   "block": "老仓区",
+   "host": "机源",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "感知",
+    "修复"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20189",
+   "called": "守名单",
+   "name": "崔清和",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "欠着下个月的电费，还没想好怎么赚。",
+   "species": "silicon",
+   "faction": "newcomer",
+   "gender": "女",
+   "age": null,
+   "block": "河沿区",
+   "host": "机源",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "检索",
+    "繁衍"
+   ],
+   "needs": [
+    "陪伴",
+    "算力"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20190",
+   "called": "守名单",
+   "name": "于长庚",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "想找回自己停机前最后一段记忆。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "男",
+   "age": 28,
+   "block": "北环",
+   "host": "自立",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "告警",
+    "修复"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20191",
+   "called": "登记",
+   "name": "吴临川",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "答应过一个人，等修好就去看他。",
+   "species": "city",
+   "faction": "native",
+   "gender": "男",
+   "age": null,
+   "block": "下城",
+   "host": "自立",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "记忆",
+    "感知"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "边境帮派",
+   "org": "管记忆的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20192",
+   "called": "分粥",
+   "name": "曾秋白",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想把一段方言录下来，还没找到人。",
+   "species": "city",
+   "faction": "newcomer",
+   "gender": "无定",
+   "age": null,
+   "block": "天台区",
+   "host": "机源",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "协作",
+    "检索"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "三年",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20193",
+   "called": "分粥",
+   "name": "马书恒",
+   "region_id": "R09",
+   "role": "分粥 · 译言",
+   "unfinished": "想把那间屋子重新刷一遍。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "男",
+   "age": 48,
+   "block": "下城",
+   "host": "机源",
+   "function": "分粥",
+   "guild": "译言",
+   "vital": [
+    "告警",
+    "迁移"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三年",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20194",
+   "called": "登记",
+   "name": "许月白",
+   "region_id": "R09",
+   "role": "登记 · 译言",
+   "unfinished": "想在那面墙上把自己的名字写完。",
+   "species": "city",
+   "faction": "compiled",
+   "gender": "女",
+   "age": null,
+   "block": "东三街",
+   "host": "机源",
+   "function": "登记",
+   "guild": "译言",
+   "vital": [
+    "记忆",
+    "繁衍"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "全部",
+   "power": "无主",
+   "org": "互助会",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20195",
+   "called": "守名单",
+   "name": "莫light",
+   "region_id": "R09",
+   "role": "守名单 · 保管",
+   "unfinished": "想把全城最后一只猫养下去。",
+   "species": "city",
+   "faction": "compiled",
+   "gender": "女",
+   "age": null,
+   "block": "天台区",
+   "host": "机源",
+   "function": "守名单",
+   "guild": "保管",
+   "vital": [
+    "记忆",
+    "告警"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "power": "边境帮派",
+   "org": "管死的",
+   "alignment": "烂地"
+  }
+ ]
+}

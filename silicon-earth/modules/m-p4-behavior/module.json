@@ -1,0 +1,25 @@
+{
+  "id": "m-p4-behavior",
+  "name": "需求与行为",
+  "domain": "人",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "每天做什么：根据需求与关系决定动作",
+  "inputs": "记忆 + 关系",
+  "outputs": "当日行为",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先做规则版，最后才接模型",
+  "writes": [
+    "modules/m-p4-behavior/data/behavior.json"
+  ],
+  "reads": [
+    "modules/m-p2-memory/data/memory.json",
+    "modules/m-p3-bonds/data/bonds.json"
+  ]
+}

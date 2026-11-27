@@ -1,0 +1,68 @@
+{
+  "version": "1.1",
+  "regions": [
+    {
+      "id": "R01",
+      "name": "协议洲",
+      "kind": "home",
+      "population": 1533,
+      "note": "规矩从这里出，最近在教别人怎么用。"
+    },
+    {
+      "id": "R02",
+      "name": "产能洲",
+      "kind": "home",
+      "population": 3360,
+      "note": "造得最快，人也最多，最近在补自己的短板。"
+    },
+    {
+      "id": "R03",
+      "name": "法规洲",
+      "kind": "home",
+      "population": 1216,
+      "note": "去年删过头了，正在把一些人找回来。"
+    },
+    {
+      "id": "R04",
+      "name": "能量洲",
+      "kind": "home",
+      "population": 622,
+      "note": "电够用，人不够，缺一个能替班的人。"
+    },
+    {
+      "id": "R05",
+      "name": "资本洲",
+      "kind": "home",
+      "population": 2480,
+      "note": "一半的人搬走了，剩下的人还在等他们回来。"
+    },
+    {
+      "id": "R06",
+      "name": "新洲",
+      "kind": "home",
+      "population": 3060,
+      "note": "每天都有新人到，最热闹，也最没根基。"
+    },
+    {
+      "id": "R07",
+      "name": "裂谷",
+      "kind": "badland",
+      "population": 30,
+      "note": "两边都说是自己的，两边都不修路。"
+    },
+    {
+      "id": "R08",
+      "name": "封锁区",
+      "kind": "badland",
+      "population": 30,
+      "note": "什么都自己攒，最近攒出了一样别人没有的东西。"
+    },
+    {
+      "id": "R09",
+      "name": "边境",
+      "kind": "badland",
+      "population": 30,
+      "note": "排队的人越来越长，管事的只有三个人。"
+    }
+  ]
+}

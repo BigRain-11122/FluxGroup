@@ -1,0 +1,25 @@
+{
+  "id": "m-v3-interact",
+  "name": "交互与介入",
+  "domain": "表现",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "进入、点击一个人、做一件事、看后果",
+  "inputs": "世界状态",
+  "outputs": "用户动作",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python modules/m-v3-interact/show.py --list",
+  "verify": "python modules/m-v3-interact/check.py",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先做「点开一个人，看他的记忆链」",
+  "writes": [
+    "modules/m-v3-interact/show.py"
+  ],
+  "reads": [
+    "modules/m-p2-memory/data/memory.json",
+    "modules/m-p1-census/data/people.json"
+  ]
+}

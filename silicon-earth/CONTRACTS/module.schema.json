@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "silicon-earth/module.schema.json",
+  "version": "1.0",
+  "description": "每个模块的 module.json 必须符合本契约。validate 会强制检查。",
+  "type": "object",
+  "required": ["id", "name", "domain", "status", "owner", "duty", "inputs", "outputs", "contracts", "run", "verify", "forbidden", "next"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^m-[a-z0-9]+-[a-z0-9]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "domain": {"type": "string", "enum": ["平台", "世界", "人", "镜", "表现", "生意"]},
+    "status": {"type": "string", "enum": ["empty", "building", "usable", "stable"]},
+    "owner": {"type": "string", "minLength": 1},
+    "duty": {"type": "string", "minLength": 1},
+    "inputs": {"type": "string"},
+    "outputs": {"type": "string"},
+    "contracts": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "run": {"type": "string"},
+    "verify": {"type": "string"},
+    "forbidden": {"type": "string", "minLength": 1},
+    "next": {"type": "string", "minLength": 1},
+    "writes": {"type": "array", "items": {"type": "string"}, "description": "本模块独占写入的文件路径，相对仓库根"},
+    "reads": {"type": "array", "items": {"type": "string"}, "description": "本模块只读的文件路径"}
+  },
+  "rule": "status 非 empty 时，run 与 verify 都不得为空。"
+}

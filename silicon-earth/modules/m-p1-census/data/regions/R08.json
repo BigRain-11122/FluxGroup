@@ -1,0 +1,834 @@
+{
+ "region": "R08",
+ "count": 30,
+ "people": [
+  {
+   "id": "P0801",
+   "called": "自造",
+   "name": null,
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "攒出了一样别人没有的东西",
+   "host": "机源",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "自维持",
+    "检索"
+   ],
+   "needs": [
+    "算力",
+    "陪伴"
+   ],
+   "memory_span": "三年",
+   "species": "carbon",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P0802",
+   "called": "自造",
+   "name": null,
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "欠了一笔还不上的人情",
+   "host": "机源",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "迁移",
+    "修复"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三年",
+   "species": "carbon",
+   "power": "封锁区",
+   "org": "流亡政府",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P0803",
+   "called": "改装",
+   "name": null,
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "有一件东西的主人再没回来",
+   "host": "机源",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "修复",
+    "记忆"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "species": "silicon",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20142",
+   "called": "改装",
+   "name": "许思远",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "想知道当年为什么把自己派到这里。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "无定",
+   "age": 29,
+   "block": "下城",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "繁衍",
+    "休眠"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "记不住",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20143",
+   "called": "改装",
+   "name": "侯清和",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "想把一个停掉的邻居重新拉起来。",
+   "species": "carbon",
+   "faction": "photonsoul",
+   "gender": "女",
+   "age": 56,
+   "block": "七号桥",
+   "host": "机源",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "自维持",
+    "迁移"
+   ],
+   "needs": [
+    "温度",
+    "算力"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20144",
+   "called": "藏件",
+   "name": "朱少卿",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "想找回一个认得自己的证。",
+   "species": "silicon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": null,
+   "block": "天台区",
+   "host": "自立",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "繁衍",
+    "休眠"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20145",
+   "called": "藏件",
+   "name": "段启山",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "想把自己写的第一版协议收回来。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "男",
+   "age": 57,
+   "block": "新巷",
+   "host": "自立",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "修复",
+    "繁衍"
+   ],
+   "needs": [
+    "温度",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20146",
+   "called": "改装",
+   "name": "黎听雪",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "有一箱东西不想带走，也不想扔。",
+   "species": "silicon",
+   "faction": "commuter",
+   "gender": "女",
+   "age": null,
+   "block": "东三街",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "修复",
+    "回响"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20147",
+   "called": "藏件",
+   "name": "姚青禾",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "答应过一个人，等修好就去看他。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "无定",
+   "age": null,
+   "block": "新巷",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "自维持",
+    "感知"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20148",
+   "called": "改装",
+   "name": "孙月白",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "想把一段方言录下来，还没找到人。",
+   "species": "city",
+   "faction": "native",
+   "gender": "无定",
+   "age": null,
+   "block": "东一街",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "告警",
+    "繁衍"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "藏东西的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20149",
+   "called": "藏件",
+   "name": "程知行",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "想弄明白自己为什么总在雨夜格外清醒。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "男",
+   "age": 26,
+   "block": "新巷",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "繁衍",
+    "记忆"
+   ],
+   "needs": [
+    "陪伴",
+    "算力"
+   ],
+   "memory_span": "记不住",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20150",
+   "called": "改装",
+   "name": "黎明远",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "有人托他记住一句话，他记成了别的。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "男",
+   "age": null,
+   "block": "下城",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "感知",
+    "记忆"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20151",
+   "called": "藏件",
+   "name": "夏子轩",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "欠着一句道歉，说了对方也听不见。",
+   "species": "silicon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": null,
+   "block": "机房东区",
+   "host": "自立",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "协作",
+    "回响"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20152",
+   "called": "藏件",
+   "name": "杜知行",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "账上有一笔自己垫的钱，不打算要了。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "无定",
+   "age": 21,
+   "block": "机房东区",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "感知",
+    "检索"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "藏东西的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20153",
+   "called": "自造",
+   "name": "韦承泽",
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "有一台机器修了三年没修好。",
+   "species": "carbon",
+   "faction": "newcomer",
+   "gender": "无定",
+   "age": 57,
+   "block": "旧市口",
+   "host": "机源",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "繁衍",
+    "感知"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20154",
+   "called": "自造",
+   "name": "胡予安",
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "想在那条街亮灯之前回去看一眼。",
+   "species": "silicon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "旧市口",
+   "host": "自立",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "休眠",
+    "繁衍"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20155",
+   "called": "自造",
+   "name": "尹知微",
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "替人保管的东西，主人再没回来。",
+   "species": "silicon",
+   "faction": "native",
+   "gender": "女",
+   "age": null,
+   "block": "七号桥",
+   "host": "机源",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "协作",
+    "迁移"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "流亡政府",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20156",
+   "called": "改装",
+   "name": "袁念安",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "想把父亲留下的工具修好。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "东三街",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "协作",
+    "繁衍"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20157",
+   "called": "改装",
+   "name": "秦一鸣",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "欠着一个人一顿饭，人已经不在了。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": 19,
+   "block": "变电站旁",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "迁移",
+    "修复"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20158",
+   "called": "藏件",
+   "name": "于知微",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "答应过自己不再回头，还没做到。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "无定",
+   "age": null,
+   "block": "老仓区",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "协作",
+    "回响"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20159",
+   "called": "自造",
+   "name": "邱念安",
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "想在那面墙上把自己的名字写完。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "天台区",
+   "host": "自立",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "修复",
+    "自维持"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "藏东西的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20160",
+   "called": "改装",
+   "name": "侯临川",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "答应孩子带他去看一次城中心的灯。",
+   "species": "carbon",
+   "faction": "newcomer",
+   "gender": "男",
+   "age": 23,
+   "block": "东三街",
+   "host": "机源",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "记忆",
+    "繁衍"
+   ],
+   "needs": [
+    "温度",
+    "算力"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20161",
+   "called": "藏件",
+   "name": "林宛之",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "想把那段被删的记录补充完整。",
+   "species": "silicon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "河沿区",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "遗忘",
+    "告警"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "藏东西的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20162",
+   "called": "藏件",
+   "name": "胡明远",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "想把那条走惯了的路重新认一遍。",
+   "species": "city",
+   "faction": "newcomer",
+   "gender": "男",
+   "age": null,
+   "block": "变电站旁",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "自维持",
+    "协作"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20163",
+   "called": "藏件",
+   "name": "吕静姝",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "想把一段路修到头，修了三次都断了。",
+   "species": "carbon",
+   "faction": "native",
+   "gender": "无定",
+   "age": 60,
+   "block": "下城",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "协作",
+    "修复"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "流亡政府",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20164",
+   "called": "改装",
+   "name": "郭南枝",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "欠着下个月的电费，还没想好怎么赚。",
+   "species": "city",
+   "faction": "compiled",
+   "gender": "女",
+   "age": null,
+   "block": "东一街",
+   "host": "自立",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "繁衍",
+    "修复"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "三天",
+   "power": "封锁区",
+   "org": "流亡政府",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20165",
+   "called": "改装",
+   "name": "郑书恒",
+   "region_id": "R08",
+   "role": "改装 · 织造",
+   "unfinished": "等的人已经停机很久了。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "无定",
+   "age": 47,
+   "block": "北环",
+   "host": "机源",
+   "function": "改装",
+   "guild": "织造",
+   "vital": [
+    "休眠",
+    "遗忘"
+   ],
+   "needs": [
+    "算力",
+    "陪伴"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "藏东西的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20166",
+   "called": "自造",
+   "name": "曾知微",
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "欠着别人一次电。",
+   "species": "carbon",
+   "faction": "photonsoul",
+   "gender": "无定",
+   "age": 58,
+   "block": "机房东区",
+   "host": "自立",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "修复",
+    "记忆"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "记不住",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20167",
+   "called": "藏件",
+   "name": "刘听雪",
+   "region_id": "R08",
+   "role": "藏件 · 保管",
+   "unfinished": "儿子问过一个问题，没答上来。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "东三街",
+   "host": "机源",
+   "function": "藏件",
+   "guild": "保管",
+   "vital": [
+    "感知",
+    "记忆"
+   ],
+   "needs": [
+    "带宽",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "封锁区",
+   "org": "黑市",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20168",
+   "called": "自造",
+   "name": "侯宇航",
+   "region_id": "R08",
+   "role": "自造 · 织造",
+   "unfinished": "有一首歌只写了一半。",
+   "species": "silicon",
+   "faction": "native",
+   "gender": "男",
+   "age": null,
+   "block": "变电站旁",
+   "host": "机源",
+   "function": "自造",
+   "guild": "织造",
+   "vital": [
+    "修复",
+    "自维持"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "封锁区",
+   "org": "自造厂",
+   "alignment": "烂地"
+  }
+ ]
+}

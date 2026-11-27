@@ -1,0 +1,73 @@
+{
+  "version": "1.3",
+  "note": "只放今天就能领、verify 今天就能跑的活。未实现的愿景在 BACKLOG.md，不在本表。",
+  "tasks": [
+    {
+      "id": "T01",
+      "module": "m-f4-qa",
+      "title": "坏数据负控 5 例全部拦住",
+      "priority": "P0",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [],
+      "acceptance": "5 个坏样本逐个被 validate 拒；干净副本必须通过",
+      "verify": "python tools/sim_test.py --only T3"
+    },
+    {
+      "id": "T02",
+      "module": "m-w3-settle",
+      "title": "结算可重建且不过期",
+      "priority": "P0",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [],
+      "acceptance": "删掉派生文件重跑逐字节一致；state.day == time.day",
+      "verify": "python tools/sim_test.py --only T4"
+    },
+    {
+      "id": "T03",
+      "module": "m-p2-memory",
+      "title": "断电→记忆→认不出",
+      "priority": "P0",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [],
+      "acceptance": "断电后该人新增一条 lost，unrecognized 指向同区真人，event_id 真实存在",
+      "verify": "python tools/sim_test.py --only T5"
+    },
+    {
+      "id": "T11",
+      "module": "m-f5-onboard",
+      "title": "并发领取恰好一人成功",
+      "priority": "P1",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [],
+      "acceptance": "两进程同时 claim 同一任务，恰好一个成功，持有者唯一",
+      "verify": "python tools/sim_test.py --only T8"
+    },
+    {
+      "id": "T12",
+      "module": "m-w3-settle",
+      "title": "世界在变且有因果",
+      "priority": "P1",
+      "status": "todo",
+      "claimed_by": null,
+      "claimed_at": null,
+      "lease_until": null,
+      "depends_on": [
+        "T02"
+      ],
+      "acceptance": "60 天后九区都有事件、至少 3 块数值变化、至少三分之一事件带 causes",
+      "verify": "python tools/sim_test.py --only T12"
+    }
+  ]
+}

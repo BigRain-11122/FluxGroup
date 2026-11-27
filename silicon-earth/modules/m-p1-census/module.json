@@ -1,0 +1,22 @@
+{
+  "id": "m-p1-census",
+  "name": "居民与户籍",
+  "domain": "人",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "二十七人的户籍、俗称、未了的事",
+  "inputs": "契约",
+  "outputs": "people.json",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "—",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "从 27 扩到 100，保持每人一件未了的事",
+  "writes": [
+    "modules/m-p1-census/data/people.json"
+  ],
+  "reads": []
+}

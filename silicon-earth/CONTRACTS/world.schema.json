@@ -1,0 +1,322 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "silicon-earth/world.schema.json",
+  "version": "1.2",
+  "definitions": {
+    "region": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "population",
+        "note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^R\\d{2,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "home",
+            "badland"
+          ]
+        },
+        "population": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "person": {
+      "type": "object",
+      "required": [
+        "id",
+        "called",
+        "region_id",
+        "role",
+        "unfinished"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^P\\d{4,}$"
+        },
+        "called": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "region_id": {
+          "type": "string",
+          "pattern": "^R\\d{2,}$"
+        },
+        "role": {
+          "type": "string"
+        },
+        "unfinished": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string",
+          "enum": [
+            "carbon",
+            "silicon",
+            "city",
+            "artifact-spirit",
+            "memory-spirit",
+            "imagery-spirit"
+          ]
+        },
+        "faction": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "男",
+            "女",
+            "无定"
+          ]
+        },
+        "age": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 300
+        },
+        "block": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string",
+          "enum": [
+            "自立",
+            "机源",
+            "人源"
+          ]
+        },
+        "function": {
+          "type": "string"
+        },
+        "guild": {
+          "type": "string"
+        },
+        "vital": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12
+        },
+        "needs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4
+        },
+        "memory_span": {
+          "type": "string",
+          "enum": [
+            "三天",
+            "三年",
+            "全部",
+            "记不住"
+          ]
+        },
+        "power": {
+          "type": "string"
+        },
+        "org": {
+          "type": "string"
+        },
+        "alignment": {
+          "type": "string",
+          "enum": [
+            "核心",
+            "依附",
+            "底层",
+            "烂地"
+          ]
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "required": [
+        "id",
+        "person_id",
+        "day",
+        "kind",
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M\\d{4,}$"
+        },
+        "person_id": {
+          "type": "string",
+          "pattern": "^P\\d{4,}$"
+        },
+        "day": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "given",
+            "taken",
+            "kept",
+            "lost"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^E\\d{4,}$"
+        },
+        "unrecognized": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^P\\d{4,}$"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "id",
+        "day",
+        "region_id",
+        "type",
+        "text",
+        "actors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^E\\d{4,}$"
+        },
+        "day": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "region_id": {
+          "type": "string",
+          "pattern": "^R\\d{2,}$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "build",
+            "help",
+            "teach",
+            "repair",
+            "weather",
+            "blackout",
+            "slip",
+            "breach"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^P\\d{4,}$"
+          },
+          "minItems": 1
+        },
+        "causes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^E\\d{4,}$"
+          },
+          "default": []
+        },
+        "weights": {
+          "type": "object",
+          "required": [
+            "positive",
+            "cost"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "positive": {
+              "type": "integer"
+            },
+            "cost": {
+              "type": "integer"
+            }
+          }
+        },
+        "witnesses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^P\\d{4,}$"
+          },
+          "maxItems": 40
+        }
+      }
+    }
+  },
+  "state_bands": {
+    "note": "状态由 positivity 推导，不由人手工指定。m-w3-settle 独占计算。",
+    "growing": [
+      70,
+      100
+    ],
+    "repairing": [
+      55,
+      69
+    ],
+    "waiting": [
+      40,
+      54
+    ],
+    "dispersing": [
+      25,
+      39
+    ],
+    "stalled": [
+      0,
+      24
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "m-f2-service",
+  "name": "服务与 API",
+  "domain": "平台",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "对外提供只读 API：今天的日报、区域状态、某个人",
+  "inputs": "M1/M2/M4 的数据",
+  "outputs": "HTTP JSON",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先做 /today 与 /region/:id",
+  "writes": [
+    "modules/m-f2-service/src/"
+  ],
+  "reads": [
+    "modules/m-w2-clock/data/events.jsonl",
+    "modules/m-w3-settle/data/state.json"
+  ]
+}

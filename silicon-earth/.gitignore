@@ -1,0 +1,15 @@
+﻿# silicon-earth 运行时与生成物（不进 git）
+modules/*/dist/
+**/__pycache__/
+*.pyc
+*.tmp
+TASKS.lock
+.board/
+STATUS.md
+
+modules/m-w2-clock/data/events.jsonl
+modules/m-w2-clock/data/time.json
+modules/m-w3-settle/data/state.json
+modules/m-p2-memory/data/memory.json
+modules/m-p1-census/data/people.json
+REPORTS/AUTOLOOP-*.md

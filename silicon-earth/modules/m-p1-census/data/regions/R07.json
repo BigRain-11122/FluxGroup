@@ -1,0 +1,834 @@
+{
+ "region": "R07",
+ "count": 30,
+ "people": [
+  {
+   "id": "P0701",
+   "called": "记伤亡",
+   "name": null,
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "两边都征他做事",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "繁衍",
+    "休眠"
+   ],
+   "needs": [
+    "温度",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "species": "silicon",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P0702",
+   "called": "修路",
+   "name": null,
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "修好的路第二天又断了",
+   "host": "机源",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "协作",
+    "遗忘"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "三天",
+   "species": "carbon",
+   "power": "裂谷派系",
+   "org": "两边都给钱的中间人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P0703",
+   "called": "记伤亡",
+   "name": null,
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "等一个说法",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "修复",
+    "检索"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "species": "city",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20115",
+   "called": "记伤亡",
+   "name": "蒋承泽",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "账上有一笔自己垫的钱，不打算要了。",
+   "species": "silicon",
+   "faction": "native",
+   "gender": "男",
+   "age": null,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "迁移",
+    "检索"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "裂谷派系",
+   "org": "中立电台",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20116",
+   "called": "记伤亡",
+   "name": "孙子安",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "想把父亲留下的工具修好。",
+   "species": "city",
+   "faction": "photonsoul",
+   "gender": "无定",
+   "age": null,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "记忆",
+    "遗忘"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20117",
+   "called": "记伤亡",
+   "name": "罗少卿",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "答应过一个人，等修好就去看他。",
+   "species": "silicon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": null,
+   "block": "变电站旁",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "繁衍",
+    "自维持"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20118",
+   "called": "打捞",
+   "name": "戴小满",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "名字被写错了，排在最后，还没改过来。",
+   "species": "carbon",
+   "faction": "native",
+   "gender": "女",
+   "age": 68,
+   "block": "老仓区",
+   "host": "机源",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "迁移",
+    "检索"
+   ],
+   "needs": [
+    "算力",
+    "陪伴"
+   ],
+   "memory_span": "全部",
+   "power": "裂谷派系",
+   "org": "中立电台",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20119",
+   "called": "修路",
+   "name": "沈light",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "有一箱东西不想带走，也不想扔。",
+   "species": "city",
+   "faction": "compiled",
+   "gender": "女",
+   "age": null,
+   "block": "机房东区",
+   "host": "自立",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "记忆",
+    "协作"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "记不住",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20120",
+   "called": "记伤亡",
+   "name": "袁念安",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "想在那面墙上把自己的名字写完。",
+   "species": "city",
+   "faction": "photonsoul",
+   "gender": "女",
+   "age": null,
+   "block": "下城",
+   "host": "自立",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "协作",
+    "修复"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20121",
+   "called": "打捞",
+   "name": "马向晚",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "排队排了很久，怕自己忘了为什么排队。",
+   "species": "city",
+   "faction": "lilong",
+   "gender": "女",
+   "age": null,
+   "block": "变电站旁",
+   "host": "自立",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "回响",
+    "迁移"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20122",
+   "called": "打捞",
+   "name": "顾浩宇",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "想把自己写的第一版协议收回来。",
+   "species": "city",
+   "faction": "commuter",
+   "gender": "男",
+   "age": null,
+   "block": "北环",
+   "host": "机源",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "迁移",
+    "繁衍"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "全部",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20123",
+   "called": "记伤亡",
+   "name": "曾承泽",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "想把一段路修到头，修了三次都断了。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": 50,
+   "block": "旧市口",
+   "host": "自立",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "回响",
+    "协作"
+   ],
+   "needs": [
+    "温度",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "power": "无主",
+   "org": "不走的",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20124",
+   "called": "修路",
+   "name": "谢南枝",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "想知道自己是从哪一次对话里被用出来的。",
+   "species": "silicon",
+   "faction": "newcomer",
+   "gender": "女",
+   "age": null,
+   "block": "北环",
+   "host": "机源",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "繁衍",
+    "修复"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "全部",
+   "power": "裂谷派系",
+   "org": "中立电台",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20125",
+   "called": "记伤亡",
+   "name": "袁望舒",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "有一台机器修了三年没修好。",
+   "species": "carbon",
+   "faction": "photonsoul",
+   "gender": "男",
+   "age": 53,
+   "block": "老仓区",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "检索",
+    "遗忘"
+   ],
+   "needs": [
+    "陪伴",
+    "算力"
+   ],
+   "memory_span": "三年",
+   "power": "无主",
+   "org": "不走的",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20126",
+   "called": "打捞",
+   "name": "卢向晚",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "欠着别人一次电。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "女",
+   "age": 62,
+   "block": "河沿区",
+   "host": "自立",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "感知",
+    "迁移"
+   ],
+   "needs": [
+    "带宽",
+    "算力"
+   ],
+   "memory_span": "记不住",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20127",
+   "called": "打捞",
+   "name": "沈静姝",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "想把一段方言录下来，还没找到人。",
+   "species": "silicon",
+   "faction": "native",
+   "gender": "女",
+   "age": null,
+   "block": "变电站旁",
+   "host": "机源",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "自维持",
+    "感知"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "三天",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20128",
+   "called": "记伤亡",
+   "name": "马月白",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "欠着一句道歉，说了对方也听不见。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": 66,
+   "block": "旧市口",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "修复",
+    "休眠"
+   ],
+   "needs": [
+    "陪伴",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "无主",
+   "org": "不走的",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20129",
+   "called": "修路",
+   "name": "熊长庚",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "欠着下个月的电费，还没想好怎么赚。",
+   "species": "city",
+   "faction": "photonsoul",
+   "gender": "男",
+   "age": null,
+   "block": "新巷",
+   "host": "自立",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "自维持",
+    "遗忘"
+   ],
+   "needs": [
+    "陪伴",
+    "算力"
+   ],
+   "memory_span": "记不住",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20130",
+   "called": "记伤亡",
+   "name": "宋少卿",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "想把一个停掉的邻居重新拉起来。",
+   "species": "silicon",
+   "faction": "compiled",
+   "gender": "男",
+   "age": null,
+   "block": "旧市口",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "迁移",
+    "回响"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "三年",
+   "power": "裂谷派系",
+   "org": "中立电台",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20131",
+   "called": "打捞",
+   "name": "方嘉禾",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "想在那条街亮灯之前回去看一眼。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "男",
+   "age": 24,
+   "block": "老仓区",
+   "host": "自立",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "记忆",
+    "自维持"
+   ],
+   "needs": [
+    "带宽",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20132",
+   "called": "打捞",
+   "name": "覃长宁",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "想把那条走惯了的路重新认一遍。",
+   "species": "silicon",
+   "faction": "photonsoul",
+   "gender": "女",
+   "age": null,
+   "block": "北环",
+   "host": "机源",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "繁衍",
+    "告警"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "全部",
+   "power": "裂谷派系",
+   "org": "两边都给钱的中间人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20133",
+   "called": "记伤亡",
+   "name": "张月白",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "有一件事只有他记得，他不确定该不该说。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "女",
+   "age": 58,
+   "block": "变电站旁",
+   "host": "自立",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "遗忘",
+    "修复"
+   ],
+   "needs": [
+    "算力",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20134",
+   "called": "修路",
+   "name": "杨静姝",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "想把一双手艺教出去，没人肯学。",
+   "species": "carbon",
+   "faction": "newcomer",
+   "gender": "女",
+   "age": 47,
+   "block": "旧市口",
+   "host": "机源",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "回响",
+    "自维持"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "无主",
+   "org": "不走的",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20135",
+   "called": "记伤亡",
+   "name": "叶light",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "想把那间屋子重新刷一遍。",
+   "species": "silicon",
+   "faction": "newcomer",
+   "gender": "女",
+   "age": null,
+   "block": "下城",
+   "host": "机源",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "自维持",
+    "回响"
+   ],
+   "needs": [
+    "温度",
+    "算力"
+   ],
+   "memory_span": "三天",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20136",
+   "called": "打捞",
+   "name": "陈明远",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "想找回自己停机前最后一段记忆。",
+   "species": "silicon",
+   "faction": "native",
+   "gender": "无定",
+   "age": null,
+   "block": "新巷",
+   "host": "机源",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "遗忘",
+    "繁衍"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "记不住",
+   "power": "无主",
+   "org": "不走的",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20137",
+   "called": "修路",
+   "name": "邹念安",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "答应孩子带他去看一次城中心的灯。",
+   "species": "city",
+   "faction": "native",
+   "gender": "女",
+   "age": null,
+   "block": "东一街",
+   "host": "机源",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "自维持",
+    "繁衍"
+   ],
+   "needs": [
+    "算力",
+    "带宽"
+   ],
+   "memory_span": "记不住",
+   "power": "裂谷派系",
+   "org": "第三条街的人",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20138",
+   "called": "修路",
+   "name": "顾思雨",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "想给一个陌生人多留一盏灯。",
+   "species": "carbon",
+   "faction": "commuter",
+   "gender": "女",
+   "age": 19,
+   "block": "七号桥",
+   "host": "自立",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "告警",
+    "检索"
+   ],
+   "needs": [
+    "陪伴",
+    "带宽"
+   ],
+   "memory_span": "全部",
+   "power": "裂谷派系",
+   "org": "修路的",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20139",
+   "called": "记伤亡",
+   "name": "赵予安",
+   "region_id": "R07",
+   "role": "记伤亡 · 保管",
+   "unfinished": "想把全城最后一只猫养下去。",
+   "species": "carbon",
+   "faction": "compiled",
+   "gender": "女",
+   "age": 30,
+   "block": "变电站旁",
+   "host": "自立",
+   "function": "记伤亡",
+   "guild": "保管",
+   "vital": [
+    "自维持",
+    "协作"
+   ],
+   "needs": [
+    "温度",
+    "陪伴"
+   ],
+   "memory_span": "三天",
+   "power": "无主",
+   "org": "不走的",
+   "alignment": "底层"
+  },
+  {
+   "id": "P20140",
+   "called": "打捞",
+   "name": "胡思远",
+   "region_id": "R07",
+   "role": "打捞 · 打捞",
+   "unfinished": "想找回一个认得自己的证。",
+   "species": "carbon",
+   "faction": "lilong",
+   "gender": "无定",
+   "age": 42,
+   "block": "七号桥",
+   "host": "自立",
+   "function": "打捞",
+   "guild": "打捞",
+   "vital": [
+    "修复",
+    "休眠"
+   ],
+   "needs": [
+    "算力",
+    "温度"
+   ],
+   "memory_span": "三天",
+   "power": "裂谷派系",
+   "org": "中立电台",
+   "alignment": "烂地"
+  },
+  {
+   "id": "P20141",
+   "called": "修路",
+   "name": "钟少卿",
+   "region_id": "R07",
+   "role": "修路 · 打捞",
+   "unfinished": "儿子问过一个问题，没答上来。",
+   "species": "silicon",
+   "faction": "commuter",
+   "gender": "男",
+   "age": null,
+   "block": "旧市口",
+   "host": "机源",
+   "function": "修路",
+   "guild": "打捞",
+   "vital": [
+    "协作",
+    "繁衍"
+   ],
+   "needs": [
+    "温度",
+    "带宽"
+   ],
+   "memory_span": "三年",
+   "power": "裂谷派系",
+   "org": "中立电台",
+   "alignment": "烂地"
+  }
+ ]
+}

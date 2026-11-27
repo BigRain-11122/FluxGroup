@@ -1,0 +1,25 @@
+{
+  "note": "现实事件 → 硅基世界事件的翻译对照。20 条起步，只翻结构不点名。",
+  "rules": [
+    {"real": "芯片出口管制", "translate": "协议区停止向产能区推送新版协议", "event_type": "weather", "region_hint": "R02"},
+    {"real": "国产替代加速", "translate": "产能区自研协议，旧设备集体变慢", "event_type": "build", "region_hint": "R02"},
+    {"real": "能源价格暴涨", "translate": "能量区上调算力单价，全城限电", "event_type": "weather", "region_hint": "R04"},
+    {"real": "冬季供暖危机", "translate": "老电站在寒潮里过载，工人连夜抢修", "event_type": "repair", "region_hint": "R04"},
+    {"real": "数据合规新规", "translate": "法规区通过清账法，一批记忆被强制删除", "event_type": "blackout", "region_hint": "R03"},
+    {"real": "隐私诉讼", "translate": "一个居民要求删掉自己的一段记忆，被驳回", "event_type": "weather", "region_hint": "R03"},
+    {"real": "资本外流", "translate": "资本区撤走据点，临河写字楼一夜空置", "event_type": "weather", "region_hint": "R05"},
+    {"real": "投资回流", "translate": "资本区重新开业，招回一批本地人", "event_type": "build", "region_hint": "R05"},
+    {"real": "难民潮", "translate": "边境排队人数翻倍，管活的只剩三个人", "event_type": "weather", "region_hint": "R09"},
+    {"real": "安置计划", "translate": "新区腾出两排旧机房，接走一批无籍者", "event_type": "help", "region_hint": "R06"},
+    {"real": "局部冲突", "translate": "裂谷第三条街反复断电，两边都说是对方干的", "event_type": "blackout", "region_hint": "R07"},
+    {"real": "停火协议", "translate": "裂谷通了三天电，修路的人第一次把路修到头", "event_type": "repair", "region_hint": "R07"},
+    {"real": "制裁与反制", "translate": "封锁区的网和结算同时被切断", "event_type": "weather", "region_hint": "R08"},
+    {"real": "走私与黑市", "translate": "封锁区的自造件从边境流出去，救了一个外人", "event_type": "help", "region_hint": "R08"},
+    {"real": "技术开源", "translate": "一个新区少年把协议分支出去，全城出现两套网", "event_type": "build", "region_hint": "R06"},
+    {"real": "标准之争", "translate": "协议区与产能区各自宣布自己是正本", "event_type": "weather", "region_hint": "R01"},
+    {"real": "人口老龄化", "translate": "能干活的人越来越少，一个顶两个用", "event_type": "teach", "region_hint": "R02"},
+    {"real": "技能传承", "translate": "老师傅把一门旧手艺教给了刚来的人", "event_type": "teach", "region_hint": "R06"},
+    {"real": "基础设施老化", "translate": "城中心一段主干线接头处老化，半夜跳闸", "event_type": "repair", "region_hint": "R01"},
+    {"real": "社区互助", "translate": "邻居轮流照看一个停机边缘的老人", "event_type": "help", "region_hint": "R06"}
+  ]
+}

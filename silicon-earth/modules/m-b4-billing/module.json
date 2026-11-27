@@ -1,0 +1,22 @@
+{
+  "id": "m-b4-billing",
+  "name": "结算与定价",
+  "domain": "生意",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "六条收入线的定价与收单，接 BigDomain",
+  "inputs": "订单",
+  "outputs": "结算",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先定「看免费、动收费」的分界",
+  "writes": [
+    "modules/m-b4-billing/data/"
+  ],
+  "reads": []
+}

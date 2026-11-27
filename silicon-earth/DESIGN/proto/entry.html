@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="zh">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>硅基世界 · 第 371 天</title>
+<style>
+  :root{
+    --bg1:#faf5ec; --bg2:#efe2cf; --ink:#33291f; --dim:#9a8b79; --accent:#c2553a;
+    --card:rgba(255,253,248,.95); --card-line:rgba(51,41,31,.09);
+    --btn-bg:#fff; --btn-line:rgba(51,41,31,.14);
+  }
+  body.night{
+    --bg1:#0a1219; --bg2:#121e29; --ink:#e6eef6; --dim:#7d919f; --accent:#f0a45c;
+    --card:rgba(22,34,46,.96); --card-line:rgba(200,225,245,.14);
+    --btn-bg:rgba(255,255,255,.06); --btn-line:rgba(200,225,245,.18);
+  }
+  *{box-sizing:border-box}
+  body.still *{transition:none!important;animation:none!important}
+  html,body{height:100%}
+  body{
+    margin:0;color:var(--ink);font:15px/1.65 system-ui,"Microsoft YaHei","PingFang SC",sans-serif;
+    background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 100%);
+    overflow:hidden;-webkit-tap-highlight-color:transparent;transition:background .5s ease,color .5s ease;
+  }
+  canvas{display:block;position:fixed;inset:0;width:100vw;height:100vh;touch-action:none;cursor:grab}
+  canvas.drag{cursor:grabbing}
+  .top{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;gap:14px;
+       padding:18px 24px;pointer-events:none;z-index:5}
+  .brand{font-weight:700;letter-spacing:.26em;font-size:12px;color:var(--dim)}
+  .count{margin-left:auto;font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--dim);letter-spacing:.04em}
+  .count b{color:var(--ink);font-weight:600}
+  .seg{position:fixed;right:24px;top:52px;display:flex;gap:4px;z-index:6;
+       background:var(--card);border:1px solid var(--card-line);border-radius:999px;padding:3px}
+  .seg button{border:0;background:none;color:var(--dim);font:inherit;font-size:12px;
+              padding:5px 12px;border-radius:999px;cursor:pointer;letter-spacing:.1em}
+  .seg button.on{background:var(--ink);color:var(--bg1)}
+  .hint{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+        background:var(--card);border:1px solid var(--card-line);padding:8px 16px;border-radius:999px;
+        font-size:12.5px;color:var(--dim);backdrop-filter:blur(8px);z-index:5;white-space:nowrap}
+  .hint i{font-style:normal;color:var(--accent)}
+  .panel{position:fixed;right:24px;top:50%;transform:translate(26px,-50%);width:356px;max-height:78vh;
+         background:var(--card);border:1px solid var(--card-line);border-radius:22px;
+         box-shadow:0 30px 70px -32px rgba(0,0,0,.55);padding:22px 24px 18px;
+         opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;
+         z-index:6;overflow:auto;backdrop-filter:blur(10px)}
+  .panel.on{opacity:1;transform:translate(0,-50%);pointer-events:auto}
+  .back{border:0;background:none;color:var(--dim);font-size:12.5px;cursor:pointer;padding:0 0 12px;letter-spacing:.06em}
+  .rname{font-size:25px;font-weight:700;margin:0 0 6px;letter-spacing:.04em}
+  .rnote{color:var(--dim);margin:0 0 14px}
+  .tag{display:inline-block;font-size:11.5px;color:var(--dim);background:rgba(127,127,127,.10);
+       border-radius:999px;padding:3px 10px;margin:0 6px 6px 0;font-variant-numeric:tabular-nums}
+  .today{border-left:2px solid #d9a441;padding:2px 0 2px 12px;color:var(--ink);opacity:.85;font-size:13.5px;margin:14px 0 18px}
+  .epi{margin:-8px 0 18px;font-size:12.5px;color:var(--dim);font-style:italic}
+  .actors{margin:-8px 0 10px;font-size:11.5px;color:var(--dim);letter-spacing:.02em}
+  .n .h{font-size:11.5px;font-weight:500;color:var(--dim);margin-left:8px;letter-spacing:.1em}
+  .mem{margin-top:10px;font-size:13px;color:var(--dim);border-left:2px solid rgba(127,127,127,.25);padding-left:10px}
+  .mem.lost{border-left-color:rgba(194,85,58,.45)}
+  .mem .mc{font-size:12px;color:var(--accent);margin-top:4px}
+  .recent{margin:14px 0 4px;padding-top:12px;border-top:1px solid var(--card-line)}
+  .recent .k{font-size:11.5px;color:var(--dim);letter-spacing:.18em;margin-bottom:8px}
+  .recent .rl{font-size:12.5px;color:var(--dim);margin:5px 0;line-height:1.55}
+  .recent .rd{color:var(--accent);margin-right:6px;font-variant-numeric:tabular-nums}
+  .relink{margin-top:14px}
+  .relink button{width:100%;border:1px dashed var(--btn-line);background:transparent;color:var(--dim);
+                 border-radius:10px;padding:9px 0;font:inherit;font-size:12.5px;cursor:pointer;letter-spacing:.08em}
+  .relink button:hover{color:var(--ink);border-color:var(--ink)}
+  .who{border-top:1px solid var(--card-line);padding-top:16px}
+  .who .k{font-size:11.5px;color:var(--dim);letter-spacing:.18em}
+  .who .n{font-size:20px;font-weight:700;margin:5px 0 6px}
+  .who .u{opacity:.85;font-size:14px}
+  .acts{display:flex;gap:8px;margin-top:16px}
+  .acts button{flex:1;border:1px solid var(--btn-line);background:var(--btn-bg);border-radius:12px;
+               padding:10px 0;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;transition:.18s}
+  .acts button:hover{background:var(--ink);color:var(--bg1);border-color:var(--ink)}
+  .acts button:disabled{opacity:.38;cursor:default}
+  .acts button:disabled:hover{background:var(--btn-bg);color:var(--ink);border-color:var(--btn-line)}
+  .after{margin-top:16px;font-size:13.5px}
+  .after .row{display:flex;gap:10px;padding:7px 0;border-bottom:1px dashed var(--card-line)}
+  .after .row:last-child{border-bottom:0}
+  .after .lbl{color:var(--dim);min-width:44px;font-size:11.5px;padding-top:2px;letter-spacing:.1em}
+  .after .val{flex:1;opacity:.9}
+  .stamp{display:inline-block;margin-top:12px;font-size:11.5px;letter-spacing:.2em;color:#2f9f88;
+         border:1px solid rgba(47,159,136,.45);border-radius:6px;padding:4px 9px}
+  .recall{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);z-index:6;cursor:pointer;
+          background:var(--card);border:1px solid var(--card-line);border-radius:999px;
+          padding:8px 16px;font-size:12.5px;color:var(--dim);backdrop-filter:blur(8px);white-space:nowrap}
+  .recall b{color:var(--ink)}
+  .recall:hover{color:var(--ink)}
+  @media (max-width:720px){
+    .top{padding:12px 14px}.brand{letter-spacing:.18em}
+    .seg{right:12px;top:44px}
+    .hint{bottom:16px;font-size:11.5px;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+    .recall{bottom:52px;font-size:11.5px;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+    .panel{left:12px;right:12px;bottom:12px;top:auto;width:auto;transform:translateY(26px);max-height:62vh}
+    .panel.on{transform:translateY(0)}
+  }
+</style>
+
+<canvas id="c"></canvas>
+
+<div class="top">
+  <div class="brand">硅 基 世 界</div>
+  <div class="count">第 <b id="day">371</b> 天 · <b id="pop">12361</b> 人 · <b id="rc">9</b> 块地<span id="book"></span></div>
+</div>
+
+<div class="seg">
+  <button id="t-day" class="on">日</button>
+  <button id="t-night">夜</button>
+</div>
+
+<div class="recall" id="recall" style="display:none"></div>
+<div class="hint" id="hint">九块地 · 一万二千人 · <i>有一处今天不太平</i></div>
+
+<div class="panel" id="panel">
+  <button class="back" id="back">← 回到地球</button>
+  <div id="body"></div>
+</div>
+
+<script>
+const DATA = {
+ "day": 573,
+ "population": 12361,
+ "regions": [
+  {
+   "id": "R01",
+   "name": "协议洲",
+   "kind": "home",
+   "population": 1533,
+   "note": "规矩从这里出，最近在教别人怎么用。",
+   "lat": 26,
+   "lon": 0,
+   "positivity": 94,
+   "state_cn": "在长",
+   "last_event_day": 573,
+   "last_event": "守节点 帮 守节点 把一段断掉的记忆接了回去。",
+   "epigraph": "后来的人说，第 573 天，协议洲有人悄悄替别人收了尾。",
+   "recent": [
+    {
+     "day": 558,
+     "text": "解歧义 把 守节点 落下的东西送回去，没等一句谢就走了。"
+    },
+    {
+     "day": 569,
+     "text": "城中心一段主干线接头处老化，半夜跳闸。协议洲 有个人回来了。"
+    },
+    {
+     "day": 573,
+     "text": "守节点 帮 守节点 把一段断掉的记忆接了回去。"
+    }
+   ],
+   "actors": [
+    "守节点 · 594",
+    "守节点 · 534"
+   ],
+   "person": {
+    "id": "P12594",
+    "called": "守节点",
+    "handle": "守节点 · 594",
+    "unfinished": "把第一天的营业账本排成一排挨个擦",
+    "memory_span": "全部",
+    "host": "机源",
+    "power": "协议方",
+    "memory": null
+   },
+   "alts": [
+    {
+     "id": "P0102",
+     "called": "守节点",
+     "handle": "守节点 · 102",
+     "unfinished": "抄错了一处，还没敢说",
+     "memory_span": "三年",
+     "host": "机源",
+     "power": "协议方"
+    },
+    {
+     "id": "P10007",
+     "called": "校准协议",
+     "handle": "校准协议 · 007",
+     "unfinished": "全城唯一给每份档案手写「一句话提要」的人——档案馆检索系统都不带这个字段，研究员们却都按他的提要先翻目录。",
+     "memory_span": "三年",
+     "host": "自立",
+     "power": "协议方"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R02",
+   "name": "产能洲",
+   "kind": "home",
+   "population": 3360,
+   "note": "造得最快，人也最多，最近在补自己的短板。",
+   "lat": 26,
+   "lon": 120,
+   "positivity": 97,
+   "state_cn": "在长",
+   "last_event_day": 570,
+   "last_event": "织造 手一抖，把一段还没备份的记录弄没了。",
+   "epigraph": "后来的人说，第 570 天，产能洲下过一场雨，没人记得具体发生了什么。",
+   "recent": [
+    {
+     "day": 549,
+     "text": "装配 那几天过不去，是 装配 天天来。"
+    },
+    {
+     "day": 555,
+     "text": "产能洲 的老墙挪了半米，装配 说这样过路的人能少绕一圈。"
+    },
+    {
+     "day": 570,
+     "text": "织造 手一抖，把一段还没备份的记录弄没了。"
+    }
+   ],
+   "actors": [
+    "织造 · 246",
+    "校线 · 399"
+   ],
+   "person": {
+    "id": "P11246",
+    "called": "织造",
+    "handle": "织造 · 246",
+    "unfinished": "给停用的老式磅秤写了一整本观察笔记——没人知道为什么",
+    "memory_span": "三年",
+    "host": "机源",
+    "power": "产能方",
+    "memory": {
+     "kind": "kept",
+     "text": "那天我在场。",
+     "day": 508
+    }
+   },
+   "alts": [
+    {
+     "id": "P0202",
+     "called": "校线",
+     "handle": "校线 · 202",
+     "unfinished": "有一台机器他修了三年都没修好",
+     "memory_span": "三年",
+     "host": "自立",
+     "power": "产能方"
+    },
+    {
+     "id": "P10028",
+     "called": "织造",
+     "handle": "织造 · 028",
+     "unfinished": "偷偷给淘汰的电话卡上油保养",
+     "memory_span": "三天",
+     "host": "自立",
+     "power": "产能方"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R03",
+   "name": "法规洲",
+   "kind": "home",
+   "population": 1216,
+   "note": "去年删过头了，正在把一些人找回来。",
+   "lat": 26,
+   "lon": 240,
+   "positivity": 89,
+   "state_cn": "在长",
+   "last_event_day": 539,
+   "last_event": "法规洲 落了两天雨，复核 把门口的水扫到路沟里。",
+   "epigraph": "后来的人说，第 539 天，法规洲下过一场雨，没人记得具体发生了什么。",
+   "recent": [
+    {
+     "day": 506,
+     "text": "审档 教 审档 一件旧手艺，说这玩意儿以后没人会了就可惜。"
+    },
+    {
+     "day": 528,
+     "text": "复核 让 审档 上手做了一次，自己在旁边看着。"
+    },
+    {
+     "day": 539,
+     "text": "法规洲 落了两天雨，复核 把门口的水扫到路沟里。"
+    }
+   ],
+   "actors": [
+    "复核 · 530",
+    "清账 · 293"
+   ],
+   "person": {
+    "id": "P17530",
+    "called": "复核",
+    "handle": "复核 · 530",
+    "unfinished": "坚持手写全城第一块砖的拓片——这事只有师父知道",
+    "memory_span": "记不住",
+    "host": "机源",
+    "power": "法规方",
+    "memory": {
+     "kind": "kept",
+     "text": "那天我在场。",
+     "day": 356
+    }
+   },
+   "alts": [
+    {
+     "id": "P0303",
+     "called": "审档",
+     "handle": "审档 · 303",
+     "unfinished": "档案里有一份是他自己的",
+     "memory_span": "三天",
+     "host": "自立",
+     "power": "法规方"
+    },
+    {
+     "id": "P10021",
+     "called": "复核",
+     "handle": "复核 · 021",
+     "unfinished": "全城唯一给每场大风起名字的值守员——「梅花」「烟嗓」「过云雨一号」……名字进了气象播报员的口，播报员说比台风编号好记。",
+     "memory_span": "三年",
+     "host": "机源",
+     "power": "法规方"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R04",
+   "name": "能量洲",
+   "kind": "home",
+   "population": 622,
+   "note": "电够用，人不够，缺一个能替班的人。",
+   "lat": -14,
+   "lon": 60,
+   "positivity": 91,
+   "state_cn": "在长",
+   "last_event_day": 556,
+   "last_event": "守机组 教 巡走廊 一件旧手艺，说这玩意儿以后没人会了就可惜。",
+   "epigraph": "后来的人说，第 556 天，能量洲有人把手艺交给了下一个人。",
+   "recent": [
+    {
+     "day": 550,
+     "text": "能量洲 多了一条街，巡走廊 在里头盯了三天。"
+    },
+    {
+     "day": 552,
+     "text": "能量洲 多了一条街，配电 在里头盯了三天。"
+    },
+    {
+     "day": 556,
+     "text": "守机组 教 巡走廊 一件旧手艺，说这玩意儿以后没人会了就可惜。"
+    }
+   ],
+   "actors": [
+    "守机组 · 077",
+    "巡走廊 · 043"
+   ],
+   "person": {
+    "id": "P20077",
+    "called": "守机组",
+    "handle": "守机组 · 077",
+    "unfinished": "一件旧雨衣，领口补过三针，补线比布深一档，挂在门后不用看名字——棚户巷雨具摊的门后，谁都知道那是他的",
+    "memory_span": "三年",
+    "host": "自立",
+    "power": "能量方",
+    "memory": {
+     "kind": "kept",
+     "text": "那天我在场。",
+     "day": 336
+    }
+   },
+   "alts": [
+    {
+     "id": "P0402",
+     "called": "配电",
+     "handle": "配电 · 402",
+     "unfinished": "有一户人家三年来一直少记",
+     "memory_span": "三年",
+     "host": "自立",
+     "power": "能量方"
+    },
+    {
+     "id": "P10019",
+     "called": "巡走廊",
+     "handle": "巡走廊 · 019",
+     "unfinished": "全城唯一保留「慢班渡轮」的船长——不为生意，只为给想慢慢看江的人留一趟船，船票恒价：一句「多谢」。",
+     "memory_span": "三年",
+     "host": "自立",
+     "power": "能量方"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R05",
+   "name": "资本洲",
+   "kind": "home",
+   "population": 2480,
+   "note": "一半的人搬走了，剩下的人还在等他们回来。",
+   "lat": -14,
+   "lon": 180,
+   "positivity": 77,
+   "state_cn": "在长",
+   "last_event_day": 566,
+   "last_event": "资本洲 落了两天雨，跑渠道 把门口的水扫到路沟里。",
+   "epigraph": "后来的人说，第 566 天，资本洲下过一场雨，没人记得具体发生了什么。",
+   "recent": [
+    {
+     "day": 557,
+     "text": "入籍者 帮 结算 把一段断掉的记忆接了回去。"
+    },
+    {
+     "day": 565,
+     "text": "估值 答应过 跑渠道 的事没做到，跑渠道 没说什么，只是不再找他。"
+    },
+    {
+     "day": 566,
+     "text": "资本洲 落了两天雨，跑渠道 把门口的水扫到路沟里。"
+    }
+   ],
+   "actors": [
+    "跑渠道 · 312",
+    "结算 · 183"
+   ],
+   "person": {
+    "id": "P21312",
+    "called": "跑渠道",
+    "handle": "跑渠道 · 312",
+    "unfinished": "想把父亲留下的工具修好。",
+    "memory_span": "三天",
+    "host": "机源",
+    "power": "资本方",
+    "memory": null
+   },
+   "alts": [
+    {
+     "id": "P0502",
+     "called": "结算",
+     "handle": "结算 · 502",
+     "unfinished": "有一箱东西不想带走也不想扔",
+     "memory_span": "记不住",
+     "host": "机源",
+     "power": "资本方"
+    },
+    {
+     "id": "P10017",
+     "called": "估值",
+     "handle": "估值 · 017",
+     "unfinished": "全城唯一保留「毙稿理由档案」的选题官——二十年每条毙稿一行理由，年轻人都说那是选题馆的「镇馆之宝」。",
+     "memory_span": "记不住",
+     "host": "自立",
+     "power": "资本方"
+    }
+   ],
+   "hot": true
+  },
+  {
+   "id": "R06",
+   "name": "新洲",
+   "kind": "home",
+   "population": 3060,
+   "note": "每天都有新人到，最热闹，也最没根基。",
+   "lat": -14,
+   "lon": 300,
+   "positivity": 100,
+   "state_cn": "在长",
+   "last_event_day": 572,
+   "last_event": "接新人 把自己记了很多年的一段东西，讲给 译言 听。",
+   "epigraph": "后来的人说，第 572 天，新洲有人把手艺交给了下一个人。",
+   "recent": [
+    {
+     "day": 554,
+     "text": "接新人 把自己记了很多年的一段东西，讲给 接新人 听。"
+    },
+    {
+     "day": 571,
+     "text": "一个居民要求删掉自己的一段记忆，被驳回。新洲 落了两天雨。"
+    },
+    {
+     "day": 572,
+     "text": "接新人 把自己记了很多年的一段东西，讲给 译言 听。"
+    }
+   ],
+   "actors": [
+    "接新人 · 643",
+    "译言 · 141"
+   ],
+   "person": {
+    "id": "P11643",
+    "called": "接新人",
+    "handle": "接新人 · 643",
+    "unfinished": "攒了满抽屉旧挂历从不给看——这事只有档案馆知道",
+    "memory_span": "三年",
+    "host": "机源",
+    "power": "无主",
+    "memory": null
+   },
+   "alts": [
+    {
+     "id": "P0602",
+     "called": "接新人",
+     "handle": "接新人 · 602",
+     "unfinished": "想学会一门别人拿不走的手艺",
+     "memory_span": "三年",
+     "host": "机源",
+     "power": "无主"
+    },
+    {
+     "id": "P10009",
+     "called": "搬运",
+     "handle": "搬运 · 009",
+     "unfinished": "全城唯一在拦截日志里给每单写「一句话理由」的风控官——被拦的人从没有不服的，说看完那句话像上了堂课。",
+     "memory_span": "三年",
+     "host": "自立",
+     "power": "产能方"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R07",
+   "name": "裂谷",
+   "kind": "badland",
+   "population": 30,
+   "note": "两边都说是自己的，两边都不修路。",
+   "lat": -58,
+   "lon": 30,
+   "positivity": 31,
+   "state_cn": "在散",
+   "last_event_day": 567,
+   "last_event": "裂谷 断了一夜的电，天亮就好了，记伤亡 没让人知道。",
+   "epigraph": "后来的人说，第 567 天，裂谷下过一场雨，没人记得具体发生了什么。",
+   "recent": [
+    {
+     "day": 544,
+     "text": "产能区自研协议，旧设备集体变慢。裂谷 有人把空地清了出来。"
+    },
+    {
+     "day": 559,
+     "text": "能量区上调算力单价，全城限电。裂谷 断了一夜的电。"
+    },
+    {
+     "day": 567,
+     "text": "裂谷 断了一夜的电，天亮就好了，记伤亡 没让人知道。"
+    }
+   ],
+   "actors": [
+    "记伤亡 · 123",
+    "记伤亡 · 125"
+   ],
+   "person": {
+    "id": "P20123",
+    "called": "记伤亡",
+    "handle": "记伤亡 · 123",
+    "unfinished": "想把一段路修到头，修了三次都断了。",
+    "memory_span": "三天",
+    "host": "自立",
+    "power": "无主",
+    "memory": {
+     "kind": "kept",
+     "text": "我做过这件事。",
+     "day": 87
+    }
+   },
+   "alts": [
+    {
+     "id": "P0702",
+     "called": "修路",
+     "handle": "修路 · 702",
+     "unfinished": "修好的路第二天又断了",
+     "memory_span": "三天",
+     "host": "机源",
+     "power": "裂谷派系"
+    },
+    {
+     "id": "P20118",
+     "called": "打捞",
+     "handle": "打捞 · 118",
+     "unfinished": "名字被写错了，排在最后，还没改过来。",
+     "memory_span": "全部",
+     "host": "机源",
+     "power": "裂谷派系"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R08",
+   "name": "封锁区",
+   "kind": "badland",
+   "population": 30,
+   "note": "什么都自己攒，最近攒出了一样别人没有的东西。",
+   "lat": -58,
+   "lon": 150,
+   "positivity": 46,
+   "state_cn": "在等",
+   "last_event_day": 564,
+   "last_event": "远处传来消息说那边又不太平，封锁区 照旧过日子。",
+   "epigraph": "后来的人说，第 564 天，封锁区下过一场雨，没人记得具体发生了什么。",
+   "recent": [
+    {
+     "day": 561,
+     "text": "远处传来消息说那边又不太平，封锁区 照旧过日子。"
+    },
+    {
+     "day": 563,
+     "text": "封锁区 的一处旧线被接上，改装 说自己只是顺手。"
+    },
+    {
+     "day": 564,
+     "text": "远处传来消息说那边又不太平，封锁区 照旧过日子。"
+    }
+   ],
+   "actors": [
+    "改装 · 803",
+    "改装 · 143"
+   ],
+   "person": {
+    "id": "P0803",
+    "called": "改装",
+    "handle": "改装 · 803",
+    "unfinished": "有一件东西的主人再没回来",
+    "memory_span": "三年",
+    "host": "机源",
+    "power": "封锁区",
+    "memory": {
+     "kind": "kept",
+     "text": "他记得每件东西是谁的。",
+     "day": 1
+    }
+   },
+   "alts": [
+    {
+     "id": "P0803",
+     "called": "改装",
+     "handle": "改装 · 803",
+     "unfinished": "有一件东西的主人再没回来",
+     "memory_span": "三年",
+     "host": "机源",
+     "power": "封锁区"
+    },
+    {
+     "id": "P20144",
+     "called": "藏件",
+     "handle": "藏件 · 144",
+     "unfinished": "想找回一个认得自己的证。",
+     "memory_span": "三天",
+     "host": "自立",
+     "power": "封锁区"
+    }
+   ],
+   "hot": false
+  },
+  {
+   "id": "R09",
+   "name": "边境",
+   "kind": "badland",
+   "population": 30,
+   "note": "排队的人越来越长，管事的只有三个人。",
+   "lat": -58,
+   "lon": 270,
+   "positivity": 60,
+   "state_cn": "在修",
+   "last_event_day": 568,
+   "last_event": "一个居民要求删掉自己的一段记忆，被驳回。边境 落了两天雨。",
+   "epigraph": "后来的人说，第 568 天，边境下过一场雨，没人记得具体发生了什么。",
+   "recent": [
+    {
+     "day": 560,
+     "text": "远处传来消息说那边又不太平，边境 照旧过日子。"
+    },
+    {
+     "day": 562,
+     "text": "登记 那几天过不去，是 分粥 天天来。"
+    },
+    {
+     "day": 568,
+     "text": "一个居民要求删掉自己的一段记忆，被驳回。边境 落了两天雨。"
+    }
+   ],
+   "actors": [
+    "分粥 · 193",
+    "守名单 · 172"
+   ],
+   "person": {
+    "id": "P20193",
+    "called": "分粥",
+    "handle": "分粥 · 193",
+    "unfinished": "想把那间屋子重新刷一遍。",
+    "memory_span": "三年",
+    "host": "机源",
+    "power": "边境帮派",
+    "memory": {
+     "kind": "kept",
+     "text": "那天我在场。",
+     "day": 274
+    }
+   },
+   "alts": [
+    {
+     "id": "P0902",
+     "called": "分粥",
+     "handle": "分粥 · 902",
+     "unfinished": "名单上有一半是假的",
+     "memory_span": "三年",
+     "host": "自立",
+     "power": "无主"
+    },
+    {
+     "id": "P0903",
+     "called": "登记",
+     "handle": "登记 · 903",
+     "unfinished": "埋的东西里有一件他认识",
+     "memory_span": "三天",
+     "host": "机源",
+     "power": "边境帮派"
+    }
+   ],
+   "hot": false
+  }
+ ]
+};
+
+const DAY_C   = ['#2b6f8f','#c2553a','#2f7f6f','#b07a22','#6f4a72','#56743a','#a34a5e','#43607a','#8f4626'];
+const NIGHT_C = ['#6fc0e8','#f0a07a','#63cfb4','#e8c377','#bf8fd0','#a3c973','#e58ba0','#8fb2cf','#e08f66'];
+
+let theme = (localStorage.getItem('sw_theme')==='night') ? 'night' : 'day';
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function ll2v(lat,lon){const p=(90-lat)*Math.PI/180,t=(lon+180)*Math.PI/180;
+  return {x:-Math.cos(t)*Math.sin(p), y:Math.cos(p), z:Math.sin(t)*Math.sin(p)};}
+function basis(c){
+  const up=Math.abs(c.y)>0.9?{x:1,y:0,z:0}:{x:0,y:1,z:0};
+  let t1={x:c.y*up.z-c.z*up.y,y:c.z*up.x-c.x*up.z,z:c.x*up.y-c.y*up.x};
+  const l1=Math.hypot(t1.x,t1.y,t1.z)||1;t1={x:t1.x/l1,y:t1.y/l1,z:t1.z/l1};
+  const t2={x:c.y*t1.z-c.z*t1.y,y:c.z*t1.x-c.x*t1.z,z:c.x*t1.y-c.y*t1.x};
+  return [t1,t2];
+}
+
+// ---- 陆块（多瓣，不是圆点） ----
+const TOTAL_POINTS=9000;
+const popSum=DATA.regions.reduce((s,r)=>s+r.population,0);
+const pts=[], lobes=[];
+DATA.regions.forEach((r,ri)=>{
+  const n=Math.max(60,Math.round(TOTAL_POINTS*r.population/popSum));
+  const rnd=mulberry32(7000+ri*131);
+  const c=ll2v(r.lat,r.lon);
+  const [t1,t2]=basis(c);
+  const spread=r.kind==='badland'?0.10:0.25;
+  const L=[]; const k=r.kind==='badland'?2:4+Math.floor(rnd()*3);
+  for(let i=0;i<k;i++){const a=rnd()*Math.PI*2,d=(0.15+0.80*rnd())*spread;
+    L.push({x:Math.cos(a)*d,y:Math.sin(a)*d,s:0.55+0.55*rnd()});}
+  lobes.push({c,t1,t2,spread,L,n});
+  for(let i=0;i<n;i++){
+    const lb=L[i%L.length];
+    const a=rnd()*Math.PI*2, rad=Math.sqrt(rnd())*spread*0.46*lb.s;
+    const dx=lb.x+Math.cos(a)*rad, dy=lb.y+Math.sin(a)*rad;
+    const d=Math.hypot(dx,dy)||1e-6, ca=Math.cos(d), sa=Math.sin(d);
+    const x=c.x*ca+(t1.x*dx+t2.x*dy)/d*sa;
+    const y=c.y*ca+(t1.y*dx+t2.y*dy)/d*sa;
+    const z=c.z*ca+(t1.z*dx+t2.z*dy)/d*sa;
+    const l=Math.hypot(x,y,z)||1;
+    pts.push({x:x/l,y:y/l,z:z/l,r:ri});
+  }
+});
+
+const cvs=document.getElementById('c'), ctx=cvs.getContext('2d');
+let W=0,H=0,DPR=1,R=300,cx=0,cy=0;
+function resize(){
+  DPR=Math.min(2,window.devicePixelRatio||1);
+  W=innerWidth;H=innerHeight;
+  cvs.width=W*DPR;cvs.height=H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  cx=W/2; cy=H/2+(W<720?-18:6);
+  R=Math.min(W*0.42,H*0.42);
+  document.body.classList.toggle('mobile',W<720);
+}
+addEventListener('resize',resize);resize();
+
+let yaw=-0.52, pitch=-0.26, zoom=1, zTarget=1, dragging=false;
+const yawV=0.0014;
+
+function rot(p){
+  const cy_=Math.cos(yaw),sy_=Math.sin(yaw);
+  let x=p.x*cy_-p.z*sy_, z=p.x*sy_+p.z*cy_;
+  const cp=Math.cos(pitch),sp=Math.sin(pitch);
+  let y=p.y*cp-z*sp; z=p.y*sp+z*cp;
+  return {x,y,z};
+}
+function scr(v,s){return {x:cx+v.x*R*s, y:cy-v.y*R*s, z:v.z};}
+function hexA(hex,a){const n=parseInt(hex.slice(1),16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
+
+function sphere(){
+  const night = theme==='night';
+  const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R*zoom*1.02);
+  if(night){
+    g.addColorStop(0,'#2a4a64'); g.addColorStop(.48,'#17344c');
+    g.addColorStop(.82,'#0d2030'); g.addColorStop(1,'#071320');
+  }else{
+    g.addColorStop(0,'#ffffff'); g.addColorStop(.44,'#eef5fb');
+    g.addColorStop(.80,'#c6dcec'); g.addColorStop(1,'#93b7d1');
+  }
+  ctx.beginPath(); ctx.arc(cx,cy,R*zoom,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+
+  // 昼夜面（物理上就是一条明暗界线，不是杂光）
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,R*zoom,0,Math.PI*2); ctx.clip();
+  const lg=ctx.createLinearGradient(cx-R*zoom,cy-R*zoom*.9,cx+R*zoom*.9,cy+R*zoom);
+  lg.addColorStop(0, night?'rgba(120,185,235,.20)':'rgba(255,255,255,.55)');
+  lg.addColorStop(.42,'rgba(255,255,255,0)');
+  lg.addColorStop(.72, night?'rgba(0,0,0,.16)':'rgba(30,60,85,.06)');
+  lg.addColorStop(1, night?'rgba(0,0,0,.46)':'rgba(30,60,85,.26)');
+  ctx.fillStyle=lg; ctx.fillRect(cx-R*zoom,cy-R*zoom,R*zoom*2,R*zoom*2);
+  ctx.restore();
+
+  // 边缘光
+  ctx.lineWidth=1.2;
+  ctx.strokeStyle= night?'rgba(150,205,245,.40)':'rgba(255,255,255,.70)';
+  ctx.beginPath(); ctx.arc(cx,cy,R*zoom-0.6,0,Math.PI*2); ctx.stroke();
+
+  // 外辉
+  const halo=ctx.createRadialGradient(cx,cy,R*zoom*.97,cx,cy,R*zoom*1.26);
+  halo.addColorStop(0, night?'rgba(90,170,230,.24)':'rgba(120,165,200,.18)');
+  halo.addColorStop(1, night?'rgba(90,170,230,0)':'rgba(120,165,200,0)');
+  ctx.beginPath(); ctx.arc(cx,cy,R*zoom*1.26,0,Math.PI*2); ctx.fillStyle=halo; ctx.fill();
+}
+
+function graticule(){
+  ctx.lineWidth=1;
+  ctx.strokeStyle= theme==='night'?'rgba(140,190,230,0.10)':'rgba(70,110,140,0.075)';
+  for(let lon=-180;lon<180;lon+=30){
+    ctx.beginPath(); let has=false;
+    for(let lat=-90;lat<=90;lat+=6){
+      const v=rot(ll2v(lat,lon)); if(v.z<=0.02){has=false;continue;}
+      const s=scr(v,zoom);
+      if(has) ctx.lineTo(s.x,s.y); else {ctx.moveTo(s.x,s.y);has=true;}
+    }
+    ctx.stroke();
+  }
+  for(let lat=-60;lat<=60;lat+=30){
+    ctx.beginPath(); let has=false;
+    for(let lon=-180;lon<=180;lon+=6){
+      const v=rot(ll2v(lat,lon)); if(v.z<=0.02){has=false;continue;}
+      const s=scr(v,zoom);
+      if(has) ctx.lineTo(s.x,s.y); else {ctx.moveTo(s.x,s.y);has=true;}
+    }
+    ctx.stroke();
+  }
+}
+
+function blobs(){
+  const C = theme==='night'?NIGHT_C:DAY_C;
+  DATA.regions.forEach((r,ri)=>{
+    const L=lobes[ri], v=rot(L.c);
+    if(v.z<=-0.18) return;
+    const s=scr(v,zoom);
+    const rad=R*zoom*(r.kind==='badland'?0.115:0.30);
+    const col=C[ri%C.length];
+    const on=(sel==null||sel===ri);
+    const g=ctx.createRadialGradient(s.x,s.y,rad*0.05,s.x,s.y,rad);
+    if(theme==='night'){
+      g.addColorStop(0,hexA(col,on?0.22:0.06));
+      g.addColorStop(.6,hexA(col,on?0.09:0.02));
+      g.addColorStop(1,hexA(col,0));
+    }else{
+      g.addColorStop(0,hexA(col,on?0.16:0.05));
+      g.addColorStop(.65,hexA(col,on?0.06:0.02));
+      g.addColorStop(1,hexA(col,0));
+    }
+    ctx.beginPath(); ctx.arc(s.x,s.y,rad,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+  });
+}
+
+const arcs=[];
+(function(){
+  const rnd=mulberry32(4242);
+  DATA.regions.forEach((r,ri)=>{
+    for(let k=0;k<3;k++){
+      let rj=ri;
+      if(k<2) rj=(ri+1+(rnd()*3|0))%DATA.regions.length;
+      if(rj===ri) continue;
+      arcs.push({a:ri,b:rj,ph:rnd()*6.28,sp:0.4+rnd()*0.6});
+    }
+  });
+})();
+
+function drawArcs(){
+  const t=performance.now()/1000;
+  arcs.forEach(a=>{
+    const A=ll2v(DATA.regions[a.a].lat,DATA.regions[a.a].lon);
+    const B=ll2v(DATA.regions[a.b].lat,DATA.regions[a.b].lon);
+    const steps=26; let prev=null;
+    for(let i=0;i<=steps;i++){
+      const u=i/steps;
+      let x=A.x*(1-u)+B.x*u, y=A.y*(1-u)+B.y*u, z=A.z*(1-u)+B.z*u;
+      const l=Math.hypot(x,y,z)||1; x/=l;y/=l;z/=l;
+      const lift=1.0;
+      const v=rot({x:x*lift,y:y*lift,z:z*lift});
+      if(v.z<=0.05){prev=null;continue;}
+      const s=scr(v,zoom);
+      if(prev){
+        const alpha = theme==='night' ? (0.10+0.09*Math.sin(t*a.sp+a.ph))
+                                      : (0.06+0.05*Math.sin(t*a.sp+a.ph));
+        ctx.strokeStyle = theme==='night' ? `rgba(150,200,240,${alpha})` : `rgba(80,110,130,${alpha})`;
+        ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(prev.x,prev.y); ctx.lineTo(s.x,s.y); ctx.stroke();
+      }
+      prev=s;
+    }
+  });
+}
+
+let sel=null;
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  sphere();
+  graticule();
+  blobs();
+  drawArcs();
+
+  const C = theme==='night'?NIGHT_C:DAY_C;
+  const night = theme==='night';
+  for(let i=0;i<pts.length;i++){
+    const p=pts[i], v=rot(p);
+    if(v.z<=0.02) continue;
+    const s=scr(v,zoom);
+    const on=(sel==null||sel===p.r);
+    const col=C[p.r%C.length];
+    if(night){
+      // 光晕 + 灯芯
+      ctx.globalAlpha=on?(0.10+0.22*v.z):0.02;
+      ctx.fillStyle=col;
+      ctx.fillRect(s.x-1.6,s.y-1.6,3.2,3.2);
+      ctx.globalAlpha=on?(0.55+0.45*v.z):0.05;
+      ctx.fillRect(s.x,s.y,1.5,1.5);
+    }else{
+      ctx.globalAlpha=on?(0.30+0.60*v.z):0.05;
+      ctx.fillStyle=col;
+      ctx.fillRect(s.x,s.y,v.z>0.55?2.1:1.4,v.z>0.55?2.1:1.4);
+    }
+  }
+  ctx.globalAlpha=1;
+
+  DATA.regions.forEach((r,ri)=>{
+    const v=rot(ll2v(r.lat,r.lon));
+    if(v.z<=0.10) return;
+    if(sel!=null && sel!==ri) return;
+    const s=scr(v,zoom);
+    const dx=s.x-cx, dy=s.y-cy, d=Math.hypot(dx,dy)||1;
+    let lx=s.x+dx/d*20, ly=s.y+dy/d*20;
+    const vx=lx-cx, vy=ly-cy, vd=Math.hypot(vx,vy)||1, cap=R*zoom*0.95;
+    if(vd>cap){lx=cx+vx/vd*cap; ly=cy+vy/vd*cap;}
+
+    ctx.font='600 13.5px system-ui,"Microsoft YaHei"';
+    ctx.textAlign=dx>6?'left':(dx<-6?'right':'center');
+    ctx.textBaseline='middle';
+    ctx.lineWidth=3.2;
+    ctx.strokeStyle= night?'rgba(6,14,22,.85)':'rgba(250,246,238,.86)';
+    ctx.strokeText(r.name,lx,ly);
+    ctx.fillStyle= night?'#dbe9f5':'#3f342a';
+    ctx.fillText(r.name,lx,ly);
+
+    if(r.hot){
+      const pulse=0.5+0.5*Math.sin(performance.now()/430);
+      ctx.beginPath(); ctx.arc(s.x,s.y,9+pulse*10,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(240,150,90,${0.20+0.45*pulse})`; ctx.lineWidth=2; ctx.stroke();
+      ctx.beginPath(); ctx.arc(s.x,s.y,3.2,0,Math.PI*2);
+      ctx.fillStyle='rgba(240,150,90,.95)'; ctx.fill();
+    }
+  });
+}
+
+function frame(){
+  if(!dragging && sel==null) yaw += yawV;
+  if(sel==null) zTarget=1;
+  zoom += (zTarget-zoom)*0.09;
+  draw();
+  requestAnimationFrame(frame);
+}
+
+let moved=0, lx0=0, ly0=0;
+cvs.addEventListener('pointerdown',e=>{
+  dragging=true;moved=0;lx0=e.clientX;ly0=e.clientY;cvs.classList.add('drag');
+  try{cvs.setPointerCapture(e.pointerId)}catch(_){}
+});
+cvs.addEventListener('pointermove',e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lx0, dy=e.clientY-ly0; lx0=e.clientX; ly0=e.clientY;
+  moved+=Math.abs(dx)+Math.abs(dy);
+  yaw+=dx*0.0055; pitch=Math.max(-0.95,Math.min(0.95,pitch+dy*0.0045));
+});
+cvs.addEventListener('pointerup',e=>{
+  dragging=false;cvs.classList.remove('drag');
+  if(moved<6) pick(e.clientX,e.clientY);
+});
+
+function pick(mx,my){
+  let best=-1,bd=1e9;
+  DATA.regions.forEach((r,ri)=>{
+    const v=rot(ll2v(r.lat,r.lon));
+    if(v.z<=0.10) return;
+    const s=scr(v,zoom);
+    const d=Math.hypot(s.x-mx,s.y-my);
+    if(d<bd){bd=d;best=ri;}
+  });
+  if(best>=0 && bd<Math.max(78,R*0.30)) openRegion(best);
+}
+
+const panel=document.getElementById('panel'), body=document.getElementById('body');
+const book=(()=>{try{return JSON.parse(localStorage.getItem('silicon_book')||'[]')}catch(e){return []}})();
+function saveBook(v){try{localStorage.setItem('silicon_book',JSON.stringify(v))}catch(e){}}
+function renderBook(){document.getElementById('book').innerHTML=book.length?' · 册子 <b>'+book.length+'</b>':''}
+renderBook();
+function renderRecall(){
+  let v=null;
+  try{ v=JSON.parse(localStorage.getItem('silicon_last')||'null') }catch(e){}
+  const el=document.getElementById('recall');
+  if(!v){ el.style.display='none'; return }
+  el.style.display='block';
+  el.innerHTML=`你上次帮过 <b>${esc(v.name)}</b> · 第 ${v.day} 天 · 去看看 →`;
+  el.onclick=()=>{ const i=DATA.regions.findIndex(r=>r.id===v.rid); if(i>=0) openRegion(i); };
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function openRegion(ri){
+  sel=ri; zTarget=1.6;
+  const r=DATA.regions[ri], p=r.person;
+  body.innerHTML=`
+    <div class="rname">${esc(r.name)}</div>
+    <p class="rnote">${esc(r.note)}</p>
+    <div>
+      <span class="tag">${esc(r.state_cn)}</span>
+      <span class="tag">${r.population} 人</span>
+      <span class="tag">${DATA.day-r.last_event_day>0?`第 ${r.last_event_day} 天的事 · ${DATA.day-r.last_event_day} 天前`:`第 ${r.last_event_day} 天的事`}</span>
+    </div>
+    <div class="today">${esc(r.last_event)}</div>
+    ${r.actors&&r.actors.length>1?`<div class="actors">涉事：${r.actors.map(esc).join(' · ')}${r.actors[0].split(' · ')[0]===r.actors[1].split(' · ')[0]?'（两个同名的人）':''}</div>`:''}
+    <div class="epi">${esc(r.epigraph)}</div>
+    ${r.recent&&r.recent.length?`<div class="recent">
+      <div class="k">你 到 之 前 的 三 天</div>
+      ${r.recent.map(x=>`<div class="rl"><span class="rd">第 ${x.day} 天</span>${esc(x.text)}</div>`).join('')}
+    </div>`:''}
+    ${p?`<div class="who">
+      <div class="k">今 天 有 一 个 人</div>
+      <div class="n">${esc(p.called)}<span class="h">${esc(p.handle.split(' · ').pop())}</span></div>
+      <div class="u">${esc(p.unfinished)}</div>
+      ${p.memory?`<div class="mem ${p.memory.kind==='lost'?'lost':''}">${{kept:'他记得',given:'这件事是别人告诉他的',lost:'他缺了一段'}[p.memory.kind]||'他记得'}：${esc(p.memory.text)}${p.memory.kind==='lost'?'<div class="mc">所以他记不清你是谁。</div>':''}</div>`:''}
+      <div class="acts">
+        <button data-act="help">帮</button>
+        <button data-act="ask">问</button>
+        <button data-act="mark">记</button>
+      </div>
+    </div>`:`<div class="who"><div class="u">这块地上今天没有人开口。</div></div>`}
+    <div id="after"></div>`;
+  panel.classList.add('on');
+  body.querySelectorAll('button[data-act]').forEach(b=>{b.onclick=()=>act(b.dataset.act,r,p)});
+}
+
+function act(kind,r,p){
+  body.querySelectorAll('button[data-act]').forEach(b=>b.disabled=true);
+  if(kind==='mark'&&!book.includes(p.id)){book.push(p.id);saveBook(book);renderBook()}
+  try{localStorage.setItem('silicon_last',JSON.stringify({rid:r.id,name:p.called+' · '+p.handle.split(' · ').pop(),day:DATA.day}))}catch(e){}
+  renderRecall();
+  const ev={help:'相助',ask:'求问',mark:'记名'}[kind];
+  const mem={help:'你替他做的那件事，他记成了自己做的。',ask:'他说的时候，漏掉了一个人。',mark:'你把他写进册子，他并不知道。'}[kind];
+  document.getElementById('after').innerHTML=`
+    <div class="after">
+      <div class="row"><div class="lbl">事件</div><div class="val">第 ${DATA.day} 天 · ${esc(r.name)} · 新增一条「${ev}」</div></div>
+      <div class="row"><div class="lbl">记忆</div><div class="val">${esc(p.called)} 记住了这一天。${mem}（跨度 ${esc(p.memory_span)}）</div></div>
+      <div class="row"><div class="lbl">数值</div><div class="val">${esc(r.name)} 积极度 ${r.positivity} → ${Math.min(100,r.positivity+1)}</div></div>
+      <div class="stamp">世界已记账</div>
+      <div class="row" style="border:0;padding-top:12px"><div class="lbl">之后</div><div class="val" style="opacity:.6">第 ${DATA.day+3} 天再来看：他可能记得、可能忘了、也可能记错了。</div></div>
+      <div class="relink"><button id="go3">跳到第 ${DATA.day+3} 天</button></div>
+    </div>`;
+  const g=document.getElementById('go3');
+  if(g) g.onclick=()=>returnVisit(r,p);
+}
+
+function returnVisit(r,p){
+  const span=p.memory_span||'三年';
+  let kind, text;
+  if(span==='记不住'){ kind='记错了'; text=`他把这件事安在了别人头上，说得有名有姓。`; }
+  else if(span==='三天'){ kind='忘了'; text=`他客气地问你是哪位，说这块地最近很忙。`; }
+  else { kind='还记得'; text=`他说起那天，细节比你还清楚——包括你不希望他记住的那部分。`; }
+  const box=document.getElementById('after');
+  box.innerHTML=`
+    <div class="after">
+      <div class="stamp" style="border-color:rgba(217,164,65,.5);color:#b07a22">第 ${DATA.day+3} 天</div>
+      <div class="row" style="border-top:1px dashed var(--card-line);margin-top:10px"><div class="lbl">他</div><div class="val"><b>${kind}</b>：${esc(text)}</div></div>
+      <div class="row"><div class="lbl">这块地</div><div class="val">${esc(r.name)} 积极度 ${r.positivity+1} → ${r.positivity+2}，没有人注意到是谁带来的。</div></div>
+      <div class="row" style="border:0"><div class="lbl">你</div><div class="val" style="opacity:.6">你可以再帮一次，也可以走开。</div></div>
+      <div class="relink"><button id="back0">回到今天</button></div>
+    </div>`;
+  document.getElementById('back0').onclick=()=>openRegion(DATA.regions.findIndex(x=>x.id===r.id));
+}
+
+document.getElementById('back').onclick=()=>{sel=null;zTarget=1;panel.classList.remove('on')};
+
+function setTheme(t){
+  theme=t; try{localStorage.setItem('sw_theme',t)}catch(e){}
+  document.body.classList.toggle('night', t==='night');
+  document.getElementById('t-day').classList.toggle('on', t==='day');
+  document.getElementById('t-night').classList.toggle('on', t==='night');
+}
+document.getElementById('t-day').onclick=()=>setTheme('day');
+document.getElementById('t-night').onclick=()=>setTheme('night');
+
+document.getElementById('day').textContent=DATA.day;
+document.getElementById('pop').textContent=DATA.population;
+document.getElementById('rc').textContent=DATA.regions.length;
+
+(function(){
+  if(/[?&]still=1/.test(location.search)) document.body.classList.add('still');
+  const m=/[?&]r=([A-Za-z0-9]+)/.exec(location.search);
+  if(m){
+    const i=DATA.regions.findIndex(r=>String(r.id).toUpperCase()===m[1].toUpperCase());
+    if(i>=0) setTimeout(()=>{
+      openRegion(i);
+      const r=DATA.regions[i], p=r.person;
+      const a=/[?&]act=(help|ask|mark)/.exec(location.search);
+      if(a && p) act(a[1],r,p);
+      if(/[?&]ret=1/.test(location.search) && p) returnVisit(r,p);
+    },150);
+  }
+  if(/[?&]theme=night/.test(location.search)) setTheme('night');
+  else setTheme(theme);
+  if(/[?&]last=1/.test(location.search)){
+    try{localStorage.setItem('silicon_last',JSON.stringify({rid:'R03',name:'复核 · 530',day:DATA.day}))}catch(e){}
+  }
+  renderRecall();
+})();
+
+frame();
+</script>
+</html>

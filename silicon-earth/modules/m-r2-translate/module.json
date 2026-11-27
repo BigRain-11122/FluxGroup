@@ -1,0 +1,24 @@
+{
+  "id": "m-r2-translate",
+  "name": "翻译规则",
+  "domain": "镜",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "把现实的事翻译成硅基语言：协议/算力/断电/封锁",
+  "inputs": "raw_event",
+  "outputs": "world_event",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "python modules/m-r2-translate/check.py",
+  "verify": "python modules/m-r2-translate/check.py",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "先定 20 条翻译对照",
+  "writes": [
+    "modules/m-r2-translate/data/rules.json"
+  ],
+  "reads": [
+    "modules/m-r1-intake/data/raw.jsonl"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "m-w1-regions",
+  "name": "地理与区域",
+  "domain": "世界",
+  "status": "usable",
+  "owner": "未指派",
+  "duty": "九块区域：名称、类型、状态、人口、一句话现状",
+  "inputs": "契约",
+  "outputs": "regions.json",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "—",
+  "verify": "python tools/world_ops.py validate",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "补地理关系（谁挨着谁）",
+  "writes": [
+    "modules/m-w1-regions/data/regions.json"
+  ],
+  "reads": []
+}

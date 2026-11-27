@@ -1,0 +1,22 @@
+{
+  "id": "m-r1-intake",
+  "name": "现实采集",
+  "domain": "镜",
+  "status": "empty",
+  "owner": "未指派",
+  "duty": "每天收一条现实里的事（不需要精确，只要方向）",
+  "inputs": "外部输入",
+  "outputs": "raw_event",
+  "contracts": [
+    "CONTRACTS/world.schema.json",
+    "CONTRACTS/module.schema.json"
+  ],
+  "run": "",
+  "verify": "",
+  "forbidden": "不得修改其他模块目录；不得私改契约",
+  "next": "手工录入版先行，自动采集后补",
+  "writes": [
+    "modules/m-r1-intake/data/raw.jsonl"
+  ],
+  "reads": []
+}
