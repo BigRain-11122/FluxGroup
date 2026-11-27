@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""fleet_liveness.py - 一台机器「活不活」的唯一判据：合并三条证据通道。
+
+为什么（2026-11-27 实测）：机队不是没通，是「三条腿各走各的，主控只认一条」——
+  * bm-a（公司生产力机）每 60 秒往 NATS 发心跳（hb.bm-a / $KV.FLEET_STATE.state.bm-a），
+    但主控侧接收端 com.fluxgroup.fleetbus 从 11-15 掉线，落盘冻结，于是判成「70 小时没回执」；
+  * bm-c（传家宝）不发 NATS，靠 bmc_chain_publish 每轮把 _last_lane_bm-c.json /
+    autodrive-hb-bm-c.json 提交上 git，主控却只看本地 rt/<工位>/receipts 的 mtime，
+    于是把 15:36 刚推过提交的机器判成 offline；
+  * STATIONS.json 里的 status 是静态申报值（visual 写着 offline），从没人按实况改过。
+结果同一天三份结论互相矛盾，主控据此派单就是错的。
+
+判据纪律：
+  * 只认「机器自己写的时间戳」，不认本机 checkout 的 mtime——git pull 会把 mtime 刷成
+    现在，用 mtime 判活等于给死机器续命。
+  * 每条证据都带来源（nats / git-receipt / local-rt / self），主控能复核是哪条腿活着。
+  * 缺证据就是缺证据：不猜、不用静态申报值兜底成 alive。
+
+时间口径：机队在同一个时区（Asia/Shanghai）。带 Z 或 ts_utc_ms 的按 UTC 算；
+裸时间戳（bm-a/bm-c 的 Windows 侧写法）按本机挂钟（+08:00）算。
+
+用法：
+  python3 Tools/fleet/fleet_liveness.py            # 人读一屏
+  python3 Tools/fleet/fleet_liveness.py --json     # 机读（落 state/fleet-liveness.json）
+  python3 Tools/fleet/fleet_liveness.py --self-test
+返回码：0 全部有新鲜证据 / 1 有 DARK 或 STALE（需主控过问）
+"""
+from __future__ import annotations
+
+import argparse
+import glob
+import json
+import os
+import sys
+import time
+from datetime import datetime, timezone
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+STATE = os.path.join(ROOT, "cph4", "fleet", "state")
+RECEIPTS = os.path.join(ROOT, "cph4", "fleet", "queue-receipts")
+
+# 阈值（小时）。不是拍脑袋：bm-a/bm-c 的心跳节拍实测 60s~15min，
+# 1 小时没证据 = 至少漏了 4 个节拍；24 小时以上按「没人管」处理。
+ALIVE_H = 1.0
+WARM_H = 6.0
+STALE_H = 24.0
+
+# 工位 → 机队代号。OS-MATRIX / AUTONOMY-CONFIG / STATIONS 三份件的键都是工位名，
+# 而心跳与回执只用 bm-x 代号，两边必须在这儿对上，否则 NATS/git 两条腿永远读空。
+# 依据：OS-MATRIX machines[].hostname（DASHENG/FLUXGROUP/BIGMONEY）+ tailscale 实测 IP；
+# brain=bm-d 取自 AUTONOMY-CONFIG capacity.blocked_active.bigcompute「bm-d 未入网」。
+STATION_NODE = {"control": "bm-m", "delivery": "bm-a", "visual": "bm-c",
+                "audio": "bm-b", "brain": "bm-d"}
+
+
+def _now():
+    return time.time()
+
+
+def _parse_ts(text):
+    """把各种写法的时间戳变成 epoch 秒；解析不了返回 None。"""
+    if text is None:
+        return None
+    s = str(text).strip()
+    if not s:
+        return None
+    if s.endswith("Z"):
+        try:
+            return datetime.strptime(s[:-1].split(".")[0], "%Y-%m-%dT%H:%M:%S").replace(
+                tzinfo=timezone.utc).timestamp()
+        except Exception:
+            return None
+    for fmt in ("%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S",
+                "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"):
+        try:
+            # 裸时间戳按本机挂钟（机队同为 Asia/Shanghai），不用 UTC 解释，
+            # 否则每台 Windows 都会凭空年轻 8 小时。
+            return time.mktime(time.strptime(s.split("+")[0].strip(), fmt))
+        except Exception:
+            continue
+    return None
+
+
+def _read_json(p):
+    try:
+        with open(p, encoding="utf-8-sig") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def _nats_evidence(node):
+    """NATS 心跳落盘（fleet_bus 写的 node-state/<node>.json）。"""
+    d = _read_json(os.path.join(STATE, "node-state", node + ".json"))
+    if not d:
+        return None
+    ep = None
+    if d.get("ts_utc_ms"):
+        ep = float(d["ts_utc_ms"]) / 1000.0
+    else:
+        ep = _parse_ts(d.get("ts"))
+    if ep is None:
+        return None
+    return {"source": "nats", "epoch": ep, "seq": d.get("seq"),
+            "host": d.get("host"), "path": "state/node-state/%s.json" % node}
+
+
+def _git_receipt_evidence(node):
+    """git 回执通道（bm-c 的节拍脚本写、随提交上链）。取最新一条。"""
+    best = None
+    for name in ("_last_lane_%s.json" % node, "autodrive-hb-%s.json" % node):
+        p = os.path.join(RECEIPTS, name)
+        d = _read_json(p)
+        if not d:
+            continue
+        ep = _parse_ts(d.get("ts"))
+        if ep is None:
+            continue
+        if best is None or ep > best["epoch"]:
+            best = {"source": "git-receipt", "epoch": ep, "state": d.get("state"),
+                    "note": d.get("note"), "path": "queue-receipts/" + name}
+    return best
+
+
+def _local_rt_evidence(station):
+    """本机 rt/<工位>/receipts 的 mtime（老判据，保留但降级为「本机视角」）。"""
+    pat = os.path.join(ROOT, "cph4", "fleet", "rt", station, "receipts", "*")
+    ts = [os.path.getmtime(p) for p in glob.glob(pat) if os.path.exists(p)]
+    if not ts:
+        return None
+    return {"source": "local-rt", "epoch": max(ts),
+            "path": "rt/%s/receipts/" % station}
+
+
+def verdict_of(age_h):
+    if age_h is None:
+        return "NO-EVIDENCE"
+    if age_h <= ALIVE_H:
+        return "ALIVE"
+    if age_h <= WARM_H:
+        return "WARM"
+    if age_h <= STALE_H:
+        return "STALE"
+    return "DARK"
+
+
+def snapshot(root=ROOT):
+    matrix = _read_json(os.path.join(root, "cph4", "fleet", "OS-MATRIX-v1.json")) or {}
+    machines = matrix.get("machines") or {}
+    stations = (_read_json(os.path.join(root, "cph4", "fleet", "STATIONS.json")) or {}).get("stations") or []
+    by_station = {s["id"]: s for s in stations}
+    here = os.uname().nodename if hasattr(os, "uname") else ""
+
+    rows = []
+    for key, m in machines.items():
+        station = m.get("station") or key
+        st = by_station.get(station) or {}
+        node = STATION_NODE.get(station) or m.get("node") or key
+        ev = []
+        if node == "bm-m":
+            ev.append({"source": "self", "epoch": _now(), "path": "本机"})
+        for fn in (_nats_evidence, _git_receipt_evidence):
+            e = fn(node)
+            if e:
+                ev.append(e)
+        e = _local_rt_evidence(station)
+        if e:
+            ev.append(e)
+        # 同一时刻多条证据时取最新那条，但把所有来源都留下供复核
+        best = max(ev, key=lambda x: x["epoch"]) if ev else None
+        age_h = round((_now() - best["epoch"]) / 3600.0, 2) if best else None
+        declared = m.get("os") == "unverified" and "NOT-INSTALLED" or (st.get("status") or "unknown")
+        rows.append({
+            "node": node, "station": station,
+            "machine": m.get("name") or st.get("machine") or node,
+            "hostname": m.get("hostname"),
+            "declared_status": declared,
+            "age_h": age_h,
+            "verdict": "NOT-INSTALLED" if (st.get("status") == "not_installed") else verdict_of(age_h),
+            "best_source": best["source"] if best else None,
+            "evidence": [{k: v for k, v in e.items() if k != "epoch"} for e in ev],
+        })
+    order = {"ALIVE": 0, "WARM": 1, "STALE": 2, "DARK": 3, "NO-EVIDENCE": 4, "NOT-INSTALLED": 5}
+    rows.sort(key=lambda r: (order.get(r["verdict"], 9), r["station"]))
+    return {"ts": datetime.now().isoformat(timespec="seconds"),
+            "thresholds_h": {"alive": ALIVE_H, "warm": WARM_H, "stale": STALE_H},
+            "nodes": rows}
+
+
+def render(snap):
+    out = ["== 机队判活（三通道合并：NATS / git 回执 / 本机 rt）==",
+           "%-6s %-10s %-14s %-11s %-8s %-7s %s" % ("节点", "工位", "机器", "判定", "证据龄", "来源", "静态申报")]
+    for r in snap["nodes"]:
+        age = "-" if r["age_h"] is None else "%.2fh" % r["age_h"]
+        out.append("%-6s %-10s %-14s %-11s %-8s %-7s %s" % (
+            r["node"], r["station"], (r["machine"] or "")[:14], r["verdict"], age,
+            r["best_source"] or "-", r["declared_status"]))
+        for e in r["evidence"]:
+            out.append("        └ %-12s %s" % (e["source"], e.get("path") or ""))
+    bad = [r for r in snap["nodes"] if r["verdict"] in ("STALE", "DARK", "NO-EVIDENCE")]
+    out.append("")
+    if bad:
+        out.append("需主控过问：")
+        for r in bad:
+            out.append("  - %s（%s）：%s，证据龄 %s，最佳来源 %s" % (
+                r["station"], r["node"], r["verdict"],
+                "-" if r["age_h"] is None else "%.1fh" % r["age_h"], r["best_source"] or "无"))
+    else:
+        out.append("全部节点有 6 小时内的证据。")
+    return "\n".join(out)
+
+
+def self_test():
+    # 负控：三条通道各造一份「刚写的」和「很老的」，必须分出 ALIVE/DARK；
+    # 再验证「mtime 新鲜但时间戳很老」不会被判活（这正是 git pull 造假的老坑）。
+    ok = True
+    fakes = {
+        "nats": {"node": "t1", "ts": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                 "ts_utc_ms": int(_now() * 1000), "seq": 1},
+        "git": {"node": "t2", "ts": "2026-01-01T00:00:00", "state": "IDLE"},
+    }
+    e = _parse_ts(fakes["nats"]["ts"])
+    if e is None or abs(e - _now()) > 300:
+        print("FAIL nats 裸时间戳解析"); ok = False
+    e2 = _parse_ts(fakes["git"]["ts"])
+    if e2 is None or e2 > _now() - 86400 * 30:
+        print("FAIL 老时间戳应解析成很久以前"); ok = False
+    if verdict_of(0.1) != "ALIVE" or verdict_of(30) != "DARK":
+        print("FAIL 判等阈值"); ok = False
+    if _parse_ts("2026-11-27T07:33:09.734Z") is None:
+        print("FAIL UTC Z 格式"); ok = False
+    # 同一个时刻，UTC 写法与裸写法必须指向同一 epoch（相差 8 小时才是对的：
+    # 07:33Z == 15:33 +08:00）
+    a = _parse_ts("2026-11-27T07:33:09Z")
+    b = _parse_ts("2026-11-27T15:33:09")
+    if a is None or b is None or abs(a - b) > 2:
+        print("FAIL 时区口径不一致：%s vs %s" % (a, b)); ok = False
+    print("SELFTEST %s" % ("PASS" if ok else "FAIL"))
+    return 0 if ok else 1
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--json", action="store_true")
+    ap.add_argument("--self-test", action="store_true")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        return self_test()
+    snap = snapshot()
+    os.makedirs(STATE, exist_ok=True)
+    tmp = os.path.join(STATE, "fleet-liveness.json.tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(snap, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, os.path.join(STATE, "fleet-liveness.json"))
+    print(json.dumps(snap, ensure_ascii=False, indent=1) if a.json else render(snap))
+    return 1 if any(r["verdict"] in ("STALE", "DARK", "NO-EVIDENCE") for r in snap["nodes"]) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

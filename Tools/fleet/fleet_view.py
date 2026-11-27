@@ -77,6 +77,23 @@ def _alive(url, timeout=0.8):
         return False
 
 
+def _liveness_map(root):
+    """按工位取「合并三通道」的判活结果；只在真实仓库根上生效。
+
+    2026-11-27 实测的病：本屏只看本地 rt/<工位>/receipts 的 mtime，于是 60 秒前
+    刚发过心跳的 bm-a 被写成「70 小时没回执」，15:36 刚推过提交的 bm-c 被判 offline。
+    self-test 用临时目录造数据，那里没有真实心跳，所以隔离掉，避免把线上证据带进断言。
+    """
+    if root and os.path.abspath(root) != ROOT:
+        return {}
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import fleet_liveness as flv
+        return {r["station"]: r for r in flv.snapshot(ROOT)["nodes"]}
+    except Exception:
+        return {}
+
+
 def snapshot(root=None, check_net=True):
     b = _base(root)
     stations = (_j("STATIONS.json", root) or {}).get("stations") or []
@@ -87,6 +104,7 @@ def snapshot(root=None, check_net=True):
     smap = tax.get("stage_map") or {}
 
     machines, gaps = [], []
+    lv = _liveness_map(root)
     for s in stations:
         sid = s["id"]
         q = _rows(os.path.join(b, "rt", sid, "queue.jsonl"))
@@ -94,13 +112,24 @@ def snapshot(root=None, check_net=True):
         for r in q:
             st[r.get("state")] = st.get(r.get("state"), 0) + 1
         last_receipt = _newest(glob.glob(os.path.join(b, "rt", sid, "receipts", "*")))
+        receipt_source = "local-rt" if last_receipt is not None else None
+        live = lv.get(sid) or {}
+        if live.get("age_h") is not None and (last_receipt is None or live["age_h"] < last_receipt):
+            last_receipt = live["age_h"]
+            receipt_source = live.get("best_source")
+        # 静态申报值（STATIONS.json 的 status）从没人按实况改过：只要心跳/回执这条腿
+        # 新鲜，就以证据为准，别让一个手写字段把活机器判死。
+        eff_status = s.get("status") or ""
+        if live.get("verdict") in ("ALIVE", "WARM") and eff_status not in ("ready", "online"):
+            eff_status = "ready"
         local = (s.get("local_model") or {})
         url = os.environ.get("OLLAMA_URL") or "http://127.0.0.1:11434"
         net = _alive(url) if check_net else None
         types_ok = sum(1 for t in types.values() if sid in (t.get("stations") or []))
         stages = sum(1 for p in products for stg in (p.get("stages") or [])
                      if sid in ((types.get((smap.get(p["id"]) or {}).get(stg)) or {}).get("stations") or []))
-        row = {"station": sid, "machine": s.get("machine"), "status": s.get("status"),
+        row = {"station": sid, "machine": s.get("machine"), "status": eff_status,
+               "declared_status": s.get("status"),
                "blocked_scope": s.get("blocked_scope"), "slots": s.get("slots"),
                "shifts": s.get("shifts"), "seats": len(teams.get(sid) or []),
                "task_types": types_ok, "stages": stages,
@@ -109,15 +138,16 @@ def snapshot(root=None, check_net=True):
                          "failed": st.get("FAILED", 0),
                          "pending_human": st.get("PENDING_HUMAN", 0),
                          "total": len(q)},
-               "last_receipt_h": last_receipt,
+               "last_receipt_h": last_receipt, "receipt_source": receipt_source,
+               "verdict": live.get("verdict"),
                "local_model": local.get("model"), "model_alive": net}
         machines.append(row)
-        if (s.get("status") or "") not in ("ready", "ready_paused", "online",
-                                           "network_ok_not_registered"):
-            gaps.append({"kind": "MACHINE-DOWN", "who": sid, "why": s.get("status")})
-        if row["queue"]["open"] and (s.get("status") or "") not in ("ready", "ready_paused"):
+        if eff_status not in ("ready", "ready_paused", "online",
+                              "network_ok_not_registered"):
+            gaps.append({"kind": "MACHINE-DOWN", "who": sid, "why": eff_status})
+        if row["queue"]["open"] and eff_status not in ("ready", "ready_paused"):
             gaps.append({"kind": "WORK-QUEUED-NO-WORKER", "who": sid,
-                         "why": "%d 张 OPEN 但机器状态 %s" % (row["queue"]["open"], s.get("status"))})
+                         "why": "%d 张 OPEN 但机器状态 %s" % (row["queue"]["open"], eff_status)})
         if row["queue"]["pending_human"]:
             gaps.append({"kind": "HUMAN-BACKLOG", "who": sid,
                          "why": "%d 张人判卡等处理" % row["queue"]["pending_human"]})
@@ -160,7 +190,9 @@ def render(snap):
             m["station"], m["machine"], (m["status"] or "")[:26], m["seats"],
             m["task_types"], m["stages"], q["open"], q["running"], q["done"], q["blocked"],
             q.get("pending_human", 0),
-            ("%.1fh" % m["last_receipt_h"]) if m["last_receipt_h"] is not None else "无",
+            ("%.1fh%s" % (m["last_receipt_h"],
+                          ("(" + m["receipt_source"] + ")") if m.get("receipt_source") else ""))
+            if m["last_receipt_h"] is not None else "无",
             ("通" if m["model_alive"] else "不通") if m["model_alive"] is not None else "未查"))
     c = snap["counts"]
     L += ["", "任务面：%d 道工序，其中 %d 道有产物契约（缺 %d）" % (

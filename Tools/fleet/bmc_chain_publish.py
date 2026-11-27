@@ -30,6 +30,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import socket
 import sys
 import time
 from datetime import datetime
@@ -86,6 +87,29 @@ def log(msg):
             fh.write(line + "\n")
     except Exception:
         pass
+
+
+def _nats_hb(hb, host="100.110.185.62", port=4222, timeout=1.5):
+    """把同一份心跳也发一份到 NATS 总线（主控的实时面），失败绝不影响本机闭环。
+
+    Why（2026-11-27 实测）：bm-c 之前只把心跳写进 git，主控要等下一次提交 + 一次 pull
+    才看得见；而 bm-a 走 NATS 每 60 秒就可见。两条腿不一致的结果是主控对 bm-c 的
+    判活永远比真实晚十几分钟，派单时就按过期事实决策。这里补上实时那条腿，
+    但刻意不重试、不阻塞：总线死了不许拖住本机产出。
+    """
+    try:
+        payload = json.dumps(hb, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        s = socket.create_connection((host, port), timeout)
+        s.settimeout(timeout)
+        s.recv(4096)                                   # INFO
+        s.sendall(b'CONNECT {"verbose":false,"pedantic":false}\r\n')
+        for subj in ("$KV.FLEET_STATE.state.bm-c", "hb.bm-c"):
+            s.sendall(("PUB %s %d\r\n" % (subj, len(payload))).encode() + payload + b"\r\n")
+        s.sendall(b"PING\r\n")
+        s.close()
+        return True
+    except Exception:
+        return False
 
 
 def git(*args, timeout=150):
@@ -205,8 +229,10 @@ def write_receipts():
         path = os.path.join(RECEIPTS, name)
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(payload, fh, ensure_ascii=False, indent=1)
-    log("RECEIPT %s gpu=%s vram=%sMB busy=%s" % (state, gpu.get("util"),
-                                                 gpu.get("mem_used_mb"), ",".join(busy) or "-"))
+    bus = _nats_hb(hb)
+    log("RECEIPT %s gpu=%s vram=%sMB busy=%s bus=%s" % (
+        state, gpu.get("util"), gpu.get("mem_used_mb"), ",".join(busy) or "-",
+        "ok" if bus else "down"))
 
 
 def allowed(rel):
