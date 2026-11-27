@@ -1,0 +1,199 @@
+{
+ "version": "v1",
+ "decided_by": "bm-m-1 (MacBook 主控)",
+ "decided_at": "2026-11-27",
+ "_why": "2026-11-27 一天里三台机器各自改名/各自写 doctor/各自发回执，出现「同一个节点在尾网、心跳、花名册、判活屏上叫三个名字」的混乱；CEO 令「做好机器编号和判断，然后统一弄好」。本文件是编号与判据的唯一来源，其他工具只许读、不许各写一套。",
+ "rules": [
+  {
+   "id": "R1",
+   "rule": "一号一名：规范节点 id 必须等于该机的 Tailscale 设备名（DNSName 的 <id> 段）。格式 bm-<字母>（台式/常驻），主控或移动机在同名字被占时用 bm-<字母>-<n>（n 从 1 起）。",
+   "why": "设备名是网络层唯一的客观事实；代号跟它一致，才不会出现「代号在线、尾网离线」这种自相矛盾。"
+  },
+  {
+   "id": "R2",
+   "rule": "重名只改本机：发现 tailnet 里已有同名设备，只改本机设备名，永不重命名/删除别人的设备；本机让位后，代号必须同步改成新名字（不留两层名）。",
+   "why": "2026-11-27 实锚：bm-m 被一台 10-29 遗留、离线 29 天的旧节点占着，本机让位成 bm-m-1；若代号仍写 bm-m，判活屏与 taildrop 都会指向那台死机。"
+  },
+  {
+   "id": "R3",
+   "rule": "唯一寻址只用 DNSName（<id>.<MagicDNSSuffix>）或 tailnet IP。短名（HostName）不得作为唯一键；脚本遇到短名有歧义必须报错，不许猜。",
+   "why": "tailnet 里可以同时存在两台都叫 bm-m 的设备（100.75.133.10 在线 / 100.87.248.66 离线），短名天生歧义。"
+  },
+  {
+   "id": "R4",
+   "rule": "写出端只写规范 id；读取端在过渡期接受 aliases。心跳、回执、队列、派单只认规范 id，出现的旧名一律视为历史数据。",
+   "why": "改编号不能靠喊话，得让读取端兼容、写出端收敛，否则一次改名会静默丢心跳。"
+  },
+  {
+   "id": "R5",
+   "rule": "改编号必须是一次提交同时改：本文件 + Tools/fleet-nodes.json + 写出端（心跳/回执）；由主控签署。禁止单机只改自己那一半。",
+   "why": "2026-11-27 的混乱就是四处分头改：改了 tailnet 没改心跳、改了判活没改花名册。"
+  },
+  {
+   "id": "R6",
+   "rule": "push 前自检：git ls-files 的文件数必须与 origin/main 树文件数同量级（差 >5% 停手）；删除文件数 >200 或占 HEAD 树 >5% 必须显式声明。",
+   "why": "2026-11-27 16:35 bm-a 从稀疏目录整树提交（867558ab16），8054 files changed / 1,799,783 deletions，主干只剩 8 个文件。"
+  },
+  {
+   "id": "R7",
+   "rule": "网络锚点固定为 bm-c（传家宝），不是主控。主控 bm-m-1 是笔记本：会换网络、对称 NAT、无端口映射、无全局 IPv6，永久只做客户机；禁止把主控设为锚点/中继/跨机收件中心。锚点细节与实测一律读 cph4/fleet/anchor/ANCHOR-BMC-20261127.md，不在本文件复述。",
+   "why": "CEO 2026-11-27 令「网络不是以你为锚点的，你是笔记本经常换网络，要以传家宝机器网络为锚点」+ 同日实测：bm-m-1 MappingVariesByDestIP=true/portmap=none/ipv6=none；bm-c 是锥形 NAT、稳定 IPv6、8790 在听。把锚点放在会漂移的机器上，等于让全队依赖一个随时消失的地址。"
+  }
+ ],
+ "stations": {
+  "control": "bm-m-1",
+  "delivery": "bm-a",
+  "visual": "bm-c",
+  "audio": "bm-b",
+  "brain": "bm-d"
+ },
+ "network_anchor": {
+  "node": "bm-c",
+  "machine": "传家宝",
+  "doc": "cph4/fleet/anchor/ANCHOR-BMC-20261127.md",
+  "order": "quant/bigmoney/fleet/orders/O-20261127-1650-bm-c.md",
+  "script": "Tools/fleet-anchor-bmc.ps1",
+  "decided_by": "CEO 2026-11-27（原话「你这台机器当网络锚点，其他都围绕你，但你的生产角色职责不变」）",
+  "state": "designated-listen-only",
+  "state_why": "中继端口 41641 已监听，但入站被光猫/路由器挡住；广告静态端点已实测会把对端从 direct 打回 relay(sfo)，故 static_endpoints 为空、不广告。",
+  "missing_physical": "三选一：①光猫 UDP 41641 → 192.168.1.4；②IPv6 入站放行（电信光猫默认拦）；③换公网可入站的线路。属 CEO/物理侧动作。",
+  "discipline": [
+   "判直连必须带流量看（bm-b 空闲显示 relay，ping 一下立刻 direct 11ms）",
+   "广告锚点端点前必须用「广告翻转法」验证入站：广告后对端掉 relay=入站不通，保持 direct=通",
+   "锚点只做网络角色，不改变 bm-c 的 gpu-production/内容线生产职责"
+  ]
+ },
+ "net_roles": {
+  "bm-c": "anchor (listen-only)",
+  "bm-a": "client (LAN 内可直连锚点)",
+  "bm-b": "client (按 CEO 令暂停)",
+  "bm-m-1": "client-only (roaming laptop; 对称 NAT/无映射/无 IPv6; 永不锚点)",
+  "bm-d": "n/a (未入网)"
+ },
+ "nodes": [
+  {
+   "id": "bm-a",
+   "machine": "公司生产力机",
+   "host": "DASHENG",
+   "os": "windows",
+   "root": "C:/Users/sjs20/Desktop/FluxGroup",
+   "tailnet_ip": "100.110.185.62",
+   "dns": "bm-a.tail316e0c.ts.net",
+   "lanes": ["hq-central-night-gpu"],
+   "state": "online",
+   "aliases": [],
+   "owns": ["硅基城市（FluxVerse/City3D/BigLife/BigHouse）", "游戏公司（Biggame/车机/提审/构建）"],
+   "must_not": ["自媒体/漫剧/短剧/MV（2026-11-20 已移交 bm-c）"]
+  },
+  {
+   "id": "bm-b",
+   "machine": "小钢炮",
+   "host": "BIGMONEY",
+   "os": "windows",
+   "root": "C:/Fluxgroup/FluxGroup",
+   "tailnet_ip": "100.82.175.0",
+   "dns": "bm-b.tail316e0c.ts.net",
+   "lanes": ["cpu-sound"],
+   "state": "paused_by_ceo",
+   "paused": {"by": "CEO", "ts": "2026-11-14", "why": "CEO 令「小钢炮和算力都没开机 不用管」——不报警、不派卡"},
+   "aliases": [],
+   "owns": ["配音/混音/词锚/声音车道"],
+   "must_not": []
+  },
+  {
+   "id": "bm-c",
+   "machine": "传家宝",
+   "host": "FLUXGROUP",
+   "os": "windows",
+   "root": "K:/Fluxgroup/FluxGroup",
+   "tailnet_ip": "100.123.74.104",
+   "dns": "bm-c.tail316e0c.ts.net",
+   "lanes": ["gpu-production", "content-ops"],
+   "state": "online",
+   "aliases": [],
+   "owns": ["KF/i2v/渲染/画质链", "自媒体与漫剧/短剧全線（2026-11-20 起）"],
+   "must_not": ["对外发布（签名权在 CEO）"]
+  },
+  {
+   "id": "bm-m-1",
+   "machine": "MacBook 主控",
+   "host": "junshengsundemacbook-pro.local",
+   "os": "darwin",
+   "root": "/Users/junsheng.sun/FluxGroup",
+   "tailnet_ip": "100.75.133.10",
+   "dns": "bm-m-1.tail316e0c.ts.net",
+   "lanes": ["master-control", "social-training"],
+   "state": "online",
+   "aliases": ["bm-m"],
+   "profile": "主控面（pulse/console）自 2026-11-20 20:1x 按 CEO 令停用，现存职能=调度判断/编号与判据正典/养号线与训练；恢复主控脉需 CEO 令。",
+   "owns": ["机队编号与判据正典", "NATS 状态面解读", "养号两号 + 训练线"],
+   "must_not": ["重度生产（i2v/渲染/批量转码）", "代替他机自跑其工位活"]
+  },
+  {
+   "id": "bm-d",
+   "machine": "算力大脑",
+   "host": "PENDING-TAILNET",
+   "os": "unverified",
+   "root": "C:/Fluxgroup/FluxGroup",
+   "tailnet_ip": null,
+   "dns": null,
+   "lanes": ["bmd-brain-backtest"],
+   "state": "not_installed",
+   "aliases": [],
+   "owns": ["本地模型中心（3×V100）", "A股/ETF 回测"],
+   "must_not": ["OS 未验证前不得排卡"]
+  }
+ ],
+ "dead_devices": [
+  {
+   "dns": "bm-m.tail316e0c.ts.net",
+   "tailnet_ip": "100.87.248.66",
+   "last_seen": "2026-10-29T07:36:19Z",
+   "why": "与本机同日同 OS 的旧登录残留节点，占用 bm-m 短名。本机已让位成 bm-m-1。",
+   "pending": "管理员在 tailnet 控制台删除该设备（本机无权删他人设备）；删除前禁止用短名 bm-m 寻址。"
+  }
+ ],
+ "judgments": {
+  "identity": {
+   "source": "本文件 + Tools/fleet-nodes.json",
+   "tool": "Tools/fleet/fleet_liveness.py（读本文件，不再各自硬编码）",
+   "note": "identity 冲突（文件说 A、hostname 说 B）时拒绝运行并按 IdentityConflict 处理，见 fleet_identity.py。"
+  },
+  "liveness": {
+   "channels": ["nats: cph4/fleet/state/node-state/<id>.json", "git: cph4/fleet/queue-receipts/_last_lane_<id>.json | autodrive-hb-<id>.json", "tailnet: <id> 的在线状态"],
+   "thresholds_h": {"alive": 1.0, "warm": 6.0, "stale": 24.0},
+   "rule": "只认机器自己写的时间戳，不认本地 checkout 的 mtime；paused_by_ceo 不算故障；查不到尾网状态记 unknown，不许记成 offline。"
+  },
+  "anchor": {
+   "anchor_node": "bm-c",
+   "anchor_doc": "cph4/fleet/anchor/ANCHOR-BMC-20261127.md",
+   "eligible_if_any": ["PortMapping 非空（UPnP/PMP/PCP）", "全局 IPv6 可用", "公网 IPv4 已把 UDP 41641 转到本机"],
+   "if_symmetric_nat_and_no_mapping": "判定 client-only：不开 --relay-server-port，不做端口映射/UPnP，回执写缺哪一项。",
+   "per_machine": {
+    "bm-c": "锚点（锥形 NAT；出口 114.220.80.252 CN 电信江苏；稳定 IPv6 240e:…:6393 但入站被拦；relay 41641 已听、不广告）",
+    "bm-m-1": "client-only（MappingVariesByDestIP=true / portmap=none / ipv6=none；笔记本换网漂移，永不锚点）",
+    "bm-a": "client（同网段可直连锚点）"
+   }
+  },
+  "transfer": {
+   "taildrop_rc0_means": "本端已把文件交给 tailscaled，不等于对端落盘。",
+   "peer_confirmed_requires": "对端回执（对端执行 tailscale file get 后写回一行）。",
+   "canonical_inbox": "<root>/fleet-inbox（本机收件箱，待补 .gitignore）",
+   "large_handoff": "大件走 bm-c 的 HTTP 收件口（OB-20261124-224243-258 已开）；Taildrop 只作小件与回执。主控不作为跨机收件中心。"
+  },
+  "fleetlink_8790": {
+   "windows": "该机跑 FleetLink，监听 8790 并绑 tailnet IP，任务必须 S4U。",
+   "macos": "无 PowerShell 面 → 判 Taildrop-only，不启动 8790。"
+  },
+  "tool_ownership": {
+   "windows_net_diag": "Tools/fleet-net-doctor.ps1（bm-a 维护）",
+   "windows_transfer": "Tools/fleet-drop.ps1（bm-a 维护）",
+   "macos_net_diag": "tailscale CLI + Tools/fleet/fleet_liveness.py",
+   "canon_changes": "仅 bm-m-1（主控）可改本文件"
+  }
+ },
+ "changelog": [
+  {"date": "2026-11-27", "by": "bm-m-1", "what": "立 v1：把设备名 bm-m→bm-m-1 定案为规范 id，bm-m 降为入站别名；把 AI 判定（身份/存活/锚点/互传/8790）写成单一来源；登记待删旧设备 100.87.248.66。"},
+  {"date": "2026-11-27", "by": "bm-m-1（按 CEO 令修正）", "what": "R7+network_anchor：网络锚点固定 bm-c（传家宝），主控 bm-m-1 明确为客户机、换网漂移、永不锚点；锚点细节指针到 bm-c 的 ANCHOR 文档，不在本文件复述；大件交接走 bm-c 收件口，主控不做收件中心。"}
+ ]
+}

@@ -54,6 +54,42 @@ STALE_H = 24.0
 STATION_NODE = {"control": "bm-m", "delivery": "bm-a", "visual": "bm-c",
                 "audio": "bm-b", "brain": "bm-d"}
 
+# 代号 → 尾网设备名（2026-11-27 实锚）：MacBook 的 Tailscale 设备名是 bm-m-1，
+# 编号与判据的唯一来源=cph4/fleet/FLEET-IDENTITY-v1.json（2026-11-27 主控立 v1）。
+# 这里不再各写一套：工位→节点、节点→别名/尾网名/IP 全部从正典读，读不到才用下面的兜底。
+# 为什么要有这层：代号与尾网设备名可能不等（bm-m-1 让位于被旧节点占用的 bm-m），
+# 任何 `node == tailnet["__self__"]` 式等值判断在改名当天就会把本机读成"尾网离线"。
+IDENTITY_DOC = os.path.join(ROOT, "cph4", "fleet", "FLEET-IDENTITY-v1.json")
+
+
+def _canon():
+    d = _read_json(IDENTITY_DOC) or {}
+    nodes = {}
+    for n in d.get("nodes") or []:
+        nid = str(n.get("id") or "").strip().lower()
+        if nid:
+            nodes[nid] = {
+                "aliases": [str(a).strip().lower() for a in (n.get("aliases") or [])],
+                "ip": str(n.get("tailnet_ip") or "").strip() or None,
+            }
+    return {"stations": d.get("stations") or {}, "nodes": nodes}
+
+
+def _names_for(node, root=ROOT):
+    """节点 id → 可能出现的所有名字（含别名，双向）。用于读心跳/回执与查尾网。"""
+    node = (node or "").strip().lower()
+    names = {node}
+    cn = _canon()["nodes"]
+    if node in cn:
+        names |= set(cn[node]["aliases"])
+    for nid, v in cn.items():
+        if node in v["aliases"]:
+            names.add(nid)
+            names |= set(v["aliases"])
+    if "bm-m" in names:
+        names.add("bm-m-1")          # 2026-11-27 改名过渡：两边都要能读到
+    return names
+
 
 def _now():
     return time.time()
@@ -92,35 +128,37 @@ def _read_json(p):
 
 
 def _nats_evidence(node):
-    """NATS 心跳落盘（fleet_bus 写的 node-state/<node>.json）。"""
-    d = _read_json(os.path.join(STATE, "node-state", node + ".json"))
-    if not d:
-        return None
-    ep = None
-    if d.get("ts_utc_ms"):
-        ep = float(d["ts_utc_ms"]) / 1000.0
-    else:
-        ep = _parse_ts(d.get("ts"))
-    if ep is None:
-        return None
-    return {"source": "nats", "epoch": ep, "seq": d.get("seq"),
-            "host": d.get("host"), "path": "state/node-state/%s.json" % node}
-
-
-def _git_receipt_evidence(node):
-    """git 回执通道（bm-c 的节拍脚本写、随提交上链）。取最新一条。"""
+    """NATS 心跳落盘（fleet_bus 写的 node-state/<node>.json）。别名两侧都查，取最新。"""
     best = None
-    for name in ("_last_lane_%s.json" % node, "autodrive-hb-%s.json" % node):
-        p = os.path.join(RECEIPTS, name)
+    for n in sorted(_names_for(node)):
+        p = os.path.join(STATE, "node-state", n + ".json")
         d = _read_json(p)
         if not d:
             continue
-        ep = _parse_ts(d.get("ts"))
+        ep = float(d["ts_utc_ms"]) / 1000.0 if d.get("ts_utc_ms") else _parse_ts(d.get("ts"))
         if ep is None:
             continue
         if best is None or ep > best["epoch"]:
-            best = {"source": "git-receipt", "epoch": ep, "state": d.get("state"),
-                    "note": d.get("note"), "path": "queue-receipts/" + name}
+            best = {"source": "nats", "epoch": ep, "seq": d.get("seq"),
+                    "host": d.get("host"), "path": "state/node-state/%s.json" % n}
+    return best
+
+
+def _git_receipt_evidence(node):
+    """git 回执通道（bm-c 的节拍脚本写、随提交上链）。别名两侧都查，取最新一条。"""
+    best = None
+    for n in sorted(_names_for(node)):
+        for name in ("_last_lane_%s.json" % n, "autodrive-hb-%s.json" % n):
+            p = os.path.join(RECEIPTS, name)
+            d = _read_json(p)
+            if not d:
+                continue
+            ep = _parse_ts(d.get("ts"))
+            if ep is None:
+                continue
+            if best is None or ep > best["epoch"]:
+                best = {"source": "git-receipt", "epoch": ep, "state": d.get("state"),
+                        "note": d.get("note"), "path": "queue-receipts/" + name}
     return best
 
 
@@ -147,7 +185,7 @@ def verdict_of(age_h):
 
 
 def _tailnet_map(timeout=3.0):
-    """尾网在线表（node -> True/False）。只用来区分「机器断电」和「机器在网但没 agent」。
+    """尾网在线表。键 = 小写设备名 或 "ip:<地址>"，另带 "__self__" = 本机设备名。
 
     注意：在线 ≠ 活着。bm-b 实测 online=True 却 249 小时零证据，说明网络层通了、
     应用层没人干活——这两种故障的处理办法完全不同（一个要通电，一个要起任务），
@@ -162,12 +200,63 @@ def _tailnet_map(timeout=3.0):
         d = json.loads(out or "{}")
     except Exception:
         return {}
-    m = {"__self__": ((d.get("Self") or {}).get("HostName") or "").strip().lower()}
+
+    def _ips(v):
+        return [str(i).split("/")[0] for i in (v.get("TailscaleIPs") or []) if i]
+
+    selfd = d.get("Self") or {}
+    m = {"__self__": (selfd.get("HostName") or "").strip().lower()}
+    for ip in _ips(selfd):
+        m["ip:" + ip] = True
     for v in (d.get("Peer") or {}).values():
         name = (v.get("HostName") or "").strip().lower()
+        online = bool(v.get("Online"))
         if name:
-            m[name] = bool(v.get("Online"))
+            m[name] = online
+        for ip in _ips(v):
+            m["ip:" + ip] = online
     return m
+
+
+def _roster_ip(node, root=ROOT):
+    """该节点的尾网 IP：先查正典，再查花名册（别名两侧都认）。解析不到返回 None。"""
+    names = _names_for(node, root)
+    cn = _canon()["nodes"]
+    for n in names:
+        ip = (cn.get(n) or {}).get("ip")
+        if ip and "PENDING" not in ip.upper():
+            return ip
+    d = _read_json(os.path.join(root, "Tools", "fleet-nodes.json")) or {}
+    for r in d.get("nodes") or []:
+        rid = str(r.get("id") or "").strip().lower()
+        rnames = {rid} | {str(a).strip().lower() for a in (r.get("aliases") or [])}
+        if rnames & names:
+            ip = str(r.get("tailnet_ip") or "").strip()
+            if ip and "PENDING" not in ip.upper():
+                return ip
+    return None
+
+
+def _tailnet_online(node, m, root=ROOT):
+    """节点 → 尾网在线（True/False/None=尾网表里查不到，不等于离线）。
+
+    解析顺序：本机自保（按设备名匹配）→ 设备名/别名 → 正典或花名册 IP。
+    为什么不写成 `node == m["__self__"]`：代号是逻辑 id，设备名可能因重名被尾网
+    去重成 <id>-1；两者不相等时本机会被读成「尾网离线」（2026-11-27 实锚：
+    设备名 bm-m-1、代号 bm-m，主控在判活屏上显示离线，而心跳是好的）。
+    """
+    if not m:
+        return None
+    names = _names_for(node, root)
+    if m.get("__self__") in names:
+        return True                      # 本机不在 Peer 表里，别把自己读成离线
+    for n in sorted(names):
+        if n in m:
+            return m[n]
+    ip = _roster_ip(node, root)
+    if ip and ("ip:" + ip) in m:
+        return m["ip:" + ip]
+    return None
 
 
 def _paused_map(root=ROOT):
@@ -195,10 +284,12 @@ def snapshot(root=ROOT):
     rows = []
     tailnet = _tailnet_map()
     paused = _paused_map(root)
+    canon_stations = _canon()["stations"]
     for key, m in machines.items():
         station = m.get("station") or key
         st = by_station.get(station) or {}
-        node = STATION_NODE.get(station) or m.get("node") or key
+        node = (canon_stations.get(station) or STATION_NODE.get(station)
+                or m.get("node") or key)
         ev = []
         if node == "bm-m":
             ev.append({"source": "self", "epoch": _now(), "path": "本机"})
@@ -214,9 +305,7 @@ def snapshot(root=ROOT):
         age_h = round((_now() - best["epoch"]) / 3600.0, 2) if best else None
         declared = m.get("os") == "unverified" and "NOT-INSTALLED" or (st.get("status") or "unknown")
         verdict = "NOT-INSTALLED" if (st.get("status") == "not_installed") else verdict_of(age_h)
-        net = tailnet.get(node)
-        if node == tailnet.get("__self__"):
-            net = True          # 本机不在 Peer 表里，别把自己读成离线
+        net = _tailnet_online(node, tailnet, root)
         if net and verdict in ("STALE", "DARK", "NO-EVIDENCE"):
             # 网通了但没人干活：不是断电，是任务没起/心跳没开，处置办法完全不同。
             verdict = "ONLINE-NO-AGENT"
@@ -302,6 +391,22 @@ def self_test():
     b = _parse_ts("2026-11-27T15:33:09")
     if a is None or b is None or abs(a - b) > 2:
         print("FAIL 时区口径不一致：%s vs %s" % (a, b)); ok = False
+    # 尾网代号解析（2026-11-27 实锚）：设备名因重名被去重成 <id>-1 时，本机不许读成离线；
+    # 查不到必须是 None（未知），不能伪装成 False（离线）——两者处置办法不同。
+    if _tailnet_online("bm-m", {"__self__": "bm-m-1"}) is not True:
+        print("FAIL 设备名与代号不一致时本机应判在线"); ok = False
+    if _tailnet_online("bm-a", {"__self__": "bm-m-1", "bm-a": False}) is not False:
+        print("FAIL 对端离线应读成 False"); ok = False
+    if _tailnet_online("bm-z", {"__self__": "bm-m-1"}) is not None:
+        print("FAIL 查不到应为 None"); ok = False
+    # IP 兜底：名字与别名都查不到时按花名册 tailnet_ip 认（临时目录，不绑真实文件）
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "Tools"))
+        with open(os.path.join(td, "Tools", "fleet-nodes.json"), "w", encoding="utf-8") as f:
+            json.dump({"nodes": [{"id": "bm-q", "tailnet_ip": "100.64.0.9"}]}, f)
+        if _tailnet_online("bm-q", {"__self__": "s", "ip:100.64.0.9": True}, td) is not True:
+            print("FAIL 花名册 IP 兜底失效"); ok = False
     print("SELFTEST %s" % ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
 

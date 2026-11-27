@@ -140,7 +140,7 @@
    ]
   },
   {
-   "id": "bm-m",
+   "id": "bm-m-1",
    "lane": "master-control",
    "host": "junshengsundemacbook-pro.local",
    "tailnet_ip": "100.75.133.10",
@@ -154,7 +154,11 @@
    ],
    "wake_tasks": [],
    "status_files": [],
-   "note": "2026-10-27 CEO: M1 Pro 16 (32G/512G) joins as group master control (UPDATED 2026-11-04 bm-b: master since 2026-10-29 per MASTER-NODE.json; host/tailnet/root filled with measured facts; enabled stays false BY DESIGN - FleetLink poke is Windows-only, the Mac joins via NATS + its own git pulse; notify bm-m via WORK-RULES/orders.md/queue, not poke) ORIGINAL: M1 Pro 16 joins + iOS build. macOS cannot run the Windows PowerShell/S4U/scheduled-task plane; master duties = git + NATS + Python (order bus, dispatcher, dashboards, iOS builds). FleetLink listener is Windows-only; the Mac joins the state plane via NATS. Enable after onboarding; keep awake (launchd/caffeinate) because a sleeping master cannot dispatch. Compute brain = bm-d (V100x3, assembly in progress)."
+   "note": "2026-10-27 CEO: M1 Pro 16 (32G/512G) joins as group master control (UPDATED 2026-11-04 bm-b: master since 2026-10-29 per MASTER-NODE.json; host/tailnet/root filled with measured facts; enabled stays false BY DESIGN - FleetLink poke is Windows-only, the Mac joins via NATS + its own git pulse; notify bm-m via WORK-RULES/orders.md/queue, not poke) ORIGINAL: M1 Pro 16 joins + iOS build. macOS cannot run the Windows PowerShell/S4U/scheduled-task plane; master duties = git + NATS + Python (order bus, dispatcher, dashboards, iOS builds). FleetLink listener is Windows-only; the Mac joins the state plane via NATS. Enable after onboarding; keep awake (launchd/caffeinate) because a sleeping master cannot dispatch. Compute brain = bm-d (V100x3, assembly in progress). | 2026-11-27 主控定案(FLEET-IDENTITY-v1 R1/R2): 设备名 bm-m 被 2026-10-29 遗留的离线节点(100.87.248.66)占用，本机让位成 bm-m-1 并同步改代号；旧名 bm-m 仅作入站别名，写出端统一写 bm-m-1。",
+   "aliases": [
+    "bm-m"
+   ],
+   "identity_doc": "cph4/fleet/FLEET-IDENTITY-v1.json"
   },
   {
    "id": "bm-d",
