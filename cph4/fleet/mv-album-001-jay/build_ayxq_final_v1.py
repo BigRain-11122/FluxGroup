@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""mv0001 成片构建 v1（全自动）：768P 分段重出 + 插值 + 统一调色 + 响度 + ASS 字幕"""
+"""mv0001 final build v1 (automated): 768p segment rebuild + interpolation + unified grade + loudness + ASS subtitles."""
 import json, os, re, io, subprocess, sys, time
 
 JAY  = r"K:\Fluxgroup\FluxGroup\cph4\fleet\mv-album-001-jay"
@@ -54,7 +54,7 @@ def build_seg(it, i):
     avail = cdur(path)
     factor = max(1.0, need / avail)
     use_mi = (factor >= 1.45) and (sid not in NO_MI)
-    # 特例：S001 静态厅堂 2.6x 慢放（消定格）；S046 剪掉素材尾暗场再补帧（消黑段）
+    # Special cases: S001 static hall slowed 2.6x (kills freeze); S046 trims the dark tail then slow-fills (kills black gap).
     if sid == "S001":
         cap = 2.60
         chain = [f"setpts={cap:.4f}*PTS"] + vf
@@ -86,21 +86,21 @@ def build_seg(it, i):
         print("SEGFAIL", sid, r.stderr[-200:])
     return seg
 
-# ---------- 1) 分段 ----------
+# ---------- 1) segments ----------
 segs=[]; t0=time.time()
 for i,it in enumerate(plan,1):
     segs.append(build_seg(it,i))
     if i % 10 == 0: print(f"[seg {i}/{len(plan)}] {time.time()-t0:.0f}s", flush=True)
 print("segments done", flush=True)
 
-# ---------- 2) 拼接 ----------
+# ---------- 2) concat ----------
 lst = os.path.join(SEG,"concat.txt")
 io.open(lst,"w",encoding="utf-8").write("".join("file '%s'\n" % s.replace("\\","/") for s in segs))
 r = subprocess.run(["ffmpeg","-y","-v","error","-f","concat","-safe","0","-i",lst,"-c","copy",RAW],
                    capture_output=True,text=True,timeout=900)
 print("concat:", os.path.exists(RAW), flush=True)
 
-# ---------- 3) 字幕 ASS ----------
+# ---------- 3) subtitles (ASS) ----------
 def ts(x):
     h=int(x//3600); m=int(x%3600//60); s=x%60
     return f"{h:d}:{m:02d}:{s:05.2f}"
@@ -140,7 +140,7 @@ events = [
 io.open(ASS,"w",encoding="utf-8").write(head + "\n".join(events))
 print("ass:", os.path.exists(ASS), len(ev), "lyric events", flush=True)
 
-# ---------- 4) 响度两遍 ----------
+# ---------- 4) loudness (two-pass) ----------
 r = subprocess.run(["ffmpeg","-hide_banner","-i",SONG,"-af","loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json",
                     "-f","null","-"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600)
 m = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", r.stderr, re.S)
@@ -150,7 +150,7 @@ af = (f"loudnorm=I=-14:TP=-1.0:LRA=11:measured_I={ln.get('input_i',-14)}:"
       f"measured_TP={ln.get('input_tp',0)}:measured_LRA={ln.get('input_lra',11)}:"
       f"measured_thresh={ln.get('input_thresh',-24)}:offset={ln.get('target_offset',0)}:linear=true,alimiter=limit=0.620:level=false")
 
-# ---------- 5) 终编（字幕+调色已内嵌分段；此处补尾帧+音频） ----------
+# ---------- 5) final encode (subtitles + audio; grade already baked into segments) ----------
 cmd = ["ffmpeg","-y","-v","error","-i",RAW,"-i",SONG,
        "-vf", "tpad=stop_mode=clone:stop_duration=0.9,ass=ayxq-subs.ass",
        "-af",af,"-map","0:v","-map","1:a",
