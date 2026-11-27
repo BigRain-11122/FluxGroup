@@ -675,6 +675,16 @@ def run_one(a):
     else:
         task, _cands = pick(rows, st, rejects)
     if not task:
+        # 轮询已压到 60 秒：队列空时不要每分钟刷一遍日志与看板。
+        # 用自己写的状态件当"刚判过空"的证据，10 分钟内只记一次。
+        try:
+            import lane_state as _ls
+            _d = _ls.get("train") or {}
+            if (_d.get("phase") == "idle-no-task"
+                    and time.time() - float(_d.get("ts") or 0) < 600):
+                return 0
+        except Exception:
+            pass
         board(st, rows, rejects)
         why_not = []
         for seg in sorted(rows, key=lambda x: -rows[x])[:4]:
