@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-23T22:33:35",
+ "ts": "2026-11-27T11:31:32",
  "pass": {
   "ME01": true,
   "ME02": true,
-  "ME04": false,
+  "ME04": true,
   "ME05": true,
   "ME03": true
  },
@@ -12,70 +12,71 @@
    "id": "ME01",
    "name": "swap 不在涨",
    "ok": true,
-   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 4301MB）",
+   "detail": "3s 内 swap +0.0MB / pageouts +0（基线 2775MB）",
    "sev": "P1"
   },
   {
    "id": "ME02",
    "name": "常驻模型预算",
    "ok": true,
-   "detail": "ollama 常驻 0 个 / 0.0GB（预算 ≤1 个、≤6GB）",
+   "detail": "ollama 常驻 1 个 / 4.1GB（预算 ≤1 个、≤6GB）：qwen3.5:4b-mlx",
    "sev": "P1"
   },
   {
    "id": "ME04",
    "name": "单一 ollama 服务端",
-   "ok": false,
-   "detail": "11434 监听进程 2 个：53612,53684",
+   "ok": true,
+   "detail": "11434 监听进程 1 个：4291",
    "sev": "P1"
   },
   {
    "id": "ME05",
    "name": "内存余量",
    "ok": true,
-   "detail": "free 3.1G + inactive 8.7G = 11.8G（线 ≥4G）",
+   "detail": "free 2.5G + inactive 6.1G = 8.6G（线 ≥4G）",
    "sev": "P2"
   },
   {
    "id": "ME03",
    "name": "真实生成不增量",
    "ok": true,
-   "detail": "上次 2026-11-23T22:33:15（0h前）生成 1 条 swap +0.0MB pageouts +0",
+   "detail": "上次 2026-11-23T22:33:15（85h前）生成 1 条 swap +0.0MB pageouts +0",
    "sev": "P1"
   }
  ],
  "sample": {
   "now": {
-   "swap_used_mb": 4301.12,
-   "swap_total_mb": 5120.0,
-   "pageouts": 264671,
-   "pageins": 910979343,
-   "free_gb": 3.12,
-   "inactive_gb": 8.68,
-   "wired_gb": 3.16,
-   "headroom_gb": 11.8,
-   "ts": "2026-11-23T22:33:35"
+   "swap_used_mb": 2775.31,
+   "swap_total_mb": 4096.0,
+   "pageouts": 33234,
+   "pageins": 121965071,
+   "free_gb": 2.49,
+   "inactive_gb": 6.11,
+   "wired_gb": 9.04,
+   "headroom_gb": 8.61,
+   "ts": "2026-11-27T11:31:32"
   },
   "before": {
-   "swap_used_mb": 4301.12,
-   "swap_total_mb": 5120.0,
-   "pageouts": 264671,
-   "pageins": 910979016,
-   "free_gb": 2.24,
-   "inactive_gb": 8.09,
-   "wired_gb": 6.19,
-   "headroom_gb": 10.33,
-   "ts": "2026-11-23T22:33:32"
+   "swap_used_mb": 2775.31,
+   "swap_total_mb": 4096.0,
+   "pageouts": 33234,
+   "pageins": 121964883,
+   "free_gb": 0.3,
+   "inactive_gb": 5.94,
+   "wired_gb": 11.79,
+   "headroom_gb": 6.24,
+   "ts": "2026-11-27T11:31:29"
   }
  },
  "models": {
-  "n": 0,
-  "gb": 0.0,
-  "names": []
+  "n": 1,
+  "gb": 4.12,
+  "names": [
+   "qwen3.5:4b-mlx"
+  ]
  },
  "servers": [
-  "53612",
-  "53684"
+  "4291"
  ],
  "last_gen": {
   "ts": "2026-11-23T22:33:15",

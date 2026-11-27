@@ -2,9 +2,8 @@
  "version": "v2.3-20261121",
  "agent": "social-keeper",
  "counts": {
-  "OK": 19,
-  "NOT_PASS": 8,
-  "STALE": 1
+  "OK": 18,
+  "NOT_PASS": 10
  },
  "tiers": {
   "P0": {
@@ -12,17 +11,16 @@
    "NOT_PASS": 1
   },
   "P1": {
-   "OK": 10,
-   "NOT_PASS": 3,
-   "STALE": 1
+   "NOT_PASS": 5,
+   "OK": 9
   },
   "P2": {
-   "OK": 5,
-   "NOT_PASS": 4
+   "NOT_PASS": 4,
+   "OK": 5
   }
  },
  "p0_bad": [
-  "M01"
+  "G03"
  ],
  "duties": [
   {
@@ -64,8 +62,8 @@
    "symptom": "台账里出现凌晨 1–6 点的动作；通常是 daemon 没读到作息表或时区/时段判断用了 UTC",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "OK",
-   "why": "pass.AC04=True（需 True）"
+   "state": "NOT_PASS",
+   "why": "pass.AC04=False（需 True）"
   },
   {
    "id": "G04",
@@ -92,8 +90,8 @@
    "symptom": "24h 内没有 collect/learn 记录：socialloop 被停、profile 被占、或一直判「无缺料」但其实没在收集",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": "pass.CR06=True（需 True）"
+   "state": "NOT_PASS",
+   "why": "pass.CR06=False（需 True）"
   },
   {
    "id": "C02",
@@ -148,8 +146,8 @@
    "symptom": "TR02 红=某轮 verdict 不合法，或 KEEP/REJECT 缺 val_min，或 BLOCKED/TRAIN-FAIL 缺 why；TR04 红=ACTIVE 指向不存在的 run 或 mode 非法",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "NOT_PASS",
-   "why": "pass.TR04=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "T02",
@@ -174,10 +172,10 @@
    "evidence": "cph4/fleet/social/corpus/human/selfgen-*.jsonl",
    "cadence_h": 6.0,
    "symptom": "12h 内没有新自举样本：闸过严（全被拒）/租约拿不到/生成报错；通常伴随训练集规模停滞",
-   "age_h": 31.7,
+   "age_h": 12.1,
    "limit_h": 24.0,
-   "state": "STALE",
-   "why": "证据 31.7h 前（上限 24.0h）"
+   "state": "NOT_PASS",
+   "why": "12h 内只有 0 条（需 ≥1）"
   },
   {
    "id": "B01",
@@ -190,8 +188,8 @@
    "symptom": "SD01 红=24h 没有真正发出的评论；SD07 红=发出的评论缺双闸证据（合格与否事后说不清）；只有赞和弹幕不算",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "NOT_PASS",
-   "why": "pass.SD07=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "B02",
@@ -204,8 +202,8 @@
    "symptom": "SD06 红=某号当天看/赞/弹幕有一类为 0；AC01 红=进程在但超过 2h（活动时段）没动作，多为 profile 锁、登录态失效或时段判断错",
    "age_h": 0.0,
    "limit_h": 8.0,
-   "state": "OK",
-   "why": ""
+   "state": "NOT_PASS",
+   "why": "pass.SD06=False（需 True）"
   },
   {
    "id": "B03",
@@ -230,10 +228,10 @@
    "evidence": ".codely-cli/state/HEALTH.json",
    "cadence_h": 0.2,
    "symptom": "AC01 红=某号进程不在或长时间没动作；健康表 green 但账号不动，说明判据只看心跳",
-   "age_h": 0.0,
+   "age_h": 0.1,
    "limit_h": 1.0,
-   "state": "OK",
-   "why": "level='green'（不许等于 'red'）"
+   "state": "NOT_PASS",
+   "why": "level='red'（不许等于 'red'）"
   },
   {
    "id": "S02",
@@ -275,7 +273,7 @@
    "age_h": 0.0,
    "limit_h": 336.0,
    "state": "NOT_PASS",
-   "why": "pass.TR01=False（需 True）；pass.TR03=False（需 True）；pass.TR05=False（需 True）"
+   "why": "pass.TR01=False（需 True）；pass.TR05=False（需 True）"
   },
   {
    "id": "S05",
@@ -289,7 +287,7 @@
    "age_h": 0.0,
    "limit_h": 24.0,
    "state": "NOT_PASS",
-   "why": "pass.SC03=False（需 True）；pass.SC04=False（需 True）"
+   "why": "pass.SC02=False（需 True）；pass.SC03=False（需 True）；pass.SC04=False（需 True）"
   },
   {
    "id": "S06",
@@ -316,8 +314,8 @@
    "symptom": "ME01 红=两次采样 swap/pageouts 在涨；ME03 红=真实生成时 pageouts 增长（硬扛 swap）；ME03 SKIP=一周没跑过 --gen，等于没测",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "NOT_PASS",
-   "why": "pass.EV05=False（需 True）"
+   "state": "OK",
+   "why": ""
   },
   {
    "id": "M02",
@@ -344,8 +342,8 @@
    "symptom": "11434 监听进程 >1：app 引擎与受管线各存一份模型元数据，IPv4/IPv6 走不同服务端",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "NOT_PASS",
-   "why": "pass.ME04=False（需 True）"
+   "state": "OK",
+   "why": "pass.ME04=True（需 True）"
   },
   {
    "id": "E01",
@@ -358,8 +356,8 @@
    "symptom": "EV01 红=有轮次 whose why 为空/无数字，或真失败在 LESSONS 里找不到归因；EV01 SKIP=判据生效后还没跑过训练（量不到≠通过）",
    "age_h": 0.0,
    "limit_h": 24.0,
-   "state": "OK",
-   "why": "pass.EV01=True（需 True）"
+   "state": "NOT_PASS",
+   "why": "pass.EV01=False（需 True）"
   },
   {
    "id": "E02",
