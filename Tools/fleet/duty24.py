@@ -149,6 +149,16 @@ def check(heal=True):
         rows.append({"duty": "机队判活", "state": "ERROR", "age_s": None,
                      "healed": False, "note": str(e)[:60]})
         red += 1
+    # 面板保新鲜：控制台只读 state/fleet-status.json，没有任何进程在刷新它
+    # （2026-11-27 实测该件 89 小时没更新，面板一直在展示四天前的机队）。
+    rc, out = _sh([sys.executable, os.path.join(HERE, "fleet_status.py")], timeout=180)
+    tail = [x for x in (out or "").splitlines() if x.startswith("[fleet-status")]
+    rows.append({"duty": "面板刷新", "state": "OK" if tail else "FAIL", "age_s": None,
+                 "healed": False,
+                 "note": (tail[-1][:78] if tail else (out or "无输出").strip().splitlines()[-1][:78]
+                          if (out or "").strip() else "无输出")})
+    if not tail:
+        red += 1
     return rows, red
 
 

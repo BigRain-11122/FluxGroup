@@ -168,6 +168,17 @@ def main(argv):
         except Exception:
             return 999.0
 
+    # 「机器活不活」与「有没有产出」是两个问题，之前混在同一列 STALE 里：
+    # 一台 60 秒前刚发心跳的机器，只要最近没跑生产卡就被标成 STALE-WORKER，
+    # 看屏的人会以为机器死了。这里把三通道判活单独挂一列。
+    live = {}
+    try:
+        sys.path.insert(0, HERE)
+        import fleet_liveness as flv
+        live = {r["node"]: r for r in flv.snapshot(ROOT)["nodes"]}
+    except Exception:
+        pass
+
     workers = {}
     for n in ("bm-a", "bm-b", "bm-c", "bm-m"):
         h = _last_output_h(n)
@@ -175,8 +186,11 @@ def main(argv):
         # 取两者中更近的一个：git 提交与回执都是"它干完过活"的证据。
         if rh is not None and (h is None or rh < h):
             h = rh
+        _lv = live.get(n) or {}
         workers[n] = {"last_output_h": h,
-                      "verdict": "OK" if h <= 6 else "STALE-WORKER"}
+                      "verdict": "OK" if h <= 6 else "STALE-WORKER",
+                      "live": _lv.get("verdict"), "live_source": _lv.get("best_source"),
+                      "live_age_h": _lv.get("age_h")}
 
     # 逐卡判活
     detail, dead, fake = [], [], []
@@ -263,9 +277,15 @@ def main(argv):
                  out["fake_busy"], out["open_total"]))
         for n, v in sorted(slots_view.items()):
             w = workers.get(n) or {}
-            print("  %-5s %d/%d 槽｜最后产出 %.1fh 前 %s"
-                  % (n, v["running"], v["slots"], w.get("last_output_h", -1),
-                     "" if w.get("verdict") == "OK" else "← STALE"))
+            _live = w.get("live")
+            _oh = w.get("last_output_h")
+            print("  %-5s %d/%d 槽｜%s%s｜最后产出 %s 前 %s"
+                  % (n, v["running"], v["slots"],
+                     _live or "无判活",
+                     ("(%s, %.1fh)" % (w.get("live_source") or "无", w.get("live_age_h") or 0))
+                     if _live else "",
+                     ("%.1fh" % _oh) if isinstance(_oh, (int, float)) else "无记录",
+                     "" if not _oh or w.get("verdict") == "OK" else "← 无产出"))
         for r, why in dead[:6]:
             print("  死卡 %s ← %s" % (r["id"], why))
         for r, why in fake[:4]:
