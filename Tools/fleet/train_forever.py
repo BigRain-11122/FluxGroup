@@ -225,6 +225,36 @@ def dataset_fp(ds):
         return ""
 
 
+def weight_sha(ckpt_dir):
+    """适配器权重的 sha256 前 12 位。拿不到返回 ""。"""
+    try:
+        import hashlib
+        p = os.path.join(ckpt_dir, "adapters.safetensors")
+        h = hashlib.sha256()
+        with open(p, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()[:12]
+    except Exception:
+        return ""
+
+
+def seen_weight_sha(exclude_dir=None):
+    """已归档过的全部权重指纹集合（用来发现"这次训出来的是同一份权重"）。"""
+    out = {}
+    try:
+        for name in os.listdir(ARCHIVE):
+            d = os.path.join(ARCHIVE, name)
+            if not os.path.isdir(d):
+                continue
+            h = weight_sha(d)
+            if h:
+                out.setdefault(h, []).append(name)
+    except Exception:
+        pass
+    return out
+
+
 def built_map(path=None):
     """每段最近一次"烘焙后可用行数"（台账里的 built）。
 
@@ -1065,6 +1095,15 @@ def run_one(a):
     if verdict == "INSUFFICIENT":
         print("[loop] 段 %s 样本不足（n=%d），既不归档也不记被否——先加大评测条数" % (seg, eval_n))
     elif keep and ck:
+        # 权重去重（2026-11-27）：变体虽然不同，最终选中的 checkpoint 可能是同一步，
+        # 于是落出**完全相同的权重**（实锚：今天 9 个归档里有 2 对 SHA 相同）。
+        # 同款权重再存一份等于把库存和"产量"都注水，所以不入档、判词降为 DUPLICATE。
+        _sha = weight_sha(ck)
+        _dup = seen_weight_sha().get(_sha)
+        if _sha and _dup:
+            print("[loop] 段 %s 训出的权重与已有件完全相同（%s），不重复入档" % (seg, _sha))
+            _lane("duplicate-weight", seg=seg, sha=_sha, same=_dup[:2])
+            return 0
         dst = os.path.join(ARCHIVE, "%s-%s-ckpt%s" % (time.strftime("%Y%m%d-%H%M%S"), seg, step))
         os.makedirs(dst, exist_ok=True)
         for fn in ("adapters.safetensors", "adapter_config.json"):
