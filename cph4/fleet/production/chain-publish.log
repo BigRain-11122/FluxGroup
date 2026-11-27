@@ -3328,3 +3328,8 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the push=pushed lane=lane-rc-0(0 done)
 2026-11-27T08:21:31 RECEIPT IDLE gpu=0 vram=2769MB busy=-
+2026-11-27T08:22:05 TICK commit=committed:5 converge=fetch-failed:Connection reset by 20.205.243.160 port 443
+fatal: Could not read from remote repository.
+
+Please make sure you have the push=pushed lane=lane-cooldown(3m)
+2026-11-27T08:26:31 RECEIPT IDLE gpu=0 vram=2798MB busy=-
