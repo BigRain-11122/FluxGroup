@@ -78,6 +78,9 @@ def my_posts(days=3, now=None):
     return out
 
 
+_RATE = {"hit": False}   # 本拍是否撞上 412（IP 级限流）。撞了就不能继续挨个视频硬试。
+
+
 def _page(aid, cursor=""):
     """一页 root 评论，走 wbi/main 的 mode=2（**真按时间**）。
 
@@ -98,7 +101,13 @@ def _page(aid, cursor=""):
     if not isinstance(r, dict) or not r.get("ok"):
         return None
     res = r.get("res")
-    return res if isinstance(res, dict) else None
+    if not isinstance(res, dict):
+        return None
+    # 412 = IP 级限流（实测连续读约 60 个视频后触发，见 topics/archive-misc.md）。
+    # 撞到就整拍停手：继续挨个视频试只会把退避时间拖得更长，还会把 unknown 记成一堆噪声。
+    if res.get("http") == 412:
+        _RATE["hit"] = True
+    return res
 
 
 def scan(aid, rpid, pages=3, fetch_page=None):
@@ -245,15 +254,20 @@ def harvest(days=3, now=None, collect=None, fetch_page=None):
         by_aid[p.get("aid")].append(p)
     with open(OUT, "a", encoding="utf-8") as f:
       for _aid, group in by_aid.items():
-        obs_map = scan_many(_aid, [p.get("rpid") for p in group], fetch_page=fetch_page)
-        # 只有整组都 unknown 时，才退回 DOM 做第二意见（DOM 只给可见性，不给点赞数）
-        if all(o.get("visible") is None for o in obs_map.values()) and collect is not False:
-            d = _dom_visible((group[0].get("video") or ""),
-                             [q.get("text") for q in group], collect=collect)
-            if isinstance(d, dict) and d.get("visible") is not None:
-                for o in obs_map.values():
-                    o.update({"visible": d["visible"],
-                              "note": (d.get("note") or "") + "（DOM 兜底）"})
+        if _RATE["hit"]:
+            # 撞上 412：本拍剩余视频一律记 unknown（不是不可见），并且不再请求。
+            obs_map = {str(p.get("rpid")): {"visible": None, "likes": None, "rcount": None,
+                                            "note": "本拍已撞 412 限流 → unknown"}
+                       for p in group}
+        else:
+            obs_map = scan_many(_aid, [p.get("rpid") for p in group], fetch_page=fetch_page)
+            # 同一 IP 连续读会被限流：每处理完一个视频停 7 秒，宁慢不撞墙。
+            time.sleep(7)
+        # 2026-11-27 摘掉 DOM 兜底：它走 social_collect → 自己 _launch 一个浏览器，
+        # 直接和养号线抢同一个 profile，底层抛 SystemExit（"profile 起不来"），
+        # 把"取不到数"升级成整条 measure 线 rc=1 FAIL。而 wbi 读法本来就能给出
+        # 可见性 + 点赞 + 回复数，DOM 只补"可见性"这一项，边际价值几乎为零。
+        # 因此整组 unknown 时如实记 unknown，绝不再去抢 profile。
         for p in group:
             obs = obs_map.get(str(p.get("rpid"))) or {
                 "visible": None, "likes": None, "rcount": None, "note": "未扫到 → unknown"}

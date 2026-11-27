@@ -23,6 +23,7 @@ import os
 import plistlib
 import subprocess
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -87,9 +88,19 @@ def install():
     for label, p, kind in made:
         launchctl("bootout", "gui/%s/%s" % (U, label))
         launchctl("enable", "gui/%s/%s" % (U, label))
+        # 2026-11-27 实锚：bootout 之后立刻 bootstrap 的**底座服务**（model.bili/model.gzh）
+        # 会稳定报 `Bootstrap failed: 5: Input/output error`——上一个实例的进程组还没收尾。
+        # 这不是配置错，隔几秒重试必然成功；不重试就会在没人看着的时候把两个模型服务留空，
+        # 于是整夜所有要用模型的线都判"算力不可用"。所以这里带退避重试，并对底座单独多等。
         r = launchctl("bootstrap", "gui/%s" % U, p)
+        tries = 0
+        while r.returncode != 0 and tries < 4:
+            tries += 1
+            time.sleep(3 if kind.startswith("lane:") else 5)
+            r = launchctl("bootstrap", "gui/%s" % U, p)
         print("%-8s %-34s %s" % ("OK" if r.returncode == 0 else "FAIL", label,
-                                 (r.stderr or "").strip()[:80]))
+                                 ("(重试 %d 次)" % tries) if tries and r.returncode == 0
+                                 else (r.stderr or "").strip()[:80]))
     print("installed %d jobs" % len(made))
     return 0
 

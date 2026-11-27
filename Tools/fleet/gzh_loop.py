@@ -43,6 +43,10 @@ STRUCT = os.path.join(GZH, "STRUCT.json")
 TRAINSET = os.path.join(GZH, "TRAINSET.jsonl")
 LEDGER = os.path.join(GZH, "LOOP-LEDGER.jsonl")
 SCREEN = os.path.join(GZH, "LOOP.md")
+# 出稿落盘位置。2026-11-27 修：此前 `_draft_today()` 引用了不存在的 DRAFTS，
+# 而它所在的 write 分支在风格池不足时永远走不到，所以这个 NameError 一直没暴露——
+# 表现就是「连续 4 拍 BLOCKED 说缺料，当天一篇稿都没出」。
+DRAFTS = os.path.join(GZH, "drafts")
 
 POOL_MIN = 50          # 风格池少于这个数：静态源补不回来，只能要人给种子
 HARVEST_PER_TICK = 8   # 一拍最多 8 篇（单篇 3 秒 + 间隔，控制在两分钟内）
@@ -260,6 +264,7 @@ def sense():
         "struct_n": (struct or {}).get("n"),
         "eligible": sum(1 for a in arts
                         if len((a.get("title") or "")) >= 6 and len((a.get("lead") or "")) >= 40),
+        "sites": _site_count(),
         "ts": _now().isoformat(timespec="seconds"),
     }
 
@@ -289,6 +294,14 @@ def decide(s):
             return {"phase": "expand",
                     "why": "风格池 %d 条 < %d：去作者页扩池（不等种子）"
                            % (s["style_pool"], POOL_MIN)}
+        # 2026-11-27 解卡：风格池不足只挡**训练**，不挡**出稿**。
+        # 实锚：本线连 4 拍 BLOCKED 写「必须人工给种子」，而当天一篇初稿都没出——
+        # 把训练的前置条件当成产品的前置条件，整条线就白停了一天。
+        # 出稿的质量判据（结构/严谨/权威三闸 + 状态只到 NEEDS-HUMAN）一条都不降。
+        if not _draft_today() and _write_fail_streak() < 2:
+            return {"phase": "write",
+                    "why": "风格池 %d/%d 只影响训练，不影响出稿：今天还没有初稿"
+                           % (s["style_pool"], POOL_MIN)}
         return {"phase": "supply",
                 "why": "风格池 %d 条 < %d，且连续 %d 拍扩不出新链接"
                        % (s["style_pool"], POOL_MIN, _expand_dry())}
@@ -299,7 +312,14 @@ def decide(s):
     if s["articles"] >= TRAIN_AFTER and eligible >= 20 and s["train_rows"] < 2 * eligible:
         return {"phase": "trainset", "why": "已采 %d 篇，训练集只有 %d 行"
                                             % (s["articles"], s["train_rows"])}
-    return {"phase": "watch", "why": "料够、结构新、训练集齐；等出稿或等新种子"}
+    # 覆盖太窄也算料不足：源册 44+ 个 ok 源而站点数不到 10 = 没按册子采
+    if (s.get("sites") or 0) < 10:
+        return {"phase": "collect-generic",
+                "why": "只覆盖 %d 个站点：按源册批量扩面（T1/T2/T3）" % (s.get("sites") or 0)}
+    if not _draft_today():
+        return {"phase": "write",
+                "why": "今天还没有初稿：算力已归公众号，按本周主题出稿"}
+    return {"phase": "watch", "why": "料够、结构新、训练集齐、稿已出；等下一拍"}
 
 
 # ---------------- ACT ----------------
@@ -345,6 +365,47 @@ def act_harvest(limit=HARVEST_PER_TICK, rng=None):
 
 
 EXPAND_STATE = os.path.join(GZH, "EXPAND-STATE.json")
+
+GEN = os.path.join(os.path.expanduser("~"), "BigLoom", "collect", "ARTICLES-GENERIC.jsonl")
+
+
+def _today():
+    """本地日期字符串。_now() 返回 datetime，切片会直接抛 TypeError（2026-11-27 实锚）。"""
+    return _now().strftime("%Y-%m-%d")
+
+
+def _draft_today():
+    """今天是否已有初稿（按正文字节数判，空稿/骨架不算）。"""
+    p = os.path.join(DRAFTS, _today(), "draft.md")
+    try:
+        return os.path.getsize(p) > 1200
+    except Exception:
+        return False
+
+
+def _write_fail_streak(k=3):
+    """最近几拍连续出稿失败几次。给「料不足也先出稿」兜底，防止死循环重试。"""
+    try:
+        rs = [r for r in _rows(LEDGER) if str(r.get("phase") or "") == "write"][-k:]
+        n = 0
+        for r in reversed(rs):
+            if r.get("ok") is False or str(r.get("status") or "").upper().startswith("FAIL"):
+                n += 1
+            else:
+                break
+        return n
+    except Exception:
+        return 0
+
+
+def _site_count():
+    """通用采集器覆盖过的站点数。范围够不够宽，看这个数，不看源册有多少条。"""
+    try:
+        return len({(r.get("site") or "").strip() for r in _rows(GEN)
+                    if (r.get("site") or "").strip()})
+    except Exception:
+        return 0
+
 
 def _expand_dry():
     """连续几拍扩池没长出东西。用来区分「自己还没使劲」和「真的没料了」。"""
@@ -453,6 +514,26 @@ _NUM = re.compile(r"\d")
 _Q = re.compile(r"[？?]|吗|到底|是不是|能不能|该不该|为何|为什么|怎么")
 
 
+def act_collect_generic(per_source=3, budget_s=420):
+    """按源册批量采（一个命令扫多家，覆盖 T1/T2/T3）。
+
+    CEO 2026-11-27「你采集范围拉广，不是就局限」：源册里 44+ 个 ok 源，
+    真正在采的只有 3 个。「范围窄」不是没源，是没人按册子采。
+    纯 HTTP，不开浏览器，可与采集/出稿并行。
+    """
+    t0 = time.time()
+    try:
+        p = subprocess.run([_py_for_browser(), os.path.join(HERE, "harvest_generic.py"),
+                            "--registry-collect", "--per-source", str(per_source),
+                            "--budget-secs", str(budget_s), "--limit-sources", "10"],
+                           capture_output=True, text=True, timeout=budget_s + 180, cwd=ROOT)
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "secs": round(time.time() - t0, 1),
+                "tail": "批量采超时（%ds），下一拍再来" % (budget_s + 180)}
+    tail = (p.stdout or p.stderr or "").strip().splitlines()[-8:]
+    return {"ok": p.returncode == 0, "secs": round(time.time() - t0, 1),
+            "tail": "\n".join(tail)[-600:]}
+
 def _style_arts(arts):
     """只用 genre in (review, feature) 的篇目标定文风；通稿（press）与未知一律不进。
 
@@ -525,6 +606,20 @@ def build_trainset(arts=None):
 # 下一步的唯一事实：写死成"动作+判据+要谁动手"，任何会话读它就能接上，
 # 不需要靠我记、也不需要问 CEO（CEO 2026-11-23：每次对话结尾都要知道下一步）。
 NEXT_MAP = {
+    "collect-generic": {
+        "id": "COLLECT-GEN",
+        "action": "按源册批量采（T1 官方/科学、T2 垂类与专业站、T3 线索）",
+        "judge": "站点数上升；每源每拍 ≤3 篇，全局 420 秒封顶",
+        "needs": "无（纯 HTTP，免登录）",
+        "eta": "每 30 分钟一拍，与风格池采集轮流",
+    },
+    "write": {
+        "id": "WRITE-1",
+        "action": "按本周主题出一篇初稿（席位 gzh_writer / qwen3.5:9b-mlx）",
+        "judge": "结构/严谨/权威三闸全过；状态只到 NEEDS-HUMAN",
+        "needs": "无（抢不到 gpu_lease 记 DEFER-COMPUTE）",
+        "eta": "每天一篇",
+    },
     "expand": {
         "id": "EXPAND-1",
         "action": "自己去扩池：轮换深翻作者页，每第 3 次跑两跳反查找新作者",
@@ -698,6 +793,35 @@ def _once_impl(dry=False):
         refresh_screen(s, task, rec)
         print("[gzh] %s / %s" % (task["phase"], task["why"]))
         return 0
+    if task["phase"] == "collect-generic":
+        r = act_collect_generic()
+        rec.update(status="COLLECTED" if r["ok"] else "COLLECT-FAIL", secs=r["secs"],
+                   tail=r["tail"])
+        _append(LEDGER, rec)
+        refresh_screen(sense(), task, rec)
+        print("[gzh] 按册子扩面 %.1fs" % r["secs"])
+        print(r["tail"])
+        return 0
+    if task["phase"] == "write":
+        try:
+            import gzh_week
+            import gzh_write
+            wk = gzh_week.for_date(_today())
+            piece = (wk.get("篇") or [{}])[0] if wk else {}
+            rc, info = (gzh_write.write_one(wk, piece.get("topic") or "（未定题）",
+                                            piece.get("quadrant") or "大众", "long",
+                                            attempts=2, log=lambda m: print(m, flush=True))
+                        if wk else (1, {"why": "本周没有主题"}))
+        except Exception as e:  # noqa: BLE001
+            rc, info = 1, {"why": "出稿器异常：%s: %s" % (type(e).__name__, str(e)[:80])}
+        status = {0: "WROTE", 1: "BLOCKED-WEEK", 2: "WROTE-NEEDS-FIX",
+                  3: "DEFER-COMPUTE"}.get(rc, "FAIL")
+        rec.update(status=status, secs=0,
+                   tail=str(info.get("why") or info.get("draft") or "")[:160])
+        _append(LEDGER, rec)
+        refresh_screen(sense(), task, rec)
+        print("[gzh] 出稿 %s：%s" % (status, rec["tail"]))
+        return 0 if rc in (0, 2) else (78 if rc == 1 else 0)
     if task["phase"] == "expand":
         r = act_expand()
         rec.update(status="EXPANDED" if r.get("added") else "EXPAND-DRY",

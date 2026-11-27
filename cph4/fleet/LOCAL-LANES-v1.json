@@ -51,7 +51,7 @@
       "id": "bili",
       "name": "B站双号养号",
       "label": "com.fluxgroup.line.bili",
-      "every_s": 600,
+      "every_s": 300,
       "hours": [
         8,
         9,
@@ -63,6 +63,7 @@
         15,
         16,
         17,
+        18,
         19,
         20,
         21,
@@ -104,21 +105,14 @@
       "label": "com.fluxgroup.line.gzh",
       "every_s": 1800,
       "hours": [
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22,
-        23
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        18
       ],
       "needs": [
         "browser",
@@ -265,11 +259,7 @@
         4,
         5,
         6,
-        13,
-        14,
-        15,
-        16,
-        17
+        7
       ],
       "needs": [
         "gpu"
@@ -303,11 +293,8 @@
       "label": "com.fluxgroup.line.measure",
       "every_s": 1800,
       "hours": [
-        0,
-        3,
-        6,
         7,
-        18
+        23
       ],
       "needs": [
         "browser"
