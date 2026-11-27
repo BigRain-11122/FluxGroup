@@ -1,0 +1,38 @@
+{
+ "trial": "POOL-0017 full-route GFPGAN tier (xingqing A-batch human frames)",
+ "runner": "bm-c r1058",
+ "ts": "2026-10-17T13:33:00",
+ "model": "GFPGANv1.4.pth (clean arch, upscale=1, weight=0.5)",
+ "shim": "minimal basicsr (utils/registry/download_util/arch_util) + lazy-arch gfpgan patches; basicsr CUDA-ext build unavailable",
+ "frames": [
+  {
+   "frame": "S5-30_s20222",
+   "sec": 0.94,
+   "faces": 1,
+   "vram_peak_mb": 3574,
+   "out": "S5-30_s20222_gfpg.png"
+  },
+  {
+   "frame": "S0-03_s20027",
+   "sec": 0.12,
+   "faces": 0,
+   "vram_peak_mb": 3574,
+   "note": "no face detected - original kept"
+  },
+  {
+   "frame": "S1-09_s20064",
+   "sec": 0.6,
+   "faces": 2,
+   "vram_peak_mb": 3574,
+   "out": "S1-09_s20064_gfpg.png"
+  },
+  {
+   "frame": "S0-06_s20048",
+   "sec": 0.37,
+   "faces": 1,
+   "vram_peak_mb": 3574,
+   "out": "S0-06_s20048_gfpg.png"
+  }
+ ],
+ "ceo_order": "2026-10-17 13:0x idle-fill order"
+}

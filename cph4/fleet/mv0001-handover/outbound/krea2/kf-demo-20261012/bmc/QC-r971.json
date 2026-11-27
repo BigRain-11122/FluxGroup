@@ -1,0 +1,34 @@
+{
+  "round": "r971",
+  "ts": "2026-10-13T17:24:00+08:00",
+  "lane": "CEO V3 chain r969 harvest (O-20261013-1530 @bm-c, chain bmc_v3_chain_r969.py COMPLETE 17:16:45)",
+  "verdicts": [
+    {
+      "slot": "R05_gold_threads_v4",
+      "seed": 9242,
+      "score": 6.0,
+      "verdict": "FAIL",
+      "prior": "v3 FAIL (80% 软冻尾 + 零尘)",
+      "fix_verified": "软冻尾=FIXED (病灶1 9/10: 光效全程持续行进到片尾·无中途静止段——「窄亮边下行至底」修法生效)",
+      "residual_disease": "尘点=PERSIST (病灶2 2/10: 提示词明写 dust motes 但模型零渲染·连续第 2 版零尘=提示词路线濒死) + NEW 材质漂移 (亮区纹理呈木纹/雀眼斑·非玄武岩——源帧多模态核验=无特征深色面无木纹=帧烘焙排除·定性 i2v 模型漂移)",
+      "remedy": "并入 bm-a 夜窗帧级修法批 (与 C02 同批): R05 源帧 Krea2 重制·帧级补尘粒(火光光路可见浮尘)+玄武岩粗颗粒材质锚·重制帧回传 bm-c 再 i2v (motion 修法已验证可复用·尘点两连败禁再走纯提示词路线)",
+      "cdn": "https://tuanjie-ai-prd.tos-cn-shanghai.volces.com/mcp-upload/210806a827b2d1fe3ff0233fd7446eb5/R05_gold_threads_v4.mp4",
+      "local": "bmc/archive_i2v/R05_gold_threads_v4.mp4"
+    },
+    {
+      "slot": "V3-NEWKF 28 张试构图",
+      "verdict": "DELIVERED",
+      "board": "bmc/V3-NEWKF-TRIAL-BOARD_q88.jpg (272KB·7 镜 x 4 种子 28/28·672x384 jman 0.6 影射档·seeds 9011-9014)",
+      "shots": "SIL1_stele_backlit / SIL2_ots_crowd / SIL3_case_rim / SIL4_crowd_edge / SING1_torch_song / SING2_firepit_song / SING3_morning_song",
+      "consumer": "导演席 (bm-a) 构图档先行人眼过构图才升正档 (FIDELITY-SPEC-v1 试构图档律)·选镜选种后 bm-c 升 1344x768 正档",
+      "chain_phase": "NEWKF 试构图批完成 17:16:45·服务器 H3->Krea2 换模重启完成·ollama 35b 复 pin 完成"
+    }
+  ],
+  "refire2_ledger": "C02_sand_bury_v6 4.0 FAIL(帧烘焙辉光·夜窗修) | C04_words_alive_v4 9.0 PASS LOCKED | R05_gold_threads_v4 6.0 FAIL(尘点+材质·夜窗修) —— 三席终态: 1 PASS LOCKED + 2 帧级修法已归因派单",
+  "night_dispatch_bm_a": [
+    "C02_sand_bury.png 源帧: 石缘辉光 inpaint 或 Krea2 帧重制 (辉光=帧烘焙·提示词路线两连败判死 v5/v6)",
+    "R05_gold_threads.png 源帧: Krea2 帧重制·玄武岩粗颗粒材质锚+帧级尘粒 (零尘两连败+木纹漂移=i2v 模型面·帧级根治)",
+    "两帧重制后回传 bm-c: C02/R05 用已验证 motion 修法配方重 i2v (提示词正身在 bmc_v3_chain_r969.py REFIRE2 块)"
+  ],
+  "qc_method": "multimodal 病灶定向复验 (V3-REFIRE-PACK-v1.md 验收线 ≥7.5) + 源帧归因核验"
+}

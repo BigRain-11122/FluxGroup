@@ -1,0 +1,21 @@
+{
+  "policy": "R5 single-shot re-render for Xingqing PACK-B shot S1-07 (30.000-38.125s). R4 verdict (R4-VERDICT-c2162) proved the woman-shaped cloud is carried by the first-frame plate, so the plate was re-authored with a plain cumulus band and the shot is re-burned on that new first frame. 1344x768 int8, 768P, pure picture (CEO audio ban).",
+  "gate": "C2162 R5 gate: plate S107_R5_plate_S1-07-r5-1_s924075.png passed the native read (cloud is weather only, no head/shoulders/limbs); seed = id-MD5 renewal family of XQ_B-S1-07-r5a, distinct from the R4 band; SHOTLIST v3 lyric window unchanged.",
+  "wave": "packB-r5-s107-c2162",
+  "total": 1,
+  "units": [
+    {
+      "id": "XQ_B-S1-07-r5a",
+      "shot": "S1-07",
+      "track": "XQ",
+      "win_s": 8.0,
+      "speed": 0.9,
+      "src_s": 8.9,
+      "policy_band": "8-15s",
+      "seed": 457711,
+      "frame": "media/MV/mv0001/xingqing/xq-s107-r5-plate-c2162/S107_R5_plate_S1-07-r5-1_s924075.png",
+      "i2v_prompt": "Medium shot from behind their shoulders. The young couple rides on through the tall golden grass, the boy leaning into the chrome handlebar and the girl sitting up behind him with one arm around his waist, the wheels turning at an even pace. A low cumulus bank drifts slowly along the left half of the sky, its ragged wind-eroded edge thinning into haze above the grass line. The camera tracks alongside at their pace, easing with each pedal stroke and settling. Preserve the film grain and the original color palette.",
+      "note": "R5-a: new plate (plain cumulus, no figure) + renewal seed family. The prompt keeps the R4 cloud wordage that already removed the human-silhouette clause."
+    }
+  ]
+}

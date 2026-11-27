@@ -1,0 +1,59 @@
+{
+ "ts": "2026-11-11T07:31:55",
+ "node": "bm-c",
+ "paused": false,
+ "verdict": "BUSY",
+ "capacity": {
+  "gpu": {
+   "util_pct": 0,
+   "used_mb": 1294,
+   "total_mb": 16384
+  },
+  "ram_free_gb": 1.44,
+  "vram_free_mb": 15090,
+  "lease_held": false,
+  "can_gpu": false,
+  "can_cpu": false
+ },
+ "idle_min": 0.0,
+ "assigned": [],
+ "next_actions": [],
+ "flags": [
+  {
+   "id": "Q-ALIGN-20261030-BMC",
+   "kind": "paper-claim",
+   "detail": "DONE but deliverable missing: K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\queue-receipts\\fleet-align-bm-c.json"
+  },
+  {
+   "id": "asset-lib-asset-gen-2026-11-04",
+   "kind": "silent-failure",
+   "detail": "rc=1 with no explanation"
+  },
+  {
+   "id": "fleet-node-sync-report-bm-c-2026-11-05",
+   "kind": "silent-failure",
+   "detail": "rc=129 with no explanation"
+  },
+  {
+   "id": "asset-lib-face-dataset-2026-11-07",
+   "kind": "silent-failure",
+   "detail": "rc=1 with no explanation"
+  },
+  {
+   "id": "NODE-SYNC-bm-c-2157",
+   "kind": "stale-deliverable",
+   "detail": "deliverable predates the run (file not produced by it)"
+  },
+  {
+   "id": "GAP-BIGGAME-BMC-5",
+   "kind": "stale-deliverable",
+   "detail": "deliverable predates the run (file not produced by it)"
+  }
+ ],
+ "dispatched_now": null,
+ "counts": {
+  "open_backlog": 5,
+  "open_queue": 5,
+  "bank_pending": 0
+ }
+}

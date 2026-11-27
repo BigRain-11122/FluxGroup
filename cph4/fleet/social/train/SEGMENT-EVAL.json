@@ -1,0 +1,40 @@
+{
+ "ts": "2026-11-27T14:36:26",
+ "base": [
+  {
+   "n": 30,
+   "avg": 35.5,
+   "pass_rate": 17,
+   "avg_logic": 3.7,
+   "avg_human": 0.7,
+   "avg_natural": 16.0,
+   "reject": 6,
+   "sample": [
+    "听歌的别来，这是专门给配乐党准备的歌单。",
+    "有没有《我的未来不是梦》"
+   ],
+   "seg": "music_seeker",
+   "cached": true
+  }
+ ],
+ "lora": [
+  {
+   "n": 30,
+   "avg": 53.4,
+   "sd": 21.6,
+   "median": 40,
+   "pass_rate": 37,
+   "avg_logic": 10.7,
+   "avg_human": 4.0,
+   "avg_natural": 19.3,
+   "reject": 2,
+   "seg": "music_seeker",
+   "sample": [
+    "求BGM：《黑神话》主题曲",
+    "作者不是BGM爱好者吧"
+   ]
+  }
+ ],
+ "samples": 30,
+ "adapter": "/Users/junsheng.sun/FluxGroup/cph4/fleet/social/train/RUNS/20261127-140947/ckpt300"
+}

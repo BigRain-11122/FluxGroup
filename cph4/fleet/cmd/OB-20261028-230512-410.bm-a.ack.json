@@ -1,0 +1,16 @@
+{
+ "cmd_id": "OB-20261028-230512-410",
+ "node": "bm-a",
+ "host": "Dasheng",
+ "status": "received",
+ "ts": "2026-10-28T15:05:16.200Z",
+ "ts_utc_ms": 1793199916200,
+ "lanes": [
+  "bm-a",
+  "bm-b",
+  "bm-c"
+ ],
+ "text_sha256": "da2831d0887c7d09",
+ "handled": "queued-for-owner",
+ "note": "no built-in executor"
+}

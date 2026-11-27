@@ -1,0 +1,50 @@
+{
+ "id": "OB-20261103-1230-REMOTE-EXEC-REPAIR",
+ "type": "repair+diagnose",
+ "lanes": ["bm-a", "bm-b", "bm-c"],
+ "issued_at": "2026-11-03T12:30:00",
+ "issued_by": "bm-m（CEO 令 2026-11-03「你发命令让他们做 我去点」）",
+ "objective": "修远端执行器：部分卡在同一台机上固定 rc=2（0.1 秒、零产物、无回执），本机就地复跑同一卡 rc=0，说明是远端环境而不是卡写错。本单只做三件：拉代码、定位 python 解释器、原地跑一次会失败的卡并留下日志；成功即重启执行器。",
+ "why_now": [
+  "实测证据：bigstream-drama-accept-2026-11-03 在 owner=bm-b 时返回 result={rc:2, seconds:0.1, deliverable_exists:false}，同一 cmd 在 bm-m 就地执行 run_job 返回 rc=0、deliverable=True",
+  "rc=2 + 0.1 秒 + 零产物的两种典型成因：python 打不开脚本（路径/cwd 不对），或 argparse 拒参（脚本版本旧）",
+  "该卡不修则短剧、量化、游戏三条远端线每天都会被同一张卡拖住"
+ ],
+ "workstreams": [
+  {
+   "lane": "bm-a/bm-b/bm-c",
+   "name": "一键自检并重启执行器（CEO 只需点一次）",
+   "steps": [
+    "在该机打开仓库目录（bm-a: 桌面\\FluxGroup；bm-b: C:\\Fluxgroup\\FluxGroup；bm-c 同仓）",
+    "双击仓库根目录下的 REMOTE-EXEC-FIX.cmd",
+    "脚本会自动：git pull → 查 python 路径与版本 → 探针 python -c → 跑那张一直失败的卡 → 重启 lane_agent → 写 ack",
+    "看最后一行：HEALTHY（执行器已修好）或 STILL BROKEN（把同目录日志发我）"
+   ],
+   "deliverables": [
+    "cph4/fleet/cmd/OB-20261103-1230-REMOTE-EXEC-REPAIR.<node>.ack.json（脚本自动写）",
+    "cph4/fleet/queue-receipts/remote-exec-check-<node>.log（脚本自动写）"
+   ]
+  },
+  {
+   "lane": "bm-m",
+   "name": "主控侧验收",
+   "steps": [
+    "收到 ack 后核对 quality_gate_rc=0",
+    "把该机重新放回派单池，观察 30 分钟内是否有至少 1 张卡 DONE 且回执在盘",
+    "若仍 rc=2，按日志二分：where python 的结果 vs 脚本路径是否在盘"
+   ],
+   "deliverables": ["cph4/fleet/queue-receipts/ 出现该机新的 DONE 卡回执"]
+  }
+ ],
+ "acceptance": [
+  "三机各有 ack，且 quality_gate_rc=0",
+  "ack 落盘后 30 分钟内，该机至少 1 张卡 DONE 且 deliverable_exists=true",
+  "队列不再出现同卡在同一台机上连续 rc=2"
+ ],
+ "known_limits": [
+  "本单一键件只能在 Windows 上点；bm-m 是 macOS，不需要",
+  "脚本不猜任务计划名，只重启 lane_agent 进程；若该机靠计划任务常驻，计划任务会在下一周期自行再起一个，重复进程由 lane 锁挡掉",
+  "我无法在 Mac 上验证 .cmd 的每一步，所以脚本每一步都写日志并回写 rc，让失败可定位"
+ ],
+ "rollback": "关掉脚本新开的窗口即可；不修改任何配置、不删任何文件"
+}

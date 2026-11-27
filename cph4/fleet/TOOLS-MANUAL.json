@@ -1,0 +1,29 @@
+{
+ "_comment": "人工/会话直接调用的工具白名单（2026-11-02）：它们有调用者，只是调用者不是代码。",
+ "tools": {
+  "deploy_gate": "改完代码、重启主环前的五关自检",
+  "audit_dupes": "查重与浪费对账（重复卡/无产出/闲置/同步）",
+  "ship_ledger": "发布台账：授权清算、单一当前版、24h/7d 数据卡",
+  "line_gate": "短剧/游戏/策略三条线的机检闸",
+  "artifact_status": "产物落盘状态查询",
+  "fleet_board": "机队总览页生成",
+  "judge_bench": "判定席黄金集基准",
+  "fluxctl": "一个入口：status/check/gate/chief",
+  "skill_eval": "技能成对评测（with/without 对照），由 work-bank 的 EVAL- 卡调用",
+  "skill_install": "把仓内技能同步进本机激活面（装前过 skill_check 闸）",
+  "skill_check": "技能结构/触发词/死指针质检，主控脉 skills 阶段调用",
+  "skill_promote": "技能 B→A 升级 agent（只写实测跑过的命令）",
+  "bank_autofill": "work-bank 自动补料（主控脉阶段，空档期给空闲机配体检活）",
+  "lib_consolidate": "资产与经验库归集器（传家宝 bm-b 常设活，索引进 git）",
+  "char_plan": "角色包出图计划器（8 原创角色 × 6 视角提示词包）",
+  "char_gen": "角色包出图执行器（本机 ComfyUI，缺模型如实 BLOCKED）",
+  "char_dataset": "角色数据集装配（characters→faces+授权+准入闸）",
+  "voice_dataset": "音色数据集装配（授权核查+准入，缺授权即 BLOCKED）",
+  "forecast": "前瞻：每条线剩余弹药与卡点（runway/卡点/无工序表）",
+  "game_submit_pack": "提审包盘点：36 款逐款判缺件（隐私/图标/截图/台账/包体）",
+  "next_actions": "一屏：所有业务的最下一步（与磁盘实况合并）",
+  "submit_docs": "提审文档生成（隐私政策模板逐款替换）",
+  "radar": "集团雷达：按频率扫 GitHub/arXiv，分席出研学候选",
+  "bulletin": "机队互报：各机发简报，主控合成一屏"
+ }
+}

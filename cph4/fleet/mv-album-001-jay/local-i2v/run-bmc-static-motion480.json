@@ -1,0 +1,36 @@
+{
+ "policy": "480P motion probe: seed rolls did not restore motion (S3-19 10->10 freezes, S4-23 9->17), so the prompt gains explicit, continuous motion language. 480P only.",
+ "gate": "freezes must drop to 0 and mean frame difference >= 0.55 before a 768P reburn",
+ "wave": "packB-static-motion480",
+ "total": 2,
+ "units": [
+  {
+   "id": "XQ_S3-19-m1",
+   "track": "XQ",
+   "win_s": 10.0,
+   "speed": 0.9,
+   "src_s": 11.1,
+   "policy_band": "8-15s",
+   "frame": "media/MV/mv0001/xingqing/abatch/S3-19_s20143.png",
+   "i2v_prompt": "Wide shot of the dusk sky. The raised arm holds its silhouette against the darkening sky, the single index finger tracing slowly toward the first bright star low on the horizon. The gold horizon line dims by degrees. The star holds its point with a gentle twinkle. The camera tilts up in one slow unbroken ascent, easing in and settling on the star. Preserve the film grain and the original color palette. The arm sweeps visibly across the frame and the silhouette travels upward through it, the shoulder and elbow clearly changing angle, the camera craning up with steady parallax so the horizon line drops out of frame; continuous motion from the first frame to the last.",
+   "note": "词窗 110-120s 黄昏第一颗星·外化锚=嘴型跟着数（侧影不显·以指循星代位）·s20143 扇形指裁决格·单臂单指保持=帧检位·A1定式槽FIX已承（B3 verdict 72词稿 r1017）",
+   "seed": 424242,
+   "reburn_of": "XQ_S3-19",
+   "reburn_why": "motion-starved take: same frame, motion language strengthened (480P probe first)"
+  },
+  {
+   "id": "XQ_S4-23-m1",
+   "track": "XQ",
+   "win_s": 12.0,
+   "speed": 0.9,
+   "src_s": 13.3,
+   "policy_band": "8-15s",
+   "frame": "media/MV/mv0001/xingqing/abatch/S4-23_s20164.png",
+   "i2v_prompt": "Locked-off tripod medium shot. The girl draws the cassette from the player and turns it over in both hands, thumb finding the far side, and seats it back with a small press; the two of them lean a fraction closer into the shared earphone cord, the single warm lamp holding its pool between them, dust motes crossing the light. The camera holds still. Preserve the film grain and the original color palette. She turns the cassette through a wide arc, both hands travelling, her shoulders rocking gently with the movement, he leans in visibly until his shoulder meets hers, the lamp pool shifting across their faces and dust motes drifting through it; continuous motion throughout.",
+   "note": "词窗 146-158s 翻 AB 面=时代的仪式（长镜）·s20164 三层光源最优格·年代道具保持（有线耳机/台灯）=帧检位",
+   "seed": 424242,
+   "reburn_of": "XQ_S4-23",
+   "reburn_why": "motion-starved take: same frame, motion language strengthened (480P probe first)"
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "id": "SD-delivery-PROD-GAME-SUBMIT-提审清单-20261112",
+ "station": "delivery",
+ "product_id": "PROD-GAME-SUBMIT",
+ "stage": "提审清单",
+ "task_type": "T-DOC-SUBMIT-LIST",
+ "verdict": "REVISE",
+ "why": "评审团要求返工: 通过票不足 0/1（quorum=1）",
+ "judge": "panel",
+ "judge_source": "card",
+ "deliverable": "cph4/fleet/out/game-submit/list.json",
+ "bytes": 7300,
+ "sha256": "e33383f538a37a1e869d6147a81b807e98c76666b3faa2358624e59dcb1cae0f",
+ "ts": "2026-11-14T12:27:16",
+ "by": "self-drive"
+}

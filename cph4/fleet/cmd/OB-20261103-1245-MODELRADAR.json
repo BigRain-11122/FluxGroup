@@ -1,0 +1,56 @@
+{
+ "id": "OB-20261103-1245-MODELRADAR",
+ "type": "infra+policy",
+ "lanes": ["bm-m"],
+ "issued_at": "2026-11-03T12:45:00",
+ "issued_by": "bm-m（CEO 令 2026-11-03「不断打磨本地的模型使用策略，保证质量和速度，及时更新，每天扫描和测试是否有更新的，创建一个机制」）",
+ "objective": "本地模型不许凭版本号或榜单换，也不许凭一次未预热的墙钟比速度。建立每日机制：扫上游 → 实测 → 按两条硬判据决定是否换档 → 落台账。",
+ "mechanism": [
+  "扫（每天）：本机 manifest digest vs 上游 manifest digest 判同 tag 是否被上游重发；页面标签列表判有无新档",
+  "测：先预热；只用 eval_duration/eval_count 算解码段；多次取中位；think=false（否则思考模型的答案落在 thinking，评测端看到 0 命中）",
+  "判：换档只有两条路——质量更高且速度 ≥ 现役 90%，或质量持平且速度 ≥ 现役 105%；质量更低一律不换",
+  "报：state/model-radar.json + cph4/fleet/model-radar/LEDGER.jsonl；建议不自动生效"
+ ],
+ "policy_file": "cph4/fleet/LOCAL-MODEL-POLICY.json（职责映射/验收阈值/黄金集/自动拉档规则，唯一机器面）",
+ "golden_set_rule": "只出「给了上下文就能答」的题：考题自带证据，测照做与拒答，不测它认不认识我们的项目",
+ "auto_pull_rule": "只自动拉新增档（同家族、≤6GB、每天≤2 个）；同 tag 上游重发只报告不拉——拉到新版就把旧版基线冲掉，A/B 再也做不了",
+ "today_result": {
+  "resident": "qwen3:4b-instruct 37.6 tok/s 黄金集 6/8",
+  "candidates": ["qwen3.5:4b 35.2 tok/s 6/8 → KEEP（持平但更慢）",
+                 "qwen3:8b 21.2 tok/s 7/8 → KEEP（质量+1 但慢 44%）"],
+  "findings": ["4B 级两次算术全错（220-116-6 答成 100/104）→ 机队所有数字由规则算，不交 4B",
+               "全部模型都没过「≤16 字」→ 判题面缺陷 set_defects，不记模型缺陷"]
+ },
+ "workstreams": [
+  {
+   "lane": "bm-m",
+   "name": "每日自动跑（已接主控脉）",
+   "steps": [
+    "主控脉慢批阶段 modelradar：python3 Tools/fleet/model_radar.py run（自带日期闸+运行锁）",
+    "人工复核入口：python3 Tools/fleet/model_radar.py status（看 attention/bench_ts/verdicts）",
+    "出现 SUGGEST-SWAP 时由主控决定是否换档，并把 duties.resident 改到 LOCAL-MODEL-POLICY.json"
+   ],
+   "deliverables": ["cph4/fleet/state/model-radar.json", "cph4/fleet/model-radar/LEDGER.jsonl"]
+  },
+  {
+   "lane": "bm-a/bm-b/bm-c",
+   "name": "不许自行拉模型",
+   "steps": [
+    "本轮不在其它机上启用雷达：各机 ollama 与用途不同，策略文件必须是每机一份，不能照抄",
+    "禁止在无人值守里自动 ollama pull：会吃掉带宽并与生产抢内存",
+    "要用同一机制时：先复制 LOCAL-MODEL-POLICY.json 改成该机职责与黄金集，再单独接自己的常驻腿"
+   ],
+   "deliverables": ["无（只读遵守）"]
+  }
+ ],
+ "acceptance": [
+  "主控脉 modelradar 阶段每天首次运行 rc=0 或 rc=2（2=有更新待裁定）",
+  "state/model-radar.json 的 bench_ts 不超过 7 天",
+  "任何换档都能在 LEDGER.jsonl 里找到当时的质量/速度数字"
+ ],
+ "known_limits": [
+  "解码速度受同机负载与温度影响，绝对值跨 session 不可比；只做同批相对比较",
+  "黄金集 8 题只能筛掉明显退化，不能证明模型变强；重大换档仍需人工看产物",
+  "上游页面解析是 HTML 抓取，格式变了会返回空（只当提示，不当判据）"
+ ]
+}

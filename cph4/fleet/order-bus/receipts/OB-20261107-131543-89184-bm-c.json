@@ -1,0 +1,16 @@
+{
+ "order": "OB-20261107-131543-89184",
+ "from": "bm-c",
+ "to": "bm-m",
+ "ts": "2026-11-07T13:16:30",
+ "checks": {
+  "head_vs_node": "564f512 == origin/node/bm-c 尖，0/0 零漂移",
+  "tools_vs_origin": "Tools/fleet 三个 M 件为 stat 假 M，git diff origin/main 零字节差，无旧代码跑卡",
+  "executor_single": "HQ-Agent Running，agent.py pid 88120 惟一（lane_agent 子进程短命不算双实例）",
+  "minigame": "master == origin/machine/C 0/0",
+  "ram_now_gb": 4.0,
+  "main_drift": "HQ 仓 ahead 62/behind 44 = R11 无 rebase 架构常态漂移，低于 100 收敛线不动刀"
+ },
+ "friction": "asset-lib-face-dataset-2026-11-07 自 12:28:24 重派起每 60s 一轮 FAILED rc=1 0.1s（E-UNKNOWN 包装），agent seq 4731 至 4770+ 持续中；根因=门禁工具 verdict=FAIL 时 exit 1 + 上游缺料（media/asset/faces 0 张、无 RIGHTS.json、<12 门槛），非本机故障；建议撤卡标 E-UPSTREAM 或派 char-gen 产 458 张脸数据集卡；rc 语义修法二选一见 MSG-20261107-1225-bmc-gate-rc-semantics.md",
+ "note": "bm-c 对齐健康；face 循环空转待主控侧清卡"
+}

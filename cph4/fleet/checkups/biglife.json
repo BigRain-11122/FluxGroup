@@ -1,0 +1,16 @@
+{
+ "line": "biglife",
+ "priority": "P2",
+ "evidence": [
+  "life/BigLife/census"
+ ],
+ "checks": [
+  {
+   "name": "有户籍档",
+   "type": "glob",
+   "path": "life/BigLife/census",
+   "pattern": "*",
+   "min": 1
+  }
+ ]
+}

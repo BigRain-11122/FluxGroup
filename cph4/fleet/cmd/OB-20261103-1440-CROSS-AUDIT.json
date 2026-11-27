@@ -1,0 +1,15 @@
+{
+ "id": "OB-20261103-1440-CROSS-AUDIT",
+ "type": "infra",
+ "lanes": ["bm-a", "bm-b", "bm-c"],
+ "issued_at": "2026-11-03T14:40:00",
+ "issued_by": "bm-m（CEO 2026-11-03「机队电脑不同系统也要同时优化」）",
+ "objective": "把 Mac 上刚查出的三类问题在 Windows 机上量清楚：端口归属、服务真实环境变量、并发/常驻参数、向量层可用性。先量后改。",
+ "why_no_apply_yet": "Windows 的 ollama 可能跑在 SYSTEM 服务下，setx HKCU 对它无效；盲改会得到『已优化』的假象。回执里先看 port_owner 与 server_env 再决定落盘方式。",
+ "cards": ["C-INFRA-AUDIT-BM-A-20261103", "C-INFRA-AUDIT-BM-B-20261103", "C-INFRA-AUDIT-BM-C-20261103"],
+ "cmd_example": "python Tools/fleet/local_inference_audit.py --node bm-b --out cph4/fleet/queue-receipts/inference-audit-bm-b.json",
+ "receipt": "cph4/fleet/queue-receipts/inference-audit-<node>.json",
+ "fields_to_read": ["port_owner（谁在监听 11434）", "server_env（服务进程真实环境变量）", "measure.engine / decode_tok_s", "measure.concurrency.speedup", "embedding.usable", "gaps"],
+ "next_step_rule": "回执里若 port_owner 只有一个进程且 server_env 齐全 → 只需按判据调 NUM_PARALLEL/KEEP_ALIVE 并复测；若有双监听或环境读不到 → 先解决服务归属，不许直接改参数。",
+ "acceptance": ["三台各出一份回执", "gaps 逐条列明缺哪条环境或哪个端口争用", "decode_tok_s 与 engine 有实测值"]
+}

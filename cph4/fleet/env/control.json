@@ -1,0 +1,81 @@
+{
+ "ts": "2026-11-26T23:42:14",
+ "station": "control",
+ "hostname": "junshengsundeMacBook-Pro.local",
+ "os": "darwin",
+ "machine": "arm64",
+ "cpu_count": 10,
+ "python": {
+  "version": "3.15.2",
+  "implementation": "CPython",
+  "executable": "/Users/junsheng.sun/.homebrew/opt/python@3.15/bin/python3.15"
+ },
+ "packages": {},
+ "ollama": {
+  "url": "http://127.0.0.1:11434",
+  "version": "0.40.17",
+  "models": [
+   {
+    "name": "qwen2.5:0.5b",
+    "size_gb": 0.4,
+    "digest": "a8b0c51577010a27",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3:4b",
+    "size_gb": 2.5,
+    "digest": "359d7dd4bcdab3d8",
+    "quant": "Q4_K_M"
+   },
+   {
+    "name": "qwen3.5:2b",
+    "size_gb": 3.12,
+    "digest": "dfaf2605162e689c",
+    "quant": "mxfp8"
+   },
+   {
+    "name": "qwen3.5:4b",
+    "size_gb": 3.97,
+    "digest": "7f3251fa6878a78a",
+    "quant": "nvfp4"
+   },
+   {
+    "name": "qwen3.5:9b-mlx",
+    "size_gb": 8.9,
+    "digest": "203e30078279db51",
+    "quant": "nvfp4"
+   },
+   {
+    "name": "qwen3-embedding:0.6b",
+    "size_gb": 0.64,
+    "digest": "ac6da0dfba84a81f",
+    "quant": "Q8_0"
+   },
+   {
+    "name": "qwen3.5:4b-mlx",
+    "size_gb": 3.97,
+    "digest": "61aa3858e9d3022e",
+    "quant": "nvfp4"
+   }
+  ],
+  "err": null
+ },
+ "ffmpeg": {
+  "version": "7.1",
+  "present": true,
+  "path": "/Users/junsheng.sun/bin/ffmpeg",
+  "found_by": "PATH"
+ },
+ "gpu": {
+  "backend": "system_profiler",
+  "cards": [
+   "Apple M1 Pro"
+  ]
+ },
+ "env": {
+  "OLLAMA_KEEP_ALIVE": "10m",
+  "OLLAMA_NUM_PARALLEL": "2",
+  "OLLAMA_HOST": "127.0.0.1:11434",
+  "HF_HOME": "/Users/junsheng.sun/models/hf"
+ }
+}

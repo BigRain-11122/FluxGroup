@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0D1120">
+<meta name="description" content="引擎室 — AI 游戏工厂的调度与执行架构深拆：cmdarg、计划任务、跨机通信、断点续跑。">
+<title>引擎室 · World 2 技术深拆</title>
+<style>
+:root{
+  --night:#0D1120;
+  --panel:#141A30;
+  --panel2:#101627;
+  --term:#0A0E1A;
+  --ink:#F2F5FF;
+  --mut:#9AA6C9;
+  --amber:#FFB627;
+  --amber-dim:rgba(255,182,39,.55);
+  --coral:#FF5C4D;
+  --edge:rgba(242,245,255,.14);
+  --mono:Consolas,"Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--night);
+  background-image:
+    radial-gradient(720px 320px at 50% -60px, rgba(255,182,39,.07), transparent 70%),
+    linear-gradient(rgba(242,245,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,245,255,.028) 1px, transparent 1px);
+  background-size:auto,26px 26px,26px 26px;
+  color:var(--ink);
+  font:15px/1.8 "Segoe UI","Microsoft YaHei UI","Microsoft YaHei","PingFang SC",sans-serif;
+  padding:52px 22px 80px;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 4px);
+}
+::selection{background:var(--amber);color:var(--night)}
+.wrap{max-width:920px;margin:0 auto}
+
+/* ---------- 标题画面 ---------- */
+.hero{text-align:center;position:relative;padding:8px 0 6px}
+.kicker{font:700 11px var(--mono);letter-spacing:.42em;color:var(--amber);text-transform:uppercase}
+.kicker::before,.kicker::after{content:"◆";font-size:8px;vertical-align:2px;margin:0 10px;opacity:.7}
+h1{
+  margin:16px 0 10px;font-size:clamp(48px,9.5vw,80px);font-weight:700;line-height:1.08;letter-spacing:.08em;
+  color:var(--ink);text-shadow:.045em .045em 0 var(--amber), .1em .1em 0 rgba(255,92,77,.42);
+}
+.hero .sub{font-size:15px;color:var(--mut);max-width:34em;margin:0 auto}
+.hero .sub b{color:var(--ink);font-weight:700}
+.press{margin:18px 0 0;font:700 12px var(--mono);letter-spacing:.3em;color:var(--amber)}
+.press i{font-style:normal;animation:blink 1.15s steps(2,start) infinite}
+@keyframes blink{50%{opacity:0}}
+.belt{display:block;margin:30px auto 0;filter:drop-shadow(0 8px 20px rgba(255,182,39,.12))}
+.belt .carts{animation:carts 2.2s steps(4,end) infinite}
+.belt .dashrow{animation:dash .6s steps(2,end) infinite}
+@keyframes carts{to{transform:translateX(-16px)}}
+@keyframes dash{to{transform:translateX(-8px)}}
+.pxstar{position:absolute;color:var(--amber);opacity:.85}
+.pxstar svg{display:block}
+.s1{left:26px;top:52px}.s2{right:52px;top:130px;color:var(--coral)}
+
+/* ---------- HUD 数字带 ---------- */
+.hud{margin:38px auto 0;display:grid;grid-template-columns:repeat(6,1fr);background:var(--panel2);border:1px solid var(--edge);box-shadow:0 0 34px rgba(255,182,39,.05)}
+.cell{padding:18px 10px 15px;text-align:center;border-left:1px solid var(--edge)}
+.cell:first-child{border-left:none}
+.cell svg{width:17px;height:17px;color:var(--amber);margin-bottom:6px}
+.cell b{display:block;font:700 20px var(--mono);color:var(--amber);line-height:1.15;text-shadow:0 0 14px rgba(255,182,39,.35)}
+.cell b small{font-size:.6em;font-weight:700}
+.cell span{font-size:11.5px;color:var(--mut);line-height:1.45;display:block;margin-top:3px}
+
+/* ---------- 段落题 ---------- */
+.worldhead{display:flex;align-items:baseline;gap:14px;margin:64px 0 26px;flex-wrap:wrap}
+.worldhead .wk{font:700 11px var(--mono);letter-spacing:.3em;color:var(--amber)}
+.worldhead h2{font-size:24px;font-weight:700;letter-spacing:.1em}
+.worldhead .rule{flex:1;height:2px;min-width:40px;background:repeating-linear-gradient(90deg,var(--amber-dim) 0 10px,transparent 10px 18px);align-self:center;position:relative}
+.worldhead .rule::after{content:"";position:absolute;right:0;top:-3px;width:8px;height:8px;background:var(--amber);transform:rotate(45deg)}
+.lede{font-size:13.5px;color:var(--mut);margin:-14px 0 22px;max-width:44em}
+.lede b{color:var(--ink)}
+
+/* ---------- 机体结构链 ---------- */
+.chain{display:flex;flex-direction:column}
+.cbox{
+  background:var(--panel);border:1px solid var(--edge);padding:12px 18px 13px;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+}
+.cbox .path{font:700 10.5px var(--mono);letter-spacing:.08em;color:var(--amber)}
+.cbox h4{font-size:15px;font-weight:700;letter-spacing:.04em;margin-top:2px}
+.cbox p{font-size:12.8px;color:var(--mut);margin-top:2px}
+.cbox p b{color:var(--ink);font-weight:700}
+.carrow{align-self:center;color:var(--amber);font-size:12px;line-height:1;padding:6px 0;text-align:center}
+.carrow em{font-style:normal;font:700 9.5px var(--mono);letter-spacing:.18em;color:var(--mut);display:block}
+.cbox.core{border-color:rgba(255,92,77,.5)}
+.cbox.core .path{color:var(--coral)}
+
+/* ---------- 终端块 ---------- */
+.term{background:var(--term);border:1px solid var(--edge);margin:14px 0}
+.term .thead{display:flex;gap:6px;padding:8px 12px;border-bottom:1px solid var(--edge);align-items:center}
+.term .thead i{width:8px;height:8px;flex:none}
+.term .thead i:nth-child(1){background:var(--coral)}
+.term .thead i:nth-child(2){background:var(--amber)}
+.term .thead i:nth-child(3){background:#3A4468}
+.term .thead span{font:700 10px var(--mono);letter-spacing:.2em;color:var(--mut);margin-left:8px}
+.term pre{padding:14px 18px;font:600 12.3px/1.75 var(--mono);color:#C9D4F5;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+.term pre .k{color:var(--amber)}
+.term pre .c{color:rgba(154,166,201,.75)}
+.term pre .r{color:var(--coral)}
+
+/* ---------- 参数表 ---------- */
+.flags{display:grid;grid-template-columns:1fr;gap:0;border:1px solid var(--edge);background:var(--panel2)}
+.flag{display:grid;grid-template-columns:230px 1fr;gap:14px;padding:11px 18px;border-top:1px solid var(--edge)}
+.flag:first-child{border-top:none}
+.flag code{font:700 12px var(--mono);color:var(--amber);word-break:break-all}
+.flag span{font-size:13px;color:var(--mut)}
+.flag span b{color:var(--ink)}
+
+/* ---------- 班组芯片 ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.chip{
+  font:600 11px var(--mono);color:#C9D4F5;border:1px solid var(--edge);
+  background:var(--panel2);padding:4px 10px;letter-spacing:.02em;
+  clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);
+}
+.chip b{color:var(--amber);font-weight:700}
+.chip.a{border-color:var(--amber-dim)}
+.chip.w{border-color:rgba(255,92,77,.45)}
+.chip.w b{color:var(--coral)}
+
+/* ---------- 双栏面板 ---------- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.box{
+  background:var(--panel);border:1px solid var(--edge);padding:18px 20px 20px;
+  clip-path:polygon(0 0,calc(100% - 13px) 0,100% 13px,100% 100%,13px 100%,0 calc(100% - 13px));
+}
+.box h3{font-size:15px;font-weight:700;letter-spacing:.06em;margin-bottom:4px}
+.box h3 small{display:block;font:700 9.5px var(--mono);letter-spacing:.26em;color:var(--amber);margin-bottom:5px}
+.box ul{list-style:none;margin-top:6px}
+.box li{font-size:13px;color:var(--mut);padding:6px 0 6px 18px;position:relative;line-height:1.65}
+.box li::before{content:"▸";position:absolute;left:0;top:5px;color:var(--amber);font-size:12px}
+.box.red li::before{color:var(--coral)}
+.box li b{color:var(--ink);font-weight:700}
+.box li code{font:700 11.5px var(--mono);color:var(--amber)}
+.mono-note{font-size:12px;color:var(--mut);margin-top:12px}
+.mono-note code{font:700 11px var(--mono);color:var(--amber)}
+
+/* ---------- 页脚 ---------- */
+.foot{
+  margin-top:56px;padding-top:20px;border-top:1px solid var(--edge);
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.cont{font:700 13px var(--mono);letter-spacing:.2em;color:var(--amber)}
+.cont .cd::after{content:"…";margin-left:2px}
+.tech{font-size:12.5px;color:var(--mut);text-align:right}
+.tech code{font:700 11px var(--mono);color:var(--amber);letter-spacing:.12em}
+
+/* ---------- 入场编排 ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero,.hud{animation:rise .5s ease both}
+.hud{animation-delay:.12s}
+.worldhead{animation:rise .45s ease both}
+.secblk{animation:rise .42s ease both}
+.worldhead:nth-of-type(1){animation-delay:.2s}
+.worldhead:nth-of-type(2){animation-delay:.55s}
+.worldhead:nth-of-type(3){animation-delay:.95s}
+.worldhead:nth-of-type(4){animation-delay:1.3s}
+.worldhead:nth-of-type(5){animation-delay:1.6s}
+.worldhead:nth-of-type(6){animation-delay:1.9s}
+.worldhead:nth-of-type(7){animation-delay:2.2s}
+.lede,.chain,.term,.flags,.chips,.duo,.mono-note,.arrlist{animation:rise .42s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.press i{opacity:1}}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:760px){
+  body{padding:36px 14px 60px}
+  .kicker{letter-spacing:.22em;font-size:10px}
+  .kicker::before,.kicker::after{margin:0 6px}
+  .belt{width:100%;max-width:288px;height:auto}
+  .hud{grid-template-columns:repeat(3,1fr)}
+  .cell:nth-child(4){border-left:none}
+  .cell:nth-child(n+4){border-top:1px solid var(--edge)}
+  .duo{grid-template-columns:1fr}
+  .flag{grid-template-columns:1fr;gap:2px}
+  .foot{justify-content:center;text-align:center}
+  .tech{text-align:center}
+  .s1{display:none}
+}
+@media print{
+  body{background:#fff;color:#111;padding:0}
+  body::before{display:none}
+  h1{text-shadow:none;color:#111}
+  .cbox,.term,.box,.hud,.chip,.flags{background:#fff;border-color:#999}
+  .cell b,.chip b,.flag code,.worldhead .wk{color:#111}
+  .term pre{color:#333}
+  *,*::before,*::after{animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ 标题画面 ============ -->
+  <header class="hero">
+    <span class="pxstar s1"><svg viewBox="0 0 7 7" width="12" height="12" shape-rendering="crispEdges" fill="currentColor"><path d="M3 0h1v7H3zM0 3h7v1H0z"/></svg></span>
+    <span class="pxstar s2"><svg viewBox="0 0 7 7" width="9" height="9" shape-rendering="crispEdges" fill="currentColor"><path d="M3 0h1v7H3zM0 3h7v1H0z"/></svg></span>
+    <p class="kicker">World 2 · Engine Room</p>
+    <h1>引擎室</h1>
+    <p class="sub">一台 Windows、一份协议文件、一个状态机——<br>如何被驱动成 <b>24 小时自转的游戏工厂</b>。</p>
+    <p class="press">▸ ENGINE ONLINE</p>
+    <svg class="belt" viewBox="0 0 64 18" width="288" height="81" shape-rendering="crispEdges" aria-hidden="true">
+      <g fill="rgba(242,245,255,.22)"><rect x="4" y="14" width="2" height="4"/><rect x="58" y="14" width="2" height="4"/><rect x="30" y="14" width="2" height="4"/></g>
+      <rect x="0" y="13" width="64" height="1" fill="rgba(242,245,255,.18)"/>
+      <g class="dashrow" fill="var(--amber)">
+        <rect x="0" y="12" width="3" height="1"/><rect x="8" y="12" width="3" height="1"/><rect x="16" y="12" width="3" height="1"/><rect x="24" y="12" width="3" height="1"/>
+        <rect x="32" y="12" width="3" height="1"/><rect x="40" y="12" width="3" height="1"/><rect x="48" y="12" width="3" height="1"/><rect x="56" y="12" width="3" height="1"/>
+        <rect x="64" y="12" width="3" height="1"/><rect x="72" y="12" width="3" height="1"/>
+      </g>
+      <g class="carts">
+        <g><rect x="0" y="5" width="8" height="6" fill="var(--amber)"/><rect x="1" y="6" width="6" height="2" fill="var(--night)"/><rect x="2" y="11" width="2" height="1" fill="var(--amber)"/><rect x="5" y="11" width="2" height="1" fill="var(--amber)"/></g>
+        <g><rect x="16" y="5" width="8" height="6" fill="rgba(242,245,255,.9)"/><rect x="17" y="6" width="6" height="2" fill="var(--night)"/><rect x="18" y="11" width="2" height="1" fill="rgba(242,245,255,.9)"/><rect x="21" y="11" width="2" height="1" fill="rgba(242,245,255,.9)"/></g>
+        <g><rect x="32" y="5" width="8" height="6" fill="var(--coral)"/><rect x="33" y="6" width="6" height="2" fill="var(--night)"/><rect x="34" y="11" width="2" height="1" fill="var(--coral)"/><rect x="37" y="11" width="2" height="1" fill="var(--coral)"/></g>
+        <g><rect x="48" y="5" width="8" height="6" fill="var(--amber)"/><rect x="49" y="6" width="6" height="2" fill="var(--night)"/><rect x="50" y="11" width="2" height="1" fill="var(--amber)"/><rect x="53" y="11" width="2" height="1" fill="var(--amber)"/></g>
+        <g><rect x="64" y="5" width="8" height="6" fill="rgba(242,245,255,.9)"/><rect x="65" y="6" width="6" height="2" fill="var(--night)"/><rect x="66" y="11" width="2" height="1" fill="rgba(242,245,255,.9)"/><rect x="69" y="11" width="2" height="1" fill="rgba(242,245,255,.9)"/></g>
+      </g>
+      <g fill="var(--amber)"><rect x="60" y="1" width="1" height="1"/><rect x="61" y="2" width="1" height="1"/><rect x="60" y="3" width="1" height="1"/><rect x="59" y="2" width="1" height="1"/></g>
+    </svg>
+  </header>
+
+  <!-- ============ HUD ============ -->
+  <section class="hud">
+    <div class="cell"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor"><path d="M2 0h4v1H2zM0 2h1v4H0zM7 2h1v4H7zM2 7h4v1H2zM3 1h2v2H3z"/></svg><b>10<small> 分钟</small></b><span>主循环节拍<br>每轮点火间隔</span></div>
+    <div class="cell"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor"><path d="M0 0h8v2H0zM0 2h2v2H0zM6 2h2v2H6zM1 2h6v2H1zM3 4h2v2H3zM1 6h6v1H1zM0 7h8v1H0z"/></svg><b>23<small> 个</small></b><span>计划任务班组<br>各司其职</span></div>
+    <div class="cell"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor"><path d="M5 0h2v2H5zM3 2h3v2H3zM1 4h4v2H1zM2 5h2v3H2z"/></svg><b>2<small> 层</small></b><span>调度体系<br>OS 任务 + 会话内 cron</span></div>
+    <div class="cell"><svg viewBox="0 0 7 7" shape-rendering="crispEdges" fill="currentColor"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v3H0zM1 4h5v1H1zM2 5h3v1H2zM3 6h1v1H3z"/></svg><b>1P<small> ×3 机</small></b><span>总控机 + 军团机<br>git 分支联机</span></div>
+    <div class="cell"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor"><path d="M2 0h4v1H2zM0 2h1v4H0zM7 2h1v4H7zM2 7h4v1H2zM3 2h1v3H3zM4 3h2v1H4z"/></svg><b>3<small> 级</small></b><span>进度指针<br>断点续跑的根</span></div>
+    <div class="cell"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor"><path d="M0 0h8v3H0zM2 3h4v1H2zM3 4h2v2H3zM2 6h4v1H2z"/></svg><b>20<small> 分钟</small></b><span>硬杀上限<br>超时全树击杀</span></div>
+  </section>
+
+  <!-- ============ SEC.01 机体结构 ============ -->
+  <h2 class="worldhead"><span class="wk">SEC.01</span>机体结构 · 单机点火链</h2>
+  <p class="lede">一次「轮」的完整调用链——从操作系统闹钟到一次 git 提交，中间只有 <b>五个环节</b>：</p>
+  <div class="chain secblk">
+    <div class="cbox">
+      <span class="path">Windows 计划任务 · Task Scheduler</span>
+      <h4>闹钟层：每 10 分钟触发一次</h4>
+      <p>注册为系统级任务（<b>IgnoreNew 防重入</b>·错峰禁补跑齐射）；执行体不是 powershell 而是 <b>wscript 隐藏链</b>——子进程天生无控制台窗口，全程零弹窗。</p>
+    </div>
+    <div class="carrow">▼<em>WSCRIPT //B //NOLOGO → POWERSHELL -WINDOWSTYLE HIDDEN</em></div>
+    <div class="cbox">
+      <span class="path">EngineTick.ps1 — 守门员脚本（纯本地·零 token）</span>
+      <h4>先验三件事再点火</h4>
+      <p><b>① 锁</b>：上一轮还活着（锁龄 &lt;12 分钟）就跳过本轮——防两会话重叠双写；<b>② 闸</b>：GateSitter 判「没活干」就熄火跳过（省下整轮模型调用）；<b>③ 环境</b>：CLI 路径与身份文件自检，缺件当场记账退出，不留死锁。</p>
+    </div>
+    <div class="carrow">▼<em>START-PROCESS → Codely CLI（工作目录 = 仓库根）</em></div>
+    <div class="cbox core">
+      <span class="path">codely.exe — 无头 AI 会话（本轮的真身）</span>
+      <h4>一条命令行拉起一个完整 Agent</h4>
+      <p>注入整份<b>协议导航件</b>作为 prompt；会话内自动加载仓库根 <b>CODELY.md 记忆</b>、技能协议、MCP 工具桥——它不是聊天窗口，是一次「读完状态→领活→干活→提交」的封闭轮。</p>
+    </div>
+    <div class="carrow">▼<em>第零动作 ACTIVATE_SKILL('MINIGAME-TICK-LOOP')</em></div>
+    <div class="cbox">
+      <span class="path">SKILL.md 协议轮 · Step0 → Step7 固定顺序</span>
+      <h4>探测 → 定目标 → 实现 → 门禁 → 收口</h4>
+      <p>Step0 读状态机与台账锁活（<b>绝不从头再来</b>）；Step7 单一收口提交（产品件 + 状态手术 + 快照 + 台账行，同 commit）+ 往 ledger 写 <b>TICK_DONE</b> 回执。</p>
+    </div>
+    <div class="carrow">▼<em>四门禁 → GIT COMMIT → 台账回执</em></div>
+    <div class="cbox">
+      <span class="path">产物落盘：git + state + 台账 + 快照</span>
+      <h4>轮结束 = 世界已被改写一次</h4>
+      <p>提交进 git（唯一真值源）；<b>state.json 指针前移</b>；回执一行进 tick-ledger；看板快照覆盖式刷新——四路落盘，任何一路都能当下一轮的「读档点」。</p>
+    </div>
+  </div>
+
+  <!-- ============ SEC.02 点火命令 ============ -->
+  <h2 class="worldhead"><span class="wk">SEC.02</span>点火命令 · cmdarg 拆解</h2>
+  <p class="lede">守门员脚本里真正拉起 AI 会话的，就是这一行（<b>真实生产命令</b>，路径已脱敏）：</p>
+  <div class="term secblk">
+    <div class="thead"><i></i><i></i><i></i><span>IGNITION · EngineTick.ps1</span></div>
+    <pre>&amp; <span class="k">codely.exe</span>
+    <span class="k">-p</span>  "&lt;engine-tick-prompt.txt 全文&gt;"   <span class="c">← 协议导航件，UTF-8 单行注入</span>
+    <span class="k">--approval-mode</span> yolo              <span class="c">← 工具调用免审批，无人值守的前提</span>
+    <span class="k">--disable-next-speaker-check</span>     <span class="c">← 单轮闭环，不等下一发言人</span>
+
+<span class="c"># 工作目录 = 仓库根 → CODELY.md 记忆自动注入本会话</span>
+<span class="c"># stdout / stderr → tick-&lt;时间戳&gt;.out.log / .err.log（每轮独立日志）</span>
+<span class="c"># exe 路径与机器身份 ← tools\machine.json（每机一份，不入 git）</span></pre>
+  </div>
+  <div class="flags secblk">
+    <div class="flag"><code>-p "&lt;prompt&gt;"</code><span><b>无头一次性会话</b>。prompt 不是一句话，是整份协议导航件：产品优先律、计分制、探测源清单、收口纪律——模型的「岗位说明书」整包注入。</span></div>
+    <div class="flag"><code>--approval-mode yolo</code><span>工具调用<b>免人工审批</b>——读写文件、跑 git、执行构建全部放行。这是「无人值守」能够成立的开关，也因此配套了下面的锁与门禁体系。</span></div>
+    <div class="flag"><code>--disable-next-speaker-check</code><span>单轮模式：模型输出完毕即结束进程，<b>不会等待人类接话</b>——轮与轮之间靠状态机衔接，不靠对话记忆。</span></div>
+    <div class="flag"><code>cwd = 仓库根</code><span>仓库根的 <b>CODELY.md 记忆文件自动注入</b>每个新会话——第 N 万轮和第 1 轮拿到同样的上下文底座，记忆不靠聊天记录，靠文件。</span></div>
+    <div class="flag"><code>machine.json</code><span>机器身份文件：{ machine_id, state_file, codely_cli }。<b>同一套脚本零改动跑在三台机器上</b>，各自读自己的身份——可携性的根。</span></div>
+  </div>
+  <div class="term secblk">
+    <div class="thead"><i></i><i></i><i></i><span>MACHINE.JSON · 身份文件实样</span></div>
+    <pre>{
+  <span class="k">"machine_id"</span>:  <span class="r">"A"</span>,
+  <span class="k">"state_file"</span>:  <span class="r">"state.json"</span>,          <span class="c">← B 机 = state-b.json，各记各的</span>
+  <span class="k">"codely_cli"</span>:  <span class="r">"%LOCALAPPDATA%\...\cli\bin\win32-x64\codely.exe"</span>
+}</pre>
+  </div>
+
+  <!-- ============ SEC.03 排挡系统 ============ -->
+  <h2 class="worldhead"><span class="wk">SEC.03</span>排挡系统 · 两层调度</h2>
+  <p class="lede">调度不是一个大管家，是<b>两层各管各的闹钟</b>：OS 层管「什么时候点火」，会话层管「点火之后还有哪些小闹钟」。</p>
+  <div class="duo secblk">
+    <div class="box">
+      <h3><small>LAYER 1 · OS TASKS</small>系统层：计划任务班组</h3>
+      <ul>
+        <li><b>Task Scheduler = 引擎总闸</b>：主循环每 <code>PT10M</code> 一拍，<code>IgnoreNew</code> 防重入，触发即点火守门员</li>
+        <li>注册纪律=<b>隐藏链 + 无桌面会话</b>（子进程零黑窗），错峰禁补跑齐射</li>
+        <li>看门狗独立成班：巡全任务健康度，<b>守夜人不参与生产</b></li>
+        <li>节奏三档自动换挡：<b>活跃 10 分钟 / 维护 30 分钟 / 等门轻轮</b>（零 token 记账收口）</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>LAYER 2 · SESSION CRON</small>会话层：durable cron</h3>
+      <ul>
+        <li>CLI 自带 cron：登记进 <code>.codely-cli\scheduled_tasks.json</code>，<b>{ id + cron 表达式 + prompt }</b> 一件一档</li>
+        <li>到点自动把 prompt 注入新会话——<b>小闹钟也能叫醒 AI</b>（例：生成产线自检「11,36 * * * *」）</li>
+        <li>与 OS 任务互补：OS 层管主干道，会话层管<b>按分钟粒度的细分车次</b></li>
+        <li>可一次性 / 可常驻，随协议文件走，clone 即得</li>
+      </ul>
+    </div>
+  </div>
+  <p class="mono-note">▲ 本机在册任务班组（节选，<b>23 个</b>任务各挂一个闹钟）：</p>
+  <div class="chips secblk">
+    <span class="chip a"><b>EngineTick</b> 主循环</span>
+    <span class="chip"><b>TickWatchdog</b> 看门狗</span>
+    <span class="chip"><b>TjcloudSync</b> 每时 :13 折叠推送</span>
+    <span class="chip"><b>EvolutionTick</b> 每时反省</span>
+    <span class="chip"><b>RadarTick</b> 市场雷达</span>
+    <span class="chip"><b>RadarDeep</b> 深挖</span>
+    <span class="chip"><b>GateTick</b> 立项闸</span>
+    <span class="chip"><b>PolicyTick</b> 政策面</span>
+    <span class="chip"><b>ResearchTick</b> 调研席</span>
+    <span class="chip"><b>RedlineAudit</b> 红线审计</span>
+    <span class="chip"><b>AuditTick</b> 审计轮</span>
+    <span class="chip"><b>Housekeeping</b> 周日清扫</span>
+    <span class="chip"><b>CockpitBeat</b> 心跳班报</span>
+    <span class="chip"><b>DailyDigest</b> 日报</span>
+    <span class="chip"><b>EditorSentry</b> 编辑器哨</span>
+    <span class="chip"><b>OllamaServe</b> 本地模型</span>
+    <span class="chip"><b>KeepWarm</b> 模型保温</span>
+    <span class="chip w"><b>硬杀律</b> 20min taskkill /T 全树</span>
+    <span class="chip w"><b>锁窗</b> 12min 新鲜锁 + 5min 续锁</span>
+  </div>
+  <div class="duo secblk">
+    <div class="box red">
+      <h3><small>FAIL-SAFE · 三道保险</small>轮子失控怎么办</h3>
+      <ul>
+        <li><b>20 分钟硬杀</b>：超时会话 <code>taskkill /T /F</code> 连子进程整树击杀——不给僵尸留门（孤儿子体会背着主进程的尸体继续写盘）</li>
+        <li>击杀记 <b>EXIT_254</b> 哨兵码入账——审计规则一眼可扫</li>
+        <li>锁 12 分钟自然过期：<b>崩溃当场没人收尸也不怕</b>，下一轮自动接管</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>TOKEN ECONOMY</small>点火闸：没活不开机</h3>
+      <ul>
+        <li><b>GateSitter 前置闸</b>：无在途活、无新订单、无旗标 → 守门员直接熄火</li>
+        <li>SKIP 轮只写一行账，<b>模型调用零消耗</b>——等门态近零成本</li>
+        <li>省钱不省哨：跳过的只是模型会话，<b>脉冲 / 探测 / 锁保活照跑</b>，状态永远新鲜</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SEC.04 联机组网 ============ -->
+  <h2 class="worldhead"><span class="wk">SEC.04</span>联机组网 · 跨机器结构</h2>
+  <p class="lede">三台机器不装中央调度器，<b>git 仓库就是消息总线</b>——分支即频道，提交即通信：</p>
+  <div class="chain secblk">
+    <div class="cbox">
+      <span class="path">军团机（B / C /…）· 每轮收口</span>
+      <h4>只推自己的频道，永不碰主线</h4>
+      <p>收口四步：fetch → merge 主线 → 定向 commit → <b>FleetPush 推 machine/&lt;id&gt; 分支</b>。因为永远只有本机写自己的分支，<b>推送被拒在结构上不存在</b>——机器扩到 N 台也不冲突。</p>
+    </div>
+    <div class="carrow">▼<em>PUSH ORIGIN MACHINE/&lt;ID&gt; — 各机独立频道</em></div>
+    <div class="cbox">
+      <span class="path">远端仓库 · machine/* 分支族</span>
+      <h4>每台机器一条流水线记录</h4>
+      <p>分支 = 该机的「交作业本」：完整历史、时间戳、批次号。<b>判他机实况一律读远端 refs</b>，不信本地缓存——共享快照设计上允许陈旧。</p>
+    </div>
+    <div class="carrow">▼<em>总控机每小时 :13 折叠（FOLD）</em></div>
+    <div class="cbox core">
+      <span class="path">总控机（A）· master 唯一写手</span>
+      <h4>:13 折叠车道：把所有分支并入主线</h4>
+      <p>每小时合并全部 machine/* 入 master 再推送——<b>全仓库只有一个写手碰主线</b>。真冲突只在这里出现一次，落 <b>merge-needed.flag</b> 旗，交由下一轮行级手术保双方，绝不互相拒收。</p>
+    </div>
+    <div class="carrow">▼<em>PULL MASTER — 全员读同一真相</em></div>
+    <div class="cbox">
+      <span class="path">全员 · 下一轮 Step0</span>
+      <h4>拉到新世界状态，继续干活</h4>
+      <p>每轮开工先 fetch：他机成果、新订单、协议变更一次到齐。机器之间<b>没有一条直连消息</b>——全部通过 git 对象与约定文件交换，离线也能各干各的。</p>
+    </div>
+  </div>
+  <div class="duo secblk">
+    <div class="box">
+      <h3><small>ARBITRATION</small>防撞三层</h3>
+      <ul>
+        <li><b>登记簿</b>＝唯一仲裁面：每款每车道唯一 owner，认领行带时间戳——<b>双机同款 = 事故</b>，撞车后到者让路</li>
+        <li><b>状态分治</b>：A 写 state.json、B 写 state-b.json，<b>互只读</b>；根级统计件总控独占写，他机走本地件 + 摘要行</li>
+        <li><b>在飞互查</b>：动手前扫他机分支近窗日志与协作看板——三源查重（看板 + 登记簿 + 分支 log）确认无人做同件</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>PROTOCOL RULES</small>联机纪律</h3>
+      <ul>
+        <li><b>传输铁律</b>：新机接入只走 git clone，禁拷目录——锁文件与运行态是「毒拷贝」</li>
+        <li><b>身份不入库</b>：machine.json 本机私有（防跨机合并静默覆写）；大件走内网点对点通道，不进 git</li>
+        <li><b>资源台账</b>：每机只写自己的 fleet/&lt;机id&gt;.json（CPU/GPU/在途负载 + verdict 容量判定），全队可读零冲突</li>
+        <li><b>让路律</b>：老板要用机器 → 一键 pause（生产全停、值守保留）；「全面开工」→ resume 广播</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SEC.05 频道系统 ============
+  —— 跨 session（同机双执行体 + 文件信箱 + 记忆总线）
+  -->
+  <h2 class="worldhead"><span class="wk">SEC.05</span>频道系统 · 跨会话沟通</h2>
+  <p class="lede">同一台机器上跑着两种 AI：有人在键盘前的<b>交互会话</b>，和无人值守的<b>车道轮</b>。它们不共享对话，靠三样东西说话：</p>
+  <div class="duo secblk">
+    <div class="box">
+      <h3><small>CH.A · LOCKS</small>锁与退避：谁在干谁说了算</h3>
+      <ul>
+        <li><b>同仓单执行体</b>：动手前查锁——引擎锁 / 工程认领 claims / git 在途态，有人在做就退让</li>
+        <li>车道轮收口前识别「他人在途态禁碰」——<b>交互会话与自动化互不踩脚</b>，git 锁竞争一律让路不硬抢</li>
+        <li>工程级 claims：动某款前先原子认领，<b>同款单执行体</b></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>CH.B · MAILBOX</small>文件信箱：追加即通信</h3>
+      <ul>
+        <li><b>反馈队列</b>：他机审计发现追加进队列文件，总控轮每轮开箱必扫——<b>审计结果跨机自动回传</b></li>
+        <li><b>协作看板</b>：每机维护自己的行（正在干 / 最近交付 / 下一步）——互相看见，互相避让</li>
+        <li><b>订单信箱</b>：CEO 令落 orders 文件 → 各机轮内认领 → 回执核销——<b>命令流也是文件流</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="duo secblk">
+    <div class="box">
+      <h3><small>CH.C · MEMORY</small>记忆总线：轮与轮怎么「认识」彼此</h3>
+      <ul>
+        <li><b>CODELY.md 每会话自动注入</b>——无头轮不靠聊天历史，靠这份活的岗位记忆（历史判例 / 红线 / 项目状态指针）</li>
+        <li>台账 append-only 永不滚删——<b>任何一轮都能被事后审计</b></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>CH.D · TWO BODIES</small>两种执行体的分工</h3>
+      <ul>
+        <li><b>交互会话</b>（有审批弹窗）：接新任务、立项、对外沟通——「外交官」</li>
+        <li><b>无头车道轮</b>（yolo 全放行）：在册项目的常规迭代独占——「厂线工人」；外交官不抢工人的活，工人不等外交官</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SEC.06 存档系统 ============ -->
+  <h2 class="worldhead"><span class="wk">SEC.06</span>存档系统 · 断点续跑</h2>
+  <p class="lede">全套体系最关键的一格：<b>任何一轮被拔电源，下一轮 10 分钟内原地满血</b>。秘密只有一个文件 + 三级指针。</p>
+  <div class="term secblk">
+    <div class="thead"><i></i><i></i><i></i><span>SAVE FILE · state.json（状态机正身·节选）</span></div>
+    <pre>{
+  <span class="k">"schema"</span>:      <span class="r">"minigame-engine-loop/state"</span>,
+  <span class="k">"machine_id"</span>:  <span class="r">"A"</span>,
+  <span class="k">"mode"</span>:        <span class="r">"normal_iteration"</span>,      <span class="c">← 10 分钟 / 30 分钟档位在档</span>
+  <span class="k">"trigger"</span>: {
+    <span class="k">"interval_minutes"</span>: <span class="r">10</span>,
+    <span class="k">"scheduled_task"</span>:   <span class="r">"MiniGameEngineTick"</span>
+  },
+  <span class="k">"projects"</span>: { <span class="c">"P0X"</span>: { <span class="k">"stage"</span>: <span class="r">"S3"</span>, <span class="k">"next_action"</span>: <span class="r">"…"</span>,
+                 <span class="k">"blocked_on"</span>: <span class="r">"等素材"</span>, <span class="k">"evidence"</span>: <span class="r">"…"</span> } }
+}                        <span class="c">← 每款一张「进度卡」：阶段 / 下一步 / 阻塞因 / 证据</span></pre>
+  </div>
+  <div class="duo secblk">
+    <div class="box">
+      <h3><small>POINTERS · 三级指针</small>进度写在文件里，不写在脑子里</h3>
+      <ul>
+        <li><b>款级</b>：每款 stage 卡（阶段 / 下一步 / 阻塞因）——开局先读卡判阶段</li>
+        <li><b>车道级</b>：雷达 / 审计 / 立项各自的位置与到期</li>
+        <li><b>事务级</b>：【StepX 完成】标记逐笔入 tick-ledger——干到哪步，白纸黑字</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>RESUME · 续跑三律</small>读档规则</h3>
+      <ul>
+        <li>指针在 = <b>从指针处续跑</b>：禁重推已过段、禁复跑已过门禁</li>
+        <li>指针悬空（写了意图没写结果）= <b>按意图补跑或回滚</b>——write-ahead 痕迹本身就是证据</li>
+        <li>控制 = <b>改指针</b>，不是把流程重讲一遍</li>
+      </ul>
+    </div>
+  </div>
+  <div class="duo secblk">
+    <div class="box red">
+      <h3><small>CRASH RECOVERY</small>崩溃自愈链</h3>
+      <ul>
+        <li>断电 / 硬杀 → 锁 12 分钟自动过期 → <b>下一轮 Step0 探测接管</b></li>
+        <li>state_guard 摘要四件：快照 ID / 基线 / 上一轮结果 / 回滚标记——<b>读档只要三秒</b></li>
+        <li>段级回滚：每段收口 commit 即存档点，<b>炸段只回滚本段</b>，前段成果无损</li>
+        <li>失败预算：段内返工 ≤2 轮，超限熔断降级——<b>不在死胡同里烧机器</b></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>CHECKPOINTS</small>长活防丢</h3>
+      <ul>
+        <li>批号原子认领（号池先占后用）——两轮不会抢同一个批号</li>
+        <li>长批（≥40 分钟）逐里程碑<b>检查点提交</b>：crash 损失 ≤1 个里程碑</li>
+        <li>成功神谕：<b>EXIT 码 + TICK_DONE 台账增量</b> 双证判死活——进程退出码会撒谎，台账 delta 不会</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SEC.07 仪表盘 ============ -->
+  <h2 class="worldhead"><span class="wk">SEC.07</span>仪表盘 · 每轮一行回执</h2>
+  <p class="lede">无人值守 ≠ 黑箱。每一轮留下<b>一行可机读的账</b>，三条实样（真实台账脱敏节选）：</p>
+  <div class="term secblk">
+    <div class="thead"><i></i><i></i><i></i><span>TICK-LEDGER · 本轮真实回执</span></div>
+    <pre>2026-10-15 17:27:00 | tick 20261015-171704 | <span class="r">EXIT_254_nullcode</span> <span class="k">DONE_SEEN</span> | out=.codely-cli\engine-tick\tick-…out.log
+2026-10-15 17:27:30 | tick-skip 20261015-172730 | <span class="k">GATESIT_SKIP</span> quiet-no-flags-no-open-orders | out=none
+[2026-10-15 17:25:44] X2589 <span class="k">TICK_DONE</span> GateSitter fold C1962 收口（merge 双亲拼接+三冲突行级手术+…）| next: 下轮常规开发候选
+
+<span class="c">时间 | 批号 | 退出码+完成标记 | 日志指针 —— 一行就是一次心跳，可审计可告警可回溯</span></pre>
+  </div>
+  <div class="duo secblk">
+    <div class="box">
+      <h3><small>VISIBILITY</small>三张实况面</h3>
+      <ul>
+        <li><b>快照看板</b>：每 10 分钟覆盖式重写 + 他机摘要行——人类一眼看全局</li>
+        <li><b>本机看板行</b>：当前活 / 最近实物 / 下个里程碑（≤48h）三行——过程可见</li>
+        <li><b>哨兵</b>：5 分钟一拍自检，闲旗 / 危旗两级熔断标记</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><small>SCORING · 防空转</small>产出计分制</h3>
+      <ul>
+        <li>能跑 / 能看 / 能用的实物 = <b>2 分</b>；实际文件改动 = 1 分；纯记账 = 0 分</li>
+        <li>连续 24 小时全部 0 分 = <b>空转判负</b>，值守轮点名</li>
+        <li>完成判据 = 验收清单全过才准宣称完成——<b>没过就如实记未完成</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ 页脚 ============ -->
+  <footer class="foot">
+    <div class="cont">CONTINUE? <span class="cd">9</span></div>
+    <div class="tech">与《游戏生产管线 Flow》同一世界观：WORLD 1 看流程 · WORLD 2 看引擎<br><code>ENGINE ROOM · GPF-2026-10 · v1.0</code></div>
+  </footer>
+
+</div>
+</body>
+</html>

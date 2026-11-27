@@ -1,0 +1,60 @@
+{
+ "_comment": "产出审核与入库政策 v1（2026-11-07）。CEO 要求：不只查文档，要真实审核产出；几层审核；确定后入档入库；入机队仓库。三层各管一件事，缺一层就会用「文件存在」冒充「产物合格」。",
+ "version": "v1-20261107",
+ "why_three_layers": "L1 只看文件本身会漏掉「内容与声明不符」；L2 只看一致性会漏掉「格式对但内容空」；L3 用模型能补语义，但模型会编，所以只做分类且必须允许答不确定。",
+ "layers": {
+  "L1": {
+   "name": "结构审（机检，0 token）",
+   "checks": [
+    "路径合法：仓库相对路径；远端路径标待查，不判缺失",
+    "文件非空：文本 ≥40 字节，媒体 ≥1KB",
+    "格式可解析：json 能 parse、csv ≥2 行、md/文本非空",
+    "无占位：TODO/TBD/待填/示例/placeholder/xxx",
+    "无冲突标记：<<<<<<< / >>>>>>>",
+    "媒体有效：签名可识别；有 ffprobe 则要求时长>0"
+   ],
+   "fail": "REJECT-L1，写明哪一条不过"
+  },
+  "L2": {
+   "name": "一致性审（机检 + 规则）",
+   "checks": [
+    "accept 里的数量要求（a/b 或 ≥N）与产物实际数量一致",
+    "产物自称「共 N 条」与实际条目数一致",
+    "卡标题关键词出现在产物里（弱一致性，缺则记疑点）",
+    "产物 mtime 与卡完成时间相差 <24h（防旧件冒充）"
+   ],
+   "fail": "REJECT-L2；数量不符是最常见的假完成"
+  },
+  "L3": {
+   "name": "语义抽查（模型 + 人）",
+   "sample_ratio": 0.1,
+   "model_task": "判断「产物内容是否与卡标题描述的事情一致」，只许答 是/否/不确定",
+   "rule_check": "答案在白名单内；不确定率>30% 则该批不适合模型审",
+   "human": "抽样里的 否/不确定 进 REVIEW-PENDING.md，由人或线主定"
+  }
+ },
+ "archive": {
+  "layout": "cph4/fleet/archive/<line>/<YYYYMMDD>/<sha8>-<filename>",
+  "ledger": "cph4/fleet/ARCHIVE-LEDGER.jsonl",
+  "fields": ["id", "title", "line", "src", "archived", "sha256", "bytes", "layers", "reviewed_at", "reviewer"],
+  "why": "入档是让产物可追溯：任何一条都能从账反查到文件与哈希"
+ },
+ "intake": {
+  "map": {
+   "bigstream-mv": "media/BigStream", "bigstream-drama": "media/BigStream",
+   "bigstream-short": "media/BigStream", "biggame": "gaming/MiniGame",
+   "fluxverse": "gaming/FluxVerse", "bigmoney": "quant/bigmoney",
+   "biglife": "life/BigLife", "bigcompute": "compute/BigCompute",
+   "bigdomain": "domain/BigDomain", "bighouse": "house/BigHouse",
+   "car-gaming": "gaming/MiniGame", "asset-lib": "media/BigStream"
+  },
+  "target_rel": "<line>/<YYYYMMDD>/<filename>",
+  "pending": "cph4/fleet/INTAKE-PENDING.jsonl",
+  "why": "子仓未 clone 时不能假装入库；写待入清单，等该仓存在时补"
+ },
+ "state_rule": {
+  "approved": "review=APPROVED 且 archived_to 有值",
+  "rejected": "review=REJECTED 且 review_reason 有值",
+  "never": "不许用 DONE 代替 APPROVED——DONE 只表示执行结束"
+ }
+}

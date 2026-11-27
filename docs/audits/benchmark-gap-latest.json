@@ -1,0 +1,93 @@
+{
+  "generated_utc": "2026-09-30T07:05:37Z",
+  "probe": "benchmark-gap-probe.ps1 v1.0",
+  "rules": [
+    {
+      "rule": "R-D1",
+      "line": "BigDomain",
+      "verdict": "PASS",
+      "metric": "accessible_fronts=1",
+      "threshold": ">=1",
+      "evidence": "domain/BigDomain html entry scan"
+    },
+    {
+      "rule": "R-S1",
+      "line": "BigStream",
+      "verdict": "FAIL",
+      "metric": "published=0 finished=76 ratio=0",
+      "threshold": ">=0.3",
+      "evidence": "output/renders + docs/accounts.md"
+    },
+    {
+      "rule": "R-S3",
+      "line": "BigStream",
+      "verdict": "DATA_GAP",
+      "metric": "cover_variant_hits=0",
+      "threshold": ">=2 per item",
+      "evidence": "filename scan only: weak, needs a per-item manifest (unwired detail)"
+    },
+    {
+      "rule": "R-C1",
+      "line": "BigCompute",
+      "verdict": "FAIL",
+      "metric": "gpu_avg_pct=10.6 (n=4)",
+      "threshold": ">=70 pass / <50 structural fail",
+      "evidence": "compute/BigCompute/state/*.json"
+    },
+    {
+      "rule": "R-L1",
+      "line": "BigLife",
+      "verdict": "PASS",
+      "metric": "census_cards=10007 wired_consumers=6",
+      "threshold": ">=1 consumer per new batch",
+      "evidence": "census/registry + cognition/CONSUMER-WIRING.md"
+    },
+    {
+      "rule": "R-F2",
+      "line": "FluxVerse",
+      "verdict": "PASS",
+      "metric": "layout_data_files=4 runtime_ui_builders=0",
+      "threshold": ">=1 assembly data source",
+      "evidence": "game/FluxVerse layout/world data scan"
+    },
+    {
+      "rule": "R-G3",
+      "line": "Biggame",
+      "verdict": "FAIL",
+      "metric": "built_artifacts=2 test_asset_hits=0",
+      "threshold": "tested >= 0.5 x built",
+      "evidence": "build artifact + creative-material scan"
+    },
+    {
+      "rule": "R-M2",
+      "line": "BigMoney",
+      "verdict": "PASS",
+      "metric": "cost_reconciliation_artifacts=3",
+      "threshold": ">=1 per-trade cost reconciliation",
+      "evidence": "filename scan for cost reconciliation artifacts"
+    }
+  ],
+  "unwired": [
+    "R-G1 (pre-launch creative + test verdict) -- needs a per-title stage manifest",
+    "R-G2 (external reachable entry) -- needs a published-links registry",
+    "R-S2 (CTR / 3s retention / completion write-back) -- needs platform analytics export",
+    "R-F1 (module reuse rate) -- needs assembler output inventory",
+    "R-F3 (weekly L0 screenshot) -- needs an evidence index",
+    "R-M1 (information increment gate) -- needs prereg cross-correlation table",
+    "R-M3 (surrender rule registry) -- needs a closed-line registry",
+    "R-D2 (tunnel/local URL + click recording) -- needs an artifact registry",
+    "R-D3 (one external-person loop) -- needs a user session record",
+    "R-L2 (same-seed same-face machine check) -- needs the run log",
+    "R-L3 (each resident read by at least one consumer) -- needs a consumption ledger",
+    "R-C2 (internal transfer pricing for sibling usage) -- needs a costing ledger",
+    "R-C3 (hourly/reserved/per-token pricing) -- needs a price sheet"
+  ],
+  "summary": {
+    "pass": 4,
+    "fail": 3,
+    "warn": 0,
+    "data_gap": 1,
+    "wired": 8,
+    "unwired": 13
+  }
+}

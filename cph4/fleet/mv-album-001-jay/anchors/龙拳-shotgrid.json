@@ -1,0 +1,887 @@
+{
+ "song": "龙拳",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 417,
+  "n_beats": 417,
+  "n_downbeats": 104,
+  "duration_sec": 274.57
+ },
+ "bpm_median": 92.3,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "以敦煌为圆心的东北东",
+   "t0": 49.21,
+   "t1": 51.78,
+   "t0_used": 49.21,
+   "t1_used": 51.78,
+   "snapped": false,
+   "snap_deltas": [
+    0.193,
+    0.185
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "这民族 的海岸线像一支弓",
+   "t0": 51.78,
+   "t1": 54.34,
+   "t0_used": 51.78,
+   "t1_used": 54.34,
+   "snapped": false,
+   "snap_deltas": [
+    0.185,
+    0.145
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "那长城 像五千年来待射的梦",
+   "t0": 54.34,
+   "t1": 56.87,
+   "t0_used": 54.34,
+   "t1_used": 56.773,
+   "snapped": true,
+   "snap_deltas": [
+    0.145,
+    0.097
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 3,
+   "text": "我用手臂拉开这整个土地的重",
+   "t0": 56.87,
+   "t1": 59.49,
+   "t0_used": 56.773,
+   "t1_used": 59.49,
+   "snapped": true,
+   "snap_deltas": [
+    0.097,
+    0.14
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "蒙古高原南下的风写些什么内容",
+   "t0": 59.49,
+   "t1": 62.67,
+   "t0_used": 59.49,
+   "t1_used": 62.578,
+   "snapped": true,
+   "snap_deltas": [
+    0.14,
+    0.092
+   ],
+   "approx": false,
+   "splits": [
+    61.301
+   ]
+  },
+  {
+   "i": 5,
+   "text": "汉字到底懂不懂 一样肤色和脸孔",
+   "t0": 62.67,
+   "t1": 65.28,
+   "t0_used": 62.578,
+   "t1_used": 65.28,
+   "snapped": true,
+   "snap_deltas": [
+    0.092,
+    0.125
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "跨越黄河 东 登上泰山顶峰",
+   "t0": 65.28,
+   "t1": 67.75,
+   "t0_used": 65.28,
+   "t1_used": 67.733,
+   "snapped": true,
+   "snap_deltas": [
+    0.125,
+    0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "我向西 引北风 晒成一身古铜",
+   "t0": 67.75,
+   "t1": 80.55,
+   "t0_used": 67.733,
+   "t1_used": 80.55,
+   "snapped": true,
+   "snap_deltas": [
+    0.017,
+    -0.116
+   ],
+   "approx": false,
+   "splits": [
+    70.356,
+    72.934,
+    75.511,
+    78.089
+   ]
+  },
+  {
+   "i": 8,
+   "text": "渴望着血脉相通 无限个千万弟兄",
+   "t0": 80.55,
+   "t1": 85.15,
+   "t0_used": 80.55,
+   "t1_used": 85.171,
+   "snapped": true,
+   "snap_deltas": [
+    -0.116,
+    -0.021
+   ],
+   "approx": false,
+   "splits": [
+    82.593
+   ]
+  },
+  {
+   "i": 9,
+   "text": "我把天地拆封将长江水掏空",
+   "t0": 85.15,
+   "t1": 88.34,
+   "t0_used": 85.171,
+   "t1_used": 88.398,
+   "snapped": true,
+   "snap_deltas": [
+    -0.021,
+    -0.058
+   ],
+   "approx": false,
+   "splits": [
+    87.098
+   ]
+  },
+  {
+   "i": 10,
+   "text": "人在古老河床蜕变中",
+   "t0": 88.34,
+   "t1": 90.99,
+   "t0_used": 88.398,
+   "t1_used": 90.999,
+   "snapped": true,
+   "snap_deltas": [
+    -0.058,
+    -0.009
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 90.99,
+   "t1": 93.5,
+   "t0_used": 90.999,
+   "t1_used": 93.576,
+   "snapped": true,
+   "snap_deltas": [
+    -0.009,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "把 山河重新移动 填平裂缝",
+   "t0": 93.5,
+   "t1": 96.08,
+   "t0_used": 93.576,
+   "t1_used": 96.154,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    -0.074
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "将 东方 的日出调整了时空",
+   "t0": 96.08,
+   "t1": 98.67,
+   "t0_used": 96.154,
+   "t1_used": 98.731,
+   "snapped": true,
+   "snap_deltas": [
+    -0.074,
+    -0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "回到洪荒 去支配 去操纵",
+   "t0": 98.67,
+   "t1": 101.24,
+   "t0_used": 98.731,
+   "t1_used": 101.309,
+   "snapped": true,
+   "snap_deltas": [
+    -0.061,
+    -0.069
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 101.24,
+   "t1": 103.82,
+   "t0_used": 101.309,
+   "t1_used": 103.909,
+   "snapped": true,
+   "snap_deltas": [
+    -0.069,
+    -0.089
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "那 大地心脏汹涌 不安跳动",
+   "t0": 103.82,
+   "t1": 106.41,
+   "t0_used": 103.909,
+   "t1_used": 106.463,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    -0.053
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "全 世界 的表情只剩下一种",
+   "t0": 106.41,
+   "t1": 108.94,
+   "t0_used": 106.463,
+   "t1_used": 108.94,
+   "snapped": true,
+   "snap_deltas": [
+    -0.053,
+    -0.124
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "等待英雄 我就是那条龙",
+   "t0": 108.94,
+   "t1": 111.55,
+   "t0_used": 108.94,
+   "t1_used": 111.642,
+   "snapped": true,
+   "snap_deltas": [
+    -0.124,
+    -0.092
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 111.55,
+   "t1": 114.11,
+   "t0_used": 111.642,
+   "t1_used": 114.11,
+   "snapped": true,
+   "snap_deltas": [
+    -0.092,
+    -0.109
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "把 山河重新移动 填平裂缝",
+   "t0": 114.11,
+   "t1": 116.67,
+   "t0_used": 114.11,
+   "t1_used": 116.67,
+   "snapped": false,
+   "snap_deltas": [
+    -0.109,
+    -0.126
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "将 东方 的日出调整了时空",
+   "t0": 116.67,
+   "t1": 119.31,
+   "t0_used": 116.67,
+   "t1_used": 119.374,
+   "snapped": true,
+   "snap_deltas": [
+    -0.126,
+    -0.064
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "回到洪荒 去支配 去操纵",
+   "t0": 119.31,
+   "t1": 121.94,
+   "t0_used": 119.374,
+   "t1_used": 121.974,
+   "snapped": true,
+   "snap_deltas": [
+    -0.064,
+    -0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 121.94,
+   "t1": 124.45,
+   "t0_used": 121.974,
+   "t1_used": 124.45,
+   "snapped": true,
+   "snap_deltas": [
+    -0.034,
+    -0.102
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "那 大地心脏汹涌 不安跳动",
+   "t0": 124.45,
+   "t1": 127.07,
+   "t0_used": 124.45,
+   "t1_used": 127.129,
+   "snapped": true,
+   "snap_deltas": [
+    -0.102,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "全 世界 的表情只剩下一种",
+   "t0": 127.07,
+   "t1": 129.69,
+   "t0_used": 127.129,
+   "t1_used": 129.73,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    -0.04
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "等待英雄 我就是那条龙",
+   "t0": 129.69,
+   "t1": 167.47,
+   "t0_used": 129.73,
+   "t1_used": 167.47,
+   "snapped": true,
+   "snap_deltas": [
+    -0.04,
+    -0.108
+   ],
+   "approx": false,
+   "splits": [
+    132.377,
+    135.256,
+    138.507,
+    141.084,
+    144.196,
+    147.307,
+    150.024,
+    153.252,
+    155.968,
+    158.569,
+    161.797,
+    164.374
+   ]
+  },
+  {
+   "i": 27,
+   "text": "渴望着血脉相通 无限个千万弟兄",
+   "t0": 167.47,
+   "t1": 172.04,
+   "t0_used": 167.47,
+   "t1_used": 172.083,
+   "snapped": true,
+   "snap_deltas": [
+    -0.108,
+    -0.043
+   ],
+   "approx": false,
+   "splits": [
+    169.506
+   ]
+  },
+  {
+   "i": 28,
+   "text": "我把天地拆封将长江水掏空",
+   "t0": 172.04,
+   "t1": 175.27,
+   "t0_used": 172.083,
+   "t1_used": 175.311,
+   "snapped": true,
+   "snap_deltas": [
+    -0.043,
+    -0.041
+   ],
+   "approx": false,
+   "splits": [
+    173.383
+   ]
+  },
+  {
+   "i": 29,
+   "text": "人在古老河床蜕变中",
+   "t0": 175.27,
+   "t1": 177.87,
+   "t0_used": 175.311,
+   "t1_used": 177.911,
+   "snapped": true,
+   "snap_deltas": [
+    -0.041,
+    -0.041
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 177.87,
+   "t1": 180.43,
+   "t0_used": 177.911,
+   "t1_used": 180.489,
+   "snapped": true,
+   "snap_deltas": [
+    -0.041,
+    -0.059
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "把 山河重新移动 填平裂缝",
+   "t0": 180.43,
+   "t1": 182.97,
+   "t0_used": 180.489,
+   "t1_used": 183.066,
+   "snapped": true,
+   "snap_deltas": [
+    -0.059,
+    -0.096
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "将 东方 的日出调整了时空",
+   "t0": 182.97,
+   "t1": 185.59,
+   "t0_used": 183.066,
+   "t1_used": 185.644,
+   "snapped": true,
+   "snap_deltas": [
+    -0.096,
+    -0.054
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "回到洪荒 去支配 去操纵",
+   "t0": 185.59,
+   "t1": 188.2,
+   "t0_used": 185.644,
+   "t1_used": 188.244,
+   "snapped": true,
+   "snap_deltas": [
+    -0.054,
+    -0.044
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 188.2,
+   "t1": 190.68,
+   "t0_used": 188.244,
+   "t1_used": 190.68,
+   "snapped": true,
+   "snap_deltas": [
+    -0.044,
+    -0.142
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "那 大地心脏汹涌 不安跳动",
+   "t0": 190.68,
+   "t1": 193.31,
+   "t0_used": 190.68,
+   "t1_used": 193.399,
+   "snapped": true,
+   "snap_deltas": [
+    -0.142,
+    -0.089
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "全 世界 的表情只剩下一种",
+   "t0": 193.31,
+   "t1": 195.95,
+   "t0_used": 193.399,
+   "t1_used": 195.976,
+   "snapped": true,
+   "snap_deltas": [
+    -0.089,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "等待英雄 我就是那条龙",
+   "t0": 195.95,
+   "t1": 219.16,
+   "t0_used": 195.976,
+   "t1_used": 219.22,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.06
+   ],
+   "approx": false,
+   "splits": [
+    198.577,
+    201.805,
+    204.382,
+    207.586,
+    210.814,
+    213.391,
+    216.619
+   ]
+  },
+  {
+   "i": 38,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 219.16,
+   "t1": 221.71,
+   "t0_used": 219.22,
+   "t1_used": 221.797,
+   "snapped": true,
+   "snap_deltas": [
+    -0.06,
+    -0.087
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "把 山河重新移动 填平裂缝",
+   "t0": 221.71,
+   "t1": 224.28,
+   "t0_used": 221.797,
+   "t1_used": 224.374,
+   "snapped": true,
+   "snap_deltas": [
+    -0.087,
+    -0.094
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "将 东方 的日出调整了时空",
+   "t0": 224.28,
+   "t1": 226.9,
+   "t0_used": 224.374,
+   "t1_used": 226.952,
+   "snapped": true,
+   "snap_deltas": [
+    -0.094,
+    -0.052
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "回到洪荒 去支配 去操纵",
+   "t0": 226.9,
+   "t1": 229.49,
+   "t0_used": 226.952,
+   "t1_used": 229.552,
+   "snapped": true,
+   "snap_deltas": [
+    -0.052,
+    -0.062
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "我 右拳打开了天 化身为龙",
+   "t0": 229.49,
+   "t1": 232.08,
+   "t0_used": 229.552,
+   "t1_used": 232.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.062,
+    -0.05
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 43,
+   "text": "那 大地心脏汹涌 不安跳动",
+   "t0": 232.08,
+   "t1": 234.65,
+   "t0_used": 232.13,
+   "t1_used": 234.707,
+   "snapped": true,
+   "snap_deltas": [
+    -0.05,
+    -0.057
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "全 世界 的表情只剩下一种",
+   "t0": 234.65,
+   "t1": 237.2,
+   "t0_used": 234.707,
+   "t1_used": 237.285,
+   "snapped": true,
+   "snap_deltas": [
+    -0.057,
+    -0.085
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "等待英雄",
+   "t0": 237.2,
+   "t1": 240.0,
+   "t0_used": 237.285,
+   "t1_used": 240.0,
+   "snapped": true,
+   "snap_deltas": [
+    -0.085,
+    0.161
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "我就是那条龙",
+   "t0": 240.0,
+   "t1": 241.11,
+   "t0_used": 240.0,
+   "t1_used": 241.139,
+   "snapped": true,
+   "snap_deltas": [
+    0.161,
+    -0.029
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 47,
+   "text": "化身为龙",
+   "t0": 241.11,
+   "t1": 243.7,
+   "t0_used": 241.139,
+   "t1_used": 243.717,
+   "snapped": true,
+   "snap_deltas": [
+    -0.029,
+    -0.017
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "填平裂缝",
+   "t0": 243.7,
+   "t1": 246.24,
+   "t0_used": 243.717,
+   "t1_used": 246.317,
+   "snapped": true,
+   "snap_deltas": [
+    -0.017,
+    -0.077
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 49,
+   "text": "调整了时空",
+   "t0": 246.24,
+   "t1": 250.13,
+   "t0_used": 246.317,
+   "t1_used": 250.149,
+   "snapped": true,
+   "snap_deltas": [
+    -0.077,
+    -0.019
+   ],
+   "approx": false,
+   "splits": [
+    248.245
+   ]
+  },
+  {
+   "i": 50,
+   "text": "去支配 去操纵",
+   "t0": 250.13,
+   "t1": 251.47,
+   "t0_used": 250.149,
+   "t1_used": 251.472,
+   "snapped": true,
+   "snap_deltas": [
+    -0.019,
+    -0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "化身为龙",
+   "t0": 251.47,
+   "t1": 254.01,
+   "t0_used": 251.472,
+   "t1_used": 254.05,
+   "snapped": true,
+   "snap_deltas": [
+    -0.002,
+    -0.04
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "不安跳动",
+   "t0": 254.01,
+   "t1": 256.56,
+   "t0_used": 254.05,
+   "t1_used": 256.627,
+   "snapped": true,
+   "snap_deltas": [
+    -0.04,
+    -0.067
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "只剩下一种",
+   "t0": 256.56,
+   "t1": 259.19,
+   "t0_used": 256.627,
+   "t1_used": 259.228,
+   "snapped": true,
+   "snap_deltas": [
+    -0.067,
+    -0.038
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "等待英雄 我就是那条龙",
+   "t0": 259.19,
+   "t1": 262.19,
+   "t0_used": 259.228,
+   "t1_used": 262.19,
+   "snapped": true,
+   "snap_deltas": [
+    -0.038,
+    -0.288
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 55,
+  "lines_untimed": 0,
+  "lines_snapped": 52,
+  "lines_unsnapped": 3,
+  "lines_need_split": 9,
+  "total_splits": 29
+ },
+ "advisory": true
+}

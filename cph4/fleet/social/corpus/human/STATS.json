@@ -1,0 +1,48 @@
+{
+ "total": 228671,
+ "usable_for_train": 216567,
+ "by_use": {
+  "train": 216567,
+  "rejected": 8,
+  "null": 11944,
+  "reference": 152
+ },
+ "by_src": {
+  "selfgen-shallow": 236,
+  "own_collected": 105324,
+  "negatives": 0,
+  "QUALITY-PASS": 10375,
+  "study_hot": 1343,
+  "own_practice": 44,
+  "selfgen-all": 355,
+  "SEG2": 11944,
+  "bili_comments_crawl": 152,
+  "selfgen-shallow-v0": 105,
+  "BAKED-v1": 98793
+ },
+ "by_kind": {
+  "praise": 1048,
+  "critique": 206,
+  "question": 136,
+  "experience": 2,
+  "其他": 119519,
+  "提问": 37425,
+  "夸奖": 16285,
+  "打卡": 1380,
+  "共鸣": 2419,
+  "挑刺": 3831,
+  "玩梗": 3275,
+  "催更": 734,
+  "乐评": 29124,
+  "null": 13287
+ },
+ "by_emo": {
+  "null": 14759,
+  "平": 165895,
+  "喜": 10700,
+  "怒": 3422,
+  "哀": 2211,
+  "奇": 2560,
+  "": 29124
+ }
+}

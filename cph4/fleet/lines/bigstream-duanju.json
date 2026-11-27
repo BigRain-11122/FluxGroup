@@ -1,0 +1,18 @@
+{
+ "id": "bigstream-duanju",
+ "name": "BigStream·短剧",
+ "owner": "短剧席",
+ "status": "ACTIVE",
+ "cadence_h": 72,
+ "inputs": [
+  "cph4/fleet/duanju-dept-v1",
+  "cph4/fleet/duanju-dept-v1"
+ ],
+ "outputs": [
+  "cph4/fleet/duanju-dept-v1/**/*.md"
+ ],
+ "lanes": [
+  "bm-c"
+ ],
+ "needs": "gpu"
+}

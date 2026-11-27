@@ -1,0 +1,16 @@
+{
+ "ts": "2026-11-06T03:13:14",
+ "sizes_bytes": {
+  "docs/orders.md": 222359,
+  "docs/decisions.md": 220388,
+  "cph4/evolution-ledger.md": 143187,
+  "gaming/MiniGame/CODELY.md": 32513
+ },
+ "thresholds_kb": {
+  "docs/orders.md": 250,
+  "docs/decisions.md": 200,
+  "cph4/evolution-ledger.md": 400,
+  "gaming/MiniGame/CODELY.md": 60
+ },
+ "note": "night-round baseline for 'daily growth >30KB x2 shifts' rule; compare by ts"
+}

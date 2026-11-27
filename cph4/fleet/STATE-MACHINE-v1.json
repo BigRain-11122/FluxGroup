@@ -1,0 +1,185 @@
+{
+ "_comment": "卡状态机唯一权威（2026-11-12 立）。此前 station_shards.TERMINAL=(DONE,CANCELLED,ARCHIVED,FAILED) 与 station_drive.DONE_STATES=(DONE,CANCELLED,SHELVED) 是两套互不相认的终态定义，ARCHIVED 与 SHELVED 行为正好相反；结果 8 种状态既不执行也不重建（死卡）。本件是唯一来源，代码只许从这里派生，不许再各写一份。",
+ "_version": "v1-20261112",
+ "kind_desc": {
+  "live": "可执行（自驱会领）",
+  "review": "等评审团/等返工，不执行但会被重建",
+  "terminal": "终态，不再执行也不再重建",
+  "parked": "人工停放，等解锁"
+ },
+ "states": {
+  "OPEN": {
+   "kind": "live",
+   "can_go": [
+    "RUNNING",
+    "BLOCKED",
+    "CANCELLED",
+    "SHELVED"
+   ],
+   "who": {
+    "RUNNING": "claim（须 CAS：仍为 OPEN 才写）",
+    "BLOCKED": "supply（缺输入/水位不足）",
+    "CANCELLED": "cmd/人",
+    "SHELVED": "cmd/人"
+   },
+   "rebuild": false
+  },
+  "RUNNING": {
+   "kind": "live",
+   "can_go": [
+    "DONE",
+    "FAILED",
+    "BLOCKED",
+    "PENDING_HUMAN",
+    "PENDING_REVIEW",
+    "REVISE",
+    "UNVERIFIED",
+    "OPEN"
+   ],
+   "who": {
+    "DONE": "verify（确定性判据过）",
+    "FAILED": "verify（rc≠0）",
+    "BLOCKED": "run（NEED-CMD）",
+    "PENDING_HUMAN": "verify（人判件）",
+    "PENDING_REVIEW": "verify（panel 判据）",
+    "REVISE": "panel（要求返工）",
+    "UNVERIFIED": "verify（缺哈希/缺证据）",
+    "OPEN": "reclaim（租约超时/停机释放）"
+   },
+   "rebuild": false
+  },
+  "PENDING_REVIEW": {
+   "kind": "review",
+   "can_go": [
+    "DONE",
+    "REVISE",
+    "PENDING_HUMAN",
+    "BLOCKED"
+   ],
+   "who": {
+    "DONE": "panel 通过",
+    "REVISE": "panel 否决",
+    "PENDING_HUMAN": "panel 判不了交人",
+    "BLOCKED": "评审不可用"
+   },
+   "rebuild": false
+  },
+  "REVISE": {
+   "kind": "review",
+   "can_go": [
+    "OPEN",
+    "CANCELLED",
+    "SHELVED"
+   ],
+   "who": {
+    "OPEN": "supply（带 attempt+1 与 next_retry_at 重排）",
+    "CANCELLED": "cmd/人",
+    "SHELVED": "人"
+   },
+   "rebuild": false
+  },
+  "PENDING_HUMAN": {
+   "kind": "review",
+   "can_go": [
+    "DONE",
+    "REVISE",
+    "CANCELLED"
+   ],
+   "who": {
+    "DONE": "人判通过（唯一路径）",
+    "REVISE": "人判返工",
+    "CANCELLED": "人"
+   },
+   "rebuild": false
+  },
+  "UNVERIFIED": {
+   "kind": "review",
+   "can_go": [
+    "OPEN",
+    "PENDING_HUMAN",
+    "FAILED"
+   ],
+   "who": {
+    "OPEN": "supply（补证据后重跑）",
+    "PENDING_HUMAN": "无自动路径可补",
+    "FAILED": "复查判定失败"
+   },
+   "rebuild": false
+  },
+  "FAILED": {
+   "kind": "live",
+   "can_go": [
+    "OPEN",
+    "BLOCKED",
+    "CANCELLED"
+   ],
+   "who": {
+    "OPEN": "supply（带 attempt+1 与退避）",
+    "BLOCKED": "supply（超过重试上限，写明缺什么）",
+    "CANCELLED": "cmd/人"
+   },
+   "rebuild": false
+  },
+  "BLOCKED": {
+   "kind": "parked",
+   "can_go": [
+    "OPEN",
+    "CANCELLED",
+    "SHELVED"
+   ],
+   "who": {
+    "OPEN": "supply（原因解除）",
+    "CANCELLED": "cmd/人",
+    "SHELVED": "人"
+   },
+   "rebuild": false
+  },
+  "SHELVED": {
+   "kind": "parked",
+   "can_go": [
+    "OPEN",
+    "CANCELLED"
+   ],
+   "who": {
+    "OPEN": "人（解锁）",
+    "CANCELLED": "人"
+   },
+   "rebuild": true
+  },
+  "DONE": {
+   "kind": "terminal",
+   "can_go": [
+    "ARCHIVED"
+   ],
+   "who": {
+    "ARCHIVED": "archive（按 TTL 归档，保留记录）"
+   },
+   "note": "终态不许回跳 RUNNING/OPEN —— 回跳等于同卡重复执行且无痕迹",
+   "rebuild": true
+  },
+  "CANCELLED": {
+   "kind": "terminal",
+   "can_go": [
+    "ARCHIVED"
+   ],
+   "who": {
+    "ARCHIVED": "archive"
+   },
+   "rebuild": true
+  },
+  "ARCHIVED": {
+   "kind": "terminal",
+   "can_go": [],
+   "who": {},
+   "note": "归档件只读",
+   "rebuild": false
+  }
+ },
+ "rules": [
+  "任何状态写入前用 state_machine.can_transition(旧, 新) 判；非法迁移必须记 history 并计数，不许静默覆盖",
+  "live 状态的自驱只领 OPEN；review 状态等对应裁决者；terminal 不再执行也不再重建",
+  "FAILED/REVISE 必须有退避重试路径（attempt+1 + next_retry_at），否则就是死卡",
+  "改本文件必须同时改 state_machine.py 的自检期望值（期望值独立写死，不拿工具自身结果当答案）"
+ ],
+ "_comment_rebuild": "rebuild=true 表示『这道工序已有这张卡不挡重建』（supply 用它算 open_keys）。2026-11-12 首版与原 DONE_STATES(DONE,CANCELLED,SHELVED) 完全一致，保证行为不变；批次4 会让 FAILED/REVISE 也能重建（带 attempt+1 与退避），那是有据的行为变更。"
+}

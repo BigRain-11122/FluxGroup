@@ -1,0 +1,46 @@
+{
+ "ts": "2026-10-27T00:33:59+08:00",
+ "prompt": "用一句话说明汽修店的轮毂动平衡是什么，不超过30字。",
+ "rows": [
+  {
+   "model": "qwen3.8:4b",
+   "wall_s": 10.13,
+   "load_s": 9.74,
+   "gen_tokens": 18,
+   "tok_per_s": 77.0,
+   "sample": "通过配重消除轮毂质量不均，防止高速抖动，提升行驶平稳性。",
+   "vram_used_mb": 4947.0,
+   "gpu_util_pct": 56.0
+  },
+  {
+   "model": "qwen2.5:7b-instruct",
+   "wall_s": 8.75,
+   "load_s": 8.32,
+   "gen_tokens": 18,
+   "tok_per_s": 59.6,
+   "sample": "轮毂动平衡是通过调整使轮胎旋转时平衡稳定，减少震动。",
+   "vram_used_mb": 5890.0,
+   "gpu_util_pct": 31.0
+  },
+  {
+   "model": "bili-reply-v38:latest",
+   "wall_s": 11.61,
+   "load_s": 10.6,
+   "gen_tokens": 15,
+   "tok_per_s": 24.2,
+   "sample": "转个圈看看车轮有没有跑偏，调整一下就好。",
+   "vram_used_mb": 1284.0,
+   "gpu_util_pct": 22.0
+  },
+  {
+   "model": "bili-reply-14b:latest",
+   "wall_s": 21.63,
+   "load_s": 13.92,
+   "gen_tokens": 14,
+   "tok_per_s": 4.4,
+   "sample": "调整轮毂上质量分布，确保行驶平稳不晃。",
+   "vram_used_mb": 7856.0,
+   "gpu_util_pct": 22.0
+  }
+ ]
+}

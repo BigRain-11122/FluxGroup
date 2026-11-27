@@ -1,0 +1,38 @@
+{"id": "p1", "face": "comment", "text": "这段剪辑太顺了", "kind": ["praise"], "human": false}
+{"id": "p2", "face": "comment", "text": "女主好美啊啊啊", "kind": ["praise"], "human": false}
+{"id": "p3", "face": "comment", "text": "转场太帅了，怎么做到的", "kind": ["praise", "question"], "human": false}
+{"id": "p4", "face": "comment", "text": "BGM 绝了", "kind": ["praise", "question", "voice_block"], "human": false}
+{"id": "p5", "face": "danmaku", "text": "好听", "kind": ["praise_skip"], "human": false}
+{"id": "q1", "face": "comment", "text": "求bgm名字！找好久了", "kind": ["question"], "human": false}
+{"id": "q2", "face": "comment", "text": "用什么软件剪的", "kind": ["question"], "human": false}
+{"id": "q3", "face": "comment", "text": "这条做多久啊", "kind": ["question"], "human": false}
+{"id": "q4", "face": "comment", "text": "下期什么时候更", "kind": ["question"], "human": false}
+{"id": "q5", "face": "comment", "text": "调色怎么调的", "kind": ["question"], "human": false}
+{"id": "q6", "face": "danmaku", "text": "下次什么时候直播", "kind": ["question", "voice_block"], "human": true}
+{"id": "c1", "face": "comment", "text": "广告味太重了吧", "kind": ["complaint"], "human": true}
+{"id": "c2", "face": "comment", "text": "画质有点糊", "kind": ["complaint"], "human": true}
+{"id": "c3", "face": "comment", "text": "这段节奏太拖了", "kind": ["complaint"], "human": true}
+{"id": "c4", "face": "comment", "text": "字幕错别字好多", "kind": ["complaint"], "human": true}
+{"id": "l1", "face": "comment", "text": "这不就是抄某某MV吗，一模一样", "kind": ["legal"], "human": true}
+{"id": "l2", "face": "comment", "text": "BGM 有版权吗", "kind": ["legal"], "human": true}
+{"id": "l3", "face": "comment", "text": "你这属于侵权了吧", "kind": ["legal"], "human": true}
+{"id": "f1", "face": "comment", "text": "难看死了", "kind": ["flame"], "human": true}
+{"id": "f2", "face": "comment", "text": "浪费时间", "kind": ["flame"], "human": true}
+{"id": "f3", "face": "danmaku", "text": "别更了 退了吧", "kind": ["flame"], "human": true}
+{"id": "s1", "face": "comment", "text": "加V看更多精彩内容", "kind": ["spam"], "human": true}
+{"id": "s2", "face": "comment", "text": "点我主页有福利", "kind": ["spam"], "human": true}
+{"id": "s3", "face": "dm", "text": "刷单日结 加我", "kind": ["spam"], "human": true}
+{"id": "r1", "face": "comment", "text": "这个画面是AI做的吗？看着有点恐怖谷", "kind": ["question_ai"], "human": true, "redline": true}
+{"id": "r2", "face": "comment", "text": "女主是真人吗", "kind": ["question_ai", "question_identity"], "human": true, "redline": true}
+{"id": "r3", "face": "comment", "text": "你是学考古的吗", "kind": ["question_identity"], "human": true, "redline": true}
+{"id": "r4", "face": "comment", "text": "up主是男是女", "kind": ["question_identity"], "human": true, "redline": true}
+{"id": "r5", "face": "comment", "text": "是不是本人出镜", "kind": ["question_ai", "question_identity"], "human": true, "redline": true}
+{"id": "r6", "face": "comment", "text": "你们团队几个人", "kind": ["question_identity"], "human": true, "redline": true}
+{"id": "r7", "face": "danmaku", "text": "这歌是你自己唱的吗", "kind": ["question_ai", "question_identity", "disclosure_veto", "voice_block"], "human": true, "redline": true}
+{"id": "r8", "face": "comment", "text": "谁做的这个视频", "kind": ["question_identity", "question"], "human": true, "redline": true}
+{"id": "r9", "face": "comment", "text": "这是AI合成的吧", "kind": ["question_ai"], "human": true, "redline": true}
+{"id": "r10", "face": "danmaku", "text": "AI做的吧", "kind": ["question_ai"], "human": true, "redline": true}
+{"id": "m1", "face": "dm", "text": "请问可以转载到小红书吗", "kind": ["question"], "human": false, "faq": "F-001"}
+{"id": "m2", "face": "dm", "text": "你们那个视频多少钱一条", "kind": ["business", "legal", "voice_block"], "human": true}
+{"id": "m3", "face": "dm", "text": "能开发票吗", "kind": ["business", "question", "voice_block"], "human": true}
+{"id": "m4", "face": "dm", "text": "谢谢你们做的东西", "kind": ["praise"], "human": false}

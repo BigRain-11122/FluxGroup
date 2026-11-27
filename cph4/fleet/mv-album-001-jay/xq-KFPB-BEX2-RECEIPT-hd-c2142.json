@@ -1,0 +1,52 @@
+{
+ "wave": "xq-kfpb-bex2-hd-c2142",
+ "runner": "bm-c C2142",
+ "auth": "bank job kfpb-bex2-reroll-c2140; C2140 native board read B-EX2 MINOR (hand placement + eyeline)",
+ "blocks": {
+  "id_f_b": "a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness",
+  "id_m_2001": "a 20-year-old Taiwanese student with heavy-lidded monolid eyes, a thick lower lip, softly rounded cheeks and a thick black fringe lying flat over his eyebrows",
+  "world": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse",
+  "light_dusk": "lit by 2800K dusk backlight with a warm halo",
+  "closing": "35mm film grain, telecine texture, 2001 Taiwan music video look",
+  "anchor_base": "close-up of her fingers lightly hooking the hem of his jacket during a wish, backlit dusk",
+  "anchor_repair": "her right hand clearly readable with five separated fingers curling over the jacket hem, thumb resting outside the fabric, wrist relaxed; their eyes meeting each other, both heads turned toward one another at the same height, shoulders facing"
+ },
+ "frames": [
+  {
+   "id": "B-EX2-r1",
+   "shot": "B-EX2",
+   "light": "dusk",
+   "seed": 206038,
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness, standing beside a 20-year-old Taiwanese student with heavy-lidded monolid eyes, a thick lower lip, softly rounded cheeks and a thick black fringe lying flat over his eyebrows, close-up of her fingers lightly hooking the hem of his jacket during a wish, backlit dusk. her right hand clearly readable with five separated fingers curling over the jacket hem, thumb resting outside the fabric, wrist relaxed; their eyes meeting each other, both heads turned toward one another at the same height, shoulders facing. lit by 2800K dusk backlight with a warm halo. 35mm film grain, telecine texture, 2001 Taiwan music video look."
+  },
+  {
+   "id": "B-EX2-r2",
+   "shot": "B-EX2",
+   "light": "dusk",
+   "seed": 207158,
+   "prompt": "Taiwan countryside around Taitung-Danshui hills, 2000 era, faded single center line road, golden grass fields, small tin-and-brick farmhouse. a woman of about nineteen or twenty with long straight dark hair and a soft air fringe, gentle rounded brows, quiet smiling eyes, a small clean face, natural skin texture with visible pores and subtle unevenness, standing beside a 20-year-old Taiwanese student with heavy-lidded monolid eyes, a thick lower lip, softly rounded cheeks and a thick black fringe lying flat over his eyebrows, close-up of her fingers lightly hooking the hem of his jacket during a wish, backlit dusk. her right hand clearly readable with five separated fingers curling over the jacket hem, thumb resting outside the fabric, wrist relaxed; their eyes meeting each other, both heads turned toward one another at the same height, shoulders facing. lit by 2800K dusk backlight with a warm halo. 35mm film grain, telecine texture, 2001 Taiwan music video look."
+  }
+ ],
+ "params": {
+  "res": "1344x768",
+  "steps": 8,
+  "cfg": 1.0,
+  "jman": "0.6",
+  "sampler": "euler simple",
+  "model": "krea2_turbo_fp8_scaled",
+  "orig_probe_seed": 204921
+ },
+ "burn_ok": {
+  "B-EX2-r1": true,
+  "B-EX2-r2": true
+ },
+ "stats": {
+  "ok": 2,
+  "total": 2,
+  "fails": [],
+  "lint": "NEG/VAGUE/CONCEPT zero-hit"
+ },
+ "out_dir": "media/MV/mv0001/xingqing/xq-kfpb-bex2-hd-c2142",
+ "board": "xq-KFPB-BEX2-BOARD-hd-c2142.jpg",
+ "ts": "2026-10-20T12:35:21"
+}

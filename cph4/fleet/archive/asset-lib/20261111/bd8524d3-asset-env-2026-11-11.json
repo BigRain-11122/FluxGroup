@@ -1,0 +1,51 @@
+{
+ "ts": "2026-11-11T00:05:49",
+ "node": "unknown",
+ "host": "FLUXGROUP",
+ "spec": "ASSET-ENV-GATE-v1",
+ "measured": {
+  "ffmpeg": "C:\\Program Files\\ffmpeg\\bin\\ffmpeg.EXE",
+  "python": "3.13.15",
+  "torch": {
+   "installed": true,
+   "version": "2.8.0+cu126",
+   "cuda": true,
+   "device": "NVIDIA GeForce RTX 3070"
+  },
+  "kohya": null,
+  "gptsovits": null,
+  "dirs": {
+   "faces": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\media\\asset\\faces",
+    "exists": true,
+    "files": 8
+   },
+   "voices": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\media\\asset\\voices",
+    "exists": true,
+    "files": 4
+   },
+   "loras": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\media\\asset\\loras",
+    "exists": false,
+    "files": 0
+   },
+   "voice-models": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\media\\asset\\voice-models",
+    "exists": false,
+    "files": 0
+   }
+  },
+  "disk_free_gb": null
+ },
+ "routes_ok": [],
+ "verdict": "FAIL",
+ "gaps": [
+  "没有 kohya sd-scripts（角色 LoRA 训练栈）——找 KOHYA_DIR 环境变量或装一份",
+  "没有 GPT-SoVITS（音色微调栈）——找 GPTSOVITS_DIR 环境变量或装一份",
+  "资产目录不在位：media/asset/loras",
+  "资产目录不在位：media/asset/voice-models"
+ ],
+ "note": "PASS=至少一条训练路线可用；具体是哪条看 routes_ok",
+ "status": "FAIL"
+}

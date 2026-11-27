@@ -1,0 +1,5 @@
+# cleanup-exemptions.txt — 集团清理动作豁免白名单（单源文件·D-20261001-04 立法·T2 否决窗 7 天）
+# 纪律：任何清理执行面（值守轮周扫/disk-sweep/retention-scan/司级清理批）动手前必读本表 + 前置「在役引用探查」（进程引用探查 + 目录 mtime<24h 双探）；命中本表任一行 = 停手 + 记行呈夜轮。
+# 追加律：行级追加；单写者 = HQ 常务轮；各司呈请走 HQ-FEEDBACK 一行（HQ 复核后落行）。
+# 格式：路径族 | 实际位置 | 豁免理由（判例指针）
+hf-cache（HuggingFace 模型缓存族） | %USERPROFILE%\.cache\huggingface | 在役引用期冻结不清（D-20260930-01③ 判例入律；BigStream ASR 产线两复发实证 F-20260929-01⑤ / F-20260930-04；自愈判例 R701/R761）

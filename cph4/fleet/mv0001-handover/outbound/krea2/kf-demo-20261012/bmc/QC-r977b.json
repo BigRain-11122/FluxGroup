@@ -1,0 +1,53 @@
+{
+  "qc_id": "QC-r977b",
+  "lane": "MV V3 NEWKF fix-batch (whitelist v1.4 修单)",
+  "machine": "bm-c",
+  "ts": "2026-10-13T23:59:00+08:00",
+  "executor_context": "dead-r977 fix session burned fix 6/6 (22:16-22:39) + in-session QC drove fix3 surgical reshakes 4/4 (22:47-22:56) then died pre-relay; THIS window (r977 continuation) re-QC'd all six end-state frames full-res + verified verdicts; fix_r977/fix3_r977 logs + boards included as provenance",
+  "verdicts": {
+    "SING1_torch_song_v2_s9013": {
+      "score": 9.0,
+      "verdict": "PASS - whitelist v1.4 signable",
+      "evidence": "flame base seated in metal cages w/ blue flame roots (fix landed); face pressed to pure side silhouette (fix landed); jaw/throat lift line sharp; amber monochrome + halation on spec; micro-items (cheek spill -0.3 stop, denser shadow grain) = finishing-layer v1.5 options, not KF blockers",
+      "fix_target_was": "v1.4 ruling: flame-base distortion fix + face darken to black silhouette"
+    },
+    "SIL3_case_rim_v2_s9013": {
+      "score": 9.0,
+      "verdict": "PASS - whitelist v1.4 signable",
+      "evidence": "stele face now dark basalt tone under spotlight (darken fix landed); woman's reflection on glass three-quarter, eyes lowered onto carved rows, not looking at camera (reflection physics law held); man side-back silhouette + gold rim; spotlight-cone hall crush. Micro-quirks: reflection slightly stronger than 'faint', side-face profile edge barely legible - both director-call tier",
+      "fix_target_was": "v1.4 ruling: stele face darken (碑面压暗)"
+    },
+    "SIL1_stele_backlit_v3_s9015": {
+      "score": 4.0,
+      "verdict": "FAIL - hard-refire core item missed (material)",
+      "evidence": "ALL secondary fixes landed: iron wall-sconce torches (no tiki), vertical differentiated flames, legible carved rows, 35mm edge DOF, deep silhouette. BUT stele still reads warm-brown SANDSTONE under torchlight, not black basalt - the one hard-refire trigger repeated. Note: fixing material to black requires carving-legibility logic inversion (dark base + groove-shadow legibility, not light-face relief)",
+      "fix_target_was": "v1.4 ruling: black basalt material anchor + legible rows + iron sconces + 35mm DOF + grain"
+    },
+    "SIL2_ots_crowd_v3_s9016": {
+      "score": 5.5,
+      "verdict": "FAIL - core prop missing (blank tablet)",
+      "evidence": "gaze 9/10 (eyes lowered onto board), OTS foreground defocus 9/10 - performance/composition at deliverable tier; BUT tablet surface = blank plain board, no legible wedge carvings -> gaze-chain narrative breaks (she reads nothing). Fix path = LOCAL INPAINT of carving rows on the existing frame (3-5 irregular rows, groove shadow + lit edge), NOT another t2i re-burn (two re-burns both missed; model prior wins blank board)",
+      "fix_target_was": "75b7ec8 dispatch: tablet carving (泥板补刻) + gaze landing (视线落点 - landed)"
+    },
+    "SIL4_crowd_edge_v3_s9017": {
+      "score": 1.0,
+      "verdict": "FAIL-CRITICAL - style rupture RECURRED (2nd consecutive, different seed)",
+      "evidence": "full cel-shading output: anime faces, uniform outlines, flat 2-tone shading, zero grain/halation - same forbidden style as v2 despite seed change s9013->s9017. Two seeds both cel-shading from film-anchored prompt = SYSTEMATIC, strengthens checkpoint/prompt-interference hypothesis (v1.4 precedent 1: one-vote veto). Also young man's face lit (not silhouette) + stele reads light-grey stone. Fix path = generation-side investigation (jman LoRA strength interaction or checkpoint state), not a third same-method re-burn",
+      "fix_target_was": "v1.4 ruling: style-rupture full re-burn with film anchors"
+    },
+    "SING3b_morning_song_open_v3_s9016": {
+      "score": 2.5,
+      "verdict": "FAIL - open-mouth anchor missed AGAIN (2nd consecutive)",
+      "evidence": "frame quality itself 8.5 (dual-light, era props, film feel all excellent) BUT lips closed + pen-touching-page + gaze-down writing pose = same failure as original SING3; the anchor's sole reason (open-mouth singing) not delivered. Fix path = QwenEdit surgical edit on existing frame (head lift + pen raised + explicit lip part w/ mouth-shadow), or prompt restructure removing writing-pose attractor (pen off page, head raised from desk)",
+      "fix_target_was": "75b7ec8 dispatch: SING3b open-mouth anchor frame burn (演唱锚)"
+    }
+  },
+  "summary": {
+    "pass_signable": ["SING1_torch_song_v2_s9013", "SIL3_case_rim_v2_s9013"],
+    "fail_next_round": ["SIL1_stele_backlit_v3_s9015", "SIL2_ots_crowd_v3_s9016", "SIL4_crowd_edge_v3_s9017", "SING3b_morning_song_open_v3_s9016"],
+    "methodology_finding": "t2i re-burn approach exhausted for the 3 content-level misses (SIL2 tablet / SING3b mouth / SIL4 style): two consecutive re-burns each missed the same core items - model prior reasserts. Next round should switch to surgical local-edit (QwenEdit low-dn inpaint on existing PASS-adjacent frames) for SIL2+SING3b, and generation-side investigation for SIL4. SING2 s9014 already signed v1.4; with SING1+SIL3 signable, whitelist v1.4 = 3/7 frames signed pending director countersign",
+    "scorecard": "2 PASS / 4 FAIL (whitelist v1.4 signable count -> 3/7 incl. SING2)"
+  },
+  "boards": ["V3-FIX-BOARD-r977_q88.jpg (6 imgs)", "V3-FIX3-BOARD-r977_q88.jpg (4 imgs)"],
+  "burn_logs": ["fix_r977.log", "fix3_r977.log"]
+}

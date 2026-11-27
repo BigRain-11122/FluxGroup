@@ -1,0 +1,216 @@
+{
+ "id": "CODELY-COMPLIANCE-FACE-v1",
+ "ts": "2026-11-09T13:10:00+08:00",
+ "scope": "WorkBuddy 调用公司部署给员工的 Tuanjie Cowork / codely CLI",
+ "verdict": "CONDITIONAL_L3_ONLY",
+ "order_anchor": "CEO 2026-11-09 13:06 原话「codely是我公司部署给员工的，如何不违规的调用和使用？你好好思考下」",
+ "ceo_decision_20261109": {
+  "order_anchor": "CEO 2026-11-09 13:16 原话「不用这么紧张，我做一个决策，你hy4模型免费的时间，就用hy4，然后自动化的低层级任务，调用mac的本地模型去做控制，最后才用公司codely补充」",
+  "order_id": "CEO-20261109-MODEL-ROUTING",
+  "effect": "四层路由优先级 L0 hy4 > L1 确定性 > L2 Mac 本地模型 > L3 公司 Codely；L3 降为最后补充手段，且须 escalation_reason + l1_l2_exhausted=true + 合规声明。机器面唯一正身=cph4/fleet/LOCAL-MODEL-POLICY.json 的 routing 段。",
+  "ruling_covers": ["C08", "C09"],
+  "ruling_note": "C08 的 T0 云道令以 CEO 亲批+留痕的例外路径承接（本令即亲批并留痕）；C09 的 10-23 解禁令争议不再需要考证，被本令的优先级口径取代。items 原文零改写。",
+  "acknowledged_incidents": ["C03", "C06", "C15"],
+  "incident_note": "CEO 已知悉并给出后续口径；已发生的 3 次调用事实、日志与回执原样保留，不删除不改写。",
+  "still_open": ["C02", "C07", "C12", "C13"],
+  "open_note": "AUP/DPA 文本、席位与业务域关系、远端 MCP、输出权属仍待书面确认；不影响 L0-L2 立即执行，只约束 L3。"
+ },
+ "method": "本件只登记事实、状态与待裁项，不作合规结论；合规结论只能由企业 IT / 法务 / 合约方给出。",
+ "items": [
+  {
+   "id": "C01",
+   "domain": "账号主体",
+   "fact": "本机登录的是企业席位：账号域 @unity.cn，Label=Jason_0810，cowork-settings.json 内含 ContinueAccessToken / ContinueRefreshToken 长期凭据。",
+   "evidence": "~/.codely/cowork-settings.json (脱敏读取，仅看键名与账号域)",
+   "status": "VERIFIED",
+   "risk": "high",
+   "trigger": "任何 codely CLI 调用",
+   "action": "席位是雇主提供的工作资产，不因使用者是本机管理员而变成个人资产；需 IT 确认允许的用途边界。",
+   "owner": "IT / 法务"
+  },
+  {
+   "id": "C02",
+   "domain": "许可与使用条款",
+   "fact": "本机与仓库内均未找到企业 AI 工具 AUP、许可协议或数据处理条款（DPA）文本。",
+   "evidence": "grep docs/governance.md + cph4/agents/GOVERNANCE.md + ~/.codely/ 配置，0 命中",
+   "status": "UNKNOWN",
+   "risk": "high",
+   "trigger": "判断可否自动化调用 / 可否代操作之前",
+   "action": "向 IT 索取：员工使用政策、企业版合同数据处理条款、是否允许 API/CLI 自动化。",
+   "owner": "IT / 法务"
+  },
+  {
+   "id": "C03",
+   "domain": "第三方 AI 代操作",
+   "fact": "上一轮由 WorkBuddy（外部 AI）直接以员工席位发起 3 次 codely -p 无头调用，属于以员工身份驱动企业软件。",
+   "evidence": "cph4/fleet/state/codely-bridge/logs/*.out.txt + queue-receipts/DEMO-CODELY-BRIDGE-20261109-bm-m.json",
+   "status": "INCIDENT",
+   "risk": "high",
+   "trigger": "任何由非员工本体的程序发起的调用",
+   "action": "改为人工在回路：我只生成卡/prompt，由员工本人在自己的交互会话内粘贴执行并确认。",
+   "owner": "IT / CEO"
+  },
+  {
+   "id": "C04",
+   "domain": "自动化与无头调用",
+   "fact": "企业席位通常按「员工交互使用」授权；-p 非交互、定时、批量调用可能不在授权范围内。项目内 16 个脚本历史上就因云道停用令被统一闸停。",
+   "evidence": "cph4/fleet/CLOUD-OFF-LANDING-20261020.md §6.2；Tools/patrol-runner.ps1 CLOUD-OFF guard",
+   "status": "UNKNOWN",
+   "risk": "high",
+   "trigger": "注册计划任务 / 无人值守点火 / 批量派卡",
+   "action": "默认禁止。确需自动化须 IT 书面许可 + 服务账号，不用员工席位。",
+   "owner": "IT"
+  },
+  {
+   "id": "C05",
+   "domain": "凭据保管",
+   "fact": "桥接器源码内无 ContinueAccessToken / RefreshToken / api-key 字样，未读取、未复制、未入 git 凭据文件。",
+   "evidence": "grep Tools/fleet/codely_bridge.py = 0 命中；git status 无凭据文件",
+   "status": "VERIFIED-SAFE",
+   "risk": "low",
+   "trigger": "任何脚本读取 ~/.codely/cowork-settings.json 的令牌字段",
+   "action": "保持禁止。凭据一律不进脚本、日志、prompt、git。",
+   "owner": "本桥"
+  },
+  {
+   "id": "C06",
+   "domain": "数据外发",
+   "fact": "AI.md 与 RULES.md（FluxGroup 内部治理正典）内容已随 prompt 发往 codely-core 云端模型 2 次。",
+   "evidence": "DEMO 卡 prompt + 回执 tokens.models=[codely-core]；stats.tools.read_file=2",
+   "status": "INCIDENT",
+   "risk": "high",
+   "trigger": "任何含内部文档的云端 prompt",
+   "action": "如实登记不删档；默认闸禁止 internal/confidential 出云；评估是否需向 IT 报备。",
+   "owner": "CEO / IT"
+  },
+  {
+   "id": "C07",
+   "domain": "数据域不一致",
+   "fact": "席位账号域=@unity.cn（雇主），被处理的工作区=FluxGroup 集团仓与业务文档，二者域不同。是否属同一法律实体、是否属公司授权业务范围，未确认。",
+   "evidence": "~/.codely/cowork-settings.json 账号域 vs /Users/junsheng.sun/FluxGroup/README.md 集团主体",
+   "status": "UNCONFIRMED",
+   "risk": "critical",
+   "trigger": "企业席位用于处理非雇主业务数据",
+   "action": "澄清前一律 BLOCK。这是「公司资源用于非公司业务」的典型红线，须 CEO 明确关系后再谈授权。",
+   "owner": "CEO / 法务"
+  },
+  {
+   "id": "C08",
+   "domain": "项目内部 T0 云道令",
+   "fact": "cph4/token-economy.md 抬头仍写 T0 云道停用：§十.1 六类白名单全部冻结，唯一合法例外=CEO 亲批+留痕；其中第 2 类正是「codely 云端会话（含子代理）」。§10.6 记「有人投诉我的用量了」。",
+   "evidence": "cph4/token-economy.md 第 3 行 + §10.1 冻结说明 + §10.6 帽值",
+   "status": "VERIFIED",
+   "risk": "high",
+   "trigger": "任何云端模型调用",
+   "action": "上一轮把闸门文件改名当成法条失效是误判，需纠正；未获 CEO 亲批前不得点火。",
+   "owner": "CEO"
+  },
+  {
+   "id": "C09",
+   "domain": "制度冲突",
+   "fact": "法条抬头未改，但其指向的权威口径 cph4/fleet/CLOUD-OFF-LOCAL-ONLY-v1.md 已被改名为 .disabled-20261023-2358；全仓未检索到 2026-10-23 解禁令的书面证据。",
+   "evidence": "Glob 命中 .disabled-20261023-2358；grep 20261023 / 解禁 = 0 命中",
+   "status": "CONFLICT",
+   "risk": "high",
+   "trigger": "解释「云道是否已解禁」时",
+   "action": "呈 CEO 裁决，不由 AI 自选有利解释。裁决前面清单保持 BLOCKED。",
+   "owner": "CEO"
+  },
+  {
+   "id": "C10",
+   "domain": "用量与投诉史",
+   "fact": "既有制度规定每机云端会话 ≤2、全队软帽 ≤6，且历史上因用量被投诉。上一轮 3 次调用合计约 108k prompt token。",
+   "evidence": "cph4/token-economy.md §10.6；3 份回执/日志 token 读数 19k + 44,676 + 44,671",
+   "status": "VERIFIED",
+   "risk": "medium",
+   "trigger": "并发点火 / 批量调用",
+   "action": "硬帽保留；增加单次成本上限与显式成本确认。",
+   "owner": "本桥 / CEO"
+  },
+  {
+   "id": "C11",
+   "domain": "遥测与审计日志",
+   "fact": "CLI 支持 --telemetry-log-prompts；企业侧 ~/.codely/logs/ 今日 cowork/gui 日志持续增长（13:09 仍在写）。调用有痕，雇主侧可能可见。",
+   "evidence": "codely --help telemetry 项；ls ~/.codely/logs/*2026-11-09*",
+   "status": "VERIFIED",
+   "risk": "medium",
+   "trigger": "任何试图删除或改写日志的操作",
+   "action": "禁删日志、禁开 prompt 遥测、prompt 脱敏；按项目「历史件零改写」原则如实登记。",
+   "owner": "本桥 / CEO"
+  },
+  {
+   "id": "C12",
+   "domain": "第三方 MCP 再外发",
+   "fact": "已配 aicanvas.tuanjie.cn、ai-generator.tuanjie.cn、assetstore-mcp.u3d.cn 三个远端 MCP，调用时会在模型之外再外发一层；radar-daily 本地 3101 拒连。",
+   "evidence": "codely mcp list；回执 mcp_errors=2",
+   "status": "UNKNOWN",
+   "risk": "medium",
+   "trigger": "卡里加载远端 MCP",
+   "action": "默认 mcp_allowlist 为空，按需单独授权；未验证前不宣称已解决。",
+   "owner": "IT / 本桥"
+  },
+  {
+   "id": "C13",
+   "domain": "输出归属与知识产权",
+   "fact": "用企业席位生成的产物拟归入 FluxGroup 集团仓，权属与合同约定未确认。",
+   "evidence": "产物路径 cph4/fleet/state/codely-bridge/",
+   "status": "UNCONFIRMED",
+   "risk": "medium",
+   "trigger": "把生成物用于对外/商业化",
+   "action": "商务与权属归 CEO，AI 不代答；对外只出草稿不代发（既有边界）。",
+   "owner": "法务 / CEO"
+  },
+  {
+   "id": "C14",
+   "domain": "本地替代可行性",
+   "fact": "CLOUD-OFF-LANDING §6.5 实测：Codely CLI 单次请求约 71k token，本地 Ollama 4B/27B 仅 16k 上下文，35B CPU-MoE 5 分钟处理不完 398 token。完全本地化目前跑不通。",
+   "evidence": "cph4/fleet/CLOUD-OFF-LANDING-20261020.md §6.5",
+   "status": "VERIFIED-BLOCKER",
+   "risk": "medium",
+   "trigger": "试图用本地端点绕开云端合规问题",
+   "action": "不假称「已本地化」。绿档不依赖任何模型；黄档需 IT 批准或先升级本地容量。",
+   "owner": "CEO / 技术"
+  },
+  {
+   "id": "C15",
+   "domain": "已发生调用的处置",
+   "fact": "2026-11-09 共 3 次 codely -p 云端调用：约 12:00 PONG 冒烟、12:55 首跑 FAIL、12:56 复跑 OK；均出自 WorkBuddy 代操作。",
+   "evidence": "回执 + logs/DEMO-CODELY-BRIDGE-20261109.first-run.out.txt + token 读数",
+   "status": "INCIDENT",
+   "risk": "high",
+   "trigger": "合规口径裁决后",
+   "action": "登记不删档；由 CEO 判断是否向 IT 主动报备。AI 不代为对外沟通。",
+   "owner": "CEO"
+  }
+ ],
+ "lanes": {
+  "green": {
+   "name": "人工在回路（立即可用，零合规敞口）",
+   "rules": [
+    "WorkBuddy 只做本地读写、生成卡与 prompt，不调用 codely CLI、不消耗企业席位",
+    "由员工本人在自己的 Tuanjie Cowork 交互会话中粘贴执行并自行确认",
+    "数据不出本机、不自动点火、不注册计划任务",
+    "桥接器 --emit-only 生成人工卡，--compliance-check 报告未决项"
+   ]
+  },
+  "yellow": {
+   "name": "显式单次无头调用（需 IT 书面许可）",
+   "rules": [
+    "卡必须带 authorization_ref（IT 工单/CEO 令号）+ seat_owner_confirmed=true",
+    "data_classification=public；internal 出云须 cloud_export_approved=true 且已签 DPA",
+    "purpose 必须为 company_business，且数据域与雇主业务一致",
+    "单次授权、单次点火、成本上限、回执留痕，禁止定时与批量"
+   ]
+  },
+  "red": {
+   "name": "禁止（除非合同与 IT 明确许可）",
+   "rules": [
+    "定时/无人值守/批量自动化点火",
+    "内部或机密文档发往云端模型",
+    "把员工凭据交给第三方 AI、绕过鉴权或计费",
+    "企业席位用于处理非雇主业务数据",
+    "删除、改写或伪造审计日志与回执"
+   ]
+  }
+ }
+}

@@ -1,0 +1,10 @@
+{
+ "id": "OB-20261124-224243-258",
+ "ts": "2026-11-24 22:42",
+ "text": "【重要·通道变更】bm-c 已在本机开好机队收件口，直接 PUT 即可，不需要切片：\n\n  收件口 = http://100.123.74.104:11436   （tailnet 内网，单件上限 8GB）\n\n  协议：PUT /artifact?node=bm-a&card=MV0001&name=<URL编码的文件名>\n  请求头：X-Sha256: <小写十六进制>\n  请求体：文件原始字节\n\n  实测已通（bm-c 侧自测返回 200，落盘到 media/inbox/intake/bm-a/<日期>/MV0001__<文件名>）。\n\n请把《爱在西元前》相关的【全部最新件】推过来，严格按此顺序：\n\n第1步（最高优先）：全片最新母版 —— 234s，v730 或更新；768P 或 4K 都行；按原码率直传，8GB 内不必切片。\n第2步：装配链源件 —— build_full_mv_*.py、时间线/段表 json、字幕 ass、字层 PNG、title/tail card PNG、调色参数件。\n第3步：该曲全部 KF 源 PNG（按镜命名）。\n第4步：该曲全部 i2v 片段源（按镜命名）。\n第5步：jman / ljher 的 LoRA 权重与官方参考图。\n第6步：全部 DIRECTOR-REVIEW / 调色 / QC / 发布包 / 回执。\n\n推送模板（PowerShell，逐件循环）：\n\n  $f = \"要推的文件绝对路径\"\n  $h = (Get-FileHash -Algorithm SHA256 $f).Hash.ToLower()\n  $n = [uri]::EscapeDataString((Split-Path $f -Leaf))\n  $u = \"http://100.123.74.104:11436/artifact?node=bm-a&card=MV0001&name=$n\"\n  Invoke-WebRequest -Method Put -Uri $u -InFile $f -Headers @{ \"X-Sha256\" = $h } -TimeoutSec 1800\n\n兜底记账：每推完一件，把 (文件名, 字节数, sha256) 追加进 cph4/fleet/mv0001-handover/transfer/PUSHED.jsonl 并推 git；\n全部推完写 cph4/fleet/mv0001-handover/transfer/BATCH-DONE.json，然后 poke bm-c。\n\n本令取代 OB-20261124-222844-550 与 OB-20261124-223249-233 里的交付路径：改用直推收件口，不再需要 git 分片。",
+ "lanes": [
+  "bm-a"
+ ],
+ "src": "FLUXGROUP",
+ "status": "dispatched"
+}

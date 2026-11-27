@@ -1,0 +1,1649 @@
+{
+  "song": "印第安老斑鸠",
+  "version": "anchor-shotgrid v2.0 resnap (word-onset select / beat place)",
+  "inputs": {
+    "beats_sha_face": 472,
+    "n_beats": 472,
+    "n_downbeats": 118,
+    "duration_sec": 304.53
+  },
+  "bpm_median": 95.7,
+  "snap_tol_sec": 0.1,
+  "max_shot_sec": 3.0,
+  "grid": [
+    {
+      "i": 5,
+      "text": "沙漠之中怎么会有泥鳅",
+      "t0": 35.82,
+      "t1": 37.83,
+      "t0_used": 35.736,
+      "t1_used": 37.83,
+      "snapped": true,
+      "snap_deltas": [
+        0.084,
+        0.19
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 35.736,
+      "cut1": 37.64,
+      "on_beat": true,
+      "word_onset": 35.964,
+      "onset_offset": 0.228,
+      "resnap": "beat"
+    },
+    {
+      "i": 6,
+      "text": "话说完飞过一只海鸥",
+      "t0": 37.83,
+      "t1": 40.81,
+      "t0_used": 37.83,
+      "t1_used": 40.821,
+      "snapped": true,
+      "snap_deltas": [
+        0.19,
+        -0.011
+      ],
+      "approx": false,
+      "splits": [
+        40.821
+      ],
+      "cut0": 37.64,
+      "cut1": 40.821,
+      "on_beat": true,
+      "word_onset": 37.866,
+      "onset_offset": 0.226,
+      "resnap": "beat"
+    },
+    {
+      "i": 7,
+      "text": "大峡谷的风呼啸而过",
+      "t0": 40.81,
+      "t1": 44.1,
+      "t0_used": 40.821,
+      "t1_used": 44.025,
+      "snapped": true,
+      "snap_deltas": [
+        -0.011,
+        0.075
+      ],
+      "approx": false,
+      "splits": [
+        44.025
+      ],
+      "cut0": 40.821,
+      "cut1": 44.025,
+      "on_beat": true,
+      "word_onset": 40.788,
+      "onset_offset": 0.033,
+      "resnap": "beat"
+    },
+    {
+      "i": 8,
+      "text": "是谁说没有",
+      "t0": 44.1,
+      "t1": 45.57,
+      "t0_used": 44.025,
+      "t1_used": 45.57,
+      "snapped": true,
+      "snap_deltas": [
+        0.075,
+        0.268
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 44.025,
+      "cut1": 45.302,
+      "on_beat": true,
+      "word_onset": 44.312,
+      "onset_offset": 0.287,
+      "resnap": "beat"
+    },
+    {
+      "i": 9,
+      "text": "有一条热昏头的响尾蛇",
+      "t0": 45.57,
+      "t1": 48.1,
+      "t0_used": 45.57,
+      "t1_used": 48.1,
+      "snapped": false,
+      "snap_deltas": [
+        0.268,
+        0.244
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 45.302,
+      "cut1": 47.856,
+      "on_beat": true,
+      "word_onset": 45.233,
+      "onset_offset": 0.069,
+      "resnap": "beat"
+    },
+    {
+      "i": 10,
+      "text": "无力的躺在干枯的河",
+      "t0": 48.1,
+      "t1": 50.65,
+      "t0_used": 48.1,
+      "t1_used": 50.65,
+      "snapped": false,
+      "snap_deltas": [
+        0.244,
+        0.239
+      ],
+      "approx": false,
+      "splits": [
+        51.061
+      ],
+      "cut0": 47.856,
+      "cut1": 51.061,
+      "on_beat": true,
+      "word_onset": 48.135,
+      "onset_offset": 0.279,
+      "resnap": "beat"
+    },
+    {
+      "i": 11,
+      "text": "在等待雨季来临变沼泽",
+      "t0": 50.65,
+      "t1": 56.13,
+      "t0_used": 50.65,
+      "t1_used": 56.169,
+      "snapped": true,
+      "snap_deltas": [
+        0.239,
+        -0.039
+      ],
+      "approx": false,
+      "splits": [
+        54.242
+      ],
+      "cut0": 51.061,
+      "cut1": 54.242,
+      "on_beat": true,
+      "word_onset": 51.018,
+      "onset_offset": 0.043,
+      "resnap": "beat"
+    },
+    {
+      "i": 12,
+      "text": "灰狼啃食着水鹿的骨头",
+      "t0": 56.13,
+      "t1": 58.24,
+      "t0_used": 56.169,
+      "t1_used": 58.24,
+      "snapped": true,
+      "snap_deltas": [
+        -0.039,
+        0.167
+      ],
+      "approx": false,
+      "splits": [
+        56.796
+      ],
+      "cut0": 54.242,
+      "cut1": 58.723,
+      "on_beat": true,
+      "word_onset": 54.261,
+      "onset_offset": 0.019,
+      "resnap": "beat"
+    },
+    {
+      "i": 13,
+      "text": "秃鹰盘旋死盯着腐肉",
+      "t0": 58.24,
+      "t1": 60.85,
+      "t0_used": 58.24,
+      "t1_used": 60.85,
+      "snapped": false,
+      "snap_deltas": [
+        0.167,
+        0.223
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 58.723,
+      "cut1": 61.254,
+      "on_beat": true,
+      "word_onset": 58.666,
+      "onset_offset": 0.057,
+      "resnap": "beat"
+    },
+    {
+      "i": 14,
+      "text": "草原上两只敌对野牛",
+      "t0": 60.85,
+      "t1": 64.56,
+      "t0_used": 60.85,
+      "t1_used": 64.56,
+      "snapped": false,
+      "snap_deltas": [
+        0.223,
+        0.101
+      ],
+      "approx": false,
+      "splits": [
+        64.459
+      ],
+      "cut0": 61.254,
+      "cut1": 64.459,
+      "on_beat": true,
+      "word_onset": 61.19,
+      "onset_offset": 0.064,
+      "resnap": "beat"
+    },
+    {
+      "i": 15,
+      "text": "在远方决斗",
+      "t0": 64.56,
+      "t1": 66.53,
+      "t0_used": 64.56,
+      "t1_used": 66.53,
+      "snapped": false,
+      "snap_deltas": [
+        0.101,
+        0.144
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 64.459,
+      "cut1": 66.386,
+      "on_beat": true,
+      "word_onset": 64.696,
+      "onset_offset": 0.237,
+      "resnap": "beat"
+    },
+    {
+      "i": 16,
+      "text": "在一处被废弃的白蚁丘",
+      "t0": 66.53,
+      "t1": 68.58,
+      "t0_used": 66.53,
+      "t1_used": 68.58,
+      "snapped": false,
+      "snap_deltas": [
+        0.144,
+        0.29
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 66.386,
+      "cut1": 68.29,
+      "on_beat": true,
+      "word_onset": 66.679,
+      "onset_offset": 0.293,
+      "resnap": "beat"
+    },
+    {
+      "i": 17,
+      "text": "站着一只饿昏的老斑鸠",
+      "t0": 68.58,
+      "t1": 81.32,
+      "t0_used": 68.58,
+      "t1_used": 81.32,
+      "snapped": false,
+      "snap_deltas": [
+        0.29,
+        0.236
+      ],
+      "approx": false,
+      "splits": [
+        71.471,
+        74.652,
+        77.206,
+        79.761
+      ],
+      "cut0": 68.29,
+      "cut1": 81.084,
+      "on_beat": true,
+      "word_onset": 68.582,
+      "onset_offset": 0.292,
+      "resnap": "beat"
+    },
+    {
+      "i": 18,
+      "text": "印地安老斑鸠腿短毛不多",
+      "t0": 81.32,
+      "t1": 83.79,
+      "t0_used": 81.32,
+      "t1_used": 83.79,
+      "snapped": false,
+      "snap_deltas": [
+        0.236,
+        0.175
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 81.084,
+      "cut1": 83.615,
+      "on_beat": true,
+      "word_onset": 81.295,
+      "onset_offset": 0.211,
+      "resnap": "beat"
+    },
+    {
+      "i": 19,
+      "text": "几天都没有喝水也能活",
+      "t0": 83.79,
+      "t1": 86.62,
+      "t0_used": 83.79,
+      "t1_used": 86.62,
+      "snapped": false,
+      "snap_deltas": [
+        0.175,
+        -0.176
+      ],
+      "approx": false,
+      "splits": [
+        86.796
+      ],
+      "cut0": 83.615,
+      "cut1": 86.796,
+      "on_beat": true,
+      "word_onset": 83.876,
+      "onset_offset": 0.261,
+      "resnap": "beat"
+    },
+    {
+      "i": 20,
+      "text": "脑袋瓜有一点秀逗",
+      "t0": 86.62,
+      "t1": 88.99,
+      "t0_used": 86.62,
+      "t1_used": 88.99,
+      "snapped": false,
+      "snap_deltas": [
+        -0.176,
+        0.267
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 86.796,
+      "cut1": 88.723,
+      "on_beat": true,
+      "word_onset": 86.776,
+      "onset_offset": 0.02,
+      "resnap": "beat"
+    },
+    {
+      "i": 21,
+      "text": "猎物死了它比谁都难过",
+      "t0": 88.99,
+      "t1": 91.43,
+      "t0_used": 88.99,
+      "t1_used": 91.43,
+      "snapped": false,
+      "snap_deltas": [
+        0.267,
+        0.152
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 88.723,
+      "cut1": 91.278,
+      "on_beat": true,
+      "word_onset": 88.997,
+      "onset_offset": 0.274,
+      "resnap": "beat"
+    },
+    {
+      "i": 22,
+      "text": "印地安斑鸠 会学人开口",
+      "t0": 91.43,
+      "t1": 94.05,
+      "t0_used": 91.43,
+      "t1_used": 94.05,
+      "snapped": false,
+      "snap_deltas": [
+        0.152,
+        0.218
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 91.278,
+      "cut1": 93.832,
+      "on_beat": true,
+      "word_onset": 91.558,
+      "onset_offset": 0.28,
+      "resnap": "beat"
+    },
+    {
+      "i": 23,
+      "text": "仙人掌怕羞 蜥蝪横着走",
+      "t0": 94.05,
+      "t1": 96.87,
+      "t0_used": 94.05,
+      "t1_used": 96.87,
+      "snapped": false,
+      "snap_deltas": [
+        0.218,
+        -0.166
+      ],
+      "approx": false,
+      "splits": [
+        97.036
+      ],
+      "cut0": 93.832,
+      "cut1": 97.036,
+      "on_beat": true,
+      "word_onset": 94.098,
+      "onset_offset": 0.266,
+      "resnap": "beat"
+    },
+    {
+      "i": 24,
+      "text": "这里什么奇怪的事都有",
+      "t0": 96.87,
+      "t1": 99.53,
+      "t0_used": 96.87,
+      "t1_used": 99.59,
+      "snapped": true,
+      "snap_deltas": [
+        -0.166,
+        -0.06
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 97.036,
+      "cut1": 99.59,
+      "on_beat": true,
+      "word_onset": 96.939,
+      "onset_offset": 0.097,
+      "resnap": "beat"
+    },
+    {
+      "i": 25,
+      "text": "包括像猫的狗",
+      "t0": 99.53,
+      "t1": 101.86,
+      "t0_used": 99.59,
+      "t1_used": 101.86,
+      "snapped": true,
+      "snap_deltas": [
+        -0.06,
+        -0.285
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 99.59,
+      "cut1": 101.494,
+      "on_beat": true,
+      "word_onset": 99.54,
+      "onset_offset": 0.05,
+      "resnap": "beat"
+    },
+    {
+      "i": 26,
+      "text": "印地安老斑鸠平常话不多",
+      "t0": 101.86,
+      "t1": 104.32,
+      "t0_used": 101.86,
+      "t1_used": 104.32,
+      "snapped": false,
+      "snap_deltas": [
+        -0.285,
+        0.271
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 101.494,
+      "cut1": 104.049,
+      "on_beat": true,
+      "word_onset": 101.76,
+      "onset_offset": 0.266,
+      "resnap": "beat"
+    },
+    {
+      "i": 27,
+      "text": "除非是乌鸦抢了它的窝",
+      "t0": 104.32,
+      "t1": 107.14,
+      "t0_used": 104.32,
+      "t1_used": 107.23,
+      "snapped": true,
+      "snap_deltas": [
+        0.271,
+        -0.09
+      ],
+      "approx": false,
+      "splits": [
+        107.23
+      ],
+      "cut0": 104.049,
+      "cut1": 107.23,
+      "on_beat": true,
+      "word_onset": 104.341,
+      "onset_offset": 0.292,
+      "resnap": "beat"
+    },
+    {
+      "i": 28,
+      "text": "它在灌木丛旁邂逅",
+      "t0": 107.14,
+      "t1": 109.34,
+      "t0_used": 107.23,
+      "t1_used": 109.34,
+      "snapped": true,
+      "snap_deltas": [
+        -0.09,
+        0.183
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 107.23,
+      "cut1": 109.157,
+      "on_beat": true,
+      "word_onset": 107.206,
+      "onset_offset": 0.024,
+      "resnap": "beat"
+    },
+    {
+      "i": 29,
+      "text": "一只令它心仪的母斑鸠",
+      "t0": 109.34,
+      "t1": 137.69,
+      "t0_used": 109.34,
+      "t1_used": 137.69,
+      "snapped": false,
+      "snap_deltas": [
+        0.183,
+        -0.213
+      ],
+      "approx": false,
+      "splits": [
+        112.338,
+        115.542,
+        118.097,
+        120.628,
+        123.205,
+        125.759,
+        128.313,
+        130.868,
+        133.422,
+        135.976
+      ],
+      "cut0": 109.157,
+      "cut1": 137.903,
+      "on_beat": true,
+      "word_onset": 109.411,
+      "onset_offset": 0.254,
+      "resnap": "beat"
+    },
+    {
+      "i": 30,
+      "text": "牛仔红蕃在小镇背对背决斗",
+      "t0": 137.69,
+      "t1": 139.89,
+      "t0_used": 137.69,
+      "t1_used": 139.807,
+      "snapped": true,
+      "snap_deltas": [
+        -0.213,
+        0.083
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 137.903,
+      "cut1": 139.807,
+      "on_beat": true,
+      "word_onset": 137.703,
+      "onset_offset": 0.2,
+      "resnap": "beat"
+    },
+    {
+      "i": 31,
+      "text": "一只灰狼问候我谁是神枪手",
+      "t0": 139.89,
+      "t1": 142.7,
+      "t0_used": 139.807,
+      "t1_used": 142.7,
+      "snapped": true,
+      "snap_deltas": [
+        0.083,
+        -0.288
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 139.807,
+      "cut1": 142.362,
+      "on_beat": true,
+      "word_onset": 139.905,
+      "onset_offset": 0.098,
+      "resnap": "beat"
+    },
+    {
+      "i": 32,
+      "text": "巫师他念念有词地",
+      "t0": 142.7,
+      "t1": 143.8,
+      "t0_used": 142.7,
+      "t1_used": 143.8,
+      "snapped": false,
+      "snap_deltas": [
+        -0.288,
+        0.161
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 142.362,
+      "cut1": 143.639,
+      "on_beat": true,
+      "word_onset": 142.627,
+      "onset_offset": 0.265,
+      "resnap": "beat"
+    },
+    {
+      "i": 33,
+      "text": "对酋长下诅咒",
+      "t0": 143.8,
+      "t1": 144.55,
+      "t0_used": 143.8,
+      "t1_used": 144.55,
+      "snapped": false,
+      "snap_deltas": [
+        0.161,
+        0.261
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 143.639,
+      "cut1": 144.289,
+      "on_beat": true,
+      "word_onset": 143.888,
+      "onset_offset": 0.249,
+      "resnap": "beat"
+    },
+    {
+      "i": 34,
+      "text": "还我骷髅头 这故事",
+      "t0": 144.55,
+      "t1": 145.6,
+      "t0_used": 144.55,
+      "t1_used": 145.566,
+      "snapped": true,
+      "snap_deltas": [
+        0.261,
+        0.034
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 144.289,
+      "cut1": 145.566,
+      "on_beat": true,
+      "word_onset": 144.568,
+      "onset_offset": 0.279,
+      "resnap": "beat"
+    },
+    {
+      "i": 35,
+      "text": "告诉我印地安的传说",
+      "t0": 145.6,
+      "t1": 146.78,
+      "t0_used": 145.566,
+      "t1_used": 146.797,
+      "snapped": true,
+      "snap_deltas": [
+        0.034,
+        -0.017
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 145.566,
+      "cut1": 146.797,
+      "on_beat": true,
+      "word_onset": 145.649,
+      "onset_offset": 0.083,
+      "resnap": "beat"
+    },
+    {
+      "i": 36,
+      "text": "还真是瞎透了什么都有",
+      "t0": 146.78,
+      "t1": 148.05,
+      "t0_used": 146.797,
+      "t1_used": 148.12,
+      "snapped": true,
+      "snap_deltas": [
+        -0.017,
+        -0.07
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 146.797,
+      "cut1": 148.12,
+      "on_beat": true,
+      "word_onset": 146.79,
+      "onset_offset": 0.007,
+      "resnap": "beat"
+    },
+    {
+      "i": 37,
+      "text": "沙漠之中怎么会有泥鳅",
+      "t0": 148.05,
+      "t1": 150.19,
+      "t0_used": 148.12,
+      "t1_used": 150.19,
+      "snapped": true,
+      "snap_deltas": [
+        -0.07,
+        0.166
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 148.12,
+      "cut1": 150.024,
+      "on_beat": true,
+      "word_onset": 148.011,
+      "onset_offset": 0.109,
+      "resnap": "beat"
+    },
+    {
+      "i": 38,
+      "text": "话说完飞过一只海鸥",
+      "t0": 150.19,
+      "t1": 152.73,
+      "t0_used": 150.19,
+      "t1_used": 152.73,
+      "snapped": false,
+      "snap_deltas": [
+        0.166,
+        0.152
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 150.024,
+      "cut1": 152.578,
+      "on_beat": true,
+      "word_onset": 150.312,
+      "onset_offset": 0.288,
+      "resnap": "beat"
+    },
+    {
+      "i": 39,
+      "text": "大峡谷的风呼啸而过",
+      "t0": 152.73,
+      "t1": 156.59,
+      "t0_used": 152.73,
+      "t1_used": 156.59,
+      "snapped": false,
+      "snap_deltas": [
+        0.152,
+        0.18
+      ],
+      "approx": false,
+      "splits": [
+        155.783
+      ],
+      "cut0": 152.578,
+      "cut1": 156.41,
+      "on_beat": true,
+      "word_onset": 152.394,
+      "onset_offset": 0.184,
+      "resnap": "beat"
+    },
+    {
+      "i": 40,
+      "text": "是谁说没有",
+      "t0": 156.59,
+      "t1": 158.04,
+      "t0_used": 156.59,
+      "t1_used": 158.04,
+      "snapped": false,
+      "snap_deltas": [
+        0.18,
+        -0.297
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 156.41,
+      "cut1": 158.337,
+      "on_beat": true,
+      "word_onset": 156.697,
+      "onset_offset": 0.287,
+      "resnap": "beat"
+    },
+    {
+      "i": 41,
+      "text": "有一条热昏头的响尾蛇",
+      "t0": 158.04,
+      "t1": 160.47,
+      "t0_used": 158.04,
+      "t1_used": 160.47,
+      "snapped": false,
+      "snap_deltas": [
+        -0.297,
+        0.229
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 158.337,
+      "cut1": 160.241,
+      "on_beat": true,
+      "word_onset": 158.218,
+      "onset_offset": 0.119,
+      "resnap": "beat"
+    },
+    {
+      "i": 42,
+      "text": "无力的躺在干枯的河",
+      "t0": 160.47,
+      "t1": 163.34,
+      "t0_used": 160.47,
+      "t1_used": 163.422,
+      "snapped": true,
+      "snap_deltas": [
+        0.229,
+        -0.082
+      ],
+      "approx": false,
+      "splits": [
+        163.422
+      ],
+      "cut0": 160.241,
+      "cut1": 163.422,
+      "on_beat": true,
+      "word_onset": 160.54,
+      "onset_offset": 0.299,
+      "resnap": "beat"
+    },
+    {
+      "i": 43,
+      "text": "在等待雨季来临变沼泽",
+      "t0": 163.34,
+      "t1": 168.37,
+      "t0_used": 163.422,
+      "t1_used": 168.37,
+      "snapped": true,
+      "snap_deltas": [
+        -0.082,
+        -0.184
+      ],
+      "approx": false,
+      "splits": [
+        166.626
+      ],
+      "cut0": 163.422,
+      "cut1": 168.554,
+      "on_beat": true,
+      "word_onset": 163.342,
+      "onset_offset": 0.08,
+      "resnap": "beat"
+    },
+    {
+      "i": 44,
+      "text": "灰狼啃食着水鹿的骨头",
+      "t0": 168.37,
+      "t1": 170.58,
+      "t0_used": 168.37,
+      "t1_used": 170.58,
+      "snapped": false,
+      "snap_deltas": [
+        -0.184,
+        0.122
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 168.554,
+      "cut1": 170.458,
+      "on_beat": true,
+      "word_onset": 168.787,
+      "onset_offset": 0.233,
+      "resnap": "beat"
+    },
+    {
+      "i": 45,
+      "text": "秃鹰盘旋死盯着腐肉",
+      "t0": 170.58,
+      "t1": 173.18,
+      "t0_used": 170.58,
+      "t1_used": 173.18,
+      "snapped": false,
+      "snap_deltas": [
+        0.122,
+        0.168
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 170.458,
+      "cut1": 173.012,
+      "on_beat": true,
+      "word_onset": 170.748,
+      "onset_offset": 0.29,
+      "resnap": "beat"
+    },
+    {
+      "i": 46,
+      "text": "草原上两只敌对野牛",
+      "t0": 173.18,
+      "t1": 177.31,
+      "t0_used": 173.18,
+      "t1_used": 177.31,
+      "snapped": false,
+      "snap_deltas": [
+        0.168,
+        -0.183
+      ],
+      "approx": false,
+      "splits": [
+        176.216
+      ],
+      "cut0": 173.012,
+      "cut1": 177.493,
+      "on_beat": true,
+      "word_onset": 172.83,
+      "onset_offset": 0.182,
+      "resnap": "beat"
+    },
+    {
+      "i": 47,
+      "text": "在远方决斗",
+      "t0": 177.31,
+      "t1": 178.8,
+      "t0_used": 177.31,
+      "t1_used": 178.77,
+      "snapped": true,
+      "snap_deltas": [
+        -0.183,
+        0.03
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 177.493,
+      "cut1": 178.77,
+      "on_beat": true,
+      "word_onset": 177.454,
+      "onset_offset": 0.039,
+      "resnap": "beat"
+    },
+    {
+      "i": 48,
+      "text": "在一处被废弃的白蚁丘",
+      "t0": 178.8,
+      "t1": 180.87,
+      "t0_used": 178.77,
+      "t1_used": 180.87,
+      "snapped": true,
+      "snap_deltas": [
+        0.03,
+        0.196
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 178.77,
+      "cut1": 180.674,
+      "on_beat": true,
+      "word_onset": 178.735,
+      "onset_offset": 0.035,
+      "resnap": "beat"
+    },
+    {
+      "i": 49,
+      "text": "站着一只饿昏的老斑鸠",
+      "t0": 180.87,
+      "t1": 188.52,
+      "t0_used": 180.87,
+      "t1_used": 188.52,
+      "snapped": false,
+      "snap_deltas": [
+        0.196,
+        0.16
+      ],
+      "approx": false,
+      "splits": [
+        183.856,
+        187.06
+      ],
+      "cut0": 180.674,
+      "cut1": 188.36,
+      "on_beat": true,
+      "word_onset": 180.957,
+      "onset_offset": 0.283,
+      "resnap": "beat"
+    },
+    {
+      "i": 50,
+      "text": "印地安老斑鸠腿短毛不多",
+      "t0": 188.52,
+      "t1": 191.05,
+      "t0_used": 188.52,
+      "t1_used": 191.05,
+      "snapped": false,
+      "snap_deltas": [
+        0.16,
+        0.159
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 188.36,
+      "cut1": 190.891,
+      "on_beat": true,
+      "word_onset": 188.519,
+      "onset_offset": 0.159,
+      "resnap": "beat"
+    },
+    {
+      "i": 51,
+      "text": "几天都没有喝水也能活",
+      "t0": 191.05,
+      "t1": 193.89,
+      "t0_used": 191.05,
+      "t1_used": 193.89,
+      "snapped": false,
+      "snap_deltas": [
+        0.159,
+        -0.206
+      ],
+      "approx": false,
+      "splits": [
+        194.096
+      ],
+      "cut0": 190.891,
+      "cut1": 194.096,
+      "on_beat": true,
+      "word_onset": 191.161,
+      "onset_offset": 0.27,
+      "resnap": "beat"
+    },
+    {
+      "i": 52,
+      "text": "脑袋瓜有一点秀逗",
+      "t0": 193.89,
+      "t1": 196.25,
+      "t0_used": 193.89,
+      "t1_used": 196.25,
+      "snapped": false,
+      "snap_deltas": [
+        -0.206,
+        0.25
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 194.096,
+      "cut1": 196.0,
+      "on_beat": true,
+      "word_onset": 194.045,
+      "onset_offset": 0.051,
+      "resnap": "beat"
+    },
+    {
+      "i": 53,
+      "text": "猎物死了它比谁都难过",
+      "t0": 196.25,
+      "t1": 199.08,
+      "t0_used": 196.25,
+      "t1_used": 199.08,
+      "snapped": false,
+      "snap_deltas": [
+        0.25,
+        -0.124
+      ],
+      "approx": false,
+      "splits": [
+        199.204
+      ],
+      "cut0": 196.0,
+      "cut1": 199.204,
+      "on_beat": true,
+      "word_onset": 196.267,
+      "onset_offset": 0.267,
+      "resnap": "beat"
+    },
+    {
+      "i": 54,
+      "text": "印地安斑鸠 我休息一下",
+      "t0": 199.08,
+      "t1": 201.63,
+      "t0_used": 199.08,
+      "t1_used": 201.63,
+      "snapped": false,
+      "snap_deltas": [
+        -0.124,
+        -0.128
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 199.204,
+      "cut1": 201.758,
+      "on_beat": true,
+      "word_onset": 199.15,
+      "onset_offset": 0.054,
+      "resnap": "beat"
+    },
+    {
+      "i": 55,
+      "text": "仙人掌怕羞 蜥蝪横着走",
+      "t0": 201.63,
+      "t1": 203.77,
+      "t0_used": 201.63,
+      "t1_used": 203.77,
+      "snapped": false,
+      "snap_deltas": [
+        -0.128,
+        0.108
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 201.758,
+      "cut1": 203.662,
+      "on_beat": true,
+      "word_onset": 201.733,
+      "onset_offset": 0.025,
+      "resnap": "beat"
+    },
+    {
+      "i": 56,
+      "text": "这里什么奇怪的事都有",
+      "t0": 203.77,
+      "t1": 206.96,
+      "t0_used": 203.77,
+      "t1_used": 206.867,
+      "snapped": true,
+      "snap_deltas": [
+        0.108,
+        0.093
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 203.662,
+      "cut1": 205.589,
+      "on_beat": true,
+      "word_onset": 203.956,
+      "onset_offset": 0.294,
+      "resnap": "beat"
+    },
+    {
+      "i": 57,
+      "text": "包括像猫的狗",
+      "t0": 206.96,
+      "t1": 209.09,
+      "t0_used": 206.867,
+      "t1_used": 209.09,
+      "snapped": true,
+      "snap_deltas": [
+        0.093,
+        0.296
+      ],
+      "approx": false,
+      "splits": [
+        208.794
+      ],
+      "cut0": 205.589,
+      "cut1": 210.048,
+      "on_beat": true,
+      "word_onset": 205.778,
+      "onset_offset": 0.189,
+      "resnap": "beat"
+    },
+    {
+      "i": 58,
+      "text": "印地安老斑鸠平常话不多",
+      "t0": 209.09,
+      "t1": 211.56,
+      "t0_used": 209.09,
+      "t1_used": 211.56,
+      "snapped": false,
+      "snap_deltas": [
+        0.296,
+        0.235
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 210.048,
+      "cut1": 211.325,
+      "on_beat": true,
+      "word_onset": 209.862,
+      "onset_offset": 0.186,
+      "resnap": "beat"
+    },
+    {
+      "i": 59,
+      "text": "除非是乌鸦抢了它的窝",
+      "t0": 211.56,
+      "t1": 214.25,
+      "t0_used": 211.56,
+      "t1_used": 214.25,
+      "snapped": false,
+      "snap_deltas": [
+        0.235,
+        -0.279
+      ],
+      "approx": false,
+      "splits": [
+        214.529
+      ],
+      "cut0": 211.325,
+      "cut1": 214.529,
+      "on_beat": true,
+      "word_onset": 211.584,
+      "onset_offset": 0.259,
+      "resnap": "beat"
+    },
+    {
+      "i": 60,
+      "text": "它在灌木丛旁邂逅",
+      "t0": 214.25,
+      "t1": 216.7,
+      "t0_used": 214.25,
+      "t1_used": 216.7,
+      "snapped": false,
+      "snap_deltas": [
+        -0.279,
+        0.267
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 214.529,
+      "cut1": 216.433,
+      "on_beat": true,
+      "word_onset": 214.248,
+      "onset_offset": 0.281,
+      "resnap": "beat"
+    },
+    {
+      "i": 61,
+      "text": "一只令它心仪的母斑鸠",
+      "t0": 216.7,
+      "t1": 239.77,
+      "t0_used": 216.7,
+      "t1_used": 239.77,
+      "snapped": false,
+      "snap_deltas": [
+        0.267,
+        -0.301
+      ],
+      "approx": false,
+      "splits": [
+        219.638,
+        222.819,
+        225.373,
+        227.927,
+        230.481,
+        233.035,
+        235.59,
+        238.167
+      ],
+      "cut0": 216.433,
+      "cut1": 240.071,
+      "on_beat": true,
+      "word_onset": 216.731,
+      "onset_offset": 0.298,
+      "resnap": "beat"
+    },
+    {
+      "i": 62,
+      "text": "印地安老斑鸠腿短毛不多",
+      "t0": 239.77,
+      "t1": 242.25,
+      "t0_used": 239.77,
+      "t1_used": 242.25,
+      "snapped": false,
+      "snap_deltas": [
+        -0.301,
+        0.275
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 240.071,
+      "cut1": 241.975,
+      "on_beat": true,
+      "word_onset": 239.726,
+      "onset_offset": 0.345,
+      "resnap": "beat"
+    },
+    {
+      "i": 63,
+      "text": "几天都没有喝水也能活",
+      "t0": 242.25,
+      "t1": 245.35,
+      "t0_used": 242.25,
+      "t1_used": 245.35,
+      "snapped": false,
+      "snap_deltas": [
+        0.275,
+        0.17
+      ],
+      "approx": false,
+      "splits": [
+        245.18
+      ],
+      "cut0": 241.975,
+      "cut1": 245.18,
+      "on_beat": true,
+      "word_onset": 242.269,
+      "onset_offset": 0.294,
+      "resnap": "beat"
+    },
+    {
+      "i": 64,
+      "text": "脑袋瓜",
+      "t0": 245.35,
+      "t1": 247.4,
+      "t0_used": 245.35,
+      "t1_used": 247.4,
+      "snapped": false,
+      "snap_deltas": [
+        0.17,
+        0.316
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 245.18,
+      "cut1": 247.084,
+      "on_beat": true,
+      "word_onset": 245.432,
+      "onset_offset": 0.252,
+      "resnap": "beat"
+    },
+    {
+      "i": 65,
+      "text": "猎物死了它比谁都难过",
+      "t0": 247.4,
+      "t1": 249.8,
+      "t0_used": 247.4,
+      "t1_used": 249.8,
+      "snapped": false,
+      "snap_deltas": [
+        0.316,
+        0.162
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 247.084,
+      "cut1": 249.638,
+      "on_beat": true,
+      "word_onset": 247.374,
+      "onset_offset": 0.29,
+      "resnap": "beat"
+    },
+    {
+      "i": 66,
+      "text": "印地安斑鸠 会学人开口",
+      "t0": 249.8,
+      "t1": 252.41,
+      "t0_used": 249.8,
+      "t1_used": 252.41,
+      "snapped": false,
+      "snap_deltas": [
+        0.162,
+        0.195
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 249.638,
+      "cut1": 252.215,
+      "on_beat": true,
+      "word_onset": 249.917,
+      "onset_offset": 0.279,
+      "resnap": "beat"
+    },
+    {
+      "i": 67,
+      "text": "仙人掌怕羞 蜥蝪横着走",
+      "t0": 252.41,
+      "t1": 255.13,
+      "t0_used": 252.41,
+      "t1_used": 255.13,
+      "snapped": false,
+      "snap_deltas": [
+        0.195,
+        -0.266
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 252.215,
+      "cut1": 254.769,
+      "on_beat": true,
+      "word_onset": 252.46,
+      "onset_offset": 0.245,
+      "resnap": "beat"
+    },
+    {
+      "i": 68,
+      "text": "这里什么奇怪的事都有",
+      "t0": 255.13,
+      "t1": 257.78,
+      "t0_used": 255.13,
+      "t1_used": 257.78,
+      "snapped": false,
+      "snap_deltas": [
+        -0.266,
+        -0.17
+      ],
+      "approx": false,
+      "splits": [
+        257.95
+      ],
+      "cut0": 254.769,
+      "cut1": 257.95,
+      "on_beat": true,
+      "word_onset": 255.042,
+      "onset_offset": 0.273,
+      "resnap": "beat"
+    },
+    {
+      "i": 69,
+      "text": "包括像猫的狗",
+      "t0": 257.78,
+      "t1": 260.26,
+      "t0_used": 257.78,
+      "t1_used": 260.26,
+      "snapped": false,
+      "snap_deltas": [
+        -0.17,
+        -0.245
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 257.95,
+      "cut1": 259.878,
+      "on_beat": true,
+      "word_onset": 257.884,
+      "onset_offset": 0.066,
+      "resnap": "beat"
+    },
+    {
+      "i": 70,
+      "text": "印地安老斑鸠平常话不多",
+      "t0": 260.26,
+      "t1": 262.64,
+      "t0_used": 260.26,
+      "t1_used": 262.64,
+      "snapped": false,
+      "snap_deltas": [
+        -0.245,
+        0.231
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 259.878,
+      "cut1": 262.409,
+      "on_beat": true,
+      "word_onset": 260.146,
+      "onset_offset": 0.268,
+      "resnap": "beat"
+    },
+    {
+      "i": 71,
+      "text": "除非是乌鸦抢了它的窝",
+      "t0": 262.64,
+      "t1": 265.41,
+      "t0_used": 262.64,
+      "t1_used": 265.41,
+      "snapped": false,
+      "snap_deltas": [
+        0.231,
+        -0.203
+      ],
+      "approx": false,
+      "splits": [
+        265.613
+      ],
+      "cut0": 262.409,
+      "cut1": 265.613,
+      "on_beat": true,
+      "word_onset": 262.667,
+      "onset_offset": 0.258,
+      "resnap": "beat"
+    },
+    {
+      "i": 72,
+      "text": "它在灌木丛旁邂逅",
+      "t0": 265.41,
+      "t1": 267.83,
+      "t0_used": 265.41,
+      "t1_used": 267.83,
+      "snapped": false,
+      "snap_deltas": [
+        -0.203,
+        0.313
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 265.613,
+      "cut1": 268.167,
+      "on_beat": true,
+      "word_onset": 265.369,
+      "onset_offset": 0.244,
+      "resnap": "beat"
+    },
+    {
+      "i": 73,
+      "text": "一只令它心仪的母斑鸠",
+      "t0": 267.83,
+      "t1": 270.83,
+      "t0_used": 267.83,
+      "t1_used": 270.83,
+      "snapped": false,
+      "snap_deltas": [
+        0.313,
+        0.109
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 268.167,
+      "cut1": 270.071,
+      "on_beat": true,
+      "word_onset": 267.951,
+      "onset_offset": 0.216,
+      "resnap": "beat"
+    },
+    {
+      "i": 0,
+      "text": "合声编写：周杰伦",
+      "t0": 302.27,
+      "t1": 302.55,
+      "t0_used": 302.27,
+      "t1_used": 302.55,
+      "snapped": false,
+      "snap_deltas": [
+        0.921,
+        1.201
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 270.071,
+      "cut1": 270.721,
+      "on_beat": true,
+      "word_onset": 269.872,
+      "onset_offset": 0.199,
+      "resnap": "beat"
+    },
+    {
+      "i": 1,
+      "text": "过带录音师：林佳育 (明水 录音室)",
+      "t0": 302.55,
+      "t1": 302.68,
+      "t0_used": 302.55,
+      "t1_used": 302.68,
+      "snapped": false,
+      "snap_deltas": [
+        1.201,
+        1.331
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 270.721,
+      "cut1": 271.348,
+      "on_beat": true,
+      "word_onset": 269.872,
+      "onset_offset": 0.849,
+      "resnap": "beat"
+    },
+    {
+      "i": 2,
+      "text": "配唱录音师：林聪智 (J&A 录音室)",
+      "t0": 302.68,
+      "t1": 302.83,
+      "t0_used": 302.68,
+      "t1_used": 302.83,
+      "snapped": false,
+      "snap_deltas": [
+        1.331,
+        1.481
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 271.348,
+      "cut1": 271.999,
+      "on_beat": true,
+      "word_onset": 269.872,
+      "onset_offset": 1.476,
+      "resnap": "beat"
+    },
+    {
+      "i": 3,
+      "text": "混音录音师：林聪智 (J&A 录音室)",
+      "t0": 302.83,
+      "t1": 303.1,
+      "t0_used": 302.83,
+      "t1_used": 303.1,
+      "snapped": false,
+      "snap_deltas": [
+        1.481,
+        1.751
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 271.999,
+      "cut1": 272.625,
+      "on_beat": true,
+      "word_onset": 269.872,
+      "onset_offset": 2.127,
+      "resnap": "beat"
+    },
+    {
+      "i": 4,
+      "text": "ISRC-TW-C23-00-001-08",
+      "t0": 303.1,
+      "t1": 306.1,
+      "t0_used": 303.1,
+      "t1_used": 306.1,
+      "snapped": false,
+      "snap_deltas": [
+        1.751,
+        4.751
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 272.625,
+      "cut1": 273.276,
+      "on_beat": true,
+      "word_onset": 269.872,
+      "onset_offset": 2.753,
+      "resnap": "beat"
+    }
+  ],
+  "summary": {
+    "lines": 74,
+    "cuts": 118,
+    "cuts_on_beat": 118,
+    "mean_onset_offset_sec": 0.197,
+    "max_onset_offset_sec": 0.345,
+    "same_window_rows_removed": 0,
+    "degenerate_rows_repaired": 0,
+    "old_lines": 74,
+    "old_snapped": 22
+  },
+  "advisory": true
+}

@@ -1,0 +1,876 @@
+{
+  "song": "龙卷风",
+  "version": "anchor-shotgrid v2.0 resnap (word-onset select / beat place)",
+  "inputs": {
+    "beats_sha_face": 286,
+    "n_beats": 286,
+    "n_downbeats": 72,
+    "duration_sec": 250.36
+  },
+  "bpm_median": 72.3,
+  "snap_tol_sec": 0.1,
+  "max_shot_sec": 3.0,
+  "grid": [
+    {
+      "i": 0,
+      "text": "爱像一阵风吹完它就走",
+      "t0": 29.98,
+      "t1": 37.0,
+      "t0_used": 30.02,
+      "t1_used": 37.0,
+      "snapped": true,
+      "snap_deltas": [
+        -0.04,
+        0.31
+      ],
+      "approx": false,
+      "splits": [
+        33.35,
+        36.69
+      ],
+      "cut0": 30.02,
+      "cut1": 36.69,
+      "on_beat": true,
+      "word_onset": 29.988,
+      "onset_offset": 0.032,
+      "resnap": "beat"
+    },
+    {
+      "i": 1,
+      "text": "这样的节奏谁都无可奈何",
+      "t0": 37.22,
+      "t1": 40.4,
+      "t0_used": 37.22,
+      "t1_used": 40.4,
+      "snapped": false,
+      "snap_deltas": [
+        -0.3,
+        0.38
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 37.52,
+      "cut1": 40.02,
+      "on_beat": true,
+      "word_onset": 37.449,
+      "onset_offset": 0.071,
+      "resnap": "beat"
+    },
+    {
+      "i": 2,
+      "text": "没有你以后我灵魂失控",
+      "t0": 40.94,
+      "t1": 46.98,
+      "t0_used": 40.85,
+      "t1_used": 46.98,
+      "snapped": true,
+      "snap_deltas": [
+        0.09,
+        0.29
+      ],
+      "approx": false,
+      "splits": [
+        44.19
+      ],
+      "cut0": 40.85,
+      "cut1": 46.69,
+      "on_beat": true,
+      "word_onset": 40.87,
+      "onset_offset": 0.02,
+      "resnap": "beat"
+    },
+    {
+      "i": 3,
+      "text": "黑云在降落我被它拖着走",
+      "t0": 46.98,
+      "t1": 53.1,
+      "t0_used": 46.98,
+      "t1_used": 53.1,
+      "snapped": false,
+      "snap_deltas": [
+        0.29,
+        -0.26
+      ],
+      "approx": false,
+      "splits": [
+        50.02
+      ],
+      "cut0": 46.69,
+      "cut1": 52.48,
+      "on_beat": true,
+      "word_onset": 46.671,
+      "onset_offset": 0.019,
+      "resnap": "beat"
+    },
+    {
+      "i": 4,
+      "text": "静静悄悄默默离开",
+      "t0": 53.1,
+      "t1": 60.74,
+      "t0_used": 53.1,
+      "t1_used": 60.74,
+      "snapped": false,
+      "snap_deltas": [
+        -0.26,
+        -0.11
+      ],
+      "approx": true,
+      "splits": [
+        55.85,
+        59.19,
+        62.52
+      ],
+      "cut0": 52.48,
+      "cut1": 62.52,
+      "on_beat": true,
+      "word_onset": 52.892,
+      "onset_offset": 0.412,
+      "resnap": "beat"
+    },
+    {
+      "i": 6,
+      "text": "我的世界已狂风暴雨wu",
+      "t0": 60.74,
+      "t1": 65.26,
+      "t0_used": 60.74,
+      "t1_used": 65.26,
+      "snapped": false,
+      "snap_deltas": [
+        -0.11,
+        0.24
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 62.52,
+      "cut1": 64.19,
+      "on_beat": true,
+      "word_onset": 62.01,
+      "onset_offset": 0.51,
+      "resnap": "beat"
+    },
+    {
+      "i": 7,
+      "text": "爱情来的太快就像龙卷风",
+      "t0": 66.96,
+      "t1": 70.56,
+      "t0_used": 66.96,
+      "t1_used": 70.56,
+      "snapped": false,
+      "snap_deltas": [
+        0.26,
+        -0.3
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 67.52,
+      "cut1": 70.02,
+      "on_beat": true,
+      "word_onset": 67.471,
+      "onset_offset": 0.049,
+      "resnap": "beat"
+    },
+    {
+      "i": 8,
+      "text": "离不开暴风圈来不及逃",
+      "t0": 70.56,
+      "t1": 73.48,
+      "t0_used": 70.56,
+      "t1_used": 73.48,
+      "snapped": false,
+      "snap_deltas": [
+        -0.3,
+        0.12
+      ],
+      "approx": false,
+      "splits": [
+        73.36
+      ],
+      "cut0": 70.02,
+      "cut1": 73.36,
+      "on_beat": true,
+      "word_onset": 70.431,
+      "onset_offset": 0.411,
+      "resnap": "beat"
+    },
+    {
+      "i": 9,
+      "text": "我不能再想我不能再想",
+      "t0": 73.48,
+      "t1": 76.94,
+      "t0_used": 73.48,
+      "t1_used": 76.94,
+      "snapped": false,
+      "snap_deltas": [
+        0.12,
+        0.25
+      ],
+      "approx": false,
+      "splits": [
+        76.69
+      ],
+      "cut0": 73.36,
+      "cut1": 76.69,
+      "on_beat": true,
+      "word_onset": 73.332,
+      "onset_offset": 0.028,
+      "resnap": "beat"
+    },
+    {
+      "i": 10,
+      "text": "我不我不我不能",
+      "t0": 76.94,
+      "t1": 79.18,
+      "t0_used": 76.94,
+      "t1_used": 79.19,
+      "snapped": true,
+      "snap_deltas": [
+        0.25,
+        -0.01
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 76.69,
+      "cut1": 79.19,
+      "on_beat": true,
+      "word_onset": 77.073,
+      "onset_offset": 0.383,
+      "resnap": "beat"
+    },
+    {
+      "i": 11,
+      "text": "爱情走的太快就像龙卷风",
+      "t0": 80.22,
+      "t1": 83.9,
+      "t0_used": 80.22,
+      "t1_used": 83.9,
+      "snapped": false,
+      "snap_deltas": [
+        0.2,
+        -0.29
+      ],
+      "approx": false,
+      "splits": [
+        84.19
+      ],
+      "cut0": 80.86,
+      "cut1": 84.19,
+      "on_beat": true,
+      "word_onset": 80.833,
+      "onset_offset": 0.027,
+      "resnap": "beat"
+    },
+    {
+      "i": 12,
+      "text": "不能承受我已无处可躲",
+      "t0": 83.9,
+      "t1": 86.84,
+      "t0_used": 83.9,
+      "t1_used": 86.84,
+      "snapped": false,
+      "snap_deltas": [
+        -0.29,
+        0.15
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 84.19,
+      "cut1": 86.69,
+      "on_beat": true,
+      "word_onset": 83.954,
+      "onset_offset": 0.236,
+      "resnap": "beat"
+    },
+    {
+      "i": 13,
+      "text": "我不要再想我不要再想",
+      "t0": 86.84,
+      "t1": 90.26,
+      "t0_used": 86.84,
+      "t1_used": 90.26,
+      "snapped": false,
+      "snap_deltas": [
+        0.15,
+        0.24
+      ],
+      "approx": false,
+      "splits": [
+        90.02
+      ],
+      "cut0": 86.69,
+      "cut1": 90.86,
+      "on_beat": true,
+      "word_onset": 86.694,
+      "onset_offset": 0.004,
+      "resnap": "beat"
+    },
+    {
+      "i": 14,
+      "text": "我不我不我不要再想你",
+      "t0": 90.26,
+      "t1": 93.7,
+      "t0_used": 90.26,
+      "t1_used": 93.7,
+      "snapped": false,
+      "snap_deltas": [
+        0.24,
+        0.34
+      ],
+      "approx": false,
+      "splits": [
+        94.19
+      ],
+      "cut0": 90.86,
+      "cut1": 94.19,
+      "on_beat": true,
+      "word_onset": 90.775,
+      "onset_offset": 0.085,
+      "resnap": "beat"
+    },
+    {
+      "i": 15,
+      "text": "不知不觉你已经离开我",
+      "t0": 93.7,
+      "t1": 97.28,
+      "t0_used": 93.7,
+      "t1_used": 97.28,
+      "snapped": false,
+      "snap_deltas": [
+        0.34,
+        -0.25
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 94.19,
+      "cut1": 96.69,
+      "on_beat": true,
+      "word_onset": 93.782,
+      "onset_offset": 0.408,
+      "resnap": "beat"
+    },
+    {
+      "i": 16,
+      "text": "不知不觉我跟了这节奏",
+      "t0": 97.28,
+      "t1": 100.7,
+      "t0_used": 97.28,
+      "t1_used": 100.7,
+      "snapped": false,
+      "snap_deltas": [
+        -0.25,
+        -0.16
+      ],
+      "approx": false,
+      "splits": [
+        100.03
+      ],
+      "cut0": 96.69,
+      "cut1": 100.86,
+      "on_beat": true,
+      "word_onset": 97.105,
+      "onset_offset": 0.415,
+      "resnap": "beat"
+    },
+    {
+      "i": 17,
+      "text": "后知后觉又过了一个秋",
+      "t0": 100.7,
+      "t1": 103.86,
+      "t0_used": 100.7,
+      "t1_used": 103.86,
+      "snapped": false,
+      "snap_deltas": [
+        -0.16,
+        -0.33
+      ],
+      "approx": false,
+      "splits": [
+        104.19
+      ],
+      "cut0": 100.86,
+      "cut1": 104.19,
+      "on_beat": true,
+      "word_onset": 100.868,
+      "onset_offset": 0.008,
+      "resnap": "beat"
+    },
+    {
+      "i": 18,
+      "text": "后知后觉我该好好生活",
+      "t0": 103.86,
+      "t1": 107.4,
+      "t0_used": 103.86,
+      "t1_used": 107.4,
+      "snapped": false,
+      "snap_deltas": [
+        -0.33,
+        -0.13
+      ],
+      "approx": true,
+      "splits": [
+        107.53
+      ],
+      "cut0": 104.19,
+      "cut1": 107.53,
+      "on_beat": true,
+      "word_onset": 103.91,
+      "onset_offset": 0.28,
+      "resnap": "beat"
+    },
+    {
+      "i": 19,
+      "text": "静静悄悄默默离开",
+      "t0": 107.4,
+      "t1": 110.2,
+      "t0_used": 107.4,
+      "t1_used": 110.2,
+      "snapped": false,
+      "snap_deltas": [
+        -0.13,
+        0.17
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 107.53,
+      "cut1": 110.03,
+      "on_beat": true,
+      "word_onset": 107.533,
+      "onset_offset": 0.003,
+      "resnap": "beat"
+    },
+    {
+      "i": 20,
+      "text": "陷入了危险边缘Baby",
+      "t0": 110.2,
+      "t1": 113.96,
+      "t0_used": 110.2,
+      "t1_used": 113.96,
+      "snapped": false,
+      "snap_deltas": [
+        0.17,
+        -0.24
+      ],
+      "approx": true,
+      "splits": [
+        113.36
+      ],
+      "cut0": 110.03,
+      "cut1": 114.2,
+      "on_beat": true,
+      "word_onset": 110.035,
+      "onset_offset": 0.005,
+      "resnap": "beat"
+    },
+    {
+      "i": 21,
+      "text": "我的世界已狂风暴雨wu",
+      "t0": 113.96,
+      "t1": 118.74,
+      "t0_used": 113.96,
+      "t1_used": 118.74,
+      "snapped": false,
+      "snap_deltas": [
+        -0.24,
+        0.38
+      ],
+      "approx": false,
+      "splits": [
+        117.53
+      ],
+      "cut0": 114.2,
+      "cut1": 117.53,
+      "on_beat": true,
+      "word_onset": 113.798,
+      "onset_offset": 0.402,
+      "resnap": "beat"
+    },
+    {
+      "i": 22,
+      "text": "爱情来的太快就像龙卷风",
+      "t0": 120.24,
+      "t1": 123.9,
+      "t0_used": 120.24,
+      "t1_used": 123.9,
+      "snapped": false,
+      "snap_deltas": [
+        0.22,
+        -0.3
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 120.85,
+      "cut1": 123.36,
+      "on_beat": true,
+      "word_onset": 120.809,
+      "onset_offset": 0.041,
+      "resnap": "beat"
+    },
+    {
+      "i": 23,
+      "text": "离不开暴风圈来不及逃",
+      "t0": 123.9,
+      "t1": 126.82,
+      "t0_used": 123.9,
+      "t1_used": 126.82,
+      "snapped": false,
+      "snap_deltas": [
+        -0.3,
+        0.13
+      ],
+      "approx": false,
+      "splits": [
+        126.69
+      ],
+      "cut0": 123.36,
+      "cut1": 126.69,
+      "on_beat": true,
+      "word_onset": 123.751,
+      "onset_offset": 0.391,
+      "resnap": "beat"
+    },
+    {
+      "i": 24,
+      "text": "我不能再想我不能再想",
+      "t0": 126.82,
+      "t1": 130.22,
+      "t0_used": 126.82,
+      "t1_used": 130.22,
+      "snapped": false,
+      "snap_deltas": [
+        0.13,
+        0.19
+      ],
+      "approx": false,
+      "splits": [
+        130.03
+      ],
+      "cut0": 126.69,
+      "cut1": 130.03,
+      "on_beat": true,
+      "word_onset": 126.693,
+      "onset_offset": 0.003,
+      "resnap": "beat"
+    },
+    {
+      "i": 25,
+      "text": "我不我不我不能",
+      "t0": 130.22,
+      "t1": 132.52,
+      "t0_used": 130.22,
+      "t1_used": 132.54,
+      "snapped": true,
+      "snap_deltas": [
+        0.19,
+        -0.02
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 130.03,
+      "cut1": 132.54,
+      "on_beat": true,
+      "word_onset": 130.415,
+      "onset_offset": 0.385,
+      "resnap": "beat"
+    },
+    {
+      "i": 26,
+      "text": "爱情走的太快就像龙卷风",
+      "t0": 133.86,
+      "t1": 137.24,
+      "t0_used": 133.86,
+      "t1_used": 137.24,
+      "snapped": false,
+      "snap_deltas": [
+        -0.34,
+        -0.29
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 134.2,
+      "cut1": 136.7,
+      "on_beat": true,
+      "word_onset": 134.178,
+      "onset_offset": 0.022,
+      "resnap": "beat"
+    },
+    {
+      "i": 27,
+      "text": "不能承受我已无处可躲",
+      "t0": 137.24,
+      "t1": 140.16,
+      "t0_used": 137.24,
+      "t1_used": 140.16,
+      "snapped": false,
+      "snap_deltas": [
+        -0.29,
+        0.13
+      ],
+      "approx": false,
+      "splits": [
+        140.03
+      ],
+      "cut0": 136.7,
+      "cut1": 140.03,
+      "on_beat": true,
+      "word_onset": 136.999,
+      "onset_offset": 0.299,
+      "resnap": "beat"
+    },
+    {
+      "i": 28,
+      "text": "我不要再想我不要再想",
+      "t0": 140.16,
+      "t1": 143.56,
+      "t0_used": 140.16,
+      "t1_used": 143.56,
+      "snapped": false,
+      "snap_deltas": [
+        0.13,
+        0.2
+      ],
+      "approx": false,
+      "splits": [
+        143.36
+      ],
+      "cut0": 140.03,
+      "cut1": 143.36,
+      "on_beat": true,
+      "word_onset": 140.041,
+      "onset_offset": 0.011,
+      "resnap": "beat"
+    },
+    {
+      "i": 29,
+      "text": "我不我不我不要再想你",
+      "t0": 143.56,
+      "t1": 146.94,
+      "t0_used": 143.56,
+      "t1_used": 146.94,
+      "snapped": false,
+      "snap_deltas": [
+        0.2,
+        0.24
+      ],
+      "approx": false,
+      "splits": [
+        146.7
+      ],
+      "cut0": 143.36,
+      "cut1": 146.7,
+      "on_beat": true,
+      "word_onset": 143.764,
+      "onset_offset": 0.404,
+      "resnap": "beat"
+    },
+    {
+      "i": 30,
+      "text": "爱情来的太快就像龙卷风",
+      "t0": 173.76,
+      "t1": 177.24,
+      "t0_used": 173.76,
+      "t1_used": 177.24,
+      "snapped": false,
+      "snap_deltas": [
+        0.39,
+        -0.29
+      ],
+      "approx": false,
+      "splits": [
+        177.53
+      ],
+      "cut0": 174.2,
+      "cut1": 177.53,
+      "on_beat": true,
+      "word_onset": 174.153,
+      "onset_offset": 0.047,
+      "resnap": "beat"
+    },
+    {
+      "i": 31,
+      "text": "离不开暴风圈来不及逃",
+      "t0": 177.24,
+      "t1": 180.2,
+      "t0_used": 177.24,
+      "t1_used": 180.2,
+      "snapped": false,
+      "snap_deltas": [
+        -0.29,
+        0.16
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 177.53,
+      "cut1": 180.04,
+      "on_beat": true,
+      "word_onset": 177.135,
+      "onset_offset": 0.395,
+      "resnap": "beat"
+    },
+    {
+      "i": 32,
+      "text": "我不能再想我不能再想",
+      "t0": 180.2,
+      "t1": 183.52,
+      "t0_used": 180.2,
+      "t1_used": 183.52,
+      "snapped": false,
+      "snap_deltas": [
+        0.16,
+        0.15
+      ],
+      "approx": false,
+      "splits": [
+        183.37
+      ],
+      "cut0": 180.04,
+      "cut1": 183.37,
+      "on_beat": true,
+      "word_onset": 180.237,
+      "onset_offset": 0.197,
+      "resnap": "beat"
+    },
+    {
+      "i": 33,
+      "text": "我不我不我不能",
+      "t0": 183.52,
+      "t1": 185.88,
+      "t0_used": 183.52,
+      "t1_used": 185.87,
+      "snapped": true,
+      "snap_deltas": [
+        0.15,
+        0.01
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 183.37,
+      "cut1": 185.87,
+      "on_beat": true,
+      "word_onset": 183.74,
+      "onset_offset": 0.37,
+      "resnap": "beat"
+    },
+    {
+      "i": 34,
+      "text": "爱情走的太快就像龙卷风",
+      "t0": 187.16,
+      "t1": 190.58,
+      "t0_used": 187.16,
+      "t1_used": 190.58,
+      "snapped": false,
+      "snap_deltas": [
+        -0.37,
+        -0.29
+      ],
+      "approx": false,
+      "splits": [],
+      "cut0": 187.53,
+      "cut1": 190.04,
+      "on_beat": true,
+      "word_onset": 187.462,
+      "onset_offset": 0.068,
+      "resnap": "beat"
+    },
+    {
+      "i": 35,
+      "text": "不能承受我已无处可躲",
+      "t0": 190.58,
+      "t1": 193.52,
+      "t0_used": 190.58,
+      "t1_used": 193.52,
+      "snapped": false,
+      "snap_deltas": [
+        -0.29,
+        0.15
+      ],
+      "approx": false,
+      "splits": [
+        193.37
+      ],
+      "cut0": 190.04,
+      "cut1": 193.37,
+      "on_beat": true,
+      "word_onset": 190.384,
+      "onset_offset": 0.344,
+      "resnap": "beat"
+    },
+    {
+      "i": 36,
+      "text": "我不要再想我不要再想",
+      "t0": 193.52,
+      "t1": 196.88,
+      "t0_used": 193.52,
+      "t1_used": 196.88,
+      "snapped": false,
+      "snap_deltas": [
+        0.15,
+        0.18
+      ],
+      "approx": false,
+      "splits": [
+        196.7
+      ],
+      "cut0": 193.37,
+      "cut1": 196.7,
+      "on_beat": true,
+      "word_onset": 193.386,
+      "onset_offset": 0.016,
+      "resnap": "beat"
+    },
+    {
+      "i": 37,
+      "text": "我不我不我不要再想你",
+      "t0": 196.88,
+      "t1": 200.32,
+      "t0_used": 196.88,
+      "t1_used": 200.32,
+      "snapped": false,
+      "snap_deltas": [
+        0.18,
+        0.28
+      ],
+      "approx": false,
+      "splits": [
+        200.04
+      ],
+      "cut0": 196.7,
+      "cut1": 200.04,
+      "on_beat": true,
+      "word_onset": 196.648,
+      "onset_offset": 0.052,
+      "resnap": "beat"
+    },
+    {
+      "i": 38,
+      "text": "不知不觉你已经离开我",
+      "t0": 200.32,
+      "t1": 203.32,
+      "t0_used": 200.32,
+      "t1_used": 203.37,
+      "snapped": true,
+      "snap_deltas": [
+        0.28,
+        -0.05
+      ],
+      "approx": true,
+      "splits": [],
+      "cut0": 200.04,
+      "cut1": 200.88,
+      "on_beat": true,
+      "word_onset": 199.971,
+      "onset_offset": 0.069,
+      "resnap": "beat"
+    }
+  ],
+  "summary": {
+    "lines": 38,
+    "cuts": 65,
+    "cuts_on_beat": 65,
+    "mean_onset_offset_sec": 0.173,
+    "max_onset_offset_sec": 0.415,
+    "same_window_rows_removed": 11,
+    "degenerate_rows_repaired": 0,
+    "old_lines": 49,
+    "old_snapped": 16
+  },
+  "advisory": true
+}

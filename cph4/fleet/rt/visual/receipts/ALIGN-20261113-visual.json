@@ -1,0 +1,30 @@
+{
+ "id": "ALIGN-20261113-visual",
+ "station": "visual",
+ "node": "bm-c",
+ "ts": "2026-11-13T22:52:00",
+ "type": "ONBOARD",
+ "why": "CEO 令『配合主控，拉取最新的git，搞清楚自己要干什么，然后满负荷工作』+ 主控台账 IMP-SYNC/TOOL-PENDING 8 项点名：本机此前 v3 工具未落地（落后 15 提交）、无执行体心跳、ComfyUI 停服（blocked_no_comfyui）",
+ "steps_done": [
+  "git 收口：备份链 backup-20261113 + reset --hard origin/main（原 ahead 360 陈旧 state 快照 / behind 15）→ HEAD==origin/main 0/0；v729 台账行（docs/orders.md 21:55）字节级手术恢复并随 760ea97a0 上链",
+  "旧执行器退役（R40 律）：agent.py + lane_agent.py 进程清杀、HQ-ProductionClaim 置 Disabled（旧队列已冻结，新机制=station_drive）",
+  "ComfyUI 复活：8188 起服实测（RTX 3070 16G，free 15.3GB）；根因修复=ComfyKeepAlive_C.ps1 WorkingDirectory 必须用 D:\\ComfyUI\\ComfyUI（裸 D:\\ComfyUI 下 python 启动即死，已修+注释存证）",
+  "工位状态翻转：station_drive --station visual 由 blocked_no_comfyui → ready（实测 22:29 轮 blocked 消失）",
+  "供给接线（IMPROVE-BACKLOG batch-2 owner=visual 8 项）：PROD-MV-SINGLE mv-kf/mv-i2v/mv-cut、PROD-SHORTVIDEO-TRACK 字幕、PROD-DRAMA-EP assets/kf/assembly 七工序接真实工具命令；PROD-DRAMA-EP i2v 标 manual_stages+理由（无泛化 i2v 客户端：h3_i2v_client 硬编码 bm-a 路径、h3_i2v_fleet_v4 输入硬编码 mv0001；泛化工序已列 TOOL-PENDING 待主控派单）；improve_drive --check 台账一致无假完成",
+  "自驱循环端到端实测打通：station_drive 领首张真卡（PROD-MV-SINGLE/mv-i2v）并起 h3_i2v_fleet_v4 子进程实烧，S1_fire_wake.mp4 已落盘 i2v/",
+  "AGENT-PATROL 装配：FluxGroup-StationAgent-bmc every:60m 静默链注册（task-register 正门，S4U 未提权被拒按律降级 InteractiveToken 入 s4u-backlog），实测点火 22:49:43 result=0",
+  "v729 主活接续：今晚前窗 CLI 重启击杀批产进程且 Tools/kf_d03b_jman.py 未落盘——已按盘上正身重建（krea2_jay_bone 三参考图身份流 + jman_v1_rank32 LoRA + D03b_kf_reanchor 构图权威），c1/c2 候选已出图，c3/c4 在 FIFO 队列"
+ ],
+ "facts_evidence": [
+  "git: origin/main 尖=760ea97a0（含本机提交，worktree 外科合并主控 05c6b9e97 无冲突）",
+  "GPU: 100% 满载 15.0GB/16GB（mv-i2v 卡批 + D03b 批共服 FIFO）",
+  "产出: cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/i2v/S1_fire_wake.mp4；media/mv-album-001-jay/v729-candidates/D03b_jman_c1/c2_seed*.png"
+ ],
+ "honest_gaps": [
+  "PROD-DRAMA-EP/i2v 无泛化客户端（manual_stages，泛化工序待派）",
+  "StationAgent/StationDrive 均为 InteractiveToken 降级态（S4U 提权候 CEO 物理窗，已入 task-s4u-backlog.md）",
+  "D03b 候选 c1 有参考图 MV 后期特征泄漏（ref_mv_91 的马赛克转场/字幕残影渗入生成帧），待 c3/c4 齐后看板定夺：若全带病则调整参考图组合重烧",
+  "v729 后续链（E04 表演版 take/九重复槽剪辑语言差异化/装配器 mv_rebuild_v729）尚未重建——装配器正身 mv_rebuild_from_edl.py 在盘可复用，待 D03b 定版后推进"
+ ],
+ "provenance": "实测（8188 system_stats、GPU nvidia-smi、任务 schtasks 首火 result、产物文件在盘、git 双向核对）"
+}

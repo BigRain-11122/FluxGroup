@@ -1,0 +1,88 @@
+{
+  "_comment": "公众号相关技能包上游清单（2026-11-24 扒取）。CEO 令「workbuddy 也有很多技能库，能扒过来的都给我扒了存好」。",
+  "updated": "2026-11-24",
+  "selection_criteria": [
+    "star >= 700（低于此不采，避免小众坑）",
+    "许可明确（MIT / Apache-2.0 等）；NOASSERTION 一律不落地",
+    "2026 年仍有提交",
+    "与公众号工作流直接相关"
+  ],
+  "vendored": [
+    {
+      "name": "imraywang/wewrite",
+      "path": "cph4/skills/_vendor-gzh/wewrite",
+      "stars": 3757,
+      "license": "MIT",
+      "language": "Python",
+      "cloned_at": "2026-11-24",
+      "method": "tarball（git clone 报 HTTP2 framing layer，改用 codeload tar.gz）",
+      "files": 115,
+      "size": "3.7M",
+      "sub_skills": 10,
+      "why": "公众号内容全流程 Skill：热点抓取→选题→写稿→审稿→配图→排版→发布。有 learn（学习你的修改）与 stats（数据回填）两个自进化机制。",
+      "key_parts": {
+        "skills/wewrite-topic": "选题生成：10 选题 × 3 维度评分 + 历史去重",
+        "skills/wewrite-write": "框架生成（7 套骨架）+ 文章任务书",
+        "skills/wewrite-review": "五项判断（准确/观点/有用/合声/好读）+ 11 项机械检查",
+        "skills/wewrite-style": "7 套写作人格（midnight-friend 专为个人号）+ style.yaml",
+        "skills/wewrite-visual": "封面/配图（生成前检查数量和预估费用）",
+        "skills/wewrite-learn": "从你的修改中学习风格",
+        "skills/wewrite-stats": "阅读数据回填反哺选题"
+      },
+      "takeaway": [
+        "7 种写作人格里，midnight-friend（像给熟悉朋友解释一件事）最适合个人号",
+        "7 套文章骨架：痛点/故事/清单/对比/热点解读/纯观点/复盘",
+        "审稿的 11 项机械检查可参考做自己的闸"
+      ]
+    },
+    {
+      "name": "aiworkskills/wechat-article-skills",
+      "path": "cph4/skills/_vendor-gzh/wechat-article-skills",
+      "stars": 763,
+      "license": "Apache-2.0",
+      "language": "Python",
+      "cloned_at": "2026-11-24",
+      "files": 220,
+      "size": "2.3M",
+      "sub_skills": 9,
+      "why": "选题/写稿/审稿/排版/配图/发布全流程，模块化拆分清楚，可逐件取用。",
+      "sub_skill_list": [
+        "aws-wechat-article-main（主入口）",
+        "aws-wechat-article-topics（选题）",
+        "aws-wechat-article-writing（写稿）",
+        "aws-wechat-article-review（审稿）",
+        "aws-wechat-article-formatting（排版）",
+        "aws-wechat-article-images（配图）",
+        "aws-wechat-article-assets（素材）",
+        "aws-wechat-article-publish（发布）",
+        "aws-wechat-sticker（贴纸）"
+      ],
+      "takeaway": [
+        "排版主题 7 套（含克制/工程笔记/杂志），组件用 ::: 块调用",
+        "审稿内置「AI 味自检」：公众号体裁指纹库 + 真实稿校准样例",
+        "配图收敛为 8 个形态，按「信息位/节奏位」判断该不该留"
+      ]
+    }
+  ],
+  "evaluated_not_vendored": [
+    {
+      "name": "isjiamu/gzh-design-skill",
+      "stars": 4457,
+      "license": "NOASSERTION (Other)",
+      "reason": "许可不明。功能是排版（6 主题 + 组件库），与已装的 doocs/md 重叠，且 doocs/md 许可明确（WTFPL）。只作参考，不落地。"
+    },
+    {
+      "name": "geekjourneyx/md2wechat-skill",
+      "stars": 3824,
+      "license": "NOASSERTION (Other)",
+      "reason": "许可不明 + 仓库 141MB（含大量二进制）。核心能力是 md→微信 HTML + 草稿创建，前者 doocs/md 已覆盖，后者需公众号 API 权限（个人号拿不到）。"
+    },
+    {
+      "name": "cyberxiaowan/xiaowan-wechat-layout-skill",
+      "stars": 143,
+      "license": "未查",
+      "reason": "star 偏低，且是 gzh-design 的增强层（继承其许可问题）。"
+    }
+  ],
+  "decision_summary": "扒 2 个许可安全的（wewrite MIT / wechat-article-skills Apache-2.0）；2 个 NOASSERTION 的只参考不落地（避免许可风险）。与已有 doocs/md 形成互补：wewrite 管内容、wechat-article-skills 管流程、doocs/md 管排版。"
+}

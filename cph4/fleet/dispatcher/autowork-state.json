@@ -1,0 +1,7 @@
+{
+ "date": "20261120",
+ "done": {
+  "triage": "卡片 -> 最可能原因 | 下一步动作(谁做什么)\nR-NEXT-BIGSTREAMM-REBUILD-20261118 | 任务未触发或无日志 | 运维检查调度队列，确认是否漏派\nQ-TRIAGE-BIGSTREAMMV-20261118 | 任务未触发或无日志 | 运维核查前置依赖，验证入口状态\nR-TRIAGE-BIGDOMAIN-BMB-20261118 | 任务未触发或无日志 | 运维排查资源水位，确认调度器运行\nbiggame-pack-scan-2026-11-19 | 任务未触发或无日志 | 运维验证扫描策略配置，检查触发条件\nbigmoney-signal-2026-11-19 | 任务未触发或无日志 | 运维确认信号源连通性，复核执行计划",
+  "digest": "今日共产出 19 件文件，覆盖 CANARY、Q-TRIAGE、R-MV-GATE、R-NEXT-BIGSTREAMM、asset-env、bigstream-drama-src-scan、biz-mv-publish-checklist、self-improve-bm-m、skill-promote 及 triage 共 10 条线。\n其中 biz-mv-publish-checklist 仅产出 2 件（含 1 个 md），相较其他多条线产出双份文件的情况，该线明显偏少。\n建议明天优先补全 biz-mv-publish-checklist 的双份产出记录，确保与其余线保持一致的交付标准。"
+ }
+}

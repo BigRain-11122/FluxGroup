@@ -1,0 +1,869 @@
+{
+ "song": "晴天",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 304,
+  "n_beats": 304,
+  "n_downbeats": 76,
+  "duration_sec": 269.75
+ },
+ "bpm_median": 68.2,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "故事的小黄花",
+   "t0": 28.95,
+   "t1": 32.38,
+   "t0_used": 28.95,
+   "t1_used": 32.33,
+   "snapped": true,
+   "snap_deltas": [
+    0.13,
+    0.05
+   ],
+   "approx": false,
+   "splits": [
+    30.59
+   ]
+  },
+  {
+   "i": 1,
+   "text": "从出生那年就飘着",
+   "t0": 32.38,
+   "t1": 35.87,
+   "t0_used": 32.33,
+   "t1_used": 35.83,
+   "snapped": true,
+   "snap_deltas": [
+    0.05,
+    0.04
+   ],
+   "approx": false,
+   "splits": [
+    34.09
+   ]
+  },
+  {
+   "i": 2,
+   "text": "童年的荡秋千",
+   "t0": 35.87,
+   "t1": 39.37,
+   "t0_used": 35.83,
+   "t1_used": 39.34,
+   "snapped": true,
+   "snap_deltas": [
+    0.04,
+    0.03
+   ],
+   "approx": false,
+   "splits": [
+    37.59
+   ]
+  },
+  {
+   "i": 3,
+   "text": "随记忆一直晃到现在",
+   "t0": 39.37,
+   "t1": 42.44,
+   "t0_used": 39.34,
+   "t1_used": 42.44,
+   "snapped": true,
+   "snap_deltas": [
+    0.03,
+    -0.39
+   ],
+   "approx": false,
+   "splits": [
+    41.1
+   ]
+  },
+  {
+   "i": 4,
+   "text": "Re So So Si Do Si La",
+   "t0": 42.44,
+   "t1": 45.53,
+   "t0_used": 42.44,
+   "t1_used": 45.47,
+   "snapped": true,
+   "snap_deltas": [
+    -0.39,
+    0.06
+   ],
+   "approx": false,
+   "splits": [
+    43.73
+   ]
+  },
+  {
+   "i": 5,
+   "text": "So La Si Si Si Si La Si La So",
+   "t0": 45.53,
+   "t1": 49.57,
+   "t0_used": 45.47,
+   "t1_used": 49.57,
+   "snapped": true,
+   "snap_deltas": [
+    0.06,
+    -0.29
+   ],
+   "approx": false,
+   "splits": [
+    47.24
+   ]
+  },
+  {
+   "i": 6,
+   "text": "吹着前奏望着天空",
+   "t0": 49.57,
+   "t1": 52.87,
+   "t0_used": 49.57,
+   "t1_used": 52.87,
+   "snapped": false,
+   "snap_deltas": [
+    -0.29,
+    0.38
+   ],
+   "approx": false,
+   "splits": [
+    51.61
+   ]
+  },
+  {
+   "i": 7,
+   "text": "我想起花瓣试着掉落",
+   "t0": 52.87,
+   "t1": 56.41,
+   "t0_used": 52.87,
+   "t1_used": 56.41,
+   "snapped": false,
+   "snap_deltas": [
+    0.38,
+    0.42
+   ],
+   "approx": false,
+   "splits": [
+    54.24
+   ]
+  },
+  {
+   "i": 8,
+   "text": "为你翘课的那一天",
+   "t0": 56.41,
+   "t1": 58.55,
+   "t0_used": 56.41,
+   "t1_used": 58.6,
+   "snapped": true,
+   "snap_deltas": [
+    0.42,
+    -0.05
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "花落的那一天",
+   "t0": 58.55,
+   "t1": 60.19,
+   "t0_used": 58.6,
+   "t1_used": 60.19,
+   "snapped": true,
+   "snap_deltas": [
+    -0.05,
+    -0.16
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "教室的那一间",
+   "t0": 60.19,
+   "t1": 61.99,
+   "t0_used": 60.19,
+   "t1_used": 61.99,
+   "snapped": false,
+   "snap_deltas": [
+    -0.16,
+    -0.11
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "我怎么看不见",
+   "t0": 61.99,
+   "t1": 63.88,
+   "t0_used": 61.99,
+   "t1_used": 63.86,
+   "snapped": true,
+   "snap_deltas": [
+    -0.11,
+    0.02
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "消失的下雨天",
+   "t0": 63.88,
+   "t1": 65.41,
+   "t0_used": 63.86,
+   "t1_used": 65.41,
+   "snapped": true,
+   "snap_deltas": [
+    0.02,
+    -0.2
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "我好想再淋一遍",
+   "t0": 65.41,
+   "t1": 69.75,
+   "t0_used": 65.41,
+   "t1_used": 69.75,
+   "snapped": false,
+   "snap_deltas": [
+    -0.2,
+    -0.24
+   ],
+   "approx": false,
+   "splits": [
+    67.36
+   ]
+  },
+  {
+   "i": 14,
+   "text": "没想到失去的勇气我还留着",
+   "t0": 69.75,
+   "t1": 75.53,
+   "t0_used": 69.75,
+   "t1_used": 75.53,
+   "snapped": false,
+   "snap_deltas": [
+    -0.24,
+    0.28
+   ],
+   "approx": false,
+   "splits": [
+    72.62
+   ]
+  },
+  {
+   "i": 15,
+   "text": "好想再问一遍",
+   "t0": 75.53,
+   "t1": 77.52,
+   "t0_used": 75.53,
+   "t1_used": 77.52,
+   "snapped": false,
+   "snap_deltas": [
+    0.28,
+    -0.37
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "你会等待还是离开",
+   "t0": 77.52,
+   "t1": 84.5,
+   "t0_used": 77.52,
+   "t1_used": 84.5,
+   "snapped": false,
+   "snap_deltas": [
+    -0.37,
+    -0.37
+   ],
+   "approx": false,
+   "splits": [
+    79.63,
+    82.25
+   ]
+  },
+  {
+   "i": 17,
+   "text": "刮风这天我试过握着你手",
+   "t0": 84.5,
+   "t1": 90.08,
+   "t0_used": 84.5,
+   "t1_used": 90.13,
+   "snapped": true,
+   "snap_deltas": [
+    -0.37,
+    -0.05
+   ],
+   "approx": false,
+   "splits": [
+    87.49
+   ]
+  },
+  {
+   "i": 18,
+   "text": "但偏偏雨渐渐大到我看你不见",
+   "t0": 90.08,
+   "t1": 98.45,
+   "t0_used": 90.13,
+   "t1_used": 98.45,
+   "snapped": true,
+   "snap_deltas": [
+    -0.05,
+    -0.42
+   ],
+   "approx": false,
+   "splits": [
+    92.75,
+    95.37
+   ]
+  },
+  {
+   "i": 19,
+   "text": "还要多久我才能在你身边",
+   "t0": 98.45,
+   "t1": 104.87,
+   "t0_used": 98.45,
+   "t1_used": 104.87,
+   "snapped": false,
+   "snap_deltas": [
+    -0.42,
+    -0.15
+   ],
+   "approx": false,
+   "splits": [
+    100.63,
+    102.39
+   ]
+  },
+  {
+   "i": 20,
+   "text": "等到放晴的那天也许我会比较好一点",
+   "t0": 104.87,
+   "t1": 112.33,
+   "t0_used": 104.87,
+   "t1_used": 112.33,
+   "snapped": false,
+   "snap_deltas": [
+    -0.15,
+    0.32
+   ],
+   "approx": false,
+   "splits": [
+    107.66,
+    110.26
+   ]
+  },
+  {
+   "i": 21,
+   "text": "从前从前有个人爱你很久",
+   "t0": 112.33,
+   "t1": 117.96,
+   "t0_used": 112.33,
+   "t1_used": 117.96,
+   "snapped": false,
+   "snap_deltas": [
+    0.32,
+    -0.2
+   ],
+   "approx": false,
+   "splits": [
+    115.53
+   ]
+  },
+  {
+   "i": 22,
+   "text": "但偏偏风渐渐把距离吹得好远",
+   "t0": 117.96,
+   "t1": 126.24,
+   "t0_used": 117.96,
+   "t1_used": 126.24,
+   "snapped": false,
+   "snap_deltas": [
+    -0.2,
+    0.21
+   ],
+   "approx": false,
+   "splits": [
+    120.75,
+    123.38
+   ]
+  },
+  {
+   "i": 23,
+   "text": "好不容易又能再多爱一天",
+   "t0": 126.24,
+   "t1": 132.91,
+   "t0_used": 126.24,
+   "t1_used": 132.91,
+   "snapped": false,
+   "snap_deltas": [
+    0.21,
+    -0.12
+   ],
+   "approx": false,
+   "splits": [
+    128.65,
+    130.39
+   ]
+  },
+  {
+   "i": 24,
+   "text": "但故事的最后你好像还是说了拜拜",
+   "t0": 132.91,
+   "t1": 154.66,
+   "t0_used": 132.91,
+   "t1_used": 154.66,
+   "snapped": false,
+   "snap_deltas": [
+    -0.12,
+    -0.24
+   ],
+   "approx": false,
+   "splits": [
+    135.66,
+    138.29,
+    140.92,
+    143.53,
+    146.17,
+    148.8,
+    152.27
+   ]
+  },
+  {
+   "i": 25,
+   "text": "为你翘课的那一天",
+   "t0": 154.66,
+   "t1": 156.5,
+   "t0_used": 154.66,
+   "t1_used": 156.5,
+   "snapped": false,
+   "snap_deltas": [
+    -0.24,
+    -0.16
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "花落的那一天",
+   "t0": 156.5,
+   "t1": 158.3,
+   "t0_used": 156.5,
+   "t1_used": 158.3,
+   "snapped": false,
+   "snap_deltas": [
+    -0.16,
+    -0.12
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "教室的那一间",
+   "t0": 158.3,
+   "t1": 160.04,
+   "t0_used": 158.3,
+   "t1_used": 160.04,
+   "snapped": false,
+   "snap_deltas": [
+    -0.12,
+    -0.12
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "我怎么看不见",
+   "t0": 160.04,
+   "t1": 161.78,
+   "t0_used": 160.04,
+   "t1_used": 161.78,
+   "snapped": false,
+   "snap_deltas": [
+    -0.12,
+    -0.11
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "消失的下雨天",
+   "t0": 161.78,
+   "t1": 163.68,
+   "t0_used": 161.78,
+   "t1_used": 163.65,
+   "snapped": true,
+   "snap_deltas": [
+    -0.11,
+    0.03
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "我好想再淋一遍",
+   "t0": 163.68,
+   "t1": 167.61,
+   "t0_used": 163.65,
+   "t1_used": 167.61,
+   "snapped": true,
+   "snap_deltas": [
+    0.03,
+    0.43
+   ],
+   "approx": false,
+   "splits": [
+    165.41
+   ]
+  },
+  {
+   "i": 31,
+   "text": "没想到失去的勇气我还留着",
+   "t0": 167.61,
+   "t1": 174.09,
+   "t0_used": 167.61,
+   "t1_used": 174.18,
+   "snapped": true,
+   "snap_deltas": [
+    0.43,
+    -0.09
+   ],
+   "approx": false,
+   "splits": [
+    169.8,
+    172.41
+   ]
+  },
+  {
+   "i": 32,
+   "text": "好想再问一遍",
+   "t0": 174.09,
+   "t1": 175.65,
+   "t0_used": 174.18,
+   "t1_used": 175.65,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.29
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "你会等待还是离开",
+   "t0": 175.65,
+   "t1": 182.47,
+   "t0_used": 175.65,
+   "t1_used": 182.47,
+   "snapped": false,
+   "snap_deltas": [
+    -0.29,
+    -0.43
+   ],
+   "approx": false,
+   "splits": [
+    177.69,
+    180.32
+   ]
+  },
+  {
+   "i": 34,
+   "text": "刮风这天我试过握着你手",
+   "t0": 182.47,
+   "t1": 187.9,
+   "t0_used": 182.47,
+   "t1_used": 187.9,
+   "snapped": false,
+   "snap_deltas": [
+    -0.43,
+    -0.28
+   ],
+   "approx": false,
+   "splits": [
+    185.55
+   ]
+  },
+  {
+   "i": 35,
+   "text": "但偏偏雨渐渐大到我看你不见",
+   "t0": 187.9,
+   "t1": 196.42,
+   "t0_used": 187.9,
+   "t1_used": 196.42,
+   "snapped": false,
+   "snap_deltas": [
+    -0.28,
+    0.34
+   ],
+   "approx": false,
+   "splits": [
+    190.81,
+    193.43
+   ]
+  },
+  {
+   "i": 36,
+   "text": "还要多久我才能在你身边",
+   "t0": 196.42,
+   "t1": 202.9,
+   "t0_used": 196.42,
+   "t1_used": 202.9,
+   "snapped": false,
+   "snap_deltas": [
+    0.34,
+    -0.17
+   ],
+   "approx": false,
+   "splits": [
+    198.7,
+    200.43
+   ]
+  },
+  {
+   "i": 37,
+   "text": "等到放晴的那天也许我会比较好一点",
+   "t0": 202.9,
+   "t1": 210.31,
+   "t0_used": 202.9,
+   "t1_used": 210.31,
+   "snapped": false,
+   "snap_deltas": [
+    -0.17,
+    0.23
+   ],
+   "approx": false,
+   "splits": [
+    205.69,
+    207.43
+   ]
+  },
+  {
+   "i": 38,
+   "text": "从前从前有个人爱你很久",
+   "t0": 210.31,
+   "t1": 216.44,
+   "t0_used": 210.31,
+   "t1_used": 216.44,
+   "snapped": false,
+   "snap_deltas": [
+    0.23,
+    0.25
+   ],
+   "approx": false,
+   "splits": [
+    212.7,
+    214.44
+   ]
+  },
+  {
+   "i": 39,
+   "text": "偏偏风渐渐把距离吹得好远",
+   "t0": 216.44,
+   "t1": 224.29,
+   "t0_used": 216.44,
+   "t1_used": 224.29,
+   "snapped": false,
+   "snap_deltas": [
+    0.25,
+    0.21
+   ],
+   "approx": false,
+   "splits": [
+    218.82,
+    221.44
+   ]
+  },
+  {
+   "i": 40,
+   "text": "好不容易又能再多爱一天",
+   "t0": 224.29,
+   "t1": 230.77,
+   "t0_used": 224.29,
+   "t1_used": 230.77,
+   "snapped": false,
+   "snap_deltas": [
+    0.21,
+    -0.32
+   ],
+   "approx": false,
+   "splits": [
+    226.68,
+    228.43
+   ]
+  },
+  {
+   "i": 41,
+   "text": "但故事的最后你好像还是说了拜拜",
+   "t0": 230.77,
+   "t1": 238.01,
+   "t0_used": 230.77,
+   "t1_used": 238.1,
+   "snapped": true,
+   "snap_deltas": [
+    -0.32,
+    -0.09
+   ],
+   "approx": false,
+   "splits": [
+    232.84,
+    235.46
+   ]
+  },
+  {
+   "i": 42,
+   "text": "刮风这天我试过握着你手",
+   "t0": 238.01,
+   "t1": 241.76,
+   "t0_used": 238.1,
+   "t1_used": 241.76,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    0.16
+   ],
+   "approx": false,
+   "splits": [
+    239.85
+   ]
+  },
+  {
+   "i": 43,
+   "text": "但偏偏雨渐渐大到我看你不见",
+   "t0": 241.76,
+   "t1": 245.05,
+   "t0_used": 241.76,
+   "t1_used": 245.1,
+   "snapped": true,
+   "snap_deltas": [
+    0.16,
+    -0.05
+   ],
+   "approx": false,
+   "splits": [
+    243.35
+   ]
+  },
+  {
+   "i": 44,
+   "text": "还要多久我才能够在你身边",
+   "t0": 245.05,
+   "t1": 248.63,
+   "t0_used": 245.1,
+   "t1_used": 248.59,
+   "snapped": true,
+   "snap_deltas": [
+    -0.05,
+    0.04
+   ],
+   "approx": false,
+   "splits": [
+    246.84
+   ]
+  },
+  {
+   "i": 45,
+   "text": "等到放晴那天也许我会比较好一点",
+   "t0": 248.63,
+   "t1": 252.57,
+   "t0_used": 248.59,
+   "t1_used": 252.57,
+   "snapped": true,
+   "snap_deltas": [
+    0.04,
+    -0.37
+   ],
+   "approx": false,
+   "splits": [
+    250.33
+   ]
+  },
+  {
+   "i": 46,
+   "text": "从前从前有个人爱你很久",
+   "t0": 252.57,
+   "t1": 255.51,
+   "t0_used": 252.57,
+   "t1_used": 255.6,
+   "snapped": true,
+   "snap_deltas": [
+    -0.37,
+    -0.09
+   ],
+   "approx": false,
+   "splits": [
+    253.84
+   ]
+  },
+  {
+   "i": 47,
+   "text": "但偏偏雨渐渐把距离吹得好远",
+   "t0": 255.51,
+   "t1": 258.95,
+   "t0_used": 255.6,
+   "t1_used": 258.95,
+   "snapped": true,
+   "snap_deltas": [
+    -0.09,
+    -0.16
+   ],
+   "approx": false,
+   "splits": [
+    257.35
+   ]
+  },
+  {
+   "i": 48,
+   "text": "好不容易又能再多爱一天",
+   "t0": 258.95,
+   "t1": 262.43,
+   "t0_used": 258.95,
+   "t1_used": 262.43,
+   "snapped": false,
+   "snap_deltas": [
+    -0.16,
+    -0.17
+   ],
+   "approx": false,
+   "splits": [
+    260.85
+   ]
+  },
+  {
+   "i": 49,
+   "text": "但故事的最后你好像还是说了拜",
+   "t0": 262.43,
+   "t1": 265.43,
+   "t0_used": 262.43,
+   "t1_used": 265.43,
+   "snapped": false,
+   "snap_deltas": [
+    -0.17,
+    0.2
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 50,
+  "lines_untimed": 0,
+  "lines_snapped": 23,
+  "lines_unsnapped": 27,
+  "lines_need_split": 37,
+  "total_splits": 58
+ },
+ "advisory": true
+}

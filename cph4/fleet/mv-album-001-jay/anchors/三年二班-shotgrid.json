@@ -1,0 +1,1424 @@
+{
+ "song": "三年二班",
+ "version": "anchor-shotgrid v1.0 (r1070 bm-b)",
+ "inputs": {
+  "beats_sha_face": 417,
+  "n_beats": 417,
+  "n_downbeats": 104,
+  "duration_sec": 280.39
+ },
+ "bpm_median": 89.2,
+ "snap_tol_sec": 0.1,
+ "max_shot_sec": 3.0,
+ "grid": [
+  {
+   "i": 0,
+   "text": "训导处报告 训导处报告",
+   "t0": 6.4,
+   "t1": 8.98,
+   "t0_used": 6.362,
+   "t1_used": 8.986,
+   "snapped": true,
+   "snap_deltas": [
+    0.038,
+    -0.006
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 1,
+   "text": "三年二班周杰伦",
+   "t0": 8.98,
+   "t1": 11.12,
+   "t0_used": 8.986,
+   "t1_used": 11.169,
+   "snapped": true,
+   "snap_deltas": [
+    -0.006,
+    -0.049
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 2,
+   "text": "马上到训导处来",
+   "t0": 11.12,
+   "t1": 39.99,
+   "t0_used": 11.169,
+   "t1_used": 39.99,
+   "snapped": true,
+   "snap_deltas": [
+    -0.049,
+    0.237
+   ],
+   "approx": false,
+   "splits": [
+    13.955,
+    16.695,
+    19.505,
+    22.918,
+    25.635,
+    28.375,
+    31.068,
+    34.435,
+    37.082
+   ]
+  },
+  {
+   "i": 3,
+   "text": "眼睛你要擦亮",
+   "t0": 39.99,
+   "t1": 41.1,
+   "t0_used": 39.99,
+   "t1_used": 41.099,
+   "snapped": true,
+   "snap_deltas": [
+    0.237,
+    0.001
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 4,
+   "text": "记住我的模样",
+   "t0": 41.1,
+   "t1": 42.41,
+   "t0_used": 41.099,
+   "t1_used": 42.423,
+   "snapped": true,
+   "snap_deltas": [
+    0.001,
+    -0.013
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 5,
+   "text": "表情不用太紧张",
+   "t0": 42.41,
+   "t1": 43.79,
+   "t0_used": 42.423,
+   "t1_used": 43.77,
+   "snapped": true,
+   "snap_deltas": [
+    -0.013,
+    0.02
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 6,
+   "text": "我是三年二班",
+   "t0": 43.79,
+   "t1": 45.07,
+   "t0_used": 43.77,
+   "t1_used": 45.093,
+   "snapped": true,
+   "snap_deltas": [
+    0.02,
+    -0.023
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 7,
+   "text": "我专心打球的侧脸还蛮好看",
+   "t0": 45.07,
+   "t1": 47.28,
+   "t0_used": 45.093,
+   "t1_used": 47.28,
+   "snapped": true,
+   "snap_deltas": [
+    -0.023,
+    0.19
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 8,
+   "text": "黑板是吸收知识的地方",
+   "t0": 47.28,
+   "t1": 49.19,
+   "t0_used": 47.28,
+   "t1_used": 49.19,
+   "snapped": false,
+   "snap_deltas": [
+    0.19,
+    0.103
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 9,
+   "text": "只是教室的阳光",
+   "t0": 49.19,
+   "t1": 50.46,
+   "t0_used": 49.19,
+   "t1_used": 50.434,
+   "snapped": true,
+   "snap_deltas": [
+    0.103,
+    0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 10,
+   "text": "那颜色我不太喜欢",
+   "t0": 50.46,
+   "t1": 51.89,
+   "t0_used": 50.434,
+   "t1_used": 51.89,
+   "snapped": true,
+   "snap_deltas": [
+    0.026,
+    0.133
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 11,
+   "text": "没有操场的自然",
+   "t0": 51.89,
+   "t1": 53.37,
+   "t0_used": 51.89,
+   "t1_used": 53.37,
+   "snapped": false,
+   "snap_deltas": [
+    0.133,
+    0.266
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 12,
+   "text": "为何比较漂亮的都是在隔壁班",
+   "t0": 53.37,
+   "t1": 55.91,
+   "t0_used": 53.37,
+   "t1_used": 55.91,
+   "snapped": false,
+   "snap_deltas": [
+    0.266,
+    0.159
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 13,
+   "text": "还有考卷的答案",
+   "t0": 55.91,
+   "t1": 57.11,
+   "t0_used": 55.91,
+   "t1_used": 57.098,
+   "snapped": true,
+   "snap_deltas": [
+    0.159,
+    0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 14,
+   "text": "我刚好都不会算",
+   "t0": 57.11,
+   "t1": 58.41,
+   "t0_used": 57.098,
+   "t1_used": 58.445,
+   "snapped": true,
+   "snap_deltas": [
+    0.012,
+    -0.035
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 15,
+   "text": "没关系",
+   "t0": 58.41,
+   "t1": 59.12,
+   "t0_used": 58.445,
+   "t1_used": 59.095,
+   "snapped": true,
+   "snap_deltas": [
+    -0.035,
+    0.025
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 16,
+   "text": "再继续努力",
+   "t0": 59.12,
+   "t1": 60.42,
+   "t0_used": 59.095,
+   "t1_used": 60.418,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    0.002
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 17,
+   "text": "没关系",
+   "t0": 60.42,
+   "t1": 61.14,
+   "t0_used": 60.418,
+   "t1_used": 61.115,
+   "snapped": true,
+   "snap_deltas": [
+    0.002,
+    0.025
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 18,
+   "text": "为什么上课时举手很难",
+   "t0": 61.14,
+   "t1": 63.69,
+   "t0_used": 61.115,
+   "t1_used": 63.785,
+   "snapped": true,
+   "snap_deltas": [
+    0.025,
+    -0.095
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 19,
+   "text": "为什么拿线上宝物简单",
+   "t0": 63.69,
+   "t1": 66.4,
+   "t0_used": 63.785,
+   "t1_used": 66.456,
+   "snapped": true,
+   "snap_deltas": [
+    -0.095,
+    -0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 20,
+   "text": "为什么女生不喜欢太胖",
+   "t0": 66.4,
+   "t1": 69.06,
+   "t0_used": 66.456,
+   "t1_used": 69.126,
+   "snapped": true,
+   "snap_deltas": [
+    -0.056,
+    -0.066
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 21,
+   "text": "为什么都别人手机在响",
+   "t0": 69.06,
+   "t1": 71.67,
+   "t0_used": 69.126,
+   "t1_used": 71.67,
+   "snapped": true,
+   "snap_deltas": [
+    -0.066,
+    -0.126
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 22,
+   "text": "正手发长球的打法只是初级乒乓",
+   "t0": 71.67,
+   "t1": 74.25,
+   "t0_used": 71.67,
+   "t1_used": 74.25,
+   "snapped": false,
+   "snap_deltas": [
+    -0.126,
+    -0.193
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 23,
+   "text": "反手短打再狠狠杀球是高级乒乓",
+   "t0": 74.25,
+   "t1": 77.01,
+   "t0_used": 74.25,
+   "t1_used": 77.01,
+   "snapped": false,
+   "snap_deltas": [
+    -0.193,
+    -0.127
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 24,
+   "text": "回转技巧乒乓",
+   "t0": 77.01,
+   "t1": 78.3,
+   "t0_used": 77.01,
+   "t1_used": 78.3,
+   "snapped": false,
+   "snap_deltas": [
+    -0.127,
+    -0.137
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 25,
+   "text": "前场速攻乒乓",
+   "t0": 78.3,
+   "t1": 79.84,
+   "t0_used": 78.3,
+   "t1_used": 79.784,
+   "snapped": true,
+   "snap_deltas": [
+    -0.137,
+    0.056
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 26,
+   "text": "对墙壁在练习乒乓乒乓",
+   "t0": 79.84,
+   "t1": 82.62,
+   "t0_used": 79.784,
+   "t1_used": 82.62,
+   "snapped": true,
+   "snap_deltas": [
+    0.056,
+    0.166
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 27,
+   "text": "这第一名到底要多强",
+   "t0": 82.62,
+   "t1": 85.4,
+   "t0_used": 82.62,
+   "t1_used": 85.4,
+   "snapped": false,
+   "snap_deltas": [
+    0.166,
+    0.252
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 28,
+   "text": "不用问 一定有人向你挑战",
+   "t0": 85.4,
+   "t1": 87.79,
+   "t0_used": 85.4,
+   "t1_used": 87.795,
+   "snapped": true,
+   "snap_deltas": [
+    0.252,
+    -0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 29,
+   "text": "到底还要过多少关",
+   "t0": 87.79,
+   "t1": 90.79,
+   "t0_used": 87.795,
+   "t1_used": 90.79,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    0.302
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 30,
+   "text": "不用怕 告诉他们谁是男子汉",
+   "t0": 90.79,
+   "t1": 93.15,
+   "t0_used": 90.79,
+   "t1_used": 93.135,
+   "snapped": true,
+   "snap_deltas": [
+    0.302,
+    0.015
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 31,
+   "text": "可不可以不要这个奖",
+   "t0": 93.15,
+   "t1": 96.06,
+   "t0_used": 93.135,
+   "t1_used": 96.06,
+   "snapped": true,
+   "snap_deltas": [
+    0.015,
+    0.254
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 32,
+   "text": "不想问 我只想要流一点汗",
+   "t0": 96.06,
+   "t1": 98.43,
+   "t0_used": 96.06,
+   "t1_used": 98.476,
+   "snapped": true,
+   "snap_deltas": [
+    0.254,
+    -0.046
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 33,
+   "text": "我当我自己的裁判",
+   "t0": 98.43,
+   "t1": 101.42,
+   "t0_used": 98.476,
+   "t1_used": 101.42,
+   "snapped": true,
+   "snap_deltas": [
+    -0.046,
+    0.274
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 34,
+   "text": "不想说 选择对手跟要打的仗",
+   "t0": 101.42,
+   "t1": 103.83,
+   "t0_used": 101.42,
+   "t1_used": 103.816,
+   "snapped": true,
+   "snap_deltas": [
+    0.274,
+    0.014
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 35,
+   "text": "这第一名到底要多强",
+   "t0": 103.83,
+   "t1": 106.71,
+   "t0_used": 103.816,
+   "t1_used": 106.71,
+   "snapped": true,
+   "snap_deltas": [
+    0.014,
+    0.223
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 36,
+   "text": "不用问 一定有人向你挑战",
+   "t0": 106.71,
+   "t1": 109.13,
+   "t0_used": 106.71,
+   "t1_used": 109.157,
+   "snapped": true,
+   "snap_deltas": [
+    0.223,
+    -0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 37,
+   "text": "到底还要过多少关",
+   "t0": 109.13,
+   "t1": 112.02,
+   "t0_used": 109.157,
+   "t1_used": 112.02,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    0.193
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 38,
+   "text": "不用怕 告诉他们谁是男子汉",
+   "t0": 112.02,
+   "t1": 114.51,
+   "t0_used": 112.02,
+   "t1_used": 114.498,
+   "snapped": true,
+   "snap_deltas": [
+    0.193,
+    0.012
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 39,
+   "text": "可不可以不要这个奖",
+   "t0": 114.51,
+   "t1": 117.4,
+   "t0_used": 114.498,
+   "t1_used": 117.4,
+   "snapped": true,
+   "snap_deltas": [
+    0.012,
+    0.232
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 40,
+   "text": "不想问 我只想要流一点汗",
+   "t0": 117.4,
+   "t1": 119.8,
+   "t0_used": 117.4,
+   "t1_used": 119.838,
+   "snapped": true,
+   "snap_deltas": [
+    0.232,
+    -0.038
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 41,
+   "text": "我当我自己的裁判",
+   "t0": 119.8,
+   "t1": 122.82,
+   "t0_used": 119.838,
+   "t1_used": 122.82,
+   "snapped": true,
+   "snap_deltas": [
+    -0.038,
+    0.312
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 42,
+   "text": "不想说 选择对手跟要打的仗",
+   "t0": 122.82,
+   "t1": 128.08,
+   "t0_used": 122.82,
+   "t1_used": 128.08,
+   "snapped": false,
+   "snap_deltas": [
+    0.312,
+    0.231
+   ],
+   "approx": false,
+   "splits": [
+    125.156
+   ]
+  },
+  {
+   "i": 43,
+   "text": "全体师生注意",
+   "t0": 128.08,
+   "t1": 129.28,
+   "t0_used": 128.08,
+   "t1_used": 129.219,
+   "snapped": true,
+   "snap_deltas": [
+    0.231,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 44,
+   "text": "今天我要表扬一位同学",
+   "t0": 129.28,
+   "t1": 131.71,
+   "t0_used": 129.219,
+   "t1_used": 131.71,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    -0.133
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 45,
+   "text": "他为校争光",
+   "t0": 131.71,
+   "t1": 133.09,
+   "t0_used": 131.71,
+   "t1_used": 133.166,
+   "snapped": true,
+   "snap_deltas": [
+    -0.133,
+    -0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 46,
+   "text": "我们要向他看齐",
+   "t0": 133.09,
+   "t1": 148.12,
+   "t0_used": 133.166,
+   "t1_used": 148.12,
+   "snapped": true,
+   "snap_deltas": [
+    -0.076,
+    0.279
+   ],
+   "approx": false,
+   "splits": [
+    135.837,
+    139.157,
+    141.827,
+    145.171
+   ]
+  },
+  {
+   "i": 47,
+   "text": "我不想就这样一直走",
+   "t0": 148.12,
+   "t1": 150.35,
+   "t0_used": 148.12,
+   "t1_used": 150.35,
+   "snapped": false,
+   "snap_deltas": [
+    0.279,
+    -0.162
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 48,
+   "text": "每天都遇上充满敌意那种眼光",
+   "t0": 150.35,
+   "t1": 153.38,
+   "t0_used": 150.35,
+   "t1_used": 153.38,
+   "snapped": false,
+   "snap_deltas": [
+    -0.162,
+    0.198
+   ],
+   "approx": false,
+   "splits": [
+    151.835
+   ]
+  },
+  {
+   "i": 49,
+   "text": "等机会就是要打倒对方",
+   "t0": 153.38,
+   "t1": 155.89,
+   "t0_used": 153.38,
+   "t1_used": 155.829,
+   "snapped": true,
+   "snap_deltas": [
+    0.198,
+    0.061
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 50,
+   "text": "这种结果我不要",
+   "t0": 155.89,
+   "t1": 157.34,
+   "t0_used": 155.829,
+   "t1_used": 157.34,
+   "snapped": true,
+   "snap_deltas": [
+    0.061,
+    0.164
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 51,
+   "text": "这虚荣的骄傲",
+   "t0": 157.34,
+   "t1": 158.7,
+   "t0_used": 157.34,
+   "t1_used": 158.7,
+   "snapped": false,
+   "snap_deltas": [
+    0.164,
+    0.177
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 52,
+   "text": "这目的很好笑",
+   "t0": 158.7,
+   "t1": 160.05,
+   "t0_used": 158.7,
+   "t1_used": 160.05,
+   "snapped": false,
+   "snap_deltas": [
+    0.177,
+    0.204
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 53,
+   "text": "我其实都知道",
+   "t0": 160.05,
+   "t1": 161.35,
+   "t0_used": 160.05,
+   "t1_used": 161.35,
+   "snapped": false,
+   "snap_deltas": [
+    0.204,
+    0.157
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 54,
+   "text": "你只是想炫耀",
+   "t0": 161.35,
+   "t1": 162.62,
+   "t0_used": 161.35,
+   "t1_used": 162.62,
+   "snapped": false,
+   "snap_deltas": [
+    0.157,
+    0.104
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 55,
+   "text": "我永远做不到",
+   "t0": 162.62,
+   "t1": 163.96,
+   "t0_used": 162.62,
+   "t1_used": 163.863,
+   "snapped": true,
+   "snap_deltas": [
+    0.104,
+    0.097
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 56,
+   "text": "你永远赢不了",
+   "t0": 163.96,
+   "t1": 165.29,
+   "t0_used": 163.863,
+   "t1_used": 165.29,
+   "snapped": true,
+   "snap_deltas": [
+    0.097,
+    0.103
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 57,
+   "text": "我永远做不到",
+   "t0": 165.29,
+   "t1": 166.61,
+   "t0_used": 165.29,
+   "t1_used": 166.534,
+   "snapped": true,
+   "snap_deltas": [
+    0.103,
+    0.076
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 58,
+   "text": "你永远赢不了",
+   "t0": 166.61,
+   "t1": 168.06,
+   "t0_used": 166.534,
+   "t1_used": 168.06,
+   "snapped": true,
+   "snap_deltas": [
+    0.076,
+    0.203
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 59,
+   "text": "永远都赢不了",
+   "t0": 168.06,
+   "t1": 169.34,
+   "t0_used": 168.06,
+   "t1_used": 169.34,
+   "snapped": false,
+   "snap_deltas": [
+    0.203,
+    0.159
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 60,
+   "text": "走下乡寻找哪有花香",
+   "t0": 169.34,
+   "t1": 171.82,
+   "t0_used": 169.34,
+   "t1_used": 171.874,
+   "snapped": true,
+   "snap_deltas": [
+    0.159,
+    -0.054
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 61,
+   "text": "为什么这么简单你做不到",
+   "t0": 171.82,
+   "t1": 174.57,
+   "t0_used": 171.874,
+   "t1_used": 174.521,
+   "snapped": true,
+   "snap_deltas": [
+    -0.054,
+    0.049
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 62,
+   "text": "坐车厢朝着南下方向",
+   "t0": 174.57,
+   "t1": 177.13,
+   "t0_used": 174.521,
+   "t1_used": 177.215,
+   "snapped": true,
+   "snap_deltas": [
+    0.049,
+    -0.085
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 63,
+   "text": "为什么这种速度你追不到",
+   "t0": 177.13,
+   "t1": 179.89,
+   "t0_used": 177.215,
+   "t1_used": 179.885,
+   "snapped": true,
+   "snap_deltas": [
+    -0.085,
+    0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 64,
+   "text": "鸟飞翔穿过这条小巷",
+   "t0": 179.89,
+   "t1": 182.48,
+   "t0_used": 179.885,
+   "t1_used": 182.555,
+   "snapped": true,
+   "snap_deltas": [
+    0.005,
+    -0.075
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 65,
+   "text": "为什么这么简单你做不到",
+   "t0": 182.48,
+   "t1": 185.18,
+   "t0_used": 182.555,
+   "t1_used": 185.202,
+   "snapped": true,
+   "snap_deltas": [
+    -0.075,
+    -0.022
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 66,
+   "text": "仔细想这种生活安详",
+   "t0": 185.18,
+   "t1": 188.02,
+   "t0_used": 185.202,
+   "t1_used": 188.02,
+   "snapped": true,
+   "snap_deltas": [
+    -0.022,
+    0.124
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 67,
+   "text": "为什么这种速度你追不到",
+   "t0": 188.02,
+   "t1": 190.6,
+   "t0_used": 188.02,
+   "t1_used": 190.566,
+   "snapped": true,
+   "snap_deltas": [
+    0.124,
+    0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 68,
+   "text": "不好笑不好笑不好笑",
+   "t0": 190.6,
+   "t1": 212.08,
+   "t0_used": 190.566,
+   "t1_used": 212.08,
+   "snapped": true,
+   "snap_deltas": [
+    0.034,
+    0.198
+   ],
+   "approx": false,
+   "splits": [
+    193.236,
+    195.884,
+    198.554,
+    201.224,
+    203.894,
+    206.565,
+    209.235
+   ]
+  },
+  {
+   "i": 69,
+   "text": "这第一名到底要多强",
+   "t0": 212.08,
+   "t1": 215.03,
+   "t0_used": 212.08,
+   "t1_used": 215.03,
+   "snapped": false,
+   "snap_deltas": [
+    0.198,
+    -0.196
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 70,
+   "text": "不用问 一定有人向你挑战",
+   "t0": 215.03,
+   "t1": 217.25,
+   "t0_used": 215.03,
+   "t1_used": 217.223,
+   "snapped": true,
+   "snap_deltas": [
+    -0.196,
+    0.027
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 71,
+   "text": "到底还要过多少关",
+   "t0": 217.25,
+   "t1": 220.22,
+   "t0_used": 217.223,
+   "t1_used": 220.22,
+   "snapped": true,
+   "snap_deltas": [
+    0.027,
+    0.304
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 72,
+   "text": "不用怕 告诉他们谁是男子汉",
+   "t0": 220.22,
+   "t1": 222.6,
+   "t0_used": 220.22,
+   "t1_used": 222.586,
+   "snapped": true,
+   "snap_deltas": [
+    0.304,
+    0.014
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 73,
+   "text": "可不可以不要这个奖",
+   "t0": 222.6,
+   "t1": 225.52,
+   "t0_used": 222.586,
+   "t1_used": 225.52,
+   "snapped": true,
+   "snap_deltas": [
+    0.014,
+    0.263
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 74,
+   "text": "不想问 我只想要流一点汗",
+   "t0": 225.52,
+   "t1": 227.86,
+   "t0_used": 225.52,
+   "t1_used": 227.904,
+   "snapped": true,
+   "snap_deltas": [
+    0.263,
+    -0.044
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 75,
+   "text": "我当我自己的裁判",
+   "t0": 227.86,
+   "t1": 230.98,
+   "t0_used": 227.904,
+   "t1_used": 230.98,
+   "snapped": true,
+   "snap_deltas": [
+    -0.044,
+    -0.244
+   ],
+   "approx": false,
+   "splits": [
+    229.251
+   ]
+  },
+  {
+   "i": 76,
+   "text": "不想说 选择对手跟要打的仗",
+   "t0": 230.98,
+   "t1": 233.33,
+   "t0_used": 230.98,
+   "t1_used": 233.244,
+   "snapped": true,
+   "snap_deltas": [
+    -0.244,
+    0.086
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 77,
+   "text": "我不想就这样一直走",
+   "t0": 233.33,
+   "t1": 235.59,
+   "t0_used": 233.244,
+   "t1_used": 235.59,
+   "snapped": true,
+   "snap_deltas": [
+    0.086,
+    -0.325
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 78,
+   "text": "每天都遇上充满敌意那种眼光",
+   "t0": 235.59,
+   "t1": 238.63,
+   "t0_used": 235.59,
+   "t1_used": 238.585,
+   "snapped": true,
+   "snap_deltas": [
+    -0.325,
+    0.045
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 79,
+   "text": "等机会就是要打倒对方",
+   "t0": 238.63,
+   "t1": 241.25,
+   "t0_used": 238.585,
+   "t1_used": 241.255,
+   "snapped": true,
+   "snap_deltas": [
+    0.045,
+    -0.005
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 80,
+   "text": "这种结果我不要",
+   "t0": 241.25,
+   "t1": 242.61,
+   "t0_used": 241.255,
+   "t1_used": 242.579,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    0.031
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 81,
+   "text": "这虚荣的骄傲",
+   "t0": 242.61,
+   "t1": 243.9,
+   "t0_used": 242.579,
+   "t1_used": 243.926,
+   "snapped": true,
+   "snap_deltas": [
+    0.031,
+    -0.026
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 82,
+   "text": "我不想就这样一直走",
+   "t0": 243.9,
+   "t1": 246.36,
+   "t0_used": 243.926,
+   "t1_used": 246.36,
+   "snapped": true,
+   "snap_deltas": [
+    -0.026,
+    -0.236
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 83,
+   "text": "每天都遇上充满敌意那种眼光",
+   "t0": 246.36,
+   "t1": 249.3,
+   "t0_used": 246.36,
+   "t1_used": 249.266,
+   "snapped": true,
+   "snap_deltas": [
+    -0.236,
+    0.034
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 84,
+   "text": "等机会就是要打倒对方",
+   "t0": 249.3,
+   "t1": 251.88,
+   "t0_used": 249.266,
+   "t1_used": 251.913,
+   "snapped": true,
+   "snap_deltas": [
+    0.034,
+    -0.033
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 85,
+   "text": "这种结果我不要",
+   "t0": 251.88,
+   "t1": 253.32,
+   "t0_used": 251.913,
+   "t1_used": 253.26,
+   "snapped": true,
+   "snap_deltas": [
+    -0.033,
+    0.06
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 86,
+   "text": "这虚荣的骄傲",
+   "t0": 253.32,
+   "t1": 254.61,
+   "t0_used": 253.26,
+   "t1_used": 254.607,
+   "snapped": true,
+   "snap_deltas": [
+    0.06,
+    0.003
+   ],
+   "approx": false,
+   "splits": []
+  },
+  {
+   "i": 87,
+   "text": "走下乡寻找哪有花香",
+   "t0": 254.61,
+   "t1": 259.92,
+   "t0_used": 254.607,
+   "t1_used": 259.947,
+   "snapped": true,
+   "snap_deltas": [
+    0.003,
+    -0.027
+   ],
+   "approx": false,
+   "splits": [
+    257.277
+   ]
+  },
+  {
+   "i": 88,
+   "text": "坐车厢朝着南下方向",
+   "t0": 259.92,
+   "t1": 265.28,
+   "t0_used": 259.947,
+   "t1_used": 265.288,
+   "snapped": true,
+   "snap_deltas": [
+    -0.027,
+    -0.008
+   ],
+   "approx": false,
+   "splits": [
+    262.618
+   ]
+  },
+  {
+   "i": 89,
+   "text": "鸟飞翔穿过这条小巷",
+   "t0": 265.28,
+   "t1": 270.6,
+   "t0_used": 265.288,
+   "t1_used": 270.605,
+   "snapped": true,
+   "snap_deltas": [
+    -0.008,
+    -0.005
+   ],
+   "approx": false,
+   "splits": [
+    267.958
+   ]
+  },
+  {
+   "i": 90,
+   "text": "仔细想这种生活安详",
+   "t0": 270.6,
+   "t1": 273.6,
+   "t0_used": 270.605,
+   "t1_used": 273.6,
+   "snapped": true,
+   "snap_deltas": [
+    -0.005,
+    0.324
+   ],
+   "approx": false,
+   "splits": []
+  }
+ ],
+ "summary": {
+  "lines": 91,
+  "lines_untimed": 0,
+  "lines_snapped": 75,
+  "lines_unsnapped": 16,
+  "lines_need_split": 9,
+  "total_splits": 26
+ },
+ "advisory": true
+}

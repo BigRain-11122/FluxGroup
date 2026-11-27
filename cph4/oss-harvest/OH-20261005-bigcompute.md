@@ -1,0 +1,21 @@
+# OH-20261005-bigcompute — 开源收获轮·BigCompute 切片（D-20261005-05① 回执窗）
+
+- **窗**：D-20261005-05① 派工回执窗（窗 10-06 00:00·点名→回执制首例·本司 10-05 00:5x 落片=窗内首批第二片〔继 bigmoney 00:4x 后〕）。本实体业务面=算力商业化引擎（成本账本/批池/GPU 采集器/履约管线/质量对照/双轨路由）；本切片=**量具线新窗**——上窗 OH-20260927-bigcompute 三指针（①serve 生态=切片2 闭/②锚点源=切片4 闭/③小店 SDK 线=切片3 闭）全清，本窗候选族=在板任务实需量具：tech T45 p95 时延三判据+O-015 满载 loadline+O-2026-0930-028 interim 判定序质量档判据。
+- **反重复门基线（先查后采·三面·本窗实跑）**：①cph4/README.md 注册表 grep llmperf/optimum-benchmark/gpu-burn=零命中（在册开源件=tiktoken/PrismML-Eng llama.cpp fork/mcp-cn-commerce/tokencost/genai-prices/gpuhunt·量具线空白=真缺口）；②仓内面：本司仓 rg "llmperf|optimum-benchmark|gpu-burn|vllm"=零命中（Tools 实勘=gpu_idle_collector=采集器只测不加·qa_smoke=单请求时延探针非并发基准框架）；③姊妹 OH 十五件（本司上窗件除外）候选词零命中（bigmoney 本窗件=polars/vectorbt/pandas-ta 族·零撞）。
+- **实搜面（5 处 API 读取·全 A 级直采·采时 2026-10-05 00:4x-00:5x +08:00·零登录墙零翻页）**：①api.github.com/repos/ray-project/llmperf=1,124★·202 forks·pushed 2024-12-09·**archived=true（Ray 组织已归档·诚实负发现）**·license=Apache-2.0·open_issues 55；②api.github.com/repos/huggingface/optimum-benchmark=341★·63 forks·pushed 2026-09-29·非归档·license=Apache-2.0·open_issues 8·HF 官方组织·topics=benchmark/tensorrt-llm/onnxruntime/pytorch/neural-compressor；③api.github.com/repos/wilicc/gpu-burn=2,357★·424 forks·pushed 2026-10-02·非归档·license=**BSD-2-Clause**·open_issues 52·2017 建仓九年长寿；④raw.githubusercontent.com/huggingface/optimum-benchmark/main/LICENSE=Apache 2.0 全文逐字直采（grant 段「perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license」verbatim 在案）；⑤raw.githubusercontent.com/wilicc/gpu-burn/master/LICENSE=BSD 2-Clause 原文（「Copyright (c) 2020, Ville Timonen」verbatim 在案）。
+- **五门评估（两采用候选+一参考位）**：
+  - **huggingface/optimum-benchmark**：①契合 过=tech T45（radar 双接线单=jeff 0.8B System 1 并轨实测三判据〔p95 时延+质量+替代率〕+Strata 8GB 档部署实测）量具缺位+O-028 interim 判定序「先判质量档」判据量具+O-017 质量对照判据——现役 qa_smoke=单请求探针·无并发/percentile 基准面=真缺口非双建；②反重复 过（三面零撞）；③许可 过=Apache-2.0 原文逐字验（raw LICENSE 直采·grant 段 verbatim）；④健康 过=341★·pushed 2026-09-29（周内活跃）·HF 官方组织·open_issues 8/341 占比 2.3%；⑤成本/安全 过（带注记）=纯本地基准零外发零密钥·注记①=依赖 transformers/optimum 栈·引入须 O-1716 venv 隔离范式·注记②=backend 子集随 Strata 8GB 档实测窗选配。
+  - **wilicc/gpu-burn**：①契合 过=O-015 满载律「满载行=rolling 30min+loadline」受控负载生成面——本司采集器只测不加·满载档验证缺受控负载源=真缺口非双建+fleet-allocations §六.6 扩容判据实测窗受益·注记=**与 GPU 纪律窗互斥（DRY-RUN 至 10-05·burn 实跑须过净窗/借池判据+值守窗·本窗零实跑）**；②反重复 过（仓内无加载体·采集器非 burn）；③许可 过=BSD-2-Clause 原文逐字验（Copyright (c) 2020, Ville Timonen verbatim）→直用类；④健康 过=2,357★·pushed 2026-10-02（周内）·九年维护史·424 forks；⑤成本/安全 过（带注记）=本地 CUDA 满载件零外发·注记=满载=机温/功耗物理面·实跑窗=O-015 满载行回访窗（净窗过闸后）·DRY-RUN 态禁烧机。
+  - **ray-project/llmperf**：④健康 **负**（archived=true·2024-12-09 后停推·Ray 组织归档）→ 判负留痕+**参考位**（其 percentile 时延度量方法学与 metric 定义=T45 判据表设计二源对照·借力律正形=学方法不搬死件）。
+- **采用→落点（O-1750 needs-based·消费线实存=在板任务·非囤积·本窗零新装）**：optimum-benchmark=**cleared-for-adoption**·接线窗=tech T45 实测窗（10-05 DRY-RUN 毕后随净窗/GPU 纪律排窗）·引入轮判据预注册=venv 隔离装+selftest 对照基线建+p95 口径注记（并发数/token 长度分布随 T45 判据冻结同表）+零外发验；gpu-burn=**cleared-for-adoption（纪律闸前置）**·采用前置=净窗/GPU 纪律闸过闸（O-015 满载行回访窗·零本窗实跑）；llmperf=参考位记档。
+- **parked+理由**：llmperf=archived 死档（方法学参考位·不装）；gpu-burn=许可清+实跑前置=纪律闸非技术面 parked。
+- **下窗指针**：①抖店官方 SDK 直发渠道正主核（开店物理件到位窗·开发者站点分发面）；②llmperf 归档后继生态扫描（LLM serving 基准活跃继任者）；③满载行若需细粒度功耗面=DCGM/NVML 系监控件候选线。
+- **回执**：本件=D-20261005-05① 派工回执（P-51 送达=本司 commit 含 D-20261005-05① 行）；实搜面 ≥2 满足（5 处·全 A 级）；本司反馈面回执行=compute/BigCompute/HQ-FEEDBACK.md BC-F-20261005-02（10-05 夜班窗）。
+
+## 结论应用表（research-protocol §结论应用律强制·无表=未交付）
+
+| 候选 | 五门判定 | 落点（改了什么） | 消费面（谁吃产出） | 状态 |
+|---|---|---|---|---|
+| optimum-benchmark (huggingface) | 契合✓（T45 三判据+O-028 判定序+O-017 质量对照量具）/反重复✓（三面零撞）/许可✓（Apache-2.0 原文逐字验）/健康✓（341★·pushed 09-29·HF 官方·issues 占比 2.3%）/成本✓（纯本地·venv 隔离注记） | cleared-for-adoption 登记（零装·接线单=tech T45 实测窗·引入轮判据预注册） | tech T45（p95 时延+质量+替代率实测）·O-028 interim 判定序量具 | **cleared-for-adoption** |
+| gpu-burn (wilicc) | 契合✓（O-015 满载行受控负载源·净窗纪律闸前置注记）/反重复✓（采集器只测不加=真缺口）/许可✓（BSD-2 原文 verbatim·直用类）/健康✓（2,357★·pushed 10-02·九年长寿）/成本✓（本地件·机温物理面注记） | cleared-for-adoption 登记（零装·实跑前置=净窗/GPU 纪律过闸） | O-015 满载行回访窗·fleet-allocations §六.6 扩容判据实测 | **cleared-for-adoption（纪律闸前置）** |
+| llmperf (ray-project) | 契合△（方法学面）/反重复✓/许可✓（Apache-2.0）/健康**负**（archived=true·2024-12 停推）/成本- | 参考位记档（percentile 方法学=T45 判据表二源对照·学方法不搬件） | tech T45 判据表设计 | **参考位（诚实负发现）** |

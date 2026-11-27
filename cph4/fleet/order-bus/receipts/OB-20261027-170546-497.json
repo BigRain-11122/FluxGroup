@@ -1,0 +1,18 @@
+﻿{
+    "id":  "OB-20261027-170546-497",
+    "ts":  "2026-10-27 17:05",
+    "text":  "所有机器：机队命令一经发布立即按本车道自领执行，不得等人工分配；每次开工前先查命令总线与 orders，按车道拆分并立即开工。（本令更正 OB-20261027-170356-791 因控制台编码损坏的原行，以本行为准）",
+    "lanes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c"
+              ],
+    "nodes":  [
+                  "bm-a",
+                  "bm-b",
+                  "bm-c"
+              ],
+    "sha":  "ef3fcae154e53feb5c5cd9c8e10a9ca5433dcb89",
+    "dispatch":  "DISPATCH reason=order:OB-20261027-170546-497 nodes=3 ok=2 fail=1 sha=ef3fcae1   bm-a ok=True accepted SYNCED 2s   bm-b ok=True accepted SYNCED 10s   bm-c ok=False 无法连接到远程服务器",
+    "dry":  false
+}

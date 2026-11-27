@@ -1,0 +1,34 @@
+{
+ "name": "her_mv0002",
+ "lora": "her_mv0002_rank32",
+ "trigger": "hermv2",
+ "passed": 0,
+ "total": 4,
+ "gate": "FAIL",
+ "results": [
+  {
+   "seed": 9901,
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\mv0002-longjuanfeng\\lora-eval\\her_mv0002\\test_1.png",
+   "dhash_dist": 35,
+   "similarity": 0.568
+  },
+  {
+   "seed": 9902,
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\mv0002-longjuanfeng\\lora-eval\\her_mv0002\\test_2.png",
+   "dhash_dist": 30,
+   "similarity": 0.63
+  },
+  {
+   "seed": 9903,
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\mv0002-longjuanfeng\\lora-eval\\her_mv0002\\test_3.png",
+   "dhash_dist": 29,
+   "similarity": 0.642
+  },
+  {
+   "seed": 9904,
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4\\fleet\\mv-album-001-jay\\mv0002-longjuanfeng\\lora-eval\\her_mv0002\\test_4.png",
+   "dhash_dist": 39,
+   "similarity": 0.519
+  }
+ ]
+}

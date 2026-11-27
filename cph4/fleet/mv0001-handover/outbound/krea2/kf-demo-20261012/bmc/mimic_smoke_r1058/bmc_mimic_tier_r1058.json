@@ -1,0 +1,48 @@
+{
+ "started": "2026-10-17 16:46:49",
+ "pool": "POOL-0016-night3-early",
+ "runner": "bmc_mimic_trial_r1058.py",
+ "vram_baseline_mb": 1518,
+ "env": {
+  "torch": "2.13.0+cu130",
+  "torchvision": "0.28.0+cu130",
+  "diffusers": "0.27.0",
+  "transformers": "4.46.3",
+  "onnxruntime": "1.31.0",
+  "huggingface_hub": "0.25.2"
+ },
+ "downloads": {
+  "pth_bytes": 3049867447,
+  "dw_ll_ucoco_384_onnx_bytes": 134399116,
+  "yolox_l_onnx_bytes": 216746733,
+  "svd_marker": {
+   "ts": "2026-10-17 14:19:25",
+   "files": {
+    "unet/config.json": 984,
+    "vae/config.json": 607,
+    "vae/diffusion_pytorch_model.fp16.safetensors": 195531910,
+    "image_encoder/config.json": 685,
+    "image_encoder/model.fp16.safetensors": 1264217240,
+    "scheduler/scheduler_config.json": 533,
+    "feature_extractor/preprocessor_config.json": 518,
+    "LICENSE.md": 11852
+   }
+  }
+ },
+ "status": "PASS",
+ "passed_tier": 24,
+ "attempts": [
+  {
+   "num_frames": 24,
+   "rc": 0,
+   "wall_s": 2615.1,
+   "peak_vram_mb": 16081,
+   "peak_util_pct": 100,
+   "oom": false,
+   "mp4": "K:\\Fluxgroup\\FluxGroup\\media\\mvtools\\MimicMotion\\trial_r1058\\outputs_tf24\\pose1_20261017173026.mp4",
+   "mp4_bytes": 487485,
+   "log_tail": "[2026-10-17 17:30:27,035][__main__][INFO]: --- Finished ---\n"
+  }
+ ],
+ "finished": "2026-10-17 17:30:30"
+}

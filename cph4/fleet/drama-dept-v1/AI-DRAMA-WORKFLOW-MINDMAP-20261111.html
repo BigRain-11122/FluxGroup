@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 漫剧 / AI 短剧 · 目前最好的工作流（2026-11-11）</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --ink:#1b1f24; --dim:#5b6672; --line:#c9d1da;
+    --v:#2f6feb; --s:#0f9d58; --o:#d9822b; --r:#d93a3a; --p:#7a4fd4; --t:#00838f; --g:#6b7280;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.55 -apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;}
+  header{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid var(--line);
+         padding:12px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+  header .sub{color:var(--dim);font-size:12px}
+  header .tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+  input[type=search]{border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px;width:190px;outline:none}
+  input[type=search]:focus{border-color:var(--v)}
+  button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;color:var(--dim)}
+  button:hover{border-color:var(--v);color:var(--v)}
+  main{padding:28px 20px 80px;overflow-x:auto}
+
+  .tree{display:inline-block;min-width:100%;padding-left:8px}
+  .tree ul{list-style:none;margin:0;padding-left:26px;position:relative}
+  .tree ul::before{content:"";position:absolute;left:9px;top:0;bottom:16px;width:1px;background:var(--line)}
+
+  .node{position:relative;margin:6px 0}
+  .node > .card{
+    display:inline-flex;gap:8px;align-items:flex-start;
+    background:#fff;border:1px solid var(--line);border-left:4px solid var(--line);
+    border-radius:9px;padding:8px 13px;max-width:min(900px,82vw);
+    cursor:default;transition:.15s;box-shadow:0 1px 2px rgba(16,24,40,.04)
+  }
+  .node > .card:hover{box-shadow:0 4px 12px rgba(16,24,40,.10);transform:translateY(-1px)}
+  .node::before{content:"";position:absolute;left:-17px;top:20px;width:17px;height:1px;background:var(--line)}
+
+  .title{font-weight:600}
+  .note{color:var(--dim);font-size:12.5px}
+  .badge{font-size:11px;padding:1px 6px;border-radius:5px;background:#eef1f5;color:var(--dim);white-space:nowrap}
+
+  .root > .card{border-left-color:var(--ink);background:#101418;color:#fff;border-color:#101418;
+                font-size:16px;font-weight:700;padding:12px 20px;box-shadow:0 6px 20px rgba(16,24,40,.18)}
+  .root > .card .note{color:#9aa7b4}
+  .root > .card .badge{background:#1e2833;color:#9aa7b4}
+
+  .b1 > .card{border-left-color:var(--v)} .b1 .badge{background:#e8f0fe;color:var(--v)}
+  .b2 > .card{border-left-color:var(--s)} .b2 .badge{background:#e6f4ea;color:var(--s)}
+  .b3 > .card{border-left-color:var(--o)} .b3 .badge{background:#fdf0e3;color:var(--o)}
+  .b4 > .card{border-left-color:var(--t)} .b4 .badge{background:#e0f2f4;color:var(--t)}
+  .b5 > .card{border-left-color:var(--p)} .b5 .badge{background:#f0eafc;color:var(--p)}
+  .b6 > .card{border-left-color:var(--r)} .b6 .badge{background:#fdeaea;color:var(--r)}
+  .b7 > .card{border-left-color:var(--g)} .b7 .badge{background:#eef1f5;color:var(--g)}
+
+  .node.collapsed > ul{display:none}
+  .node.collapsed > .card::after{content:"＋ 展开";font-size:11px;color:var(--dim)}
+  .node.expandable > .card::after{content:"－ 收起";font-size:11px;color:var(--dim)}
+  .node.expandable > .card,
+  .node.collapsed > .card{cursor:pointer}
+
+  mark{background:#ffe58f;color:inherit;border-radius:3px;padding:0 1px}
+  .hidden{display:none!important}
+  footer{position:fixed;bottom:0;left:0;right:0;background:#fffffff0;border-top:1px solid var(--line);
+         padding:7px 20px;font-size:11.5px;color:var(--dim);backdrop-filter:blur(6px)}
+  @media print{header .tools{display:none} .node.collapsed > ul{display:block} footer{position:static}}
+</style>
+</head>
+<body>
+<header>
+  <h1>AI 漫剧 / AI 短剧 · 目前最好的工作流</h1>
+  <span class="sub">2026-11-11 · 七条主支 · 数字与判据均可核</span>
+  <div class="tools">
+    <input id="q" type="search" placeholder="搜索：一致性 / 钩子 / 口型 / 分账">
+    <button id="expand">全部展开</button>
+    <button id="collapse">收起到二级</button>
+    <button id="print">打印</button>
+  </div>
+</header>
+
+<main>
+<div class="tree">
+<ul>
+  <li class="node root">
+    <div class="card"><span class="title">AI 漫剧 / AI 短剧 · 最好的工作流</span>
+      <span class="note">剧本定天花板 · 资产锁一致性 · 真动定年代 · 声音定留存 · 闸门定成本</span></div>
+    <ul>
+
+      <!-- 1 路线 -->
+      <li class="node b1">
+        <div class="card"><span class="title">一、路线（先定赛道，再定工具）</span>
+          <span class="badge">选错路，后面每站都在补窟窿</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">三种形态</span>
+            <span class="note">平台给的系数不一样，不是审美选择</span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="title">2D 漫剧</span>
+                <span class="note">i2v 抽卡，成本最低，一致性靠角色档案</span><span class="badge">红果 40×</span></div></li>
+              <li class="node"><div class="card"><span class="title">3D 漫剧</span>
+                <span class="note">资产一次做、百集复用，最稳；上新不足 5% 却贡献 69.5% 新增播放</span><span class="badge">红果 50× · 热播 TOP5 占 4 席</span></div></li>
+              <li class="node"><div class="card"><span class="title">AI 仿真人</span>
+                <span class="note">盘子最大、红线最紧；2026-04-27 起普惠保底取消</span><span class="badge">红果 60×</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">三层技术栈（分工，不是三选一）</span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="title">一站式 Agent</span>
+                <span class="note">小云雀 / 巨日禄 / 万兴剧厂 / 天工短剧工作台 → 出骨架最快</span>
+                <span class="badge">《万兽独尊》5 人 8 天 60 集（客户口径）</span></div></li>
+              <li class="node"><div class="card"><span class="title">云端顶模</span>
+                <span class="note">Seedance 2.5（单镜 30 秒直出 / 50+ 多模态参考 / 帧级编辑）+ Seedream 5.0 Pro + 可灵 / Vidu / 海螺</span>
+                <span class="badge">打英雄镜、定画风</span></div></li>
+              <li class="node"><div class="card"><span class="title">本地 ComfyUI</span>
+                <span class="note">Wan2.2（首尾帧 Fun InP）/ LTX-2.x（一图漫剧）/ Qwen-Image / z-image-turbo</span>
+                <span class="badge">8G 显卡可开工 · 跑量产</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">选路判据</span></div>
+            <ul>
+              <li class="node"><div class="card"><span class="note">动作戏 &gt;30% 或连载 &gt;60 集 → 3D / 资产复用线</span></div></li>
+              <li class="node"><div class="card"><span class="note">文戏为主 + 要快速验证 → i2v 线</span></div></li>
+              <li class="node"><div class="card"><span class="note">要出海多语 → 先出 1080p 无字幕母版，再译制</span></div></li>
+            </ul>
+          </li>
+          <li class="node"><div class="card"><span class="title">成本锚</span>
+            <span class="note">800–1000 元/分钟 · 单集 1200–1800 元 · 100 分钟 8–12 万 / 7–14 天 / 1–3 人</span>
+            <span class="badge">只能用「单段价 ÷ 成片率」算</span></div></li>
+          <li class="node"><div class="card"><span class="title">残酷分母</span>
+            <span class="note">22.19 万部新上线，1055 部破亿 = 0.47%；约 90% 公司在亏</span>
+            <span class="badge">靠量无效</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 2 剧本 -->
+      <li class="node b2">
+        <div class="card"><span class="title">二、剧本（决定天花板）</span>
+          <span class="badge">画质补得回来，故事补不回来</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">单集公式</span>
+            <span class="note">3 秒钩 → 10 秒立冲突 → 中段 1–2 次反转 → 结尾强钩</span>
+            <span class="badge">通用，不分平台</span></div></li>
+          <li class="node"><div class="card"><span class="title">开场三类钩</span>
+            <span class="note">直接冲突 / 强悬念 / 极致反差</span>
+            <span class="badge">禁铺垫 &gt;10 秒</span></div></li>
+          <li class="node"><div class="card"><span class="title">结尾三类钩</span>
+            <span class="note">悬念 / 危机 / 反转；卡在情绪最高点黑屏，钩子强度必须大于本集所有冲突</span>
+            <span class="badge">决定下一集点击率</span></div></li>
+          <li class="node"><div class="card"><span class="title">节拍密度</span>
+            <span class="note">每集 ≥3 个「动作→反应」节拍；无冲突闲谈 ≤20 秒；台词短、碎、锋利</span></div></li>
+          <li class="node"><div class="card"><span class="title">长线结构</span>
+            <span class="note">1–5 集立人设抛主线 · 每 3 集小高潮 / 每 5 集大高潮 · 12–15 集中点大反转 · 结局留续集钩</span></div></li>
+          <li class="node"><div class="card"><span class="title">人设反差锚</span>
+            <span class="note">一个与标签冲突的细节（女战神偷偷喂流浪猫），第 1 集就放</span></div></li>
+          <li class="node"><div class="card"><span class="title">剧本 → 镜语</span>
+            <span class="note">翻成「主体 + 动作 + 景别 + 光线 + 固定/运动」，生成层只认这个</span></div></li>
+          <li class="node"><div class="card"><span class="title">单集必须闭环</span>
+            <span class="note">开场冲突 → 升级 → 钩子，不是连续剧的切片</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 3 资产 -->
+      <li class="node b3">
+        <div class="card"><span class="title">三、资产（一致性 = 命门）</span>
+          <span class="badge">观众记不住名字，但会记住脸</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">角色档案</span>
+            <span class="note">定妆 + 三视图 + 3–5 张多角度/多表情，中性灰底</span></div></li>
+          <li class="node"><div class="card"><span class="title">身份锁三件套</span>
+            <span class="note">脸部参考图 + 固定身份串 + seed</span>
+            <span class="badge">参考强度 70–85%</span></div></li>
+          <li class="node"><div class="card"><span class="title">多模态参考</span>
+            <span class="note">Seedance 2.5 单次可吃 30 图 / 10 视频 / 10 音频</span>
+            <span class="badge">厂商口径</span></div></li>
+          <li class="node"><div class="card"><span class="title">场景锁版</span>
+            <span class="note">主场景多角度 + 720° 全景；复杂场景给多张</span></div></li>
+          <li class="node"><div class="card"><span class="title">道具资产</span>
+            <span class="note">从剧本提炼（武器 / 信物 / 手机），跨集复用</span></div></li>
+          <li class="node"><div class="card"><span class="title">音色库</span>
+            <span class="note">每角色 1–2 个固定音色 ID，跨集不换</span></div></li>
+          <li class="node"><div class="card"><span class="title">复用率 = 产能</span>
+            <span class="note">第 2 集起只补新镜；复用率上不去，日更就是空话</span>
+            <span class="badge">最难也最值钱的一层</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 4 分镜/画面/动效 -->
+      <li class="node b4">
+        <div class="card"><span class="title">四、分镜 → 关键帧 → 图生视频</span>
+          <span class="badge">2–3 秒一切</span>
+          <span class="note">这一步决定它像不像「剧」</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">镜表字段</span>
+            <span class="note">镜号 / 景别 / 运镜 / 时长 / 角色 / 场景 / 动作 / 情绪 / 台词 / 首尾帧</span></div></li>
+          <li class="node"><div class="card"><span class="title">镜长</span>
+            <span class="note">每镜 2–3 秒；单镜 ≤5 秒；30 秒直出只留给重点镜</span></div></li>
+          <li class="node"><div class="card"><span class="title">一镜一意图</span>
+            <span class="note">一个动作、一个情绪，不塞两件事</span>
+            <span class="badge">塞两件必崩</span></div></li>
+          <li class="node"><div class="card"><span class="title">KF 海选 → 正档</span>
+            <span class="note">低清 512–672 宽出 16–32 张 → 取 2 → 正档 1080×1920</span></div></li>
+          <li class="node"><div class="card"><span class="title">KF 精修</span>
+            <span class="note">进 i2v 前修手 / 脸 / 边缘 / 伪文字</span>
+            <span class="badge">首帧烂，视频只会把烂放大</span></div></li>
+          <li class="node"><div class="card"><span class="title">提示词结构</span>
+            <span class="note">主体 + 表情 + 动作 + 服装 + 环境 + 光 + 机位 + 画风；运镜单列</span></div></li>
+          <li class="node"><div class="card"><span class="title">白模预演</span>
+            <span class="note">3D 导演台定走位与运镜，减少盲抽</span></div></li>
+          <li class="node"><div class="card"><span class="title">真动 vs 假动</span>
+            <span class="note">禁 Ken Burns / 推拉 / 纯位移；真动=生成的表情、布料、粒子、口型</span>
+            <span class="badge">推拉是 2019 年的做法</span></div></li>
+          <li class="node"><div class="card"><span class="title">i2v 控制手段</span>
+            <span class="note">首尾帧补间 / 参考锁定 / 片段重拍（只重做坏的那段）/ 30 秒直出</span></div></li>
+          <li class="node"><div class="card"><span class="title">抽卡预算</span>
+            <span class="note">每镜 ≤3 抽、成片率 ≥50%</span>
+            <span class="badge">低于 50% 先修资产和提示词，不是加大抽卡</span></div></li>
+          <li class="node"><div class="card"><span class="title">崩坏六检</span>
+            <span class="note">morph / 伪文字 / 物理错 / 匀速漂移 / 首帧失真 / 穿帮</span></div></li>
+          <li class="node"><div class="card"><span class="title">口型</span>
+            <span class="note">说话镜必须过（LatentSync 级）</span>
+            <span class="badge">约 6.5G 显存</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 5 声音/装配 -->
+      <li class="node b5">
+        <div class="card"><span class="title">五、声音 → 装配</span>
+          <span class="badge">没声音 = 没人看</span>
+          <span class="note">我们的实锚：60 集无音轨 = 直接出局</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">顺序</span>
+            <span class="note">先出人声 → 再配乐 → 最后混</span>
+            <span class="badge">禁「先画面后凑音」</span></div></li>
+          <li class="node"><div class="card"><span class="title">配音</span>
+            <span class="note">多角色音色 + 情感向量（IndexTTS / GPT-SoVITS 自训 / VoxCPM / SeedAudio 19 语）</span></div></li>
+          <li class="node"><div class="card"><span class="title">音效三层</span>
+            <span class="note">环境底噪 / 动作点 / 冲击点；每镜至少一个动作音</span></div></li>
+          <li class="node"><div class="card"><span class="title">BGM</span>
+            <span class="note">正版池或自制，情绪跟集内曲线走</span></div></li>
+          <li class="node"><div class="card"><span class="title">混音</span>
+            <span class="note">整体 −14 LUFS ±2</span>
+            <span class="badge">必须收口 48kHz，否则静默变 96k</span></div></li>
+          <li class="node"><div class="card"><span class="title">剪辑</span>
+            <span class="note">剪在词上、剪在节拍上；转场只用电影语法</span>
+            <span class="badge">禁白闪 / 抖动 / 放大 / 贴纸花字</span></div></li>
+          <li class="node"><div class="card"><span class="title">前 3 秒</span>
+            <span class="note">帧差必须动（&gt;0.02），静图开场一律不过</span></div></li>
+          <li class="node"><div class="card"><span class="title">字幕</span>
+            <span class="note">ASR 自动出 + 人工校；单行 ≤17 字；避开竖屏安全区</span></div></li>
+          <li class="node"><div class="card"><span class="title">变速</span>
+            <span class="note">必须插值，禁直接改帧率</span></div></li>
+          <li class="node"><div class="card"><span class="title">规格</span>
+            <span class="note">1080×1920 / ≥30fps；短剧 90–120 秒，漫剧 60–90 秒</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 6 质检/发布 -->
+      <li class="node b6">
+        <div class="card"><span class="title">六、质检 → 发布</span>
+          <span class="badge">机器能测的先测，测不了的才给人看</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">七条硬指标</span>
+            <span class="note">分辨率 / 帧率 / 音轨 / 响度 / 镜长 / 前 3 秒 / 字幕</span></div></li>
+          <li class="node"><div class="card"><span class="title">一致性机检</span>
+            <span class="note">跨镜 frame_diff + 脸锚相似度 + 服装场景连续性表</span>
+            <span class="badge">比人眼早发现换人</span></div></li>
+          <li class="node"><div class="card"><span class="title">缺陷字典</span>
+            <span class="note">崩脸 / 伪文字 / 多手 / 穿模 / 匀速 / 首帧失真 / 速度线穿帮</span></div></li>
+          <li class="node"><div class="card"><span class="title">盲评与版本数</span>
+            <span class="note">盲评 ≥9（头部及格线当我们起点）；版本数 ≤3，超线先修闸不烧轮</span></div></li>
+          <li class="node"><div class="card"><span class="title">备案</span>
+            <span class="note">存量 2026-03-31 前补审，4-01 起未备案全网下架；投资 &lt;100 万=平台自审后报省备案</span>
+            <span class="badge">硬门槛</span></div></li>
+          <li class="node"><div class="card"><span class="title">AIGC 三标识</span>
+            <span class="note">画面显式 + 元数据隐式 + 每集提示</span>
+            <span class="badge">缺一即 BLOCKED</span></div></li>
+          <li class="node"><div class="card"><span class="title">分账系数</span>
+            <span class="note">红果 仿真人 60× / 3D 50× / 2D 40× / 解说 5×；2026-04-27 起 AI 仿真人普惠保底取消</span></div></li>
+          <li class="node"><div class="card"><span class="title">出海</span>
+            <span class="note">去字幕 → ASR → 翻译 → OCR 画面字 → 配音 → 压制 → 分区审核</span>
+            <span class="badge">100 集×9 语 ≈48h（云厂商口径）</span></div></li>
+          <li class="node"><div class="card"><span class="title">数据回流</span>
+            <span class="note">看完播、追更、前 3 秒留存，不看播放量</span>
+            <span class="badge">回流到下一集剧本</span></div></li>
+        </ul>
+      </li>
+
+      <!-- 7 产能/坑 -->
+      <li class="node b7">
+        <div class="card"><span class="title">七、产能 → 十个坑</span>
+          <span class="badge">1–3 人可跑，但流程不能省</span></div>
+        <ul>
+          <li class="node"><div class="card"><span class="title">团队与工时</span>
+            <span class="note">单集约 3 小时工：剧本 20 / 分镜 30 / 素材 60 / 视频 60 / 剪辑 40 分钟</span></div></li>
+          <li class="node"><div class="card"><span class="title">产能与节奏</span>
+            <span class="note">熟练 5–10 集/天；日更 1–2 集；先囤 10–20 集再上</span></div></li>
+          <li class="node"><div class="card"><span class="title">纪律</span>
+            <span class="note">一批只改一个变量（同批同画风同参数），否则出了问题找不到因</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑1</span><span class="note">先做画面后写剧本</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑2</span><span class="note">一镜塞多动作 → 必崩</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑3</span><span class="note">追求 100% 一致性反复抽卡 → 该用背影 / 侧脸 / 剪影换效率</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑4</span><span class="note">静态图推拉冒充动画</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑5</span><span class="note">无声量产</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑6</span><span class="note">480p 上采样冒充 1080p</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑7</span><span class="note">一集一个画风</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑8</span><span class="note">把 AI 感当风格</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑9</span><span class="note">一次生成十集再检查</span></div></li>
+          <li class="node"><div class="card"><span class="badge">坑10</span><span class="note">只看模型跑分，不看成品率</span></div></li>
+        </ul>
+      </li>
+
+    </ul>
+  </li>
+</ul>
+</div>
+</main>
+
+<footer>
+  正身：AI-DRAMA-WORKFLOW-MINDMAP-20261111.md ·
+  内承 DRAMA-PRODUCTION-SYSTEM-v1 / QUALITY-SPEC-v2 / HEAD-BENCHMARK-20261103 / GITHUB-PIPELINES-20261103 ·
+  外源分级见 md §五（A=官方文档 B=行业媒体 C=厂商口径）
+</footer>
+
+<script>
+(function(){
+  var nodes = [].slice.call(document.querySelectorAll('.node'));
+  nodes.forEach(function(n){
+    var ul = n.querySelector(':scope > ul');
+    if(ul){
+      n.classList.add('expandable');
+      (n.querySelector(':scope > .card')).addEventListener('click', function(e){
+        if(e.target.tagName === 'MARK') return;
+        n.classList.toggle('collapsed');
+        n.classList.toggle('expandable', !n.classList.contains('collapsed'));
+      });
+    }
+  });
+  document.getElementById('expand').onclick = function(){
+    nodes.forEach(function(n){ n.classList.remove('collapsed'); n.classList.toggle('expandable', !!n.querySelector(':scope > ul')); });
+  };
+  document.getElementById('collapse').onclick = function(){
+    nodes.forEach(function(n, i){
+      var ul = n.querySelector(':scope > ul');
+      if(!ul) return;
+      var depth = 0, p = n;
+      while(p && p.classList && p.classList.contains('node')){ depth++; p = p.parentElement.closest('.node'); }
+      if(depth > 1){ n.classList.add('collapsed'); n.classList.remove('expandable'); }
+    });
+  };
+  document.getElementById('print').onclick = function(){ window.print(); };
+
+  var q = document.getElementById('q');
+  q.addEventListener('input', function(){
+    var kw = q.value.trim().toLowerCase();
+    var ms = document.querySelectorAll('mark');
+    [].forEach.call(ms, function(m){ m.replaceWith(document.createTextNode(m.textContent)); });
+    nodes.forEach(function(n){ n.classList.remove('hidden'); });
+    if(!kw) return;
+    nodes.forEach(function(n){
+      var card = n.querySelector(':scope > .card');
+      if(!card) return;
+      var t = card.textContent.toLowerCase();
+      if(t.indexOf(kw) >= 0){
+        card.querySelectorAll('span,code').forEach(function(el){
+          if(el.children.length) return;
+          var txt = el.textContent, i = txt.toLowerCase().indexOf(kw);
+          if(i >= 0){
+            el.textContent = '';
+            el.appendChild(document.createTextNode(txt.slice(0,i)));
+            var m = document.createElement('mark'); m.textContent = txt.slice(i, i+kw.length);
+            el.appendChild(m);
+            el.appendChild(document.createTextNode(txt.slice(i+kw.length)));
+          }
+        });
+        var p = n.parentElement.closest('.node');
+        while(p){ p.classList.remove('collapsed'); p.classList.add('expandable'); p = p.parentElement.closest('.node'); }
+      }
+    });
+    nodes.forEach(function(n){
+      var card = n.querySelector(':scope > .card');
+      if(!card) return;
+      var t = card.textContent.toLowerCase();
+      var selfHit = t.indexOf(kw) >= 0;
+      var childHit = (n.textContent.toLowerCase().indexOf(kw) >= 0);
+      card.style.opacity = (selfHit || childHit) ? '1' : '.28';
+    });
+  });
+})();
+</script>
+</body>
+</html>
