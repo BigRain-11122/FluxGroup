@@ -90,7 +90,10 @@ def _page(aid, cursor=""):
     try:
         import social_comment as sc
         r = sc._daemon("own", {"aid": aid, "mode": 2, "offset": cursor}, timeout=60)
-    except Exception:
+    except BaseException:
+        # 抓 BaseException 而不是 Exception：profile 被养号线占住时，底层是
+        # SystemExit（"profile 起不来"），用 Exception 接不住，整条 measure 线会被判 rc=1。
+        # 这里只该得出"取不到数"，不许升级成失败，更不许自己再开一个浏览器去抢 profile。
         return None
     if not isinstance(r, dict) or not r.get("ok"):
         return None
