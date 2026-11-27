@@ -170,10 +170,34 @@ def _yield_reason(kind, payload, marker=None, now=None):
     return ""
 
 
+_WBI_TAB = [46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43,
+            5, 49, 33, 9, 42, 19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16,
+            24, 55, 40, 61, 26, 17, 0, 1, 60, 51, 30, 4, 22, 25, 54, 21, 56, 59,
+            6, 63, 57, 62, 11, 36, 20, 34, 44, 52]
+
+
+def _wbi_sign(params, img_key, sub_key):
+    """按 bilibili wbi 规则算 w_rid。
+
+    为什么必须自己签：`x/v2/reply` 的 sort 参数实测被忽略（sort=0 与 sort=1 返回同一份
+    热门序），而"我的评论还在不在"只有 wbi/main 的 mode=2（最新）能答；该接口不带
+    w_rid 一律 -403（2026-11-27 实测）。
+    """
+    import hashlib
+    from urllib.parse import quote, urlencode
+    raw = img_key + sub_key
+    mixin = "".join(raw[i] for i in _WBI_TAB if i < len(raw))[:32]
+    q = {k: v for k, v in params.items() if v not in (None, "")}
+    q["wts"] = str(int(time.time()))
+    s = urlencode(sorted(q.items()), quote_via=quote, safe="")
+    return s + "&w_rid=" + hashlib.md5((s + mixin).encode()).hexdigest()
+
+
 def _op(payload):
     import social_comment as sc
     kind = payload.get("op")
-    if kind not in ("post", "browse", "danmaku", "like", "verify", "verify_text", "roots", "roots2", "nav", "hot", "aid"):
+    if kind not in ("post", "browse", "danmaku", "like", "coin", "fav", "follow",
+                    "verify", "verify_text", "roots", "roots2", "own", "nav", "hot", "aid"):
         return {"ok": False, "res": "未知动作 %r" % kind}
     _why = _yield_reason(kind, payload)
     if _why:
@@ -243,6 +267,55 @@ def _op(payload):
                                 seconds=payload.get("seconds"),
                                 harvest=bool(payload.get("harvest", True)))
         return {"ok": bool(ok), "res": res}
+    if kind == "own":
+        # 核验"我发的评论还在不在"专用：走 wbi/main 的 mode=2（真按时间）。
+        # 老接口 /x/v2/reply 的 sort 参数实测被忽略（sort=0 与 sort=1 返回同一份热门序，
+        # 2026-11-27 实锚：同一 aid 两种 sort 的 ctime/like 完全一致），所以拿它核 0 赞新评论
+        # 必然查不到，会把"有人在看"误判成"被删"。mode=2 才是评论区"最新"那一栏的数据源。
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        if "bilibili.com" not in (pg.url or ""):
+            pg.goto("https://www.bilibili.com/", wait_until="domcontentloaded", timeout=20000)
+        aid = payload.get("aid")
+        mode = int(payload.get("mode") or 2)
+        offset = payload.get("offset") or ""
+        try:
+            wb = pg.evaluate("""async()=>{const r=await fetch(
+                'https://api.bilibili.com/x/web-interface/nav',{credentials:'include'});
+                const j=await r.json();const w=((j||{}).data||{}).wbi_img||{};
+                return {img:w.img_url||'',sub:w.sub_url||''};}""")
+            img_key = str(wb.get("img", "")).rsplit("/", 1)[-1].split(".")[0]
+            sub_key = str(wb.get("sub", "")).rsplit("/", 1)[-1].split(".")[0]
+            if not (img_key and sub_key):
+                return {"ok": False, "res": "取不到 wbi 密钥（未登录或无 nav）"}
+            qs = _wbi_sign({"oid": aid, "type": 1, "mode": mode, "plat": 1,
+                            "web_location": 1315875,
+                            "pagination_str": json.dumps({"offset": offset},
+                                                         separators=(",", ":"))},
+                           img_key, sub_key)
+            raw = pg.evaluate("""async(q)=>{const r=await fetch(
+                'https://api.bilibili.com/x/v2/reply/wbi/main?'+q,{credentials:'include'});
+                return {status:r.status, text:await r.text()};}""", qs)
+        except Exception as e:
+            return {"ok": False, "res": "%s: %s" % (type(e).__name__, str(e)[:100])}
+        try:
+            d = json.loads((raw or {}).get("text") or "{}")
+        except Exception:
+            d = {}
+        data = d.get("data") or {}
+        reps = [x for x in (data.get("replies") or []) if isinstance(x, dict)]
+        out = [{"rpid": str(x.get("rpid")),
+                "author": ((x.get("member") or {}).get("uname") or ""),
+                "text": ((x.get("content") or {}).get("message") or ""),
+                "like": int(x.get("like") or 0),
+                "rcount": int(x.get("rcount") or 0),
+                "ctime": int(x.get("ctime") or 0)} for x in reps]
+        cur = data.get("cursor") or {}
+        return {"ok": True, "res": {"code": d.get("code"), "http": (raw or {}).get("status"),
+                                    "replies": out,
+                                    "count": int(cur.get("all_count") or 0),
+                                    "is_end": bool(cur.get("is_end")),
+                                    "next": ((cur.get("pagination_reply") or {}).get("next_offset") or ""),
+                                    "mode": mode}}
     if kind == "roots2":
         # 纯接口取 root 评论：**不导航**。原 roots 会 goto 视频页，导航一慢就把单线程堵死，
         # 实测把整条回复线拖成 5 分钟无输出（2026-11-24）。这里只要页面在 bilibili 域内即可。
@@ -328,6 +401,70 @@ def _op(payload):
         ok = (hit or {}).get("status") == 200 and doc.get("code") == 0
         return {"ok": bool(ok), "res": {"code": doc.get("code"),
                                         "message": doc.get("message")}}
+    if kind in ("coin", "fav", "follow"):
+        # 2026-11-27 实锚：这三个动作原本走 user_agent._with_video → 自己 _launch()，
+        # 而常驻进程握着 profile 锁 → 每次白等 180 秒再抛错，把整场会话拖死。
+        # 动作很轻，在已登录上下文里同源 fetch 即可（与 like 同一条路子）。
+        aid = payload.get("aid")
+        if not aid:
+            return {"ok": False, "res": "缺 aid"}
+        pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+        try:
+            if "bilibili.com" not in (pg.url or ""):
+                pg.goto("https://www.bilibili.com/video/av%s" % aid,
+                        wait_until="domcontentloaded", timeout=15000)
+        except Exception:
+            pass
+        cookies = {c["name"]: c["value"] for c in ctx.cookies()}
+        csrf = cookies.get("bili_jct", "")
+        if not csrf:
+            return {"ok": False, "res": "缺 csrf（bili_jct），登录态失效"}
+        if payload.get("dry"):
+            return {"ok": True, "res": {"dry": True, "aid": aid}}
+
+        def _g(path):
+            try:
+                t = pg.evaluate("""async (p)=>{const r=await fetch('https://api.bilibili.com'+p,
+                    {credentials:'include'});return await r.text();}""", path)
+                return json.loads(t or "{}")
+            except Exception:
+                return {}
+
+        def _p(path, body):
+            try:
+                hit = pg.evaluate("""async (a)=>{const r=await fetch('https://api.bilibili.com'+a.p,
+                    {method:'POST',credentials:'include',
+                     headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                     body:a.b});return {status:r.status,text:await r.text()};}""",
+                    {"p": path, "b": body})
+                return ((hit or {}).get("status") == 200,
+                        json.loads((hit or {}).get("text") or "{}"))
+            except Exception as e:
+                return False, {"error": "%s: %s" % (type(e).__name__, str(e)[:100])}
+
+        if kind == "coin":
+            ok, doc = _p("/x/web-interface/coin/add",
+                         "aid=%s&multiply=1&select_like=0&csrf=%s" % (aid, csrf))
+        elif kind == "follow":
+            v = _g("/x/web-interface/view?aid=%s" % aid)
+            up = (((v.get("data") or {}).get("owner") or {}).get("mid"))
+            if not up:
+                return {"ok": False, "res": "取不到 UP 主 mid"}
+            ok, doc = _p("/x/relation/modify",
+                         "fid=%s&act=1&re_src=11&csrf=%s" % (up, csrf))
+        else:
+            nav = _g("/x/web-interface/nav")
+            mid = ((nav.get("data") or {}).get("mid"))
+            if not mid:
+                return {"ok": False, "res": "取不到自身 mid"}
+            fl = _g("/x/v3/fav/folder/created/list-all?up_mid=%s" % mid)
+            lst = ((fl.get("data") or {}).get("list") or [])
+            if not lst:
+                return {"ok": False, "res": "没有可用收藏夹"}
+            ok, doc = _p("/x/v3/fav/resource/deal",
+                         "rid=%s&type=2&add_media_ids=%s&del_media_ids=" % (aid, lst[0].get("id")))
+        ok = bool(ok) and doc.get("code") == 0
+        return {"ok": ok, "res": {"code": doc.get("code"), "message": doc.get("message")}}
     if kind == "verify":
         # 回验也必须在常驻上下文里做：verify_comment_browser 自己 _launch() 一个浏览器，
         # 而锁在这里 → 每次都"被占用"，于是 reply/practice 台账里 visible 全是 null，

@@ -60,6 +60,17 @@ def rows_today():
     return out
 
 
+def _rows_sent(n=3):
+    """最近 n 条**已发出**（有 rpid）的 post 记录，按时间倒序。用于臂轮换判据。"""
+    try:
+        allr = [json.loads(ln) for ln in open(LEDGER, encoding="utf-8") if ln.strip()]
+    except FileNotFoundError:
+        return []
+    sent = [r for r in allr if r.get("action") == "post" and r.get("rpid")]
+    sent.sort(key=lambda r: str(r.get("ts") or ""))
+    return list(reversed(sent))[:n]
+
+
 def recent_visibility(n=STOP_AFTER):
     """最近 n 条**有确定结论**的回验（True/False）。用于止损判断。
 
@@ -938,6 +949,17 @@ def main():
         lo = max(4, _tlen - 2)
         hi = min(30, _tlen + 3)
     arm = "C" if hi <= 20 else ("D" if hi >= 21 else "C")
+    # 2026-11-27 修：arm 原来**完全由目标字数决定**（hi>=21 就永远 D），于是同一个号的
+    # 评论天天是同一个句式骨架。实锚：11-26 15:27 起连发 4 条 arm=D 的「…看着真丝滑啊」
+    # 「…卡得有点卡啊」，四条**全部不进公开列表**；而此前 arm=C 的两条都在。
+    # 模板化既是平台去重最爱的靶子，也把"多样性"这个唯一的差异化优势丢掉了。
+    # 正法=连续两拍同 arm 就强制换臂，并把目标字数调到该臂的区间（否则 form_check 必拒）。
+    if _tlen:
+        _prev = [str(r.get("arm")) for r in _rows_sent(3)]
+        if len(_prev) >= 2 and _prev[0] == _prev[1] == arm:
+            arm = "C" if arm != "C" else "D"
+            _lo, _hi = (10, 20) if arm == "C" else (21, 32)
+            lo, hi = _lo, _hi
     import comment_taste as ct
     import social_practice as sp
     # 2026-11-20：原来是"第一条过闸就发"，于是发出去的都是第一版平淡句。

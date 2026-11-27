@@ -78,32 +78,31 @@ def my_posts(days=3, now=None):
     return out
 
 
-def _page(aid, pn=1, sort=0, limit=20):
-    """取一页 root 评论。返 {code,replies,count} 或 None（连 daemon 都没答上来）。
+def _page(aid, cursor=""):
+    """一页 root 评论，走 wbi/main 的 mode=2（**真按时间**）。
 
-    sort=0 按时间（自己刚发的评论在最新一批里）；sort=1 按热门。
-    limit 必须 ≤20：该接口 ps>20 直接 -400（2026-11-27 实锚）。
+    为什么不用 `roots2`（`/x/v2/reply` + sort）：该接口的 sort 参数实测被忽略
+    ——sort=0 与 sort=1 返回完全相同的热门序（2026-11-27 实锚：同一 aid 两种 sort
+    的 ctime/like 逐一相等）。拿热门序核 0 赞新评论，必然"查不到"，把
+    "有人能看见"冤枉成"被删"，这正是当天 6 条全判不可见的成因。
+    wbi/main 要 w_rid 签名，由 daemon 的 own 动作负责（不带签名一律 -403）。
     """
     try:
         import social_comment as sc
-        r = sc._daemon("roots2", {"aid": aid, "limit": limit, "sort": sort,
-                                  "pn": pn, "priority": "post"}, timeout=60)
+        r = sc._daemon("own", {"aid": aid, "mode": 2, "offset": cursor}, timeout=60)
     except Exception:
         return None
     if not isinstance(r, dict) or not r.get("ok"):
         return None
     res = r.get("res")
-    if not isinstance(res, dict):
-        return None
-    return res
+    return res if isinstance(res, dict) else None
 
 
 def scan(aid, rpid, pages=3, fetch_page=None):
     """按时间序翻页找自己的 rpid，判可见/不可见/未知。
 
     为什么不能只看热门第一页：自己刚发的评论 0 赞，热门序永远排在后面，
-    "第一页查不到"会被读成"被删了"——这是假阴性（2026-11-27 实锚：
-    旧口径下 27 条有 rpid 的评论全判 unknown，其中 DOM 兜底那 3 条判成不可见）。
+    "第一页查不到"会被读成"被删了"——这是假阴性。
 
     三条纪律：
       1. 用 `count` 判是否扫遍。扫遍仍没有 = 不在公开列表（对"有没有人看见"是
@@ -113,24 +112,23 @@ def scan(aid, rpid, pages=3, fetch_page=None):
          仍是不可见（新评论不在最新 N 条里，别人就看不到）。
     """
     fetch_page = fetch_page or _page
-    seen, total, any_ok = 0, None, False
+    seen, total, any_ok, cur = 0, None, False, ""
     for pn in range(1, pages + 1):
-        d = fetch_page(aid, pn)
+        d = fetch_page(aid, cur)
         if d is None or d.get("code") != 0:
             continue
         any_ok = True
         if total is None:
             total = int(d.get("count") or 0)
-        reps = d.get("replies") or []
+        reps = [x for x in (d.get("replies") or []) if isinstance(x, dict)]
         for x in reps:
-            if not isinstance(x, dict):
-                continue
             seen += 1
             if str(x.get("rpid")) == str(rpid):
                 return {"visible": True, "likes": int(x.get("like") or 0),
                         "rcount": int(x.get("rcount") or 0),
                         "note": "时间序第 %d 页命中（该视频 %s 条 root）" % (pn, total)}
-        if len(reps) < 20:
+        cur = d.get("next") or ""
+        if not cur or d.get("is_end"):
             break
     if not any_ok:
         return {"visible": None, "likes": None, "rcount": None,
@@ -202,9 +200,9 @@ def scan_many(aid, rpids, pages=3, fetch_page=None):
     """
     fetch_page = fetch_page or _page
     want = {str(x): x for x in rpids}
-    hits, seen, total, any_ok = {}, 0, None, False
+    hits, seen, total, any_ok, cur = {}, 0, None, False, ""
     for pn in range(1, pages + 1):
-        d = fetch_page(aid, pn)
+        d = fetch_page(aid, cur)
         if d is None or d.get("code") != 0:
             continue
         any_ok = True
@@ -218,7 +216,8 @@ def scan_many(aid, rpids, pages=3, fetch_page=None):
                 hits[rp] = {"visible": True, "likes": int(x.get("like") or 0),
                             "rcount": int(x.get("rcount") or 0),
                             "note": "时间序第 %d 页命中（该视频 %s 条 root）" % (pn, total)}
-        if len(reps) < 20:
+        cur = d.get("next") or ""
+        if not cur or d.get("is_end"):
             break
     if not any_ok:
         miss = {"visible": None, "likes": None, "rcount": None,
@@ -327,10 +326,22 @@ def self_test():
     cases.append(("DOM：采集异常 → unknown（不许当不可见）", d3["visible"] is None))
     d4 = _dom_visible("u", ["x"], collect=lambda *a, **k: [])
     cases.append(("DOM：一条都没抓到 → unknown（不许当不可见）", d4["visible"] is None))
-    # 6 scan_many：翻遍全部（count<=扫到的条数）才算"确实不在"
-    def mk_pages(pages_map, count):
-        return lambda aid, pn: ({"code": 0, "count": count,
-                                 "replies": pages_map.get(pn, [])})
+    # 6 scan_many：按游标翻页，用 count 判是否扫遍。fake 按顺序吐页，不认游标值。
+    def mk_pages(pages_map, count, is_end=None):
+        seq = [pages_map[k] for k in sorted(pages_map)]
+        st = {"i": 0}
+
+        def _f(aid, cur):
+            i = st["i"]
+            st["i"] += 1
+            if i >= len(seq):
+                return {"code": 0, "count": count, "replies": [],
+                        "next": "", "is_end": True}
+            more = i + 1 < len(seq)
+            return {"code": 0, "count": count, "replies": seq[i],
+                    "next": ("p%d" % (i + 2)) if more else "",
+                    "is_end": (not more) if is_end is None else is_end}
+        return _f
     full = {1: [{"rpid": str(i), "like": 0} for i in range(1, 21)],
             2: [{"rpid": str(i), "like": 0} for i in range(21, 24)]}
     m = scan_many(9, ["99"], pages=3, fetch_page=mk_pages(full, 23))
@@ -347,12 +358,17 @@ def self_test():
     cases.append(("扫不全 → 不可见且注明'前 20 条'（不冒充'翻遍'）",
                   m["99"]["visible"] is False and "前 20 条" in m["99"]["note"]))
     # 9 负控：所有页都取不到 → unknown（一条坏的页面不许升级成不可见）
-    m = scan_many(9, ["99"], pages=3, fetch_page=lambda a, p: None)
+    m = scan_many(9, ["99"], pages=3, fetch_page=lambda a, c: None)
     cases.append(("所有页取不到 → unknown（不许当不可见）", m["99"]["visible"] is None))
     # 10 一页坏一页好：好页扫遍仍没有 → 仍按"翻遍"判（不因一页坏就放弃结论）
-    def flaky(aid, pn):
-        return None if pn == 1 else {"code": 0, "count": 2,
-                                     "replies": [{"rpid": "88", "like": 0}]}
+    _st = {"i": 0}
+
+    def flaky(aid, cur):
+        _st["i"] += 1
+        if _st["i"] == 1:
+            return None
+        return {"code": 0, "count": 2, "replies": [{"rpid": "88", "like": 0}],
+                "next": "", "is_end": True}
     m = scan_many(9, ["99"], pages=2, fetch_page=flaky)
     cases.append(("一页坏一页扫遍 → 不可见（有至少一页可信且有总数）",
                   m["99"]["visible"] is False))

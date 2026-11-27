@@ -141,8 +141,41 @@ def form_check(arm, text, topics=()):
     return True, "形态 OK"
 
 
+def repeat_gate(text, days=7, rows=None):
+    """同账号近 N 天已发评论里出现 6 字以上同一片段 → 拒。
+
+    为什么必须跨天判：2026-11-27 实测，11-26 15:27 起该号连发 4 条同构评论
+    （「…转场看着真丝滑啊」「…卡得有点卡啊」），**四条全部不进公开列表**，
+    而前两条句式不同的都在。库里原有的 6 字去重只在"当天/本批"内比，跨天不生效，
+    所以模型可以隔天接着吐同一个模板，看起来每天都是新的一拍。
+    """
+    try:
+        import outcome_harvest as oh
+    except Exception:
+        return True, ""
+    t = oh._norm(text)
+    if len(t) < 6:
+        return True, ""
+    cut = time.time() - days * 86400
+    src = rows if rows is not None else oh._rows(oh.PRACTICE)
+    for r in src:
+        if r.get("action") != "post":
+            continue
+        ts = str(r.get("ts") or "")
+        try:
+            if time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S")) < cut:
+                continue
+        except Exception:
+            continue
+        o = oh._norm(r.get("text"))
+        for i in range(len(t) - 5):
+            if t[i:i + 6] in o:
+                return False, "与 %s 已发内容重复 6 字（%s）" % (ts[5:16], t[i:i + 6])
+    return True, "跨天无重复"
+
+
 def gates(text, ctx="", topics=(), taste_gate=False):
-    """两道闸：social_practice.safe_to_send + social_comment_gen.gate。
+    """三道闸：social_practice.safe_to_send + social_comment_gen.gate + 跨天去重。
 
     ctx 必须是**视频标题**而不是链接：编造闸要拿标题核对称呼与领域，
     传 URL 进去必然判"与本视频领域无关"（2026-11-18 实锚：十轮前两轮全 SKIP）。
@@ -155,10 +188,11 @@ def gates(text, ctx="", topics=(), taste_gate=False):
     # 否则"唯一的发送闸"会漏掉它——2026-11-22 压测实锚：#07「真的绝了」就这样过了。
     ok3, w3 = ct.gen_gate(text, ctx=ctx)
     ok2, w2, s = cg.gate(text, ctx=ctx, taken=(), corpus=(), taste_gate=taste_gate)
-    return (ok1 and ok2 and ok3), {"safe_to_send": [ok1, w1], "gen_gate": [ok2, w2],
-                                   "smell_gate": [ok3, w3],
-                                   "taste": (s or {}).get("total"),
-                                   "verdict": (s or {}).get("verdict")}
+    ok4, w4 = repeat_gate(text)
+    return (ok1 and ok2 and ok3 and ok4), {"safe_to_send": [ok1, w1], "gen_gate": [ok2, w2],
+                                           "smell_gate": [ok3, w3], "repeat_gate": [ok4, w4],
+                                           "taste": (s or {}).get("total"),
+                                           "verdict": (s or {}).get("verdict")}
 
 
 ROOTS_RETRY_S = [15, 30]    # 常驻浏览器让路/限流时的两次退避（自检里置 0）
@@ -438,6 +472,24 @@ def self_test():
     _t = "蒙版遮去背景把歌词打上去挺自然"
     cases.append(("正控8：视频话题词放行", _sp.safe_to_send(_t, "剪辑教学", topics=["蒙版", "歌词"])[0] is True))
     cases.append(("负控8：无话题词按宽表拒", _sp.safe_to_send(_t, "剪辑教学")[0] is False))
+    # 跨天去重闸（2026-11-27 加）：用真实已发记录做正负控。
+    # 实锚：这 4 条同构评论全部不进公开列表，所以模板重复必须能红。
+    import outcome_harvest as _oh
+    import tempfile as _tf
+    _d = _tf.mkdtemp(prefix="rep-")
+    _log = os.path.join(_d, "p.jsonl")
+    _ts = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(time.time() - 3600))
+    with open(_log, "w", encoding="utf-8") as _f:
+        _f.write(json.dumps({"action": "post", "ts": _ts, "rpid": "1",
+                             "text": "卡点那帧转场真丝滑啊 配音乐选得就是狠"},
+                            ensure_ascii=False) + "\n")
+    _rows = _oh._rows(_log)
+    _ok, _w = repeat_gate("这机械臂转场真丝滑啊，等它做完我也想试", rows=_rows)
+    cases.append(("负控9：隔天复用同一模板片段必须被拒", _ok is False))
+    _ok2, _w2 = repeat_gate("节奏拖得太长，看到一半就没什么耐心了", rows=_rows)
+    cases.append(("正控9：换句式放行", _ok2 is True))
+    _ok3, _w3 = repeat_gate("转场真丝滑啊", rows=_rows[:0])
+    cases.append(("正控9b：库里没有旧记录时放行", _ok3 is True))
     n = sum(1 for _, v in cases if v)
     for name, v in cases:
         if not v:

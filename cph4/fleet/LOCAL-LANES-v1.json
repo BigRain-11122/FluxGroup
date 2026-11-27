@@ -1,0 +1,387 @@
+{
+  "version": "LOCAL-LANES-v1",
+  "created": "2026-11-27",
+  "why": "CEO 2026-11-27「先把本机自动化任务和算力分配都停了，然后规划好，每条线给一个专用的，比如b站的给一条，公众号给一条，好好测试」。旧的 35 个 LaunchAgent 里同一件事有多套调度器（养号 9 个、训练 6 个、体检 6 个），互相抢同一浏览器 profile、互相让位；本表把「线」变成唯一执行单位：一条线一个进程、一个账本、一份判据。 2026-11-27 追令：每条线专用一个模型与一块算力资源，不重叠；本地不够同时跑就排队（compute_broker.py）。",
+  "rule": "一条线只有一个 launchd 作业；同一线内一拍只做一件事；跨线不做时段让位，各按自己的窗口与资源闸跑。任何新增自动化必须先在本表登记，否则 ops 线报 EXTRA-JOB。",
+  "state_dir": ".codely-cli/state/lanes",
+  "board": "cph4/fleet/LANES-BOARD.md",
+  "pause_sentinel": ".codely-cli/state/LANES-PAUSED",
+  "base_services": [
+    {
+      "id": "browserd",
+      "label": "com.fluxgroup.base.browserd",
+      "program": [
+        "{venv}/bin/python",
+        "-u",
+        "{root}/Tools/fleet/browser_daemon.py"
+      ],
+      "keep_alive": true,
+      "why": "浏览器线的共用底座：一个已登录上下文，按 profile 隔离。"
+    },
+    {
+      "id": "model-bili",
+      "label": "com.fluxgroup.model.bili",
+      "program": [
+        "{root}/Tools/fleet/mlx_lora_server.sh"
+      ],
+      "env": {
+        "MLX_LORA_PORT": "8788"
+      },
+      "keep_alive": true,
+      "why": "B站线专用模型（4B，8788）：只服务 bili 的评论/弹幕/回复。"
+    },
+    {
+      "id": "model-gzh",
+      "label": "com.fluxgroup.model.gzh",
+      "program": [
+        "{root}/Tools/fleet/mlx_lora_server.sh"
+      ],
+      "env": {
+        "MLX_LORA_PORT": "8789"
+      },
+      "keep_alive": true,
+      "why": "公众号线专用模型（4B，8789）：只服务 gzh 的写作/结构学习，与 8788 分开进程与端口。"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "bili",
+      "name": "B站双号养号",
+      "label": "com.fluxgroup.line.bili",
+      "every_s": 600,
+      "hours": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "needs": [
+        "browser",
+        "model"
+      ],
+      "accounts": [
+        "acct1",
+        "acct3"
+      ],
+      "why_one_lane": "两个号同一个 IP，同时动手是最容易被串起来的特征；一个线内按会话窗口轮号，天然错峰。",
+      "entry": "{root}/Tools/fleet/user_agent.py",
+      "entry_args": [
+        "--session"
+      ],
+      "timeout_s": 2400,
+      "acceptance": {
+        "evidence": "cph4/fleet/social/USER-AGENT-LEDGER.jsonl",
+        "assert": "24h 内至少 1 条 action=session 且 ok!=false",
+        "max_age_h": 26
+      },
+      "kill_criteria": "连续 6 场都是 profile_busy 或 need_login → 停线报 CEO，不硬刷",
+      "compute": {
+        "kind": "model",
+        "port": 8788,
+        "need": "gpu-model",
+        "exclusive": true,
+        "queue_timeout_s": 600,
+        "ttl_s": 3600
+      }
+    },
+    {
+      "id": "gzh",
+      "name": "公众号",
+      "label": "com.fluxgroup.line.gzh",
+      "every_s": 1800,
+      "hours": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "needs": [
+        "browser",
+        "model"
+      ],
+      "why_one_lane": "采集风格、学结构、造训练集三件事共用一个 profile 与一套判据；发文永远人审，不在这条线上。",
+      "entry": "{root}/Tools/fleet/gzh_loop.py",
+      "entry_args": [
+        "--once"
+      ],
+      "timeout_s": 900,
+      "env": {
+        "FLUX_LANE": "gzh"
+      },
+      "acceptance": {
+        "evidence": "cph4/fleet/social/gzh/LOOP-LEDGER.jsonl",
+        "assert": "6h 内至少 1 条 status 属于 OK/DEFER+SUPPLY/BLOCKED-SUPPLY（禁静默空转）",
+        "max_age_h": 7
+      },
+      "kill_criteria": "连续 8 拍同一条 why 且无产物增长 → 报 CEO 缺料，不刷日志",
+      "compute": {
+        "kind": "model",
+        "port": 8789,
+        "need": "gpu-model",
+        "exclusive": true,
+        "queue_timeout_s": 300,
+        "ttl_s": 1800
+      }
+    },
+    {
+      "id": "collect",
+      "name": "采集（纯 HTTP）",
+      "label": "com.fluxgroup.line.collect",
+      "every_s": 1800,
+      "hours": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "needs": [
+        "cpu"
+      ],
+      "why_one_lane": "新闻/音乐/豆瓣/公众号产业语料都是纯 HTTP，不开浏览器、不占 GPU；放在一条线里按各自周期轮。",
+      "tasks": [
+        {
+          "id": "news",
+          "entry": "{root}/Tools/fleet/news_comments.py",
+          "args": [
+            "--channels",
+            "2",
+            "--per-doc",
+            "1",
+            "--max-docs",
+            "25"
+          ],
+          "every_h": 6,
+          "timeout_s": 900
+        },
+        {
+          "id": "music",
+          "entry": "{root}/Tools/fleet/music_comments.py",
+          "args": [
+            "--chart",
+            "3",
+            "--min-total",
+            "150000",
+            "--pages",
+            "1"
+          ],
+          "every_h": 12,
+          "timeout_s": 900
+        },
+        {
+          "id": "forum",
+          "entry": "{root}/Tools/fleet/forum_comments.py",
+          "args": [
+            "--douban-books",
+            "--pages",
+            "10",
+            "--per-book",
+            "1",
+            "--books",
+            "8"
+          ],
+          "every_h": 12,
+          "timeout_s": 900
+        },
+        {
+          "id": "industry",
+          "entry": "{root}/Tools/fleet/gzh_corpus_expand.py",
+          "args": [
+            "--source",
+            "all",
+            "--limit",
+            "25"
+          ],
+          "every_h": 6,
+          "timeout_s": 600
+        }
+      ],
+      "acceptance": {
+        "evidence": "cph4/fleet/social/CORPUS-SOURCES.json",
+        "assert": "24h 内至少 1 个子任务 OK，且总行数只增不减",
+        "max_age_h": 26
+      },
+      "kill_criteria": "连续 24h 全部任务 FAIL 或行数下降 → 停线报源失效",
+      "compute": {
+        "kind": "cpu",
+        "need": "cpu",
+        "exclusive": false,
+        "workers": 2
+      }
+    },
+    {
+      "id": "train",
+      "name": "训练/自举（GPU）",
+      "label": "com.fluxgroup.line.train",
+      "every_s": 1800,
+      "hours": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "needs": [
+        "gpu"
+      ],
+      "why_one_lane": "同一块 GPU 只允许一个训练活；训练完的评测也归这条线，避免训完没人评、评了又不是同一把尺。",
+      "entry": "{root}/Tools/fleet/train_forever.py",
+      "entry_args": [
+        "--once"
+      ],
+      "timeout_s": 5400,
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "acceptance": {
+        "evidence": "cph4/fleet/social/train/RUNS",
+        "assert": "72h 内至少 1 轮 RUN.json，且 verdict 合法（KEEP/REJECT/BLOCKED 带依据）",
+        "max_age_h": 74
+      },
+      "kill_criteria": "loss 出现 nan/inf 或连续 3 轮 REJECT → 停线报 CEO，不再空烧",
+      "compute": {
+        "kind": "gpu-train",
+        "need": "gpu-train",
+        "exclusive": true,
+        "queue_timeout_s": 300,
+        "ttl_s": 7200
+      }
+    },
+    {
+      "id": "measure",
+      "name": "实效核验（我方评论到底有没有人看见）",
+      "label": "com.fluxgroup.line.measure",
+      "every_s": 1800,
+      "hours": [
+        0,
+        7,
+        12,
+        18,
+        22,
+        23
+      ],
+      "needs": [
+        "browser"
+      ],
+      "why_one_lane": "bili 线的验收只说「今天动手了吗」，gzh 线把 DEFER+SUPPLY 也算过——两条都能在零产出的情况下是绿的。这条线唯一的职责是把「发出去的东西有没有人看见」测成一个可信的数，并把它回灌成另外两条线的真实标签。它只读不写（不发帖、不点赞、不改任何台账）。",
+      "entry": "{root}/Tools/fleet/outcome_harvest.py",
+      "entry_args": [
+        "--days",
+        "7"
+      ],
+      "timeout_s": 900,
+      "acceptance": {
+        "evidence": "cph4/fleet/social/REAL-OUTCOMES.json",
+        "assert": "24h 内刷新过，且判得出的条数（visible 非 None）不为 0；unknown 单列不许并进分母",
+        "max_age_h": 26
+      },
+      "kill_criteria": "连续 2 天所有条目都是 unknown（读侧被平台整体挡住）→ 停线报 CEO，别用「测不出来」冒充「不可见」",
+      "compute": {
+        "kind": "cpu",
+        "need": "cpu",
+        "exclusive": false,
+        "workers": 1
+      }
+    },
+    {
+      "id": "ops",
+      "name": "体检/一屏（只读）",
+      "label": "com.fluxgroup.line.ops",
+      "every_s": 600,
+      "hours": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "needs": [
+        "cpu"
+      ],
+      "why_one_lane": "只读+落屏，不生产内容、不踢进程；旧的 duty24/health/loopreg 会互相踢来踢去，还会把停掉的作业拉起来。",
+      "entry": "{root}/Tools/fleet/social_health.py",
+      "entry_args": [
+        "--json"
+      ],
+      "timeout_s": 180,
+      "acceptance": {
+        "evidence": "cph4/fleet/LANES-BOARD.md",
+        "assert": "每 15 分钟刷新一次，且列出各线状态与龄期",
+        "max_age_h": 1
+      },
+      "kill_criteria": "面板连续 3 次刷新失败 → 报 CEO；不许用旧面板冒充新鲜",
+      "compute": {
+        "kind": "cpu",
+        "need": "cpu",
+        "exclusive": false,
+        "workers": 1
+      }
+    }
+  ]
+}
