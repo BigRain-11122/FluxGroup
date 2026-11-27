@@ -45,6 +45,14 @@ LOCK = os.path.join(STATE, "lease.lock")
 
 DEFAULT_TTL = 3600
 
+# 各类租约要驻留多少内存（GB）。不在表里的类型（cpu/io）不过内存闸。
+# 4B MLX ≈ 3.3GB（实测驻留席位）、9B ≈ 9.1GB、训练峰值按 6GB 估。
+NEED_GB = {
+    "gpu-model": 3.3,
+    "gpu-model-9b": 9.1,
+    "gpu-train": 6.0,
+}
+
 
 def _now():
     return time.time()
@@ -191,6 +199,26 @@ def try_acquire(lane, need="compute", ttl_s=DEFAULT_TTL):
         _register(lane)
         if not _first_waiter(lane):
             return False, "排队中：前面还有别的线"
+        # 2026-11-27 接入内存闸：租约过去只管"谁先占 GPU"，完全不管内存——
+        # 于是拿到租约的线可以在内存已吃紧时照常加载大模型，直接换页。
+        # 只有会**驻留大模型**的租约类型才过闸；纯 CPU 的线（collect/ops/measure）不受影响。
+        need_gb = NEED_GB.get(need)
+        if need_gb:
+            try:
+                import mem_gate
+                d = mem_gate.decide(need_gb)
+                if d.get("verdict") != "OK":
+                    _append(LEDGER, {"event": "mem-blocked", "owner": lane, "need": need,
+                                     "verdict": d.get("verdict"),
+                                     "model_max_gb": d.get("model_max_gb"),
+                                     "swap_rate": d.get("swap_rate"), "ts": _iso()})
+                    return False, "内存不够：需 %.1fGB，上限 %.1fGB（%s）" % (
+                        need_gb, d.get("model_max_gb") or 0, d.get("verdict"))
+            except Exception as e:
+                # 闸坏了不许静默放行：宁可拒一次并记原因，也不要拿 swap 去赌。
+                _append(LEDGER, {"event": "mem-gate-error", "owner": lane,
+                                 "err": str(e)[:80], "ts": _iso()})
+                return False, "内存闸不可用（%s），拒绝发租约" % str(e)[:40]
         pid = os.getpid()
         _dequeue(lane, pid)
         rec = {"owner": lane, "need": need, "pid": pid, "since": _iso(),
@@ -317,6 +345,33 @@ def self_test():
         cases.append(("队头是早到的线", _first_waiter("gzh") is True))
         cases.append(("后到的线不能插队", _first_waiter("bili") is False))
         release("train")
+
+        # 负控（2026-11-27）：内存不够时必须**拒发**租约，不许拿到 GPU 却把机器换页。
+        # 用假的 mem_gate.decide 注入，避免依赖本机当时的真实负载。
+        import mem_gate as _mg
+        _saved = _mg.decide
+        try:
+            _mg.decide = lambda need, **kw: {"verdict": "WAIT", "model_max_gb": 3.3,
+                                             "swap_rate": 120.0, "note": "注入：正在换页"}
+            ok1, why1 = try_acquire("gzh", "gpu-model-9b")
+            cases.append(("负控：内存闸判 WAIT → 拒发租约（且说清原因）",
+                          ok1 is False and "内存" in why1))
+            _mg.decide = lambda need, **kw: {"verdict": "OK", "model_max_gb": 12.0,
+                                             "swap_rate": 0.0, "note": ""}
+            ok2, why2 = try_acquire("gzh", "gpu-model-9b")
+            cases.append(("正控：内存够 → 照常授予", ok2 is True))
+            release("gzh")
+            # CPU 类租约不过内存闸（否则采集/体检会被内存闸误伤）
+            # 先清队伍：上面几条用例往 QUEUE 里塞过 gzh/bili，不清掉 collect 就不是队头。
+            try:
+                os.remove(QUEUE)
+            except FileNotFoundError:
+                pass
+            ok3, why3 = try_acquire("collect", "cpu")
+            cases.append(("正控：cpu 租约不受内存闸影响", ok3 is True))
+            release("collect")
+        finally:
+            _mg.decide = _saved
 
         ok = sum(1 for _, v in cases if v)
         for n, v in cases:
