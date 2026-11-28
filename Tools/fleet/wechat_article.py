@@ -98,6 +98,12 @@ def _append(path, rec):
 STATIC_HOSTS = ("auto.gasgoo.com", "www.d1ev.com", "d1ev.com")
 FAILED = os.path.join(GZH, "URLS-FAILED.jsonl")
 DEAD_STRIKES = 2          # 同一链接失败这么多次就不再试
+DOMAIN_FAIL_CAP = 6       # 同一域名本拍连败这么多次就熔断（不判死，只是本拍不再逐条试）
+
+
+def _host(url):
+    from urllib.parse import urlsplit
+    return urlsplit(url or "").netloc.lower()
 
 
 def _static_host(url):
@@ -121,9 +127,27 @@ def failed_urls():
     return {u for u, n in c.items() if u and n >= DEAD_STRIKES}
 
 
+TERMINAL_WHY = ("NEXT_DATA 里没有 articleContent", "无 __NEXT_DATA__",
+                "无 #js_content", "正文过短")
+
+
 def mark_failed(url, why):
-    _append(FAILED, {"_uid": _uid(url), "url": url, "why": str(why)[:120],
-                     "at": datetime.now().isoformat(timespec="seconds")})
+    """记死链。**终态原因一次判死**，不做"两次才死"的等待。
+
+    2026-11-28 实锚：车家号 154 条池子里 0 条是文章（2 条视频页、大量无 __NEXT_DATA__）。
+    这类失败是"这个链接永远长不出文章"，不是"这次运气不好"；按 DEAD_STRIKES=2 慢慢耗，
+    65 条废链要 12 拍才排干，每拍都在烧时间。
+    """
+    w = str(why)[:120]
+    rec = {"_uid": _uid(url), "url": url, "why": w,
+           "at": datetime.now().isoformat(timespec="seconds")}
+    if any(t in w for t in TERMINAL_WHY):
+        rec["terminal"] = True
+        # 同一条链接再补一行，让它立刻达到 DEAD_STRIKES
+        for _ in range(DEAD_STRIKES):
+            _append(FAILED, dict(rec))
+        return
+    _append(FAILED, rec)
 
 
 def discover(keyword, pages=3, sleep_lo=4.0, sleep_hi=9.0, rng=None, via="serp"):
@@ -773,6 +797,7 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None,
     dead = failed_urls()          # 已经死了两轮的链接，不再占队头
     attempts_cap = max_attempts if max_attempts is not None else max(2 * int(limit), 8)
     got, fail, skip_static, attempts, stopped = 0, [], 0, 0, "pool-exhausted"
+    dstat, skipped_domains = {}, set()   # 域名熔断用：本拍同一域连败 DOMAIN_FAIL_CAP 次就不再逐条试
     for row in src:
         if got >= int(limit):
             stopped = "limit"
@@ -789,8 +814,12 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None,
         if _static_host(u):
             skip_static += 1
             continue
+        if _host(u) in skipped_domains:
+            continue
         if _uid(u) in dead:
-            fail.append({"url": u, "why": "死链台账（已失败 2 次）"})
+            # 2026-11-28 实锚：这里原来会 append 一条"死链台账"失败，于是每拍几十次
+            # 失败全是已知死链的回声，日志看着像"采集在努力工作"，实际一个字节没入库。
+            # 死链是**已经判过**的事实，不是本拍的失败，直接跳过、不计数。
             continue
         if row.get("account") and row.get("account") in _bl:
             fail.append({"url": u, "why": "账号已止损（%s）" % row.get("account")})
@@ -800,6 +829,16 @@ def harvest(limit=30, sleep_lo=3.0, sleep_hi=8.0, rng=None, urls=None,
         if art is None:
             fail.append({"url": u, "why": why})
             mark_failed(u, why)
+            # 同一域名连续失手就熔断本拍：2026-11-28 实测车家号 116 条里 0 条是文章
+            # （2 条视频页、4 条连 __NEXT_DATA__ 都没有），逐条试只是把 189 秒烧光。
+            # 熔断是"本拍不再试这个域"，不是把域判死——下拍换了内容源还有机会。
+            h = _host(u)
+            if h:
+                dstat[h] = dstat.get(h, 0) + 1
+                if dstat[h] >= DOMAIN_FAIL_CAP and h not in skipped_domains:
+                    skipped_domains.add(h)
+                    fail.append({"url": u, "why": "域名熔断：%s 本拍连败 %d 次，停止逐条试"
+                                 % (h, dstat[h])})
             continue
         done.add(art["_uid"])
         art["genre"], art["genre_why"] = genre_of(art)
