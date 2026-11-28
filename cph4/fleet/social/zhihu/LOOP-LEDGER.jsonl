@@ -7,3 +7,5 @@
 {"ts": "2026-11-28T22:54:23", "phase": "collect", "status": "OK", "why": "搜索采集完成", "got": 96}
 {"ts": "2026-11-28T22:57:26", "phase": "learn", "status": "OK", "why": "已学习", "info": {"basis": "search-card（标题+摘要）", "n": 300, "title_median": 21.0, "title_with_num_pct": 36, "title_question_pct": 20, "body_median": 95.0, "top_openers": [["回归", 10], ["如何", 10], ["发布", 9], ["​ ", 8], ["新 ", 8]]}}
 {"ts": "2026-11-28T22:57:31", "phase": "write", "status": "OK", "why": "草稿已出（NEEDS-HUMAN）"}
+{"ts": "2026-11-28T23:05:52", "phase": "idle", "status": "DEFER", "why": "池子与草稿都就绪，回复待问题页解封（40362）"}
+{"ts": "2026-11-28T23:05:58", "phase": "idle", "status": "DEFER", "why": "池子与草稿都就绪，回复待问题页解封（40362）"}

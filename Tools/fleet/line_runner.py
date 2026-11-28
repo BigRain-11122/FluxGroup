@@ -756,6 +756,9 @@ def h_zhihu(lane, ctx):
         return _res("FAIL", "程序/环境故障：%s" % tail[-120:], evidence=ev, secs=r["secs"])
     if r["rc"] == 3:
         return _res("EMPTY", "跑了但没采到新内容（%s）" % tail[-100:], evidence=ev, secs=r["secs"])
+    if r["rc"] == 4:
+        # 池子与草稿都就绪、只等问题页解封。这是"待条件"不是"成功"，必须分开记。
+        return _res("DEFER", "%s" % tail[-110:], evidence=ev, secs=r["secs"])
     return _res("OK", "一拍完成：%s" % tail[-100:], evidence=ev, secs=r["secs"])
 
 

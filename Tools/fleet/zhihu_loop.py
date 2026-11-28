@@ -583,7 +583,7 @@ def once(dry=False, log=print):
         save_state(st)
         _append(LEDGER, {"ts": iso(), "phase": "idle", "status": "DEFER", "why": d["why"]})
         log("[zhihu] DEFER：%s" % d["why"])
-        return 0
+        return 4          # 4=就绪但无下一步可做（等人解封），不许记成 OK
     _append(LEDGER, {"ts": iso(), "phase": "reply", "status": "DEFER",
                      "why": "回复默认进人审队列，不自动发"})
     log("[zhihu] 回复进人审队列（不自动发）")
