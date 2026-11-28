@@ -64,7 +64,7 @@ import compute_broker as cb  # noqa: E402
 
 FREE_HARD = 800        # MB，低于它全线只收尾
 FREE_BROWSER = 1500    # MB，低于它不开新浏览器活
-MAX_BROWSERS = 2       # 两个 profile 已是上限；第三个只会排队
+MAX_BROWSERS = 3       # 非独占线（如 measure）的上限；独占线由算力槽串行，不再看这个数
 
 
 # ---------------- 基础工具 ----------------
@@ -228,9 +228,12 @@ def capacity(lane, facts, session_active):
     if "browser" in needs:
         if free is not None and free >= 0 and free < FREE_BROWSER:
             return False, "可用内存 %dMB < %dMB：不开新浏览器活" % (free, FREE_BROWSER)
-        if len(facts.get("browsers") or []) >= MAX_BROWSERS:
-            return False, "已有 %d 个浏览器 profile 在跑（上限 %d）" % (
-                len(facts.get("browsers") or []), MAX_BROWSERS)
+        # 独占线（bili/gzh）已由 compute_broker 串行，浏览器数量不再是并行风险；
+        # 2026-11-28 实锚：底座空闲上下文没回收，被算成"2 个浏览器在跑"，早间两场全被挡。
+        if not (lane.get("compute") or {}).get("exclusive"):
+            if len(facts.get("browsers") or []) >= MAX_BROWSERS:
+                return False, "已有 %d 个浏览器 profile 在跑（上限 %d）" % (
+                    len(facts.get("browsers") or []), MAX_BROWSERS)
     if "gpu" in needs:
         if facts.get("train_running"):
             return False, "已有训练进程在跑（同一块 GPU 不叠跑）"
@@ -289,7 +292,31 @@ def _res(status, why, **kw):
 
 
 # ---------------- 各线的一拍 ----------------
+def daemon_ok(timeout=3):
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:8791/state", timeout=timeout) as r:
+            return r.status == 200
+    except Exception:
+        return False
+
+
+def revive_daemon():
+    """browserd 单线程被长占锁请求卡住时整机不响应；踢一下 launchd 让它重开。"""
+    try:
+        subprocess.run(["launchctl", "kickstart", "-k",
+                        "gui/%d/com.fluxgroup.base.browserd" % os.getuid()],
+                       capture_output=True, timeout=30)
+        time.sleep(4)
+    except Exception:
+        pass
+    return daemon_ok(5)
+
+
 def h_bili(lane, ctx):
+    if not ctx.dry and not daemon_ok():
+        ok2 = revive_daemon()
+        return _res("SKIP", "浏览器底座无响应，已重启%s" % ("成功" if ok2 else "未恢复"),
+                    evidence={"daemon_ok": ok2})
     cur = ctx.session
     if not cur:
         return _res("SKIP", "不在会话窗口（一天 3-6 场，不硬刷）")
@@ -627,6 +654,38 @@ def h_measure(lane, ctx):
                 evidence=ev, secs=r["secs"])
 
 
+HEAL_LOG = os.path.join(STATE_DIR, "ops-heal.jsonl")
+HEAL_MIN_GAP_S = 1200      # 同一条线 20 分钟内最多踢一次，防踢成死循环
+
+
+def heal_stale(lid, label, st_age_h):
+    """对「作业在加载态、但状态久未更新」的线踢一次。
+
+    为什么需要它：2026-11-28 夜，gzh 的状态停在 06:42 达 3.8 小时，而作业本身是加载着的
+    （机器被压到负载 33.9，StartInterval 根本没跑起来），ops 只报红不动手，整夜没人管。
+    自愈只做一件事：让已登记、未停用、未 parked 的作业重新跑一拍。
+
+    三条边界（不重蹈"health 互相踢"的老路）：
+      1. 只看表里登记过的线；表外作业只报不动。
+      2. 有 LANES-PAUSED 或 parked 的一律不碰。
+      3. 同一条线 20 分钟内只踢一次，记录在 `state/ops-heal.jsonl`。
+    """
+    if os.path.exists(PAUSE):
+        return "paused"
+    try:
+        for r in read_jsonl(HEAL_LOG, limit=200):
+            if r.get("lane") == lid and (time.time() - float(r.get("ts_epoch") or 0)) < HEAL_MIN_GAP_S:
+                return "recently-healed"
+    except Exception:
+        pass
+    r = subprocess.run(["launchctl", "kickstart", "gui/%s/%s" % (os.getuid(), label)],
+                       capture_output=True, text=True, timeout=20)
+    append_jsonl(HEAL_LOG, {"lane": lid, "label": label, "stale_h": round(st_age_h, 1),
+                            "rc": r.returncode, "err": (r.stderr or "").strip()[:80],
+                            "ts": iso(), "ts_epoch": time.time()})
+    return "kicked" if r.returncode == 0 else "kick-failed"
+
+
 def h_ops(lane, ctx):
     # 先刷仲裁快照：养号会话读 RES-SLOT.json 判资源降档，快照不新鲜等于没闸。
     ctx.run([_py_with("urllib"), os.path.join(HERE, "res_alloc.py"), "--once"], timeout=120)
@@ -654,7 +713,10 @@ def h_ops(lane, ctx):
             health = "NEW"
         elif st_age * 3600 > float(x.get("every_s") or 600) * 3:
             health = "STALE"
-            red.append("%s 状态 %sh 未更新" % (lid, round(st_age, 1)))
+            # 只报红不动手＝整夜没人管（2026-11-28 实锚），所以这里踢一次；
+            # 限流与边界都在 heal_stale 里，且结果写进这一行的 why，看得见。
+            _hv = heal_stale(lid, x.get("label") or "", st_age)
+            red.append("%s 状态 %sh 未更新（自愈：%s）" % (lid, round(st_age, 1), _hv))
         elif ev_age is not None and ev_age > float((x.get("acceptance") or {}).get("max_age_h") or 24):
             health = "EVID-STALE"
             red.append("%s 证据 %sh 未更新" % (lid, ev_age))
@@ -716,7 +778,18 @@ def tick(lid, dry=False, ctx=None, persist=True):
         return _res("SKIP", "总开关 LANES-PAUSED 存在：全线停手")
     h = now().hour
     if lane.get("hours") and h not in lane["hours"]:
-        return _res("SKIP", "不在本线时段（%d 点）" % h)
+        # 2026-11-28 实锚：这条提前返回**没写状态文件**，于是 ops 拿旧的 ts 判 STALE，
+        # 把一条每小时都在正常收工的线报成"3 小时没更新"，自愈还去踢它。
+        # 结论：任何 SKIP 都必须更新 ts，否则"状态龄期"这个判据根本不可信。
+        res = _res("SKIP", "不在本线时段（%d 点）" % h)
+        res.update({"lane": lid, "ts": iso(), "dry": bool(dry)})
+        if persist:
+            try:
+                atomic_json(state_path(lid), res)
+                append_jsonl(os.path.join(STATE_DIR, lid + ".jsonl"), res)
+            except Exception:
+                pass
+        return res
     lock = None
     try:
         ensure_dir(STATE_DIR)
@@ -728,6 +801,15 @@ def tick(lid, dry=False, ctx=None, persist=True):
         ctx = ctx or Ctx(dry=dry)
         if dry:
             ctx.dry = True
+        # 不在会话窗口就直接收手：先占槽再判断窗口会让别的线白等（bili 5 分钟一拍）。
+        if lid == "bili" and not ctx.session:
+            res = _res("SKIP", "不在会话窗口（一天 8-12 场，不硬刷）")
+            res.update({"lane": lid, "ts": iso(), "dry": bool(ctx.dry),
+                        "facts": {k: v for k, v in ctx.facts.items() if k != "why"}})
+            if persist:
+                atomic_json(state_path(lid), res)
+                append_jsonl(os.path.join(STATE_DIR, lid + ".jsonl"), res)
+            return res
         comp = lane.get("compute") or {}
         port = comp.get("port")
         if port:
@@ -803,6 +885,13 @@ class FakeCtx(Ctx):
 
 def self_test():
     cases = []
+    # 自检必须在**隔离的状态目录**里跑：否则真实车道正在工作时（实测 11-28 上午 gzh
+    # 恰好在采料），自检 tick 同一个车道会被单实例锁判 BUSY，"算力槽被占→QUEUED"
+    # 那条用例就会偶发失败——那不是逻辑错，是测试去抢了生产锁。
+    global STATE_DIR
+    _saved_state_dir = STATE_DIR
+    import tempfile as _tf
+    STATE_DIR = _tf.mkdtemp(prefix="lr-selftest-")
 
     # 1 未知车道
     try:
@@ -825,7 +914,10 @@ def self_test():
     ok, why = capacity(lane, {"free_mb": 500, "browsers": [], "train_running": False}, None)
     cases.append(("可用内存 500MB 必须拒", (not ok) and "800" in why))
     ok, _ = capacity(lane, {"free_mb": 4000, "browsers": ["a", "b"], "train_running": False}, None)
-    cases.append(("已有 2 个浏览器必须拒第三个", not ok))
+    cases.append(("独占线不看浏览器数（由算力槽串行）", ok))
+    _meas = {"id": "m", "needs": ["browser"], "compute": {"kind": "cpu", "exclusive": False}}
+    ok2, _ = capacity(_meas, {"free_mb": 4000, "browsers": ["a", "b", "c"], "train_running": False}, None)
+    cases.append(("非独占线 3 个浏览器必须拒", not ok2))
     ok, why = capacity(lane_of(load_cfg(), "train"),
                        {"free_mb": 4000, "browsers": [], "train_running": True}, None)
     cases.append(("训练在跑必须拒第二轮", (not ok) and "GPU" in why))
@@ -901,11 +993,21 @@ def self_test():
 
     # 6g 算力槽被占 → QUEUED（不是 FAIL，也不是偷偷并行）
     orig_acq = cb.acquire
+    orig_cfg = load_cfg
+
+    def _all_day_cfg():
+        c = orig_cfg()
+        for x in c.get("lanes") or []:
+            if x["id"] == "gzh":
+                x["hours"] = list(range(24))
+        return c
     try:
         cb.acquire = lambda *a, **k: (False, "占用中：bili", 12.0)
+        globals()["load_cfg"] = _all_day_cfg
         r = tick("gzh", dry=False, ctx=FakeCtx(session=None), persist=False)
     finally:
         cb.acquire = orig_acq
+        globals()["load_cfg"] = orig_cfg
     cases.append(("算力槽被占 → QUEUED", r["status"] == "QUEUED" and "占用中" in r["why"]))
     cases.append(("自检不写生产状态", "QUEUED" not in json.dumps(load_state("gzh"), ensure_ascii=False)))
 
@@ -939,6 +1041,7 @@ def self_test():
     for name, v in cases:
         print("  %s %s" % ("PASS" if v else "FAIL", name))
     print("[self-test] %d/%d %s" % (ok, len(cases), "PASS" if ok == len(cases) else "FAIL"))
+    STATE_DIR = _saved_state_dir
     return 0 if ok == len(cases) else 1
 
 
