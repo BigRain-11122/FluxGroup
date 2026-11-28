@@ -1,2 +1,5 @@
 {"ts": "2026-11-28T22:41:49", "phase": "collect", "status": "EMPTY", "why": "playwright 不可用：No module named 'playwright'", "got": 0}
 {"ts": "2026-11-28T22:43:11", "phase": "collect", "status": "BLOCKED", "why": "知乎风控 40362：整拍退避，不重试"}
+{"ts": "2026-11-28T22:47:13", "phase": "cool", "status": "SKIP", "why": "风控冷却中，剩 26 分钟（不重试）"}
+{"ts": "2026-11-28T22:47:47", "phase": "collect", "status": "OK", "why": "搜索采集完成", "got": 40}
+{"ts": "2026-11-28T22:48:13", "phase": "learn", "status": "OK", "why": "已学习", "info": {"basis": "search-card（标题+摘要）", "n": 40, "title_median": 21.5, "title_with_num_pct": 20, "title_question_pct": 10, "body_median": 92.5, "top_openers": [["​ ", 4], ["回归", 2], ["配置", 1], ["这些", 1], ["上下", 1]]}}

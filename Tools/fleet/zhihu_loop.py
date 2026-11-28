@@ -78,6 +78,19 @@ STOP_AFTER_403 = 2         # 连续两次 403 就停线报 CEO
 PAGE_WAIT_S = 8.0          # 每页停留（别抢，抢就是送人头）
 MAX_PAGES = 2              # 一拍最多问题页数
 
+# 搜索页是唯一稳定可读的入口（2026-11-28 实测：主页 200、搜索 200、39 张卡片可读；
+# question/* 与 zhuanlan/* 一律 403+40362）。所以采集从"按关键词搜"入手：
+# 拿得到的是**标题 + 约 120 字摘要**，够建选题库、够学标题风格；拿不到完整答案正文。
+SEARCH_QUERIES = [
+    "车机屏界面设计",
+    "车载HMI 交互设计",
+    "智能座舱 中控屏 布局",
+    "车机 UI 字体 对比度",
+    "汽车内饰 人机工程",
+    "车机系统 卡顿 体验",
+]
+SEARCH_FMT = "https://www.zhihu.com/search?type=content&q=%s"
+
 
 def iso():
     return datetime.now().isoformat(timespec="seconds")
@@ -189,6 +202,62 @@ def probe(timeout_s=40):
     return classify(True, http, head, name)
 
 
+def collect_search(queries=None, log=print):
+    """从搜索页采集（唯一稳定入口）：标题 + 摘要 + 链接。
+
+    为什么不用问题页：question/* 与 zhuanlan/* 在 2026-11-28 实测一律 403+40362，
+    而 /search?type=content 返回 200、一页 39 张卡片、每张 110-130 字。
+    拿不到完整答案正文，但**选题与标题风格**已经够用——先把这个拿到手，别等权限。
+    """
+    queries = queries or SEARCH_QUERIES
+    try:
+        from playwright.sync_api import sync_playwright
+    except Exception as e:
+        return 1, "playwright 不可用：%s" % str(e)[:50], 0
+    kw = dict(user_data_dir=PROFILE, headless=True, locale="zh-CN",
+              timezone_id="Asia/Shanghai", viewport={"width": 1440, "height": 950},
+              args=["--disable-blink-features=AutomationControlled"])
+    if os.path.exists(CHROME):
+        kw["executable_path"] = CHROME
+    got = 0
+    try:
+        with sync_playwright() as p:
+            c = p.chromium.launch_persistent_context(**kw)
+            try:
+                pg = c.pages[0] if c.pages else c.new_page()
+                for q in queries[:2]:          # 一拍最多两个查询，节奏压死
+                    u = SEARCH_FMT % __import__("urllib.parse", fromlist=["quote"]).quote(q)
+                    r = pg.goto(u, wait_until="domcontentloaded", timeout=40000)
+                    http = r.status if r else None
+                    time.sleep(4)
+                    head = pg.evaluate("()=>document.body?document.body.innerText.slice(0,200):''")
+                    cls = classify(True, http, head, me_name="probe")
+                    if cls["status"].startswith("BLOCKED") or cls["status"] in ("NEED-LOGIN", "DOWN"):
+                        return 2, cls["why"] + "（搜索页也被拦）", got
+                    for _ in range(2):
+                        pg.mouse.wheel(0, 2200)
+                        time.sleep(1.5)
+                    cards = pg.evaluate("""()=>{const out=[];
+                        document.querySelectorAll('.SearchResult-Card').forEach(c=>{
+                          const t=(c.innerText||'').trim();
+                          if(t.length<40) return;
+                          const a=c.querySelector('a[href*="/question/"],a[href*="/p/"]');
+                          out.push({text:t.slice(0,400), url:a?a.href:''});});
+                        return out.slice(0,20);}""") or []
+                    _append(QUESTIONS, {"ts": iso(), "q": q, "http": http, "cards": len(cards)})
+                    for cd in cards:
+                        _append(ANSWERS, {"ts": iso(), "q": q, "url": cd.get("url"),
+                                          "chars": len(cd.get("text") or ""),
+                                          "text": cd.get("text")})
+                        got += 1
+                    log("[zhihu] 搜索「%s」→ %d 张卡片" % (q, len(cards)))
+            finally:
+                c.close()
+    except Exception as e:
+        return 1, "采集异常：%s" % str(e)[:60], got
+    return 0, "搜索采集完成", got
+
+
 def collect(limit_pages=MAX_PAGES, log=print):
     """采问题与高赞答案（渲染后 DOM）。被风控直接返回 BLOCKED，不重试。"""
     try:
@@ -248,28 +317,49 @@ def collect(limit_pages=MAX_PAGES, log=print):
     return 0, "采集完成", got
 
 
+def parse_card(text):
+    """把搜索卡片拆成 题目/作者/正文。格式实测：「标题\\n作者：正文…」。"""
+    t = (text or "").strip()
+    lines = [x.strip() for x in t.split("\n") if x.strip()]
+    if not lines:
+        return {"title": "", "author": "", "body": ""}
+    title = lines[0]
+    rest = " ".join(lines[1:])
+    author, body = "", rest
+    if "：" in rest[:20]:
+        author, body = rest.split("：", 1)
+    return {"title": title, "author": author.strip(), "body": body.strip()}
+
+
 def learn(log=print):
-    """从已采答案提结构特征。判据来自数据，不来自感觉。"""
+    """从已采卡片提可量化的选题/标题特征。
+
+    只说数据能说的：现在拿到的是**搜索卡片（标题+摘要约 123 字）**，
+    不是完整答案，所以只统计标题与摘要层面的特征，不假装能分析答案结构。
+    """
     rows = _rows(ANSWERS)
     if len(rows) < 5:
         return 1, "样本不足（%d 条，至少 5）" % len(rows), {}
     import re
     import statistics as st
-    paras, opens, nums = [], [], []
-    for r in rows:
-        t = (r.get("text") or "")
-        ps = [p.strip() for p in t.split("\n") if p.strip()]
-        if ps:
-            paras += [len(p) for p in ps]
-            opens.append(ps[0][:1])
-        nums.append(len(re.findall(r"\d", t)) / max(1, len(t) / 1000.0))
-    n = len(rows)
-    d = {"n": n,
-         "para_median": round(st.median(paras), 1) if paras else 0,
-         "openers": {k: opens.count(k) for k in set(opens)},
-         "num_per_k": round(st.median(nums), 1) if nums else 0}
-    log("[zhihu] 学习：%d 条 / 段落中位 %s 字 / 数字 %s 个千字" %
-        (n, d["para_median"], d["num_per_k"]))
+    cards = [parse_card(r.get("text")) for r in rows]
+    titles = [c["title"] for c in cards if c["title"]]
+    bodies = [c["body"] for c in cards if c["body"]]
+    tl = [len(x) for x in titles]
+    with_num = sum(1 for x in titles if re.search(r"\d", x))
+    ask = sum(1 for x in titles if re.search(r"[？?]\s*$", x))
+    heads = {}
+    for b in bodies:
+        k = b[:2]
+        heads[k] = heads.get(k, 0) + 1
+    d = {"basis": "search-card（标题+摘要）", "n": len(rows),
+         "title_median": round(st.median(tl), 1) if tl else 0,
+         "title_with_num_pct": round(100.0 * with_num / max(1, len(titles))),
+         "title_question_pct": round(100.0 * ask / max(1, len(titles))),
+         "body_median": round(st.median([len(b) for b in bodies]), 1) if bodies else 0,
+         "top_openers": sorted(heads.items(), key=lambda kv: -kv[1])[:5]}
+    log("[zhihu] 学习：%d 张卡片 / 标题中位 %s 字 / 含数字 %s%% / 摘要中位 %s 字"
+        % (d["n"], d["title_median"], d["title_with_num_pct"], d["body_median"]))
     return 0, "已学习", d
 
 
@@ -277,9 +367,12 @@ def decide(st=None, now=None):
     """一拍做一件。顺序＝现在真能推进的那件。"""
     st = st if st is not None else load_state()
     now = now if now is not None else time.time()
-    left = cooling(st, now)
+    # 冷却必须按**通道**算：问题页被拦不代表搜索页被拦（2026-11-28 实测正是如此：
+    # question/* 403，而 /search 200）。拿问题页的冷却去挡搜索采集，就是自己把活停掉。
+    scope = st.get("block_scope") or "question"
+    left = cooling(st, now) if scope == "search" else 0
     if left:
-        return {"phase": "cool", "why": "风控冷却中，剩 %d 分钟（不重试）" % (left // 60 + 1)}
+        return {"phase": "cool", "why": "搜索通道风控冷却中，剩 %d 分钟（不重试）" % (left // 60 + 1)}
     if int(st.get("consecutive_403") or 0) >= STOP_AFTER_403:
         return {"phase": "stop", "why": "连续 %d 次 403：停线报 CEO，等人处理登录/风控"
                                        % int(st.get("consecutive_403"))}
@@ -306,9 +399,11 @@ def once(dry=False, log=print):
         log("[zhihu] BLOCKED：%s" % d["why"])
         return 2
     if d["phase"] == "collect":
-        rc, why, got = collect(log=log)
-        if rc == 2:      # 被风控/未登录
+        # 优先搜索采集：问题页当前一律 403，硬试只会把风控窗口拉长。
+        rc, why, got = collect_search(log=log)
+        if rc == 2:      # 被风控/未登录（搜索通道）
             st["blocked_ts"] = time.time()
+            st["block_scope"] = "search"
             st["consecutive_403"] = int(st.get("consecutive_403") or 0) + 1
             st["last_why"] = why
             save_state(st)
@@ -355,11 +450,17 @@ def self_test():
     # 5 正常 → OK
     c = classify(True, 200, "首页", "大喵你不懂")
     cases.append(("可达且已登录 → OK", c["status"] == "OK"))
-    # 6 冷却：刚被拦 → 冷却中
-    d = decide({"blocked_ts": time.time() - 60, "consecutive_403": 1}, now=time.time())
-    cases.append(("刚被拦 → 冷却中", d["phase"] == "cool"))
+    # 6 冷却只对**被拦的那个通道**生效：搜索通道被拦 → 冷却
+    d = decide({"blocked_ts": time.time() - 60, "block_scope": "search",
+                "consecutive_403": 1}, now=time.time())
+    cases.append(("搜索通道被拦 → 冷却中", d["phase"] == "cool"))
+    # 6b 负控：问题页被拦**不许**挡住搜索采集（实测正是 question 403 / search 200）
+    d = decide({"blocked_ts": time.time() - 60, "block_scope": "question",
+                "consecutive_403": 1}, now=time.time())
+    cases.append(("问题页被拦 → 不挡搜索采集", d["phase"] != "cool"))
     # 7 冷却过期 → 不在冷却
-    d = decide({"blocked_ts": time.time() - COOLDOWN_S - 10, "consecutive_403": 1}, now=time.time())
+    d = decide({"blocked_ts": time.time() - COOLDOWN_S - 10, "block_scope": "search",
+                "consecutive_403": 1}, now=time.time())
     cases.append(("冷却过期 → 不在冷却", d["phase"] != "cool"))
     # 8 连续两次 403 → 停线
     d = decide({"blocked_ts": 0, "consecutive_403": STOP_AFTER_403}, now=time.time())
