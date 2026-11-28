@@ -459,7 +459,15 @@ def h_gzh(lane, ctx):
             return _res("BLOCKED", "缺料：%s" % (last.get("need") or last.get("why") or "需要新种子"),
                         evidence={"last": last, "cmd": [py, entry]}, secs=r["secs"], tail=r["tail"])
         moved, why_moved = gzh_progress(prev, last)
+        # 2026-11-28 实锚：prev 可能是几小时前的旧记录，于是把"多拍累积"读成本拍产出，
+        # 报出「style_pool 17→96」而这一拍其实入库 0 篇。判据必须以**本拍自己的尾巴**为准。
+        import re as _re
+        _m = _re.search(r"入库 (\d+) 篇", r.get("tail") or "")
+        _got_now = int(_m.group(1)) if _m else None
+        if _got_now == 0:
+            moved, why_moved = False, "本拍入库 0 篇（%s）" % why_moved
         ev["progress"] = why_moved
+        ev["got_this_tick"] = _got_now
         ev["status"] = last.get("status")
         if moved:
             return _res("OK", "一拍有产出（%s）" % why_moved, evidence=ev,
