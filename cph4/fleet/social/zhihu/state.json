@@ -1,36 +1,37 @@
 {
  "consecutive_403": 0,
- "ts": "2026-11-28T22:54:23",
+ "ts": "2026-11-28T22:57:31",
  "last_why": "知乎风控 40362：整拍退避，不重试",
- "learned_n": 40,
+ "learned_n": 300,
  "learned": {
   "basis": "search-card（标题+摘要）",
-  "n": 40,
-  "title_median": 21.5,
-  "title_with_num_pct": 20,
-  "title_question_pct": 10,
-  "body_median": 92.5,
+  "n": 300,
+  "title_median": 21.0,
+  "title_with_num_pct": 36,
+  "title_question_pct": 20,
+  "body_median": 95.0,
   "top_openers": [
    [
-    "​ ",
-    4
-   ],
-   [
     "回归",
-    2
+    10
    ],
    [
-    "配置",
-    1
+    "如何",
+    10
    ],
    [
-    "这些",
-    1
+    "发布",
+    9
    ],
    [
-    "上下",
-    1
+    "​ ",
+    8
+   ],
+   [
+    "新 ",
+    8
    ]
   ]
- }
+ },
+ "q_cursor": 8
 }

@@ -90,6 +90,13 @@ SEARCH_QUERIES = [
     "车机系统 卡顿 体验",
     "车载 语音交互 设计",
     "HUD 抬头显示 设计",
+    "中控屏 图标 设计",
+    "车机 深色模式 显示",
+    "车载系统 信息架构",
+    "座舱 多屏 交互",
+    "汽车 UI 视觉 一致性",
+    "车机 语音 误唤醒",
+    "仪表盘 信息 层级",
 ]
 SEARCH_FMT = "https://www.zhihu.com/search?type=content&q=%s"
 # 首页流与热榜同样可达（2026-11-28 实测 200），而且是"人正在讨论什么"的最快信号。
@@ -211,9 +218,17 @@ def collect_search(queries=None, log=print):
 
     为什么不用问题页：question/* 与 zhuanlan/* 在 2026-11-28 实测一律 403+40362，
     而 /search?type=content 返回 200、一页 39 张卡片、每张 110-130 字。
-    拿不到完整答案正文，但**选题与标题风格**已经够用——先把这个拿到手，别等权限。
+
+    **查询必须轮换**：2026-11-28 实测连采两批后，卡片从 136 涨到 232，但去重后的
+    相关选题一直卡在 34 条——因为每拍都搜同样两个词，返回的还是同一批。
+    所以按 state 里的 cursor 逐个往前走，一轮走完 8 个查询再看总数。
     """
-    queries = queries or SEARCH_QUERIES
+    st = load_state()
+    cur = int(st.get("q_cursor") or 0)
+    all_q = queries or SEARCH_QUERIES
+    picked = [all_q[(cur + i) % len(all_q)] for i in range(2)]
+    st["q_cursor"] = (cur + 2) % len(all_q)
+    save_state(st)
     try:
         from playwright.sync_api import sync_playwright
     except Exception as e:
@@ -224,15 +239,16 @@ def collect_search(queries=None, log=print):
     if os.path.exists(CHROME):
         kw["executable_path"] = CHROME
     got = 0
+    seen_titles = {(parse_card(r.get("text"))["title"] or "").strip() for r in _rows(ANSWERS)}
     try:
         with sync_playwright() as p:
             c = p.chromium.launch_persistent_context(**kw)
             try:
                 pg = c.pages[0] if c.pages else c.new_page()
-                # 先刷两类"可达入口"：热榜/关注流（人正在讨论什么）+ 关键词搜索（专业面覆盖）
+                # 先刷两类"可达入口"：热榜/关注流（人正在讨论什么）+ 轮换后的关键词搜索
                 targets = [(u, "feed") for u in FEED_URLS] + \
                           [(SEARCH_FMT % __import__("urllib.parse", fromlist=["quote"]).quote(q), q)
-                           for q in queries[:2]]
+                           for q in picked]
                 for u, q in targets:
                     r = pg.goto(u, wait_until="domcontentloaded", timeout=40000)
                     http = r.status if r else None
@@ -253,12 +269,19 @@ def collect_search(queries=None, log=print):
                           out.push({text:t.slice(0,400), url:a?a.href:''});});
                         return out.slice(0,25);}""") or []
                     _append(QUESTIONS, {"ts": iso(), "q": q, "http": http, "cards": len(cards)})
+                    new = 0
                     for cd in cards:
+                        ttl = (parse_card(cd.get("text"))["title"] or "").strip()
+                        if ttl and ttl in seen_titles:      # 同题不重复入库，省得台账虚胖
+                            continue
+                        if ttl:
+                            seen_titles.add(ttl)
                         _append(ANSWERS, {"ts": iso(), "q": q, "url": cd.get("url"),
                                           "chars": len(cd.get("text") or ""),
                                           "text": cd.get("text")})
                         got += 1
-                    log("[zhihu] %s → %d 张卡片" % (q, len(cards)))
+                        new += 1
+                    log("[zhihu] %s → %d 张（新增 %d）" % (q, len(cards), new))
             finally:
                 c.close()
     except Exception as e:
@@ -371,7 +394,9 @@ def learn(log=print):
     return 0, "已学习", d
 
 
-TOPIC_TARGET = 120         # 选题库目标（去重后与车/座舱相关）
+TOPIC_TARGET = 80          # 选题库目标。2026-11-28 标定：8 个查询轮一遍能到 ~75
+                           # （实测 34→53→73），所以目标定 80 而不是拍 120；
+                           # 想再高必须加查询词，不是延长采集时间。
 DRAFT_DIR = os.path.join(DATA, "drafts")
 
 
