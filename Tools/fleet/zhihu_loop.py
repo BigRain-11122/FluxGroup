@@ -88,8 +88,12 @@ SEARCH_QUERIES = [
     "车机 UI 字体 对比度",
     "汽车内饰 人机工程",
     "车机系统 卡顿 体验",
+    "车载 语音交互 设计",
+    "HUD 抬头显示 设计",
 ]
 SEARCH_FMT = "https://www.zhihu.com/search?type=content&q=%s"
+# 首页流与热榜同样可达（2026-11-28 实测 200），而且是"人正在讨论什么"的最快信号。
+FEED_URLS = ["https://www.zhihu.com/hot", "https://www.zhihu.com/follow"]
 
 
 def iso():
@@ -225,32 +229,36 @@ def collect_search(queries=None, log=print):
             c = p.chromium.launch_persistent_context(**kw)
             try:
                 pg = c.pages[0] if c.pages else c.new_page()
-                for q in queries[:2]:          # 一拍最多两个查询，节奏压死
-                    u = SEARCH_FMT % __import__("urllib.parse", fromlist=["quote"]).quote(q)
+                # 先刷两类"可达入口"：热榜/关注流（人正在讨论什么）+ 关键词搜索（专业面覆盖）
+                targets = [(u, "feed") for u in FEED_URLS] + \
+                          [(SEARCH_FMT % __import__("urllib.parse", fromlist=["quote"]).quote(q), q)
+                           for q in queries[:2]]
+                for u, q in targets:
                     r = pg.goto(u, wait_until="domcontentloaded", timeout=40000)
                     http = r.status if r else None
                     time.sleep(4)
                     head = pg.evaluate("()=>document.body?document.body.innerText.slice(0,200):''")
                     cls = classify(True, http, head, me_name="probe")
                     if cls["status"].startswith("BLOCKED") or cls["status"] in ("NEED-LOGIN", "DOWN"):
-                        return 2, cls["why"] + "（搜索页也被拦）", got
+                        return 2, cls["why"] + "（入口=%s）" % q, got
                     for _ in range(2):
                         pg.mouse.wheel(0, 2200)
                         time.sleep(1.5)
                     cards = pg.evaluate("""()=>{const out=[];
-                        document.querySelectorAll('.SearchResult-Card').forEach(c=>{
+                        const sel='.SearchResult-Card,.HotItem,.ContentItem';
+                        document.querySelectorAll(sel).forEach(c=>{
                           const t=(c.innerText||'').trim();
                           if(t.length<40) return;
                           const a=c.querySelector('a[href*="/question/"],a[href*="/p/"]');
                           out.push({text:t.slice(0,400), url:a?a.href:''});});
-                        return out.slice(0,20);}""") or []
+                        return out.slice(0,25);}""") or []
                     _append(QUESTIONS, {"ts": iso(), "q": q, "http": http, "cards": len(cards)})
                     for cd in cards:
                         _append(ANSWERS, {"ts": iso(), "q": q, "url": cd.get("url"),
                                           "chars": len(cd.get("text") or ""),
                                           "text": cd.get("text")})
                         got += 1
-                    log("[zhihu] 搜索「%s」→ %d 张卡片" % (q, len(cards)))
+                    log("[zhihu] %s → %d 张卡片" % (q, len(cards)))
             finally:
                 c.close()
     except Exception as e:
@@ -482,10 +490,15 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--collect", action="store_true", help="强制跑一批采集（跳过 decide 顺序）")
     a = ap.parse_args()
     if a.self_test:          # 纯逻辑自检，不需要 playwright
         return self_test()
     _ensure_pw()
+    if a.collect:
+        rc, why, got = collect_search(log=print)
+        print("[zhihu] %s：%d 条（rc=%d）" % (why, got, rc))
+        return 0 if rc == 0 else rc
     if a.probe:
         r = probe()
         print(json.dumps(r, ensure_ascii=False))
