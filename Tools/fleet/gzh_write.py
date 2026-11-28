@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -156,16 +157,26 @@ def build_prompt(week, season, topic, quadrant, kind):
         "【硬要求】\n"
         "0. 正文必须达到上面给的篇幅区间下限，低于下限视为没写完。\n"
         "1. 第一句不超过 30 字，落到一个具体场景或具体物，不铺垫、不写「随着…」。\n"
-        "2. 3-4 个小标题，必须是断言式短句，禁止用疑问句。\n"
+        "2. 小标题**恰好 3 到 4 个，超过 4 个直接判不合格**；必须是断言式短句，禁止疑问句。\n"
         "3. 每段 60-100 字，最长不超过 120 字。\n"
-        "4. 每 300 字至少一个可核验细节（比例、尺寸、色值、条款、参数），数字必须带口径，"
+        "4. 每 300 字至少一个可核验细节（比例、尺寸、色值、次数、参数），"
+        "**全文数字密度不低于每千字 10 个**，数字必须带口径，"
         "写清是谁测的、什么条件。\n"
         "5. 至少一处「我自己的」经历或代价，但不许编造实测（不写我开了几万公里、我拆了车）。\n"
         "6. 必须写出最强反对意见，并说明你为什么不让步。\n"
         "7. 结尾给明确建议，写清什么人不该听你的。\n"
         "8. 全文至少一处自我代价（我原来错了/我为此多花了钱/这句话会得罪人）。\n"
         "9. 不要写「总而言之」「首先其次」「赋能」「助力」这类词，不要写口号结尾。\n"
-        "10. 只输出文章本身：第一行是 Markdown 一级标题，不要任何解释、不要前后缀。\n"
+        "10. **不许引用任何标准或法规编号**（ISO/SAE/ECE/GB/NHTSA/DIN 一律不写）。"
+        "要表达\"规范要求\"就写\"有些厂商的规范要求\"或\"业内常见做法\"；"
+        "唯一例外是 WCAG 2.1，且必须说明它是网页对比度标准。"
+        "（实测：9B 会凭空写出 ISO 15008 / ISO 13485 / ECE R124 三套假条款。）\n"
+        "11. **每个数字后面必须紧跟口径**（据某官方/据公开资料/估算/我量的），"
+        "拿不到口径就不写这个数字——宁可少一个数，也不要一个无源的数。\n"
+        "12. 必须给一个**读者能自己做的检验**：编号步骤，或写明「你可以自己量/自己查」怎么做。\n"
+        "13. 必须写明**谁不适用**（如果…这篇你用不上）。\n"
+        "14. 必须有一句**明确的取舍**（我选/我建议/宁可…也不）。\n"
+        "15. 只输出文章本身：第一行是 Markdown 一级标题，不要任何解释、不要前后缀。\n"
         % (week["主题"], week["week"], week["from"], week["to"],
            week.get("为什么这周写这个") or "", "、".join(week.get("关键词") or []),
            topic, quadrant, spec, ref_line, L.gzh_block())
@@ -243,6 +254,8 @@ def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420,
             k = text.find("\n# ")
             if k > 0:
                 text = text[k + 1:]
+            text = fix_title(text, topic)
+            text = polish_markdown(text)   # 格式先修，再进闸
             d = date.today().isoformat()
             outdir = os.path.join(DRAFTS, d) if not slug else os.path.join(DRAFTS, d, slug)
             os.makedirs(outdir, exist_ok=True)
@@ -286,6 +299,175 @@ def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420,
     finally:
         gpu_lease.release("gzh")
 
+
+BOLD_LINE = re.compile(r"^\*\*(.{2,40}?)\*\*\s*$")
+HEAD_ANY = re.compile(r"^(#{3,6})\s+(.*)$")
+
+
+def fix_title(text, topic=None):
+    """标题字数不合规时，若给定题目在 16-32 字内就用它。
+
+    2026-11-28 实锚：给定题目 24 字，模型写成 14 字（「同一块屏，字重与行高的生死账」），
+    闸判「标题 14 字，不在 16-32」。题目是我们自己定的，比模型临时缩的标题更可靠。
+    """
+    lines = (text or "").splitlines()
+    if not lines or not lines[0].startswith("# "):
+        return text
+    cur = lines[0][2:].strip()
+    if 16 <= len(cur) <= 32:
+        return text
+    if topic and 16 <= len(topic) <= 32:
+        lines[0] = "# " + topic.strip()
+        return "\n".join(lines)
+    return text
+
+
+def polish_markdown(text):
+    """把模型稿的格式修成闸能认的形态，不改内容。
+
+    2026-11-28 实锚：9B 的小标题写成**加粗行**而不是 `##`，闸数出 0 个小标题；
+    段落中位 143 字，一段塞三四个判断。这两条都是格式，不是文采问题——
+    所以可以机械修，修完闸才有资格评内容。
+
+    只做四件：①加粗整行→二级小标题 ②###→## ③超长段按句号切成 ≤110 字 ④只留一个 H1。
+    """
+    lines = (text or "").splitlines()
+    out, seen_h1 = [], False
+    for ln in lines:
+        t = ln.rstrip()
+        m = HEAD_ANY.match(t)
+        if m:
+            t = "## " + m.group(2).strip()
+        m2 = BOLD_LINE.match(t.strip())
+        if m2 and len(out) > 2:
+            t = "## " + m2.group(1).strip()
+        if t.startswith("# "):
+            if seen_h1:
+                t = "## " + t[2:].strip()
+            else:
+                seen_h1 = True
+        out.append(t)
+
+    # 小标题上限 3：超出的把标题降成普通段（正文一字不少，只是不再分节）。
+    # 实测模型稳定写 5-6 节。**上限必须取短评门槛（1-3）而不是长文门槛（3-4）**：
+    # 2026-11-28 实锚——这里原来写 4，短评模式要求 ≤3，于是每篇短稿都必红，
+    # 而 3 同时满足长文 3-4，所以取 3 是唯一两边都不误杀的值。
+    keep, out2 = 0, []
+    for ln in out:
+        if ln.startswith("## "):
+            keep += 1
+            if keep > 3:
+                out2.append(ln[3:].strip())
+                out2.append("")
+                continue
+        out2.append(ln)
+    out = out2
+
+    # 超长段按句切开（保留标点），每块尽量 ≤110 字
+    res = []
+    for ln in out:
+        t = ln.strip()
+        if not t or t.startswith("#") or len(re.sub(r"\s", "", t)) <= 110:
+            # 阈值必须与闸一致：闸的红线是「段 > 110 字」，这里原来写 120，
+            # 于是 111-120 字的段落被原样放过，闸照样判红（2026-11-28 实锚：残留一段 132 字）。
+            res.append(ln)
+            continue
+        parts = re.split(r"(?<=[。！？])", t)
+        buf = ""
+        for part in parts:
+            if not part:
+                continue
+            if len(re.sub(r"\s", "", buf + part)) > 110 and buf:
+                res.append(buf.strip())
+                res.append("")
+                buf = part
+            else:
+                buf += part
+        if buf.strip():
+            res.append(buf.strip())
+    return "\n".join(res).strip() + "\n"
+
+
+def expand_one(path, target=1800, budget_s=300, log=print):
+    """定向扩写：只补小节，不重写已有内容。
+
+    2026-11-28 实测：9B 自然篇幅 1000-1300 字，离深稿 1500 字门槛总差一截；
+    整篇重写三轮也上不去。所以改成"在已有的骨架上补两节"——原文不动，
+    只追加 1-2 个符合本周主题的新小节，写完再打磨+过闸。
+    """
+    import gpu_lease
+    import llm_client as L
+    f = os.path.join(path, "draft.md")
+    body = open(f, encoding="utf-8").read()
+    if len(re.sub(r"\s", "", body)) >= target:
+        return True, "已够长"
+    got, why = gpu_lease.acquire("gzh", ttl_s=900, wait_s=300)
+    if not got:
+        return False, "算力让路：" + why
+    try:
+        heads = [ln[3:].strip() for ln in body.splitlines() if ln.startswith("## ")]
+        if len(heads) >= 4:
+            return False, "小标题已满 4 个，再加会超上限"
+        prompt = (
+            "下面是一篇公众号文章（汽车 HMI 视觉设计方向）。请**只追加一个小节**，"
+            "不要改动已有内容，不要重写标题。\n"
+            "要求：\n"
+            "1. 新小节用 `## ` 开头，句式与已有小标题一致（断言式短句，禁止疑问句）。\n"
+            "2. 每个小节 200-320 字，段落 60-100 字。\n"
+            "3. 必须给可核验的细节（比例/尺寸/色值/条款），数字带口径。\n"
+            "4. 不许编造实测与项目经历；**不许写任何标准编号**（ISO/SAE/ECE/GB 都不行）。\n"
+            "5. 直接输出新小节，不要任何解释。\n\n"
+            "已有小标题：%s\n\n正文：\n%s\n" % ("｜".join(heads), body[-3000:]))
+        r = L.generate(prompt, cls=SEAT, keep_alive="2m", num_predict=1600,
+                       timeout=max(120, budget_s), think=False)
+        if not r.get("ok"):
+            return False, r.get("why") or "模型失败"
+        add = polish_markdown(r.get("text") or "")
+        add = "\n".join(ln for ln in add.splitlines() if not ln.startswith("# "))
+        if len(re.sub(r"\s", "", add)) < 150:
+            return False, "补写太短"
+        open(f, "w", encoding="utf-8").write(body.rstrip() + "\n\n" + add.strip() + "\n")
+        log("[扩写] %s → %d 字" % (os.path.basename(path), len(re.sub(r"\s", "", open(f, encoding='utf-8').read()))))
+        return True, "已扩写"
+    finally:
+        gpu_lease.release("gzh")
+
+def polish_dir(path):
+    """打磨一篇稿：就地改写 draft.md 并重跑三闸。返回 (rc_struct, rc_rigor, rc_auth)。"""
+    f = os.path.join(path, "draft.md")
+    raw = open(f, encoding="utf-8").read()
+    topic = None
+    try:
+        man = json.load(open(os.path.join(path, "manifest.json"), encoding="utf-8"))
+        topic = man.get("topic")
+    except Exception:
+        pass
+    fixed = polish_markdown(fix_title(raw, topic))
+    if fixed != raw:
+        open(f, "w", encoding="utf-8").write(fixed)
+    mode = "long" if len(fixed) > 1500 else "short"
+    rc_s, out_s = run_gate("gzh_article_check.py", f, "--mode", mode)
+    rc_r, out_r = run_gate("gzh_rigor_check.py", f)
+    rc_a, out_a = run_gate("gzh_authority_check.py", f)
+    # 2026-11-28 实锚：打磨后重跑了闸，但**没有把报告写回盘**，于是 gates.txt 里留着
+    # 打磨前的数字（811 字 / 0 小标题），而 draft.md 已经是 1175 字 / 4 小标题——
+    # 面板上"结构闸未过"描述的根本不是交付出去的那一版。判据必须跟落盘稿一致。
+    try:
+        gp = os.path.join(path, "gates.txt")
+        with open(gp, "w", encoding="utf-8") as fh:
+            fh.write("# %s 模型初稿闸报告（打磨后重跑）\n\n" % os.path.basename(path))
+            fh.write("## 结构闸 rc=%d\n%s\n## 严谨闸 rc=%d\n%s\n## 权威闸 rc=%d\n%s\n"
+                     % (rc_s, out_s, rc_r, out_r, rc_a, out_a))
+        mj = os.path.join(path, "manifest.json")
+        man = json.load(open(mj, encoding="utf-8"))
+        man["gate_rc"] = {"struct": rc_s, "rigor": rc_r, "authority": rc_a}
+        man["chars"] = len(re.sub(r"\s", "", fixed))
+        man["polished"] = True
+        man["gate_mode"] = mode
+        json.dump(man, open(mj, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception as e:
+        log("[闸] 报告回写失败（%s）——但结论已返回，不回退" % str(e)[:40])
+    return rc_s, rc_r, rc_a
 
 def self_test():
     import gzh_week
@@ -332,11 +514,40 @@ def main():
     ap.add_argument("--date", default=None)
     ap.add_argument("--attempts", type=int, default=2)
     ap.add_argument("--budget-s", type=int, default=420, help="单篇总预算（写+重写）")
+    ap.add_argument("--expand", action="store_true",
+                    help="配合 --polish：篇幅不足的深稿先定向扩写再打磨")
+    ap.add_argument("--polish", default=None,
+                    help="打磨已有库存：给一个 drafts 下的日期目录或单篇目录")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
 
     if a.self_test:
         return self_test()
+    if a.polish:
+        base = a.polish
+        jobs = []
+        if os.path.basename(os.path.normpath(base)) == "draft.md":
+            jobs = [os.path.dirname(base)]
+        else:
+            for root, _d, files in os.walk(base):
+                if "draft.md" in files:
+                    jobs.append(root)
+        ok = fix = 0
+        for j in sorted(jobs):
+            if a.expand:
+                f = os.path.join(j, "draft.md")
+                n = len(re.sub(r"\s", "", open(f, encoding="utf-8").read()))
+                if n < 1500:
+                    expand_one(j, target=1800, log=print)
+            rs, rr, ra = polish_dir(j)
+            ok += 1 if (rs == 0 and rr == 0 and ra == 0) else 0
+            fix += 0 if (rs == 0 and rr == 0 and ra == 0) else 1
+            print("  %-46s 结构 %s 严谨 %s 权威 %s"
+                  % (os.path.relpath(j, os.path.dirname(os.path.dirname(j)))[:46],
+                     "过" if rs == 0 else "未过", "过" if rr == 0 else "未过",
+                     "过" if ra == 0 else "未过"))
+        print("打磨 %d 篇：三闸全过 %d 篇，待修 %d 篇" % (len(jobs), ok, fix))
+        return 0
 
     import gzh_week
     day = date.fromisoformat(a.date) if a.date else date.today()
