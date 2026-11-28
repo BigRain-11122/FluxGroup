@@ -371,8 +371,115 @@ def learn(log=print):
     return 0, "已学习", d
 
 
+TOPIC_TARGET = 120         # 选题库目标（去重后与车/座舱相关）
+DRAFT_DIR = os.path.join(DATA, "drafts")
+
+
+def unique_topics():
+    """去重后与车/座舱相关的选题数。判据是这条线"推进到哪了"的唯一刻度。"""
+    kw = ("车机", "座舱", "HMI", "中控", "仪表", "内饰", "屏幕", "界面",
+          "交互", "语音", "HUD", "车载", "驾驶")
+    junk = ("相关搜索", "大家都在搜", "热门推荐", "广告")
+    seen = set()
+    for r in _rows(ANSWERS):
+        c = parse_card(r.get("text"))
+        t = (c["title"] or "").strip()
+        if not t or any(j in t for j in junk):
+            continue
+        if not any(k in (t + c["body"]) for k in kw):
+            continue
+        seen.add(t)
+    return len(seen)
+
+
+def draft_today():
+    p = os.path.join(DRAFT_DIR, datetime.now().strftime("%Y-%m-%d") + ".md")
+    try:
+        return os.path.getsize(p) > 600
+    except Exception:
+        return False
+
+
+def pick_topic():
+    """从已采卡片里挑一个最贴专业面的选题（优先含 中控/车机/字体/布局 的标题）。"""
+    pref = ("中控", "车机", "字体", "布局", "对比度", "层级", "图标", "HUD", "交互")
+    cands = []
+    for r in _rows(ANSWERS):
+        c = parse_card(r.get("text"))
+        t = (c["title"] or "").strip()
+        if len(t) < 8 or t in [x[0] for x in cands]:
+            continue
+        if not any(k in (t + c["body"]) for k in ("车机", "座舱", "中控", "HMI", "界面")):
+            continue
+        score = sum(1 for k in pref if k in t)
+        cands.append((score, t, c["body"][:120]))
+    cands.sort(key=lambda x: -x[0])
+    return cands[0] if cands else None
+
+
+def write_draft(log=print):
+    """写一篇答案草稿：本地 4B 生成 → 严谨闸 + 权威闸 → 落盘进人审。
+
+    为什么只用两闸：结构闸是按公众号长文标定的（段落中位 78 字/8-10 张图），
+    拿它判知乎答案会把正常答案判死。知乎侧的结构判据还没标定，所以**先不假装有**。
+    """
+    topic = pick_topic()
+    if not topic:
+        return 1, "没有可用选题（先采）"
+    _, title, excerpt = topic
+    try:
+        import llm_client as L
+    except Exception as e:
+        return 1, "llm_client 不可用：%s" % str(e)[:40]
+    prompt = (
+        "你在知乎回答一个具体问题。问题/参考标题：%s\n参考摘要：%s\n\n"
+        "要求：\n"
+        "1. 第一句直接给判断，不铺垫、不写「这个问题很好」。\n"
+        "2. 3 段以内，每段不超过 120 字；用具体物和具体数字说话（比例/尺寸/色值/交互步数）。\n"
+        "3. 只写你能负责的内容：不编标准编号、不编实测里程、不编「我曾参与某项目」。\n"
+        "4. 至少一句承认自己可能错在哪。\n"
+        "5. 结尾给明确取舍：什么情况下别听我的。\n"
+        "只输出正文，不要标题以外的解释。\n" % (title, excerpt))
+    r = L.generate(prompt, cls="resident", keep_alive="10m", num_predict=700,
+                   timeout=300, think=False)
+    if not r.get("ok"):
+        return 1, "模型失败：%s" % str(r.get("why"))[:60]
+    text = (r.get("text") or "").strip()
+    if len(text) < 150:
+        return 1, "稿子过短（%d 字）" % len(text)
+    os.makedirs(DRAFT_DIR, exist_ok=True)
+    day = datetime.now().strftime("%Y-%m-%d")
+    p = os.path.join(DRAFT_DIR, day + ".md")
+    with open(p, "w", encoding="utf-8") as f:
+        f.write("<!-- 选题：%s\n     参考：%s\n     席位：resident/4B；状态 NEEDS-HUMAN -->\n\n"
+                % (title, excerpt))
+        f.write(text + "\n")
+    man = {"date": day, "topic": title, "chars": len(text), "seat": "resident",
+           "status": "NEEDS-HUMAN", "gates": {}}
+    # 两闸：严谨（AI 指纹）+ 权威（编造标准/履历）。任一红都记下，但不改稿。
+    import subprocess
+    for name, script in (("rigor", "gzh_rigor_check.py"), ("authority", "gzh_authority_check.py")):
+        try:
+            q = subprocess.run([sys.executable, os.path.join(HERE, script), "--in", p],
+                               capture_output=True, text=True, timeout=120)
+            man["gates"][name] = q.returncode
+            if q.returncode != 0:
+                man.setdefault("gate_tail", {})[name] = (q.stdout or "")[:200]
+        except Exception as e:
+            man["gates"][name] = 9
+            man.setdefault("gate_tail", {})[name] = str(e)[:80]
+    json.dump(man, open(os.path.join(DRAFT_DIR, day + ".json"), "w", encoding="utf-8"),
+              ensure_ascii=False, indent=1)
+    log("[zhihu] 草稿 %d 字 → %s（闸 %s）" % (len(text), p, man["gates"]))
+    return 0, "草稿已出（NEEDS-HUMAN）"
+
+
 def decide(st=None, now=None):
-    """一拍做一件。顺序＝现在真能推进的那件。"""
+    """一拍做一件。顺序＝现在真能推进的那件。
+
+    推进顺序刻意做成"池子没攒够就先攒"：选题库 < 目标时，出稿再多也是瞎写；
+    攒够才出稿；出完稿才轮到回复（而回复还卡在问题页 403）。
+    """
     st = st if st is not None else load_state()
     now = now if now is not None else time.time()
     # 冷却必须按**通道**算：问题页被拦不代表搜索页被拦（2026-11-28 实测正是如此：
@@ -384,11 +491,16 @@ def decide(st=None, now=None):
     if int(st.get("consecutive_403") or 0) >= STOP_AFTER_403:
         return {"phase": "stop", "why": "连续 %d 次 403：停线报 CEO，等人处理登录/风控"
                                        % int(st.get("consecutive_403"))}
-    if len(_rows(ANSWERS)) < 20:
-        return {"phase": "collect", "why": "答案样本 %d 条 < 20：先采" % len(_rows(ANSWERS))}
+    n_topics = unique_topics()
+    if n_topics < TOPIC_TARGET:
+        return {"phase": "collect", "why": "选题库 %d/%d：先攒够再谈出稿" % (n_topics, TOPIC_TARGET)}
     if not st.get("learned_n") or st.get("learned_n") != len(_rows(ANSWERS)):
-        return {"phase": "learn", "why": "样本变了（%d 条）：重学结构" % len(_rows(ANSWERS))}
-    return {"phase": "reply", "why": "样本与结构就绪：写回复（发出前需人工确认）"}
+        return {"phase": "learn", "why": "样本变了（%d 条）：重学标题基线" % len(_rows(ANSWERS))}
+    if not draft_today():
+        return {"phase": "write", "why": "今天还没有答案草稿：按选题写一篇（进人审）"}
+    if int(st.get("consecutive_403") or 0) == 0 and st.get("answer_ok"):
+        return {"phase": "reply", "why": "问题页可用：写回复并送人审"}
+    return {"phase": "idle", "why": "池子与草稿都就绪，回复待问题页解封（40362）"}
 
 
 def once(dry=False, log=print):
@@ -435,6 +547,18 @@ def once(dry=False, log=print):
         _append(LEDGER, {"ts": iso(), "phase": "learn", "status": "OK" if rc == 0 else "FAIL",
                          "why": why, "info": info})
         return rc
+    if d["phase"] == "write":
+        rc, why = write_draft(log=log)
+        save_state(st)
+        _append(LEDGER, {"ts": iso(), "phase": "write",
+                         "status": "OK" if rc == 0 else "FAIL", "why": why})
+        log("[zhihu] %s" % why)
+        return rc
+    if d["phase"] == "idle":
+        save_state(st)
+        _append(LEDGER, {"ts": iso(), "phase": "idle", "status": "DEFER", "why": d["why"]})
+        log("[zhihu] DEFER：%s" % d["why"])
+        return 0
     _append(LEDGER, {"ts": iso(), "phase": "reply", "status": "DEFER",
                      "why": "回复默认进人审队列，不自动发"})
     log("[zhihu] 回复进人审队列（不自动发）")
