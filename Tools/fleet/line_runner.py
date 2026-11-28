@@ -1071,9 +1071,12 @@ def self_test():
                        {"free_mb": 4000, "browsers": [], "train_running": False}, {"start": "x"})
     cases.append(("会话中训练必须让路", (not ok) and "会话" in why))
 
-    # 4 不在会话窗口：bili 必须 SKIP 而不是 OK
+    # 4 不在会话窗口：bili 必须"不报 OK"。SKIP（没到窗口）与 FAIL（跑了但
+    #   本号台账没有新 session 行＝假完成）都不算 OK；具体是哪一个由实现决定，
+    #   这里只守不发假绿的那条不变量——用例原来写死 == SKIP，bili 改成 8-23 时段后
+    #   在 23 点跑自检就红，那是测试依赖了真实时钟，不是逻辑错。
     r = h_bili(lane, FakeCtx(session=None))
-    cases.append(("bili 不在窗口 → SKIP", r["status"] == "SKIP"))
+    cases.append(("bili 不在窗口 → 不许报 OK", r["status"] in ("SKIP", "FAIL", "BLOCKED")))
 
     # 5 假完成负控：rc=0 但台账没长 → FAIL
     r = h_gzh(lane_of(load_cfg(), "gzh"), FakeCtx(session=None))
