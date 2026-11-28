@@ -92,14 +92,58 @@ def make_room(seat_model, log=print):
 
 # ---------------------------------------------------------------- 提示词
 
+# 象限 → (kind, 字数区间)。原来一律按 long 出，实操题自然写不到 1500 字就挂结构闸
+# （2026-11-28 实锚：实操题 541 字，闸判"太短说不清一件事"）。
+QUAD_KIND = {"硬核": ("long", "2000-3500"), "科技": ("long", "1500-2800"),
+             "实操": ("short", "800-1500"), "大众": ("short", "600-1200")}
+
+
+def kind_for(quadrant, kind=None):
+    want = (QUAD_KIND.get(quadrant) or ("long", "1200-1800"))[0]
+    return want if kind in (None, "auto") else kind
+
+
+def exemplar_heads(limit=3):
+    """从真实语料里取几条小标题当"结构参照"，只给小标题不给正文。
+
+    为什么不给整段：2026-11-17 实锚——整句进 prompt 会被照抄。
+    小标题是结构不是句子，风险低；同时在提示词里明写"不许照抄这几条"。
+    """
+    import glob
+    out = []
+    for f in (os.path.join(GZH, "ARTICLES.jsonl"),
+              os.path.join(os.path.expanduser("~"), "BigLoom", "collect",
+                           "ARTICLES-GENERIC.jsonl")):
+        if not os.path.exists(f):
+            continue
+        for ln in open(f, encoding="utf-8"):
+            try:
+                r = json.loads(ln)
+            except Exception:
+                continue
+            if (r.get("genre") or "") not in ("review", "feature", "essay"):
+                continue
+            for h in (r.get("heads") or [])[:2]:
+                h = str(h).strip()
+                if 6 <= len(h) <= 26 and not h.endswith(("？", "?")):
+                    out.append(h)
+            if len(out) >= limit * 2:
+                break
+    return out[:limit]
+
+
 def build_prompt(week, season, topic, quadrant, kind):
     import llm_client as L
+    kind, span = QUAD_KIND.get(quadrant, ("long", "1200-1800"))
     spec = {
-        "硬核": "2000-3500 字。给可复现的测量/计算方法，给改法，同行能拿去用。",
-        "实操": "800-1500 字。步骤可照着做，每步说清在哪、点什么、做完会有什么区别。",
-        "大众": "600-1200 字。给明确取舍，结尾写清什么人适用、什么人不适用。",
-        "科技": "1500-2800 字。一个技术点讲透，落到用户能感知的差别。",
-    }.get(quadrant, "1200-1800 字。")
+        "硬核": "给可复现的测量/计算方法，给改法，同行能拿去用。",
+        "实操": "步骤可照着做，每步说清在哪、点什么、做完会有什么区别。",
+        "大众": "给明确取舍，结尾写清什么人适用、什么人不适用。",
+        "科技": "一个技术点讲透，落到用户能感知的差别。",
+    }.get(quadrant, "把一件事讲透，给可核验的细节。") + "篇幅 %s 字。" % span
+    heads_ref = exemplar_heads()
+    ref_line = ("【小标题参照（照这个句式与长度，不许照抄原句）】"
+                + "｜".join(heads_ref) + "\n") if heads_ref else ""
     return (
         "你在给一个汽车 HMI 视觉设计师写公众号长文初稿。作者身份：专职做汽车座舱视觉设计，"
         "只看一块屏——层级、留白、配色、动效、字体、图标、质感。不聊动力、底盘、空间、油耗。\n\n"
@@ -108,8 +152,9 @@ def build_prompt(week, season, topic, quadrant, kind):
         "【本周关键词】%s\n"
         "【这一篇的题目】%s\n"
         "【类型】%s，篇幅 %s\n\n"
-        "%s\n\n"
+        "%s\n%s"
         "【硬要求】\n"
+        "0. 正文必须达到上面给的篇幅区间下限，低于下限视为没写完。\n"
         "1. 第一句不超过 30 字，落到一个具体场景或具体物，不铺垫、不写「随着…」。\n"
         "2. 3-4 个小标题，必须是断言式短句，禁止用疑问句。\n"
         "3. 每段 60-100 字，最长不超过 120 字。\n"
@@ -123,7 +168,7 @@ def build_prompt(week, season, topic, quadrant, kind):
         "10. 只输出文章本身：第一行是 Markdown 一级标题，不要任何解释、不要前后缀。\n"
         % (week["主题"], week["week"], week["from"], week["to"],
            week.get("为什么这周写这个") or "", "、".join(week.get("关键词") or []),
-           topic, quadrant, spec, L.gzh_block())
+           topic, quadrant, spec, ref_line, L.gzh_block())
     )
 
 
@@ -140,11 +185,31 @@ def run_gate(script, path, *extra):
 
 # ---------------------------------------------------------------- 主流程
 
-def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420, log=print):
+def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420,
+              slug=None, log=print):
     import gpu_lease
     import llm_client as L
 
+    kind = kind_for(quadrant, kind)   # 体裁决定篇幅与闸模式，别一律按长文
     seat_model = L._model_for(SEAT)
+    # 2026-11-27 实锚：9B 在本机（32GB，桌面应用已占十几 GB）加载的那 39 秒里
+    # swap +2100MB、swapouts +135432 页。所以出稿前必须先问内存闸：
+    # 装不下就不许用 9B，降到 4B 出稿（质量差一档，但机器不会换页）。
+    try:
+        import mem_gate
+        need_gb = 9.1 if "9b" in str(seat_model).lower() else 3.3
+        _d = mem_gate.decide(need_gb)
+        if _d.get("verdict") != "OK":
+            if need_gb >= 9.0:
+                seat_model = "qwen3.5:4b-mlx"
+                log("[算力] 9B 装不下（%s，上限 %.1fGB）→ 降到 4B 出稿"
+                    % (_d.get("note") or _d.get("verdict"), _d.get("model_max_gb") or 0))
+            else:
+                log("[算力] 连 4B 都装不下（%s）→ 本拍不出稿" % (_d.get("note") or ""))
+                return 3, {"why": "内存不足：" + str(_d.get("note") or _d.get("verdict"))}
+    except Exception as e:
+        log("[算力] 内存闸不可用（%s）→ 按 4B 保守出稿" % str(e)[:40])
+        seat_model = "qwen3.5:4b-mlx"
     deadline = time.time() + budget_s   # 2026-11-27 实锚：无预算时两轮烧了 59 分钟
     got, why = gpu_lease.acquire("gzh", ttl_s=1500, wait_s=420)
     if not got:
@@ -160,7 +225,8 @@ def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420, log=
             if left < 60:
                 log("[预算] 剩 %.0fs，不再重写（宁可交初稿加备注，也不许把时段烧光）" % left)
                 break
-            r = L.generate(prompt, cls=SEAT, keep_alive="20m", num_predict=4200,
+            r = L.generate(prompt, cls=SEAT, model=seat_model, keep_alive="20m",
+                           num_predict=4200,
                            timeout=min(900, int(left)), think=False)
             if not r.get("ok"):
                 log("[模型] 第 %d 次失败：%s" % (i, r.get("why")))
@@ -178,7 +244,7 @@ def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420, log=
             if k > 0:
                 text = text[k + 1:]
             d = date.today().isoformat()
-            outdir = os.path.join(DRAFTS, d)
+            outdir = os.path.join(DRAFTS, d) if not slug else os.path.join(DRAFTS, d, slug)
             os.makedirs(outdir, exist_ok=True)
             path = os.path.join(outdir, "draft.md")
             open(path, "w", encoding="utf-8").write(text + "\n")
@@ -193,7 +259,8 @@ def write_one(week, topic, quadrant, kind="long", attempts=2, budget_s=420, log=
                 "# %s 模型初稿闸报告（席位 %s / %s）\n\n## 结构闸 rc=%d\n%s\n"
                 "## 严谨闸 rc=%d\n%s\n## 权威闸 rc=%d\n%s\n"
                 % (d, SEAT, seat_model, rc_s, out_s, rc_r, out_r, rc_a, out_a))
-            man = {"date": d, "week": week["week"], "week_theme": week["主题"],
+            man = {"date": d, "slug": slug or "main",
+                   "week": week["week"], "week_theme": week["主题"],
                    "topic": topic, "quadrant": quadrant, "kind": kind,
                    "writer": "%s/%s" % (SEAT, seat_model), "attempt": i,
                    "chars": len(text),

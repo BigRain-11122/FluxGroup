@@ -50,7 +50,9 @@ DEFAULT_TTL = 3600
 NEED_GB = {
     "gpu-model": 3.3,
     "gpu-model-9b": 9.1,
-    "gpu-train": 6.0,
+    # 训练的就是那个 4B，需要常驻的是模型本身（3.3GB），optimizer/激活是小头。
+    # 2026-11-28 实锚：写成 6.0 后，残留 swap 把上限压到 3.3GB，训练整夜排不上队（QUEUED）。
+    "gpu-train": 3.3,
 }
 
 
