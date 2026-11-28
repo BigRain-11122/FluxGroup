@@ -256,19 +256,30 @@
       "label": "com.fluxgroup.line.train",
       "every_s": 1800,
       "hours": [
+        0,
         1,
         2,
         3,
         4,
         5,
         6,
+        7,
+        8,
+        9,
+        10,
         11,
         12,
         13,
         14,
         15,
         16,
-        17
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
       ],
       "needs": [
         "gpu"
@@ -376,6 +387,59 @@
         "max_age_h": 1
       },
       "kill_criteria": "面板连续 3 次刷新失败 → 报 CEO；不许用旧面板冒充新鲜",
+      "compute": {
+        "kind": "cpu",
+        "need": "cpu",
+        "exclusive": false,
+        "workers": 1
+      }
+    },
+    {
+      "id": "zhihu",
+      "name": "知乎（自有问答线）",
+      "label": "com.fluxgroup.line.zhihu",
+      "every_s": 1800,
+      "hours": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "needs": [
+        "cpu"
+      ],
+      "why_one_lane": "CEO 2026-11-28：知乎这条线自己管。它用独立 profile（browser-zhihu）与独立进程，不经过 browserd，因此不和 bili/gzh 抢同一个浏览器；也不与公众号交叉选题（同稿搬运会被判搬运号）。一拍只做一件：采 → 学 → 回复（回复进人审队列，不自动发）。",
+      "entry": "{root}/Tools/fleet/zhihu_loop.py",
+      "entry_args": [
+        "--once"
+      ],
+      "timeout_s": 900,
+      "acceptance": {
+        "evidence": "cph4/fleet/social/zhihu/LOOP-LEDGER.jsonl",
+        "assert": "12h 内至少 1 条记录，且状态属于 OK/EMPTY/BLOCKED（禁静默空转）；连续 2 次 BLOCKED-RISK 必须由 kill_criteria 停线",
+        "max_age_h": 14
+      },
+      "kill_criteria": "连续 2 次 40362 风控或登录失效 → 停线报 CEO，不换 UA 硬闯",
       "compute": {
         "kind": "cpu",
         "need": "cpu",

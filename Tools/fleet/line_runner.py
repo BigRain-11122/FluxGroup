@@ -205,9 +205,14 @@ def probe_facts():
 
 
 def session_now():
+    """现在是否有任一账号在会话窗口内（按各自日程判，不看已退役的全局计划）。"""
     try:
         import social_session as ss
-        return ss.current()
+        for alias in ("acct1", "acct3"):
+            cur = ss.current(account=alias)
+            if cur:
+                return cur
+        return None
     except Exception:
         return None
 
@@ -312,93 +317,33 @@ def revive_daemon():
     return daemon_ok(5)
 
 
-def h_bili(lane, ctx):
-    if not ctx.dry and not daemon_ok():
-        ok2 = revive_daemon()
-        return _res("SKIP", "浏览器底座无响应，已重启%s" % ("成功" if ok2 else "未恢复"),
-                    evidence={"daemon_ok": ok2})
-    cur = ctx.session
-    if not cur:
-        return _res("SKIP", "不在会话窗口（一天 3-6 场，不硬刷）")
-    last = last_session_row()
-    if last and str(last.get("ts") or "") >= str(cur.get("start") or ""):
-        return _res("SKIP", "本窗口已跑过（%s / %s）" % (last.get("ts"), last.get("account")))
-    ok, why = capacity(lane, ctx.facts, bool(cur))
-    if not ok:
-        return _res("SKIP", why)
-    acct = pick_account(last, rows=read_jsonl(UA_LEDGER, 1200))
-    py = _py_with("playwright")
-    entry = lane["entry"].format(root=ROOT)
-    cmd = [py, entry, "--session"]
-    if ctx.dry:
-        return _res("DRY", "会开一场（%s，窗口 %s）" % (acct, cur.get("start")),
-                    evidence={"account": acct, "cmd": cmd, "session": cur})
-    r = ctx.run(cmd, env={"FLUX_ACCOUNT": acct},
-                timeout=lane.get("timeout_s", 2400))
-    rows = read_jsonl(UA_LEDGER, 800)
-    new = [x for x in rows if x.get("action") == "session"
-           and str(x.get("ts") or "") >= str(cur.get("start"))]
-    acts = bili_actions_since(rows, cur.get("start"))
-    need = bili_need_login(rows, cur.get("start"))
-    ev = {"account": acct, "session_start": cur.get("start"),
-          "ledger_rows": len(new), "actions": len(acts), "need_login": len(need),
-          "last": (new[-1] if new else None), "cmd": [py, entry, "--session"]}
-    if need:
-        return _res("BLOCKED", "登录态失效（能看不能动手）：人工扫码一次 "
-                    "`.venv-housing/bin/python Tools/fleet/bili_login.py --account %s`" % acct,
-                    evidence=ev, secs=r["secs"], tail=r["tail"])
-    if r["rc"] == 0 and new and acts:
-        return _res("OK", "一场跑完（%s / %d 个动作）" % (acct, len(acts)),
-                    evidence=ev, secs=r["secs"], tail=r["tail"])
-    if r["rc"] == 0 and not new:
-        return _res("FAIL", "进程 rc=0 但台账没有新 session 行（假完成）",
-                    evidence=ev, secs=r["secs"], tail=r["tail"])
-    if r["rc"] == 0 and new and not acts:
-        return _res("FAIL", "会话开了但一个真实动作都没有（假完成）",
-                    evidence=ev, secs=r["secs"], tail=r["tail"])
-    if r["rc"] == 78:
-        return _res("BLOCKED", "缺料/配置：%s" % ((rows[-1].get("need") if rows else "") or "见输出"),
-                    evidence=ev, secs=r["secs"], tail=r["tail"])
-    return _res("FAIL", "rc=%s" % r["rc"], evidence=ev, secs=r["secs"], tail=r["tail"])
-
-
 def gzh_progress(prev, last):
-    """台账涨了不等于产出涨了（2026-11-27 实锚：status=OK 但入库 0 篇、失败 38 次）。
-
-    真正的产出只有四种：风格池变厚 / 文章变多 / 产业语料变多 / 训练集行数变多。
-    学习产物 struct_n 变多也算——它是造训练集的前置。
-    注意：pool_todo 变小不是产出——把死链清掉也会让它变小（2026-11-27 实锚）。
-    """
+    """台账涨了不等于产出涨了。真正的产出：风格池变厚/文章变多/产业语料变多/训练集变多。"""
     a = (prev or {}).get("facts") or {}
     b = (last or {}).get("facts") or {}
     keys = ("style_pool", "articles", "industry", "train_rows", "struct_n")
     for k in keys:
-        if k in b and k in a:
-            if int(b[k]) > int(a[k]):
-                return True, "%s %s→%s" % (k, a[k], b[k])
+        if k in b and k in a and int(b[k]) > int(a[k]):
+            return True, "%s %s→%s" % (k, a[k], b[k])
     return False, "台账在涨但产出没涨（%s）" % ", ".join(
         "%s=%s" % (k, b.get(k)) for k in keys if k in b)
 
 
 def bili_need_login(rows, start):
-    """本窗口有没有"登录态失效"（能看不能动手＝这条线没干活，不能记 OK）。"""
+    """本窗口有没有"登录态失效"（能看不能动手＝这条线没干活）。"""
     return [x for x in rows if str(x.get("ts") or "") >= str(start)
             and x.get("action") == "need_login"]
 
 
 def bili_actions_since(rows, start):
-    """会话窗口内的真实动作（不含 profile_busy/need_login 这类没做成的）。"""
+    """会话窗口内的真实动作（profile_busy/need_login 这类没做成的都不算）。"""
     acts = ("watch", "like", "danmaku", "comment", "coin", "fav", "follow")
     return [x for x in rows if str(x.get("ts") or "") >= str(start)
             and x.get("action") in acts and x.get("ok") is not False]
 
 
 def account_health(rows):
-    """每个号最近一次信号：need_login 之后再没有成功动作 = 这个号现在不能用。
-
-    2026-11-27 实锚：acct1 登录失效、acct3 正常；若只按"轮流"排，会有一半窗口
-    浪费在必然失败的号上。坏号先停，等人工登录后出现成功动作自动恢复。
-    """
+    """每个号最近一次信号：need_login 之后再没有成功动作 = 这个号现在不能用。"""
     bad = {"acct1": False, "acct3": False}
     acts = ("session", "watch", "like", "danmaku", "comment", "coin", "fav", "follow")
     for r in rows[-1200:]:
@@ -415,7 +360,7 @@ def account_health(rows):
 
 
 def pick_account(last, rows=None):
-    """两号轮流：上一场是谁，这一场就换另一个（同一 IP 不同时动手）。"""
+    """上一场是谁就换另一个；rows 在时优先能用的号。"""
     last_name = (last or {}).get("account") or ""
     alt = "acct1"
     if "许大喵" in last_name or last_name == "acct3":
@@ -428,9 +373,117 @@ def pick_account(last, rows=None):
     usable = [a for a in ("acct1", "acct3") if not bad[a]]
     if not usable:
         return alt
-    if alt in usable:
-        return alt
-    return usable[0]
+    return alt if alt in usable else usable[0]
+
+
+BILI_ACCTS = (("acct1", "大喵没鱼吃"), ("acct3", "许大喵去喵星"))
+
+
+def bili_due(rows, now=None, current_fn=None):
+    """每个号各自的窗口：在窗口内且本号在该窗口还没跑过。
+
+    2026-11-28 CEO「排好轮次，穿插 2 个号，模拟真人习惯」：两号各有一份日程，
+    不能用"本时段有没有任何 session"判；也不能一个号跑完就当两个号都跑过。
+    """
+    if current_fn is None:
+        import social_session as ss
+        current_fn = ss.current
+    out = []
+    for alias, uname in BILI_ACCTS:
+        try:
+            cur = current_fn(account=alias)
+        except Exception:
+            cur = None
+        if not cur:
+            continue
+        start = str(cur.get("start") or "")
+        ran = [r for r in rows if r.get("action") == "session"
+               and (r.get("account") or "") == uname and str(r.get("ts") or "") >= start]
+        if ran:
+            continue
+        out.append({"alias": alias, "uname": uname, "cur": cur, "start": start})
+    out.sort(key=lambda x: x["start"])
+    return out
+
+
+def choose_due(due, rows):
+    """两号都到期时选今天场次少的那个（穿插、均衡），并列取更早的窗口。"""
+    if len(due) <= 1:
+        return due[0] if due else None
+    counts = {}
+    for alias, uname in BILI_ACCTS:
+        counts[alias] = sum(1 for r in rows if r.get("action") == "session"
+                            and (r.get("account") or "") == uname
+                            and str(r.get("ts") or "").startswith(iso()[:10]))
+    return sorted(due, key=lambda d: (counts.get(d["alias"], 0), d["start"]))[0]
+
+
+def other_acted_recently(rows, who_uname, minutes=12):
+    """另一号最近有没有动手（两号同一 IP，动作至少错开 12 分钟）。"""
+    other = [u for _, u in BILI_ACCTS if u != who_uname]
+    if not other:
+        return False
+    acts = ("watch", "like", "danmaku", "comment", "coin", "fav", "follow")
+    for r in reversed(rows[-400:]):
+        if r.get("account") not in other:
+            continue
+        if r.get("action") not in acts and r.get("action") != "session":
+            continue
+        return hours_since(r.get("ts")) * 60 < minutes
+    return False
+
+
+def h_bili(lane, ctx):
+    if not ctx.dry and not daemon_ok():
+        ok2 = revive_daemon()
+        return _res("SKIP", "浏览器底座无响应，已重启%s" % ("成功" if ok2 else "未恢复"),
+                    evidence={"daemon_ok": ok2})
+    rows = read_jsonl(UA_LEDGER, 1200)
+    due = bili_due(rows)
+    if not due:
+        return _res("SKIP", "两个号都不在各自的会话窗口（一天 6-8 场/号，不硬刷）")
+    bad = account_health(rows)
+    due = [d for d in due if not bad.get(d["alias"])]
+    if not due:
+        return _res("BLOCKED", "到期的号登录态都失效：需要扫码登录一次",
+                    evidence={"bad": bad})
+    pick = choose_due(due, rows)
+    alias, uname, cur = pick["alias"], pick["uname"], pick["cur"]
+    if other_acted_recently(rows, uname, minutes=12):
+        return _res("SKIP", "另一号 12 分钟内动过手：错开，避免同 IP 同时动作")
+    ok, why = capacity(lane, ctx.facts, True)
+    if not ok:
+        return _res("SKIP", why)
+    py = _py_with("playwright")
+    entry = lane["entry"].format(root=ROOT)
+    cmd = [py, entry, "--session"]
+    if ctx.dry:
+        return _res("DRY", "会开一场（%s，窗口 %s）" % (alias, cur.get("start")),
+                    evidence={"account": alias, "cmd": cmd, "session": cur})
+    r = ctx.run(cmd, env={"FLUX_ACCOUNT": alias}, timeout=lane.get("timeout_s", 2400))
+    rows = read_jsonl(UA_LEDGER, 1200)
+    new = [x for x in rows if x.get("action") == "session"
+           and (x.get("account") or "") == uname
+           and str(x.get("ts") or "") >= str(cur.get("start"))]
+    acts = bili_actions_since(rows, cur.get("start"))
+    need = bili_need_login(rows, cur.get("start"))
+    ev = {"account": alias, "session_start": cur.get("start"),
+          "ledger_rows": len(new), "actions": len(acts), "need_login": len(need),
+          "cmd": cmd}
+    if need:
+        return _res("BLOCKED", "登录态失效（能看不能动手）：人工扫码一次 "
+                    "`.venv-housing/bin/python Tools/fleet/bili_login.py --account %s`" % alias,
+                    evidence=ev, secs=r["secs"], tail=r["tail"])
+    if r["rc"] == 0 and new and acts:
+        return _res("OK", "一场跑完（%s / %d 个动作）" % (alias, len(acts)),
+                    evidence=ev, secs=r["secs"], tail=r["tail"])
+    if r["rc"] == 0 and not new:
+        return _res("FAIL", "进程 rc=0 但本号台账没有新 session 行（假完成）",
+                    evidence=ev, secs=r["secs"], tail=r["tail"])
+    if r["rc"] == 0 and new and not acts:
+        return _res("FAIL", "会话开了但一个真实动作都没有（假完成）",
+                    evidence=ev, secs=r["secs"], tail=r["tail"])
+    return _res("FAIL", "rc=%s" % r["rc"], evidence=ev, secs=r["secs"], tail=r["tail"])
 
 
 def h_gzh(lane, ctx):
@@ -542,10 +595,59 @@ def newest_run_dir():
     return best
 
 
+def next_session_in_min(now=None):
+    """下一场（两号任一）还有多少分钟开始；没有则 None。纯读计划，不占资源。"""
+    try:
+        import social_session as ss
+        now = now or now()
+        best = None
+        for alias in ("acct1", "acct3"):
+            p = ss.load_plan(now, account=alias)
+            for s in p.get("sessions") or []:
+                st = datetime.fromisoformat(s["start"])
+                if st <= now:
+                    continue
+                d = (st - now).total_seconds() / 60.0
+                best = d if best is None or d < best else best
+        return best
+    except Exception:
+        return None
+
+
+TRAIN_ONCE = os.path.join(ROOT, ".codely-cli", "state", "TRAIN-SEG-ONCE")
+
+
+def train_task():
+    """空闲训练队列：文件里逗号分隔的段名，取队头；跑完由 pop_train_task 出队。"""
+    try:
+        txt = open(TRAIN_ONCE, encoding="utf-8").read().strip()
+    except Exception:
+        return "", []
+    parts = [x.strip() for x in txt.split(",") if x.strip()]
+    return (parts[0] if parts else ""), parts[1:]
+
+
+def pop_train_task(rest):
+    try:
+        if rest:
+            with open(TRAIN_ONCE, "w", encoding="utf-8") as f:
+                f.write(",".join(rest))
+        else:
+            os.remove(TRAIN_ONCE)
+    except Exception:
+        pass
+
+
 def h_train(lane, ctx):
     ok, why = capacity(lane, ctx.facts, bool(ctx.session))
     if not ok:
         return _res("SKIP", why)
+    # 空闲才吃 GPU：下一场 25 分钟内开始就不开新一轮（训练 40-50 分钟会把窗口吞掉）。
+    nxt = ctx.facts.get("next_session_min")
+    if nxt is None:
+        nxt = next_session_in_min()
+    if nxt is not None and nxt < 25:
+        return _res("SKIP", "下一场 %.0f 分钟后开始：训练不抢，等空档" % nxt)
     newest = newest_run_dir()
     eval_age = age_of(EVAL_HISTORY)
     run_age = age_of(newest) if newest else None
@@ -580,15 +682,22 @@ def h_train(lane, ctx):
                     evidence=ev, secs=r["secs"], tail=r["tail"])
     entry = lane["entry"].format(root=ROOT)
     env = dict(lane.get("env") or {})
+    cmd = [py, entry] + list(lane.get("entry_args") or [])
+    seg, rest = train_task()
+    if seg:
+        cmd += ["--seg", seg]      # 空闲队列：按人设段先训，跑完自动出队
     before = os.path.getmtime(newest) if newest else 0
-    r = ctx.run([py, entry] + list(lane.get("entry_args") or []), env=env,
-                timeout=lane.get("timeout_s", 5400))
+    r = ctx.run(cmd, env=env, timeout=lane.get("timeout_s", 5400))
     newest2 = newest_run_dir()
     advanced = bool(newest2) and (os.path.getmtime(newest2) > before or newest2 != newest)
     ev = {"mode": "train", "run_before": os.path.basename(newest or ""),
           "run_after": os.path.basename(newest2 or ""), "cmd": [py, entry]}
     if r["rc"] == 0 and advanced:
-        return _res("OK", "一轮训练已开/已完成（%s）" % os.path.basename(newest2),
+        if seg:
+            pop_train_task(rest)
+            ev["queued_next"] = rest[:3]
+        return _res("OK", "一轮训练已开/已完成（%s%s）"
+                    % (os.path.basename(newest2), ("，段 " + seg) if seg else ""),
                     evidence=ev, secs=r["secs"], tail=r["tail"])
     if r["rc"] == 0:
         return _res("SKIP", "本轮没有开训（数据没涨/冷却中/闸拒绝），非故障",
@@ -622,6 +731,32 @@ def loaded_labels():
     except Exception:
         pass
     return out
+
+
+def h_zhihu(lane, ctx):
+    """知乎线（2026-11-28 CEO：自己管）。独立 profile，不经过 browserd。
+
+    判据三条：①被风控（40362）必须记 BLOCKED 并冷却，不许记成「今天没内容」；
+    ②环境/程序故障（rc=1）记 FAIL，与「采到 0 条」分开；③回复一律进人审队列，不自动发。
+    """
+    py = _py_with("playwright")
+    entry = (lane["entry"].format(root=ROOT) if lane.get("entry")
+             else os.path.join(HERE, "zhihu_loop.py"))
+    cmd = [py, entry, "--once"]
+    if ctx.dry:
+        return _res("DRY", "会跑一拍知乎（采/学/回复三选一）", evidence={"cmd": cmd})
+    r = ctx.run(cmd, timeout=lane.get("timeout_s", 900))
+    tail = (r.get("tail") or "").strip()
+    ev = {"cmd": cmd, "rc": r["rc"]}
+    if r["rc"] == 2:
+        why = [ln for ln in tail.splitlines() if "BLOCKED" in ln or "风控" in ln]
+        return _res("BLOCKED", (why[-1] if why else "被风控或未登录")[-120:], evidence=ev,
+                    secs=r["secs"], tail=tail)
+    if r["rc"] == 1:
+        return _res("FAIL", "程序/环境故障：%s" % tail[-120:], evidence=ev, secs=r["secs"])
+    if r["rc"] == 3:
+        return _res("EMPTY", "跑了但没采到新内容（%s）" % tail[-100:], evidence=ev, secs=r["secs"])
+    return _res("OK", "一拍完成：%s" % tail[-100:], evidence=ev, secs=r["secs"])
 
 
 def h_measure(lane, ctx):
@@ -772,7 +907,7 @@ def h_ops(lane, ctx):
 
 
 HANDLERS = {"bili": h_bili, "gzh": h_gzh, "collect": h_collect,
-            "measure": h_measure,
+            "measure": h_measure, "zhihu": h_zhihu,
             "train": h_train, "ops": h_ops}
 
 
@@ -811,7 +946,7 @@ def tick(lid, dry=False, ctx=None, persist=True):
             ctx.dry = True
         # 不在会话窗口就直接收手：先占槽再判断窗口会让别的线白等（bili 5 分钟一拍）。
         if lid == "bili" and not ctx.session:
-            res = _res("SKIP", "不在会话窗口（一天 8-12 场，不硬刷）")
+            res = _res("SKIP", "两个号都不在各自的会话窗口（7-9 场/号/天，不硬刷）")
             res.update({"lane": lid, "ts": iso(), "dry": bool(ctx.dry),
                         "facts": {k: v for k, v in ctx.facts.items() if k != "why"}})
             if persist:
@@ -879,10 +1014,10 @@ def print_res(res):
 # ---------------- 自检（含负控） ----------------
 class FakeCtx(Ctx):
     def __init__(self, facts=None, session=None, rc=0, advanced=False):
-        super().__init__(dry=False, facts=facts or {"swap_mb": 0, "free_mb": 4000,
-                                                   "browsers": [], "train_running": False,
-                                                   "model_8788": True},
-                         session=session)
+        super().__init__(dry=False, session=(session if session is not None else {}),
+                         facts=facts or {"swap_mb": 0, "free_mb": 4000,
+                                         "browsers": [], "train_running": False,
+                                         "model_8788": True})
         self.rc = rc
         self.calls = []
 
@@ -954,7 +1089,7 @@ def self_test():
     # 6b dry 必须记 DRY，不能把"没执行"记成 FAIL
     d = h_gzh(lane_of(load_cfg(), "gzh"), Ctx(dry=True, facts={"swap_mb": 0, "free_mb": 4000,
                                                                "browsers": [], "train_running": False,
-                                                               "model_8788": True}, session=None))
+                                                               "model_8788": True}, session={}))
     cases.append(("dry 拍记 DRY 不记 FAIL", d["status"] == "DRY"))
 
     # 6c 产出判据负控：台账涨但 facts 不变 → 不算前进
@@ -976,10 +1111,32 @@ def self_test():
     cases.append(("bili 登录失效必须被识别", len(bili_need_login(ng, "2026-11-27T21:40:00")) == 1))
     cases.append(("bili 无登录失效不误报", len(bili_need_login(rows, "2026-11-27T20:00:00")) == 0))
 
+    # 6h3 空闲训练队列：队头可读、出队可写
+    _save = open(TRAIN_ONCE, "w", encoding="utf-8") if False else None
+    try:
+        with open(TRAIN_ONCE, "w", encoding="utf-8") as f:
+            f.write("shallow,peer_pro")
+        head, rest = train_task()
+        cases.append(("训练队列取队头", head == "shallow" and rest == ["peer_pro"]))
+        pop_train_task(rest)
+        h2, r2 = train_task()
+        cases.append(("训练队列出队后剩 peer_pro", h2 == "peer_pro" and r2 == []))
+        pop_train_task([])
+        cases.append(("队列空后文件删除", not os.path.exists(TRAIN_ONCE)))
+    finally:
+        pop_train_task([])
+
+    # 6h2 下一场 25 分钟内 → 训练不抢
+    tr2 = Ctx(dry=True, facts={"swap_mb": 0, "free_mb": 12000, "browsers": [],
+                               "train_running": False, "model_8788": True,
+                               "baked_age_h": 0, "next_session_min": 10}, session={})
+    r2 = h_train(lane_of(load_cfg(), "train"), tr2)
+    cases.append(("下一场将至 → 训练让路", r2["status"] == "SKIP" and "下一场" in r2["why"]))
+
     # 6d 烘焙到期时训练线先烘焙（CPU），不把料理交给没人认领的旧 plist
     tr = L_ctx = Ctx(dry=True, facts={"swap_mb": 0, "free_mb": 12000, "browsers": [],
                                       "train_running": False, "model_8788": True,
-                                      "baked_age_h": 99}, session=None)
+                                      "baked_age_h": 99}, session={})
     r = h_train(lane_of(load_cfg(), "train"), tr)
     cases.append(("烘焙过期 → DRY mode=bake", r["status"] == "DRY" and
                   (r.get("evidence") or {}).get("mode") == "bake"))
@@ -1018,6 +1175,25 @@ def self_test():
         globals()["load_cfg"] = orig_cfg
     cases.append(("算力槽被占 → QUEUED", r["status"] == "QUEUED" and "占用中" in r["why"]))
     cases.append(("自检不写生产状态", "QUEUED" not in json.dumps(load_state("gzh"), ensure_ascii=False)))
+
+    # 6h 两号各自排窗口：在窗口内且本号没跑过才算到期；都到期时选场次少的
+    def _cur(account):
+        if account == "acct1":
+            return {"start": "2026-11-28T20:00:00", "dur_min": 10}
+        return {"start": "2026-11-28T20:30:00", "dur_min": 10}
+    due = bili_due([], current_fn=_cur)
+    cases.append(("两号都在窗口 → 两条到期", len(due) == 2))
+    ran1 = [{"action": "session", "account": "大喵没鱼吃", "ts": "2026-11-28T20:01:00"}]
+    due1 = bili_due(ran1, current_fn=_cur)
+    cases.append(("本号跑过就不再排（另一号不受影响）",
+                  len(due1) == 1 and due1[0]["alias"] == "acct3"))
+    rows_bal = [{"action": "session", "account": "大喵没鱼吃", "ts": "%sT09:00:00" % iso()[:10]},
+                {"action": "session", "account": "大喵没鱼吃", "ts": "%sT10:00:00" % iso()[:10]}]
+    pick = choose_due(due, rows_bal)
+    cases.append(("都到期时选场次少的号", pick["alias"] == "acct3"))
+    recent = [{"action": "like", "account": "许大喵去喵星", "ok": True, "ts": iso()}]
+    cases.append(("另一号刚动手 → 要错开", other_acted_recently(recent, "大喵没鱼吃", 12) is True))
+    cases.append(("另一号很久没动 → 不错开", other_acted_recently([], "大喵没鱼吃", 12) is False))
 
     # 7 号轮换
     cases.append(("上一场 acct1 → 这场 acct3", pick_account({"account": "大喵没鱼吃"}) == "acct3"))
